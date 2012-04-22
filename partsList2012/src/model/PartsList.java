@@ -20,17 +20,15 @@ public class PartsList {
 		return this.componentsMap;
 	}
 	public void createMaterial(String name, int price) throws Exception {
-		//TODO Handle price parameter!
 		if (this.getComponentsMap().containsKey(name))
 			throw new Exception(DoubleDefinitionMessage);
-		Material newMaterial = Material.create(name);
+		Material newMaterial = Material.create(name, price);
 		this.getComponentsMap().put(name, newMaterial);
 	}
 	public void createProduct(String name, int price) throws Exception {
-		//TODO Handle price parameter!
 		if (this.getComponentsMap().containsKey(name))
 			throw new Exception(DoubleDefinitionMessage);
-		Product newProduct = Product.create(name);
+		Product newProduct = Product.create(name, price);
 		this.getComponentsMap().put(name, newProduct);
 	}
 	public void addPart(Component whole, Component part, int amount) throws Exception {
@@ -52,11 +50,10 @@ public class PartsList {
 	}
 
 	public String getOverallPrice(Component component) {
-		//TODO implement getOverallPrice !
-		return null;
+		return component.getOverallPrice() + "";
 	}
 
 	public void changePrice(Component component, int newPrice) {
-		// TODO implement changePrice !
+		component.setPrice(newPrice);
 	}
 }

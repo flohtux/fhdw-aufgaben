@@ -9,4 +9,7 @@ public interface Component {
 	public Vector<QuantifiedComponent> getDirectParts();
 	public int getNumberOfMaterials();
 	public String getName();
+	public int getOverallPrice();
+	public int getPrice();
+	public void setPrice(int price);
 }
