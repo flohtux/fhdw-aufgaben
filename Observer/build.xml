@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project name="partsList2012" basedir="." default="jar">
+    <property name="src" value="src"/>
+    <property name="output" value="bin"/>
+	<property name="output_classes" value="${output}/classes"/>
+ 
+    <target name="compile" depends="create">
+        <javac destdir="${output_classes}">            
+            <src path="${src}"/>
+        </javac>
+    </target>
+ 
+    <target name="jar" depends="compile">
+        <jar destfile="${output}/fertigerObserver.jar">
+            <fileset dir="${output_classes}"/>
+            <manifest>
+                <attribute name="Main-Class" value="Starter"/>
+            </manifest>
+        </jar>
+    </target>
+ 
+ 
+    <target name="clean">
+        <delete dir="${output}"/>
+    </target>
+ 
+    <target name="create" depends="clean">
+        <mkdir dir="${output}"/>
+    	<mkdir dir="${output_classes}"/>
+    </target>
+ 
+</project>
