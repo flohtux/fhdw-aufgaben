@@ -1,6 +1,10 @@
-*.class
+# In dieser Datei stehen Patterns für Dateien/Ordner, die git von der Versionierung ausschließen soll.
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# Kompilierte Klassen
+*.class
+bin/
+
+# Eclipse-Dateien
+.metadata/
+
+.DS_Store
