@@ -1,0 +1,8 @@
+
+    
+    public DoubleDefinitionException() throws PersistenceException {
+		this("Hamm' wa schon!");
+	}
+
+    
+    

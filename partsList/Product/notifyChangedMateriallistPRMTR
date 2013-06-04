@@ -1,0 +1,11 @@
+{
+        getThis().setCurrentState(NotCached.createNotCached());
+        getThis().getPartOf().applyToAll(new Procdure<PersistentQPart>() {
+			
+			@Override
+			public void doItTo(PersistentQPart argument) throws PersistenceException {
+				argument.getMaster().notifyChangedMateriallist();
+				
+			}
+		});
+    }

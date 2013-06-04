@@ -1,0 +1,4 @@
+{
+    	product.addComponent(newPart, amount);
+        
+    }

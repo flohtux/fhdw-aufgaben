@@ -1,0 +1,22 @@
+
+package model;
+
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.MateriallistProxi;
+import persistence.Materiallist_ValuesProxi;
+import persistence.PersistenceException;
+import persistence.PersistentMaterial;
+import persistence.PersistentMateriallist;
+import persistence.PersistentMateriallistValue;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.Procdure;
+import persistence.TDObserver;
+
+

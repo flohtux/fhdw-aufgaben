@@ -1,0 +1,11 @@
+{
+        getThis().getComponents().filter(new Predcate<PersistentComponent>() {
+			public boolean test(PersistentComponent argument)
+					throws PersistenceException {
+				return false;
+			}
+		});
+        
+        getThis().signalChanged(true);
+        
+    }

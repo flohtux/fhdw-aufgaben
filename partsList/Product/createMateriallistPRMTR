@@ -1,0 +1,10 @@
+{
+		final PersistentMateriallist m = Materiallist.createMateriallist();
+    	getThis().getParts().applyToAll(new Procdure<PersistentQPart>() {
+			public void doItTo(PersistentQPart argument) throws PersistenceException {
+				m.addAll(argument.getComponent().fetchMateriallist().multiply(argument.getAmount()));
+			}
+		});
+    	
+    	return m;
+	}

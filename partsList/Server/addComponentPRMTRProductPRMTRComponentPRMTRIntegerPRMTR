@@ -1,0 +1,5 @@
+{
+        getThis().getManager().addComponent(product, newPart, amount);
+        getThis().signalChanged(true);
+        
+    }

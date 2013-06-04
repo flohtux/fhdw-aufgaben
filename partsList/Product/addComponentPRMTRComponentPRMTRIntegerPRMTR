@@ -1,0 +1,14 @@
+{
+        PersistentQPart found = getThis().getParts().findFirst(new Predcate<PersistentQPart>() {
+			public boolean test(PersistentQPart argument) throws PersistenceException {
+				return argument.getComponent().equals(newComponent);
+			}
+		});
+        if (found == null){
+	    	PersistentQPart qPart = QPart.createQPart(amount, newComponent);
+	        getThis().getParts().add(qPart);
+        } else {
+        	found.setAmount(found.getAmount() + amount);
+        }
+        getThis().notifyChangedMateriallist();
+    }

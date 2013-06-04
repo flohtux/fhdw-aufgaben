@@ -1,0 +1,11 @@
+{
+        final PersistentMateriallist m = Materiallist.createMateriallist();
+        getThis().getValues().applyToAll(new Procdure<PersistentMateriallistValue>() {
+			public void doItTo(PersistentMateriallistValue argument)
+					throws PersistenceException {
+				m.add(argument.getMaterial(), argument.getAmount() * factor);
+			}
+		});
+        
+        return m;
+    }

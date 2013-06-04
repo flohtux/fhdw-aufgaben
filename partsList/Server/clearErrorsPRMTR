@@ -1,0 +1,10 @@
+{
+        getThis().getErrors().filter(new Predcate<PersistentErrorDisplay>() {
+			public boolean test(PersistentErrorDisplay argument)
+					throws PersistenceException {
+				return false;
+			}
+		});
+        getThis().signalChanged(true);
+        
+    }

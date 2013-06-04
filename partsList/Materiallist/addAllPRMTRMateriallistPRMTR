@@ -1,0 +1,10 @@
+{
+        list.getValues().applyToAll(new Procdure<PersistentMateriallistValue>() {
+			public void doItTo(PersistentMateriallistValue argument)
+					throws PersistenceException {
+				getThis().add(argument.getMaterial(), argument.getAmount());
+				
+			}
+		});
+        return getThis();
+    }
