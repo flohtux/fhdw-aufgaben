@@ -1,0 +1,7 @@
+{
+        new Thread(new Runnable(){
+			public /*INTERNAL*/ void run() {
+				//Handle exception!
+			}
+		}).start();
+    }

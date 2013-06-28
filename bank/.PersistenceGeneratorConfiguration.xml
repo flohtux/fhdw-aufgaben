@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<Configuration FinalParameters="" FontSize="18" MessagesForEventsOnly="" StaticOperationsasTools="" Test="" UseIconVisitor="" WithErrorService=""><Model>/home/florian/GOJA/Model/bank</Model><OracleTarget>/home/florian/GOJA/DB</OracleTarget><JavaTarget>/home/florian/GOJA/Workspace</JavaTarget><JavaBackup>/home/florian/GOJA/Backup</JavaBackup><DatabaseConnection>localhost:1521:xe</DatabaseConnection><DatabaseUser>BANK</DatabaseUser><GWT/></Configuration>
