@@ -1,0 +1,12 @@
+
+	    public void setIcon(IconRenderer renderer) {
+    	this.getWrappedObject().setIcon(renderer);
+    }
+	
+	
+	public String toString(){
+    	//TODO: Implement toString in wrapper class for association service in class Server
+    	return this.getWrappedObject().toString();
+    }
+
+    

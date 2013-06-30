@@ -1,5 +1,7 @@
+drop sequence SSpecialization;
 create sequence SSpecialization nocache;
 
+drop table Specialization cascade constraints;
 create table Specialization (
     id number primary key,
     ancestor number,
