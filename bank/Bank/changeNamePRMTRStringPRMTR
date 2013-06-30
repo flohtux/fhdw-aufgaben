@@ -1,3 +1,0 @@
-{
-        getThis().setName(name);
-    }
