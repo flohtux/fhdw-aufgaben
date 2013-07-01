@@ -117,11 +117,18 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void handleDebitNote(PersistentDebitNote debitNote)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTrancaction(PersistentTrancaction trancaction)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
 
-@Override
-public void handleTransaction(PersistentTransaction transaction)
-		throws PersistenceException {
-	// TODO Auto-generated method stub
-	
-}
+
 }

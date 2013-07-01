@@ -5,7 +5,7 @@
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association amount in class Transaction
+    	//TODO: Implement toString in wrapper class for association amount in class DebitNoteTransaction
     	return this.getWrappedObject().toString();
     }
 

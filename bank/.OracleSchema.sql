@@ -53,12 +53,12 @@ create table Srvc(
     SrvcThis number,
     SrvcThisCls number,
     constraint FSrvcThis foreign key (SrvcThisCls) references Cls (id),
-    AdmnstrtrBnks number,
-    AdmnstrtrBnksCls number,
-    constraint FAdmnstrtrBnks foreign key (AdmnstrtrBnksCls) references Cls (id),
     AccntSrvcAccnt number,
     AccntSrvcAccntCls number,
     constraint FAccntSrvcAccnt foreign key (AccntSrvcAccntCls) references Cls (id),
+    AdmnstrtrBnks number,
+    AdmnstrtrBnksCls number,
+    constraint FAdmnstrtrBnks foreign key (AdmnstrtrBnksCls) references Cls (id),
     BnkSrvcBnk number,
     BnkSrvcBnkCls number,
     constraint FBnkSrvcBnk foreign key (BnkSrvcBnkCls) references Cls (id)    
@@ -225,24 +225,6 @@ create table CmmndExctr(
     Cls number not null    
 );
 
-create sequence STrnsctn nocache;
-
-create table Trnsctn(
-    id number primary key,
-    Cls number not null,
-    TrnsctnBnkNmbr number,
-    TrnsctnAccntNmbr number,
-    TrnsctnAmnt number,
-    TrnsctnAmntCls number,
-    constraint FTrnsctnAmnt foreign key (TrnsctnAmntCls) references Cls (id),
-    TrnsctnSbSrvc number,
-    TrnsctnSbSrvcCls number,
-    constraint FTrnsctnSbSrvc foreign key (TrnsctnSbSrvcCls) references Cls (id),
-    TrnsctnThis number,
-    TrnsctnThisCls number,
-    constraint FTrnsctnThis foreign key (TrnsctnThisCls) references Cls (id)    
-);
-
 create sequence SMn nocache;
 
 create table Mn(
@@ -298,6 +280,24 @@ create table Bnk(
 create index IBnkNmbrBnk on Bnk (BnkBnkNmbr);
 create index INmBnk on Bnk (BnkNm);
 
+
+create sequence SDebitTrans nocache;
+
+create table DebitTrans(
+    id number primary key,
+    Cls number not null,
+    DebitTransBnkNmbr number,
+    DebitTransAccntNmbr number,
+    DebitTransAmnt number,
+    DebitTransAmntCls number,
+    constraint FDebitTransAmnt foreign key (DebitTransAmntCls) references Cls (id),
+    DebitTransSbSrvc number,
+    DebitTransSbSrvcCls number,
+    constraint FDebitTransSbSrvc foreign key (DebitTransSbSrvcCls) references Cls (id),
+    DebitTransThis number,
+    DebitTransThisCls number,
+    constraint FDebitTransThis foreign key (DebitTransThisCls) references Cls (id)    
+);
 
 create sequence SSrvr nocache;
 

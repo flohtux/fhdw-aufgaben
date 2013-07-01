@@ -33,13 +33,14 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only accountService) server-only Account account;
-	void createTransfer@@Neue_Überweisung();
+	void createTransfer@@Neue_Überweisung(Trancaction transaction);
 }
 class Account {
 	prior Integer accountNumber;
 	Amount amount@@Geldmenge;
 	AccountLimitState firstLimit;
 	AccountLimitState secondLimit;
+	void createTransfer(Trancaction transaction);
 }
 
 class Amount {
@@ -67,12 +68,12 @@ abstract class AccountLimitState(NoLimitState){
 abstract class LimitState(MinLimitState,MaxLimitState) extends AccountLimitState {
 	prior Money balance;
 }
-
-class Transaction {
+abstract class DebitNoteTransaction##DebitTrans(DebitNote,Trancaction) {
 	prior Integer bankNumber;
   prior Integer accountNumber;
 	prior Amount amount;
 }
+
 
 exception PasswordException {}
 }
