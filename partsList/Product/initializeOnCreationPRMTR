@@ -1,4 +1,0 @@
-{
-        getThis().setCurrentState(NotCached.createNotCached());
-        
-    }

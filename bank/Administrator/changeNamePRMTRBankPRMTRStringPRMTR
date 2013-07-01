@@ -1,4 +1,0 @@
-{
-        //TODO !PREREQUISITES: implement method: changeName
-        bank.changeName(name, getThis());
-    }

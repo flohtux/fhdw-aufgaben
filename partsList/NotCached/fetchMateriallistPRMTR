@@ -1,5 +1,0 @@
-{
-		PersistentMateriallist calcList = getThis().getMaster().createMateriallist();
-		getThis().getMaster().setCurrentState(Cached.createCached(calcList));
-		return calcList;
-	}

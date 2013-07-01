@@ -1,5 +1,0 @@
-{
-        getThis().getManager().createComponent(name, componentType, getThis());
-        getThis().signalChanged(true);
-        
-    }

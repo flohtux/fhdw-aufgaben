@@ -17,9 +17,7 @@ singleton BankCreator {
 }
 server BankService extends Service {
 	skip-view prior final one-to-one (server-only bankServices) Bank bank;
-	void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
-	void closeAccount@@Konto_schließen(Account acc);
-	void closeAccount@@Konto_übertragen(Account acc, Account transAcc);
+	void createAccount();
 }
 class Bank {
 	indexed Integer bankNumber@@BLZ;
@@ -28,40 +26,14 @@ class Bank {
 	server-only one-to-one (server-only bank) Account ** Integer ** accounts;
 	transient Account ** currentAccounts;	
 	active event void changeName(String name);
-	active void createAccount(CurrencySUBTYPEName currencyType);
+	active void createAccount();
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only accountService) server-only Account account;
-	void createTransfer@@Neue_Überweisung();
 }
 class Account {
-	prior Integer accountNumber;
-	Amount amount@@Geldmenge;
-	AccountLimitState limits;
-}
-
-class Amount {
-	Money balance;
-	Currency currency;
-}
-
-class Money {
-	Integer balance;
-}
-
-abstract class TransactionFee(FixTransactionFee,ProcentualFee) {
-	
-}
-class MixedFee extends TransactionFee{
-	FixTransactionFee fix;
-	ProcentualFee procentual;
-	Integer limit;
+	prior Integer AccountNumber;
 }
 string-factory abstract class Currency (Euro, Dollar){}
-abstract class AccountLimitState(NoLimitState,MinLimitState,MaxLimitState){
-	void checkLimit(Amount transactionValue);//TODO return boolean!!
-}
-
-
 exception PasswordException {}
 }
