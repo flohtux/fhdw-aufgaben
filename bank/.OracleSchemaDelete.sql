@@ -28,6 +28,8 @@ drop sequence SAmnt;
 drop table Amnt cascade constraints;
 drop sequence SCmmndExctr;
 drop table CmmndExctr cascade constraints;
+drop sequence STrnsctn;
+drop table Trnsctn cascade constraints;
 drop sequence SMn;
 drop table Mn cascade constraints;
 drop sequence SCrtBnkCMD;

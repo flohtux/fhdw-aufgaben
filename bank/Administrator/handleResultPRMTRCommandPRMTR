@@ -1,0 +1,30 @@
+{
+        new Thread(new Runnable(){
+			public void  /*INTERNAL*/  run() {
+				try {
+					try {
+						command.checkException();
+						command.accept(new CommandStandardVisitor() {
+							//TODO !PREREQUISITES manage created banks
+							public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException {
+								PersistentBank newBank = createBankCommand.getCommandResult();
+								getThis().getBanks().add(newBank);
+							}
+							protected void standardHandling(Command command)
+									throws PersistenceException {
+								//Nothing to do!
+							}
+						});
+						signalChanged(true);
+					} catch (model.UserException e) {
+						model.UserExceptionToDisplayVisitor visitor = new model.UserExceptionToDisplayVisitor();
+						e.accept(visitor);
+						getErrors().add(visitor.getResult());
+						signalChanged(true);
+					}
+				} catch (PersistenceException e) {
+					//Handle fatal exception!
+				}
+			}
+		}).start();
+    }

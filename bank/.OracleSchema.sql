@@ -106,9 +106,12 @@ create table Accnt(
     AccntAmnt number,
     AccntAmntCls number,
     constraint FAccntAmnt foreign key (AccntAmntCls) references Cls (id),
-    AccntLmts number,
-    AccntLmtsCls number,
-    constraint FAccntLmts foreign key (AccntLmtsCls) references Cls (id),
+    AccntFrstLmt number,
+    AccntFrstLmtCls number,
+    constraint FAccntFrstLmt foreign key (AccntFrstLmtCls) references Cls (id),
+    AccntScndLmt number,
+    AccntScndLmtCls number,
+    constraint FAccntScndLmt foreign key (AccntScndLmtCls) references Cls (id),
     AccntSbSrvc number,
     AccntSbSrvcCls number,
     constraint FAccntSbSrvc foreign key (AccntSbSrvcCls) references Cls (id),
@@ -177,7 +180,10 @@ create table AccntLmtStt(
     constraint FAccntLmtSttSbSrvc foreign key (AccntLmtSttSbSrvcCls) references Cls (id),
     AccntLmtSttThis number,
     AccntLmtSttThisCls number,
-    constraint FAccntLmtSttThis foreign key (AccntLmtSttThisCls) references Cls (id)    
+    constraint FAccntLmtSttThis foreign key (AccntLmtSttThisCls) references Cls (id),
+    LmtSttBlnc number,
+    LmtSttBlncCls number,
+    constraint FLmtSttBlnc foreign key (LmtSttBlncCls) references Cls (id)    
 );
 
 create sequence SCrrnc nocache;
@@ -217,6 +223,24 @@ create sequence SCmmndExctr nocache;
 create table CmmndExctr(
     id number primary key,
     Cls number not null    
+);
+
+create sequence STrnsctn nocache;
+
+create table Trnsctn(
+    id number primary key,
+    Cls number not null,
+    TrnsctnBnkNmbr number,
+    TrnsctnAccntNmbr number,
+    TrnsctnAmnt number,
+    TrnsctnAmntCls number,
+    constraint FTrnsctnAmnt foreign key (TrnsctnAmntCls) references Cls (id),
+    TrnsctnSbSrvc number,
+    TrnsctnSbSrvcCls number,
+    constraint FTrnsctnSbSrvc foreign key (TrnsctnSbSrvcCls) references Cls (id),
+    TrnsctnThis number,
+    TrnsctnThisCls number,
+    constraint FTrnsctnThis foreign key (TrnsctnThisCls) references Cls (id)    
 );
 
 create sequence SMn nocache;
@@ -261,6 +285,9 @@ create table Bnk(
     BnkBnkNmbr number,
     BnkNm varchar2(2000),
     BnkLstAccNo number,
+    BnkFee number,
+    BnkFeeCls number,
+    constraint FBnkFee foreign key (BnkFeeCls) references Cls (id),
     BnkSbSrvc number,
     BnkSbSrvcCls number,
     constraint FBnkSbSrvc foreign key (BnkSbSrvcCls) references Cls (id),
