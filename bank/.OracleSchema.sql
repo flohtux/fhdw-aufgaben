@@ -204,7 +204,7 @@ create sequence SAmnt nocache;
 create table Amnt(
     id number primary key,
     Cls number not null,
-    AmntBlnc number,
+    AmntBlnc varchar2(2000),
     AmntSbSrvc number,
     AmntSbSrvcCls number,
     constraint FAmntSbSrvc foreign key (AmntSbSrvcCls) references Cls (id),

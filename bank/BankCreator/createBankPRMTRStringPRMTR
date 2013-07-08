@@ -1,0 +1,11 @@
+{
+    	//TODO !PREREQUISITES:  implement method: createBank!
+    	getThis().setLastBankNumber(getThis().getLastBankNumber() + 1);
+    	long newBankNumber = getThis().getLastBankNumber();
+    	PersistentBank newBank = Bank.createBank(name);
+    	newBank.setBankNumber(newBankNumber);
+    	PersistentBankService newBankService = BankService.createBankService(newBank);
+    	PersistentServer newServer = Server.createServer(serverConstants.ServerConstants.StandardBankPassword, serverConstants.ServerConstants.BankServicePrefix + newBankNumber, 0, serverConstants.DateConstants.Now);
+    	newServer.setService(newBankService);
+    	return newBank;
+    }

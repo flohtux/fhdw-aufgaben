@@ -1,0 +1,4 @@
+{
+        //TODO !PREREQUISITES: implement method: banks_update
+        getThis().signalChanged(true);
+    }
