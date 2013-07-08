@@ -1,3 +1,0 @@
-{
-    	getThis().setLastBankNumber(serverConstants.ServerConstants.FirstBankNumber);
-    }

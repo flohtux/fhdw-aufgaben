@@ -37,19 +37,19 @@ server AccountService extends Service {
 }
 class Account {
 	prior Integer accountNumber;
-	Amount amount@@Geldmenge;
+	Money money@@Geldmenge;
 	AccountLimitState firstLimit;
 	AccountLimitState secondLimit;
 	void createTransfer(Trancaction transaction);
 }
 
-class Amount {
-	prior Money balance;
+class Money {
+	prior Amount balance;
 	prior Currency currency;
 }
 
-class Money {
-	prior Integer balance;
+class Amount {
+	prior Fraction balance;
 }
 
 abstract class TransactionFee(FixTransactionFee,ProcentualFee) {
@@ -63,15 +63,15 @@ class MixedFee extends TransactionFee{
 string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class AccountLimitState(NoLimitState){
-	void checkLimit(Amount transactionValue);//TODO return boolean!!
+	void checkLimit(Money transactionValue);//TODO return boolean!!
 }
 abstract class LimitState(MinLimitState,MaxLimitState) extends AccountLimitState {
-	prior Money balance;
+	prior Amount balance;
 }
 abstract class DebitNoteTransaction##DebitTrans(DebitNote,Trancaction) {
 	prior Integer bankNumber;
   prior Integer accountNumber;
-	prior Amount amount;
+	prior Money money;
 }
 
 

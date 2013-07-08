@@ -1,3 +1,0 @@
-{
-    	getThis().setLastAccountNumber(serverConstants.ServerConstants.FirstAccountNumber);
-    }

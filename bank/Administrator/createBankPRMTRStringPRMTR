@@ -1,4 +1,0 @@
-{
-    	//TODO !PREREQUISITES:  implement method: createBank!
-        BankCreator.getTheBankCreator().createBank(name, getThis());
-    }
