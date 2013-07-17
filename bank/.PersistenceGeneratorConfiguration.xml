@@ -1,2 +1,6 @@
 <?xml version="1.0"?>
+<<<<<<< HEAD
 <Configuration FinalParameters="" FontSize="18" MessagesForEventsOnly="" StaticOperationsasTools="" Test="" UseIconVisitor="" WithErrorService=""><Model>C:\Users\ML\Desktop\GOJA\Workspace\bank\bank</Model><OracleTarget>C:\Users\ML\Desktop\GOJA\DB</OracleTarget><JavaTarget>C:\Users\ML\Desktop\GOJA\Workspace</JavaTarget><JavaBackup>C:\Users\ML\Desktop\GOJA\Backup</JavaBackup><DatabaseConnection>192.168.123.160:1521:mbdb</DatabaseConnection><DatabaseUser>BANK</DatabaseUser><GWT/></Configuration>
+=======
+<Configuration FinalParameters="" FontSize="18" MessagesForEventsOnly="" StaticOperationsasTools="" Test="" UseIconVisitor="" WithErrorService=""><Model>/home/florian/GOJA/Model/bank</Model><OracleTarget>/home/florian/GOJA/DB</OracleTarget><JavaTarget>/home/florian/GOJA/Workspace</JavaTarget><JavaBackup>/home/florian/GOJA/Backup</JavaBackup><DatabaseConnection>localhost:1521:xe</DatabaseConnection><DatabaseUser>BANK</DatabaseUser><GWT/></Configuration>
+>>>>>>> refs/remotes/origin/master
