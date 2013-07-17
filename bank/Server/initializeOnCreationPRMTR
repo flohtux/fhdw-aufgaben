@@ -1,6 +1,0 @@
-{
-    	//TODO !PREREQUISITES: MultiService: Create root user
-    	if (this.getUser().equals(common.RPCConstantsAndServices.AdministratorName)){
-        	getThis().setService(Administrator.createAdministrator());
-        }
-    }
