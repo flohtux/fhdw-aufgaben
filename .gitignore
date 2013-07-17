@@ -8,3 +8,10 @@ bin/
 .metadata/
 
 .DS_Store
+
+# GOJA Daten ignorieren
+Backup/
+JARS/
+DB/
+PersistenceGeneratorConfiguration.xml
+.PersistenceGeneratorConfiguration.xml

@@ -1,5 +1,0 @@
-{
-    	PersistentMateriallist result = getThis().getManager().fetchMateriallist(component);
-    	getThis().signalChanged(true);
-    	return result;
-    }

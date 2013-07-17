@@ -1,0 +1,39 @@
+package model.meta;
+
+import persistence.PersistenceException;
+
+public class BankChangeNameStringMssg implements BankDOWNMssgs,BankUPMssgs{
+    
+    private java.util.Date exctDte = null;
+    private Exception excptn;
+    public final persistence.PersistentBank rcvr;
+    public final String name;
+    
+    public BankChangeNameStringMssg(String name,
+                                    persistence.PersistentBank rcvr){
+        this.name = name;
+        this.rcvr = rcvr;
+    }
+    public void accept(BankMssgsVisitor visitor) throws persistence.PersistenceException{
+        visitor.handleBankChangeNameStringMssg(this);
+    }
+    public synchronized void execute() {
+        if (this.exctDte == null){
+            this.exctDte = new java.util.Date();
+            try{
+                this.rcvr.changeNameImplementation(this.name);
+            }catch(Exception exception){
+                this.excptn = exception;
+            }
+        }
+    }
+    public synchronized void getResult() throws PersistenceException {
+        if(this.excptn != null) {
+            if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
+            if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;
+            throw new Error(this.excptn);
+            
+        }
+    }
+    
+}
