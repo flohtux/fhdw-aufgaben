@@ -1,2 +1,0 @@
-<?xml version="1.0"?>
-<Configuration FinalParameters="" FontSize="16" MessagesForEventsOnly="" StaticOperationsasTools="" Test="" UseIconVisitor="" WithErrorService=""><Model>G:\GOJAGemeinsam\Model\bank</Model><OracleTarget>G:\GOJAGemeinsam\DB</OracleTarget><JavaTarget>G:\GOJAGemeinsam\Workspace</JavaTarget><JavaBackup>G:\GOJAGemeinsam\Backup</JavaBackup><DatabaseConnection>localhost:1521:xe</DatabaseConnection><DatabaseUser>BANK</DatabaseUser><GWT/></Configuration>
