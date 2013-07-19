@@ -8,7 +8,9 @@ abstract server Service{
 }
 server Administrator extends Service {
   observe Bank ** banks;
+	//hashmap exchange;
   void createBank(String name);
+	void translateMoney(Money money, Currency currency);
   void changeName(Bank bank, String name@@Name);
 }
 singleton BankCreator {
@@ -26,6 +28,8 @@ indexed Integer bankNumber@@BLZ;
 indexed prior String name@@Name;
 server-only Integer lastAccountNumber##lstAccNo;
 TransactionFee fee;
+InternalFee internalFee;
+Account ownAccount;
 server-only one-to-one (server-only bank) Account ** Integer ** accounts;
 transient Account ** currentAccounts;
 active event void changeName(String name);
@@ -33,14 +37,12 @@ active void createAccount(CurrencySUBTYPEName currencyType);
 }
 server AccountService extends Service {
 prior final one-to-one (server-only accountService) server-only Account account;
-void createTransfer@@Neue_Überweisung(Trancaction transaction);
+void createTransfer@@Neue_Überweisung(Transfer transaction);
 }
 class Account {
 prior Integer accountNumber;
 Money money@@Geldmenge;
-AccountLimitState firstLimit;
-AccountLimitState secondLimit;
-void createTransfer(Trancaction transaction);
+void createTransfer(Transfer transaction);
 }
 
 class Money {
@@ -52,28 +54,56 @@ class Amount {
 prior Fraction balance;
 }
 
-abstract class TransactionFee(FixTransactionFee,ProcentualFee) {
-
+class LimitAccount {
+	LimitType minLimit;
+	LimitType maxLimit;
+	Boolean checkLimit(Money money);
 }
+
+abstract class Boolean(True,False){}
+
+abstract class LimitType(NoLimit) {}
+class Limit extends LimitType{
+	Money money;
+}
+
+abstract class TransactionFee{}
 class MixedFee extends TransactionFee{
 FixTransactionFee fix;
 ProcentualFee procentual;
 prior Integer limit;
 }
+class ProcentualFee extends TransactionFee{
+	Percent percent;
+}
+class FixTransactionFee extends TransactionFee {
+	Money value;
+}
+
+class InternalFee {
+ 	Percent percent;
+}
+class Percent {
+	Fraction value;
+}
+
 string-factory abstract class Currency (Euro, Dollar){}
 
-abstract class AccountLimitState(NoLimitState){
-void checkLimit(Money transactionValue);//TODO return boolean!!
-}
-abstract class LimitState(MinLimitState,MaxLimitState) extends AccountLimitState {
-prior Amount balance;
-}
-abstract class DebitNoteTransaction##DebitTrans(DebitNote,Trancaction) {
-prior Integer bankNumber;
-  prior Integer accountNumber;
-prior Money money;
+abstract class DebitNoteTransferTransaction##DebiTrfTran {
+	void execute();
 }
 
+abstract class DebitNoteTransfer(DebitNote,Transfer) extends DebitNoteTransferTransaction{
+	Account sender;
+	Account receiver;
+	prior Money money;
+}
+
+class Transaction extends DebitNoteTransferTransaction {}
+
+abstract class DebitNoteTransferState##DebiTraStat(SuccessfullState,NotSuccessfullState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){}
+
+abstract class StornoState(SuccessfullStornoState##SucStoSta,NotSuccessfullStorneState##NoSucStoSta,RequestState,NoRequestState){}
 
 exception PasswordException {}
 }
