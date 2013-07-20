@@ -2,7 +2,6 @@
 package model;
 
 import persistence.*;
-import serverConstants.ServerConstants;
 import model.visitor.*;
 
 
@@ -89,6 +88,15 @@ public class Bank extends PersistentObject implements PersistentBank{
                     if(forGUI && ownAccount.hasEssentialFields())ownAccount.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot administrator = (AbstractPersistentRoot)this.getAdministrator();
+            if (administrator != null) {
+                result.put("administrator", administrator.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    administrator.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && administrator.hasEssentialFields())administrator.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             result.put("currentAccounts", this.getCurrentAccounts().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -114,6 +122,7 @@ public class Bank extends PersistentObject implements PersistentBank{
                           this.fee, 
                           this.internalFee, 
                           this.ownAccount, 
+                          this.administrator, 
                           this.subService, 
                           this.This, 
                           this.getId());
@@ -132,11 +141,12 @@ public class Bank extends PersistentObject implements PersistentBank{
     protected PersistentInternalFee internalFee;
     protected PersistentAccount ownAccount;
     protected Bank_AccountsProxi accounts;
+    protected PersistentAdministrator administrator;
     protected Bank_CurrentAccountsProxi currentAccounts;
     protected SubjInterface subService;
     protected PersistentBank This;
     
-    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentTransactionFee fee,PersistentInternalFee internalFee,PersistentAccount ownAccount,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
+    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentTransactionFee fee,PersistentInternalFee internalFee,PersistentAccount ownAccount,PersistentAdministrator administrator,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.bankNumber = bankNumber;
@@ -146,6 +156,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         this.internalFee = internalFee;
         this.ownAccount = ownAccount;
         this.accounts = new Bank_AccountsProxi(this);
+        this.administrator = administrator;
         this.currentAccounts = new Bank_CurrentAccountsProxi(this);
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
@@ -177,6 +188,10 @@ public class Bank extends PersistentObject implements PersistentBank{
             ConnectionHandler.getTheConnectionHandler().theBankFacade.ownAccountSet(this.getId(), getOwnAccount());
         }
         this.getAccounts().store();
+        if(this.getAdministrator() != null){
+            this.getAdministrator().store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.administratorSet(this.getId(), getAdministrator());
+        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theBankFacade.subServiceSet(this.getId(), getSubService());
@@ -255,6 +270,20 @@ public class Bank extends PersistentObject implements PersistentBank{
     public Bank_AccountsProxi getAccounts() throws PersistenceException {
         return this.accounts;
     }
+    public PersistentAdministrator getAdministrator() throws PersistenceException {
+        return this.administrator;
+    }
+    public void setAdministrator(PersistentAdministrator newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.administrator)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.administrator = (PersistentAdministrator)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.administratorSet(this.getId(), newValue);
+        }
+    }
     public Bank_CurrentAccountsProxi getCurrentAccounts() throws PersistenceException {
         return this.currentAccounts;
     }
@@ -323,6 +352,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         if (this.getFee() != null) return 1;
         if (this.getInternalFee() != null) return 1;
         if (this.getOwnAccount() != null) return 1;
+        if (this.getAdministrator() != null) return 1;
         if (this.getCurrentAccounts().getLength() > 0) return 1;
         return 0;
     }
@@ -408,6 +438,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     public void createAccount(final String currencyType) 
 				throws PersistenceException{
         //TODO: implement method: createAccount
+
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

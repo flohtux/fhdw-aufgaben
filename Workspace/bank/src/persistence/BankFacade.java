@@ -27,7 +27,7 @@ public class BankFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,id);
+            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (BankProxi)PersistentProxi.createProxi(id, -149);
         }catch(SQLException se) {
@@ -43,7 +43,7 @@ public class BankFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,id);
+            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (BankProxi)PersistentProxi.createProxi(id, -149);
         }catch(SQLException se) {
@@ -73,18 +73,22 @@ public class BankFacade{
             PersistentAccount ownAccount = null;
             if (obj.getLong(9) != 0)
                 ownAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            SubjInterface subService = null;
+            PersistentAdministrator administrator = null;
             if (obj.getLong(11) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
-            PersistentBank This = null;
+                administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            SubjInterface subService = null;
             if (obj.getLong(13) != 0)
-                This = (PersistentBank)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+            PersistentBank This = null;
+            if (obj.getLong(15) != 0)
+                This = (PersistentBank)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
             Bank result = new Bank(obj.getLong(2),
                                    obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                    obj.getLong(4),
                                    fee,
                                    internalFee,
                                    ownAccount,
+                                   administrator,
                                    subService,
                                    This,
                                    BankId);
@@ -297,6 +301,19 @@ public class BankFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public void administratorSet(long BankId, PersistentAdministrator administratorVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".BnkFacade.admnstrtrSet(?, ?, ?); end;");
+            callable.setLong(1, BankId);
+            callable.setLong(2, administratorVal.getId());
+            callable.setLong(3, administratorVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
     public void subServiceSet(long BankId, SubjInterface subServiceVal) throws PersistenceException {
         try{
             CallableStatement callable;
@@ -327,6 +344,27 @@ public class BankFacade{
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".BnkFacade.iGetAccnts(?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, objectId);
+            callable.setLong(3, classId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            BankSearchList result = new BankSearchList();
+            while (list.next()) {
+                if (list.getLong(3) != 0) result.add((PersistentBank)PersistentProxi.createProxi(list.getLong(3), list.getLong(4)));
+                else result.add((PersistentBank)PersistentProxi.createProxi(list.getLong(1), list.getLong(2)));
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public BankSearchList inverseGetAdministrator(long objectId, long classId)throws PersistenceException{
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".BnkFacade.iGetAdmnstrtr(?, ?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, objectId);
             callable.setLong(3, classId);

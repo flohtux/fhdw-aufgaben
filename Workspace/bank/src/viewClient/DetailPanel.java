@@ -1392,6 +1392,7 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Bank$$fee = "Bank$$fee";
     protected static final String Bank$$internalFee = "Bank$$internalFee";
     protected static final String Bank$$ownAccount = "Bank$$ownAccount";
+    protected static final String Bank$$administrator = "Bank$$administrator";
     protected static final String Bank$$currentAccounts = "Bank$$currentAccounts";
     
     protected BankDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

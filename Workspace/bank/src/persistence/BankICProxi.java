@@ -61,6 +61,12 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     public Bank_AccountsProxi getAccounts() throws PersistenceException {
         return ((PersistentBank)this.getTheObject()).getAccounts();
     }
+    public PersistentAdministrator getAdministrator() throws PersistenceException {
+        return ((PersistentBank)this.getTheObject()).getAdministrator();
+    }
+    public void setAdministrator(PersistentAdministrator newValue) throws PersistenceException {
+        ((PersistentBank)this.getTheObject()).setAdministrator(newValue);
+    }
     public Bank_CurrentAccountsProxi getCurrentAccounts() throws PersistenceException {
         return ((PersistentBank)this.getTheObject()).getCurrentAccounts();
     }
