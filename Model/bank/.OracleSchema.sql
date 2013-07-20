@@ -414,6 +414,9 @@ create table Bnk(
     BnkOwnAccnt number,
     BnkOwnAccntCls number,
     constraint FBnkOwnAccnt foreign key (BnkOwnAccntCls) references Cls (id),
+    BnkAdmnstrtr number,
+    BnkAdmnstrtrCls number,
+    constraint FBnkAdmnstrtr foreign key (BnkAdmnstrtrCls) references Cls (id),
     BnkSbSrvc number,
     BnkSbSrvcCls number,
     constraint FBnkSbSrvc foreign key (BnkSbSrvcCls) references Cls (id),
@@ -423,6 +426,7 @@ create table Bnk(
 );
 create index IBnkNmbrBnk on Bnk (BnkBnkNmbr);
 create index INmBnk on Bnk (BnkNm);
+create index IAdmnstrtrBnk on Bnk (BnkAdmnstrtr, BnkAdmnstrtrCls);
 
 
 create sequence SDebiTraStat nocache;
