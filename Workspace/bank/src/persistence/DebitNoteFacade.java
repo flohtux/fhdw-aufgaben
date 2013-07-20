@@ -23,7 +23,7 @@ public class DebitNoteFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (DebitNoteProxi)PersistentProxi.createProxi(id, 151);
+            return (DebitNoteProxi)PersistentProxi.createProxi(id, 136);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,20 +42,26 @@ public class DebitNoteFacade{
                 callable.close();
                 return null;
             }
-            PersistentMoney money = null;
-            if (obj.getLong(4) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentDebitNoteTransferTransaction This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentDebitNoteTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentAccount sender = null;
             if (obj.getLong(6) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentDebitNoteTransaction This = null;
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentAccount receiver = null;
             if (obj.getLong(8) != 0)
-                This = (PersistentDebitNoteTransaction)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            DebitNote result = new DebitNote(obj.getLong(2),
-                                             obj.getLong(3),
-                                             money,
-                                             subService,
+                receiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentMoney money = null;
+            if (obj.getLong(10) != 0)
+                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            DebitNote result = new DebitNote(subService,
                                              This,
+                                             sender,
+                                             receiver,
+                                             money,
                                              DebitNoteId);
             obj.close();
             callable.close();

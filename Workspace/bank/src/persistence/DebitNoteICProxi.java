@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public class DebitNoteICProxi extends DebitNoteTransactionICProxi implements PersistentDebitNote{
+public class DebitNoteICProxi extends DebitNoteTransferICProxi implements PersistentDebitNote{
     
     public DebitNoteICProxi(long objectId) {
         super(objectId);
@@ -19,23 +19,35 @@ public class DebitNoteICProxi extends DebitNoteTransactionICProxi implements Per
     }
     
     public long getClassId() {
-        return 151;
+        return 136;
     }
     
     public PersistentDebitNote getThis() throws PersistenceException {
         return ((PersistentDebitNote)this.getTheObject()).getThis();
     }
     
-    public void accept(DebitNoteTransactionVisitor visitor) throws PersistenceException {
+    public void accept(DebitNoteTransferVisitor visitor) throws PersistenceException {
         visitor.handleDebitNote(this);
     }
-    public <R> R accept(DebitNoteTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleDebitNote(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleDebitNote(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleDebitNote(this);
+    }
+    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException {
+        visitor.handleDebitNote(this);
+    }
+    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleDebitNote(this);
+    }
+    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleDebitNote(this);
+    }
+    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleDebitNote(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -83,6 +95,10 @@ public class DebitNoteICProxi extends DebitNoteTransactionICProxi implements Per
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitNote)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public void execute() 
+				throws PersistenceException{
+        ((PersistentDebitNote)this.getTheObject()).execute();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

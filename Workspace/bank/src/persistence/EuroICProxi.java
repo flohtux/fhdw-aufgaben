@@ -19,7 +19,7 @@ public class EuroICProxi extends CurrencyICProxi implements PersistentEuro{
     }
     
     public long getClassId() {
-        return 136;
+        return 137;
     }
     
     public PersistentEuro getThis() throws PersistenceException {

@@ -7,7 +7,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public class DebitNote extends model.DebitNoteTransaction implements PersistentDebitNote{
+public class DebitNote extends model.DebitNoteTransfer implements PersistentDebitNote{
     
     private static PersistentDebitNote theDebitNote = null;
     public static boolean reset$For$Test = false;
@@ -60,11 +60,11 @@ public class DebitNote extends model.DebitNoteTransaction implements PersistentD
     
     public DebitNote provideCopy() throws PersistenceException{
         DebitNote result = this;
-        result = new DebitNote(this.bankNumber, 
-                               this.accountNumber, 
-                               this.money, 
-                               this.subService, 
+        result = new DebitNote(this.subService, 
                                this.This, 
+                               this.sender, 
+                               this.receiver, 
+                               this.money, 
                                this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -74,13 +74,13 @@ public class DebitNote extends model.DebitNoteTransaction implements PersistentD
         return false;
     }
     
-    public DebitNote(long bankNumber,long accountNumber,PersistentMoney money,SubjInterface subService,PersistentDebitNoteTransaction This,long id) throws persistence.PersistenceException {
+    public DebitNote(SubjInterface subService,PersistentDebitNoteTransferTransaction This,PersistentAccount sender,PersistentAccount receiver,PersistentMoney money,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)bankNumber,(long)accountNumber,(PersistentMoney)money,(SubjInterface)subService,(PersistentDebitNoteTransaction)This,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(PersistentAccount)sender,(PersistentAccount)receiver,(PersistentMoney)money,id);        
     }
     
     static public long getTypeId() {
-        return 151;
+        return 136;
     }
     
     public long getClassId() {
@@ -99,16 +99,28 @@ public class DebitNote extends model.DebitNoteTransaction implements PersistentD
         }return (PersistentDebitNote)this.This;
     }
     
-    public void accept(DebitNoteTransactionVisitor visitor) throws PersistenceException {
+    public void accept(DebitNoteTransferVisitor visitor) throws PersistenceException {
         visitor.handleDebitNote(this);
     }
-    public <R> R accept(DebitNoteTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleDebitNote(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleDebitNote(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleDebitNote(this);
+    }
+    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException {
+        visitor.handleDebitNote(this);
+    }
+    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleDebitNote(this);
+    }
+    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleDebitNote(this);
+    }
+    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleDebitNote(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -136,6 +148,8 @@ public class DebitNote extends model.DebitNoteTransaction implements PersistentD
          return visitor.handleDebitNote(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getSender() != null) return 1;
+        if (this.getReceiver() != null) return 1;
         if (this.getMoney() != null) return 1;
         return 0;
     }
@@ -197,6 +211,11 @@ public class DebitNote extends model.DebitNoteTransaction implements PersistentD
     
     // Start of section that contains overridden operations only.
     
+    public void execute() 
+				throws PersistenceException{
+		// TODO Auto-generated method stub
+		
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

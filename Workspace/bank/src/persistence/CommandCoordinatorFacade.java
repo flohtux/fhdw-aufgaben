@@ -23,7 +23,7 @@ public class CommandCoordinatorFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (CommandCoordinatorProxi)PersistentProxi.createProxi(id, -117);
+            return (CommandCoordinatorProxi)PersistentProxi.createProxi(id, -139);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

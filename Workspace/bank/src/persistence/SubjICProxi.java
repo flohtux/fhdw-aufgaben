@@ -19,7 +19,7 @@ public class SubjICProxi extends PersistentInCacheProxiOptimistic implements Per
     }
     
     public long getClassId() {
-        return 129;
+        return 102;
     }
     
     public Subj_ObserveeProxi getObservee() throws PersistenceException {

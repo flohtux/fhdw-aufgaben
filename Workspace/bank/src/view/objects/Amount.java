@@ -18,7 +18,7 @@ public class Amount extends ViewObject implements AmountView{
     }
     
     static public long getTypeId() {
-        return 146;
+        return 115;
     }
     
     public long getClassId() {

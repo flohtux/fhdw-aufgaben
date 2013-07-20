@@ -316,14 +316,14 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
-            if (selected instanceof TrancactionView){
+            if (selected instanceof TransferView){
                 item = new javax.swing.JMenuItem();
                 item.setText("Neue Überweisung");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
                         if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Überweisung" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                             try {
-                                getConnection().createTransfer((TrancactionView)selected);
+                                getConnection().createTransfer((TransferView)selected);
                                 getConnection().setEagerRefresh();
                             }catch(ModelException me){
                                 handleException(me);

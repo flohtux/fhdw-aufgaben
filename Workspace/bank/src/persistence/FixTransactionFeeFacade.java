@@ -15,15 +15,34 @@ public class FixTransactionFeeFacade{
 		this.con = con;
 	}
 
-    public FixTransactionFeeProxi getTheFixTransactionFee() throws PersistenceException {
-        CallableStatement callable;
+    public FixTransactionFeeProxi newFixTransactionFee(long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".FxTrnsctnFFacade.getTheFxTrnsctnF; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".FxTrnsctnFFacade.newFxTrnsctnF(?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            FixTransactionFee result = new FixTransactionFee(null,null,null,id);
+            Cache.getTheCache().put(result);
+            return (FixTransactionFeeProxi)PersistentProxi.createProxi(id, 108);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public FixTransactionFeeProxi newDelayedFixTransactionFee() throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".FxTrnsctnFFacade.newDelayedFxTrnsctnF(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (FixTransactionFeeProxi)PersistentProxi.createProxi(id, 142);
+            FixTransactionFee result = new FixTransactionFee(null,null,null,id);
+            Cache.getTheCache().put(result);
+            return (FixTransactionFeeProxi)PersistentProxi.createProxi(id, 108);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -48,8 +67,12 @@ public class FixTransactionFeeFacade{
             PersistentTransactionFee This = null;
             if (obj.getLong(4) != 0)
                 This = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentMoney value = null;
+            if (obj.getLong(6) != 0)
+                value = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             FixTransactionFee result = new FixTransactionFee(subService,
                                                              This,
+                                                             value,
                                                              FixTransactionFeeId);
             obj.close();
             callable.close();
@@ -57,6 +80,19 @@ public class FixTransactionFeeFacade{
             FixTransactionFee objectInCache = (FixTransactionFee)inCache.getTheObject();
             if (objectInCache == result)result.initializeOnInstantiation();
             return objectInCache;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void valueSet(long FixTransactionFeeId, PersistentMoney valueVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".FxTrnsctnFFacade.vlSet(?, ?, ?); end;");
+            callable.setLong(1, FixTransactionFeeId);
+            callable.setLong(2, valueVal.getId());
+            callable.setLong(3, valueVal.getClassId());
+            callable.execute();
+            callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

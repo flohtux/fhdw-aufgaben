@@ -9,49 +9,56 @@ import model.visitor.*;
 
 public class FixTransactionFee extends model.TransactionFee implements PersistentFixTransactionFee{
     
-    private static PersistentFixTransactionFee theFixTransactionFee = null;
-    public static boolean reset$For$Test = false;
-    private static final Object $$lock = new Object();
-    public static PersistentFixTransactionFee getTheFixTransactionFee() throws PersistenceException{
-        if (theFixTransactionFee == null || reset$For$Test){
-            class Initializer implements Runnable {
-                PersistenceException exception = null;
-                public void run(){
-                    try {
-                        FixTransactionFeeProxi proxi = null;
-                        synchronized ($$lock){
-                            proxi = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade.getTheFixTransactionFee();
-                            theFixTransactionFee = proxi;
-                        }
-                        if(proxi.getId() < 0) {
-                            proxi.setId(proxi.getId() * -1);
-                            proxi.initialize(proxi, new java.util.HashMap<String,Object>());
-                            proxi.initializeOnCreation();
-                        }
-                    } catch (PersistenceException e){
-                        exception = e;
-                    }
-                    synchronized ($$lock){$$lock.notify();}
-                }
-                PersistentFixTransactionFee getResult() throws PersistenceException{
-                    if(exception != null) throw exception;
-                    return theFixTransactionFee;
-                }
-            }
-            synchronized ($$lock) {
-                reset$For$Test = false;
-                Initializer initializer = new Initializer();
-                new Thread(initializer).start();
-                try {$$lock.wait();}catch (InterruptedException e) {} //Need not to be interrupted
-                return initializer.getResult();
-            }
-        }
-        return theFixTransactionFee;
+    
+    public static PersistentFixTransactionFee createFixTransactionFee() throws PersistenceException{
+        return createFixTransactionFee(false);
     }
+    
+    public static PersistentFixTransactionFee createFixTransactionFee(boolean delayed$Persistence) throws PersistenceException {
+        PersistentFixTransactionFee result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
+                .newDelayedFixTransactionFee();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
+                .newFixTransactionFee(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(result, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
+    public static PersistentFixTransactionFee createFixTransactionFee(boolean delayed$Persistence,PersistentFixTransactionFee This) throws PersistenceException {
+        PersistentFixTransactionFee result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
+                .newDelayedFixTransactionFee();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
+                .newFixTransactionFee(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(This, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot value = (AbstractPersistentRoot)this.getValue();
+            if (value != null) {
+                result.put("value", value.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    value.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && value.hasEssentialFields())value.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -62,6 +69,7 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
         FixTransactionFee result = this;
         result = new FixTransactionFee(this.subService, 
                                        this.This, 
+                                       this.value, 
                                        this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -70,14 +78,16 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentMoney value;
     
-    public FixTransactionFee(SubjInterface subService,PersistentTransactionFee This,long id) throws persistence.PersistenceException {
+    public FixTransactionFee(SubjInterface subService,PersistentTransactionFee This,PersistentMoney value,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentTransactionFee)This,id);        
+        super((SubjInterface)subService,(PersistentTransactionFee)This,id);
+        this.value = value;        
     }
     
     static public long getTypeId() {
-        return 142;
+        return 108;
     }
     
     public long getClassId() {
@@ -85,9 +95,31 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
     }
     
     public void store() throws PersistenceException {
-        // Singletons cannot be delayed!
+        if(!this.isDelayed$Persistence()) return;
+        if (this.getClassId() == 108) ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
+            .newFixTransactionFee(this.getId());
+        super.store();
+        if(this.getValue() != null){
+            this.getValue().store();
+            ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade.valueSet(this.getId(), getValue());
+        }
+        
     }
     
+    public PersistentMoney getValue() throws PersistenceException {
+        return this.value;
+    }
+    public void setValue(PersistentMoney newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.value)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.value = (PersistentMoney)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade.valueSet(this.getId(), newValue);
+        }
+    }
     public PersistentFixTransactionFee getThis() throws PersistenceException {
         if(this.This == null){
             PersistentFixTransactionFee result = new FixTransactionFeeProxi(this.getId());
@@ -133,6 +165,7 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
          return visitor.handleFixTransactionFee(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getValue() != null) return 1;
         return 0;
     }
     

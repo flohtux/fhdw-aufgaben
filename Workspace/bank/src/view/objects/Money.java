@@ -20,7 +20,7 @@ public class Money extends ViewObject implements MoneyView{
     }
     
     static public long getTypeId() {
-        return 147;
+        return 148;
     }
     
     public long getClassId() {

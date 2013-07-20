@@ -15,15 +15,34 @@ public class ProcentualFeeFacade{
 		this.con = con;
 	}
 
-    public ProcentualFeeProxi getTheProcentualFee() throws PersistenceException {
-        CallableStatement callable;
+    public ProcentualFeeProxi newProcentualFee(long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".PrcntlFFacade.getThePrcntlF; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".PrcntlFFacade.newPrcntlF(?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            ProcentualFee result = new ProcentualFee(null,null,null,id);
+            Cache.getTheCache().put(result);
+            return (ProcentualFeeProxi)PersistentProxi.createProxi(id, 120);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public ProcentualFeeProxi newDelayedProcentualFee() throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".PrcntlFFacade.newDelayedPrcntlF(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (ProcentualFeeProxi)PersistentProxi.createProxi(id, 148);
+            ProcentualFee result = new ProcentualFee(null,null,null,id);
+            Cache.getTheCache().put(result);
+            return (ProcentualFeeProxi)PersistentProxi.createProxi(id, 120);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -48,8 +67,12 @@ public class ProcentualFeeFacade{
             PersistentTransactionFee This = null;
             if (obj.getLong(4) != 0)
                 This = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentPercent percent = null;
+            if (obj.getLong(6) != 0)
+                percent = (PersistentPercent)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             ProcentualFee result = new ProcentualFee(subService,
                                                      This,
+                                                     percent,
                                                      ProcentualFeeId);
             obj.close();
             callable.close();
@@ -57,6 +80,19 @@ public class ProcentualFeeFacade{
             ProcentualFee objectInCache = (ProcentualFee)inCache.getTheObject();
             if (objectInCache == result)result.initializeOnInstantiation();
             return objectInCache;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void percentSet(long ProcentualFeeId, PersistentPercent percentVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".PrcntlFFacade.prcntSet(?, ?, ?); end;");
+            callable.setLong(1, ProcentualFeeId);
+            callable.setLong(2, percentVal.getId());
+            callable.setLong(3, percentVal.getClassId());
+            callable.execute();
+            callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

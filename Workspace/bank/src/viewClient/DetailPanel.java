@@ -694,50 +694,38 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
 	public DetailPanelFactory(ExceptionAndEventHandler handler) {
 		this.handler = handler;
 	}
-    public void handleMixedFee(view.MixedFeeView object){
-        result = new MixedFeeDefaultDetailPanel(handler, object);
+    public void handleFalseValue(view.FalseValueView object){
+        result = new FalseValueDefaultDetailPanel(handler, object);
     }
-    public void handleAccountService(view.AccountServiceView object){
-        result = new AccountServiceDefaultDetailPanel(handler, object);
-    }
-    public void handleNoLimitState(view.NoLimitStateView object){
-        result = new NoLimitStateDefaultDetailPanel(handler, object);
-    }
-    public void handleAccount(view.AccountView object){
-        result = new AccountDefaultDetailPanel(handler, object);
-    }
-    public void handleErrorDisplay(view.ErrorDisplayView object){
-        result = new ErrorDisplayDefaultDetailPanel(handler, object);
-    }
-    public void handleDebitNote(view.DebitNoteView object){
-        result = new DebitNoteDefaultDetailPanel(handler, object);
-    }
-    public void handleEuro(view.EuroView object){
-        result = new EuroDefaultDetailPanel(handler, object);
+    public void handleNoRequestState(view.NoRequestStateView object){
+        result = new NoRequestStateDefaultDetailPanel(handler, object);
     }
     public void handleFixTransactionFee(view.FixTransactionFeeView object){
         result = new FixTransactionFeeDefaultDetailPanel(handler, object);
     }
-    public void handleMinLimitState(view.MinLimitStateView object){
-        result = new MinLimitStateDefaultDetailPanel(handler, object);
+    public void handleInternalFee(view.InternalFeeView object){
+        result = new InternalFeeDefaultDetailPanel(handler, object);
     }
-    public void handleTrancaction(view.TrancactionView object){
-        result = new TrancactionDefaultDetailPanel(handler, object);
+    public void handleExecutedState(view.ExecutedStateView object){
+        result = new ExecutedStateDefaultDetailPanel(handler, object);
     }
-    public void handleMaxLimitState(view.MaxLimitStateView object){
-        result = new MaxLimitStateDefaultDetailPanel(handler, object);
+    public void handleTrueValue(view.TrueValueView object){
+        result = new TrueValueDefaultDetailPanel(handler, object);
+    }
+    public void handlePercent(view.PercentView object){
+        result = new PercentDefaultDetailPanel(handler, object);
+    }
+    public void handleSuccessfullState(view.SuccessfullStateView object){
+        result = new SuccessfullStateDefaultDetailPanel(handler, object);
     }
     public void handleAmount(view.AmountView object){
         result = new AmountDefaultDetailPanel(handler, object);
     }
-    public void handleMoney(view.MoneyView object){
-        result = new MoneyDefaultDetailPanel(handler, object);
+    public void handleNoLimit(view.NoLimitView object){
+        result = new NoLimitDefaultDetailPanel(handler, object);
     }
     public void handleAdministrator(view.AdministratorView object){
         result = new AdministratorDefaultDetailPanel(handler, object);
-    }
-    public void handleBank(view.BankView object){
-        result = new BankDefaultDetailPanel(handler, object);
     }
     public void handleBankService(view.BankServiceView object){
         result = new BankServiceDefaultDetailPanel(handler, object);
@@ -748,16 +736,399 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleServer(view.ServerView object){
         result = new ServerDefaultDetailPanel(handler, object);
     }
-    public void handleBankCreator(view.BankCreatorView object){
-        result = new BankCreatorDefaultDetailPanel(handler, object);
+    public void handleTransfer(view.TransferView object){
+        result = new TransferDefaultDetailPanel(handler, object);
+    }
+    public void handleSuccessfullStornoState(view.SuccessfullStornoStateView object){
+        result = new SuccessfullStornoStateDefaultDetailPanel(handler, object);
     }
     public void handleDollar(view.DollarView object){
         result = new DollarDefaultDetailPanel(handler, object);
+    }
+    public void handleLimitAccount(view.LimitAccountView object){
+        result = new LimitAccountDefaultDetailPanel(handler, object);
+    }
+    public void handleLimit(view.LimitView object){
+        result = new LimitDefaultDetailPanel(handler, object);
+    }
+    public void handleMixedFee(view.MixedFeeView object){
+        result = new MixedFeeDefaultDetailPanel(handler, object);
+    }
+    public void handleAccountService(view.AccountServiceView object){
+        result = new AccountServiceDefaultDetailPanel(handler, object);
+    }
+    public void handleRequestState(view.RequestStateView object){
+        result = new RequestStateDefaultDetailPanel(handler, object);
+    }
+    public void handleAccount(view.AccountView object){
+        result = new AccountDefaultDetailPanel(handler, object);
+    }
+    public void handleNotSuccessfullStorneState(view.NotSuccessfullStorneStateView object){
+        result = new NotSuccessfullStorneStateDefaultDetailPanel(handler, object);
+    }
+    public void handleErrorDisplay(view.ErrorDisplayView object){
+        result = new ErrorDisplayDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitNote(view.DebitNoteView object){
+        result = new DebitNoteDefaultDetailPanel(handler, object);
+    }
+    public void handleEuro(view.EuroView object){
+        result = new EuroDefaultDetailPanel(handler, object);
+    }
+    public void handleTemplateState(view.TemplateStateView object){
+        result = new TemplateStateDefaultDetailPanel(handler, object);
+    }
+    public void handleNotSuccessfullState(view.NotSuccessfullStateView object){
+        result = new NotSuccessfullStateDefaultDetailPanel(handler, object);
+    }
+    public void handleNotExecutetState(view.NotExecutetStateView object){
+        result = new NotExecutetStateDefaultDetailPanel(handler, object);
+    }
+    public void handleNotExecutableState(view.NotExecutableStateView object){
+        result = new NotExecutableStateDefaultDetailPanel(handler, object);
+    }
+    public void handleTransaction(view.TransactionView object){
+        result = new TransactionDefaultDetailPanel(handler, object);
+    }
+    public void handleMoney(view.MoneyView object){
+        result = new MoneyDefaultDetailPanel(handler, object);
+    }
+    public void handleBank(view.BankView object){
+        result = new BankDefaultDetailPanel(handler, object);
+    }
+    public void handleBankCreator(view.BankCreatorView object){
+        result = new BankCreatorDefaultDetailPanel(handler, object);
     }
 
 }
 
 
+
+@SuppressWarnings("serial")
+class FalseValueDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected FalseValueDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.FalseValueView getAnything(){
+        return (view.FalseValueView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NoRequestStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
+    
+    protected NoRequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NoRequestStateView getAnything(){
+        return (view.NoRequestStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String FixTransactionFee$$value = "FixTransactionFee$$value";
+    
+    protected FixTransactionFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.FixTransactionFeeView getAnything(){
+        return (view.FixTransactionFeeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class InternalFeeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String InternalFee$$percent = "InternalFee$$percent";
+    
+    protected InternalFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.InternalFeeView getAnything(){
+        return (view.InternalFeeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class ExecutedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
+    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
+    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
+    
+    protected ExecutedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.ExecutedStateView getAnything(){
+        return (view.ExecutedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class TrueValueDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected TrueValueDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.TrueValueView getAnything(){
+        return (view.TrueValueView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class PercentDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Percent$$value = "Percent$$value";
+    
+    protected PercentDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new FractionPanel(this, "value", this.getAnything().getValue());
+            this.getScrollablePane().add(panel);
+            this.panels.put(Percent$$value, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.PercentView getAnything(){
+        return (view.PercentView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class SuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
+    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
+    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
+    
+    protected SuccessfullStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.SuccessfullStateView getAnything(){
+        return (view.SuccessfullStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class AmountDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Amount$$balance = "Amount$$balance";
+    
+    protected AmountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new FractionPanel(this, "balance", this.getAnything().getBalance());
+            this.getScrollablePane().add(panel);
+            this.panels.put(Amount$$balance, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.AmountView getAnything(){
+        return (view.AmountView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NoLimitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NoLimitView getAnything(){
+        return (view.NoLimitView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class AdministratorDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Administrator$$banks = "Administrator$$banks";
+    
+    protected AdministratorDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.AdministratorView getAnything(){
+        return (view.AdministratorView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class BankServiceDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String BankService$$bank = "BankService$$bank";
+    
+    protected BankServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankServiceView getAnything(){
+        return (view.BankServiceView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class ProcentualFeeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String ProcentualFee$$percent = "ProcentualFee$$percent";
+    
+    protected ProcentualFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.ProcentualFeeView getAnything(){
+        return (view.ProcentualFeeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class ServerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Server$$service = "Server$$service";
+    protected static final String Server$$user = "Server$$user";
+    
+    protected ServerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new StringPanel(this, "user", this.getAnything().getUser());
+            this.getScrollablePane().add(panel);
+            this.panels.put(Server$$user, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.ServerView getAnything(){
+        return (view.ServerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class TransferDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitNoteTransfer$$sender = "DebitNoteTransfer$$sender";
+    protected static final String DebitNoteTransfer$$receiver = "DebitNoteTransfer$$receiver";
+    protected static final String DebitNoteTransfer$$money = "DebitNoteTransfer$$money";
+    
+    protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.TransferView getAnything(){
+        return (view.TransferView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class SuccessfullStornoStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
+    
+    protected SuccessfullStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.SuccessfullStornoStateView getAnything(){
+        return (view.SuccessfullStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DollarDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected DollarDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DollarView getAnything(){
+        return (view.DollarView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class LimitAccountDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String LimitAccount$$minLimit = "LimitAccount$$minLimit";
+    protected static final String LimitAccount$$maxLimit = "LimitAccount$$maxLimit";
+    protected static final String LimitAccount$$account = "LimitAccount$$account";
+    
+    protected LimitAccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.LimitAccountView getAnything(){
+        return (view.LimitAccountView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class LimitDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Limit$$money = "Limit$$money";
+    
+    protected LimitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.LimitView getAnything(){
+        return (view.LimitView)this.anything;
+    }
+}
 
 @SuppressWarnings("serial")
 class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
@@ -799,16 +1170,18 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class NoLimitStateDefaultDetailPanel extends DefaultDetailPanel{
+class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected NoLimitStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
+    
+    protected RequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         
     }
-    protected view.NoLimitStateView getAnything(){
-        return (view.NoLimitStateView)this.anything;
+    protected view.RequestStateView getAnything(){
+        return (view.RequestStateView)this.anything;
     }
 }
 
@@ -817,8 +1190,7 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
-    protected static final String Account$$firstLimit = "Account$$firstLimit";
-    protected static final String Account$$secondLimit = "Account$$secondLimit";
+    protected static final String Account$$limit = "Account$$limit";
     
     protected AccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -835,6 +1207,22 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.AccountView getAnything(){
         return (view.AccountView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NotSuccessfullStorneStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
+    
+    protected NotSuccessfullStorneStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NotSuccessfullStorneStateView getAnything(){
+        return (view.NotSuccessfullStorneStateView)this.anything;
     }
 }
 
@@ -864,28 +1252,14 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransaction$$bankNumber = "DebitNoteTransaction$$bankNumber";
-    protected static final String DebitNoteTransaction$$accountNumber = "DebitNoteTransaction$$accountNumber";
-    protected static final String DebitNoteTransaction$$money = "DebitNoteTransaction$$money";
+    protected static final String DebitNoteTransfer$$sender = "DebitNoteTransfer$$sender";
+    protected static final String DebitNoteTransfer$$receiver = "DebitNoteTransfer$$receiver";
+    protected static final String DebitNoteTransfer$$money = "DebitNoteTransfer$$money";
     
     protected DebitNoteDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "bankNumber", this.getAnything().getBankNumber());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransaction$$bankNumber, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "accountNumber", this.getAnything().getAccountNumber());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransaction$$accountNumber, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
         
     }
     protected view.DebitNoteView getAnything(){
@@ -908,103 +1282,88 @@ class EuroDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
+class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected FixTransactionFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
+    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
+    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
+    
+    protected TemplateStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         
     }
-    protected view.FixTransactionFeeView getAnything(){
-        return (view.FixTransactionFeeView)this.anything;
+    protected view.TemplateStateView getAnything(){
+        return (view.TemplateStateView)this.anything;
     }
 }
 
 @SuppressWarnings("serial")
-class MinLimitStateDefaultDetailPanel extends DefaultDetailPanel{
+class NotSuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String LimitState$$balance = "LimitState$$balance";
+    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
+    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
+    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
-    protected MinLimitStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected NotSuccessfullStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         
     }
-    protected view.MinLimitStateView getAnything(){
-        return (view.MinLimitStateView)this.anything;
+    protected view.NotSuccessfullStateView getAnything(){
+        return (view.NotSuccessfullStateView)this.anything;
     }
 }
 
 @SuppressWarnings("serial")
-class TrancactionDefaultDetailPanel extends DefaultDetailPanel{
+class NotExecutetStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransaction$$bankNumber = "DebitNoteTransaction$$bankNumber";
-    protected static final String DebitNoteTransaction$$accountNumber = "DebitNoteTransaction$$accountNumber";
-    protected static final String DebitNoteTransaction$$money = "DebitNoteTransaction$$money";
+    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
+    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
+    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
-    protected TrancactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected NotExecutetStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "bankNumber", this.getAnything().getBankNumber());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransaction$$bankNumber, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "accountNumber", this.getAnything().getAccountNumber());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransaction$$accountNumber, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
         
     }
-    protected view.TrancactionView getAnything(){
-        return (view.TrancactionView)this.anything;
+    protected view.NotExecutetStateView getAnything(){
+        return (view.NotExecutetStateView)this.anything;
     }
 }
 
 @SuppressWarnings("serial")
-class MaxLimitStateDefaultDetailPanel extends DefaultDetailPanel{
+class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String LimitState$$balance = "LimitState$$balance";
+    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
+    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
+    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
-    protected MaxLimitStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected NotExecutableStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         
     }
-    protected view.MaxLimitStateView getAnything(){
-        return (view.MaxLimitStateView)this.anything;
+    protected view.NotExecutableStateView getAnything(){
+        return (view.NotExecutableStateView)this.anything;
     }
 }
 
 @SuppressWarnings("serial")
-class AmountDefaultDetailPanel extends DefaultDetailPanel{
+class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String Amount$$balance = "Amount$$balance";
-    
-    protected AmountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
-        try{
-            BaseTypePanel panel = new FractionPanel(this, "balance", this.getAnything().getBalance());
-            this.getScrollablePane().add(panel);
-            this.panels.put(Amount$$balance, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
         
     }
-    protected view.AmountView getAnything(){
-        return (view.AmountView)this.anything;
+    protected view.TransactionView getAnything(){
+        return (view.TransactionView)this.anything;
     }
 }
 
@@ -1026,27 +1385,13 @@ class MoneyDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class AdministratorDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String Administrator$$banks = "Administrator$$banks";
-    
-    protected AdministratorDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.AdministratorView getAnything(){
-        return (view.AdministratorView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class BankDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Bank$$bankNumber = "Bank$$bankNumber";
     protected static final String Bank$$name = "Bank$$name";
     protected static final String Bank$$fee = "Bank$$fee";
+    protected static final String Bank$$internalFee = "Bank$$internalFee";
+    protected static final String Bank$$ownAccount = "Bank$$ownAccount";
     protected static final String Bank$$currentAccounts = "Bank$$currentAccounts";
     
     protected BankDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1075,60 +1420,6 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class BankServiceDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String BankService$$bank = "BankService$$bank";
-    
-    protected BankServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.BankServiceView getAnything(){
-        return (view.BankServiceView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class ProcentualFeeDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected ProcentualFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.ProcentualFeeView getAnything(){
-        return (view.ProcentualFeeView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class ServerDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String Server$$service = "Server$$service";
-    protected static final String Server$$user = "Server$$user";
-    
-    protected ServerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        try{
-            BaseTypePanel panel = new StringPanel(this, "user", this.getAnything().getUser());
-            this.getScrollablePane().add(panel);
-            this.panels.put(Server$$user, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        
-    }
-    protected view.ServerView getAnything(){
-        return (view.ServerView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class BankCreatorDefaultDetailPanel extends DefaultDetailPanel{
     
     protected BankCreatorDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1139,19 +1430,5 @@ class BankCreatorDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.BankCreatorView getAnything(){
         return (view.BankCreatorView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class DollarDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected DollarDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.DollarView getAnything(){
-        return (view.DollarView)this.anything;
     }
 }

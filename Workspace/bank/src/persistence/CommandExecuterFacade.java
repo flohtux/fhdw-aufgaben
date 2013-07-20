@@ -26,7 +26,7 @@ public class CommandExecuterFacade{
             callable.close();
             CommandExecuter result = new CommandExecuter(id);
             Cache.getTheCache().put(result);
-            return (CommandExecuterProxi)PersistentProxi.createProxi(id, -116);
+            return (CommandExecuterProxi)PersistentProxi.createProxi(id, -145);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,7 +42,7 @@ public class CommandExecuterFacade{
             callable.close();
             CommandExecuter result = new CommandExecuter(id);
             Cache.getTheCache().put(result);
-            return (CommandExecuterProxi)PersistentProxi.createProxi(id, -116);
+            return (CommandExecuterProxi)PersistentProxi.createProxi(id, -145);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

@@ -16,7 +16,7 @@ public class Euro extends view.objects.Currency implements EuroView{
     }
     
     static public long getTypeId() {
-        return 136;
+        return 137;
     }
     
     public long getClassId() {

@@ -35,7 +35,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createTransfer(final PersistentTrancaction transaction) 
+    public void createTransfer(final PersistentTransfer transaction) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

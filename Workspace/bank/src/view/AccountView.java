@@ -10,10 +10,8 @@ public interface AccountView extends Anything, AbstractViewRoot {
     public void setAccountNumber(long newValue) throws ModelException ;
     public MoneyView getMoney()throws ModelException;
     public void setMoney(MoneyView newValue) throws ModelException ;
-    public AccountLimitStateView getFirstLimit()throws ModelException;
-    public void setFirstLimit(AccountLimitStateView newValue) throws ModelException ;
-    public AccountLimitStateView getSecondLimit()throws ModelException;
-    public void setSecondLimit(AccountLimitStateView newValue) throws ModelException ;
+    public LimitAccountView getLimit()throws ModelException;
+    public void setLimit(LimitAccountView newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentFixTransactionFee extends PersistentTransactionFee {
     
+    public PersistentMoney getValue() throws PersistenceException ;
+    public void setValue(PersistentMoney newValue) throws PersistenceException ;
     public PersistentFixTransactionFee getThis() throws PersistenceException ;
     
     public void accept(TransactionFeeVisitor visitor) throws PersistenceException;

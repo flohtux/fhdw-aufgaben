@@ -23,7 +23,7 @@ public class EuroFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (EuroProxi)PersistentProxi.createProxi(id, 136);
+            return (EuroProxi)PersistentProxi.createProxi(id, 137);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

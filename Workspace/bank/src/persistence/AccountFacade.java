@@ -25,9 +25,9 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
-            return (AccountProxi)PersistentProxi.createProxi(id, 114);
+            return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -41,9 +41,9 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
-            return (AccountProxi)PersistentProxi.createProxi(id, 114);
+            return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -65,22 +65,18 @@ public class AccountFacade{
             PersistentMoney money = null;
             if (obj.getLong(3) != 0)
                 money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentAccountLimitState firstLimit = null;
+            PersistentLimitAccount limit = null;
             if (obj.getLong(5) != 0)
-                firstLimit = (PersistentAccountLimitState)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentAccountLimitState secondLimit = null;
-            if (obj.getLong(7) != 0)
-                secondLimit = (PersistentAccountLimitState)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+                limit = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             SubjInterface subService = null;
-            if (obj.getLong(9) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            if (obj.getLong(7) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentAccount This = null;
-            if (obj.getLong(11) != 0)
-                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            if (obj.getLong(9) != 0)
+                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             Account result = new Account(obj.getLong(2),
                                          money,
-                                         firstLimit,
-                                         secondLimit,
+                                         limit,
                                          subService,
                                          This,
                                          AccountId);
@@ -133,26 +129,13 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void firstLimitSet(long AccountId, PersistentAccountLimitState firstLimitVal) throws PersistenceException {
+    public void limitSet(long AccountId, PersistentLimitAccount limitVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.frstLmtSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.lmtSet(?, ?, ?); end;");
             callable.setLong(1, AccountId);
-            callable.setLong(2, firstLimitVal.getId());
-            callable.setLong(3, firstLimitVal.getClassId());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void secondLimitSet(long AccountId, PersistentAccountLimitState secondLimitVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.scndLmtSet(?, ?, ?); end;");
-            callable.setLong(1, AccountId);
-            callable.setLong(2, secondLimitVal.getId());
-            callable.setLong(3, secondLimitVal.getClassId());
+            callable.setLong(2, limitVal.getId());
+            callable.setLong(3, limitVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
@@ -181,6 +164,27 @@ public class AccountFacade{
             callable.setLong(3, ThisVal.getClassId());
             callable.execute();
             callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public AccountSearchList inverseGetLimit(long objectId, long classId)throws PersistenceException{
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntFacade.iGetLmt(?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, objectId);
+            callable.setLong(3, classId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            AccountSearchList result = new AccountSearchList();
+            while (list.next()) {
+                if (list.getLong(3) != 0) result.add((PersistentAccount)PersistentProxi.createProxi(list.getLong(3), list.getLong(4)));
+                else result.add((PersistentAccount)PersistentProxi.createProxi(list.getLong(1), list.getLong(2)));
+            }
+            list.close();
+            callable.close();
+            return result;
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

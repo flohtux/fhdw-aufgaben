@@ -4,6 +4,8 @@ import view.visitor.*;
 
 public interface FixTransactionFeeView extends TransactionFeeView {
     
+    public MoneyView getValue()throws ModelException;
+    public void setValue(MoneyView newValue) throws ModelException ;
     
     public void accept(TransactionFeeVisitor visitor) throws ModelException;
     public <R> R accept(TransactionFeeReturnVisitor<R>  visitor) throws ModelException;

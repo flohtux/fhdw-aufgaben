@@ -19,7 +19,7 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
     }
     
     public long getClassId() {
-        return 147;
+        return 148;
     }
     
     public PersistentAmount getBalance() throws PersistenceException {

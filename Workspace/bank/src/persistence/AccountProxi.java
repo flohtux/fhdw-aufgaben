@@ -19,7 +19,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     }
     
     public long getClassId() {
-        return 114;
+        return 133;
     }
     
     public long getAccountNumber() throws PersistenceException {
@@ -34,17 +34,11 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void setMoney(PersistentMoney newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setMoney(newValue);
     }
-    public PersistentAccountLimitState getFirstLimit() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getFirstLimit();
+    public PersistentLimitAccount getLimit() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getLimit();
     }
-    public void setFirstLimit(PersistentAccountLimitState newValue) throws PersistenceException {
-        ((PersistentAccount)this.getTheObject()).setFirstLimit(newValue);
-    }
-    public PersistentAccountLimitState getSecondLimit() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getSecondLimit();
-    }
-    public void setSecondLimit(PersistentAccountLimitState newValue) throws PersistenceException {
-        ((PersistentAccount)this.getTheObject()).setSecondLimit(newValue);
+    public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
+        ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
@@ -110,7 +104,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createTransfer(final PersistentTrancaction transaction) 
+    public void createTransfer(final PersistentTransfer transaction) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).createTransfer(transaction);
     }

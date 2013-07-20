@@ -17,7 +17,7 @@ public class AccountService extends view.objects.Service implements AccountServi
     }
     
     static public long getTypeId() {
-        return -126;
+        return -130;
     }
     
     public long getClassId() {

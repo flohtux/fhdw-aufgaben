@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentProcentualFee extends PersistentTransactionFee {
     
+    public PersistentPercent getPercent() throws PersistenceException ;
+    public void setPercent(PersistentPercent newValue) throws PersistenceException ;
     public PersistentProcentualFee getThis() throws PersistenceException ;
     
     public void accept(TransactionFeeVisitor visitor) throws PersistenceException;

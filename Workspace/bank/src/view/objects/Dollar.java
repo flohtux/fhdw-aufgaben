@@ -16,7 +16,7 @@ public class Dollar extends view.objects.Currency implements DollarView{
     }
     
     static public long getTypeId() {
-        return 137;
+        return 126;
     }
     
     public long getClassId() {

@@ -19,7 +19,7 @@ public class CreateBankCommandICProxi extends PersistentInCacheProxi implements 
     }
     
     public long getClassId() {
-        return 125;
+        return 118;
     }
     
     public String getName() throws PersistenceException {

@@ -84,7 +84,7 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     }
     
     static public long getTypeId() {
-        return 123;
+        return 152;
     }
     
     public long getClassId() {

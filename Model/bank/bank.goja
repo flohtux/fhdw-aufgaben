@@ -42,6 +42,7 @@ void createTransfer@@Neue_Überweisung(Transfer transaction);
 class Account {
 prior Integer accountNumber;
 Money money@@Geldmenge;
+one-to-one (account) LimitAccount limit;
 void createTransfer(Transfer transaction);
 }
 
@@ -57,10 +58,10 @@ prior Fraction balance;
 class LimitAccount {
 	LimitType minLimit;
 	LimitType maxLimit;
-	Boolean checkLimit(Money money);
+	BooleanValue checkLimit(Money money);
 }
 
-abstract class Boolean(True,False){}
+abstract class BooleanValue(TrueValue,FalseValue){}
 
 abstract class LimitType(NoLimit) {}
 class Limit extends LimitType{
@@ -101,7 +102,10 @@ abstract class DebitNoteTransfer(DebitNote,Transfer) extends DebitNoteTransferTr
 
 class Transaction extends DebitNoteTransferTransaction {}
 
-abstract class DebitNoteTransferState##DebiTraStat(SuccessfullState,NotSuccessfullState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){}
+abstract class DebitNoteTransferState##DebiTraStat(SuccessfullState,NotSuccessfullState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
+	one-to-one (debitNoteTransfer) DebitNoteTransferState state;
+	one-to-one (debitNoteTransfer) StornoState stornoState;
+}
 
 abstract class StornoState(SuccessfullStornoState##SucStoSta,NotSuccessfullStorneState##NoSucStoSta,RequestState,NoRequestState){}
 

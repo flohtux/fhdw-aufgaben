@@ -8,41 +8,29 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.standardHandling(mixedFee);
     }
-    public void handleAmount(PersistentAmount amount) throws PersistenceException{
-        this.standardHandling(amount);
-    }
-    public void handleMoney(PersistentMoney money) throws PersistenceException{
-        this.standardHandling(money);
-    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
-    public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
-        this.standardHandling(administrator);
+    public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
+        this.standardHandling(requestState);
     }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
     }
-    public void handleBank(PersistentBank bank) throws PersistenceException{
-        this.standardHandling(bank);
-    }
-    public void handleNoLimitState(PersistentNoLimitState noLimitState) throws PersistenceException{
-        this.standardHandling(noLimitState);
-    }
-    public void handleBankService(PersistentBankService bankService) throws PersistenceException{
-        this.standardHandling(bankService);
+    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
+        this.standardHandling(falseValue);
     }
     public void handleAccount(PersistentAccount account) throws PersistenceException{
         this.standardHandling(account);
     }
-    public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
-        this.standardHandling(procentualFee);
+    public void handleNotSuccessfullStorneState(PersistentNotSuccessfullStorneState notSuccessfullStorneState) throws PersistenceException{
+        this.standardHandling(notSuccessfullStorneState);
+    }
+    public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
+        this.standardHandling(noRequestState);
     }
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException{
         this.standardHandling(errorDisplay);
-    }
-    public void handleServer(PersistentServer server) throws PersistenceException{
-        this.standardHandling(server);
     }
     public void handleDebitNote(PersistentDebitNote debitNote) throws PersistenceException{
         this.standardHandling(debitNote);
@@ -50,14 +38,68 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
+    public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
+        this.standardHandling(templateState);
+    }
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
     }
-    public void handleMinLimitState(PersistentMinLimitState minLimitState) throws PersistenceException{
-        this.standardHandling(minLimitState);
+    public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
+        this.standardHandling(internalFee);
     }
-    public void handleTrancaction(PersistentTrancaction trancaction) throws PersistenceException{
-        this.standardHandling(trancaction);
+    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
+        this.standardHandling(notExecutetState);
+    }
+    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
+        this.standardHandling(executedState);
+    }
+    public void handleNotSuccessfullState(PersistentNotSuccessfullState notSuccessfullState) throws PersistenceException{
+        this.standardHandling(notSuccessfullState);
+    }
+    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
+        this.standardHandling(notExecutableState);
+    }
+    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
+        this.standardHandling(trueValue);
+    }
+    public void handleSuccessfullState(PersistentSuccessfullState successfullState) throws PersistenceException{
+        this.standardHandling(successfullState);
+    }
+    public void handlePercent(PersistentPercent percent) throws PersistenceException{
+        this.standardHandling(percent);
+    }
+    public void handleAmount(PersistentAmount amount) throws PersistenceException{
+        this.standardHandling(amount);
+    }
+    public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
+        this.standardHandling(noLimit);
+    }
+    public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
+        this.standardHandling(transaction);
+    }
+    public void handleMoney(PersistentMoney money) throws PersistenceException{
+        this.standardHandling(money);
+    }
+    public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
+        this.standardHandling(administrator);
+    }
+    public void handleBank(PersistentBank bank) throws PersistenceException{
+        this.standardHandling(bank);
+    }
+    public void handleBankService(PersistentBankService bankService) throws PersistenceException{
+        this.standardHandling(bankService);
+    }
+    public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
+        this.standardHandling(procentualFee);
+    }
+    public void handleServer(PersistentServer server) throws PersistenceException{
+        this.standardHandling(server);
+    }
+    public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
+        this.standardHandling(transfer);
+    }
+    public void handleSuccessfullStornoState(PersistentSuccessfullStornoState successfullStornoState) throws PersistenceException{
+        this.standardHandling(successfullStornoState);
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);
@@ -65,8 +107,11 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
     }
-    public void handleMaxLimitState(PersistentMaxLimitState maxLimitState) throws PersistenceException{
-        this.standardHandling(maxLimitState);
+    public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
+        this.standardHandling(limitAccount);
+    }
+    public void handleLimit(PersistentLimit limit) throws PersistenceException{
+        this.standardHandling(limit);
     }
     protected abstract void standardHandling(SubjInterface subjInterface) throws PersistenceException;
 }

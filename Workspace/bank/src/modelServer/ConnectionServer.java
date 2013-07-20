@@ -36,10 +36,10 @@ public class ConnectionServer extends RemoteServerMaster {
 	}
 	public RemoteServerMaster createRemoteServer(String connectionName, String userName, long objectId, long classId){
 		try {
-			if(classId == -112)return new RemoteAdministrator(connectionName, userName, (PersistentAdministrator)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -126)return new RemoteAccountService(connectionName, userName, (PersistentAccountService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -127)return new RemoteBankService(connectionName, userName, (PersistentBankService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -102)return new RemoteServer(connectionName, userName, (PersistentServer)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -130)return new RemoteAccountService(connectionName, userName, (PersistentAccountService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -117)return new RemoteAdministrator(connectionName, userName, (PersistentAdministrator)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -119)return new RemoteBankService(connectionName, userName, (PersistentBankService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -121)return new RemoteServer(connectionName, userName, (PersistentServer)PersistentProxi.createProxi(objectId, classId));
 			
 		}catch(PersistenceException pe){
 			return null;

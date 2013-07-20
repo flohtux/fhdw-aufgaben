@@ -28,7 +28,7 @@ public class CommonDateFacade{
             callable.close();
             CommonDate result = new CommonDate(createDate,commitDate,id);
             Cache.getTheCache().put(result);
-            return (CommonDateProxi)PersistentProxi.createProxi(id, 119);
+            return (CommonDateProxi)PersistentProxi.createProxi(id, 111);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -44,7 +44,7 @@ public class CommonDateFacade{
             callable.close();
             CommonDate result = new CommonDate(createDate,commitDate,id);
             Cache.getTheCache().put(result);
-            return (CommonDateProxi)PersistentProxi.createProxi(id, 119);
+            return (CommonDateProxi)PersistentProxi.createProxi(id, 111);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

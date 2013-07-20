@@ -26,7 +26,7 @@ public class BankServiceFacade{
             callable.close();
             BankService result = new BankService(null,null,null,id);
             Cache.getTheCache().put(result);
-            return (BankServiceProxi)PersistentProxi.createProxi(id, -127);
+            return (BankServiceProxi)PersistentProxi.createProxi(id, -119);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,7 +42,7 @@ public class BankServiceFacade{
             callable.close();
             BankService result = new BankService(null,null,null,id);
             Cache.getTheCache().put(result);
-            return (BankServiceProxi)PersistentProxi.createProxi(id, -127);
+            return (BankServiceProxi)PersistentProxi.createProxi(id, -119);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

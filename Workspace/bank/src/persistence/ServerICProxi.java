@@ -19,7 +19,7 @@ public class ServerICProxi extends PersistentInCacheProxiOptimistic implements P
     }
     
     public long getClassId() {
-        return -102;
+        return -121;
     }
     
     public PersistentService getService() throws PersistenceException {

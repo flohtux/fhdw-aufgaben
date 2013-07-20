@@ -18,14 +18,43 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
     
-    public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
-    
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
+    
+    public abstract void handleDebitNoteTransferTransaction(PersistentDebitNoteTransferTransaction debitNoteTransferTransaction) throws PersistenceException;
+    
+    public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
+        this.handleDebitNoteTransferTransaction(transaction);
+    }
+    public void handleDebitNote(PersistentDebitNote debitNote) throws PersistenceException{
+        this.handleDebitNoteTransferTransaction(debitNote);
+    }
+    public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
+        this.handleDebitNoteTransferTransaction(transfer);
+    }
+    public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    public abstract void handleDebitNoteTransferState(PersistentDebitNoteTransferState debitNoteTransferState) throws PersistenceException;
     
+    public void handleNotSuccessfullState(PersistentNotSuccessfullState notSuccessfullState) throws PersistenceException{
+        this.handleDebitNoteTransferState(notSuccessfullState);
+    }
+    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
+        this.handleDebitNoteTransferState(executedState);
+    }
+    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
+        this.handleDebitNoteTransferState(notExecutetState);
+    }
+    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
+        this.handleDebitNoteTransferState(notExecutableState);
+    }
+    public void handleSuccessfullState(PersistentSuccessfullState successfullState) throws PersistenceException{
+        this.handleDebitNoteTransferState(successfullState);
+    }
+    public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
+        this.handleDebitNoteTransferState(templateState);
+    }
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
@@ -37,30 +66,49 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
-    public abstract void handleDebitNoteTransaction(PersistentDebitNoteTransaction debitNoteTransaction) throws PersistenceException;
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
-    public void handleTrancaction(PersistentTrancaction trancaction) throws PersistenceException{
-        this.handleDebitNoteTransaction(trancaction);
+    public abstract void handleStornoState(PersistentStornoState stornoState) throws PersistenceException;
+    
+    public void handleSuccessfullStornoState(PersistentSuccessfullStornoState successfullStornoState) throws PersistenceException{
+        this.handleStornoState(successfullStornoState);
     }
-    public void handleDebitNote(PersistentDebitNote debitNote) throws PersistenceException{
-        this.handleDebitNoteTransaction(debitNote);
+    public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
+        this.handleStornoState(requestState);
+    }
+    public void handleNotSuccessfullStorneState(PersistentNotSuccessfullStorneState notSuccessfullStorneState) throws PersistenceException{
+        this.handleStornoState(notSuccessfullStorneState);
+    }
+    public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
+        this.handleStornoState(noRequestState);
     }
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
-    public abstract void handleAccountLimitState(PersistentAccountLimitState accountLimitState) throws PersistenceException;
+    public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     
-    public void handleMinLimitState(PersistentMinLimitState minLimitState) throws PersistenceException{
-        this.handleAccountLimitState(minLimitState);
+    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
+    
+    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
+        this.handleBooleanValue(falseValue);
     }
-    public void handleNoLimitState(PersistentNoLimitState noLimitState) throws PersistenceException{
-        this.handleAccountLimitState(noLimitState);
+    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
+        this.handleBooleanValue(trueValue);
     }
-    public void handleMaxLimitState(PersistentMaxLimitState maxLimitState) throws PersistenceException{
-        this.handleAccountLimitState(maxLimitState);
+    public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
+    
+    public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
+        this.handleLimitType(noLimit);
     }
+    public void handleLimit(PersistentLimit limit) throws PersistenceException{
+        this.handleLimitType(limit);
+    }
+    public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
+    
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
+    
+    public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
     

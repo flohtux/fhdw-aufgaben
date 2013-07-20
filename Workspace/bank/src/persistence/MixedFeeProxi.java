@@ -19,7 +19,7 @@ public class MixedFeeProxi extends TransactionFeeProxi implements PersistentMixe
     }
     
     public long getClassId() {
-        return 139;
+        return 129;
     }
     
     public PersistentFixTransactionFee getFix() throws PersistenceException {

@@ -90,7 +90,7 @@ public class Amount extends PersistentObject implements PersistentAmount{
     }
     
     static public long getTypeId() {
-        return 146;
+        return 115;
     }
     
     public long getClassId() {
@@ -99,7 +99,7 @@ public class Amount extends PersistentObject implements PersistentAmount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 146) ConnectionHandler.getTheConnectionHandler().theAmountFacade
+        if (this.getClassId() == 115) ConnectionHandler.getTheConnectionHandler().theAmountFacade
             .newAmount(balance,this.getId());
         super.store();
         if(this.getSubService() != null){

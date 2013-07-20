@@ -80,7 +80,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     
     static public long getTypeId() {
-        return -112;
+        return -117;
     }
     
     public long getClassId() {
@@ -89,7 +89,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -112) ConnectionHandler.getTheConnectionHandler().theAdministratorFacade
+        if (this.getClassId() == -117) ConnectionHandler.getTheConnectionHandler().theAdministratorFacade
             .newAdministrator(this.getId());
         super.store();
         if(this.banks != null){
@@ -258,6 +258,11 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+				throws PersistenceException{
+        //TODO: implement method: translateMoney
+        
     }
     
     

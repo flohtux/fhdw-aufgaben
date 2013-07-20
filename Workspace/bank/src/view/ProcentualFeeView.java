@@ -4,6 +4,8 @@ import view.visitor.*;
 
 public interface ProcentualFeeView extends TransactionFeeView {
     
+    public PercentView getPercent()throws ModelException;
+    public void setPercent(PercentView newValue) throws ModelException ;
     
     public void accept(TransactionFeeVisitor visitor) throws ModelException;
     public <R> R accept(TransactionFeeReturnVisitor<R>  visitor) throws ModelException;

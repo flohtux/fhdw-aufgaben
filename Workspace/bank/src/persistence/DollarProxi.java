@@ -19,7 +19,7 @@ public class DollarProxi extends CurrencyProxi implements PersistentDollar{
     }
     
     public long getClassId() {
-        return 137;
+        return 126;
     }
     
     public PersistentDollar getThis() throws PersistenceException {

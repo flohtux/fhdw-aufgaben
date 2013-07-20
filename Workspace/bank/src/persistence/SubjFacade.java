@@ -26,7 +26,7 @@ public class SubjFacade{
             callable.close();
             Subj result = new Subj(null,id);
             Cache.getTheCache().put(result);
-            return (SubjProxi)PersistentProxi.createProxi(id, 129);
+            return (SubjProxi)PersistentProxi.createProxi(id, 102);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,7 +42,7 @@ public class SubjFacade{
             callable.close();
             Subj result = new Subj(null,id);
             Cache.getTheCache().put(result);
-            return (SubjProxi)PersistentProxi.createProxi(id, 129);
+            return (SubjProxi)PersistentProxi.createProxi(id, 102);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

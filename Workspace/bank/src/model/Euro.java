@@ -77,7 +77,7 @@ public class Euro extends model.Currency implements PersistentEuro{
     }
     
     static public long getTypeId() {
-        return 136;
+        return 137;
     }
     
     public long getClassId() {

@@ -19,7 +19,7 @@ public class BankCreatorICProxi extends PersistentInCacheProxiOptimistic impleme
     }
     
     public long getClassId() {
-        return 123;
+        return 152;
     }
     
     public long getLastBankNumber() throws PersistenceException {

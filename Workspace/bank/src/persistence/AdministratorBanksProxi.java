@@ -19,7 +19,7 @@ public class AdministratorBanksProxi extends PersistentProxi implements Persiste
     }
     
     public long getClassId() {
-        return 131;
+        return 125;
     }
     
     public PersistentAdministrator getObserver() throws PersistenceException {

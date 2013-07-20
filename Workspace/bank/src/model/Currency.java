@@ -40,7 +40,7 @@ public abstract class Currency extends PersistentObject implements PersistentCur
     }
     
     static public long getTypeId() {
-        return 138;
+        return 114;
     }
     
     public long getClassId() {

@@ -105,7 +105,7 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
     }
     
     static public long getTypeId() {
-        return 139;
+        return 129;
     }
     
     public long getClassId() {
@@ -114,7 +114,7 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 139) ConnectionHandler.getTheConnectionHandler().theMixedFeeFacade
+        if (this.getClassId() == 129) ConnectionHandler.getTheConnectionHandler().theMixedFeeFacade
             .newMixedFee(limit,this.getId());
         super.store();
         if(this.getFix() != null){

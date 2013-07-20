@@ -22,7 +22,7 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
     }
     
     static public long getTypeId() {
-        return 139;
+        return 129;
     }
     
     public long getClassId() {

@@ -71,6 +71,24 @@ public class Bank extends PersistentObject implements PersistentBank{
                     if(forGUI && fee.hasEssentialFields())fee.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot internalFee = (AbstractPersistentRoot)this.getInternalFee();
+            if (internalFee != null) {
+                result.put("internalFee", internalFee.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    internalFee.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && internalFee.hasEssentialFields())internalFee.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot ownAccount = (AbstractPersistentRoot)this.getOwnAccount();
+            if (ownAccount != null) {
+                result.put("ownAccount", ownAccount.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    ownAccount.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && ownAccount.hasEssentialFields())ownAccount.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             result.put("currentAccounts", this.getCurrentAccounts().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -94,6 +112,8 @@ public class Bank extends PersistentObject implements PersistentBank{
                           this.name, 
                           this.lastAccountNumber, 
                           this.fee, 
+                          this.internalFee, 
+                          this.ownAccount, 
                           this.subService, 
                           this.This, 
                           this.getId());
@@ -109,18 +129,22 @@ public class Bank extends PersistentObject implements PersistentBank{
     protected String name;
     protected long lastAccountNumber;
     protected PersistentTransactionFee fee;
+    protected PersistentInternalFee internalFee;
+    protected PersistentAccount ownAccount;
     protected Bank_AccountsProxi accounts;
     protected Bank_CurrentAccountsProxi currentAccounts;
     protected SubjInterface subService;
     protected PersistentBank This;
     
-    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentTransactionFee fee,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
+    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentTransactionFee fee,PersistentInternalFee internalFee,PersistentAccount ownAccount,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.bankNumber = bankNumber;
         this.name = name;
         this.lastAccountNumber = lastAccountNumber;
         this.fee = fee;
+        this.internalFee = internalFee;
+        this.ownAccount = ownAccount;
         this.accounts = new Bank_AccountsProxi(this);
         this.currentAccounts = new Bank_CurrentAccountsProxi(this);
         this.subService = subService;
@@ -128,7 +152,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     
     static public long getTypeId() {
-        return -113;
+        return -149;
     }
     
     public long getClassId() {
@@ -137,12 +161,20 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -113) ConnectionHandler.getTheConnectionHandler().theBankFacade
+        if (this.getClassId() == -149) ConnectionHandler.getTheConnectionHandler().theBankFacade
             .newBank(0,name,0,this.getId());
         super.store();
         if(this.getFee() != null){
             this.getFee().store();
             ConnectionHandler.getTheConnectionHandler().theBankFacade.feeSet(this.getId(), getFee());
+        }
+        if(this.getInternalFee() != null){
+            this.getInternalFee().store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.internalFeeSet(this.getId(), getInternalFee());
+        }
+        if(this.getOwnAccount() != null){
+            this.getOwnAccount().store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.ownAccountSet(this.getId(), getOwnAccount());
         }
         this.getAccounts().store();
         if(this.getSubService() != null){
@@ -190,6 +222,34 @@ public class Bank extends PersistentObject implements PersistentBank{
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theBankFacade.feeSet(this.getId(), newValue);
+        }
+    }
+    public PersistentInternalFee getInternalFee() throws PersistenceException {
+        return this.internalFee;
+    }
+    public void setInternalFee(PersistentInternalFee newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.internalFee)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.internalFee = (PersistentInternalFee)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.internalFeeSet(this.getId(), newValue);
+        }
+    }
+    public PersistentAccount getOwnAccount() throws PersistenceException {
+        return this.ownAccount;
+    }
+    public void setOwnAccount(PersistentAccount newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.ownAccount)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.ownAccount = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.ownAccountSet(this.getId(), newValue);
         }
     }
     public Bank_AccountsProxi getAccounts() throws PersistenceException {
@@ -261,6 +321,8 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getFee() != null) return 1;
+        if (this.getInternalFee() != null) return 1;
+        if (this.getOwnAccount() != null) return 1;
         if (this.getCurrentAccounts().getLength() > 0) return 1;
         return 0;
     }
@@ -346,7 +408,6 @@ public class Bank extends PersistentObject implements PersistentBank{
     public void createAccount(final String currencyType) 
 				throws PersistenceException{
         //TODO: implement method: createAccount
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

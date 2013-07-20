@@ -19,7 +19,7 @@ public class BankService extends view.objects.Service implements BankServiceView
     }
     
     static public long getTypeId() {
-        return -127;
+        return -119;
     }
     
     public long getClassId() {

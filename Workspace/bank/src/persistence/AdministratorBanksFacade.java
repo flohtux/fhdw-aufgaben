@@ -26,7 +26,7 @@ public class AdministratorBanksFacade{
             callable.close();
             AdministratorBanks result = new AdministratorBanks(null,null,id);
             Cache.getTheCache().put(result);
-            return (AdministratorBanksProxi)PersistentProxi.createProxi(id, 131);
+            return (AdministratorBanksProxi)PersistentProxi.createProxi(id, 125);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,7 +42,7 @@ public class AdministratorBanksFacade{
             callable.close();
             AdministratorBanks result = new AdministratorBanks(null,null,id);
             Cache.getTheCache().put(result);
-            return (AdministratorBanksProxi)PersistentProxi.createProxi(id, 131);
+            return (AdministratorBanksProxi)PersistentProxi.createProxi(id, 125);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

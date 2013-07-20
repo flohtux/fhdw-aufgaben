@@ -55,7 +55,7 @@ public class ChangeNameCommand extends PersistentObject implements PersistentCha
     }
     
     static public long getTypeId() {
-        return 130;
+        return 103;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class ChangeNameCommand extends PersistentObject implements PersistentCha
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theChangeNameCommandFacade
+        if (this.getClassId() == 103) ConnectionHandler.getTheConnectionHandler().theChangeNameCommandFacade
             .newChangeNameCommand(name,this.getId());
         super.store();
         if(this.getInvoker() != null){

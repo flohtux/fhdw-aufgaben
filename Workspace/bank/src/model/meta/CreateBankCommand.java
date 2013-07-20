@@ -57,7 +57,7 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
     }
     
     static public long getTypeId() {
-        return 125;
+        return 118;
     }
     
     public long getClassId() {
@@ -66,7 +66,7 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 125) ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade
+        if (this.getClassId() == 118) ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade
             .newCreateBankCommand(name,this.getId());
         super.store();
         if(this.getInvoker() != null){

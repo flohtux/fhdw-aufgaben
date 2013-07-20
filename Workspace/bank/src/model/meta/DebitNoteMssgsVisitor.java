@@ -9,7 +9,7 @@ interface DebitNoteDOWNMssgsVisitor  {
 }
 
 
-interface DebitNoteUPMssgsVisitor extends DebitNoteTransactionUPMssgsVisitor {
+interface DebitNoteUPMssgsVisitor extends DebitNoteTransferUPMssgsVisitor {
 
     
 }

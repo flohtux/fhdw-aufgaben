@@ -26,7 +26,7 @@ public class AdministratorFacade{
             callable.close();
             Administrator result = new Administrator(null,null,null,id);
             Cache.getTheCache().put(result);
-            return (AdministratorProxi)PersistentProxi.createProxi(id, -112);
+            return (AdministratorProxi)PersistentProxi.createProxi(id, -117);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,7 +42,7 @@ public class AdministratorFacade{
             callable.close();
             Administrator result = new Administrator(null,null,null,id);
             Cache.getTheCache().put(result);
-            return (AdministratorProxi)PersistentProxi.createProxi(id, -112);
+            return (AdministratorProxi)PersistentProxi.createProxi(id, -117);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

@@ -45,6 +45,8 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+				throws PersistenceException;
 
 }
 

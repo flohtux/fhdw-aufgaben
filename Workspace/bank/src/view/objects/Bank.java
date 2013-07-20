@@ -13,19 +13,23 @@ public class Bank extends ViewObject implements BankView{
     protected long bankNumber;
     protected String name;
     protected TransactionFeeView fee;
+    protected InternalFeeView internalFee;
+    protected AccountView ownAccount;
     protected java.util.Vector<AccountView> currentAccounts;
     
-    public Bank(long bankNumber,String name,TransactionFeeView fee,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
+    public Bank(long bankNumber,String name,TransactionFeeView fee,InternalFeeView internalFee,AccountView ownAccount,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.bankNumber = bankNumber;
         this.name = name;
         this.fee = fee;
+        this.internalFee = internalFee;
+        this.ownAccount = ownAccount;
         this.currentAccounts = currentAccounts;        
     }
     
     static public long getTypeId() {
-        return -113;
+        return -149;
     }
     
     public long getClassId() {
@@ -49,6 +53,18 @@ public class Bank extends ViewObject implements BankView{
     }
     public void setFee(TransactionFeeView newValue) throws ModelException {
         this.fee = newValue;
+    }
+    public InternalFeeView getInternalFee()throws ModelException{
+        return this.internalFee;
+    }
+    public void setInternalFee(InternalFeeView newValue) throws ModelException {
+        this.internalFee = newValue;
+    }
+    public AccountView getOwnAccount()throws ModelException{
+        return this.ownAccount;
+    }
+    public void setOwnAccount(AccountView newValue) throws ModelException {
+        this.ownAccount = newValue;
     }
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException{
         return this.currentAccounts;
@@ -75,6 +91,14 @@ public class Bank extends ViewObject implements BankView{
         if (fee != null) {
             ((ViewProxi)fee).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(fee.getClassId(), fee.getId())));
         }
+        InternalFeeView internalFee = this.getInternalFee();
+        if (internalFee != null) {
+            ((ViewProxi)internalFee).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(internalFee.getClassId(), internalFee.getId())));
+        }
+        AccountView ownAccount = this.getOwnAccount();
+        if (ownAccount != null) {
+            ((ViewProxi)ownAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(ownAccount.getClassId(), ownAccount.getId())));
+        }
         java.util.Vector<?> currentAccounts = this.getCurrentAccounts();
         if (currentAccounts != null) {
             ViewObject.resolveVectorProxies(currentAccounts, resultTable);
@@ -88,6 +112,10 @@ public class Bank extends ViewObject implements BankView{
         int index = originalIndex;
         if(index == 0 && this.getFee() != null) return new FeeBankWrapper(this, originalIndex, (ViewRoot)this.getFee());
         if(this.getFee() != null) index = index - 1;
+        if(index == 0 && this.getInternalFee() != null) return new InternalFeeBankWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
+        if(this.getInternalFee() != null) index = index - 1;
+        if(index == 0 && this.getOwnAccount() != null) return new OwnAccountBankWrapper(this, originalIndex, (ViewRoot)this.getOwnAccount());
+        if(this.getOwnAccount() != null) index = index - 1;
         if(index < this.getCurrentAccounts().size()) return new CurrentAccountsBankWrapper(this, originalIndex, (ViewRoot)this.getCurrentAccounts().get(index));
         index = index - this.getCurrentAccounts().size();
         return null;
@@ -95,17 +123,25 @@ public class Bank extends ViewObject implements BankView{
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getFee() == null ? 0 : 1)
+            + (this.getInternalFee() == null ? 0 : 1)
+            + (this.getOwnAccount() == null ? 0 : 1)
             + (this.getCurrentAccounts().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getFee() == null ? true : false)
+            && (this.getInternalFee() == null ? true : false)
+            && (this.getOwnAccount() == null ? true : false)
             && (this.getCurrentAccounts().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getFee() != null && this.getFee().equals(child)) return result;
         if(this.getFee() != null) result = result + 1;
+        if(this.getInternalFee() != null && this.getInternalFee().equals(child)) return result;
+        if(this.getInternalFee() != null) result = result + 1;
+        if(this.getOwnAccount() != null && this.getOwnAccount().equals(child)) return result;
+        if(this.getOwnAccount() != null) result = result + 1;
         java.util.Iterator<?> getCurrentAccountsIterator = this.getCurrentAccounts().iterator();
         while(getCurrentAccountsIterator.hasNext()){
             if(getCurrentAccountsIterator.next().equals(child)) return result;

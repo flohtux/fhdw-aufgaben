@@ -40,7 +40,7 @@ public abstract class TransactionFee extends PersistentObject implements Persist
     }
     
     static public long getTypeId() {
-        return 141;
+        return 132;
     }
     
     public long getClassId() {

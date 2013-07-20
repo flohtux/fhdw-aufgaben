@@ -23,7 +23,7 @@ public class DollarFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (DollarProxi)PersistentProxi.createProxi(id, 137);
+            return (DollarProxi)PersistentProxi.createProxi(id, 126);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

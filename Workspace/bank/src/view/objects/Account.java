@@ -12,20 +12,18 @@ public class Account extends ViewObject implements AccountView{
     
     protected long accountNumber;
     protected MoneyView money;
-    protected AccountLimitStateView firstLimit;
-    protected AccountLimitStateView secondLimit;
+    protected LimitAccountView limit;
     
-    public Account(long accountNumber,MoneyView money,AccountLimitStateView firstLimit,AccountLimitStateView secondLimit,long id, long classId) {
+    public Account(long accountNumber,MoneyView money,LimitAccountView limit,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.accountNumber = accountNumber;
         this.money = money;
-        this.firstLimit = firstLimit;
-        this.secondLimit = secondLimit;        
+        this.limit = limit;        
     }
     
     static public long getTypeId() {
-        return 114;
+        return 133;
     }
     
     public long getClassId() {
@@ -44,17 +42,11 @@ public class Account extends ViewObject implements AccountView{
     public void setMoney(MoneyView newValue) throws ModelException {
         this.money = newValue;
     }
-    public AccountLimitStateView getFirstLimit()throws ModelException{
-        return this.firstLimit;
+    public LimitAccountView getLimit()throws ModelException{
+        return this.limit;
     }
-    public void setFirstLimit(AccountLimitStateView newValue) throws ModelException {
-        this.firstLimit = newValue;
-    }
-    public AccountLimitStateView getSecondLimit()throws ModelException{
-        return this.secondLimit;
-    }
-    public void setSecondLimit(AccountLimitStateView newValue) throws ModelException {
-        this.secondLimit = newValue;
+    public void setLimit(LimitAccountView newValue) throws ModelException {
+        this.limit = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -75,13 +67,9 @@ public class Account extends ViewObject implements AccountView{
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
-        AccountLimitStateView firstLimit = this.getFirstLimit();
-        if (firstLimit != null) {
-            ((ViewProxi)firstLimit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(firstLimit.getClassId(), firstLimit.getId())));
-        }
-        AccountLimitStateView secondLimit = this.getSecondLimit();
-        if (secondLimit != null) {
-            ((ViewProxi)secondLimit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(secondLimit.getClassId(), secondLimit.getId())));
+        LimitAccountView limit = this.getLimit();
+        if (limit != null) {
+            ((ViewProxi)limit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limit.getClassId(), limit.getId())));
         }
         
     }
@@ -92,32 +80,26 @@ public class Account extends ViewObject implements AccountView{
         int index = originalIndex;
         if(index == 0 && this.getMoney() != null) return new MoneyAccountWrapper(this, originalIndex, (ViewRoot)this.getMoney());
         if(this.getMoney() != null) index = index - 1;
-        if(index == 0 && this.getFirstLimit() != null) return new FirstLimitAccountWrapper(this, originalIndex, (ViewRoot)this.getFirstLimit());
-        if(this.getFirstLimit() != null) index = index - 1;
-        if(index == 0 && this.getSecondLimit() != null) return new SecondLimitAccountWrapper(this, originalIndex, (ViewRoot)this.getSecondLimit());
-        if(this.getSecondLimit() != null) index = index - 1;
+        if(index == 0 && this.getLimit() != null) return new LimitAccountWrapper(this, originalIndex, (ViewRoot)this.getLimit());
+        if(this.getLimit() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getMoney() == null ? 0 : 1)
-            + (this.getFirstLimit() == null ? 0 : 1)
-            + (this.getSecondLimit() == null ? 0 : 1);
+            + (this.getLimit() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getMoney() == null ? true : false)
-            && (this.getFirstLimit() == null ? true : false)
-            && (this.getSecondLimit() == null ? true : false);
+            && (this.getLimit() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getMoney() != null && this.getMoney().equals(child)) return result;
         if(this.getMoney() != null) result = result + 1;
-        if(this.getFirstLimit() != null && this.getFirstLimit().equals(child)) return result;
-        if(this.getFirstLimit() != null) result = result + 1;
-        if(this.getSecondLimit() != null && this.getSecondLimit().equals(child)) return result;
-        if(this.getSecondLimit() != null) result = result + 1;
+        if(this.getLimit() != null && this.getLimit().equals(child)) return result;
+        if(this.getLimit() != null) result = result + 1;
         return -1;
     }
     public int getAccountNumberIndex() throws ModelException {

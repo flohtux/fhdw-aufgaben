@@ -19,7 +19,7 @@ public class Administrator extends view.objects.Service implements Administrator
     }
     
     static public long getTypeId() {
-        return -112;
+        return -117;
     }
     
     public long getClassId() {

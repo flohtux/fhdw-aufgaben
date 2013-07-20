@@ -19,7 +19,7 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     }
     
     public long getClassId() {
-        return -113;
+        return -149;
     }
     
     public long getBankNumber() throws PersistenceException {
@@ -45,6 +45,18 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     }
     public void setFee(PersistentTransactionFee newValue) throws PersistenceException {
         ((PersistentBank)this.getTheObject()).setFee(newValue);
+    }
+    public PersistentInternalFee getInternalFee() throws PersistenceException {
+        return ((PersistentBank)this.getTheObject()).getInternalFee();
+    }
+    public void setInternalFee(PersistentInternalFee newValue) throws PersistenceException {
+        ((PersistentBank)this.getTheObject()).setInternalFee(newValue);
+    }
+    public PersistentAccount getOwnAccount() throws PersistenceException {
+        return ((PersistentBank)this.getTheObject()).getOwnAccount();
+    }
+    public void setOwnAccount(PersistentAccount newValue) throws PersistenceException {
+        ((PersistentBank)this.getTheObject()).setOwnAccount(newValue);
     }
     public Bank_AccountsProxi getAccounts() throws PersistenceException {
         return ((PersistentBank)this.getTheObject()).getAccounts();

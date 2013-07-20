@@ -12,7 +12,14 @@ public class ProcentualFeeProxi extends TransactionFeeProxi implements Procentua
     }
     
     public ProcentualFeeView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ProcentualFeeView result$$ = new ProcentualFee( this.getId(), this.getClassId());
+        ViewProxi percent = null;
+        String percent$String = (String)resultTable.get("percent");
+        if (percent$String != null) {
+            common.ProxiInformation percent$Info = common.RPCConstantsAndServices.createProxiInformation(percent$String);
+            percent = view.objects.ViewProxi.createProxi(percent$Info,connectionKey);
+            percent.setToString(percent$Info.getToString());
+        }
+        ProcentualFeeView result$$ = new ProcentualFee((PercentView)percent, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -21,20 +28,33 @@ public class ProcentualFeeProxi extends TransactionFeeProxi implements Procentua
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getPercent() != null) return new PercentProcentualFeeWrapper(this, originalIndex, (ViewRoot)this.getPercent());
+        if(this.getPercent() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getPercent() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        if (this.object == null) return this.getLeafInfo() == 0;
+        return true 
+            && (this.getPercent() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getPercent() != null && this.getPercent().equals(child)) return result;
+        if(this.getPercent() != null) result = result + 1;
         return -1;
     }
     
+    public PercentView getPercent()throws ModelException{
+        return ((ProcentualFee)this.getTheObject()).getPercent();
+    }
+    public void setPercent(PercentView newValue) throws ModelException {
+        ((ProcentualFee)this.getTheObject()).setPercent(newValue);
+    }
     
     public void accept(TransactionFeeVisitor visitor) throws ModelException {
         visitor.handleProcentualFee(this);

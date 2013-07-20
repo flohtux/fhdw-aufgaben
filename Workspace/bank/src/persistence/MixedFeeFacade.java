@@ -27,7 +27,7 @@ public class MixedFeeFacade{
             callable.close();
             MixedFee result = new MixedFee(null,null,null,null,limit,id);
             Cache.getTheCache().put(result);
-            return (MixedFeeProxi)PersistentProxi.createProxi(id, 139);
+            return (MixedFeeProxi)PersistentProxi.createProxi(id, 129);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -43,7 +43,7 @@ public class MixedFeeFacade{
             callable.close();
             MixedFee result = new MixedFee(null,null,null,null,limit,id);
             Cache.getTheCache().put(result);
-            return (MixedFeeProxi)PersistentProxi.createProxi(id, 139);
+            return (MixedFeeProxi)PersistentProxi.createProxi(id, 129);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

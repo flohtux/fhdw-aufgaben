@@ -48,105 +48,180 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [53];
-        proxiFactories[38] = new ProxiFactory(){
+		proxiFactories = new ProxiFactory [68];
+        proxiFactories[65] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new MixedFeeProxi(objectId, classId, connectionKey);
+                return new FalseValueProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[25] = new ProxiFactory(){
+        proxiFactories[3] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new AccountServiceProxi(objectId, classId, connectionKey);
+                return new NoRequestStateProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[39] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new NoLimitStateProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[13] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new AccountProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[0] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new ErrorDisplayProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[50] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new DebitNoteProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[35] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new EuroProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[41] = new ProxiFactory(){
+        proxiFactories[7] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new FixTransactionFeeProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[42] = new ProxiFactory(){
+        proxiFactories[8] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new MinLimitStateProxi(objectId, classId, connectionKey);
+                return new InternalFeeProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[51] = new ProxiFactory(){
+        proxiFactories[9] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new TrancactionProxi(objectId, classId, connectionKey);
+                return new ExecutedStateProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[44] = new ProxiFactory(){
+        proxiFactories[67] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new MaxLimitStateProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[45] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new AmountProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[46] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new MoneyProxi(objectId, classId, connectionKey);
+                return new TrueValueProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[11] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new AdministratorProxi(objectId, classId, connectionKey);
+                return new PercentProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[12] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new BankProxi(objectId, classId, connectionKey);
+                return new SuccessfullStateProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[26] = new ProxiFactory(){
+        proxiFactories[14] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new AmountProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[15] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NoLimitProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[16] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new AdministratorProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[18] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new BankServiceProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[47] = new ProxiFactory(){
+        proxiFactories[19] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new ProcentualFeeProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[1] = new ProxiFactory(){
+        proxiFactories[20] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new ServerProxi(objectId, classId, connectionKey);
             }
         };
+        proxiFactories[21] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new TransferProxi(objectId, classId, connectionKey);
+            }
+        };
         proxiFactories[22] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new BankCreatorProxi(objectId, classId, connectionKey);
+                return new SuccessfullStornoStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[25] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new DollarProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[26] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new LimitAccountProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[27] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new LimitProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[28] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new MixedFeeProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[29] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new AccountServiceProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[30] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new RequestStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[32] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new AccountProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[33] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NotSuccessfullStorneStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[34] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new ErrorDisplayProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[35] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new DebitNoteProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[36] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new DollarProxi(objectId, classId, connectionKey);
+                return new EuroProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[37] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new TemplateStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[41] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NotSuccessfullStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[42] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NotExecutetStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[43] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NotExecutableStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[45] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new TransactionProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[47] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new MoneyProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[48] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new BankProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[51] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new BankCreatorProxi(objectId, classId, connectionKey);
             }
         };
 	}

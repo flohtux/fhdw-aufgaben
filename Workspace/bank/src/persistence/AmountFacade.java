@@ -27,7 +27,7 @@ public class AmountFacade{
             callable.close();
             Amount result = new Amount(balance,null,null,id);
             Cache.getTheCache().put(result);
-            return (AmountProxi)PersistentProxi.createProxi(id, 146);
+            return (AmountProxi)PersistentProxi.createProxi(id, 115);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -43,7 +43,7 @@ public class AmountFacade{
             callable.close();
             Amount result = new Amount(balance,null,null,id);
             Cache.getTheCache().put(result);
-            return (AmountProxi)PersistentProxi.createProxi(id, 146);
+            return (AmountProxi)PersistentProxi.createProxi(id, 115);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

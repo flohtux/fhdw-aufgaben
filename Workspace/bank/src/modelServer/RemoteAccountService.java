@@ -27,7 +27,7 @@ public  class RemoteAccountService extends RemoteService {
     
     public synchronized java.util.HashMap<?,?> createTransfer(String transactionProxiString){
         try {
-            PersistentTrancaction transaction = (PersistentTrancaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
+            PersistentTransfer transaction = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
             ((PersistentAccountService)this.server).createTransfer(transaction);
             return createOKResult();
         }catch(PersistenceException pe){

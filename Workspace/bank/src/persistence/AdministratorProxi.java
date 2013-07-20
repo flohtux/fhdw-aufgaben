@@ -19,7 +19,7 @@ public class AdministratorProxi extends ServiceProxi implements PersistentAdmini
     }
     
     public long getClassId() {
-        return -112;
+        return -117;
     }
     
     public PersistentAdministrator getThis() throws PersistenceException {
@@ -163,6 +163,10 @@ public class AdministratorProxi extends ServiceProxi implements PersistentAdmini
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+				throws PersistenceException{
+        ((PersistentAdministrator)this.getTheObject()).translateMoney(money, currency);
     }
 
     

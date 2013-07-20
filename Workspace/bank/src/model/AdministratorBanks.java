@@ -59,7 +59,7 @@ public class AdministratorBanks extends PersistentObject implements PersistentAd
     }
     
     static public long getTypeId() {
-        return 131;
+        return 125;
     }
     
     public long getClassId() {
@@ -68,7 +68,7 @@ public class AdministratorBanks extends PersistentObject implements PersistentAd
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 131) ConnectionHandler.getTheConnectionHandler().theAdministratorBanksFacade
+        if (this.getClassId() == 125) ConnectionHandler.getTheConnectionHandler().theAdministratorBanksFacade
             .newAdministratorBanks(this.getId());
         super.store();
         if(this.getObserver() != null){

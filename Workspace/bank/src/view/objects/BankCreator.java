@@ -16,7 +16,7 @@ public class BankCreator extends ViewObject implements BankCreatorView{
     }
     
     static public long getTypeId() {
-        return 123;
+        return 152;
     }
     
     public long getClassId() {

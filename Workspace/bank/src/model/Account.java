@@ -67,22 +67,13 @@ public class Account extends PersistentObject implements PersistentAccount{
                     if(forGUI && money.hasEssentialFields())money.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            AbstractPersistentRoot firstLimit = (AbstractPersistentRoot)this.getFirstLimit();
-            if (firstLimit != null) {
-                result.put("firstLimit", firstLimit.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot limit = (AbstractPersistentRoot)this.getLimit();
+            if (limit != null) {
+                result.put("limit", limit.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    firstLimit.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    limit.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && firstLimit.hasEssentialFields())firstLimit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
-            AbstractPersistentRoot secondLimit = (AbstractPersistentRoot)this.getSecondLimit();
-            if (secondLimit != null) {
-                result.put("secondLimit", secondLimit.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    secondLimit.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && secondLimit.hasEssentialFields())secondLimit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && limit.hasEssentialFields())limit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -95,8 +86,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         Account result = this;
         result = new Account(this.accountNumber, 
                              this.money, 
-                             this.firstLimit, 
-                             this.secondLimit, 
+                             this.limit, 
                              this.subService, 
                              this.This, 
                              this.getId());
@@ -109,24 +99,22 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     protected long accountNumber;
     protected PersistentMoney money;
-    protected PersistentAccountLimitState firstLimit;
-    protected PersistentAccountLimitState secondLimit;
+    protected PersistentLimitAccount limit;
     protected SubjInterface subService;
     protected PersistentAccount This;
     
-    public Account(long accountNumber,PersistentMoney money,PersistentAccountLimitState firstLimit,PersistentAccountLimitState secondLimit,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
+    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.accountNumber = accountNumber;
         this.money = money;
-        this.firstLimit = firstLimit;
-        this.secondLimit = secondLimit;
+        this.limit = limit;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
     
     static public long getTypeId() {
-        return 114;
+        return 133;
     }
     
     public long getClassId() {
@@ -135,20 +123,16 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 114) ConnectionHandler.getTheConnectionHandler().theAccountFacade
+        if (this.getClassId() == 133) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(accountNumber,this.getId());
         super.store();
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.moneySet(this.getId(), getMoney());
         }
-        if(this.getFirstLimit() != null){
-            this.getFirstLimit().store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.firstLimitSet(this.getId(), getFirstLimit());
-        }
-        if(this.getSecondLimit() != null){
-            this.getSecondLimit().store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.secondLimitSet(this.getId(), getSecondLimit());
+        if(this.getLimit() != null){
+            this.getLimit().store();
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), getLimit());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -182,32 +166,18 @@ public class Account extends PersistentObject implements PersistentAccount{
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.moneySet(this.getId(), newValue);
         }
     }
-    public PersistentAccountLimitState getFirstLimit() throws PersistenceException {
-        return this.firstLimit;
+    public PersistentLimitAccount getLimit() throws PersistenceException {
+        return this.limit;
     }
-    public void setFirstLimit(PersistentAccountLimitState newValue) throws PersistenceException {
+    public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.firstLimit)) return;
+        if(newValue.equals(this.limit)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.firstLimit = (PersistentAccountLimitState)PersistentProxi.createProxi(objectId, classId);
+        this.limit = (PersistentLimitAccount)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.firstLimitSet(this.getId(), newValue);
-        }
-    }
-    public PersistentAccountLimitState getSecondLimit() throws PersistenceException {
-        return this.secondLimit;
-    }
-    public void setSecondLimit(PersistentAccountLimitState newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.secondLimit)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.secondLimit = (PersistentAccountLimitState)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.secondLimitSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -273,8 +243,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
-        if (this.getFirstLimit() != null) return 1;
-        if (this.getSecondLimit() != null) return 1;
+        if (this.getLimit() != null) return 1;
         return 0;
     }
     
@@ -338,7 +307,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createTransfer(final PersistentTrancaction transaction) 
+    public void createTransfer(final PersistentTransfer transaction) 
 				throws PersistenceException{
         //TODO: implement method: createTransfer
         

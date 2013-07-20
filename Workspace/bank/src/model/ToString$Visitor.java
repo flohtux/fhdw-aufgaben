@@ -75,27 +75,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void handleNoLimitState(PersistentNoLimitState noLimitState)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+
 	@Override
 	public void handleFixTransactionFee(
 			PersistentFixTransactionFee fixTransactionFee)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void handleMinLimitState(PersistentMinLimitState minLimitState)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void handleMaxLimitState(PersistentMaxLimitState maxLimitState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		
@@ -124,7 +107,120 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleTrancaction(PersistentTrancaction trancaction)
+	public void handleRequestState(PersistentRequestState requestState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNotSuccessfullStorneState(
+			PersistentNotSuccessfullStorneState notSuccessfullStorneState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNoRequestState(PersistentNoRequestState noRequestState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTemplateState(PersistentTemplateState templateState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleInternalFee(PersistentInternalFee internalFee)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNotExecutetState(
+			PersistentNotExecutetState notExecutetState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleExecutedState(PersistentExecutedState executedState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNotSuccessfullState(
+			PersistentNotSuccessfullState notSuccessfullState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNotExecutableState(
+			PersistentNotExecutableState notExecutableState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleSuccessfullState(
+			PersistentSuccessfullState successfullState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handlePercent(PersistentPercent percent)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTransaction(PersistentTransaction transaction)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNoLimit(PersistentNoLimit noLimit)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTransfer(PersistentTransfer transfer)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleSuccessfullStornoState(
+			PersistentSuccessfullStornoState successfullStornoState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleLimitAccount(PersistentLimitAccount limitAccount)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleLimit(PersistentLimit limit) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleFalseValue(PersistentFalseValue falseValue)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTrueValue(PersistentTrueValue trueValue)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		

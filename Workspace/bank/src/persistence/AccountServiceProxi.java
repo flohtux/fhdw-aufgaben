@@ -19,7 +19,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     }
     
     public long getClassId() {
-        return -126;
+        return -130;
     }
     
     public PersistentAccount getAccount() throws PersistenceException {
@@ -130,7 +130,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createTransfer(final PersistentTrancaction transaction) 
+    public void createTransfer(final PersistentTransfer transaction) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer(transaction);
     }

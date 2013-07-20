@@ -19,7 +19,7 @@ public class ChangeNameCommandICProxi extends PersistentInCacheProxi implements 
     }
     
     public long getClassId() {
-        return 130;
+        return 103;
     }
     
     public String getName() throws PersistenceException {

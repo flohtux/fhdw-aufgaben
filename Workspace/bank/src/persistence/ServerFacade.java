@@ -30,7 +30,7 @@ public class ServerFacade{
             callable.close();
             Server result = new Server(null,null,null,password,user,hackCount,hackDelay,id);
             Cache.getTheCache().put(result);
-            return (ServerProxi)PersistentProxi.createProxi(id, -102);
+            return (ServerProxi)PersistentProxi.createProxi(id, -121);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -46,7 +46,7 @@ public class ServerFacade{
             callable.close();
             Server result = new Server(null,null,null,password,user,hackCount,hackDelay,id);
             Cache.getTheCache().put(result);
-            return (ServerProxi)PersistentProxi.createProxi(id, -102);
+            return (ServerProxi)PersistentProxi.createProxi(id, -121);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

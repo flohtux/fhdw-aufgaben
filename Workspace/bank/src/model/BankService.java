@@ -91,7 +91,7 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     
     static public long getTypeId() {
-        return -127;
+        return -119;
     }
     
     public long getClassId() {
@@ -100,7 +100,7 @@ public class BankService extends model.Service implements PersistentBankService{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -127) ConnectionHandler.getTheConnectionHandler().theBankServiceFacade
+        if (this.getClassId() == -119) ConnectionHandler.getTheConnectionHandler().theBankServiceFacade
             .newBankService(this.getId());
         super.store();
         if(this.getBank() != null){

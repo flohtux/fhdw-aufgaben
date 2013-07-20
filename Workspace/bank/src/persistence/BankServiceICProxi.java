@@ -19,7 +19,7 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
     }
     
     public long getClassId() {
-        return -127;
+        return -119;
     }
     
     public PersistentBank getBank() throws PersistenceException {

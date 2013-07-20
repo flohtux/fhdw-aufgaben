@@ -27,7 +27,7 @@ public class ChangeNameCommandFacade{
             callable.close();
             ChangeNameCommand result = new ChangeNameCommand(name,null,null,null,id);
             Cache.getTheCache().put(result);
-            return (ChangeNameCommandProxi)PersistentProxi.createProxi(id, 130);
+            return (ChangeNameCommandProxi)PersistentProxi.createProxi(id, 103);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -43,7 +43,7 @@ public class ChangeNameCommandFacade{
             callable.close();
             ChangeNameCommand result = new ChangeNameCommand(name,null,null,null,id);
             Cache.getTheCache().put(result);
-            return (ChangeNameCommandProxi)PersistentProxi.createProxi(id, 130);
+            return (ChangeNameCommandProxi)PersistentProxi.createProxi(id, 103);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

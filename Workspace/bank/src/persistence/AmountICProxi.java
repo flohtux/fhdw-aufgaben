@@ -19,7 +19,7 @@ public class AmountICProxi extends PersistentInCacheProxiOptimistic implements P
     }
     
     public long getClassId() {
-        return 146;
+        return 115;
     }
     
     public common.Fraction getBalance() throws PersistenceException {

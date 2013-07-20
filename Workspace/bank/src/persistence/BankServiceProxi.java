@@ -19,7 +19,7 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
     }
     
     public long getClassId() {
-        return -127;
+        return -119;
     }
     
     public PersistentBank getBank() throws PersistenceException {

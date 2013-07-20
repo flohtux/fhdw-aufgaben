@@ -19,9 +19,15 @@ public class FixTransactionFeeICProxi extends TransactionFeeICProxi implements P
     }
     
     public long getClassId() {
-        return 142;
+        return 108;
     }
     
+    public PersistentMoney getValue() throws PersistenceException {
+        return ((PersistentFixTransactionFee)this.getTheObject()).getValue();
+    }
+    public void setValue(PersistentMoney newValue) throws PersistenceException {
+        ((PersistentFixTransactionFee)this.getTheObject()).setValue(newValue);
+    }
     public PersistentFixTransactionFee getThis() throws PersistenceException {
         return ((PersistentFixTransactionFee)this.getTheObject()).getThis();
     }

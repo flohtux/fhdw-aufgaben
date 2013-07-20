@@ -27,7 +27,7 @@ public class CreateBankCommandFacade{
             callable.close();
             CreateBankCommand result = new CreateBankCommand(name,null,null,null,null,id);
             Cache.getTheCache().put(result);
-            return (CreateBankCommandProxi)PersistentProxi.createProxi(id, 125);
+            return (CreateBankCommandProxi)PersistentProxi.createProxi(id, 118);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -43,7 +43,7 @@ public class CreateBankCommandFacade{
             callable.close();
             CreateBankCommand result = new CreateBankCommand(name,null,null,null,null,id);
             Cache.getTheCache().put(result);
-            return (CreateBankCommandProxi)PersistentProxi.createProxi(id, 125);
+            return (CreateBankCommandProxi)PersistentProxi.createProxi(id, 118);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

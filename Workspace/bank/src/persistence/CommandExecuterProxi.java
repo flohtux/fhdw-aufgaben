@@ -19,7 +19,7 @@ public class CommandExecuterProxi extends PersistentProxi implements PersistentC
     }
     
     public long getClassId() {
-        return -116;
+        return -145;
     }
     
     public CommandExecuter_CommandsProxi getCommands() throws PersistenceException {

@@ -9,49 +9,56 @@ import model.visitor.*;
 
 public class ProcentualFee extends model.TransactionFee implements PersistentProcentualFee{
     
-    private static PersistentProcentualFee theProcentualFee = null;
-    public static boolean reset$For$Test = false;
-    private static final Object $$lock = new Object();
-    public static PersistentProcentualFee getTheProcentualFee() throws PersistenceException{
-        if (theProcentualFee == null || reset$For$Test){
-            class Initializer implements Runnable {
-                PersistenceException exception = null;
-                public void run(){
-                    try {
-                        ProcentualFeeProxi proxi = null;
-                        synchronized ($$lock){
-                            proxi = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade.getTheProcentualFee();
-                            theProcentualFee = proxi;
-                        }
-                        if(proxi.getId() < 0) {
-                            proxi.setId(proxi.getId() * -1);
-                            proxi.initialize(proxi, new java.util.HashMap<String,Object>());
-                            proxi.initializeOnCreation();
-                        }
-                    } catch (PersistenceException e){
-                        exception = e;
-                    }
-                    synchronized ($$lock){$$lock.notify();}
-                }
-                PersistentProcentualFee getResult() throws PersistenceException{
-                    if(exception != null) throw exception;
-                    return theProcentualFee;
-                }
-            }
-            synchronized ($$lock) {
-                reset$For$Test = false;
-                Initializer initializer = new Initializer();
-                new Thread(initializer).start();
-                try {$$lock.wait();}catch (InterruptedException e) {} //Need not to be interrupted
-                return initializer.getResult();
-            }
-        }
-        return theProcentualFee;
+    
+    public static PersistentProcentualFee createProcentualFee() throws PersistenceException{
+        return createProcentualFee(false);
     }
+    
+    public static PersistentProcentualFee createProcentualFee(boolean delayed$Persistence) throws PersistenceException {
+        PersistentProcentualFee result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
+                .newDelayedProcentualFee();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
+                .newProcentualFee(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(result, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
+    public static PersistentProcentualFee createProcentualFee(boolean delayed$Persistence,PersistentProcentualFee This) throws PersistenceException {
+        PersistentProcentualFee result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
+                .newDelayedProcentualFee();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
+                .newProcentualFee(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(This, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot percent = (AbstractPersistentRoot)this.getPercent();
+            if (percent != null) {
+                result.put("percent", percent.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    percent.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && percent.hasEssentialFields())percent.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -62,6 +69,7 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
         ProcentualFee result = this;
         result = new ProcentualFee(this.subService, 
                                    this.This, 
+                                   this.percent, 
                                    this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -70,14 +78,16 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentPercent percent;
     
-    public ProcentualFee(SubjInterface subService,PersistentTransactionFee This,long id) throws persistence.PersistenceException {
+    public ProcentualFee(SubjInterface subService,PersistentTransactionFee This,PersistentPercent percent,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentTransactionFee)This,id);        
+        super((SubjInterface)subService,(PersistentTransactionFee)This,id);
+        this.percent = percent;        
     }
     
     static public long getTypeId() {
-        return 148;
+        return 120;
     }
     
     public long getClassId() {
@@ -85,9 +95,31 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
     }
     
     public void store() throws PersistenceException {
-        // Singletons cannot be delayed!
+        if(!this.isDelayed$Persistence()) return;
+        if (this.getClassId() == 120) ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
+            .newProcentualFee(this.getId());
+        super.store();
+        if(this.getPercent() != null){
+            this.getPercent().store();
+            ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade.percentSet(this.getId(), getPercent());
+        }
+        
     }
     
+    public PersistentPercent getPercent() throws PersistenceException {
+        return this.percent;
+    }
+    public void setPercent(PersistentPercent newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.percent)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.percent = (PersistentPercent)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade.percentSet(this.getId(), newValue);
+        }
+    }
     public PersistentProcentualFee getThis() throws PersistenceException {
         if(this.This == null){
             PersistentProcentualFee result = new ProcentualFeeProxi(this.getId());
@@ -133,6 +165,7 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
          return visitor.handleProcentualFee(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getPercent() != null) return 1;
         return 0;
     }
     

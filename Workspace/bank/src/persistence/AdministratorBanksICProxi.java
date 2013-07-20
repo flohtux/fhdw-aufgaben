@@ -19,7 +19,7 @@ public class AdministratorBanksICProxi extends PersistentInCacheProxiOptimistic 
     }
     
     public long getClassId() {
-        return 131;
+        return 125;
     }
     
     public PersistentAdministrator getObserver() throws PersistenceException {

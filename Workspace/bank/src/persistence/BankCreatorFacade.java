@@ -23,7 +23,7 @@ public class BankCreatorFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (BankCreatorProxi)PersistentProxi.createProxi(id, 123);
+            return (BankCreatorProxi)PersistentProxi.createProxi(id, 152);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

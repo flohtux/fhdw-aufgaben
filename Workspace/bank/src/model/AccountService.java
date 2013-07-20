@@ -82,7 +82,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     static public long getTypeId() {
-        return -126;
+        return -130;
     }
     
     public long getClassId() {
@@ -91,7 +91,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -126) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
+        if (this.getClassId() == -130) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
             .newAccountService(this.getId());
         super.store();
         if(this.getAccount() != null){
@@ -233,7 +233,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createTransfer(final PersistentTrancaction transaction) 
+    public void createTransfer(final PersistentTransfer transaction) 
 				throws PersistenceException{
         //TODO: implement method: createTransfer
         

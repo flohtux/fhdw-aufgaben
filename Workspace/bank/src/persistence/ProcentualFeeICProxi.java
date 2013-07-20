@@ -19,9 +19,15 @@ public class ProcentualFeeICProxi extends TransactionFeeICProxi implements Persi
     }
     
     public long getClassId() {
-        return 148;
+        return 120;
     }
     
+    public PersistentPercent getPercent() throws PersistenceException {
+        return ((PersistentProcentualFee)this.getTheObject()).getPercent();
+    }
+    public void setPercent(PersistentPercent newValue) throws PersistenceException {
+        ((PersistentProcentualFee)this.getTheObject()).setPercent(newValue);
+    }
     public PersistentProcentualFee getThis() throws PersistenceException {
         return ((PersistentProcentualFee)this.getTheObject()).getThis();
     }

@@ -19,7 +19,7 @@ public class CreateAccountCommandICProxi extends PersistentInCacheProxi implemen
     }
     
     public long getClassId() {
-        return 135;
+        return 107;
     }
     
     public String getCurrencyType() throws PersistenceException {

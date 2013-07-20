@@ -77,7 +77,7 @@ public class Dollar extends model.Currency implements PersistentDollar{
     }
     
     static public long getTypeId() {
-        return 137;
+        return 126;
     }
     
     public long getClassId() {

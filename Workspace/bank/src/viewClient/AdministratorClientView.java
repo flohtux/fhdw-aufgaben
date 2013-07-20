@@ -360,6 +360,23 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
+            if (selected instanceof MoneyView){
+                item = new javax.swing.JMenuItem();
+                item.setText("translateMoney ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AdministratorTranslateMoneyMoneyCurrencyMssgWizard wizard = new AdministratorTranslateMoneyMoneyCurrencyMssgWizard("translateMoney");
+                        wizard.setFirstArgument((MoneyView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             if (selected instanceof BankView){
                 item = new javax.swing.JMenuItem();
                 item.setText("changeName ... ");
@@ -518,6 +535,60 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 			getParametersPanel().add(new StringSelectionPanel("name", this));		
 		}	
 		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class AdministratorTranslateMoneyMoneyCurrencyMssgWizard extends Wizard {
+
+		protected AdministratorTranslateMoneyMoneyCurrencyMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AdministratorTranslateMoneyMoneyCurrencyMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().translateMoney(firstArgument, (CurrencyView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new ObjectSelectionPanel("currency", "view.CurrencyView", (ViewRoot) getConnection().getAdministratorView(), this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private MoneyView firstArgument; 
+	
+		public void setFirstArgument(MoneyView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			try{
+				SelectionPanel selectionPanel = (SelectionPanel)getParametersPanel().getComponent(0);
+				selectionPanel.preset((Anything)firstArgument.getCurrency());
+				if (!selectionPanel.check()) selectionPanel.preset((Anything)null);
+			}catch(ModelException me){
+				 handleException(me);
+			}
+			this.check();
 		}
 		
 		

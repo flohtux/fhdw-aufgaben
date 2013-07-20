@@ -10,10 +10,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setAccountNumber(long newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
-    public PersistentAccountLimitState getFirstLimit() throws PersistenceException ;
-    public void setFirstLimit(PersistentAccountLimitState newValue) throws PersistenceException ;
-    public PersistentAccountLimitState getSecondLimit() throws PersistenceException ;
-    public void setSecondLimit(PersistentAccountLimitState newValue) throws PersistenceException ;
+    public PersistentLimitAccount getLimit() throws PersistenceException ;
+    public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;
@@ -35,7 +33,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createTransfer(final PersistentTrancaction transaction) 
+    public void createTransfer(final PersistentTransfer transaction) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

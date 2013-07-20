@@ -12,7 +12,14 @@ public class FixTransactionFeeProxi extends TransactionFeeProxi implements FixTr
     }
     
     public FixTransactionFeeView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        FixTransactionFeeView result$$ = new FixTransactionFee( this.getId(), this.getClassId());
+        ViewProxi value = null;
+        String value$String = (String)resultTable.get("value");
+        if (value$String != null) {
+            common.ProxiInformation value$Info = common.RPCConstantsAndServices.createProxiInformation(value$String);
+            value = view.objects.ViewProxi.createProxi(value$Info,connectionKey);
+            value.setToString(value$Info.getToString());
+        }
+        FixTransactionFeeView result$$ = new FixTransactionFee((MoneyView)value, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -21,20 +28,33 @@ public class FixTransactionFeeProxi extends TransactionFeeProxi implements FixTr
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getValue() != null) return new ValueFixTransactionFeeWrapper(this, originalIndex, (ViewRoot)this.getValue());
+        if(this.getValue() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getValue() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        if (this.object == null) return this.getLeafInfo() == 0;
+        return true 
+            && (this.getValue() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getValue() != null && this.getValue().equals(child)) return result;
+        if(this.getValue() != null) result = result + 1;
         return -1;
     }
     
+    public MoneyView getValue()throws ModelException{
+        return ((FixTransactionFee)this.getTheObject()).getValue();
+    }
+    public void setValue(MoneyView newValue) throws ModelException {
+        ((FixTransactionFee)this.getTheObject()).setValue(newValue);
+    }
     
     public void accept(TransactionFeeVisitor visitor) throws ModelException {
         visitor.handleFixTransactionFee(this);

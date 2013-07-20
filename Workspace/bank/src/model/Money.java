@@ -112,7 +112,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     }
     
     static public long getTypeId() {
-        return 147;
+        return 148;
     }
     
     public long getClassId() {
@@ -121,7 +121,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 147) ConnectionHandler.getTheConnectionHandler().theMoneyFacade
+        if (this.getClassId() == 148) ConnectionHandler.getTheConnectionHandler().theMoneyFacade
             .newMoney(this.getId());
         super.store();
         if(this.getBalance() != null){

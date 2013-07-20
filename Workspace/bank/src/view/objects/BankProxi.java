@@ -22,9 +22,23 @@ public class BankProxi extends ViewProxi implements BankView{
             fee = view.objects.ViewProxi.createProxi(fee$Info,connectionKey);
             fee.setToString(fee$Info.getToString());
         }
+        ViewProxi internalFee = null;
+        String internalFee$String = (String)resultTable.get("internalFee");
+        if (internalFee$String != null) {
+            common.ProxiInformation internalFee$Info = common.RPCConstantsAndServices.createProxiInformation(internalFee$String);
+            internalFee = view.objects.ViewProxi.createProxi(internalFee$Info,connectionKey);
+            internalFee.setToString(internalFee$Info.getToString());
+        }
+        ViewProxi ownAccount = null;
+        String ownAccount$String = (String)resultTable.get("ownAccount");
+        if (ownAccount$String != null) {
+            common.ProxiInformation ownAccount$Info = common.RPCConstantsAndServices.createProxiInformation(ownAccount$String);
+            ownAccount = view.objects.ViewProxi.createProxi(ownAccount$Info,connectionKey);
+            ownAccount.setToString(ownAccount$Info.getToString());
+        }
         java.util.Vector<String> currentAccounts_string = (java.util.Vector<String>)resultTable.get("currentAccounts");
         java.util.Vector<AccountView> currentAccounts = ViewProxi.getProxiVector(currentAccounts_string, connectionKey);
-        BankView result$$ = new Bank((long)bankNumber,(String)name,(TransactionFeeView)fee,currentAccounts, this.getId(), this.getClassId());
+        BankView result$$ = new Bank((long)bankNumber,(String)name,(TransactionFeeView)fee,(InternalFeeView)internalFee,(AccountView)ownAccount,currentAccounts, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -36,6 +50,10 @@ public class BankProxi extends ViewProxi implements BankView{
         int index = originalIndex;
         if(index == 0 && this.getFee() != null) return new FeeBankWrapper(this, originalIndex, (ViewRoot)this.getFee());
         if(this.getFee() != null) index = index - 1;
+        if(index == 0 && this.getInternalFee() != null) return new InternalFeeBankWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
+        if(this.getInternalFee() != null) index = index - 1;
+        if(index == 0 && this.getOwnAccount() != null) return new OwnAccountBankWrapper(this, originalIndex, (ViewRoot)this.getOwnAccount());
+        if(this.getOwnAccount() != null) index = index - 1;
         if(index < this.getCurrentAccounts().size()) return new CurrentAccountsBankWrapper(this, originalIndex, (ViewRoot)this.getCurrentAccounts().get(index));
         index = index - this.getCurrentAccounts().size();
         return null;
@@ -43,18 +61,26 @@ public class BankProxi extends ViewProxi implements BankView{
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getFee() == null ? 0 : 1)
+            + (this.getInternalFee() == null ? 0 : 1)
+            + (this.getOwnAccount() == null ? 0 : 1)
             + (this.getCurrentAccounts().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getFee() == null ? true : false)
+            && (this.getInternalFee() == null ? true : false)
+            && (this.getOwnAccount() == null ? true : false)
             && (this.getCurrentAccounts().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getFee() != null && this.getFee().equals(child)) return result;
         if(this.getFee() != null) result = result + 1;
+        if(this.getInternalFee() != null && this.getInternalFee().equals(child)) return result;
+        if(this.getInternalFee() != null) result = result + 1;
+        if(this.getOwnAccount() != null && this.getOwnAccount().equals(child)) return result;
+        if(this.getOwnAccount() != null) result = result + 1;
         java.util.Iterator<?> getCurrentAccountsIterator = this.getCurrentAccounts().iterator();
         while(getCurrentAccountsIterator.hasNext()){
             if(getCurrentAccountsIterator.next().equals(child)) return result;
@@ -80,6 +106,18 @@ public class BankProxi extends ViewProxi implements BankView{
     }
     public void setFee(TransactionFeeView newValue) throws ModelException {
         ((Bank)this.getTheObject()).setFee(newValue);
+    }
+    public InternalFeeView getInternalFee()throws ModelException{
+        return ((Bank)this.getTheObject()).getInternalFee();
+    }
+    public void setInternalFee(InternalFeeView newValue) throws ModelException {
+        ((Bank)this.getTheObject()).setInternalFee(newValue);
+    }
+    public AccountView getOwnAccount()throws ModelException{
+        return ((Bank)this.getTheObject()).getOwnAccount();
+    }
+    public void setOwnAccount(AccountView newValue) throws ModelException {
+        ((Bank)this.getTheObject()).setOwnAccount(newValue);
     }
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException{
         return ((Bank)this.getTheObject()).getCurrentAccounts();

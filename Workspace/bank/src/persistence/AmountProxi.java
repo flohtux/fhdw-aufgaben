@@ -19,7 +19,7 @@ public class AmountProxi extends PersistentProxi implements PersistentAmount{
     }
     
     public long getClassId() {
-        return 146;
+        return 115;
     }
     
     public common.Fraction getBalance() throws PersistenceException {
