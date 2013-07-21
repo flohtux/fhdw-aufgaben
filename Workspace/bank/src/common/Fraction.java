@@ -37,6 +37,7 @@ public class Fraction {
 		return denominator;
 	}
 
+	
 	private BigInteger denominator;
 
 	public Fraction(BigInteger enumarator, BigInteger denominator) {
