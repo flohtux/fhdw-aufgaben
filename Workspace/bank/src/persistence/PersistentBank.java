@@ -35,25 +35,29 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void changeName(String name) 
+    public void changeName(final String name) 
 				throws PersistenceException;
-    public void changeName(String name, Invoker invoker) 
+    public void changeName(final String name, final Invoker invoker) 
 				throws PersistenceException;
-    public void createAccount(String currencyType, Invoker invoker) 
+    public void createAccount(final String currencyType, final Invoker invoker) 
 				throws PersistenceException;
     public PersistentBankService getBankServices() 
 				throws PersistenceException;
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeNameImplementation(String name) 
+    public void changeNameImplementation(final String name) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createAccount(String currencyType) 
+    public void createAccount(final String currencyType) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws PersistenceException;
+    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
 				throws PersistenceException;
 
 }

@@ -21,13 +21,13 @@ public interface PersistentBankCreator extends SubjInterface, Anything, Abstract
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void createBank(String name, Invoker invoker) 
+    public void createBank(final String name, final Invoker invoker) 
 				throws PersistenceException;
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public PersistentBank createBank(String name) 
+    public PersistentBank createBank(final String name) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

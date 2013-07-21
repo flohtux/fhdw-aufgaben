@@ -214,7 +214,7 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -223,14 +223,14 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
 		}
 		subService.deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentMixedFee)This);
 		if(this.equals(This)){
 			this.setLimit((Long)final$$Fields.get("limit"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -239,7 +239,7 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -252,7 +252,7 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

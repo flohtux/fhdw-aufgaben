@@ -35,16 +35,18 @@ symmetric (banks) Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
+void sendTransfer(DebitNoteTransfer debitNoteTransfer);
+void receiveTransfer(DebitNoteTransfer debitNoteTransfer);
 }
 server AccountService extends Service {
 prior final one-to-one (server-only accountService) server-only Account account;
-void createTransfer@@Neue_Überweisung(Transfer transaction);
+void createTransfer@@Neue_Überweisung();
 }
 class Account {
 prior Integer accountNumber;
 prior Money money@@Geldmenge;
 one-to-one (account) LimitAccount limit;
-void createTransfer(Transfer transaction);
+Transfer createTransfer();
 }
 
 class Money {
@@ -95,11 +97,14 @@ abstract class DebitNoteTransferTransaction##DebiTrfTran {
 	void execute();
 }
 
-abstract class DebitNoteTransfer(DebitNote,Transfer) extends DebitNoteTransferTransaction{
+abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
+	Integer receiverAccountNumber##recaccno;
+	Integer receiverBankNumber;	
 	Account sender;
-	Account receiver;
-	prior Money money;
+	Money money;
 }
+
+class Transfer extends DebitNoteTransfer {}
 
 class Transaction extends DebitNoteTransferTransaction {}
 

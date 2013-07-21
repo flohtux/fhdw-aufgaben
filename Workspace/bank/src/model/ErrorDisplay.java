@@ -167,7 +167,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -176,14 +176,14 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
 		}
 		subService.deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentErrorDisplay)This);
 		if(this.equals(This)){
 			this.setMessage((String)final$$Fields.get("message"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -192,7 +192,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -205,7 +205,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 

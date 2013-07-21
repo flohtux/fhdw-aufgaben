@@ -31,15 +31,15 @@ public interface PersistentBankService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void closeAccount(PersistentAccount acc) 
+    public void closeAccount(final PersistentAccount acc) 
 				throws PersistenceException;
-    public void closeAccount(PersistentAccount acc, PersistentAccount transAcc) 
+    public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createAccount(String currencyType) 
+    public void createAccount(final String currencyType) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

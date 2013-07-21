@@ -189,7 +189,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -198,14 +198,14 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAccountService)This);
 		if(this.equals(This)){
 			this.setAccount((PersistentAccount)final$$Fields.get("account"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -214,7 +214,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -227,13 +227,13 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
-    public void connected(String user) 
+    public void connected(final String user) 
 				throws PersistenceException{
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createTransfer(PersistentTransfer transaction) 
+    public void createTransfer() 
 				throws PersistenceException{
         //TODO: implement method: createTransfer
         

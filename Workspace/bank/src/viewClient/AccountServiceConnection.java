@@ -40,14 +40,9 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void createTransfer(TransferView transaction) throws ModelException{
+    public synchronized void createTransfer() throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (transaction == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)transaction).createProxiInformation());
-            }
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "createTransfer", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)

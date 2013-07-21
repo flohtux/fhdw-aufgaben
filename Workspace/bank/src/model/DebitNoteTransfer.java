@@ -13,6 +13,8 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            result.put("receiverAccountNumber", new Long(this.getReceiverAccountNumber()).toString());
+            result.put("receiverBankNumber", new Long(this.getReceiverBankNumber()).toString());
             AbstractPersistentRoot sender = (AbstractPersistentRoot)this.getSender();
             if (sender != null) {
                 result.put("sender", sender.createProxiInformation(false, essentialLevel == 0));
@@ -20,15 +22,6 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
                     sender.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
                     if(forGUI && sender.hasEssentialFields())sender.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
-            AbstractPersistentRoot receiver = (AbstractPersistentRoot)this.getReceiver();
-            if (receiver != null) {
-                result.put("receiver", receiver.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    receiver.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && receiver.hasEssentialFields())receiver.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             AbstractPersistentRoot money = (AbstractPersistentRoot)this.getMoney();
@@ -51,15 +44,17 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected long receiverAccountNumber;
+    protected long receiverBankNumber;
     protected PersistentAccount sender;
-    protected PersistentAccount receiver;
     protected PersistentMoney money;
     
-    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,PersistentAccount sender,PersistentAccount receiver,PersistentMoney money,long id) throws persistence.PersistenceException {
+    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
+        this.receiverAccountNumber = receiverAccountNumber;
+        this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
-        this.receiver = receiver;
         this.money = money;        
     }
     
@@ -78,10 +73,6 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
             this.getSender().store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.senderSet(this.getId(), getSender());
         }
-        if(this.getReceiver() != null){
-            this.getReceiver().store();
-            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.receiverSet(this.getId(), getReceiver());
-        }
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.moneySet(this.getId(), getMoney());
@@ -89,6 +80,20 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
         
     }
     
+    public long getReceiverAccountNumber() throws PersistenceException {
+        return this.receiverAccountNumber;
+    }
+    public void setReceiverAccountNumber(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.receiverAccountNumberSet(this.getId(), newValue);
+        this.receiverAccountNumber = newValue;
+    }
+    public long getReceiverBankNumber() throws PersistenceException {
+        return this.receiverBankNumber;
+    }
+    public void setReceiverBankNumber(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.receiverBankNumberSet(this.getId(), newValue);
+        this.receiverBankNumber = newValue;
+    }
     public PersistentAccount getSender() throws PersistenceException {
         return this.sender;
     }
@@ -101,20 +106,6 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.senderSet(this.getId(), newValue);
-        }
-    }
-    public PersistentAccount getReceiver() throws PersistenceException {
-        return this.receiver;
-    }
-    public void setReceiver(PersistentAccount newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.receiver)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.receiver = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.receiverSet(this.getId(), newValue);
         }
     }
     public PersistentMoney getMoney() throws PersistenceException {
@@ -135,18 +126,17 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     
     
     
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitNoteTransfer)This);
 		if(this.equals(This)){
-			this.setMoney((PersistentMoney)final$$Fields.get("money"));
 		}
     }
     
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

@@ -220,7 +220,7 @@ public class ChangeNameCommand extends PersistentObject implements PersistentCha
 				throws PersistenceException{
         return this.getInvoker();
     }
-    public void sendException(PersistenceException exception) 
+    public void sendException(final PersistenceException exception) 
 				throws PersistenceException{
         this.invoker.handleException(this, exception);
     }

@@ -82,23 +82,23 @@ public class MixedFeeICProxi extends TransactionFeeICProxi implements Persistent
     }
     
     
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentMixedFee)this.getTheObject()).deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentMixedFee)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentMixedFee)this.getTheObject()).register(observee);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentMixedFee)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentMixedFee)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

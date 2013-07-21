@@ -299,7 +299,7 @@ public class Server extends PersistentObject implements PersistentServer{
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -308,7 +308,7 @@ public class Server extends PersistentObject implements PersistentServer{
 		}
 		subService.deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentServer)This);
 		if(this.equals(This)){
@@ -318,7 +318,7 @@ public class Server extends PersistentObject implements PersistentServer{
 			this.setHackDelay((java.sql.Timestamp)final$$Fields.get("hackDelay"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -327,11 +327,11 @@ public class Server extends PersistentObject implements PersistentServer{
 		}
 		subService.register(observee);
     }
-    public void signalChanged(boolean signal) 
+    public void signalChanged(final boolean signal) 
 				throws PersistenceException{
         this.changed = signal;
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -344,10 +344,10 @@ public class Server extends PersistentObject implements PersistentServer{
     
     // Start of section that contains operations that must be implemented.
     
-    public void connected(String user) 
+    public void connected(final String user) 
 				throws PersistenceException{
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void disconnected() 

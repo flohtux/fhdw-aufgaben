@@ -38,7 +38,7 @@ public interface PersistentCreateBankCommand extends BankCreatorCommand, Anythin
 				throws UserException, PersistenceException;
     public void execute() 
 				throws PersistenceException;
-    public void sendException(PersistenceException exception) 
+    public void sendException(final PersistenceException exception) 
 				throws PersistenceException;
     public void sendResult() 
 				throws PersistenceException;

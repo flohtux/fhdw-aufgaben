@@ -8,7 +8,7 @@ import model.*;
 
 public interface ObsInterface extends AbstractPersistentProxi {
     
-    public void update(model.meta.Mssgs event) 
+    public void update(final model.meta.Mssgs event) 
 				throws PersistenceException;
 
     public void accept(ObsInterfaceVisitor visitor) throws PersistenceException;

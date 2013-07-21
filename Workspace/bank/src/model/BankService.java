@@ -199,7 +199,7 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -208,14 +208,14 @@ public class BankService extends model.Service implements PersistentBankService{
 		}
 		subService.deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentBankService)This);
 		if(this.equals(This)){
 			this.setBank((PersistentBank)final$$Fields.get("bank"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -224,7 +224,7 @@ public class BankService extends model.Service implements PersistentBankService{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -237,23 +237,23 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
-    public void closeAccount(PersistentAccount acc) 
+    public void closeAccount(final PersistentAccount acc) 
 				throws PersistenceException{
         //TODO: implement method: closeAccount
         
     }
-    public void closeAccount(PersistentAccount acc, PersistentAccount transAcc) 
+    public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
 				throws PersistenceException{
         //TODO: implement method: closeAccount
         
     }
-    public void connected(String user) 
+    public void connected(final String user) 
 				throws PersistenceException{
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createAccount(String currencyType) 
+    public void createAccount(final String currencyType) 
 				throws PersistenceException{
         getThis().getBank().createAccount(currencyType);
         

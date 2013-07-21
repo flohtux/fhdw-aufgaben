@@ -10,17 +10,23 @@ public abstract class DebitNoteTransferProxi extends DebitNoteTransferTransactio
     }
     
     
+    public long getReceiverAccountNumber()throws ModelException{
+        return ((DebitNoteTransfer)this.getTheObject()).getReceiverAccountNumber();
+    }
+    public void setReceiverAccountNumber(long newValue) throws ModelException {
+        ((DebitNoteTransfer)this.getTheObject()).setReceiverAccountNumber(newValue);
+    }
+    public long getReceiverBankNumber()throws ModelException{
+        return ((DebitNoteTransfer)this.getTheObject()).getReceiverBankNumber();
+    }
+    public void setReceiverBankNumber(long newValue) throws ModelException {
+        ((DebitNoteTransfer)this.getTheObject()).setReceiverBankNumber(newValue);
+    }
     public AccountView getSender()throws ModelException{
         return ((DebitNoteTransfer)this.getTheObject()).getSender();
     }
     public void setSender(AccountView newValue) throws ModelException {
         ((DebitNoteTransfer)this.getTheObject()).setSender(newValue);
-    }
-    public AccountView getReceiver()throws ModelException{
-        return ((DebitNoteTransfer)this.getTheObject()).getReceiver();
-    }
-    public void setReceiver(AccountView newValue) throws ModelException {
-        ((DebitNoteTransfer)this.getTheObject()).setReceiver(newValue);
     }
     public MoneyView getMoney()throws ModelException{
         return ((DebitNoteTransfer)this.getTheObject()).getMoney();

@@ -31,21 +31,21 @@ public interface PersistentAdministrator extends PersistentService {
     
     public PersistentAdministratorBanks getBanks() 
 				throws PersistenceException;
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void banks_update(model.meta.BankMssgs event) 
+    public void banks_update(final model.meta.BankMssgs event) 
 				throws PersistenceException;
-    public void changeName(PersistentBank bank, String name) 
+    public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createBank(String name) 
+    public void createBank(final String name) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void translateMoney(PersistentMoney money, PersistentCurrency currency) 
+    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
 				throws PersistenceException;
 
 }

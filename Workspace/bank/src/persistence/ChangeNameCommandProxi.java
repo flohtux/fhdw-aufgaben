@@ -121,7 +121,7 @@ public class ChangeNameCommandProxi extends PersistentProxi implements Persisten
 				throws PersistenceException{
         return ((PersistentChangeNameCommand)this.getTheObject()).fetchInvoker();
     }
-    public void sendException(PersistenceException exception) 
+    public void sendException(final PersistenceException exception) 
 				throws PersistenceException{
         ((PersistentChangeNameCommand)this.getTheObject()).sendException(exception);
     }

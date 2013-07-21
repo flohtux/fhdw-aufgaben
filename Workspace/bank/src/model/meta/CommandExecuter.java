@@ -111,7 +111,7 @@ public class CommandExecuter extends PersistentObject implements PersistentComma
     }
     
     
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         
 		if(this.equals(This)){
@@ -134,12 +134,12 @@ public class CommandExecuter extends PersistentObject implements PersistentComma
 		Command command = commands.next();
 		return command;
     }
-    public synchronized void commandPut(Command command) 
+    public synchronized void commandPut(final Command command) 
 				throws PersistenceException{
         this.getCommands().add(command);
 		this.notify();
     }
-    public synchronized void finishCommand(CommitConnectionHandler handler) 
+    public synchronized void finishCommand(final CommitConnectionHandler handler) 
 				throws PersistenceException{
         java.util.Iterator<Command> commands = this.getCommands().iterator();
 		Command command = commands.next();

@@ -361,14 +361,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     
     
-    public void changeName(String name) 
+    public void changeName(final String name) 
 				throws PersistenceException{
         model.meta.BankChangeNameStringMssg event = new model.meta.BankChangeNameStringMssg(name, getThis());
 		event.execute();
 		getThis().updateObservers(event);
 		event.getResult();
     }
-    public void changeName(String name, Invoker invoker) 
+    public void changeName(final String name, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentChangeNameCommand command = model.meta.ChangeNameCommand.createChangeNameCommand(name, now, now);
@@ -376,7 +376,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public void createAccount(String currencyType, Invoker invoker) 
+    public void createAccount(final String currencyType, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentCreateAccountCommand command = model.meta.CreateAccountCommand.createCreateAccountCommand(currencyType, now, now);
@@ -384,7 +384,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -402,14 +402,14 @@ public class Bank extends PersistentObject implements PersistentBank{
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentBank)This);
 		if(this.equals(This)){
 			this.setName((String)final$$Fields.get("name"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -418,7 +418,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -431,14 +431,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeNameImplementation(String name) 
+    public void changeNameImplementation(final String name) 
 				throws PersistenceException{
         getThis().setName(name);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createAccount(String currencyType) 
+    public void createAccount(final String currencyType) 
 				throws PersistenceException{
     	//TODO PREREQUISITES: HashMap: how to put things into HashMaps!
     	getThis().setLastAccountNumber(getThis().getLastAccountNumber() + 1);
@@ -461,6 +461,34 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws PersistenceException{
+        //TODO: implement method: receiveTransfer
+        getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
+			@Override
+			public boolean test(PersistentAccount argument) throws PersistenceException {
+				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
+					argument.getMoney().getAmount().setBalance(argument.getMoney().getAmount().getBalance().add(debitNoteTransfer.getMoney().getAmount().getBalance()));
+					return true;
+				}
+				return false;
+			}
+		});
+    }
+    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws PersistenceException{
+        //TODO: implement method: sendTransfer
+    	getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
+			@Override
+			public boolean test(PersistentBank argument) throws PersistenceException {
+				if(argument.getBankNumber() == debitNoteTransfer.getReceiverBankNumber()) {
+					argument.receiveTransfer(debitNoteTransfer);
+					return true;
+				}
+				return false;
+			}
+		});
     }
     
     

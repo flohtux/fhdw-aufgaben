@@ -94,7 +94,7 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
     }
     
     
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).deregister(observee);
     }
@@ -102,43 +102,43 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
 				throws PersistenceException{
         return ((PersistentBankService)this.getTheObject()).getAccess();
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).register(observee);
     }
-    public void signalChanged(boolean signal) 
+    public void signalChanged(final boolean signal) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).signalChanged(signal);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
-    public String changePassword(String newPassword1, String newPassword2) 
+    public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void closeAccount(PersistentAccount acc) 
+    public void closeAccount(final PersistentAccount acc) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc);
     }
-    public void closeAccount(PersistentAccount acc, PersistentAccount transAcc) 
+    public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc, transAcc);
     }
-    public void connected(String user) 
+    public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).connected(user);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createAccount(String currencyType) 
+    public void createAccount(final String currencyType) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).createAccount(currencyType);
     }

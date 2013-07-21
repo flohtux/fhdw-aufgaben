@@ -184,7 +184,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -201,13 +201,13 @@ public class Administrator extends model.Service implements PersistentAdministra
 		}
 		return this.banks;
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAdministrator)This);
 		if(this.equals(This)){
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -216,7 +216,7 @@ public class Administrator extends model.Service implements PersistentAdministra
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -229,23 +229,23 @@ public class Administrator extends model.Service implements PersistentAdministra
     
     // Start of section that contains operations that must be implemented.
     
-    public void banks_update(model.meta.BankMssgs event) 
+    public void banks_update(final model.meta.BankMssgs event) 
 				throws PersistenceException{
         //TODO !PREREQUISITES: implement method: banks_update
         getThis().signalChanged(true);
     }
-    public void changeName(PersistentBank bank, String name) 
+    public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException{
         //TODO !PREREQUISITES: implement method: changeName
         bank.changeName(name, getThis());
     }
-    public void connected(String user) 
+    public void connected(final String user) 
 				throws PersistenceException{
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createBank(String name) 
+    public void createBank(final String name) 
 				throws PersistenceException{
     	//TODO !PREREQUISITES:  implement method: createBank!
         BankCreator.getTheBankCreator().createBank(name, getThis());
@@ -259,7 +259,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void translateMoney(PersistentMoney money, PersistentCurrency currency) 
+    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
 				throws PersistenceException{
         //TODO: implement method: translateMoney
         

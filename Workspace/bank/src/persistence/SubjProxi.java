@@ -55,15 +55,15 @@ public class SubjProxi extends PersistentProxi implements PersistentSubj{
     }
     
     
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentSubj)this.getTheObject()).deregister(observee);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentSubj)this.getTheObject()).register(observee);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentSubj)this.getTheObject()).updateObservers(event);
     }

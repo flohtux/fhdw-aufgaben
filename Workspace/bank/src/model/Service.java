@@ -114,13 +114,13 @@ public abstract class Service extends PersistentObject implements PersistentServ
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentService)This);
 		if(this.equals(This)){
 		}
     }
-    public void signalChanged(boolean signal) 
+    public void signalChanged(final boolean signal) 
 				throws PersistenceException{
         this.changed = signal;
     }
@@ -128,7 +128,7 @@ public abstract class Service extends PersistentObject implements PersistentServ
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
@@ -141,7 +141,7 @@ public abstract class Service extends PersistentObject implements PersistentServ
     
     // Start of section that contains overridden operations only.
     
-    public String changePassword(String newPassword1, String newPassword2) 
+    public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
 		//TODO !PREREQUISITES: implement method: changePassword.
 		if (!newPassword1.equals(newPassword2)) throw new PasswordException(serverConstants.ExceptionMessages.TwoDifferentNewPasswordsMessage);

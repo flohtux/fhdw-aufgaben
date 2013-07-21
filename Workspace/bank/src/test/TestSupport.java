@@ -16,7 +16,7 @@ public class TestSupport {
 	
 	private static final File StartupDirectory = new File(System.getProperty("user.dir")); 
 
-	private static final File GojaDirectory = new File(StartupDirectory,StartupDirectory.getName());//TODO adjust path to goja directory
+	private static final File GojaDirectory = new File("G:/GOJAGemeinsam/Model/bank");//TODO adjust path to goja directory
 	private static final String Password = "pg"; //TODO adjust password!
 	
 	private static java.sql.Connection connection;	
@@ -38,7 +38,6 @@ public class TestSupport {
         model.TrueValue.reset$For$Test = true;
         model.SuccessfullState.reset$For$Test = true;
         model.NoLimit.reset$For$Test = true;
-        model.Transfer.reset$For$Test = true;
         model.SuccessfullStornoState.reset$For$Test = true;
         model.Dollar.reset$For$Test = true;
         model.RequestState.reset$For$Test = true;

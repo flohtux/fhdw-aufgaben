@@ -70,7 +70,7 @@ public class LimitAccountProxi extends PersistentProxi implements PersistentLimi
     }
     
     
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).deregister(observee);
     }
@@ -78,23 +78,23 @@ public class LimitAccountProxi extends PersistentProxi implements PersistentLimi
 				throws PersistenceException{
         return ((PersistentLimitAccount)this.getTheObject()).getAccount();
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).register(observee);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).updateObservers(event);
     }
-    public PersistentBooleanValue checkLimit(PersistentMoney money) 
+    public PersistentBooleanValue checkLimit(final PersistentMoney money) 
 				throws PersistenceException{
         return ((PersistentLimitAccount)this.getTheObject()).checkLimit(money);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

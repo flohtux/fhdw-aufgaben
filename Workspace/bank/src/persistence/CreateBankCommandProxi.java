@@ -127,7 +127,7 @@ public class CreateBankCommandProxi extends PersistentProxi implements Persisten
 				throws PersistenceException{
         return ((PersistentCreateBankCommand)this.getTheObject()).fetchInvoker();
     }
-    public void sendException(PersistenceException exception) 
+    public void sendException(final PersistenceException exception) 
 				throws PersistenceException{
         ((PersistentCreateBankCommand)this.getTheObject()).sendException(exception);
     }

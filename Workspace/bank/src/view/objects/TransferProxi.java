@@ -12,19 +12,14 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
     }
     
     public TransferView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
+        long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
+        long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
         ViewProxi sender = null;
         String sender$String = (String)resultTable.get("sender");
         if (sender$String != null) {
             common.ProxiInformation sender$Info = common.RPCConstantsAndServices.createProxiInformation(sender$String);
             sender = view.objects.ViewProxi.createProxi(sender$Info,connectionKey);
             sender.setToString(sender$Info.getToString());
-        }
-        ViewProxi receiver = null;
-        String receiver$String = (String)resultTable.get("receiver");
-        if (receiver$String != null) {
-            common.ProxiInformation receiver$Info = common.RPCConstantsAndServices.createProxiInformation(receiver$String);
-            receiver = view.objects.ViewProxi.createProxi(receiver$Info,connectionKey);
-            receiver.setToString(receiver$Info.getToString());
         }
         ViewProxi money = null;
         String money$String = (String)resultTable.get("money");
@@ -33,7 +28,7 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
             money = view.objects.ViewProxi.createProxi(money$Info,connectionKey);
             money.setToString(money$Info.getToString());
         }
-        TransferView result$$ = new Transfer((AccountView)sender,(AccountView)receiver,(MoneyView)money, this.getId(), this.getClassId());
+        TransferView result$$ = new Transfer((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -45,8 +40,6 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
         int index = originalIndex;
         if(index == 0 && this.getSender() != null) return new SenderDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getSender());
         if(this.getSender() != null) index = index - 1;
-        if(index == 0 && this.getReceiver() != null) return new ReceiverDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getReceiver());
-        if(this.getReceiver() != null) index = index - 1;
         if(index == 0 && this.getMoney() != null) return new MoneyDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getMoney());
         if(this.getMoney() != null) index = index - 1;
         return null;
@@ -54,22 +47,18 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getSender() == null ? 0 : 1)
-            + (this.getReceiver() == null ? 0 : 1)
             + (this.getMoney() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getSender() == null ? true : false)
-            && (this.getReceiver() == null ? true : false)
             && (this.getMoney() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getSender() != null && this.getSender().equals(child)) return result;
         if(this.getSender() != null) result = result + 1;
-        if(this.getReceiver() != null && this.getReceiver().equals(child)) return result;
-        if(this.getReceiver() != null) result = result + 1;
         if(this.getMoney() != null && this.getMoney().equals(child)) return result;
         if(this.getMoney() != null) result = result + 1;
         return -1;

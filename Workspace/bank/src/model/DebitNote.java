@@ -62,8 +62,9 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
         DebitNote result = this;
         result = new DebitNote(this.subService, 
                                this.This, 
+                               this.receiverAccountNumber, 
+                               this.receiverBankNumber, 
                                this.sender, 
-                               this.receiver, 
                                this.money, 
                                this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -74,9 +75,9 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
         return false;
     }
     
-    public DebitNote(SubjInterface subService,PersistentDebitNoteTransferTransaction This,PersistentAccount sender,PersistentAccount receiver,PersistentMoney money,long id) throws persistence.PersistenceException {
+    public DebitNote(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(PersistentAccount)sender,(PersistentAccount)receiver,(PersistentMoney)money,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,id);        
     }
     
     static public long getTypeId() {
@@ -149,13 +150,12 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getSender() != null) return 1;
-        if (this.getReceiver() != null) return 1;
         if (this.getMoney() != null) return 1;
         return 0;
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -164,13 +164,13 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
 		}
 		subService.deregister(observee);
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitNote)This);
 		if(this.equals(This)){
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -179,7 +179,7 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -192,7 +192,7 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

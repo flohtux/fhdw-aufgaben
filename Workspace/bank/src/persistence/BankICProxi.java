@@ -106,19 +106,19 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     }
     
     
-    public void changeName(String name) 
+    public void changeName(final String name) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeName(name);
     }
-    public void changeName(String name, Invoker invoker) 
+    public void changeName(final String name, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeName(name, invoker);
     }
-    public void createAccount(String currencyType, Invoker invoker) 
+    public void createAccount(final String currencyType, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).createAccount(currencyType, invoker);
     }
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).deregister(observee);
     }
@@ -126,27 +126,27 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
 				throws PersistenceException{
         return ((PersistentBank)this.getTheObject()).getBankServices();
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).register(observee);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).updateObservers(event);
     }
-    public void changeNameImplementation(String name) 
+    public void changeNameImplementation(final String name) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createAccount(String currencyType) 
+    public void createAccount(final String currencyType) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).createAccount(currencyType);
     }
@@ -157,6 +157,14 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).receiveTransfer(debitNoteTransfer);
+    }
+    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).sendTransfer(debitNoteTransfer);
     }
 
     

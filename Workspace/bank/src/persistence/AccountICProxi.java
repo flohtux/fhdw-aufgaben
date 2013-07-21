@@ -76,7 +76,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     }
     
     
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).deregister(observee);
     }
@@ -88,25 +88,25 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getBank();
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).register(observee);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createTransfer(PersistentTransfer transaction) 
+    public PersistentTransfer createTransfer() 
 				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).createTransfer(transaction);
+        return ((PersistentAccount)this.getTheObject()).createTransfer();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

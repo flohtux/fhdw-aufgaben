@@ -64,7 +64,7 @@ public class SuccessfullStornoStateProxi extends StornoStateProxi implements Per
     }
     
     
-    public void deregister(ObsInterface observee) 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentSuccessfullStornoState)this.getTheObject()).deregister(observee);
     }
@@ -72,19 +72,19 @@ public class SuccessfullStornoStateProxi extends StornoStateProxi implements Per
 				throws PersistenceException{
         return ((PersistentSuccessfullStornoState)this.getTheObject()).getDebitNoteTransfer();
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentSuccessfullStornoState)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(ObsInterface observee) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentSuccessfullStornoState)this.getTheObject()).register(observee);
     }
-    public void updateObservers(model.meta.Mssgs event) 
+    public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentSuccessfullStornoState)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentSuccessfullStornoState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

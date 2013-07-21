@@ -15,14 +15,35 @@ public class TransferFacade{
 		this.con = con;
 	}
 
-    public TransferProxi getTheTransfer() throws PersistenceException {
-        CallableStatement callable;
+    public TransferProxi newTransfer(long receiverAccountNumber,long receiverBankNumber,long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrnsfrFacade.getTheTrnsfr; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".TrnsfrFacade.newTrnsfr(?,?,?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, receiverAccountNumber);
+            callable.setLong(3, receiverBankNumber);
+            callable.setLong(4, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            Transfer result = new Transfer(null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
+            Cache.getTheCache().put(result);
+            return (TransferProxi)PersistentProxi.createProxi(id, 122);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public TransferProxi newDelayedTransfer(long receiverAccountNumber,long receiverBankNumber) throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".TrnsfrFacade.newDelayedTrnsfr(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
+            Transfer result = new Transfer(null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
+            Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
@@ -49,18 +70,16 @@ public class TransferFacade{
             if (obj.getLong(4) != 0)
                 This = (PersistentDebitNoteTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccount sender = null;
-            if (obj.getLong(6) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentAccount receiver = null;
             if (obj.getLong(8) != 0)
-                receiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentMoney money = null;
             if (obj.getLong(10) != 0)
                 money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             Transfer result = new Transfer(subService,
                                            This,
+                                           obj.getLong(6),
+                                           obj.getLong(7),
                                            sender,
-                                           receiver,
                                            money,
                                            TransferId);
             obj.close();

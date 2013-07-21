@@ -250,7 +250,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -277,7 +277,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAccount)This);
 		if(this.equals(This)){
@@ -285,7 +285,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 			this.setMoney((PersistentMoney)final$$Fields.get("money"));
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -294,7 +294,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -307,16 +307,22 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createTransfer(PersistentTransfer transaction) 
+    public PersistentTransfer createTransfer() 
 				throws PersistenceException{
+		PersistentTransfer transfer = Transfer.createTransfer();
+		transfer.setSender(getThis());
+    	return transfer;
+					
         //TODO: implement method: createTransfer
         
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().getMoney().getCurrency();
+    	System.out.println(getThis().getMoney().getCurrency().toString());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

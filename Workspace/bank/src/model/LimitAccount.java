@@ -249,7 +249,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     }
     
     
-    public synchronized void deregister(ObsInterface observee) 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -267,13 +267,13 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentLimitAccount)This);
 		if(this.equals(This)){
 		}
     }
-    public synchronized void register(ObsInterface observee) 
+    public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -282,7 +282,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(model.meta.Mssgs event) 
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -299,21 +299,45 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
      * Checks if the <money> hurts the account limits.
      * Returns {@link TrueValue} if no limit is hurt else {@link FalseValue}.
      */
-    public PersistentBooleanValue checkLimit(PersistentMoney money) 
+    public PersistentBooleanValue checkLimit(final PersistentMoney money) 
 				throws PersistenceException{
         //TODO: Was ist mit unterschiedlichen Währungen? Können diese auftreten?
+    	final Fraction newAmount = getThis().getAccount().getMoney().getAmount().getBalance().add(money.getAmount().getBalance());
     	if(money.getAmount().getBalance().isPositive()) {
-    		Fraction newAmount = getThis().getAccount().getMoney().getAmount().getBalance().add(money.getAmount().getBalance());
-    		if(newAmount.g)
+    		return getThis().getMaxLimit().accept(new LimitTypeReturnVisitor<PersistentBooleanValue>() {
+				@Override
+				public PersistentBooleanValue handleNoLimit(
+						PersistentNoLimit noLimit) throws PersistenceException {
+					return TrueValue.getTheTrueValue();
+				}
+				@Override
+				public PersistentBooleanValue handleLimit(PersistentLimit limit)
+						throws PersistenceException {
+					if(limit.getMoney().getAmount().getBalance().greaterOrEqual(newAmount)) {
+						return TrueValue.getTheTrueValue();
+					}
+					return FalseValue.getTheFalseValue();
+				}
+			});
+    	}else {
+    		return getThis().getMinLimit().accept(new LimitTypeReturnVisitor<PersistentBooleanValue>() {
+				@Override
+				public PersistentBooleanValue handleNoLimit(
+						PersistentNoLimit noLimit) throws PersistenceException {
+					return TrueValue.getTheTrueValue();
+				}
+				@Override
+				public PersistentBooleanValue handleLimit(PersistentLimit limit)
+						throws PersistenceException {
+					if(newAmount.greaterOrEqual(limit.getMoney().getAmount().getBalance())) {
+						return TrueValue.getTheTrueValue();
+					}
+					return FalseValue.getTheFalseValue();
+				}
+			});
     	}
-        try{
-            throw new java.lang.UnsupportedOperationException("Method \"checkLimit\" not implemented yet.");
-        } catch (java.lang.UnsupportedOperationException uoe){
-            uoe.printStackTrace();
-            throw uoe;
-        }
     }
-    public void copyingPrivateUserAttributes(Anything copy) 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

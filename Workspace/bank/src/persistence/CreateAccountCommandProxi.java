@@ -121,7 +121,7 @@ public class CreateAccountCommandProxi extends PersistentProxi implements Persis
 				throws PersistenceException{
         return ((PersistentCreateAccountCommand)this.getTheObject()).fetchInvoker();
     }
-    public void sendException(PersistenceException exception) 
+    public void sendException(final PersistenceException exception) 
 				throws PersistenceException{
         ((PersistentCreateAccountCommand)this.getTheObject()).sendException(exception);
     }

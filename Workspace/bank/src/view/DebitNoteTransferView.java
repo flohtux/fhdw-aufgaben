@@ -4,10 +4,12 @@ import view.visitor.*;
 
 public interface DebitNoteTransferView extends DebitNoteTransferTransactionView {
     
+    public long getReceiverAccountNumber()throws ModelException;
+    public void setReceiverAccountNumber(long newValue) throws ModelException ;
+    public long getReceiverBankNumber()throws ModelException;
+    public void setReceiverBankNumber(long newValue) throws ModelException ;
     public AccountView getSender()throws ModelException;
     public void setSender(AccountView newValue) throws ModelException ;
-    public AccountView getReceiver()throws ModelException;
-    public void setReceiver(AccountView newValue) throws ModelException ;
     public MoneyView getMoney()throws ModelException;
     public void setMoney(MoneyView newValue) throws ModelException ;
     

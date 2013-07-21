@@ -1051,14 +1051,29 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
+    protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
     protected static final String DebitNoteTransfer$$sender = "DebitNoteTransfer$$sender";
-    protected static final String DebitNoteTransfer$$receiver = "DebitNoteTransfer$$receiver";
     protected static final String DebitNoteTransfer$$money = "DebitNoteTransfer$$money";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "receiverAccountNumber", this.getAnything().getReceiverAccountNumber());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransfer$$receiverAccountNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "receiverBankNumber", this.getAnything().getReceiverBankNumber());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         
     }
     protected view.TransferView getAnything(){
@@ -1252,14 +1267,29 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
+    protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
     protected static final String DebitNoteTransfer$$sender = "DebitNoteTransfer$$sender";
-    protected static final String DebitNoteTransfer$$receiver = "DebitNoteTransfer$$receiver";
     protected static final String DebitNoteTransfer$$money = "DebitNoteTransfer$$money";
     
     protected DebitNoteDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "receiverAccountNumber", this.getAnything().getReceiverAccountNumber());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransfer$$receiverAccountNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "receiverBankNumber", this.getAnything().getReceiverBankNumber());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         
     }
     protected view.DebitNoteView getAnything(){

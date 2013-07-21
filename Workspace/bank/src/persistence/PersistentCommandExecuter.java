@@ -13,13 +13,13 @@ public interface PersistentCommandExecuter extends Runnable, Anything, AbstractP
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public Command commandGet() 
 				throws PersistenceException;
-    public void commandPut(Command command) 
+    public void commandPut(final Command command) 
 				throws PersistenceException;
-    public void finishCommand(CommitConnectionHandler handler) 
+    public void finishCommand(final CommitConnectionHandler handler) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

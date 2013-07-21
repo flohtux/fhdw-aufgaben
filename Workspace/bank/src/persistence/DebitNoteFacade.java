@@ -49,18 +49,16 @@ public class DebitNoteFacade{
             if (obj.getLong(4) != 0)
                 This = (PersistentDebitNoteTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccount sender = null;
-            if (obj.getLong(6) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentAccount receiver = null;
             if (obj.getLong(8) != 0)
-                receiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentMoney money = null;
             if (obj.getLong(10) != 0)
                 money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             DebitNote result = new DebitNote(subService,
                                              This,
+                                             obj.getLong(6),
+                                             obj.getLong(7),
                                              sender,
-                                             receiver,
                                              money,
                                              DebitNoteId);
             obj.close();
