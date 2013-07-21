@@ -322,7 +322,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().getMoney().getCurrency();
-    	System.out.println(getThis().getMoney().getCurrency().toString());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
