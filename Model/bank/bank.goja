@@ -52,6 +52,7 @@ Transfer createTransfer();
 class Money {
 prior Amount amount;
 prior Currency currency;
+void add(Money money);
 }
 
 class Amount {
