@@ -278,6 +278,17 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     // Start of section that contains operations that must be implemented.
     
+    public void add(final PersistentMoney money) 
+				throws PersistenceException{
+        //TODO: implement method: add
+    	if(getThis().getCurrency().equals(money.getCurrency())) {
+    		getThis().getAmount().setBalance(money.getAmount().getBalance().add(getThis().getAmount().getBalance()));
+    	}else {
+    		//TODO unterschiedliche Währung
+    		System.out.println("Du bist doof, da du unterschiedliche Währung verwendest!!! :-)");
+    	}
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes

@@ -86,6 +86,10 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).updateObservers(event);
     }
+    public void add(final PersistentMoney money) 
+				throws PersistenceException{
+        ((PersistentMoney)this.getTheObject()).add(money);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).copyingPrivateUserAttributes(copy);

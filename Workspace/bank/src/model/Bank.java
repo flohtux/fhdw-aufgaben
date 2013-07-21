@@ -469,7 +469,8 @@ public class Bank extends PersistentObject implements PersistentBank{
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
 				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
-					argument.getMoney().getAmount().setBalance(argument.getMoney().getAmount().getBalance().add(debitNoteTransfer.getMoney().getAmount().getBalance()));
+//					argument.getMoney().getAmount().setBalance(argument.getMoney().getAmount().getBalance().add(debitNoteTransfer.getMoney().getAmount().getBalance()));
+					argument.getMoney().add(debitNoteTransfer.getMoney());
 					return true;
 				}
 				return false;
