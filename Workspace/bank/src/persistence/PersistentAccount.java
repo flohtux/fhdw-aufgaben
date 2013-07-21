@@ -29,11 +29,11 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentBank getBank() 
 				throws PersistenceException;
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException;
-    public void createTransfer(final PersistentTransfer transaction) 
+    public void createTransfer(PersistentTransfer transaction) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

@@ -383,9 +383,9 @@ create sequence SMn nocache;
 create table Mn(
     id number primary key,
     Cls number not null,
-    MnBlnc number,
-    MnBlncCls number,
-    constraint FMnBlnc foreign key (MnBlncCls) references Cls (id),
+    MnAmnt number,
+    MnAmntCls number,
+    constraint FMnAmnt foreign key (MnAmntCls) references Cls (id),
     MnCrrnc number,
     MnCrrncCls number,
     constraint FMnCrrnc foreign key (MnCrrncCls) references Cls (id),

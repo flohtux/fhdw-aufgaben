@@ -220,7 +220,7 @@ public class CreateAccountCommand extends PersistentObject implements Persistent
 				throws PersistenceException{
         return this.getInvoker();
     }
-    public void sendException(final PersistenceException exception) 
+    public void sendException(PersistenceException exception) 
 				throws PersistenceException{
         this.invoker.handleException(this, exception);
     }

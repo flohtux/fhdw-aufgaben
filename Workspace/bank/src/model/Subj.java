@@ -142,7 +142,7 @@ public class Subj extends PersistentObject implements PersistentSubj{
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         java.util.Iterator<ObsInterface> observers = getThis().getObservee().iterator();
 		while (observers.hasNext()){
@@ -150,11 +150,11 @@ public class Subj extends PersistentObject implements PersistentSubj{
 			if (current.equals(observee))observers.remove();
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         getThis().getObservee().add(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         java.util.Iterator<ObsInterface> observers = getThis().getObservee().iterator();
 		while (observers.hasNext()){

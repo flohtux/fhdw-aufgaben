@@ -70,23 +70,23 @@ public class FixTransactionFeeICProxi extends TransactionFeeICProxi implements P
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentFixTransactionFee)this.getTheObject()).deregister(observee);
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentFixTransactionFee)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentFixTransactionFee)this.getTheObject()).register(observee);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentFixTransactionFee)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentFixTransactionFee)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

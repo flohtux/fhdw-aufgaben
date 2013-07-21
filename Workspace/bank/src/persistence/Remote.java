@@ -8,7 +8,7 @@ import model.*;
 
 public interface Remote extends AbstractPersistentProxi {
     
-    public void connected(final String user) 
+    public void connected(String user) 
 				throws PersistenceException;
     public void disconnected() 
 				throws PersistenceException;

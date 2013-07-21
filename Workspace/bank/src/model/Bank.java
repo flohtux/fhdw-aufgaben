@@ -1,7 +1,10 @@
 
 package model;
 
+import common.Fraction;
+
 import persistence.*;
+import model.meta.StringFACTORY;
 import model.visitor.*;
 
 
@@ -358,14 +361,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     
     
-    public void changeName(final String name) 
+    public void changeName(String name) 
 				throws PersistenceException{
         model.meta.BankChangeNameStringMssg event = new model.meta.BankChangeNameStringMssg(name, getThis());
 		event.execute();
 		getThis().updateObservers(event);
 		event.getResult();
     }
-    public void changeName(final String name, final Invoker invoker) 
+    public void changeName(String name, Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentChangeNameCommand command = model.meta.ChangeNameCommand.createChangeNameCommand(name, now, now);
@@ -373,7 +376,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public void createAccount(final String currencyType, final Invoker invoker) 
+    public void createAccount(String currencyType, Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentCreateAccountCommand command = model.meta.CreateAccountCommand.createCreateAccountCommand(currencyType, now, now);
@@ -381,7 +384,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -399,14 +402,14 @@ public class Bank extends PersistentObject implements PersistentBank{
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentBank)This);
 		if(this.equals(This)){
 			this.setName((String)final$$Fields.get("name"));
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -415,7 +418,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -428,17 +431,29 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeNameImplementation(final String name) 
+    public void changeNameImplementation(String name) 
 				throws PersistenceException{
         getThis().setName(name);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
     }
-    public void createAccount(final String currencyType) 
+    public void createAccount(String currencyType) 
 				throws PersistenceException{
-        //TODO: implement method: createAccount
-
+    	//TODO PREREQUISITES: HashMap: how to put things into HashMaps!
+    	getThis().setLastAccountNumber(getThis().getLastAccountNumber() + 1);
+        long nextAccountNumber = getThis().getLastAccountNumber();
+        PersistentCurrency currency = StringFACTORY.createObjectBySubTypeNameForCurrency(currencyType);
+        PersistentMoney money = Money.createMoney(Amount.createAmount(Fraction.parse("1/1")), currency);
+        PersistentAccount newAccount = Account.createAccount(nextAccountNumber,money);
+        getThis().getAccounts().put(nextAccountNumber, newAccount); // must be performed prior to createAccountName(9!
+        getThis().getCurrentAccounts().add(newAccount);
+        PersistentAccountService accountService = AccountService.createAccountService(newAccount);
+        PersistentServer accountServer = Server.createServer(serverConstants.ServerConstants.StandardAccountPassword, 
+        													 serverConstants.ServerConstants.createAccountName(newAccount), 
+        													 0, 
+        													 serverConstants.DateConstants.Now);
+        accountServer.setService(accountService);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

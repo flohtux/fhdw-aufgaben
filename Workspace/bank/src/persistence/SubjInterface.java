@@ -8,11 +8,11 @@ import model.*;
 
 public interface SubjInterface extends AbstractPersistentProxi {
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException;
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException;
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException;
 
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException;

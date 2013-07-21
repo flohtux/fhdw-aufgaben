@@ -64,7 +64,7 @@ public class SuccessfullStateICProxi extends DebitNoteTransferStateICProxi imple
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentSuccessfullState)this.getTheObject()).deregister(observee);
     }
@@ -72,19 +72,19 @@ public class SuccessfullStateICProxi extends DebitNoteTransferStateICProxi imple
 				throws PersistenceException{
         return ((PersistentSuccessfullState)this.getTheObject()).getDebitNoteTransfer();
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentSuccessfullState)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentSuccessfullState)this.getTheObject()).register(observee);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentSuccessfullState)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentSuccessfullState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

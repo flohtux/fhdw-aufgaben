@@ -94,7 +94,7 @@ public abstract class Currency extends PersistentObject implements PersistentCur
     
     
     
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCurrency)This);
 		if(this.equals(This)){
@@ -104,7 +104,7 @@ public abstract class Currency extends PersistentObject implements PersistentCur
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

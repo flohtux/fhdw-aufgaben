@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface MoneyView extends Anything, AbstractViewRoot {
     
-    public AmountView getBalance()throws ModelException;
-    public void setBalance(AmountView newValue) throws ModelException ;
+    public AmountView getAmount()throws ModelException;
+    public void setAmount(AmountView newValue) throws ModelException ;
     public CurrencyView getCurrency()throws ModelException;
     public void setCurrency(CurrencyView newValue) throws ModelException ;
     

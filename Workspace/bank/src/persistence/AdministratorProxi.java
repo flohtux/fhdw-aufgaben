@@ -88,7 +88,7 @@ public class AdministratorProxi extends ServiceProxi implements PersistentAdmini
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).deregister(observee);
     }
@@ -100,43 +100,43 @@ public class AdministratorProxi extends ServiceProxi implements PersistentAdmini
 				throws PersistenceException{
         return ((PersistentAdministrator)this.getTheObject()).getBanks();
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).register(observee);
     }
-    public void signalChanged(final boolean signal) 
+    public void signalChanged(boolean signal) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).signalChanged(signal);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).updateObservers(event);
     }
-    public void banks_update(final model.meta.BankMssgs event) 
+    public void banks_update(model.meta.BankMssgs event) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).banks_update(event);
     }
-    public void changeName(final PersistentBank bank, final String name) 
+    public void changeName(PersistentBank bank, String name) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).changeName(bank, name);
     }
-    public String changePassword(final String newPassword1, final String newPassword2) 
+    public String changePassword(String newPassword1, String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentAdministrator)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void connected(final String user) 
+    public void connected(String user) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).connected(user);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createBank(final String name) 
+    public void createBank(String name) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).createBank(name);
     }
@@ -164,7 +164,7 @@ public class AdministratorProxi extends ServiceProxi implements PersistentAdmini
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).initializeOnInstantiation();
     }
-    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+    public void translateMoney(PersistentMoney money, PersistentCurrency currency) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).translateMoney(money, currency);
     }

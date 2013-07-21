@@ -170,7 +170,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -179,13 +179,13 @@ public class Limit extends model.LimitType implements PersistentLimit{
 		}
 		subService.deregister(observee);
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentLimit)This);
 		if(this.equals(This)){
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -194,7 +194,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -207,7 +207,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

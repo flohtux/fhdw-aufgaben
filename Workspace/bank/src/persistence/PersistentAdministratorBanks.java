@@ -20,39 +20,39 @@ public interface PersistentAdministratorBanks extends Anything, ObsInterface, Ab
     public <E extends UserException>  void accept(ObsInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(ObsInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void add(final PersistentBank observee) 
+    public void add(PersistentBank observee) 
 				throws PersistenceException;
-    public <E extends UserException,R> R aggregateException(final persistence.AggregtionException<PersistentBank,R,E> aggregtion) 
+    public <E extends UserException,R> R aggregateException(persistence.AggregtionException<PersistentBank,R,E> aggregtion) 
 				throws E, PersistenceException;
-    public <R> R aggregate(final persistence.Aggregtion<PersistentBank,R> aggregtion) 
+    public <R> R aggregate(persistence.Aggregtion<PersistentBank,R> aggregtion) 
 				throws PersistenceException;
-    public <E extends UserException> void applyToAllException(final persistence.ProcdureException<PersistentBank,E> procdure) 
+    public <E extends UserException> void applyToAllException(persistence.ProcdureException<PersistentBank,E> procdure) 
 				throws E, PersistenceException;
-    public void applyToAll(final persistence.Procdure<PersistentBank> procdure) 
+    public void applyToAll(persistence.Procdure<PersistentBank> procdure) 
 				throws PersistenceException;
-    public <E extends UserException> void filterException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> void filterException(persistence.PredcateException<PersistentBank,E> predcate) 
 				throws E, PersistenceException;
-    public void filter(final persistence.Predcate<PersistentBank> predcate) 
+    public void filter(persistence.Predcate<PersistentBank> predcate) 
 				throws PersistenceException;
-    public <E extends UserException> SearchListRoot<PersistentBank> findAllException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> SearchListRoot<PersistentBank> findAllException(persistence.PredcateException<PersistentBank,E> predcate) 
 				throws E, PersistenceException;
-    public SearchListRoot<PersistentBank> findAll(final persistence.Predcate<PersistentBank> predcate) 
+    public SearchListRoot<PersistentBank> findAll(persistence.Predcate<PersistentBank> predcate) 
 				throws PersistenceException;
-    public <E extends UserException> PersistentBank findFirstException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> PersistentBank findFirstException(persistence.PredcateException<PersistentBank,E> predcate) 
 				throws E, PersistenceException;
-    public PersistentBank findFirst(final persistence.Predcate<PersistentBank> predcate) 
+    public PersistentBank findFirst(persistence.Predcate<PersistentBank> predcate) 
 				throws PersistenceException;
     public java.util.Iterator<PersistentBank> iterator() 
 				throws PersistenceException;
-    public <E extends UserException> void removeFirstFailureException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> void removeFirstFailureException(persistence.PredcateException<PersistentBank,E> predcate) 
 				throws E, PersistenceException;
-    public void removeFirstFailure(final persistence.Predcate<PersistentBank> predcate) 
+    public void removeFirstFailure(persistence.Predcate<PersistentBank> predcate) 
 				throws PersistenceException;
-    public <E extends UserException> void removeFirstSuccessException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> void removeFirstSuccessException(persistence.PredcateException<PersistentBank,E> predcate) 
 				throws E, PersistenceException;
-    public void removeFirstSuccess(final persistence.Predcate<PersistentBank> predcate) 
+    public void removeFirstSuccess(persistence.Predcate<PersistentBank> predcate) 
 				throws PersistenceException;
-    public void update(final model.meta.Mssgs event) 
+    public void update(model.meta.Mssgs event) 
 				throws PersistenceException;
 
 }

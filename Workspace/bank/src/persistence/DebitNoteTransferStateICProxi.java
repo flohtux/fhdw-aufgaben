@@ -34,7 +34,7 @@ public abstract class DebitNoteTransferStateICProxi extends PersistentInCachePro
     
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferState)this.getTheObject()).deregister(observee);
     }
@@ -42,19 +42,19 @@ public abstract class DebitNoteTransferStateICProxi extends PersistentInCachePro
 				throws PersistenceException{
         return ((PersistentDebitNoteTransferState)this.getTheObject()).getDebitNoteTransfer();
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferState)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferState)this.getTheObject()).register(observee);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferState)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

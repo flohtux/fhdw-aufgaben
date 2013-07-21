@@ -94,7 +94,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
     }
@@ -102,35 +102,35 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).register(observee);
     }
-    public void signalChanged(final boolean signal) 
+    public void signalChanged(boolean signal) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).signalChanged(signal);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
-    public String changePassword(final String newPassword1, final String newPassword2) 
+    public String changePassword(String newPassword1, String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void connected(final String user) 
+    public void connected(String user) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).connected(user);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createTransfer(final PersistentTransfer transaction) 
+    public void createTransfer(PersistentTransfer transaction) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer(transaction);
     }

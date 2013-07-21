@@ -9,13 +9,13 @@ import view.visitor.*;
 
 public class Money extends ViewObject implements MoneyView{
     
-    protected AmountView balance;
+    protected AmountView amount;
     protected CurrencyView currency;
     
-    public Money(AmountView balance,CurrencyView currency,long id, long classId) {
+    public Money(AmountView amount,CurrencyView currency,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.balance = balance;
+        this.amount = amount;
         this.currency = currency;        
     }
     
@@ -27,11 +27,11 @@ public class Money extends ViewObject implements MoneyView{
         return getTypeId();
     }
     
-    public AmountView getBalance()throws ModelException{
-        return this.balance;
+    public AmountView getAmount()throws ModelException{
+        return this.amount;
     }
-    public void setBalance(AmountView newValue) throws ModelException {
-        this.balance = newValue;
+    public void setAmount(AmountView newValue) throws ModelException {
+        this.amount = newValue;
     }
     public CurrencyView getCurrency()throws ModelException{
         return this.currency;
@@ -54,9 +54,9 @@ public class Money extends ViewObject implements MoneyView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        AmountView balance = this.getBalance();
-        if (balance != null) {
-            ((ViewProxi)balance).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(balance.getClassId(), balance.getId())));
+        AmountView amount = this.getAmount();
+        if (amount != null) {
+            ((ViewProxi)amount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(amount.getClassId(), amount.getId())));
         }
         CurrencyView currency = this.getCurrency();
         if (currency != null) {
@@ -69,26 +69,26 @@ public class Money extends ViewObject implements MoneyView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getBalance() != null) return new BalanceMoneyWrapper(this, originalIndex, (ViewRoot)this.getBalance());
-        if(this.getBalance() != null) index = index - 1;
+        if(index == 0 && this.getAmount() != null) return new AmountMoneyWrapper(this, originalIndex, (ViewRoot)this.getAmount());
+        if(this.getAmount() != null) index = index - 1;
         if(index == 0 && this.getCurrency() != null) return new CurrencyMoneyWrapper(this, originalIndex, (ViewRoot)this.getCurrency());
         if(this.getCurrency() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getBalance() == null ? 0 : 1)
+            + (this.getAmount() == null ? 0 : 1)
             + (this.getCurrency() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getBalance() == null ? true : false)
+            && (this.getAmount() == null ? true : false)
             && (this.getCurrency() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getBalance() != null && this.getBalance().equals(child)) return result;
-        if(this.getBalance() != null) result = result + 1;
+        if(this.getAmount() != null && this.getAmount().equals(child)) return result;
+        if(this.getAmount() != null) result = result + 1;
         if(this.getCurrency() != null && this.getCurrency().equals(child)) return result;
         if(this.getCurrency() != null) result = result + 1;
         return -1;

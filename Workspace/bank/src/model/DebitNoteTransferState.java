@@ -170,7 +170,7 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitNoteTransferState)This);
 		if(this.equals(This)){
@@ -180,7 +180,7 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

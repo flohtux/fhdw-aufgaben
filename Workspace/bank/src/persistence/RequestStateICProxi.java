@@ -64,7 +64,7 @@ public class RequestStateICProxi extends StornoStateICProxi implements Persisten
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentRequestState)this.getTheObject()).deregister(observee);
     }
@@ -72,19 +72,19 @@ public class RequestStateICProxi extends StornoStateICProxi implements Persisten
 				throws PersistenceException{
         return ((PersistentRequestState)this.getTheObject()).getDebitNoteTransfer();
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentRequestState)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentRequestState)this.getTheObject()).register(observee);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentRequestState)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentRequestState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

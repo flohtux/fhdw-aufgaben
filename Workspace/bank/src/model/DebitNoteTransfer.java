@@ -135,7 +135,7 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     
     
     
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitNoteTransfer)This);
 		if(this.equals(This)){
@@ -146,7 +146,7 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

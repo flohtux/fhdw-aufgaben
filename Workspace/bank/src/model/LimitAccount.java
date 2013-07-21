@@ -1,6 +1,10 @@
 
 package model;
 
+import java.math.BigInteger;
+
+import common.Fraction;
+
 import persistence.*;
 import model.visitor.*;
 
@@ -245,7 +249,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -263,13 +267,13 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentLimitAccount)This);
 		if(this.equals(This)){
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -278,7 +282,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -291,9 +295,17 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     
     // Start of section that contains operations that must be implemented.
     
-    public PersistentBooleanValue checkLimit(final PersistentMoney money) 
+    /**
+     * Checks if the <money> hurts the account limits.
+     * Returns {@link TrueValue} if no limit is hurt else {@link FalseValue}.
+     */
+    public PersistentBooleanValue checkLimit(PersistentMoney money) 
 				throws PersistenceException{
-        //TODO: implement method: checkLimit
+        //TODO: Was ist mit unterschiedlichen Währungen? Können diese auftreten?
+    	if(money.getAmount().getBalance().isPositive()) {
+    		Fraction newAmount = getThis().getAccount().getMoney().getAmount().getBalance().add(money.getAmount().getBalance());
+    		if(newAmount.g)
+    	}
         try{
             throw new java.lang.UnsupportedOperationException("Method \"checkLimit\" not implemented yet.");
         } catch (java.lang.UnsupportedOperationException uoe){
@@ -301,7 +313,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
             throw uoe;
         }
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

@@ -61,9 +61,9 @@ public class MoneyFacade{
                 callable.close();
                 return null;
             }
-            PersistentAmount balance = null;
+            PersistentAmount amount = null;
             if (obj.getLong(2) != 0)
-                balance = (PersistentAmount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+                amount = (PersistentAmount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCurrency currency = null;
             if (obj.getLong(4) != 0)
                 currency = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
@@ -73,7 +73,7 @@ public class MoneyFacade{
             PersistentMoney This = null;
             if (obj.getLong(8) != 0)
                 This = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            Money result = new Money(balance,
+            Money result = new Money(amount,
                                      currency,
                                      subService,
                                      This,
@@ -102,13 +102,13 @@ public class MoneyFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void balanceSet(long MoneyId, PersistentAmount balanceVal) throws PersistenceException {
+    public void amountSet(long MoneyId, PersistentAmount amountVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".MnFacade.blncSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".MnFacade.amntSet(?, ?, ?); end;");
             callable.setLong(1, MoneyId);
-            callable.setLong(2, balanceVal.getId());
-            callable.setLong(3, balanceVal.getClassId());
+            callable.setLong(2, amountVal.getId());
+            callable.setLong(3, amountVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

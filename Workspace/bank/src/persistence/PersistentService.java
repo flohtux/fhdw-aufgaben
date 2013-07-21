@@ -18,13 +18,13 @@ public interface PersistentService extends Invoker, Remote, SubjInterface, Anyth
     
     public PersistentServer getAccess() 
 				throws PersistenceException;
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void signalChanged(final boolean signal) 
+    public void signalChanged(boolean signal) 
 				throws PersistenceException;
-    public String changePassword(final String newPassword1, final String newPassword2) 
+    public String changePassword(String newPassword1, String newPassword2) 
 				throws model.PasswordException, PersistenceException;
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException;
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException;

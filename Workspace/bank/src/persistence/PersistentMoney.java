@@ -6,8 +6,8 @@ import model.visitor.*;
 
 public interface PersistentMoney extends SubjInterface, Anything, AbstractPersistentProxi {
     
-    public PersistentAmount getBalance() throws PersistenceException ;
-    public void setBalance(PersistentAmount newValue) throws PersistenceException ;
+    public PersistentAmount getAmount() throws PersistenceException ;
+    public void setAmount(PersistentAmount newValue) throws PersistenceException ;
     public PersistentCurrency getCurrency() throws PersistenceException ;
     public void setCurrency(PersistentCurrency newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
@@ -23,9 +23,9 @@ public interface PersistentMoney extends SubjInterface, Anything, AbstractPersis
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

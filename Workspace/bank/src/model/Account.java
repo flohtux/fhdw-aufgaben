@@ -15,11 +15,11 @@ public class Account extends PersistentObject implements PersistentAccount{
         return (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentAccount createAccount(long accountNumber) throws PersistenceException{
-        return createAccount(accountNumber,false);
+    public static PersistentAccount createAccount(long accountNumber,PersistentMoney money) throws PersistenceException{
+        return createAccount(accountNumber,money,false);
     }
     
-    public static PersistentAccount createAccount(long accountNumber,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentAccount createAccount(long accountNumber,PersistentMoney money,boolean delayed$Persistence) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
@@ -31,12 +31,13 @@ public class Account extends PersistentObject implements PersistentAccount{
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("accountNumber", accountNumber);
+        final$$Fields.put("money", money);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentAccount createAccount(long accountNumber,boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
+    public static PersistentAccount createAccount(long accountNumber,PersistentMoney money,boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
@@ -48,6 +49,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("accountNumber", accountNumber);
+        final$$Fields.put("money", money);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -248,7 +250,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -275,14 +277,15 @@ public class Account extends PersistentObject implements PersistentAccount{
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAccount)This);
 		if(this.equals(This)){
 			this.setAccountNumber((Long)final$$Fields.get("accountNumber"));
+			this.setMoney((PersistentMoney)final$$Fields.get("money"));
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -291,7 +294,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -304,10 +307,10 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
     }
-    public void createTransfer(final PersistentTransfer transaction) 
+    public void createTransfer(PersistentTransfer transaction) 
 				throws PersistenceException{
         //TODO: implement method: createTransfer
         

@@ -64,7 +64,7 @@ public class NotSuccessfullStateICProxi extends DebitNoteTransferStateICProxi im
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentNotSuccessfullState)this.getTheObject()).deregister(observee);
     }
@@ -72,19 +72,19 @@ public class NotSuccessfullStateICProxi extends DebitNoteTransferStateICProxi im
 				throws PersistenceException{
         return ((PersistentNotSuccessfullState)this.getTheObject()).getDebitNoteTransfer();
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentNotSuccessfullState)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentNotSuccessfullState)this.getTheObject()).register(observee);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentNotSuccessfullState)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentNotSuccessfullState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

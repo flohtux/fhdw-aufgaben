@@ -15,11 +15,11 @@ public class Money extends PersistentObject implements PersistentMoney{
         return (PersistentMoney)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentMoney createMoney(PersistentAmount balance,PersistentCurrency currency) throws PersistenceException{
-        return createMoney(balance,currency,false);
+    public static PersistentMoney createMoney(PersistentAmount amount,PersistentCurrency currency) throws PersistenceException{
+        return createMoney(amount,currency,false);
     }
     
-    public static PersistentMoney createMoney(PersistentAmount balance,PersistentCurrency currency,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentMoney createMoney(PersistentAmount amount,PersistentCurrency currency,boolean delayed$Persistence) throws PersistenceException {
         PersistentMoney result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theMoneyFacade
@@ -30,14 +30,14 @@ public class Money extends PersistentObject implements PersistentMoney{
                 .newMoney(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        final$$Fields.put("balance", balance);
+        final$$Fields.put("amount", amount);
         final$$Fields.put("currency", currency);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentMoney createMoney(PersistentAmount balance,PersistentCurrency currency,boolean delayed$Persistence,PersistentMoney This) throws PersistenceException {
+    public static PersistentMoney createMoney(PersistentAmount amount,PersistentCurrency currency,boolean delayed$Persistence,PersistentMoney This) throws PersistenceException {
         PersistentMoney result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theMoneyFacade
@@ -48,7 +48,7 @@ public class Money extends PersistentObject implements PersistentMoney{
                 .newMoney(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        final$$Fields.put("balance", balance);
+        final$$Fields.put("amount", amount);
         final$$Fields.put("currency", currency);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
@@ -59,13 +59,13 @@ public class Money extends PersistentObject implements PersistentMoney{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            AbstractPersistentRoot balance = (AbstractPersistentRoot)this.getBalance();
-            if (balance != null) {
-                result.put("balance", balance.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot amount = (AbstractPersistentRoot)this.getAmount();
+            if (amount != null) {
+                result.put("amount", amount.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    balance.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    amount.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && balance.hasEssentialFields())balance.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && amount.hasEssentialFields())amount.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             AbstractPersistentRoot currency = (AbstractPersistentRoot)this.getCurrency();
@@ -85,7 +85,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     public Money provideCopy() throws PersistenceException{
         Money result = this;
-        result = new Money(this.balance, 
+        result = new Money(this.amount, 
                            this.currency, 
                            this.subService, 
                            this.This, 
@@ -97,15 +97,15 @@ public class Money extends PersistentObject implements PersistentMoney{
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentAmount balance;
+    protected PersistentAmount amount;
     protected PersistentCurrency currency;
     protected SubjInterface subService;
     protected PersistentMoney This;
     
-    public Money(PersistentAmount balance,PersistentCurrency currency,SubjInterface subService,PersistentMoney This,long id) throws persistence.PersistenceException {
+    public Money(PersistentAmount amount,PersistentCurrency currency,SubjInterface subService,PersistentMoney This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.balance = balance;
+        this.amount = amount;
         this.currency = currency;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
@@ -124,9 +124,9 @@ public class Money extends PersistentObject implements PersistentMoney{
         if (this.getClassId() == 148) ConnectionHandler.getTheConnectionHandler().theMoneyFacade
             .newMoney(this.getId());
         super.store();
-        if(this.getBalance() != null){
-            this.getBalance().store();
-            ConnectionHandler.getTheConnectionHandler().theMoneyFacade.balanceSet(this.getId(), getBalance());
+        if(this.getAmount() != null){
+            this.getAmount().store();
+            ConnectionHandler.getTheConnectionHandler().theMoneyFacade.amountSet(this.getId(), getAmount());
         }
         if(this.getCurrency() != null){
             this.getCurrency().store();
@@ -143,18 +143,18 @@ public class Money extends PersistentObject implements PersistentMoney{
         
     }
     
-    public PersistentAmount getBalance() throws PersistenceException {
-        return this.balance;
+    public PersistentAmount getAmount() throws PersistenceException {
+        return this.amount;
     }
-    public void setBalance(PersistentAmount newValue) throws PersistenceException {
+    public void setAmount(PersistentAmount newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.balance)) return;
+        if(newValue.equals(this.amount)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.balance = (PersistentAmount)PersistentProxi.createProxi(objectId, classId);
+        this.amount = (PersistentAmount)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theMoneyFacade.balanceSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theMoneyFacade.amountSet(this.getId(), newValue);
         }
     }
     public PersistentCurrency getCurrency() throws PersistenceException {
@@ -233,13 +233,13 @@ public class Money extends PersistentObject implements PersistentMoney{
          return visitor.handleMoney(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getBalance() != null) return 1;
+        if (this.getAmount() != null) return 1;
         if (this.getCurrency() != null) return 1;
         return 0;
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -248,15 +248,15 @@ public class Money extends PersistentObject implements PersistentMoney{
 		}
 		subService.deregister(observee);
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentMoney)This);
 		if(this.equals(This)){
-			this.setBalance((PersistentAmount)final$$Fields.get("balance"));
+			this.setAmount((PersistentAmount)final$$Fields.get("amount"));
 			this.setCurrency((PersistentCurrency)final$$Fields.get("currency"));
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -265,7 +265,7 @@ public class Money extends PersistentObject implements PersistentMoney{
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -278,7 +278,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         

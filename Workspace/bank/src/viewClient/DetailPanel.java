@@ -1370,7 +1370,7 @@ class TransactionDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class MoneyDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String Money$$balance = "Money$$balance";
+    protected static final String Money$$amount = "Money$$amount";
     protected static final String Money$$currency = "Money$$currency";
     
     protected MoneyDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

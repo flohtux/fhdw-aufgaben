@@ -42,13 +42,13 @@ void createTransfer@@Neue_Überweisung(Transfer transaction);
 }
 class Account {
 prior Integer accountNumber;
-Money money@@Geldmenge;
+prior Money money@@Geldmenge;
 one-to-one (account) LimitAccount limit;
 void createTransfer(Transfer transaction);
 }
 
 class Money {
-prior Amount balance;
+prior Amount amount;
 prior Currency currency;
 }
 

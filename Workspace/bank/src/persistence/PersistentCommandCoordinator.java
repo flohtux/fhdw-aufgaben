@@ -13,9 +13,9 @@ public interface PersistentCommandCoordinator extends Anything, AbstractPersiste
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void coordinate(final Command command) 
+    public void coordinate(Command command) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

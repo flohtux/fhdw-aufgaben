@@ -40,11 +40,11 @@ public class CommandCoordinatorProxi extends PersistentProxi implements Persiste
     }
     
     
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCommandCoordinator)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void coordinate(final Command command) 
+    public void coordinate(Command command) 
 				throws PersistenceException{
         ((PersistentCommandCoordinator)this.getTheObject()).coordinate(command);
     }

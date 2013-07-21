@@ -22,11 +22,11 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
         return 148;
     }
     
-    public PersistentAmount getBalance() throws PersistenceException {
-        return ((PersistentMoney)this.getTheObject()).getBalance();
+    public PersistentAmount getAmount() throws PersistenceException {
+        return ((PersistentMoney)this.getTheObject()).getAmount();
     }
-    public void setBalance(PersistentAmount newValue) throws PersistenceException {
-        ((PersistentMoney)this.getTheObject()).setBalance(newValue);
+    public void setAmount(PersistentAmount newValue) throws PersistenceException {
+        ((PersistentMoney)this.getTheObject()).setAmount(newValue);
     }
     public PersistentCurrency getCurrency() throws PersistenceException {
         return ((PersistentMoney)this.getTheObject()).getCurrency();
@@ -70,23 +70,23 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
     }
     
     
-    public void deregister(final ObsInterface observee) 
+    public void deregister(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).deregister(observee);
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void register(final ObsInterface observee) 
+    public void register(ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).register(observee);
     }
-    public void updateObservers(final model.meta.Mssgs event) 
+    public void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).updateObservers(event);
     }
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }

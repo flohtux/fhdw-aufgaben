@@ -103,7 +103,7 @@ public class CommandCoordinator extends PersistentObject implements PersistentCo
     }
     
     
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         
 		if(this.equals(This)){
@@ -113,7 +113,7 @@ public class CommandCoordinator extends PersistentObject implements PersistentCo
     
     // Start of section that contains operations that must be implemented.
     
-    public void coordinate(final Command command) 
+    public void coordinate(Command command) 
 				throws PersistenceException{
         if (!this.getExecuter().iterator().hasNext()){
 			PersistentCommandExecuter executer = CommandExecuter.createCommandExecuter();

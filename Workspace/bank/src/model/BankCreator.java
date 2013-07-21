@@ -168,7 +168,7 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     }
     
     
-    public void createBank(final String name, final Invoker invoker) 
+    public void createBank(String name, Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentCreateBankCommand command = model.meta.CreateBankCommand.createCreateBankCommand(name, now, now);
@@ -176,7 +176,7 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public synchronized void deregister(final ObsInterface observee) 
+    public synchronized void deregister(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -185,13 +185,13 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
 		}
 		subService.deregister(observee);
     }
-    public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+    public void initialize(Anything This, java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentBankCreator)This);
 		if(this.equals(This)){
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
+    public synchronized void register(ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -200,7 +200,7 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
 		}
 		subService.register(observee);
     }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
+    public synchronized void updateObservers(model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
 		if (subService == null) {
@@ -213,10 +213,10 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     
     // Start of section that contains operations that must be implemented.
     
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public void copyingPrivateUserAttributes(Anything copy) 
 				throws PersistenceException{
      }
-    public PersistentBank createBank(final String name) 
+    public PersistentBank createBank(String name) 
 				throws PersistenceException{
     	//TODO !PREREQUISITES:  implement method: createBank!
     	getThis().setLastBankNumber(getThis().getLastBankNumber() + 1);
