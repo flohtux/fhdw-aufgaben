@@ -213,10 +213,6 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
     
     // Start of section that contains overridden operations only.
     
-    public void execute() 
-				throws PersistenceException{
-		getThis().getSender().getBank().sendTransfer(getThis());
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

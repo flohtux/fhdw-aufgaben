@@ -48,14 +48,13 @@ public class TestTransfer extends TestCase{
                             bank.createAccount("Euro");
                             bank.createAccount("Euro");
                                                                                    
-                            PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
-                            acc1.getMoney().getAmount().setBalance(new Fraction(0, 1));
-                            PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
-                            acc2.getMoney().getAmount().setBalance(new Fraction(0, 1));
+                            PersistentAccount acc1 = bank.getAccounts().get(1);
+                            PersistentAccount acc2 = bank.getAccounts().get(2);
+                            
                             
                             PersistentTransfer newTrans = acc1.createTransfer();
                             newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10,1)), Euro.getTheEuro()));
-                            newTrans.setReceiverAccountNumber(SecondAccountNumber);
+                            newTrans.setReceiverAccountNumber(2);
                             newTrans.setReceiverBankNumber(bankNumber);
                             newTrans.execute();
                            

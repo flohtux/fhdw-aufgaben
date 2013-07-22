@@ -92,6 +92,10 @@ public class DebitNoteICProxi extends DebitNoteTransferICProxi implements Persis
 				throws PersistenceException{
         ((PersistentDebitNote)this.getTheObject()).updateObservers(event);
     }
+    public PersistentBooleanValue checkFilledInAllFields() 
+				throws PersistenceException{
+        return ((PersistentDebitNote)this.getTheObject()).checkFilledInAllFields();
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitNote)this.getTheObject()).copyingPrivateUserAttributes(copy);

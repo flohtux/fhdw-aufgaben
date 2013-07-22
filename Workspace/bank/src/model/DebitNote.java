@@ -211,11 +211,6 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
     
     // Start of section that contains overridden operations only.
     
-    public void execute() 
-				throws PersistenceException{
-		// TODO Auto-generated method stub
-		
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

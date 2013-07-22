@@ -56,6 +56,10 @@ public abstract class DebitNoteTransferProxi extends DebitNoteTransferTransactio
 				throws PersistenceException{
         ((PersistentDebitNoteTransfer)this.getTheObject()).updateObservers(event);
     }
+    public PersistentBooleanValue checkFilledInAllFields() 
+				throws PersistenceException{
+        return ((PersistentDebitNoteTransfer)this.getTheObject()).checkFilledInAllFields();
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);

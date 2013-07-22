@@ -23,6 +23,8 @@ public interface PersistentDebitNoteTransfer extends PersistentDebitNoteTransfer
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public PersistentBooleanValue checkFilledInAllFields() 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

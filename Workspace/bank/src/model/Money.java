@@ -282,6 +282,7 @@ public class Money extends PersistentObject implements PersistentMoney{
 				throws PersistenceException{
     	if(getThis().getCurrency().equals(money.getCurrency())) {
     		getThis().getAmount().setBalance(money.getAmount().getBalance().add(getThis().getAmount().getBalance()));
+    		System.out.println("money added this "+getThis().getCurrency()+ " money "+money.getCurrency());
     	}else {
     		//TODO unterschiedliche Währung bei addieren
     		System.out.println("Du bist doof, da du unterschiedliche Währung verwendest!!! :-)");

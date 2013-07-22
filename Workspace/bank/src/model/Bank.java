@@ -444,7 +444,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	getThis().setLastAccountNumber(getThis().getLastAccountNumber() + 1);
         long nextAccountNumber = getThis().getLastAccountNumber();
         PersistentCurrency currency = StringFACTORY.createObjectBySubTypeNameForCurrency(currencyType);
-        PersistentMoney money = Money.createMoney(Amount.createAmount(Fraction.parse("1/1")), currency);
+        PersistentMoney money = Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), currency);
         PersistentAccount newAccount = Account.createAccount(nextAccountNumber,money);
         getThis().getAccounts().put(nextAccountNumber, newAccount); // must be performed prior to createAccountName(9!
         getThis().getCurrentAccounts().add(newAccount);
@@ -464,12 +464,10 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
 				throws PersistenceException{
-        //TODO: implement method: receiveTransfer
         getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
 				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
-//					argument.getMoney().getAmount().setBalance(argument.getMoney().getAmount().getBalance().add(debitNoteTransfer.getMoney().getAmount().getBalance()));
 					argument.getMoney().add(debitNoteTransfer.getMoney());
 					return true;
 				}
@@ -479,7 +477,6 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
 				throws PersistenceException{
-        //TODO: implement method: sendTransfer
     	getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
