@@ -103,6 +103,7 @@ abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction
 	Integer receiverBankNumber;	
 	Account sender;
 	Money money;
+	BooleanValue checkFilledInAllFields();
 }
 
 class Transfer extends DebitNoteTransfer {}
