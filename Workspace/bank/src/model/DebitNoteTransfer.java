@@ -156,26 +156,9 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     
     // Start of section that contains overridden operations only.
     
-    public PersistentBooleanValue checkFilledInAllFields() 
-				throws PersistenceException{
-		// TODO Auto-generated method stub
-		return TrueValue.getTheTrueValue();
-	}
     public void execute() 
-				throws PersistenceException{
-    	getThis().checkFilledInAllFields().accept(new BooleanValueVisitor() {
-			@Override
-			public void handleTrueValue(PersistentTrueValue trueValue)
-					throws PersistenceException {
-				getThis().getSender().getBank().sendTransfer(getThis());
-			}
-			@Override
-			public void handleFalseValue(PersistentFalseValue falseValue)
-					throws PersistenceException {
-				// TODO throw Exception: Nicht alle Felder ausgefüllt
-				System.out.println("nicht alle felder ausgefüllt");
-			}
-		});
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	getThis().getSender().getBank().sendTransfer(getThis());
     }
 
     /* Start of protected part that is not overridden by persistence generator */

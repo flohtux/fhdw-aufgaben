@@ -35,8 +35,8 @@ symmetric (banks) Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
-void sendTransfer(DebitNoteTransfer debitNoteTransfer);
-void receiveTransfer(DebitNoteTransfer debitNoteTransfer);
+void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException;
+void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException;
 }
 server AccountService extends Service {
 prior final one-to-one (server-only accountService) server-only Account account;
@@ -95,7 +95,7 @@ class Percent {
 string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class DebitNoteTransferTransaction##DebiTrfTran {
-	void execute();
+	void execute()  throws InvalidBankNumberException, InvalidAccountNumberException;
 }
 
 abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
@@ -103,7 +103,6 @@ abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction
 	Integer receiverBankNumber;	
 	Account sender;
 	Money money;
-	BooleanValue checkFilledInAllFields();
 }
 
 class Transfer extends DebitNoteTransfer {}
@@ -118,4 +117,7 @@ abstract class DebitNoteTransferState##DebiTraStat(SuccessfullState,NotSuccessfu
 abstract class StornoState(SuccessfullStornoState##SucStoSta,NotSuccessfullStorneState##NoSucStoSta,RequestState,NoRequestState){}
 
 exception PasswordException {}
+exception InvalidBankNumberException{}
+exception InvalidAccountNumberException{}
 }
+

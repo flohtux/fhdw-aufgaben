@@ -1,6 +1,6 @@
 package persistence;
 
-
+import model.UserException;
 
 public abstract class DebitNoteTransferTransactionProxi extends PersistentProxi implements PersistentDebitNoteTransferTransaction{
     
@@ -43,7 +43,7 @@ public abstract class DebitNoteTransferTransactionProxi extends PersistentProxi 
         ((PersistentDebitNoteTransferTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void execute() 
-				throws PersistenceException{
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentDebitNoteTransferTransaction)this.getTheObject()).execute();
     }
     public void initializeOnCreation() 

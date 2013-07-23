@@ -8,6 +8,8 @@ import model.Amount;
 import model.Bank;
 import model.BankCreator;
 import model.Euro;
+import model.InvalidAccountNumberException;
+import model.InvalidBankNumberException;
 import model.Money;
 
 import org.junit.Test;
@@ -34,8 +36,7 @@ public class TestTransfer extends TestCase{
 	
     public void test() {
                     final String BankName = "Bank1";
-                    final String Acc1Name = "Acc1";
-                    final String Acc2Name = "Acc2";
+
                     try {
                     		PersistentAdministrator admin = Administrator.createAdministrator();
                     		
@@ -44,12 +45,12 @@ public class TestTransfer extends TestCase{
                             bank.setAdministrator(admin);
                             long bankNumber = bank.getBankNumber();
                             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
-                            final long SecondAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+                            final long SecondAccountNumber = FirstAccountNumber + 1;
                             bank.createAccount("Euro");
                             bank.createAccount("Euro");
                                                                                    
-                            PersistentAccount acc1 = bank.getAccounts().get(1);
-                            PersistentAccount acc2 = bank.getAccounts().get(2);
+                            PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+                            PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
                             
                             
                             PersistentTransfer newTrans = acc1.createTransfer();
@@ -62,7 +63,13 @@ public class TestTransfer extends TestCase{
                               
                     } catch (PersistenceException e) {
                             e.printStackTrace();
-                    }
+                    } catch (InvalidBankNumberException e) {
+						fail(e.getMessage() + "darf nicht auftreten!");
+						e.printStackTrace();
+					} catch (InvalidAccountNumberException e) {
+						fail(e.getMessage()  + "darf nicht auftreten!");
+						e.printStackTrace();
+					}
             }
 
 }

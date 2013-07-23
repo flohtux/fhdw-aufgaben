@@ -5,12 +5,12 @@ import java.util.Vector;
 import javax.swing.JList;
 
 @SuppressWarnings("serial")
-public class JListRefresh extends JList {
+public class JListRefresh<X> extends JList<X> {
 
 	public JListRefresh(){
 		super();
 	}
-	public void setListData(Vector<?> data){
+	public void setListData(Vector<? extends X> data){
 		Object[] selected = this.getSelectedValues();
 		super.setListData(data);
 		int[] newSelection = find(selected);

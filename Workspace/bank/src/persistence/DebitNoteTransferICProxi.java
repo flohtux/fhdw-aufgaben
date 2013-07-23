@@ -1,6 +1,6 @@
 package persistence;
 
-
+import model.UserException;
 
 public abstract class DebitNoteTransferICProxi extends DebitNoteTransferTransactionICProxi implements PersistentDebitNoteTransfer{
     
@@ -56,16 +56,12 @@ public abstract class DebitNoteTransferICProxi extends DebitNoteTransferTransact
 				throws PersistenceException{
         ((PersistentDebitNoteTransfer)this.getTheObject()).updateObservers(event);
     }
-    public PersistentBooleanValue checkFilledInAllFields() 
-				throws PersistenceException{
-        return ((PersistentDebitNoteTransfer)this.getTheObject()).checkFilledInAllFields();
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void execute() 
-				throws PersistenceException{
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentDebitNoteTransfer)this.getTheObject()).execute();
     }
     public void initializeOnCreation() 

@@ -463,8 +463,8 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
     }
     public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws PersistenceException{
-        getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
+				throws model.InvalidAccountNumberException, PersistenceException{
+        PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
 				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
@@ -474,19 +474,23 @@ public class Bank extends PersistentObject implements PersistentBank{
 				return false;
 			}
 		});
+        if (acc == null) {
+        	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
+        }
     }
     public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws PersistenceException{
-    	getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
-				if(argument.getBankNumber() == debitNoteTransfer.getReceiverBankNumber()) {
-					argument.receiveTransfer(debitNoteTransfer);
-					return true;
-				}
-				return false;
+				return argument.getBankNumber() == debitNoteTransfer.getReceiverBankNumber();
 			}
 		});
+    	if (result == null) {
+    		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
+    	} else {
+			result.receiveTransfer(debitNoteTransfer);
+    	}
     }
     
     

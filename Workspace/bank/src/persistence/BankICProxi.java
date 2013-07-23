@@ -159,11 +159,11 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
         ((PersistentBank)this.getTheObject()).initializeOnInstantiation();
     }
     public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws PersistenceException{
+				throws model.InvalidAccountNumberException, PersistenceException{
         ((PersistentBank)this.getTheObject()).receiveTransfer(debitNoteTransfer);
     }
     public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws PersistenceException{
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentBank)this.getTheObject()).sendTransfer(debitNoteTransfer);
     }
 

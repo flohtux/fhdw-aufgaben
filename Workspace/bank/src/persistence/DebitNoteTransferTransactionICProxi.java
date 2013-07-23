@@ -1,6 +1,6 @@
 package persistence;
 
-
+import model.UserException;
 
 public abstract class DebitNoteTransferTransactionICProxi extends PersistentInCacheProxiOptimistic implements PersistentDebitNoteTransferTransaction{
     
@@ -43,7 +43,7 @@ public abstract class DebitNoteTransferTransactionICProxi extends PersistentInCa
         ((PersistentDebitNoteTransferTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void execute() 
-				throws PersistenceException{
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentDebitNoteTransferTransaction)this.getTheObject()).execute();
     }
     public void initializeOnCreation() 
