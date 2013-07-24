@@ -328,6 +328,11 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().getMoney().getCurrency();
+    	PersistentLimitAccount limits = LimitAccount.createLimitAccount();
+    	limits.setMinLimit(NoLimit.getTheNoLimit());
+    	limits.setMaxLimit(NoLimit.getTheNoLimit());
+    	
+    	getThis().setLimit(limits);
     	
     }
     public void initializeOnInstantiation() 

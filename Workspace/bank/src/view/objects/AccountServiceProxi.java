@@ -15,7 +15,14 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
     public AccountServiceView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> errors_string = (java.util.Vector<String>)resultTable.get("errors");
         java.util.Vector<ErrorDisplayView> errors = ViewProxi.getProxiVector(errors_string, connectionKey);
-        AccountServiceView result$$ = new AccountService(errors, this.getId(), this.getClassId());
+        ViewProxi account = null;
+        String account$String = (String)resultTable.get("account");
+        if (account$String != null) {
+            common.ProxiInformation account$Info = common.RPCConstantsAndServices.createProxiInformation(account$String);
+            account = view.objects.ViewProxi.createProxi(account$Info,connectionKey);
+            account.setToString(account$Info.getToString());
+        }
+        AccountServiceView result$$ = new AccountService(errors,(AccountView)account, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -24,20 +31,33 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getAccount() != null) return new AccountAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getAccount());
+        if(this.getAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getAccount() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        if (this.object == null) return this.getLeafInfo() == 0;
+        return true 
+            && (this.getAccount() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getAccount() != null && this.getAccount().equals(child)) return result;
+        if(this.getAccount() != null) result = result + 1;
         return -1;
     }
     
+    public AccountView getAccount()throws ModelException{
+        return ((AccountService)this.getTheObject()).getAccount();
+    }
+    public void setAccount(AccountView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setAccount(newValue);
+    }
     
     public void accept(ServiceVisitor visitor) throws ModelException {
         visitor.handleAccountService(this);

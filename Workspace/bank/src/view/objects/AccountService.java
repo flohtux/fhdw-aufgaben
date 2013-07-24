@@ -10,10 +10,12 @@ import view.visitor.*;
 
 public class AccountService extends view.objects.Service implements AccountServiceView{
     
+    protected AccountView account;
     
-    public AccountService(java.util.Vector<ErrorDisplayView> errors,long id, long classId) {
+    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(errors,id, classId);        
+        super(errors,id, classId);
+        this.account = account;        
     }
     
     static public long getTypeId() {
@@ -24,6 +26,12 @@ public class AccountService extends view.objects.Service implements AccountServi
         return getTypeId();
     }
     
+    public AccountView getAccount()throws ModelException{
+        return this.account;
+    }
+    public void setAccount(AccountView newValue) throws ModelException {
+        this.account = newValue;
+    }
     
     public void accept(ServiceVisitor visitor) throws ModelException {
         visitor.handleAccountService(this);
@@ -67,23 +75,33 @@ public class AccountService extends view.objects.Service implements AccountServi
         if (errors != null) {
             ViewObject.resolveVectorProxies(errors, resultTable);
         }
+        AccountView account = this.getAccount();
+        if (account != null) {
+            ((ViewProxi)account).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(account.getClassId(), account.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getAccount() != null) return new AccountAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getAccount());
+        if(this.getAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getAccount() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getAccount() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getAccount() != null && this.getAccount().equals(child)) return result;
+        if(this.getAccount() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

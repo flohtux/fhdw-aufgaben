@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface AccountServiceView extends ServiceView {
     
+    public AccountView getAccount()throws ModelException;
+    public void setAccount(AccountView newValue) throws ModelException ;
     
     public void accept(ServiceVisitor visitor) throws ModelException;
     public <R> R accept(ServiceReturnVisitor<R>  visitor) throws ModelException;

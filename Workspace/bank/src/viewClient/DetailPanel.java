@@ -1173,6 +1173,8 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String AccountService$$account = "AccountService$$account";
+    
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }

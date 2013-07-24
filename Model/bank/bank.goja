@@ -40,7 +40,7 @@ void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberE
 void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException;
 }
 server AccountService extends Service {
-prior final one-to-one (server-only accountService) server-only Account account;
+prior final one-to-one (server-only accountService) Account account;
 void createTransfer@@Neue_Überweisung();
 }
 class Account {

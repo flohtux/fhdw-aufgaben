@@ -53,6 +53,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot account = (AbstractPersistentRoot)this.getAccount();
+            if (account != null) {
+                result.put("account", account.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    account.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && account.hasEssentialFields())account.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -185,6 +194,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
          return visitor.handleAccountService(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getAccount() != null) return 1;
         return 0;
     }
     
@@ -229,6 +239,13 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     public void connected(final String user) 
 				throws PersistenceException{
+    	System.out.println("user="+user);
+    	System.out.println("acc"+this.getAccount());
+    	System.out.println(getThis().getAccount().getAccountNumber());
+    	System.out.println(this.getAccount().getBank());
+    	System.out.println(this.getAccount().getDebitNoteTransferTransactions());
+    	System.out.println(this.getAccount().getLimit());
+    	System.out.println(this.getAccount().getMoney());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
