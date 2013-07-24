@@ -59,12 +59,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleEuro(PersistentEuro euro) throws PersistenceException {
-		this.result = "€";
+		this.result = serverConstants.ToStringConstants.EuroCurrencyToString;
 	}
 	@Override
 	public void handleDollar(PersistentDollar dollar)
 			throws PersistenceException {
-		this.result = "$";
+		this.result = serverConstants.ToStringConstants.DollarCurrencyToString;
 	}
 	@Override
 	public void handleMixedFee(PersistentMixedFee mixedFee)
@@ -87,7 +87,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleMoney(PersistentMoney money) throws PersistenceException {
-		this.result = "Saldo: "+money.getAmount().toString(true)+ " "+money.getCurrency().toString(true);
+		this.result = money.getAmount().toString(true)+ " "+money.getCurrency().toString(true);
 	}
 	@Override
 	public void handleProcentualFee(PersistentProcentualFee procentualFee)
@@ -181,7 +181,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
 			throws PersistenceException {
-		this.result = "Kein Limit!!!";
+		this.result = serverConstants.ToStringConstants.NoLimitType;
 	}
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
@@ -198,7 +198,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
 			throws PersistenceException {
-		this.result = "Max Limit: "+limitAccount.getMaxLimit().toString(true)+ " Min Limit: "+limitAccount.getMinLimit().toString(true);
+		this.result = serverConstants.ToStringConstants.MaxLimitPrefix+limitAccount.getMaxLimit().toString(true)+ serverConstants.ToStringConstants.MinLimitPrefix+limitAccount.getMinLimit().toString(true);
 	}
 	@Override
 	public void handleLimit(PersistentLimit limit) throws PersistenceException {
