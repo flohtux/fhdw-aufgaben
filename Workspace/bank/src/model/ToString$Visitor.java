@@ -51,7 +51,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		accountService.getAccount().getBank().toString(true) +
 		serverConstants.ToStringConstants.BankAndAccountSeparator +
 		accountService.getAccount().toString(true);
-
 	}
 	@Override
 	public void handleBankService(PersistentBankService bankService)
@@ -86,13 +85,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAmount(PersistentAmount amount)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = amount.getBalance()+"€";
 	}
 	@Override
 	public void handleMoney(PersistentMoney money) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Saldo: "+money.getAmount().toString(true);
 	}
 	@Override
 	public void handleProcentualFee(PersistentProcentualFee procentualFee)
@@ -142,7 +139,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			PersistentNotExecutetState notExecutetState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void handleExecutedState(PersistentExecutedState executedState)
@@ -186,14 +183,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Kein Limit!!!";
 	}
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Überweisung: "+transfer.getMoney().getAmount().toString(true);
 	}
 	@Override
 	public void handleSuccessfullStornoState(
@@ -205,13 +200,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Max Limit: "+limitAccount.getMaxLimit().toString(true)+ " Min Limit: "+limitAccount.getMinLimit().toString(true);
 	}
 	@Override
 	public void handleLimit(PersistentLimit limit) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = limit.getMoney().toString(true);
 	}
 	@Override
 	public void handleFalseValue(PersistentFalseValue falseValue)

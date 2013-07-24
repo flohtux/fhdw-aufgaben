@@ -74,6 +74,10 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).deregister(observee);
     }
+    public PersistentAccount getAccount() 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).getAccount();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initialize(This, final$$Fields);

@@ -6,6 +6,7 @@ import model.visitor.*;
 
 public interface PersistentAccount extends SubjInterface, Anything, AbstractPersistentProxi {
     
+    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException ;
     public long getAccountNumber() throws PersistenceException ;
     public void setAccountNumber(long newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;

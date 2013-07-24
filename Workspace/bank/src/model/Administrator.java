@@ -259,10 +259,11 @@ public class Administrator extends model.Service implements PersistentAdministra
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
 				throws PersistenceException{
         //TODO: implement method: translateMoney
-        
+    	System.out.println("Du bist doof, da du unterschiedliche Währung verwendest!!! :-)");
+    	return null;
     }
     
     

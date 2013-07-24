@@ -58,6 +58,8 @@ drop sequence SSubjObs;
 drop table SubjObs cascade constraints;
 drop sequence SAdmnstrtrBnksObs;
 drop table AdmnstrtrBnksObs cascade constraints;
+drop sequence SAccntDebTrfTrans;
+drop table AccntDebTrfTrans cascade constraints;
 drop sequence SCmmndCrdntrExctr;
 drop table CmmndCrdntrExctr cascade constraints;
 drop sequence SCmmndExctrCommands;

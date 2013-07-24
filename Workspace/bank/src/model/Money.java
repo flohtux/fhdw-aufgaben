@@ -77,6 +77,15 @@ public class Money extends PersistentObject implements PersistentMoney{
                     if(forGUI && currency.hasEssentialFields())currency.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot account = (AbstractPersistentRoot)this.getAccount();
+            if (account != null) {
+                result.put("account", account.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    account.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && account.hasEssentialFields())account.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -235,6 +244,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     public int getLeafInfo() throws PersistenceException{
         if (this.getAmount() != null) return 1;
         if (this.getCurrency() != null) return 1;
+        if (this.getAccount() != null) return 1;
         return 0;
     }
     
@@ -247,6 +257,15 @@ public class Money extends PersistentObject implements PersistentMoney{
 			getThis().setSubService(subService);
 		}
 		subService.deregister(observee);
+    }
+    public PersistentAccount getAccount() 
+				throws PersistenceException{
+        PersistentAccount result = null;
+		try {
+			if (result == null) result = (PersistentAccount)ConnectionHandler.getTheConnectionHandler().theAccountFacade
+							.inverseGetMoney(this.getId(), this.getClassId()).iterator().next();
+		} catch (java.util.NoSuchElementException nsee){}
+		return result;
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -285,7 +304,10 @@ public class Money extends PersistentObject implements PersistentMoney{
     		System.out.println("money added this "+getThis().getCurrency()+ " money "+money.getCurrency());
     	}else {
     		//TODO unterschiedliche Währung bei addieren
-    		System.out.println("Du bist doof, da du unterschiedliche Währung verwendest!!! :-)");
+    		
+    		PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+    				getThis().getCurrency());
+    		getThis().add(moneyInRightCurrency);
     	}
         
     }

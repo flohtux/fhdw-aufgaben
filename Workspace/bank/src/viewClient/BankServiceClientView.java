@@ -374,6 +374,21 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                     
                 });
                 result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("changeMaxLimit ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        BankServiceChangeMaxLimitAccountAmountMssgWizard wizard = new BankServiceChangeMaxLimitAccountAmountMssgWizard("changeMaxLimit");
+                        wizard.setFirstArgument((AccountView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
             }
             
         }
@@ -382,6 +397,53 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         return result;
     }
     
+	class BankServiceChangeMaxLimitAccountAmountMssgWizard extends Wizard {
+
+		protected BankServiceChangeMaxLimitAccountAmountMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "BankServiceChangeMaxLimitAccountAmountMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeMaxLimit(firstArgument, (AmountView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new ObjectSelectionPanel("amount", "view.AmountView", (ViewRoot) getConnection().getBankServiceView(), this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private AccountView firstArgument; 
+	
+		public void setFirstArgument(AccountView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
 	class BankServiceChangePasswordStringStringMssgWizard extends Wizard {
 
 		protected BankServiceChangePasswordStringStringMssgWizard(String operationName){

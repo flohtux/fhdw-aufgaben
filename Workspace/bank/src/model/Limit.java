@@ -10,11 +10,11 @@ import model.visitor.*;
 public class Limit extends model.LimitType implements PersistentLimit{
     
     
-    public static PersistentLimit createLimit() throws PersistenceException{
-        return createLimit(false);
+    public static PersistentLimit createLimit(PersistentMoney money) throws PersistenceException{
+        return createLimit(money,false);
     }
     
-    public static PersistentLimit createLimit(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentLimit createLimit(PersistentMoney money,boolean delayed$Persistence) throws PersistenceException {
         PersistentLimit result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theLimitFacade
@@ -25,12 +25,13 @@ public class Limit extends model.LimitType implements PersistentLimit{
                 .newLimit(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("money", money);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentLimit createLimit(boolean delayed$Persistence,PersistentLimit This) throws PersistenceException {
+    public static PersistentLimit createLimit(PersistentMoney money,boolean delayed$Persistence,PersistentLimit This) throws PersistenceException {
         PersistentLimit result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theLimitFacade
@@ -41,6 +42,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
                 .newLimit(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("money", money);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -183,6 +185,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
 				throws PersistenceException{
         this.setThis((PersistentLimit)This);
 		if(this.equals(This)){
+			this.setMoney((PersistentMoney)final$$Fields.get("money"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

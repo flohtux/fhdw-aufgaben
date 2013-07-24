@@ -235,8 +235,8 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void createTransfer() 
 				throws PersistenceException{
-        //TODO: implement method: createTransfer
-        
+        getThis().getAccount().createTransfer();
+        getThis().signalChanged(true);
     }
     public void disconnected() 
 				throws PersistenceException{

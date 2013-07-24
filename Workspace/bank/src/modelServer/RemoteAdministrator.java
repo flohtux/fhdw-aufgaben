@@ -44,12 +44,13 @@ public  class RemoteAdministrator extends RemoteService {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public synchronized java.util.HashMap<?,?> translateMoney(String moneyProxiString, String currencyProxiString){
         try {
             PersistentMoney money = (PersistentMoney)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(moneyProxiString));
             PersistentCurrency currency = (PersistentCurrency)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(currencyProxiString));
-            ((PersistentAdministrator)this.server).translateMoney(money, currency);
-            return createOKResult();
+            PersistentMoney result = ((PersistentAdministrator)this.server).translateMoney(money, currency);
+            return createOKResult(result, 1, this);
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
         }

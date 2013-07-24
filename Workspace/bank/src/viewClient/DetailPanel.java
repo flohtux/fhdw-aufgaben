@@ -1203,6 +1203,7 @@ class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String Account$$debitNoteTransferTransactions = "Account$$debitNoteTransferTransactions";
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
@@ -1402,6 +1403,7 @@ class MoneyDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Money$$amount = "Money$$amount";
     protected static final String Money$$currency = "Money$$currency";
+    protected static final String Money$$account = "Money$$account";
     
     protected MoneyDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

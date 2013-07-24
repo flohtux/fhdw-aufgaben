@@ -26,7 +26,14 @@ public class MoneyProxi extends ViewProxi implements MoneyView{
             currency = view.objects.ViewProxi.createProxi(currency$Info,connectionKey);
             currency.setToString(currency$Info.getToString());
         }
-        MoneyView result$$ = new Money((AmountView)amount,(CurrencyView)currency, this.getId(), this.getClassId());
+        ViewProxi account = null;
+        String account$String = (String)resultTable.get("account");
+        if (account$String != null) {
+            common.ProxiInformation account$Info = common.RPCConstantsAndServices.createProxiInformation(account$String);
+            account = view.objects.ViewProxi.createProxi(account$Info,connectionKey);
+            account.setToString(account$Info.getToString());
+        }
+        MoneyView result$$ = new Money((AmountView)amount,(CurrencyView)currency,(AccountView)account, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -40,18 +47,22 @@ public class MoneyProxi extends ViewProxi implements MoneyView{
         if(this.getAmount() != null) index = index - 1;
         if(index == 0 && this.getCurrency() != null) return new CurrencyMoneyWrapper(this, originalIndex, (ViewRoot)this.getCurrency());
         if(this.getCurrency() != null) index = index - 1;
+        if(index == 0 && this.getAccount() != null) return new AccountMoneyWrapper(this, originalIndex, (ViewRoot)this.getAccount());
+        if(this.getAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getAmount() == null ? 0 : 1)
-            + (this.getCurrency() == null ? 0 : 1);
+            + (this.getCurrency() == null ? 0 : 1)
+            + (this.getAccount() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getAmount() == null ? true : false)
-            && (this.getCurrency() == null ? true : false);
+            && (this.getCurrency() == null ? true : false)
+            && (this.getAccount() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -59,6 +70,8 @@ public class MoneyProxi extends ViewProxi implements MoneyView{
         if(this.getAmount() != null) result = result + 1;
         if(this.getCurrency() != null && this.getCurrency().equals(child)) return result;
         if(this.getCurrency() != null) result = result + 1;
+        if(this.getAccount() != null && this.getAccount().equals(child)) return result;
+        if(this.getAccount() != null) result = result + 1;
         return -1;
     }
     
@@ -73,6 +86,9 @@ public class MoneyProxi extends ViewProxi implements MoneyView{
     }
     public void setCurrency(CurrencyView newValue) throws ModelException {
         ((Money)this.getTheObject()).setCurrency(newValue);
+    }
+    public AccountView getAccount()throws ModelException{
+        return ((Money)this.getTheObject()).getAccount();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -89,7 +105,7 @@ public class MoneyProxi extends ViewProxi implements MoneyView{
     }
     
     public boolean hasTransientFields(){
-        return false;
+        return true;
     }
     
     public void setIcon(IconRenderer renderer){

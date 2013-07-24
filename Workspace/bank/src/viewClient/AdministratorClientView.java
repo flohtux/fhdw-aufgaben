@@ -553,10 +553,14 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 				
 		protected void perform() {
 			try {
-				getConnection().translateMoney(firstArgument, (CurrencyView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				ViewRoot result = (ViewRoot) getConnection().translateMoney(firstArgument, (CurrencyView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				ReturnValueView view = new ReturnValueView(result, new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+				view.setLocationRelativeTo(getNavigationScrollPane());
 				getConnection().setEagerRefresh();
 				setVisible(false);
-				dispose();	
+				dispose();
+				view.setVisible(true);
+				view.repaint();	
 			}
 			catch(ModelException me){
 				handleException(me);

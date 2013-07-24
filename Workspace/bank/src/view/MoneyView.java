@@ -10,6 +10,7 @@ public interface MoneyView extends Anything, AbstractViewRoot {
     public void setAmount(AmountView newValue) throws ModelException ;
     public CurrencyView getCurrency()throws ModelException;
     public void setCurrency(CurrencyView newValue) throws ModelException ;
+    public AccountView getAccount()throws ModelException;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

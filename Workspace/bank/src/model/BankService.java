@@ -237,6 +237,12 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeMaxLimit(final PersistentAccount acc, final PersistentAmount amount) 
+				throws PersistenceException{
+        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(amount, acc.getMoney().getCurrency()));
+        acc.getLimit().setMaxLimit(newMaxLimit);
+        getThis().signalChanged(true);
+    }
     public void closeAccount(final PersistentAccount acc) 
 				throws PersistenceException{
         //TODO: implement method: closeAccount
@@ -256,7 +262,7 @@ public class BankService extends model.Service implements PersistentBankService{
     public void createAccount(final String currencyType) 
 				throws PersistenceException{
         getThis().getBank().createAccount(currencyType);
-        
+        getThis().signalChanged(true);
     }
     public void disconnected() 
 				throws PersistenceException{

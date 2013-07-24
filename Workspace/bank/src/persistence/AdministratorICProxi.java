@@ -164,9 +164,9 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).initializeOnInstantiation();
     }
-    public void translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
 				throws PersistenceException{
-        ((PersistentAdministrator)this.getTheObject()).translateMoney(money, currency);
+        return ((PersistentAdministrator)this.getTheObject()).translateMoney(money, currency);
     }
 
     

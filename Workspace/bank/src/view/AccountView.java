@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface AccountView extends Anything, AbstractViewRoot {
     
+    public java.util.Vector<DebitNoteTransferTransactionView> getDebitNoteTransferTransactions()throws ModelException;
+    public void setDebitNoteTransferTransactions(java.util.Vector<DebitNoteTransferTransactionView> newValue) throws ModelException ;
     public long getAccountNumber()throws ModelException;
     public void setAccountNumber(long newValue) throws ModelException ;
     public MoneyView getMoney()throws ModelException;

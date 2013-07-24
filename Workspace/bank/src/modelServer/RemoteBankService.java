@@ -14,6 +14,17 @@ public  class RemoteBankService extends RemoteService {
 
 	 
 
+    public synchronized java.util.HashMap<?,?> changeMaxLimit(String accProxiString, String amountProxiString){
+        try {
+            PersistentAccount acc = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(accProxiString));
+            PersistentAmount amount = (PersistentAmount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(amountProxiString));
+            ((PersistentBankService)this.server).changeMaxLimit(acc, amount);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changePassword(String newPassword1, String newPassword2){
         try {
             String result = ((PersistentBankService)this.server).changePassword(newPassword1, newPassword2);

@@ -118,6 +118,10 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
+    public void changeMaxLimit(final PersistentAccount acc, final PersistentAmount amount) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).changeMaxLimit(acc, amount);
+    }
     public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);

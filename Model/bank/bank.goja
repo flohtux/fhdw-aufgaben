@@ -10,7 +10,7 @@ server Administrator extends Service {
   observe Bank ** banks;
 	//hashmap exchange;
   void createBank(String name);
-	void translateMoney(Money money, Currency currency);
+	Money translateMoney(Money money, Currency currency);
   void changeName(Bank bank, String name@@Name);
 }
 singleton BankCreator {
@@ -21,7 +21,8 @@ server BankService extends Service {
   skip-view prior final one-to-one (server-only bankServices) Bank bank;
   void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
   void closeAccount@@Konto_schließen(Account acc);
-void closeAccount@@Konto_übertragen(Account acc, Account transAcc);
+	void closeAccount@@Konto_übertragen(Account acc, Account transAcc);
+	void changeMaxLimit(Account acc,Amount amount);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -43,8 +44,9 @@ prior final one-to-one (server-only accountService) server-only Account account;
 void createTransfer@@Neue_Überweisung();
 }
 class Account {
+DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
 prior Integer accountNumber;
-prior Money money@@Geldmenge;
+prior one-to-one (account) Money money@@Geldmenge;
 one-to-one (account) LimitAccount limit;
 Transfer createTransfer();
 }
@@ -69,7 +71,7 @@ abstract class BooleanValue(TrueValue,FalseValue){}
 
 abstract class LimitType(NoLimit) {}
 class Limit extends LimitType{
-	Money money;
+	prior Money money;
 }
 
 abstract class TransactionFee{}

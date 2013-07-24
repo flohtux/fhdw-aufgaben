@@ -36,7 +36,8 @@ public class TestTransfer extends TestCase{
 	
     public void test() {
                     final String BankName = "Bank1";
-
+                    final String Acc1Name = "Acc1";
+                    final String Acc2Name = "Acc2";
                     try {
                     		PersistentAdministrator admin = Administrator.createAdministrator();
                     		
@@ -45,31 +46,33 @@ public class TestTransfer extends TestCase{
                             bank.setAdministrator(admin);
                             long bankNumber = bank.getBankNumber();
                             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
-                            final long SecondAccountNumber = FirstAccountNumber + 1;
+                            final long SecondAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
                             bank.createAccount("Euro");
-                            bank.createAccount("Euro");
+                            bank.createAccount("Dollar");
                                                                                    
-                            PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
-                            PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
+                            PersistentAccount acc1 = bank.getAccounts().get(1);
+                            PersistentAccount acc2 = bank.getAccounts().get(2);
                             
                             
                             PersistentTransfer newTrans = acc1.createTransfer();
                             newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10,1)), Euro.getTheEuro()));
                             newTrans.setReceiverAccountNumber(2);
                             newTrans.setReceiverBankNumber(bankNumber);
-                            newTrans.execute();
+                            try {
+								newTrans.execute();
+							} catch (InvalidBankNumberException e) {
+								fail();
+								e.printStackTrace();
+							} catch (InvalidAccountNumberException e) {
+								fail();
+								e.printStackTrace();
+							}
                            
                             assertEquals(new Fraction(10,1), acc2.getMoney().getAmount().getBalance());
                               
                     } catch (PersistenceException e) {
                             e.printStackTrace();
-                    } catch (InvalidBankNumberException e) {
-						fail(e.getMessage() + "darf nicht auftreten!");
-						e.printStackTrace();
-					} catch (InvalidAccountNumberException e) {
-						fail(e.getMessage()  + "darf nicht auftreten!");
-						e.printStackTrace();
-					}
+                    }
             }
 
 }

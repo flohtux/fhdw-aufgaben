@@ -22,6 +22,9 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
         return 133;
     }
     
+    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
+    }
     public long getAccountNumber() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getAccountNumber();
     }
