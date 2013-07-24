@@ -59,14 +59,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleEuro(PersistentEuro euro) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "€";
 	}
 	@Override
 	public void handleDollar(PersistentDollar dollar)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "$";
 	}
 	@Override
 	public void handleMixedFee(PersistentMixedFee mixedFee)
@@ -85,11 +83,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAmount(PersistentAmount amount)
 			throws PersistenceException {
-		this.result = amount.getBalance()+"€";
+		this.result = amount.getBalance().toString();
 	}
 	@Override
 	public void handleMoney(PersistentMoney money) throws PersistenceException {
-		this.result = "Saldo: "+money.getAmount().toString(true);
+		this.result = "Saldo: "+money.getAmount().toString(true)+ " "+money.getCurrency().toString(true);
 	}
 	@Override
 	public void handleProcentualFee(PersistentProcentualFee procentualFee)

@@ -52,8 +52,8 @@ Transfer createTransfer();
 }
 
 class Money {
-prior Amount amount;
-prior Currency currency;
+no-view prior Amount amount;
+no-view prior Currency currency;
 void add(Money money);
 }
 
@@ -62,8 +62,8 @@ prior Fraction balance;
 }
 
 class LimitAccount {
-	LimitType minLimit;
-	LimitType maxLimit;
+	no-view LimitType minLimit;
+	no-view LimitType maxLimit;
 	BooleanValue checkLimit(Money money);
 }
 

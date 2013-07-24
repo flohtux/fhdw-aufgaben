@@ -1114,9 +1114,6 @@ class DollarDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class LimitAccountDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String LimitAccount$$minLimit = "LimitAccount$$minLimit";
-    protected static final String LimitAccount$$maxLimit = "LimitAccount$$maxLimit";
-    
     protected LimitAccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -1401,9 +1398,6 @@ class TransactionDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class MoneyDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String Money$$amount = "Money$$amount";
-    protected static final String Money$$currency = "Money$$currency";
     
     protected MoneyDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

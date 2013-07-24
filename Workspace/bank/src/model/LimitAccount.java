@@ -242,8 +242,6 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
          return visitor.handleLimitAccount(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getMinLimit() != null) return 1;
-        if (this.getMaxLimit() != null) return 1;
         return 0;
     }
     

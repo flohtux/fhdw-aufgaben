@@ -77,29 +77,17 @@ public class LimitAccount extends ViewObject implements LimitAccountView{
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getMinLimit() != null) return new MinLimitLimitAccountWrapper(this, originalIndex, (ViewRoot)this.getMinLimit());
-        if(this.getMinLimit() != null) index = index - 1;
-        if(index == 0 && this.getMaxLimit() != null) return new MaxLimitLimitAccountWrapper(this, originalIndex, (ViewRoot)this.getMaxLimit());
-        if(this.getMaxLimit() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getMinLimit() == null ? 0 : 1)
-            + (this.getMaxLimit() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        return true 
-            && (this.getMinLimit() == null ? true : false)
-            && (this.getMaxLimit() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getMinLimit() != null && this.getMinLimit().equals(child)) return result;
-        if(this.getMinLimit() != null) result = result + 1;
-        if(this.getMaxLimit() != null && this.getMaxLimit().equals(child)) return result;
-        if(this.getMaxLimit() != null) result = result + 1;
+        
         return -1;
     }
     public int getRowCount(){

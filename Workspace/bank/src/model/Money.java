@@ -242,8 +242,6 @@ public class Money extends PersistentObject implements PersistentMoney{
          return visitor.handleMoney(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getAmount() != null) return 1;
-        if (this.getCurrency() != null) return 1;
         return 0;
     }
     
