@@ -237,9 +237,9 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeMaxLimit(final PersistentAccount acc, final PersistentAmount amount) 
+    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
 				throws PersistenceException{
-        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(amount, acc.getMoney().getCurrency()));
+        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), acc.getMoney().getCurrency()));
         acc.getLimit().setMaxLimit(newMaxLimit);
         getThis().signalChanged(true);
     }

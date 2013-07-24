@@ -378,7 +378,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                 item.setText("changeMaxLimit ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        BankServiceChangeMaxLimitAccountAmountMssgWizard wizard = new BankServiceChangeMaxLimitAccountAmountMssgWizard("changeMaxLimit");
+                        BankServiceChangeMaxLimitAccountFractionMssgWizard wizard = new BankServiceChangeMaxLimitAccountFractionMssgWizard("changeMaxLimit");
                         wizard.setFirstArgument((AccountView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -397,20 +397,20 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         return result;
     }
     
-	class BankServiceChangeMaxLimitAccountAmountMssgWizard extends Wizard {
+	class BankServiceChangeMaxLimitAccountFractionMssgWizard extends Wizard {
 
-		protected BankServiceChangeMaxLimitAccountAmountMssgWizard(String operationName){
+		protected BankServiceChangeMaxLimitAccountFractionMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "BankServiceChangeMaxLimitAccountAmountMssgWizard.help";
+			this.helpFileName = "BankServiceChangeMaxLimitAccountFractionMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().changeMaxLimit(firstArgument, (AmountView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().changeMaxLimit(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -427,7 +427,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new ObjectSelectionPanel("amount", "view.AmountView", (ViewRoot) getConnection().getBankServiceView(), this));		
+			getParametersPanel().add(new FractionSelectionPanel("amount", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

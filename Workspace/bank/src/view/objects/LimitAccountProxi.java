@@ -47,22 +47,18 @@ public class LimitAccountProxi extends ViewProxi implements LimitAccountView{
         if(this.getMinLimit() != null) index = index - 1;
         if(index == 0 && this.getMaxLimit() != null) return new MaxLimitLimitAccountWrapper(this, originalIndex, (ViewRoot)this.getMaxLimit());
         if(this.getMaxLimit() != null) index = index - 1;
-        if(index == 0 && this.getAccount() != null) return new AccountLimitAccountWrapper(this, originalIndex, (ViewRoot)this.getAccount());
-        if(this.getAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getMinLimit() == null ? 0 : 1)
-            + (this.getMaxLimit() == null ? 0 : 1)
-            + (this.getAccount() == null ? 0 : 1);
+            + (this.getMaxLimit() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getMinLimit() == null ? true : false)
-            && (this.getMaxLimit() == null ? true : false)
-            && (this.getAccount() == null ? true : false);
+            && (this.getMaxLimit() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -70,8 +66,6 @@ public class LimitAccountProxi extends ViewProxi implements LimitAccountView{
         if(this.getMinLimit() != null) result = result + 1;
         if(this.getMaxLimit() != null && this.getMaxLimit().equals(child)) return result;
         if(this.getMaxLimit() != null) result = result + 1;
-        if(this.getAccount() != null && this.getAccount().equals(child)) return result;
-        if(this.getAccount() != null) result = result + 1;
         return -1;
     }
     
@@ -105,7 +99,7 @@ public class LimitAccountProxi extends ViewProxi implements LimitAccountView{
     }
     
     public boolean hasTransientFields(){
-        return true;
+        return false;
     }
     
     public void setIcon(IconRenderer renderer){

@@ -86,17 +86,18 @@ public class AccountService extends view.objects.Service implements AccountServi
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getAccount() != null) return new AccountAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getAccount());
-        if(this.getAccount() != null) index = index - 1;
+        if(this.getAccount() != null && index < this.getAccount().getTheObject().getChildCount())
+            return this.getAccount().getTheObject().getChild(index);
+        if(this.getAccount() != null) index = index - this.getAccount().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getAccount() == null ? 0 : 1);
+            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getAccount() == null ? true : false);
+            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;

@@ -118,7 +118,7 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
-    public void changeMaxLimit(final PersistentAccount acc, final PersistentAmount amount) 
+    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeMaxLimit(acc, amount);
     }

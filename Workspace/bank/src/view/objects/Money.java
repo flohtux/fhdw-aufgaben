@@ -82,21 +82,17 @@ public class Money extends ViewObject implements MoneyView{
         if(this.getAmount() != null) index = index - 1;
         if(index == 0 && this.getCurrency() != null) return new CurrencyMoneyWrapper(this, originalIndex, (ViewRoot)this.getCurrency());
         if(this.getCurrency() != null) index = index - 1;
-        if(index == 0 && this.getAccount() != null) return new AccountMoneyWrapper(this, originalIndex, (ViewRoot)this.getAccount());
-        if(this.getAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getAmount() == null ? 0 : 1)
-            + (this.getCurrency() == null ? 0 : 1)
-            + (this.getAccount() == null ? 0 : 1);
+            + (this.getCurrency() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getAmount() == null ? true : false)
-            && (this.getCurrency() == null ? true : false)
-            && (this.getAccount() == null ? true : false);
+            && (this.getCurrency() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -104,8 +100,6 @@ public class Money extends ViewObject implements MoneyView{
         if(this.getAmount() != null) result = result + 1;
         if(this.getCurrency() != null && this.getCurrency().equals(child)) return result;
         if(this.getCurrency() != null) result = result + 1;
-        if(this.getAccount() != null && this.getAccount().equals(child)) return result;
-        if(this.getAccount() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){
@@ -129,7 +123,7 @@ public class Money extends ViewObject implements MoneyView{
         
     }
     public boolean hasTransientFields(){
-        return true;
+        return false;
     }
     /* Start of protected part that is not overridden by persistence generator */
     

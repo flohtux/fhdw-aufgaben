@@ -33,7 +33,7 @@ public interface PersistentBankService extends PersistentService {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeMaxLimit(final PersistentAccount acc, final PersistentAmount amount) 
+    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
 				throws PersistenceException;
     public void closeAccount(final PersistentAccount acc) 
 				throws PersistenceException;

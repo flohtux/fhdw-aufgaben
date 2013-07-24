@@ -194,7 +194,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
          return visitor.handleAccountService(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getAccount() != null) return 1;
+        if (this.getAccount() != null && this.getAccount().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     

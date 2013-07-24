@@ -22,7 +22,7 @@ server BankService extends Service {
   void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
   void closeAccount@@Konto_schließen(Account acc);
 	void closeAccount@@Konto_übertragen(Account acc, Account transAcc);
-	void changeMaxLimit(Account acc,Amount amount);
+	void changeMaxLimit(Account acc,Fraction amount);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -40,14 +40,14 @@ void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberE
 void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException;
 }
 server AccountService extends Service {
-prior final one-to-one (server-only accountService) Account account;
+prior final one-to-one (server-only  accountService) skip-view Account account;
 void createTransfer@@Neue_Überweisung();
 }
 class Account {
 DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
 prior Integer accountNumber;
-prior one-to-one (account) Money money@@Geldmenge;
-one-to-one (account) LimitAccount limit;
+prior one-to-one (no-view account) Money money@@Geldmenge;
+one-to-one (no-view account) LimitAccount limit;
 Transfer createTransfer();
 }
 

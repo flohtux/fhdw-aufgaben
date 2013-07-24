@@ -17,7 +17,7 @@ public class BankServiceConnection extends ServiceConnection {
 		return (BankServiceView)super.getServer();
 	}
 
-    public synchronized void changeMaxLimit(AccountView acc, AmountView amount) throws ModelException{
+    public synchronized void changeMaxLimit(AccountView acc, common.Fraction amount) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (acc == null){
@@ -25,11 +25,7 @@ public class BankServiceConnection extends ServiceConnection {
             } else {
                 parameters.add(((view.objects.ViewProxi)acc).createProxiInformation());
             }
-            if (amount == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)amount).createProxiInformation());
-            }
+            parameters.add(amount.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeMaxLimit", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)

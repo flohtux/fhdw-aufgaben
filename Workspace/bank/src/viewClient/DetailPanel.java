@@ -1116,7 +1116,6 @@ class LimitAccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String LimitAccount$$minLimit = "LimitAccount$$minLimit";
     protected static final String LimitAccount$$maxLimit = "LimitAccount$$maxLimit";
-    protected static final String LimitAccount$$account = "LimitAccount$$account";
     
     protected LimitAccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1405,7 +1404,6 @@ class MoneyDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Money$$amount = "Money$$amount";
     protected static final String Money$$currency = "Money$$currency";
-    protected static final String Money$$account = "Money$$account";
     
     protected MoneyDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
