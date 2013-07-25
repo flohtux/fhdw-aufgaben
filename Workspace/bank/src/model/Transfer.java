@@ -1,6 +1,8 @@
 
 package model;
 
+import common.Fraction;
+
 import persistence.*;
 import model.visitor.*;
 
@@ -201,8 +203,10 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+        getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
+        getThis().setSender(Account.createAccount(0, Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro())));
+        getThis().setReceiverAccountNumber(0);
+        getThis().setReceiverBankNumber(0);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

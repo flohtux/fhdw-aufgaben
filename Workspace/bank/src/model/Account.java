@@ -323,7 +323,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 		PersistentTransfer transfer = Transfer.createTransfer();
 		transfer.setSender(getThis());
 		getThis().getDebitNoteTransferTransactions().add(transfer);
-		System.out.println(transfer.toString());
 		return transfer;
     }
     public void initializeOnCreation() 
