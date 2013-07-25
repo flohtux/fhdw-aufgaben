@@ -10,9 +10,9 @@ import view.visitor.*;
 public class DebitNote extends view.objects.DebitNoteTransfer implements DebitNoteView{
     
     
-    public DebitNote(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,long id, long classId) {
+    public DebitNote(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,id, classId);        
+        super((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -70,35 +70,31 @@ public class DebitNote extends view.objects.DebitNoteTransfer implements DebitNo
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
+        DebitNoteTransferStateView state = this.getState();
+        if (state != null) {
+            ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
+        StornoStateView stornoState = this.getStornoState();
+        if (stornoState != null) {
+            ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getSender() != null) return new SenderDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getSender());
-        if(this.getSender() != null) index = index - 1;
-        if(index == 0 && this.getMoney() != null) return new MoneyDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getMoney());
-        if(this.getMoney() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getSender() == null ? 0 : 1)
-            + (this.getMoney() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        return true 
-            && (this.getSender() == null ? true : false)
-            && (this.getMoney() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getSender() != null && this.getSender().equals(child)) return result;
-        if(this.getSender() != null) result = result + 1;
-        if(this.getMoney() != null && this.getMoney().equals(child)) return result;
-        if(this.getMoney() != null) result = result + 1;
+        
         return -1;
     }
     public int getReceiverAccountNumberIndex() throws ModelException {

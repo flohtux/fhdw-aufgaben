@@ -68,7 +68,7 @@ public class NotSuccessfullStorneStateICProxi extends StornoStateICProxi impleme
 				throws PersistenceException{
         ((PersistentNotSuccessfullStorneState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentNotSuccessfullStorneState)this.getTheObject()).getDebitNoteTransfer();
     }

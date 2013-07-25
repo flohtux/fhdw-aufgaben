@@ -60,9 +60,7 @@ public class NotSuccessfullState extends model.DebitNoteTransferState implements
     
     public NotSuccessfullState provideCopy() throws PersistenceException{
         NotSuccessfullState result = this;
-        result = new NotSuccessfullState(this.state, 
-                                         this.stornoState, 
-                                         this.subService, 
+        result = new NotSuccessfullState(this.subService, 
                                          this.This, 
                                          this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -73,9 +71,9 @@ public class NotSuccessfullState extends model.DebitNoteTransferState implements
         return false;
     }
     
-    public NotSuccessfullState(PersistentDebitNoteTransferState state,PersistentStornoState stornoState,SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
+    public NotSuccessfullState(SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,(SubjInterface)subService,(PersistentDebitNoteTransferState)This,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferState)This,id);        
     }
     
     static public long getTypeId() {
@@ -135,9 +133,6 @@ public class NotSuccessfullState extends model.DebitNoteTransferState implements
          return visitor.handleNotSuccessfullState(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getState() != null) return 1;
-        if (this.getStornoState() != null) return 1;
-        if (this.getDebitNoteTransfer() != null) return 1;
         return 0;
     }
     

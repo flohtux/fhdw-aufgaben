@@ -10,19 +10,7 @@ public abstract class DebitNoteTransferStateProxi extends ViewProxi implements D
     }
     
     
-    public DebitNoteTransferStateView getState()throws ModelException{
-        return ((DebitNoteTransferState)this.getTheObject()).getState();
-    }
-    public void setState(DebitNoteTransferStateView newValue) throws ModelException {
-        ((DebitNoteTransferState)this.getTheObject()).setState(newValue);
-    }
-    public StornoStateView getStornoState()throws ModelException{
-        return ((DebitNoteTransferState)this.getTheObject()).getStornoState();
-    }
-    public void setStornoState(StornoStateView newValue) throws ModelException {
-        ((DebitNoteTransferState)this.getTheObject()).setStornoState(newValue);
-    }
-    public DebitNoteTransferStateView getDebitNoteTransfer()throws ModelException{
+    public DebitNoteTransferView getDebitNoteTransfer()throws ModelException{
         return ((DebitNoteTransferState)this.getTheObject()).getDebitNoteTransfer();
     }
     

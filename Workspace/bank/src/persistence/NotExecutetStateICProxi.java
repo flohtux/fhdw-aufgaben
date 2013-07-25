@@ -68,7 +68,7 @@ public class NotExecutetStateICProxi extends DebitNoteTransferStateICProxi imple
 				throws PersistenceException{
         ((PersistentNotExecutetState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentNotExecutetState)this.getTheObject()).getDebitNoteTransfer();
     }

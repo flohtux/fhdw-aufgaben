@@ -42,21 +42,13 @@ public class NotExecutetStateFacade{
                 callable.close();
                 return null;
             }
-            PersistentDebitNoteTransferState state = null;
-            if (obj.getLong(2) != 0)
-                state = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            PersistentStornoState stornoState = null;
-            if (obj.getLong(4) != 0)
-                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
-            if (obj.getLong(6) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitNoteTransferState This = null;
-            if (obj.getLong(8) != 0)
-                This = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            NotExecutetState result = new NotExecutetState(state,
-                                                           stornoState,
-                                                           subService,
+            if (obj.getLong(4) != 0)
+                This = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            NotExecutetState result = new NotExecutetState(subService,
                                                            This,
                                                            NotExecutetStateId);
             obj.close();

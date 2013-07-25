@@ -36,6 +36,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
+    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

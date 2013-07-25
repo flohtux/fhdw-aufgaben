@@ -68,7 +68,7 @@ public class NotSuccessfullStateProxi extends DebitNoteTransferStateProxi implem
 				throws PersistenceException{
         ((PersistentNotSuccessfullState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentNotSuccessfullState)this.getTheObject()).getDebitNoteTransfer();
     }

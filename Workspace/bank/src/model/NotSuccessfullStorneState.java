@@ -133,7 +133,6 @@ public class NotSuccessfullStorneState extends model.StornoState implements Pers
          return visitor.handleNotSuccessfullStorneState(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getDebitNoteTransfer() != null) return 1;
         return 0;
     }
     

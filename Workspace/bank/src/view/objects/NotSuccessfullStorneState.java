@@ -10,9 +10,9 @@ import view.visitor.*;
 public class NotSuccessfullStorneState extends view.objects.StornoState implements NotSuccessfullStorneStateView{
     
     
-    public NotSuccessfullStorneState(DebitNoteTransferStateView debitNoteTransfer,long id, long classId) {
+    public NotSuccessfullStorneState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitNoteTransferStateView)debitNoteTransfer,id, classId);        
+        super((DebitNoteTransferView)debitNoteTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -50,7 +50,7 @@ public class NotSuccessfullStorneState extends view.objects.StornoState implemen
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferStateView debitNoteTransfer = this.getDebitNoteTransfer();
+        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
         if (debitNoteTransfer != null) {
             ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
         }
@@ -60,23 +60,17 @@ public class NotSuccessfullStorneState extends view.objects.StornoState implemen
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getDebitNoteTransfer() != null) return new DebitNoteTransferStornoStateWrapper(this, originalIndex, (ViewRoot)this.getDebitNoteTransfer());
-        if(this.getDebitNoteTransfer() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getDebitNoteTransfer() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        return true 
-            && (this.getDebitNoteTransfer() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getDebitNoteTransfer() != null && this.getDebitNoteTransfer().equals(child)) return result;
-        if(this.getDebitNoteTransfer() != null) result = result + 1;
+        
         return -1;
     }
     public int getRowCount(){
@@ -100,7 +94,7 @@ public class NotSuccessfullStorneState extends view.objects.StornoState implemen
         
     }
     public boolean hasTransientFields(){
-        return true;
+        return false;
     }
     /* Start of protected part that is not overridden by persistence generator */
     

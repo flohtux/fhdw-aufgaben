@@ -10,7 +10,7 @@ public abstract class StornoStateProxi extends ViewProxi implements StornoStateV
     }
     
     
-    public DebitNoteTransferStateView getDebitNoteTransfer()throws ModelException{
+    public DebitNoteTransferView getDebitNoteTransfer()throws ModelException{
         return ((StornoState)this.getTheObject()).getDebitNoteTransfer();
     }
     

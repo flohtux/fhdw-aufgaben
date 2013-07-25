@@ -18,24 +18,6 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
-            if (state != null) {
-                result.put("state", state.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
-            AbstractPersistentRoot stornoState = (AbstractPersistentRoot)this.getStornoState();
-            if (stornoState != null) {
-                result.put("stornoState", stornoState.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    stornoState.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && stornoState.hasEssentialFields())stornoState.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             AbstractPersistentRoot debitNoteTransfer = (AbstractPersistentRoot)this.getDebitNoteTransfer();
             if (debitNoteTransfer != null) {
                 result.put("debitNoteTransfer", debitNoteTransfer.createProxiInformation(false, essentialLevel == 0));
@@ -56,16 +38,12 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentDebitNoteTransferState state;
-    protected PersistentStornoState stornoState;
     protected SubjInterface subService;
     protected PersistentDebitNoteTransferState This;
     
-    public DebitNoteTransferState(PersistentDebitNoteTransferState state,PersistentStornoState stornoState,SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
+    public DebitNoteTransferState(SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.state = state;
-        this.stornoState = stornoState;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -81,14 +59,6 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
-        if(this.getState() != null){
-            this.getState().store();
-            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade.stateSet(this.getId(), getState());
-        }
-        if(this.getStornoState() != null){
-            this.getStornoState().store();
-            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade.stornoStateSet(this.getId(), getStornoState());
-        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade.subServiceSet(this.getId(), getSubService());
@@ -100,34 +70,6 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
         
     }
     
-    public PersistentDebitNoteTransferState getState() throws PersistenceException {
-        return this.state;
-    }
-    public void setState(PersistentDebitNoteTransferState newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.state)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.state = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade.stateSet(this.getId(), newValue);
-        }
-    }
-    public PersistentStornoState getStornoState() throws PersistenceException {
-        return this.stornoState;
-    }
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.stornoState)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.stornoState = (PersistentStornoState)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade.stornoStateSet(this.getId(), newValue);
-        }
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
     }
@@ -161,11 +103,11 @@ public abstract class DebitNoteTransferState extends PersistentObject implements
     
     
     
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
-        PersistentDebitNoteTransferState result = null;
+        PersistentDebitNoteTransfer result = null;
 		try {
-			if (result == null) result = (PersistentDebitNoteTransferState)ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade
+			if (result == null) result = (PersistentDebitNoteTransfer)ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade
 							.inverseGetState(this.getId(), this.getClassId()).iterator().next();
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;

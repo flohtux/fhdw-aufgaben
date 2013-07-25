@@ -60,9 +60,7 @@ public class ExecutedState extends model.DebitNoteTransferState implements Persi
     
     public ExecutedState provideCopy() throws PersistenceException{
         ExecutedState result = this;
-        result = new ExecutedState(this.state, 
-                                   this.stornoState, 
-                                   this.subService, 
+        result = new ExecutedState(this.subService, 
                                    this.This, 
                                    this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -73,9 +71,9 @@ public class ExecutedState extends model.DebitNoteTransferState implements Persi
         return false;
     }
     
-    public ExecutedState(PersistentDebitNoteTransferState state,PersistentStornoState stornoState,SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
+    public ExecutedState(SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,(SubjInterface)subService,(PersistentDebitNoteTransferState)This,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferState)This,id);        
     }
     
     static public long getTypeId() {
@@ -135,9 +133,6 @@ public class ExecutedState extends model.DebitNoteTransferState implements Persi
          return visitor.handleExecutedState(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getState() != null) return 1;
-        if (this.getStornoState() != null) return 1;
-        if (this.getDebitNoteTransfer() != null) return 1;
         return 0;
     }
     

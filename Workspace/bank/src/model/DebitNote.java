@@ -66,6 +66,8 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
                                this.receiverBankNumber, 
                                this.sender, 
                                this.money, 
+                               this.state, 
+                               this.stornoState, 
                                this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -75,9 +77,9 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
         return false;
     }
     
-    public DebitNote(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,long id) throws persistence.PersistenceException {
+    public DebitNote(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {
@@ -149,8 +151,6 @@ public class DebitNote extends model.DebitNoteTransfer implements PersistentDebi
          return visitor.handleDebitNote(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getSender() != null) return 1;
-        if (this.getMoney() != null) return 1;
         return 0;
     }
     

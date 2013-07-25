@@ -12,6 +12,10 @@ public interface DebitNoteTransferView extends DebitNoteTransferTransactionView 
     public void setSender(AccountView newValue) throws ModelException ;
     public MoneyView getMoney()throws ModelException;
     public void setMoney(MoneyView newValue) throws ModelException ;
+    public DebitNoteTransferStateView getState()throws ModelException;
+    public void setState(DebitNoteTransferStateView newValue) throws ModelException ;
+    public StornoStateView getStornoState()throws ModelException;
+    public void setStornoState(StornoStateView newValue) throws ModelException ;
     
     public void accept(DebitNoteTransferVisitor visitor) throws ModelException;
     public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws ModelException;

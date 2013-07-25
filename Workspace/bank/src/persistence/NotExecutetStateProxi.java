@@ -68,7 +68,7 @@ public class NotExecutetStateProxi extends DebitNoteTransferStateProxi implement
 				throws PersistenceException{
         ((PersistentNotExecutetState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentNotExecutetState)this.getTheObject()).getDebitNoteTransfer();
     }

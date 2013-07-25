@@ -6,7 +6,7 @@ import view.visitor.*;
 
 public interface StornoStateView extends Anything, AbstractViewRoot {
     
-    public DebitNoteTransferStateView getDebitNoteTransfer()throws ModelException;
+    public DebitNoteTransferView getDebitNoteTransfer()throws ModelException;
     
     public void accept(StornoStateVisitor visitor) throws ModelException;
     public <R> R accept(StornoStateReturnVisitor<R>  visitor) throws ModelException;

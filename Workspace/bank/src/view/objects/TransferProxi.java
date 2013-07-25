@@ -28,7 +28,21 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
             money = view.objects.ViewProxi.createProxi(money$Info,connectionKey);
             money.setToString(money$Info.getToString());
         }
-        TransferView result$$ = new Transfer((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money, this.getId(), this.getClassId());
+        ViewProxi state = null;
+        String state$String = (String)resultTable.get("state");
+        if (state$String != null) {
+            common.ProxiInformation state$Info = common.RPCConstantsAndServices.createProxiInformation(state$String);
+            state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
+            state.setToString(state$Info.getToString());
+        }
+        ViewProxi stornoState = null;
+        String stornoState$String = (String)resultTable.get("stornoState");
+        if (stornoState$String != null) {
+            common.ProxiInformation stornoState$Info = common.RPCConstantsAndServices.createProxiInformation(stornoState$String);
+            stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
+            stornoState.setToString(stornoState$Info.getToString());
+        }
+        TransferView result$$ = new Transfer((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -37,30 +51,17 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getSender() != null) return new SenderDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getSender());
-        if(this.getSender() != null) index = index - 1;
-        if(index == 0 && this.getMoney() != null) return new MoneyDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getMoney());
-        if(this.getMoney() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getSender() == null ? 0 : 1)
-            + (this.getMoney() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        if (this.object == null) return this.getLeafInfo() == 0;
-        return true 
-            && (this.getSender() == null ? true : false)
-            && (this.getMoney() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getSender() != null && this.getSender().equals(child)) return result;
-        if(this.getSender() != null) result = result + 1;
-        if(this.getMoney() != null && this.getMoney().equals(child)) return result;
-        if(this.getMoney() != null) result = result + 1;
+        
         return -1;
     }
     

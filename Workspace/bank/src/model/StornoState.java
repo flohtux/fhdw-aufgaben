@@ -103,11 +103,11 @@ public abstract class StornoState extends PersistentObject implements Persistent
     
     
     
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
-        PersistentDebitNoteTransferState result = null;
+        PersistentDebitNoteTransfer result = null;
 		try {
-			if (result == null) result = (PersistentDebitNoteTransferState)ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferStateFacade
+			if (result == null) result = (PersistentDebitNoteTransfer)ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade
 							.inverseGetStornoState(this.getId(), this.getClassId()).iterator().next();
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;

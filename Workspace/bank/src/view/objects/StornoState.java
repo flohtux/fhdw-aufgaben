@@ -8,21 +8,21 @@ import view.*;
 
 public abstract class StornoState extends ViewObject implements StornoStateView{
     
-    protected DebitNoteTransferStateView debitNoteTransfer;
+    protected DebitNoteTransferView debitNoteTransfer;
     
-    public StornoState(DebitNoteTransferStateView debitNoteTransfer,long id, long classId) {
+    public StornoState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.debitNoteTransfer = debitNoteTransfer;        
     }
     
-    public DebitNoteTransferStateView getDebitNoteTransfer()throws ModelException{
+    public DebitNoteTransferView getDebitNoteTransfer()throws ModelException{
         return this.debitNoteTransfer;
     }
     
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferStateView debitNoteTransfer = this.getDebitNoteTransfer();
+        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
         if (debitNoteTransfer != null) {
             ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
         }
@@ -32,23 +32,17 @@ public abstract class StornoState extends ViewObject implements StornoStateView{
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getDebitNoteTransfer() != null) return new DebitNoteTransferStornoStateWrapper(this, originalIndex, (ViewRoot)this.getDebitNoteTransfer());
-        if(this.getDebitNoteTransfer() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getDebitNoteTransfer() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        return true 
-            && (this.getDebitNoteTransfer() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getDebitNoteTransfer() != null && this.getDebitNoteTransfer().equals(child)) return result;
-        if(this.getDebitNoteTransfer() != null) result = result + 1;
+        
         return -1;
     }
     public int getRowCount(){

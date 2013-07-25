@@ -12,18 +12,6 @@ public abstract class DebitNoteTransferStateProxi extends PersistentProxi implem
     }
     
     
-    public PersistentDebitNoteTransferState getState() throws PersistenceException {
-        return ((PersistentDebitNoteTransferState)this.getTheObject()).getState();
-    }
-    public void setState(PersistentDebitNoteTransferState newValue) throws PersistenceException {
-        ((PersistentDebitNoteTransferState)this.getTheObject()).setState(newValue);
-    }
-    public PersistentStornoState getStornoState() throws PersistenceException {
-        return ((PersistentDebitNoteTransferState)this.getTheObject()).getStornoState();
-    }
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
-        ((PersistentDebitNoteTransferState)this.getTheObject()).setStornoState(newValue);
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDebitNoteTransferState)this.getTheObject()).getSubService();
     }
@@ -38,7 +26,7 @@ public abstract class DebitNoteTransferStateProxi extends PersistentProxi implem
 				throws PersistenceException{
         ((PersistentDebitNoteTransferState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentDebitNoteTransferState)this.getTheObject()).getDebitNoteTransfer();
     }

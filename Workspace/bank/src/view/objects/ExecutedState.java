@@ -10,9 +10,9 @@ import view.visitor.*;
 public class ExecutedState extends view.objects.DebitNoteTransferState implements ExecutedStateView{
     
     
-    public ExecutedState(DebitNoteTransferStateView state,StornoStateView stornoState,DebitNoteTransferStateView debitNoteTransfer,long id, long classId) {
+    public ExecutedState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitNoteTransferStateView)state,(StornoStateView)stornoState,(DebitNoteTransferStateView)debitNoteTransfer,id, classId);        
+        super((DebitNoteTransferView)debitNoteTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -50,15 +50,7 @@ public class ExecutedState extends view.objects.DebitNoteTransferState implement
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferStateView state = this.getState();
-        if (state != null) {
-            ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
-        }
-        StornoStateView stornoState = this.getStornoState();
-        if (stornoState != null) {
-            ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
-        }
-        DebitNoteTransferStateView debitNoteTransfer = this.getDebitNoteTransfer();
+        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
         if (debitNoteTransfer != null) {
             ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
         }
@@ -68,35 +60,17 @@ public class ExecutedState extends view.objects.DebitNoteTransferState implement
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitNoteTransferStateWrapper(this, originalIndex, (ViewRoot)this.getState());
-        if(this.getState() != null) index = index - 1;
-        if(index == 0 && this.getStornoState() != null) return new StornoStateDebitNoteTransferStateWrapper(this, originalIndex, (ViewRoot)this.getStornoState());
-        if(this.getStornoState() != null) index = index - 1;
-        if(index == 0 && this.getDebitNoteTransfer() != null) return new DebitNoteTransferDebitNoteTransferStateWrapper(this, originalIndex, (ViewRoot)this.getDebitNoteTransfer());
-        if(this.getDebitNoteTransfer() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getState() == null ? 0 : 1)
-            + (this.getStornoState() == null ? 0 : 1)
-            + (this.getDebitNoteTransfer() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        return true 
-            && (this.getState() == null ? true : false)
-            && (this.getStornoState() == null ? true : false)
-            && (this.getDebitNoteTransfer() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getState() != null && this.getState().equals(child)) return result;
-        if(this.getState() != null) result = result + 1;
-        if(this.getStornoState() != null && this.getStornoState().equals(child)) return result;
-        if(this.getStornoState() != null) result = result + 1;
-        if(this.getDebitNoteTransfer() != null && this.getDebitNoteTransfer().equals(child)) return result;
-        if(this.getDebitNoteTransfer() != null) result = result + 1;
+        
         return -1;
     }
     public int getRowCount(){
@@ -120,7 +94,7 @@ public class ExecutedState extends view.objects.DebitNoteTransferState implement
         
     }
     public boolean hasTransientFields(){
-        return true;
+        return false;
     }
     /* Start of protected part that is not overridden by persistence generator */
     

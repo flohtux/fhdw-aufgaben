@@ -66,6 +66,8 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
                               this.receiverBankNumber, 
                               this.sender, 
                               this.money, 
+                              this.state, 
+                              this.stornoState, 
                               this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -75,9 +77,9 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         return false;
     }
     
-    public Transfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,long id) throws persistence.PersistenceException {
+    public Transfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {
@@ -153,8 +155,6 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
          return visitor.handleTransfer(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getSender() != null) return 1;
-        if (this.getMoney() != null) return 1;
         return 0;
     }
     
@@ -207,6 +207,7 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         getThis().setSender(Account.createAccount(0, Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro())));
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
+        getThis().setState(NotExecutetState.getTheNotExecutetState());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

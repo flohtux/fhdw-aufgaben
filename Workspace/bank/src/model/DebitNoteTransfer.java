@@ -34,6 +34,24 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
                     if(forGUI && money.hasEssentialFields())money.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
+            if (state != null) {
+                result.put("state", state.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot stornoState = (AbstractPersistentRoot)this.getStornoState();
+            if (stornoState != null) {
+                result.put("stornoState", stornoState.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    stornoState.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && stornoState.hasEssentialFields())stornoState.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -49,14 +67,18 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     protected long receiverBankNumber;
     protected PersistentAccount sender;
     protected PersistentMoney money;
+    protected PersistentDebitNoteTransferState state;
+    protected PersistentStornoState stornoState;
     
-    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,long id) throws persistence.PersistenceException {
+    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
-        this.money = money;        
+        this.money = money;
+        this.state = state;
+        this.stornoState = stornoState;        
     }
     
     static public long getTypeId() {
@@ -77,6 +99,14 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.moneySet(this.getId(), getMoney());
+        }
+        if(this.getState() != null){
+            this.getState().store();
+            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.stateSet(this.getId(), getState());
+        }
+        if(this.getStornoState() != null){
+            this.getStornoState().store();
+            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.stornoStateSet(this.getId(), getStornoState());
         }
         
     }
@@ -121,6 +151,34 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.moneySet(this.getId(), newValue);
+        }
+    }
+    public PersistentDebitNoteTransferState getState() throws PersistenceException {
+        return this.state;
+    }
+    public void setState(PersistentDebitNoteTransferState newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.state)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.state = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.stateSet(this.getId(), newValue);
+        }
+    }
+    public PersistentStornoState getStornoState() throws PersistenceException {
+        return this.stornoState;
+    }
+    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.stornoState)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.stornoState = (PersistentStornoState)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.stornoStateSet(this.getId(), newValue);
         }
     }
     public abstract PersistentDebitNoteTransfer getThis() throws PersistenceException ;

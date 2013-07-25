@@ -26,7 +26,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
+            Transfer result = new Transfer(null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -42,7 +42,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
+            Transfer result = new Transfer(null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -75,12 +75,20 @@ public class TransferFacade{
             PersistentMoney money = null;
             if (obj.getLong(10) != 0)
                 money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            PersistentDebitNoteTransferState state = null;
+            if (obj.getLong(12) != 0)
+                state = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
+            PersistentStornoState stornoState = null;
+            if (obj.getLong(14) != 0)
+                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
             Transfer result = new Transfer(subService,
                                            This,
                                            obj.getLong(6),
                                            obj.getLong(7),
                                            sender,
                                            money,
+                                           state,
+                                           stornoState,
                                            TransferId);
             obj.close();
             callable.close();

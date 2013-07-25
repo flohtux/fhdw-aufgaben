@@ -26,7 +26,7 @@ public abstract class StornoStateICProxi extends PersistentInCacheProxiOptimisti
 				throws PersistenceException{
         ((PersistentStornoState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentStornoState)this.getTheObject()).getDebitNoteTransfer();
     }

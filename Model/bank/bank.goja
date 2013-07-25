@@ -49,6 +49,7 @@ prior Integer accountNumber;
 prior one-to-one (no-view account) Money money@@Geldmenge;
 one-to-one (no-view account) LimitAccount limit;
 Transfer createTransfer();
+void executeTransfer(DebitNoteTransfer debitNoteTransfer);
 }
 
 class Money {
@@ -103,8 +104,10 @@ abstract class DebitNoteTransferTransaction##DebiTrfTran {
 abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
 	Integer receiverAccountNumber##recaccno;
 	Integer receiverBankNumber;	
-	Account sender;
-	Money money;
+	no-view Account sender;
+	no-view Money money;
+	no-view one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
+	no-view one-to-one (no-view debitNoteTransfer) StornoState stornoState;
 }
 
 class Transfer extends DebitNoteTransfer {}
@@ -112,8 +115,6 @@ class Transfer extends DebitNoteTransfer {}
 class Transaction extends DebitNoteTransferTransaction {}
 
 abstract class DebitNoteTransferState##DebiTraStat(SuccessfullState,NotSuccessfullState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
-	one-to-one (debitNoteTransfer) DebitNoteTransferState state;
-	one-to-one (debitNoteTransfer) StornoState stornoState;
 }
 
 abstract class StornoState(SuccessfullStornoState##SucStoSta,NotSuccessfullStorneState##NoSucStoSta,RequestState,NoRequestState){}

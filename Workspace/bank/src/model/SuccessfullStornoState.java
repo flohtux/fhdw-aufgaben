@@ -133,7 +133,6 @@ public class SuccessfullStornoState extends model.StornoState implements Persist
          return visitor.handleSuccessfullStornoState(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getDebitNoteTransfer() != null) return 1;
         return 0;
     }
     

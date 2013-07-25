@@ -375,8 +375,17 @@ create table DebiTrfTran(
     constraint FDbtNtTrnsfrSndr foreign key (DbtNtTrnsfrSndrCls) references Cls (id),
     DbtNtTrnsfrMn number,
     DbtNtTrnsfrMnCls number,
-    constraint FDbtNtTrnsfrMn foreign key (DbtNtTrnsfrMnCls) references Cls (id)    
+    constraint FDbtNtTrnsfrMn foreign key (DbtNtTrnsfrMnCls) references Cls (id),
+    DbtNtTrnsfrStt number,
+    DbtNtTrnsfrSttCls number,
+    constraint FDbtNtTrnsfrStt foreign key (DbtNtTrnsfrSttCls) references Cls (id),
+    DbtNtTrnsfrStrnStt number,
+    DbtNtTrnsfrStrnSttCls number,
+    constraint FDbtNtTrnsfrStrnStt foreign key (DbtNtTrnsfrStrnSttCls) references Cls (id)    
 );
+create index ISttDbtNtTrnsfr on DebiTrfTran (DbtNtTrnsfrStt, DbtNtTrnsfrSttCls);
+create index IStrnSttDbtNtTrnsfr on DebiTrfTran (DbtNtTrnsfrStrnStt, DbtNtTrnsfrStrnSttCls);
+
 
 create sequence SMn nocache;
 
@@ -434,12 +443,6 @@ create sequence SDebiTraStat nocache;
 create table DebiTraStat(
     id number primary key,
     Cls number not null,
-    DebiTraStatStt number,
-    DebiTraStatSttCls number,
-    constraint FDebiTraStatStt foreign key (DebiTraStatSttCls) references Cls (id),
-    DebiTraStatStrnStt number,
-    DebiTraStatStrnSttCls number,
-    constraint FDebiTraStatStrnStt foreign key (DebiTraStatStrnSttCls) references Cls (id),
     DebiTraStatSbSrvc number,
     DebiTraStatSbSrvcCls number,
     constraint FDebiTraStatSbSrvc foreign key (DebiTraStatSbSrvcCls) references Cls (id),
@@ -447,9 +450,6 @@ create table DebiTraStat(
     DebiTraStatThisCls number,
     constraint FDebiTraStatThis foreign key (DebiTraStatThisCls) references Cls (id)    
 );
-create index ISttDebiTraStat on DebiTraStat (DebiTraStatStt, DebiTraStatSttCls);
-create index IStrnSttDebiTraStat on DebiTraStat (DebiTraStatStrnStt, DebiTraStatStrnSttCls);
-
 
 create sequence SBnkCrtr nocache;
 

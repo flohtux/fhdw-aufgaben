@@ -19,7 +19,7 @@ public class NoRequestStateProxi extends StornoStateProxi implements NoRequestSt
             debitNoteTransfer = view.objects.ViewProxi.createProxi(debitNoteTransfer$Info,connectionKey);
             debitNoteTransfer.setToString(debitNoteTransfer$Info.getToString());
         }
-        NoRequestStateView result$$ = new NoRequestState((DebitNoteTransferStateView)debitNoteTransfer, this.getId(), this.getClassId());
+        NoRequestStateView result$$ = new NoRequestState((DebitNoteTransferView)debitNoteTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -28,24 +28,17 @@ public class NoRequestStateProxi extends StornoStateProxi implements NoRequestSt
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getDebitNoteTransfer() != null) return new DebitNoteTransferStornoStateWrapper(this, originalIndex, (ViewRoot)this.getDebitNoteTransfer());
-        if(this.getDebitNoteTransfer() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getDebitNoteTransfer() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        if (this.object == null) return this.getLeafInfo() == 0;
-        return true 
-            && (this.getDebitNoteTransfer() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getDebitNoteTransfer() != null && this.getDebitNoteTransfer().equals(child)) return result;
-        if(this.getDebitNoteTransfer() != null) result = result + 1;
+        
         return -1;
     }
     
@@ -76,7 +69,7 @@ public class NoRequestStateProxi extends StornoStateProxi implements NoRequestSt
     }
     
     public boolean hasTransientFields(){
-        return true;
+        return false;
     }
     
     public void setIcon(IconRenderer renderer){

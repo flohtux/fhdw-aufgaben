@@ -68,7 +68,7 @@ public class RequestStateProxi extends StornoStateProxi implements PersistentReq
 				throws PersistenceException{
         ((PersistentRequestState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransferState getDebitNoteTransfer() 
+    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
 				throws PersistenceException{
         return ((PersistentRequestState)this.getTheObject()).getDebitNoteTransfer();
     }

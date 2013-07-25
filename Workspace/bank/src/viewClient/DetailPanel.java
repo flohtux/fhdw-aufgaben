@@ -821,8 +821,6 @@ class FalseValueDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class NoRequestStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
-    
     protected NoRequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -868,10 +866,6 @@ class InternalFeeDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class ExecutedStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
-    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
-    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
     protected ExecutedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -923,10 +917,6 @@ class PercentDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class SuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
-    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
-    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
     protected SuccessfullStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1053,8 +1043,6 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
-    protected static final String DebitNoteTransfer$$sender = "DebitNoteTransfer$$sender";
-    protected static final String DebitNoteTransfer$$money = "DebitNoteTransfer$$money";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1083,8 +1071,6 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class SuccessfullStornoStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
     
     protected SuccessfullStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1185,8 +1171,6 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
-    
     protected RequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -1227,8 +1211,6 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class NotSuccessfullStorneStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String StornoState$$debitNoteTransfer = "StornoState$$debitNoteTransfer";
-    
     protected NotSuccessfullStorneStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -1268,8 +1250,6 @@ class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
-    protected static final String DebitNoteTransfer$$sender = "DebitNoteTransfer$$sender";
-    protected static final String DebitNoteTransfer$$money = "DebitNoteTransfer$$money";
     
     protected DebitNoteDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1313,10 +1293,6 @@ class EuroDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
-    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
-    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
-    
     protected TemplateStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -1330,10 +1306,6 @@ class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class NotSuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
-    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
-    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
     protected NotSuccessfullStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1349,10 +1321,6 @@ class NotSuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class NotExecutetStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
-    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
-    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
-    
     protected NotExecutetStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -1366,10 +1334,6 @@ class NotExecutetStateDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitNoteTransferState$$state = "DebitNoteTransferState$$state";
-    protected static final String DebitNoteTransferState$$stornoState = "DebitNoteTransferState$$stornoState";
-    protected static final String DebitNoteTransferState$$debitNoteTransfer = "DebitNoteTransferState$$debitNoteTransfer";
     
     protected NotExecutableStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
