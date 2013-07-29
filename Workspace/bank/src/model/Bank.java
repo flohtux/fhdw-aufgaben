@@ -463,7 +463,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	getThis().setLastAccountNumber(serverConstants.ServerConstants.FirstAccountNumber);
     	getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
     			getThis().getOwnAccount().getMoney().getCurrency())));
-    	getThis().getInternalFee().setPercent((Percent.createPercent(Fraction.parse("1/1"))));
+    	getThis().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.parse("1/1"))));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -474,7 +474,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
 				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
-					argument.getMoney().add(debitNoteTransfer.getMoney());
+					argument.setMoney(argument.getMoney().add(debitNoteTransfer.getMoney()));
 					return true;
 				}
 				return false;
@@ -485,7 +485,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         }
     }
     public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
@@ -495,6 +495,21 @@ public class Bank extends PersistentObject implements PersistentBank{
     	if (result == null) {
     		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
     	} else {
+    		final PersistentMoney fee = this.calculateFee(debitNoteTransfer.getMoney());
+    		final PersistentMoney newAccountMoney = debitNoteTransfer.getSender().getMoney().subtract(fee); 
+    		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney).accept(new BooleanValueExceptionVisitor<LimitViolatedException>() {
+				@Override
+				public void handleFalseValue(PersistentFalseValue falseValue)
+						throws PersistenceException, LimitViolatedException {
+					throw new LimitViolatedException();
+				}
+				@Override
+				public void handleTrueValue(PersistentTrueValue trueValue)
+						throws PersistenceException, LimitViolatedException {
+					debitNoteTransfer.getSender().setMoney(newAccountMoney);
+					getThis().getOwnAccount().getMoney().add(fee);
+				}
+			});
 			result.receiveTransfer(debitNoteTransfer);
     	}
     }
@@ -505,6 +520,35 @@ public class Bank extends PersistentObject implements PersistentBank{
 
     /* Start of protected part that is not overridden by persistence generator */
     
+    /**
+     * Calculate the Fee of <money>.
+     * @return
+     * @throws PersistenceException 
+     */
+    private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException {
+    	return getThis().getFee().accept(new TransactionFeeReturnVisitor<PersistentMoney>() {
+			@Override
+			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
+					throws PersistenceException {
+				// TODO calculate für MixedFee
+				System.out.println("TODO calculate für MixedFee machen!!!");
+				return null;
+			}
+			@Override
+			public PersistentMoney handleFixTransactionFee(
+					PersistentFixTransactionFee fixTransactionFee)
+					throws PersistenceException {
+				return fixTransactionFee.getValue();
+			}
+			@Override
+			public PersistentMoney handleProcentualFee(
+					PersistentProcentualFee procentualFee)
+					throws PersistenceException {
+				return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
+						procentualFee.getPercent().getValue())), money.getCurrency()); 
+			}
+		});
+    }
     
     
     

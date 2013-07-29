@@ -36,13 +36,13 @@ symmetric (banks) Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
-void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException;
+void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
 void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException;
 }
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
 void createTransfer@@Neue_Überweisung();
-void executeTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException;
+void executeTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
 }
 class Account {
 DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
@@ -55,7 +55,8 @@ Transfer createTransfer();
 class Money {
 skip-view prior Amount amount;
 skip-view prior Currency currency;
-void add(Money money);
+Money add(Money money);
+Money subtract(Money money) throws LimitViolatedException;
 }
 
 class Amount {
@@ -98,7 +99,7 @@ class Percent {
 string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class DebitNoteTransferTransaction##DebiTrfTran {
-	void execute()  throws InvalidBankNumberException, InvalidAccountNumberException;
+	void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
 	Timestamp timestamp;
 }
 
@@ -123,5 +124,6 @@ abstract class StornoState(SuccessfullStornoState##SucStoSta,NotSuccessfullStorn
 exception PasswordException {}
 exception InvalidBankNumberException{}
 exception InvalidAccountNumberException{}
+exception LimitViolatedException{}
 }
 

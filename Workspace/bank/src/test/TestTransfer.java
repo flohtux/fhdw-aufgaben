@@ -10,6 +10,7 @@ import model.BankCreator;
 import model.Euro;
 import model.InvalidAccountNumberException;
 import model.InvalidBankNumberException;
+import model.LimitViolatedException;
 import model.Money;
 
 import org.junit.Test;
@@ -57,7 +58,12 @@ public class TestTransfer extends TestCase{
                             newTrans.setReceiverAccountNumber(SecondAccountNumber);
                             newTrans.setReceiverBankNumber(bankNumber);
                             try {
-								newTrans.execute();
+								try {
+									newTrans.execute();
+								} catch (LimitViolatedException e) {
+									fail();
+									e.printStackTrace();
+								}
 							} catch (InvalidBankNumberException e) {
 								fail();
 								e.printStackTrace();

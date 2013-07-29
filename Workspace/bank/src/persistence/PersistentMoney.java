@@ -27,7 +27,7 @@ public interface PersistentMoney extends SubjInterface, Anything, AbstractPersis
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void add(final PersistentMoney money) 
+    public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
@@ -35,6 +35,8 @@ public interface PersistentMoney extends SubjInterface, Anything, AbstractPersis
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public PersistentMoney subtract(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException;
 
 }
 

@@ -22,7 +22,7 @@ public interface PersistentDebitNoteTransferTransaction extends SubjInterface, A
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void execute() 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

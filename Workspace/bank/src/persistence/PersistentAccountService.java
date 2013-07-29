@@ -38,7 +38,7 @@ public interface PersistentAccountService extends PersistentService {
     public void createTransfer() 
 				throws PersistenceException;
     public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

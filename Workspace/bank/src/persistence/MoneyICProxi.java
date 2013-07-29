@@ -90,9 +90,9 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).updateObservers(event);
     }
-    public void add(final PersistentMoney money) 
+    public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
-        ((PersistentMoney)this.getTheObject()).add(money);
+        return ((PersistentMoney)this.getTheObject()).add(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -105,6 +105,10 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentMoney subtract(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).subtract(money);
     }
 
     

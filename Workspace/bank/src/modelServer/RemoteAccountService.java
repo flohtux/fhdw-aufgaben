@@ -43,8 +43,10 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(pe);
         }catch(model.InvalidBankNumberException e0){
             return createExceptionResult(e0, this);
-        }catch(model.InvalidAccountNumberException e1){
+        }catch(model.LimitViolatedException e1){
             return createExceptionResult(e1, this);
+        }catch(model.InvalidAccountNumberException e2){
+            return createExceptionResult(e2, this);
         }
     }
     

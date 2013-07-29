@@ -217,7 +217,7 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     // Start of section that contains overridden operations only.
     
     public void execute() 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	getThis().getSender().getBank().sendTransfer(getThis());
     	Timestamp tstamp = new Timestamp(new Date().getTime());
     	getThis().setTimestamp(tstamp);
