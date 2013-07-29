@@ -1,6 +1,8 @@
 
 package model;
 
+import common.Fraction;
+
 import persistence.*;
 import model.visitor.*;
 
@@ -221,7 +223,11 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     	//TODO !PREREQUISITES:  implement method: createBank!
     	getThis().setLastBankNumber(getThis().getLastBankNumber() + 1);
     	long newBankNumber = getThis().getLastBankNumber();
-    	PersistentBank newBank = Bank.createBank(name);
+    	//TODO welche Accountnumber soll hier genommen werden????
+    	//ich habe die Konstante "FirstAccountNumber" in ServerConstants auf 1 gesetzt, sodass 1 nicht vergeben werden kann.
+    	PersistentAccount newBankAccount = Account.createAccount(1, Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
+    			Euro.getTheEuro()));
+    	PersistentBank newBank = Bank.createBank(name,newBankAccount);
     	newBank.setBankNumber(newBankNumber);
     	PersistentBankService newBankService = BankService.createBankService(newBank);
     	PersistentServer newServer = Server.createServer(serverConstants.ServerConstants.StandardBankPassword, serverConstants.ServerConstants.BankServicePrefix + newBankNumber, 0, serverConstants.DateConstants.Now);

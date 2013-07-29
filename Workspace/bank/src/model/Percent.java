@@ -15,37 +15,39 @@ public class Percent extends PersistentObject implements PersistentPercent{
         return (PersistentPercent)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentPercent createPercent() throws PersistenceException{
-        return createPercent(false);
+    public static PersistentPercent createPercent(common.Fraction value) throws PersistenceException{
+        return createPercent(value,false);
     }
     
-    public static PersistentPercent createPercent(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentPercent createPercent(common.Fraction value,boolean delayed$Persistence) throws PersistenceException {
         PersistentPercent result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().thePercentFacade
-                .newDelayedPercent(common.Fraction.Null);
+                .newDelayedPercent(value);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().thePercentFacade
-                .newPercent(common.Fraction.Null,-1);
+                .newPercent(value,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("value", value);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentPercent createPercent(boolean delayed$Persistence,PersistentPercent This) throws PersistenceException {
+    public static PersistentPercent createPercent(common.Fraction value,boolean delayed$Persistence,PersistentPercent This) throws PersistenceException {
         PersistentPercent result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().thePercentFacade
-                .newDelayedPercent(common.Fraction.Null);
+                .newDelayedPercent(value);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().thePercentFacade
-                .newPercent(common.Fraction.Null,-1);
+                .newPercent(value,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("value", value);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -98,7 +100,7 @@ public class Percent extends PersistentObject implements PersistentPercent{
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 112) ConnectionHandler.getTheConnectionHandler().thePercentFacade
-            .newPercent(common.Fraction.Null,this.getId());
+            .newPercent(value,this.getId());
         super.store();
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -197,6 +199,7 @@ public class Percent extends PersistentObject implements PersistentPercent{
 				throws PersistenceException{
         this.setThis((PersistentPercent)This);
 		if(this.equals(This)){
+			this.setValue((common.Fraction)final$$Fields.get("value"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

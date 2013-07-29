@@ -325,11 +325,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 		getThis().getDebitNoteTransferTransactions().add(transfer);
 		return transfer;
     }
-    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws PersistenceException{
-        //TODO: implement method: executeTransfer
-        
-    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().getMoney().getCurrency();

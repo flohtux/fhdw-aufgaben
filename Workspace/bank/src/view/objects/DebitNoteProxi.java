@@ -12,6 +12,7 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements DebitNoteV
     }
     
     public DebitNoteView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
+        java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
         long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
         long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
         ViewProxi sender = null;
@@ -42,7 +43,7 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements DebitNoteV
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        DebitNoteView result$$ = new DebitNote((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        DebitNoteView result$$ = new DebitNote((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -51,17 +52,24 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements DebitNoteV
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getState() != null) return new StateDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getState() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        if (this.object == null) return this.getLeafInfo() == 0;
+        return true 
+            && (this.getState() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
     

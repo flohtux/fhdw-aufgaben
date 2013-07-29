@@ -258,6 +258,10 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void disconnected() 
 				throws PersistenceException{
     }
+    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	debitNoteTransfer.execute();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     }

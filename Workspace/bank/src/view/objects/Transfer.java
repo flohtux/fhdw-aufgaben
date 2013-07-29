@@ -10,9 +10,9 @@ import view.visitor.*;
 public class Transfer extends view.objects.DebitNoteTransfer implements TransferView{
     
     
-    public Transfer(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public Transfer(java.util.Date timestamp,long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState,id, classId);        
+        super((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -84,38 +84,52 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getState() != null) return new StateDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getState() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getState() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
-    public int getReceiverAccountNumberIndex() throws ModelException {
+    public int getTimestampIndex() throws ModelException {
         return 0;
     }
-    public int getReceiverBankNumberIndex() throws ModelException {
+    public int getReceiverAccountNumberIndex() throws ModelException {
         return 0 + 1;
+    }
+    public int getReceiverBankNumberIndex() throws ModelException {
+        return 0 + 1 + 1;
     }
     public int getRowCount(){
         return 0 
+            + 1
             + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
+                if(rowIndex == 0) return "timestamp";
+                rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "receiverAccountNumber";
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "receiverBankNumber";
                 rowIndex = rowIndex - 1;
             } else {
+                if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverAccountNumber());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverBankNumber());
@@ -131,6 +145,11 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
         return true;
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
+        if(rowIndex == 0){
+            this.setTimestamp(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setReceiverAccountNumber(Long.parseLong(newValue));
             return;

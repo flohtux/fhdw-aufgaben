@@ -10,11 +10,11 @@ import model.visitor.*;
 public class ProcentualFee extends model.TransactionFee implements PersistentProcentualFee{
     
     
-    public static PersistentProcentualFee createProcentualFee() throws PersistenceException{
-        return createProcentualFee(false);
+    public static PersistentProcentualFee createProcentualFee(PersistentPercent percent) throws PersistenceException{
+        return createProcentualFee(percent,false);
     }
     
-    public static PersistentProcentualFee createProcentualFee(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentProcentualFee createProcentualFee(PersistentPercent percent,boolean delayed$Persistence) throws PersistenceException {
         PersistentProcentualFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
@@ -25,12 +25,13 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
                 .newProcentualFee(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("percent", percent);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentProcentualFee createProcentualFee(boolean delayed$Persistence,PersistentProcentualFee This) throws PersistenceException {
+    public static PersistentProcentualFee createProcentualFee(PersistentPercent percent,boolean delayed$Persistence,PersistentProcentualFee This) throws PersistenceException {
         PersistentProcentualFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theProcentualFeeFacade
@@ -41,6 +42,7 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
                 .newProcentualFee(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("percent", percent);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -183,6 +185,7 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
 				throws PersistenceException{
         this.setThis((PersistentProcentualFee)This);
 		if(this.equals(This)){
+			this.setPercent((PersistentPercent)final$$Fields.get("percent"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

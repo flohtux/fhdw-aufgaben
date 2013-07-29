@@ -18,11 +18,11 @@ public class Bank extends PersistentObject implements PersistentBank{
         return (PersistentBank)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentBank createBank(String name) throws PersistenceException{
-        return createBank(name,false);
+    public static PersistentBank createBank(String name,PersistentAccount ownAccount) throws PersistenceException{
+        return createBank(name,ownAccount,false);
     }
     
-    public static PersistentBank createBank(String name,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentBank createBank(String name,PersistentAccount ownAccount,boolean delayed$Persistence) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentBank result = null;
         if(delayed$Persistence){
@@ -35,12 +35,13 @@ public class Bank extends PersistentObject implements PersistentBank{
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("name", name);
+        final$$Fields.put("ownAccount", ownAccount);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentBank createBank(String name,boolean delayed$Persistence,PersistentBank This) throws PersistenceException {
+    public static PersistentBank createBank(String name,PersistentAccount ownAccount,boolean delayed$Persistence,PersistentBank This) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentBank result = null;
         if(delayed$Persistence){
@@ -53,6 +54,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("name", name);
+        final$$Fields.put("ownAccount", ownAccount);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -407,6 +409,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         this.setThis((PersistentBank)This);
 		if(this.equals(This)){
 			this.setName((String)final$$Fields.get("name"));
+			this.setOwnAccount((PersistentAccount)final$$Fields.get("ownAccount"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 
@@ -458,6 +461,9 @@ public class Bank extends PersistentObject implements PersistentBank{
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setLastAccountNumber(serverConstants.ServerConstants.FirstAccountNumber);
+    	getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
+    			getThis().getOwnAccount().getMoney().getCurrency())));
+    	getThis().getInternalFee().setPercent((Percent.createPercent(Fraction.parse("1/1"))));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

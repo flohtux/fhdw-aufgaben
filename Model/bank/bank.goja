@@ -30,7 +30,7 @@ indexed prior String name@@Name;
 server-only Integer lastAccountNumber##lstAccNo;
 TransactionFee fee;
 InternalFee internalFee;
-Account ownAccount;
+prior Account ownAccount;
 server-only one-to-one (server-only bank) Account ** Integer ** accounts;
 symmetric (banks) Administrator administrator;
 transient Account ** currentAccounts;
@@ -42,6 +42,7 @@ void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountN
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
 void createTransfer@@Neue_Überweisung();
+void executeTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException;
 }
 class Account {
 DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
@@ -49,12 +50,11 @@ prior Integer accountNumber;
 prior one-to-one (no-view account) Money money@@Geldmenge;
 one-to-one (no-view account) LimitAccount limit;
 Transfer createTransfer();
-void executeTransfer(DebitNoteTransfer debitNoteTransfer);
 }
 
 class Money {
-no-view prior Amount amount;
-no-view prior Currency currency;
+skip-view prior Amount amount;
+skip-view prior Currency currency;
 void add(Money money);
 }
 
@@ -82,23 +82,24 @@ ProcentualFee procentual;
 prior Integer limit;
 }
 class ProcentualFee extends TransactionFee{
-	Percent percent;
+	prior Percent percent;
 }
 class FixTransactionFee extends TransactionFee {
-	Money value;
+	prior Money value;
 }
 
 class InternalFee {
- 	Percent percent;
+ 	prior Percent percent;
 }
 class Percent {
-	Fraction value;
+	prior Fraction value;
 }
 
 string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class DebitNoteTransferTransaction##DebiTrfTran {
 	void execute()  throws InvalidBankNumberException, InvalidAccountNumberException;
+	Timestamp timestamp;
 }
 
 abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
@@ -106,7 +107,7 @@ abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction
 	Integer receiverBankNumber;	
 	no-view Account sender;
 	no-view Money money;
-	no-view one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
+	one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
 	no-view one-to-one (no-view debitNoteTransfer) StornoState stornoState;
 }
 
