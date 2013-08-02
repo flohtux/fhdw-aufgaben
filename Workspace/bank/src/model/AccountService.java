@@ -239,13 +239,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     public void connected(final String user) 
 				throws PersistenceException{
-    	System.out.println("user="+user);
-    	System.out.println("acc"+this.getAccount());
-    	System.out.println(getThis().getAccount().getAccountNumber());
-    	System.out.println(this.getAccount().getBank());
-    	System.out.println(this.getAccount().getDebitNoteTransferTransactions());
-    	System.out.println(this.getAccount().getLimit());
-    	System.out.println(this.getAccount().getMoney());
+
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

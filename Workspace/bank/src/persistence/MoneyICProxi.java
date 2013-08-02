@@ -106,6 +106,14 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentMoney multiply(final common.Fraction factor) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).multiply(factor);
+    }
+    public void subtract(final PersistentMoney money) 
+				throws PersistenceException{
+        ((PersistentMoney)this.getTheObject()).subtract(money);
+    }
 
     
 }

@@ -215,8 +215,8 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     // Start of section that contains overridden operations only.
     
     public void execute() 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
-    	getThis().getSender().getBank().sendTransfer(getThis());
+				throws model.TransactionDeniedException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	getThis().getSender().getBank().sendTransfer(getThis().getSender(), getThis());
     }
 
     /* Start of protected part that is not overridden by persistence generator */

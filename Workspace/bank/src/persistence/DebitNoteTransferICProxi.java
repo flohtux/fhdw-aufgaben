@@ -73,7 +73,7 @@ public abstract class DebitNoteTransferICProxi extends DebitNoteTransferTransact
         ((PersistentDebitNoteTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void execute() 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.TransactionDeniedException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentDebitNoteTransfer)this.getTheObject()).execute();
     }
     public void initializeOnCreation() 

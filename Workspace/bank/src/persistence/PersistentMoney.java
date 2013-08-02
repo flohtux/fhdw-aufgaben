@@ -35,6 +35,10 @@ public interface PersistentMoney extends SubjInterface, Anything, AbstractPersis
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public PersistentMoney multiply(final common.Fraction factor) 
+				throws PersistenceException;
+    public void subtract(final PersistentMoney money) 
+				throws PersistenceException;
 
 }
 

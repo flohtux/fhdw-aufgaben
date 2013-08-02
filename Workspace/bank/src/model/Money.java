@@ -1,6 +1,8 @@
 
 package model;
 
+import org.omg.CORBA.SystemException;
+
 import persistence.*;
 import model.visitor.*;
 
@@ -321,6 +323,17 @@ public class Money extends PersistentObject implements PersistentMoney{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         //TODO: implement method: initializeOnInstantiation
+        
+    }
+    public PersistentMoney multiply(final common.Fraction factor) 
+				throws PersistenceException{
+        PersistentMoney result = Money.createMoney(Amount.createAmount(getThis().getAmount().getBalance().multiply(factor)), getThis().getCurrency());
+        return result;
+    }
+    public void subtract(final PersistentMoney money) 
+				throws PersistenceException{
+        //TODO: implement method: subtract
+    	throw new RuntimeException("Subtrahieren noch nicht implementiert!!!");
         
     }
     

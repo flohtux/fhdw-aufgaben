@@ -1,6 +1,8 @@
 
 package model;
 
+import java.math.BigInteger;
+
 import common.Fraction;
 
 import persistence.*;
@@ -463,23 +465,28 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
     }
     public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidAccountNumberException, PersistenceException{
+				throws model.TransactionDeniedException, model.InvalidAccountNumberException, PersistenceException{
         PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
-				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
-					argument.getMoney().add(debitNoteTransfer.getMoney());
-					return true;
-				}
-				return false;
+				return argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber();
 			}
 		});
+        
+        
+        
         if (acc == null) {
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
+        } else {
+        	acc.getLimit().checkLimit(debitNoteTransfer.getMoney());
+        	
+        	acc.getMoney().add(debitNoteTransfer.getMoney());
         }
     }
-    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    public void sendTransfer(final PersistentAccount from, final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws model.TransactionDeniedException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	from.getLimit().checkLimit(debitNoteTransfer.getMoney().multiply(new Fraction(-1, 1)));
+    	
     	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {

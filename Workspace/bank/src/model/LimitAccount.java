@@ -296,43 +296,46 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
      * Checks if the <money> hurts the account limits.
      * Returns {@link TrueValue} if no limit is hurt else {@link FalseValue}.
      */
-    public PersistentBooleanValue checkLimit(final PersistentMoney money) 
-				throws PersistenceException{
+    public void checkLimit(final PersistentMoney money) 
+				throws model.TransactionDeniedException, PersistenceException{
         //TODO: Was ist mit unterschiedlichen Währungen? Können diese auftreten?
+    	
     	final Fraction newAmount = getThis().getAccount().getMoney().getAmount().getBalance().add(money.getAmount().getBalance());
     	if(money.getAmount().getBalance().isPositive()) {
-    		return getThis().getMaxLimit().accept(new LimitTypeReturnVisitor<PersistentBooleanValue>() {
+    		System.out.println("Checke MaxLimit" + money + money.getAmount().getBalance() + getThis().getAccount());
+    		
+    		getThis().getMaxLimit().accept(new LimitTypeExceptionVisitor<TransactionDeniedException>() {
 				@Override
-				public PersistentBooleanValue handleNoLimit(
-						PersistentNoLimit noLimit) throws PersistenceException {
-					return TrueValue.getTheTrueValue();
+				public void handleNoLimit(
+						PersistentNoLimit noLimit) throws PersistenceException, TransactionDeniedException {
+
 				}
 				@Override
-				public PersistentBooleanValue handleLimit(PersistentLimit limit)
-						throws PersistenceException {
-					if(limit.getMoney().getAmount().getBalance().greaterOrEqual(newAmount)) {
-						return TrueValue.getTheTrueValue();
+				public void handleLimit(PersistentLimit limit)
+						throws PersistenceException, TransactionDeniedException {
+					if(newAmount.greater(limit.getMoney().getAmount().getBalance())) {
+						throw new TransactionDeniedException("Oberes Limit überschritten!");
 					}
-					return FalseValue.getTheFalseValue();
 				}
 			});
     	}else {
-    		return getThis().getMinLimit().accept(new LimitTypeReturnVisitor<PersistentBooleanValue>() {
+    		System.out.println("Checke MinLimit" + money + getThis().getAccount());
+    		
+    		getThis().getMinLimit().accept(new LimitTypeExceptionVisitor<TransactionDeniedException>() {
 				@Override
-				public PersistentBooleanValue handleNoLimit(
+				public void handleNoLimit(
 						PersistentNoLimit noLimit) throws PersistenceException {
-					return TrueValue.getTheTrueValue();
 				}
 				@Override
-				public PersistentBooleanValue handleLimit(PersistentLimit limit)
-						throws PersistenceException {
-					if(newAmount.greaterOrEqual(limit.getMoney().getAmount().getBalance())) {
-						return TrueValue.getTheTrueValue();
+				public void handleLimit(PersistentLimit limit)
+						throws PersistenceException, TransactionDeniedException {
+					if (!newAmount.greaterOrEqual(limit.getMoney().getAmount().getBalance())) {
+						throw new TransactionDeniedException("Unteres Limit unterschritten!");
 					}
-					return FalseValue.getTheFalseValue();
 				}
 			});
     	}
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -341,7 +344,8 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
+        getThis().setMinLimit(NoLimit.getTheNoLimit());
+        getThis().setMaxLimit(NoLimit.getTheNoLimit());
         
     }
     public void initializeOnInstantiation() 
