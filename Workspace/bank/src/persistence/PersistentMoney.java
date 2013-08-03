@@ -35,6 +35,8 @@ public interface PersistentMoney extends SubjInterface, Anything, AbstractPersis
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public PersistentMoney multiply(final PersistentMoney money) 
+				throws PersistenceException;
     public PersistentMoney subtract(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException;
 

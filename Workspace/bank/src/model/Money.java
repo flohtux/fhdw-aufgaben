@@ -323,6 +323,17 @@ public class Money extends PersistentObject implements PersistentMoney{
         //TODO: implement method: initializeOnInstantiation
         
     }
+    public PersistentMoney multiply(final PersistentMoney money) 
+				throws PersistenceException{
+	        if(getThis().getCurrency().equals(money.getCurrency())) {
+	     	   return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
+	     			   getThis().getAmount().getBalance())),money.getCurrency());
+	        }else {
+	     	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+	     			   getThis().getCurrency());
+	     	   return getThis().multiply(moneyInRightCurrency);
+	        }
+    }
     public PersistentMoney subtract(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
        if(getThis().getCurrency().equals(money.getCurrency())) {

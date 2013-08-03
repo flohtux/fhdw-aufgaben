@@ -76,10 +76,7 @@ public class Fraction {
 	 * Returns true if the value is  greater or equal zero else return false.
 	 */
 	public boolean isPositive() {
-		if(this.getDenominator().signum() != -1 || this.getEnumerator().signum() != -1) {
-			return true;
-		}
-		return false;
+		return this.getDenominator().signum() == this.getEnumerator().signum() || this.getEnumerator().signum() == 0;
 	}
 	
 	/**
@@ -131,6 +128,13 @@ public class Fraction {
 	        final BigInteger newEnum = num1MulEnum.subtract(num2MulEnum);
 	        final BigInteger newDen = this.getDenominator().multiply(subtrahend.getDenominator());
 	        return new Fraction(newEnum, newDen);
+	}
+	
+	public boolean greater(Fraction fraction) {
+		BigInteger lcm = this.lcm(fraction);
+		BigInteger newEnumeratorOfThis = this.getEnumerator().multiply(lcm.divide(this.getDenominator()));
+		BigInteger newEnumeratorOfFraction = fraction.getEnumerator().multiply(lcm.divide(fraction.getDenominator()));
+		return newEnumeratorOfThis.compareTo(newEnumeratorOfFraction) == +1;
 	}
 	
 }

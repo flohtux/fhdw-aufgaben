@@ -37,7 +37,7 @@ transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
 void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
-void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException;
+void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException, LimitViolatedException;
 }
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
@@ -57,6 +57,7 @@ skip-view prior Amount amount;
 skip-view prior Currency currency;
 Money add(Money money);
 Money subtract(Money money) throws LimitViolatedException;
+Money multiply (Money money);
 }
 
 class Amount {
@@ -66,7 +67,7 @@ prior Fraction balance;
 class LimitAccount {
 	no-view LimitType minLimit;
 	no-view LimitType maxLimit;
-	BooleanValue checkLimit(Money money);
+	void checkLimit(Money money) throws LimitViolatedException;
 }
 
 abstract class BooleanValue(TrueValue,FalseValue){}

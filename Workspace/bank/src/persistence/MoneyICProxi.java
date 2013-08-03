@@ -106,6 +106,10 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentMoney multiply(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).multiply(money);
+    }
     public PersistentMoney subtract(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
         return ((PersistentMoney)this.getTheObject()).subtract(money);

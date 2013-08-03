@@ -469,7 +469,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
     }
     public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidAccountNumberException, PersistenceException{
+				throws model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
@@ -482,6 +482,9 @@ public class Bank extends PersistentObject implements PersistentBank{
 		});
         if (acc == null) {
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
+        }else {
+        	acc.getLimit().checkLimit(debitNoteTransfer.getMoney());
+            acc.getMoney().add(debitNoteTransfer.getMoney());
         }
     }
     public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
@@ -496,20 +499,11 @@ public class Bank extends PersistentObject implements PersistentBank{
     		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
     	} else {
     		final PersistentMoney fee = this.calculateFee(debitNoteTransfer.getMoney());
-    		final PersistentMoney newAccountMoney = debitNoteTransfer.getSender().getMoney().subtract(fee); 
-    		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney).accept(new BooleanValueExceptionVisitor<LimitViolatedException>() {
-				@Override
-				public void handleFalseValue(PersistentFalseValue falseValue)
-						throws PersistenceException, LimitViolatedException {
-					throw new LimitViolatedException();
-				}
-				@Override
-				public void handleTrueValue(PersistentTrueValue trueValue)
-						throws PersistenceException, LimitViolatedException {
-					debitNoteTransfer.getSender().setMoney(newAccountMoney);
-					getThis().getOwnAccount().getMoney().add(fee);
-				}
-			});
+    		final PersistentMoney newAccountMoney = debitNoteTransfer.getSender().getMoney().subtract(fee.add(debitNoteTransfer.getMoney())); 
+    		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney.multiply(Money.createMoney(Amount.createAmount(
+    				new Fraction(-1, 1)), newAccountMoney.getCurrency())));
+    		debitNoteTransfer.getSender().setMoney(newAccountMoney);
+			getThis().getOwnAccount().getMoney().add(fee);
 			result.receiveTransfer(debitNoteTransfer);
     	}
     }

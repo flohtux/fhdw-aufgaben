@@ -90,9 +90,9 @@ public class LimitAccountICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).updateObservers(event);
     }
-    public PersistentBooleanValue checkLimit(final PersistentMoney money) 
-				throws PersistenceException{
-        return ((PersistentLimitAccount)this.getTheObject()).checkLimit(money);
+    public void checkLimit(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+        ((PersistentLimitAccount)this.getTheObject()).checkLimit(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
