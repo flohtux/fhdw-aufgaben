@@ -1,8 +1,6 @@
 
 package model;
 
-import org.omg.CORBA.SystemException;
-
 import persistence.*;
 import model.visitor.*;
 

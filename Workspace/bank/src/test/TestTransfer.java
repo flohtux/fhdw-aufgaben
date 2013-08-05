@@ -14,7 +14,6 @@ import model.Limit;
 import model.LimitAccount;
 import model.LimitViolatedException;
 import model.Money;
-import model.TransactionDeniedException;
 
 import org.junit.Test;
 
@@ -72,9 +71,6 @@ public class TestTransfer extends TestCase{
 								fail();
 								e.printStackTrace();
 							} catch (InvalidAccountNumberException e) {
-								fail();
-								e.printStackTrace();
-							} catch (TransactionDeniedException e) {
 								fail();
 								e.printStackTrace();
 							}

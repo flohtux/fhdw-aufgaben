@@ -37,7 +37,6 @@ public class Fraction {
 		return denominator;
 	}
 
-	
 	private BigInteger denominator;
 
 	public Fraction(BigInteger enumarator, BigInteger denominator) {
@@ -129,12 +128,6 @@ public class Fraction {
 	        final BigInteger newEnum = num1MulEnum.subtract(num2MulEnum);
 	        final BigInteger newDen = this.getDenominator().multiply(subtrahend.getDenominator());
 	        return new Fraction(newEnum, newDen);
-	}
-	public boolean greater(Fraction fraction) {
-		BigInteger lcm = this.lcm(fraction);
-		BigInteger newEnumeratorOfThis = this.getEnumerator().multiply(lcm.divide(this.getDenominator()));
-		BigInteger newEnumeratorOfFraction = fraction.getEnumerator().multiply(lcm.divide(fraction.getDenominator()));
-		return newEnumeratorOfThis.compareTo(newEnumeratorOfFraction) ==  +1;
 	}
 	
 	public boolean greater(Fraction fraction) {

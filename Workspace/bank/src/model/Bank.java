@@ -1,8 +1,6 @@
 
 package model;
 
-import java.math.BigInteger;
-
 import common.Fraction;
 
 import persistence.*;
@@ -485,9 +483,6 @@ public class Bank extends PersistentObject implements PersistentBank{
 				return false;
 			}
 		});
-        
-        
-        
         if (acc == null) {
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
         }else {
