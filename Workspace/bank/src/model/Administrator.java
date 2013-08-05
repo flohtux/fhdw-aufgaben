@@ -249,6 +249,7 @@ public class Administrator extends model.Service implements PersistentAdministra
 				throws PersistenceException{
     	//TODO !PREREQUISITES:  implement method: createBank!
         BankCreator.getTheBankCreator().createBank(name, getThis());
+        getThis().signalChanged(true);
     }
     public void disconnected() 
 				throws PersistenceException{

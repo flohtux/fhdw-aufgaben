@@ -12,7 +12,6 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
     }
     
     public TransferView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
         long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
         long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
         ViewProxi sender = null;
@@ -43,7 +42,7 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        TransferView result$$ = new Transfer((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        TransferView result$$ = new Transfer((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

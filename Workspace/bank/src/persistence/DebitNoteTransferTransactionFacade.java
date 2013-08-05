@@ -29,18 +29,6 @@ public class DebitNoteTransferTransactionFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void timestampSet(long DebitNoteTransferTransactionId, java.sql.Timestamp timestampVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".DebiTrfTranFacade.tmstmpSet(?, ?); end;");
-            callable.setLong(1, DebitNoteTransferTransactionId);
-            callable.setTimestamp(2, timestampVal);
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
     public void subServiceSet(long DebitNoteTransferTransactionId, SubjInterface subServiceVal) throws PersistenceException {
         try{
             CallableStatement callable;

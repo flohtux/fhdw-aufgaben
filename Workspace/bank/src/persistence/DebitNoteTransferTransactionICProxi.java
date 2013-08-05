@@ -12,12 +12,6 @@ public abstract class DebitNoteTransferTransactionICProxi extends PersistentInCa
     }
     
     
-    public java.sql.Timestamp getTimestamp() throws PersistenceException {
-        return ((PersistentDebitNoteTransferTransaction)this.getTheObject()).getTimestamp();
-    }
-    public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
-        ((PersistentDebitNoteTransferTransaction)this.getTheObject()).setTimestamp(newValue);
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDebitNoteTransferTransaction)this.getTheObject()).getSubService();
     }

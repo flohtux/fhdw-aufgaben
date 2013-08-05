@@ -43,28 +43,27 @@ public class DebitNoteFacade{
                 return null;
             }
             SubjInterface subService = null;
-            if (obj.getLong(3) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitNoteTransferTransaction This = null;
-            if (obj.getLong(5) != 0)
-                This = (PersistentDebitNoteTransferTransaction)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            if (obj.getLong(4) != 0)
+                This = (PersistentDebitNoteTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccount sender = null;
-            if (obj.getLong(9) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            if (obj.getLong(8) != 0)
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentMoney money = null;
-            if (obj.getLong(11) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            if (obj.getLong(10) != 0)
+                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             PersistentDebitNoteTransferState state = null;
-            if (obj.getLong(13) != 0)
-                state = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+            if (obj.getLong(12) != 0)
+                state = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
             PersistentStornoState stornoState = null;
-            if (obj.getLong(15) != 0)
-                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
-            DebitNote result = new DebitNote(obj.getTimestamp(2),
-                                             subService,
+            if (obj.getLong(14) != 0)
+                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
+            DebitNote result = new DebitNote(subService,
                                              This,
+                                             obj.getLong(6),
                                              obj.getLong(7),
-                                             obj.getLong(8),
                                              sender,
                                              money,
                                              state,

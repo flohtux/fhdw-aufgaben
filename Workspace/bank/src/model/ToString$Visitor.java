@@ -1,5 +1,8 @@
 package model;
 
+import common.Fraction;
+import static serverConstants.ToStringConstants.*;
+
 import persistence.*;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -38,7 +41,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAccount(PersistentAccount account)
 			throws PersistenceException {
-		this.result = new Long(account.getAccountNumber()).toString();
+		this.result = "Account:" + new Long(account.getAccountNumber()).toString();
 	}
 	@Override
 	public void handleBankCreator(PersistentBankCreator bankCreator)
@@ -69,7 +72,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleMixedFee(PersistentMixedFee mixedFee)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		result = "gemischte Überweisungskosten=" + mixedFee.getFix() + " bis " + mixedFee.getLimit() + " danach " + mixedFee.getProcentual().toString(true);
 		
 	}
 
@@ -77,7 +80,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleFixTransactionFee(
 			PersistentFixTransactionFee fixTransactionFee)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		result = "fixe Überweisungskosten=" + fixTransactionFee.getValue();
 		
 	}
 	@Override
@@ -92,7 +95,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleProcentualFee(PersistentProcentualFee procentualFee)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		result = "prozentuale Überweisungskosten=" + procentualFee.getPercent().toString(true);
 		
 	}
 	@Override
@@ -129,7 +132,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleInternalFee(PersistentInternalFee internalFee)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		result = "Rabatt auf interne Überweisungen=" + internalFee.getPercent().toString();
 		
 	}
 	@Override
@@ -169,7 +172,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handlePercent(PersistentPercent percent)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		result = percent.getValue().multiply(new Fraction(100, 1)).toString() + PercentSign;
 		
 	}
 	@Override
@@ -181,7 +184,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.NoLimitType;
+		this.result = NoLimitType;
 	}
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
@@ -198,7 +201,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.MaxLimitPrefix+limitAccount.getMaxLimit().toString(true)+ serverConstants.ToStringConstants.MinLimitPrefix+limitAccount.getMinLimit().toString(true);
+		this.result = MaxLimitPrefix + limitAccount.getMaxLimit().toString(true) + MinMaxLimitDelimiter + MinLimitPrefix + limitAccount.getMinLimit().toString(true);
 	}
 	@Override
 	public void handleLimit(PersistentLimit limit) throws PersistenceException {

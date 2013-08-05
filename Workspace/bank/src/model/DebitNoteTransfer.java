@@ -72,9 +72,9 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     protected PersistentDebitNoteTransferState state;
     protected PersistentStornoState stornoState;
     
-    public DebitNoteTransfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
+        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
@@ -219,8 +219,8 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     public void execute() 
 				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	getThis().getSender().getBank().sendTransfer(getThis());
-    	Timestamp tstamp = new Timestamp(new Date().getTime());
-    	getThis().setTimestamp(tstamp);
+    	//Timestamp tstamp = new Timestamp(new Date().getTime());
+    	//getThis().setTimestamp(tstamp);
     }
 
     /* Start of protected part that is not overridden by persistence generator */

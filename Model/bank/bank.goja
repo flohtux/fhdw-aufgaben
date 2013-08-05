@@ -1,7 +1,7 @@
 model bank {
 
 server Server {
-	one-to-one (server-only access) Service service;
+one-to-one (server-only access) Service service;
 }
 abstract server Service{
   String changePassword(String newPassword1 PASSWORD, String newPassword2 PASSWORD) throws PasswordException;
@@ -22,7 +22,7 @@ server BankService extends Service {
   void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
   void closeAccount@@Konto_schließen(Account acc);
 	void closeAccount@@Konto_übertragen(Account acc, Account transAcc);
-	void changeMaxLimit(Account acc,Fraction amount);
+	void changeMaxLimit@@Obergrenze_festlegen(Account acc,Fraction amount);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -32,7 +32,7 @@ TransactionFee fee;
 InternalFee internalFee;
 prior Account ownAccount;
 server-only one-to-one (server-only bank) Account ** Integer ** accounts;
-symmetric (banks) prior no-view Administrator administrator;
+symmetric (server-only banks) prior server-only Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
@@ -42,14 +42,20 @@ void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountN
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
 void createTransfer@@Neue_Überweisung();
-void executeTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
+void executeTransfer@@Überweisung_abschicken(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
+void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
+void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
+void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
 }
 class Account {
-DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
 prior Integer accountNumber;
 prior one-to-one (no-view account) Money money@@Geldmenge;
 one-to-one (no-view account) LimitAccount limit;
+DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
 Transfer createTransfer();
+void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
+void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
+void changeMoney(Transfer trans, Fraction newAmount);
 }
 
 class Money {
@@ -61,7 +67,7 @@ Money multiply (Money money);
 }
 
 class Amount {
-	prior Fraction balance;
+prior Fraction balance;
 }
 
 class LimitAccount {
@@ -101,14 +107,14 @@ string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class DebitNoteTransferTransaction##DebiTrfTran {
 	void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
-	Timestamp timestamp;
+	//Timestamp timestamp;
 }
 
 abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
-	Integer receiverAccountNumber##recaccno;
-	Integer receiverBankNumber;	
+	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
+	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Account sender;
-	no-view Money money;
+	no-view Money money@@Betrag;
 	one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
 	no-view one-to-one (no-view debitNoteTransfer) StornoState stornoState;
 }

@@ -95,15 +95,6 @@ public class Bank extends PersistentObject implements PersistentBank{
                     if(forGUI && ownAccount.hasEssentialFields())ownAccount.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            AbstractPersistentRoot administrator = (AbstractPersistentRoot)this.getAdministrator();
-            if (administrator != null) {
-                result.put("administrator", administrator.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    administrator.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && administrator.hasEssentialFields())administrator.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             result.put("currentAccounts", this.getCurrentAccounts().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -502,9 +493,13 @@ public class Bank extends PersistentObject implements PersistentBank{
     		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
     	} else {
     		final PersistentMoney fee = this.calculateFee(debitNoteTransfer.getMoney());
+    		System.out.println("fee" + fee);
+    		System.out.println("moey" + debitNoteTransfer.getMoney());
     		final PersistentMoney newAccountMoney = debitNoteTransfer.getSender().getMoney().subtract(fee.add(debitNoteTransfer.getMoney())); 
+    		System.out.println("new money" + newAccountMoney);
     		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney.multiply(Money.createMoney(Amount.createAmount(
     				new Fraction(-1, 1)), newAccountMoney.getCurrency())));
+    		System.out.println("new money2" + newAccountMoney);
     		debitNoteTransfer.getSender().setMoney(newAccountMoney);
 			getThis().getOwnAccount().getMoney().add(fee);
 			result.receiveTransfer(debitNoteTransfer);

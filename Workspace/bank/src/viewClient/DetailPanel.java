@@ -1041,7 +1041,6 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
     protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
@@ -1051,21 +1050,14 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new TimestampPanel(this, "timestamp", this.getAnything().getTimestamp());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "receiverAccountNumber", this.getAnything().getReceiverAccountNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Konto", this.getAnything().getReceiverAccountNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(DebitNoteTransfer$$receiverAccountNumber, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "receiverBankNumber", this.getAnything().getReceiverBankNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
         }catch(view.ModelException e){
@@ -1194,10 +1186,10 @@ class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String Account$$debitNoteTransferTransactions = "Account$$debitNoteTransferTransactions";
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
+    protected static final String Account$$debitNoteTransferTransactions = "Account$$debitNoteTransferTransactions";
     
     protected AccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1257,7 +1249,6 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
     protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
@@ -1267,21 +1258,14 @@ class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new TimestampPanel(this, "timestamp", this.getAnything().getTimestamp());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "receiverAccountNumber", this.getAnything().getReceiverAccountNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Konto", this.getAnything().getReceiverAccountNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(DebitNoteTransfer$$receiverAccountNumber, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "receiverBankNumber", this.getAnything().getReceiverBankNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
         }catch(view.ModelException e){
@@ -1367,19 +1351,10 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
-    
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
-        try{
-            BaseTypePanel panel = new TimestampPanel(this, "timestamp", this.getAnything().getTimestamp());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
         
     }
     protected view.TransactionView getAnything(){
