@@ -32,7 +32,7 @@ TransactionFee fee;
 InternalFee internalFee;
 prior Account ownAccount;
 server-only one-to-one (server-only bank) Account ** Integer ** accounts;
-symmetric (banks) prior Administrator administrator;
+symmetric (banks) prior no-view Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);

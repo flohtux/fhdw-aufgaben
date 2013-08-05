@@ -359,7 +359,6 @@ public class Bank extends PersistentObject implements PersistentBank{
         if (this.getFee() != null) return 1;
         if (this.getInternalFee() != null) return 1;
         if (this.getOwnAccount() != null) return 1;
-        if (this.getAdministrator() != null) return 1;
         if (this.getCurrentAccounts().getLength() > 0) return 1;
         return 0;
     }
