@@ -39,6 +39,7 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
         return true;
     }
     protected String name;
+    protected PersistentAdministrator administrator;
     protected Invoker invoker;
     protected PersistentBankCreator commandReceiver;
     protected PersistentBank commandResult;
@@ -46,10 +47,11 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
     
     private model.UserException commandException = null;
     
-    public CreateBankCommand(String name,Invoker invoker,PersistentBankCreator commandReceiver,PersistentBank commandResult,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public CreateBankCommand(String name,PersistentAdministrator administrator,Invoker invoker,PersistentBankCreator commandReceiver,PersistentBank commandResult,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.name = name;
+        this.administrator = administrator;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.commandResult = commandResult;
@@ -69,6 +71,10 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
         if (this.getClassId() == 118) ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade
             .newCreateBankCommand(name,this.getId());
         super.store();
+        if(this.getAdministrator() != null){
+            this.getAdministrator().store();
+            ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade.administratorSet(this.getId(), getAdministrator());
+        }
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -95,6 +101,20 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
         if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade.nameSet(this.getId(), newValue);
         this.name = newValue;
+    }
+    public PersistentAdministrator getAdministrator() throws PersistenceException {
+        return this.administrator;
+    }
+    public void setAdministrator(PersistentAdministrator newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.administrator)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.administrator = (PersistentAdministrator)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCreateBankCommandFacade.administratorSet(this.getId(), newValue);
+        }
     }
     public Invoker getInvoker() throws PersistenceException {
         return this.invoker;
@@ -218,6 +238,7 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
          return visitor.handleCreateBankCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getAdministrator() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         if (this.getCommandResult() != null) return 1;
         return 0;
@@ -234,7 +255,7 @@ public class CreateBankCommand extends PersistentObject implements PersistentCre
     }
     public void execute() 
 				throws PersistenceException{
-        this.setCommandResult(this.getCommandReceiver().createBank(this.getName()));
+        this.setCommandResult(this.getCommandReceiver().createBank(this.getName(), this.getAdministrator()));
 		
     }
     public Invoker fetchInvoker() 

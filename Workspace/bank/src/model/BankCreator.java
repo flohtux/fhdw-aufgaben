@@ -170,10 +170,11 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     }
     
     
-    public void createBank(final String name, final Invoker invoker) 
+    public void createBank(final String name, final PersistentAdministrator administrator, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentCreateBankCommand command = model.meta.CreateBankCommand.createCreateBankCommand(name, now, now);
+		command.setAdministrator(administrator);
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
@@ -218,7 +219,7 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
      }
-    public PersistentBank createBank(final String name) 
+    public PersistentBank createBank(final String name, final PersistentAdministrator administrator) 
 				throws PersistenceException{
     	//TODO !PREREQUISITES:  implement method: createBank!
     	getThis().setLastBankNumber(getThis().getLastBankNumber() + 1);
@@ -227,7 +228,7 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     	//ich habe die Konstante "FirstAccountNumber" in ServerConstants auf 1 gesetzt, sodass 1 nicht vergeben werden kann.
     	PersistentAccount newBankAccount = Account.createAccount(1, Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
     			Euro.getTheEuro()));
-    	PersistentBank newBank = Bank.createBank(name,newBankAccount);
+    	PersistentBank newBank = Bank.createBank(name,newBankAccount, administrator);
     	newBank.setBankNumber(newBankNumber);
     	PersistentBankService newBankService = BankService.createBankService(newBank);
     	PersistentServer newServer = Server.createServer(serverConstants.ServerConstants.StandardBankPassword, serverConstants.ServerConstants.BankServicePrefix + newBankNumber, 0, serverConstants.DateConstants.Now);

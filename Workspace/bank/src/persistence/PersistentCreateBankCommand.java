@@ -8,6 +8,8 @@ public interface PersistentCreateBankCommand extends BankCreatorCommand, Anythin
     
     public String getName() throws PersistenceException ;
     public void setName(String newValue) throws PersistenceException ;
+    public PersistentAdministrator getAdministrator() throws PersistenceException ;
+    public void setAdministrator(PersistentAdministrator newValue) throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentBankCreator getCommandReceiver() throws PersistenceException ;

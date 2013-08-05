@@ -28,6 +28,12 @@ public class CreateBankCommandICProxi extends PersistentInCacheProxi implements 
     public void setName(String newValue) throws PersistenceException {
         ((PersistentCreateBankCommand)this.getTheObject()).setName(newValue);
     }
+    public PersistentAdministrator getAdministrator() throws PersistenceException {
+        return ((PersistentCreateBankCommand)this.getTheObject()).getAdministrator();
+    }
+    public void setAdministrator(PersistentAdministrator newValue) throws PersistenceException {
+        ((PersistentCreateBankCommand)this.getTheObject()).setAdministrator(newValue);
+    }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentCreateBankCommand)this.getTheObject()).getInvoker();
     }

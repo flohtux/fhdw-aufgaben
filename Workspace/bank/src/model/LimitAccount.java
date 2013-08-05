@@ -331,18 +331,14 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+        getThis().setMaxLimit(NoLimit.getTheNoLimit());
+        getThis().setMinLimit(NoLimit.getTheNoLimit());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

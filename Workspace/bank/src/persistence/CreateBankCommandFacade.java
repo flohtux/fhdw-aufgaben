@@ -25,7 +25,7 @@ public class CreateBankCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            CreateBankCommand result = new CreateBankCommand(name,null,null,null,null,id);
+            CreateBankCommand result = new CreateBankCommand(name,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (CreateBankCommandProxi)PersistentProxi.createProxi(id, 118);
         }catch(SQLException se) {
@@ -41,7 +41,7 @@ public class CreateBankCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            CreateBankCommand result = new CreateBankCommand(name,null,null,null,null,id);
+            CreateBankCommand result = new CreateBankCommand(name,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (CreateBankCommandProxi)PersistentProxi.createProxi(id, 118);
         }catch(SQLException se) {
@@ -62,19 +62,23 @@ public class CreateBankCommandFacade{
                 callable.close();
                 return null;
             }
-            Invoker invoker = null;
+            PersistentAdministrator administrator = null;
             if (obj.getLong(3) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentBankCreator commandReceiver = null;
+                administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
+            Invoker invoker = null;
             if (obj.getLong(5) != 0)
-                commandReceiver = (PersistentBankCreator)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentBank commandResult = null;
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            PersistentBankCreator commandReceiver = null;
             if (obj.getLong(7) != 0)
-                commandResult = (PersistentBank)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            PersistentCommonDate myCommonDate = null;
+                commandReceiver = (PersistentBankCreator)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentBank commandResult = null;
             if (obj.getLong(9) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+                commandResult = (PersistentBank)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(11) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             CreateBankCommand result = new CreateBankCommand(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
+                                                             administrator,
                                                              invoker,
                                                              commandReceiver,
                                                              commandResult,
@@ -109,6 +113,19 @@ public class CreateBankCommandFacade{
             callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtBnkCMDFacade.nmSet(?, ?); end;");
             callable.setLong(1, CreateBankCommandId);
             callable.setString(2, nameVal);
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void administratorSet(long CreateBankCommandId, PersistentAdministrator administratorVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtBnkCMDFacade.admnstrtrSet(?, ?, ?); end;");
+            callable.setLong(1, CreateBankCommandId);
+            callable.setLong(2, administratorVal.getId());
+            callable.setLong(3, administratorVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

@@ -43,9 +43,9 @@ public class TestTransfer extends TestCase{
                     try {
                     		PersistentAdministrator admin = Administrator.createAdministrator();
                     		
-                            PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName);
-                            admin.getBanks().add(bank);
-                            bank.setAdministrator(admin);
+                            PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName,admin);
+//                            admin.getBanks().add(bank);
+//                            bank.setAdministrator(admin);
                             long bankNumber = bank.getBankNumber();
                             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
                             final long SecondAccountNumber = FirstAccountNumber + 1;
@@ -85,19 +85,20 @@ public class TestTransfer extends TestCase{
     public void testLimits() {
         final String BankName = "Bank1";
         try {
-        	 PersistentAdministrator admin = Administrator.createAdministrator();
+        	 PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
              
-             PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName);
-             admin.getBanks().add(bank);
-             bank.setAdministrator(admin);
-             long bankNumber = bank.getBankNumber();
-             bank.createAccount("Euro");
-             bank.createAccount("Euro");
+             PersistentBank bankTestLimits = BankCreator.getTheBankCreator().createBank(BankName,adminTestLimits);
+//             adminTestLimits.getBanks().add(bankTestLimits);
+//             bankTestLimits.setAdministrator(adminTestLimits);
+             long bankNumber = bankTestLimits.getBankNumber();
+             bankTestLimits.createAccount("Euro");
+             bankTestLimits.createAccount("Euro");
              final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
              final long SecondAccountNumber = FirstAccountNumber + 1;                                                       
              
-             PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
-             PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
+             PersistentAccount acc1 = bankTestLimits.getAccounts().get(FirstAccountNumber);
+             PersistentAccount acc2 = bankTestLimits.getAccounts().get(SecondAccountNumber);
+             
                 PersistentLimitAccount limit1 = LimitAccount.createLimitAccount();
                 limit1.setMinLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(0, 1)), Euro.getTheEuro())));
                 acc1.setLimit(limit1);
@@ -118,7 +119,6 @@ public class TestTransfer extends TestCase{
 				e.printStackTrace();
 				} catch (LimitViolatedException e) {
 					assertTrue(true);
-					e.printStackTrace();
 					return;
 				}
                 fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
@@ -133,9 +133,9 @@ public class TestTransfer extends TestCase{
         try {
          PersistentAdministrator admin = Administrator.createAdministrator();
         
-                PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName);
-                admin.getBanks().add(bank);
-                bank.setAdministrator(admin);
+                PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName,admin);
+//                admin.getBanks().add(bank);
+//                bank.setAdministrator(admin);
                 long bankNumber = bank.getBankNumber();
                 bank.createAccount("Euro");
                 bank.createAccount("Euro");
