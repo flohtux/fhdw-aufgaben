@@ -15,7 +15,7 @@ server Administrator extends Service {
 }
 singleton BankCreator {
   server-only Integer lastBankNumber;
-  active Bank createBank(String name);
+  active Bank createBank(String name, Administrator administrator);
 }
 server BankService extends Service {
   skip-view prior final one-to-one (server-only bankServices) Bank bank;
@@ -32,7 +32,7 @@ TransactionFee fee;
 InternalFee internalFee;
 prior Account ownAccount;
 server-only one-to-one (server-only bank) Account ** Integer ** accounts;
-symmetric (banks) Administrator administrator;
+symmetric (banks) prior Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
