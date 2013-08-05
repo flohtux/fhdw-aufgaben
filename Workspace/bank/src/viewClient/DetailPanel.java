@@ -1041,13 +1041,22 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
+    protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new TimestampPanel(this, "timestamp", this.getAnything().getTimestamp());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         try{
             BaseTypePanel panel = new IntegerPanel(this, "receiverAccountNumber", this.getAnything().getReceiverAccountNumber());
             this.getScrollablePane().add(panel);
@@ -1248,13 +1257,22 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
+    protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
     
     protected DebitNoteDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new TimestampPanel(this, "timestamp", this.getAnything().getTimestamp());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         try{
             BaseTypePanel panel = new IntegerPanel(this, "receiverAccountNumber", this.getAnything().getReceiverAccountNumber());
             this.getScrollablePane().add(panel);
@@ -1349,10 +1367,19 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
+    
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new TimestampPanel(this, "timestamp", this.getAnything().getTimestamp());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         
     }
     protected view.TransactionView getAnything(){
@@ -1362,6 +1389,9 @@ class TransactionDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class MoneyDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Money$$amount = "Money$$amount";
+    protected static final String Money$$currency = "Money$$currency";
     
     protected MoneyDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1382,7 +1412,6 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Bank$$fee = "Bank$$fee";
     protected static final String Bank$$internalFee = "Bank$$internalFee";
     protected static final String Bank$$ownAccount = "Bank$$ownAccount";
-    protected static final String Bank$$administrator = "Bank$$administrator";
     protected static final String Bank$$currentAccounts = "Bank$$currentAccounts";
     
     protected BankDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

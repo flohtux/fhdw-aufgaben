@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentDebitNoteTransferTransaction extends SubjInterface, Anything, AbstractPersistentProxi {
     
+    public java.sql.Timestamp getTimestamp() throws PersistenceException ;
+    public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public abstract PersistentDebitNoteTransferTransaction getThis() throws PersistenceException ;
@@ -20,7 +22,7 @@ public interface PersistentDebitNoteTransferTransaction extends SubjInterface, A
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void execute() 
-				throws model.TransactionDeniedException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

@@ -77,17 +77,31 @@ public class Money extends ViewObject implements MoneyView{
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(this.getAmount() != null && index < this.getAmount().getTheObject().getChildCount())
+            return this.getAmount().getTheObject().getChild(index);
+        if(this.getAmount() != null) index = index - this.getAmount().getTheObject().getChildCount();
+        if(this.getCurrency() != null && index < this.getCurrency().getTheObject().getChildCount())
+            return this.getCurrency().getTheObject().getChild(index);
+        if(this.getCurrency() != null) index = index - this.getCurrency().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getAmount() == null ? 0 : this.getAmount().getTheObject().getChildCount())
+            + (this.getCurrency() == null ? 0 : this.getCurrency().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getAmount() == null ? true : this.getAmount().getTheObject().isLeaf())
+            && (this.getCurrency() == null ? true : this.getCurrency().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getAmount() != null && this.getAmount().equals(child)) return result;
+        if(this.getAmount() != null) result = result + 1;
+        if(this.getCurrency() != null && this.getCurrency().equals(child)) return result;
+        if(this.getCurrency() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

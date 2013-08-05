@@ -10,11 +10,11 @@ import model.visitor.*;
 public class FixTransactionFee extends model.TransactionFee implements PersistentFixTransactionFee{
     
     
-    public static PersistentFixTransactionFee createFixTransactionFee() throws PersistenceException{
-        return createFixTransactionFee(false);
+    public static PersistentFixTransactionFee createFixTransactionFee(PersistentMoney value) throws PersistenceException{
+        return createFixTransactionFee(value,false);
     }
     
-    public static PersistentFixTransactionFee createFixTransactionFee(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentFixTransactionFee createFixTransactionFee(PersistentMoney value,boolean delayed$Persistence) throws PersistenceException {
         PersistentFixTransactionFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
@@ -25,12 +25,13 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
                 .newFixTransactionFee(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("value", value);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentFixTransactionFee createFixTransactionFee(boolean delayed$Persistence,PersistentFixTransactionFee This) throws PersistenceException {
+    public static PersistentFixTransactionFee createFixTransactionFee(PersistentMoney value,boolean delayed$Persistence,PersistentFixTransactionFee This) throws PersistenceException {
         PersistentFixTransactionFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theFixTransactionFeeFacade
@@ -41,6 +42,7 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
                 .newFixTransactionFee(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("value", value);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -183,6 +185,7 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
 				throws PersistenceException{
         this.setThis((PersistentFixTransactionFee)This);
 		if(this.equals(This)){
+			this.setValue((PersistentMoney)final$$Fields.get("value"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

@@ -20,11 +20,11 @@ public class Bank extends PersistentObject implements PersistentBank{
         return (PersistentBank)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentBank createBank(String name) throws PersistenceException{
-        return createBank(name,false);
+    public static PersistentBank createBank(String name,PersistentAccount ownAccount,PersistentAdministrator administrator) throws PersistenceException{
+        return createBank(name,ownAccount,administrator,false);
     }
     
-    public static PersistentBank createBank(String name,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentBank createBank(String name,PersistentAccount ownAccount,PersistentAdministrator administrator,boolean delayed$Persistence) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentBank result = null;
         if(delayed$Persistence){
@@ -37,12 +37,14 @@ public class Bank extends PersistentObject implements PersistentBank{
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("name", name);
+        final$$Fields.put("ownAccount", ownAccount);
+        final$$Fields.put("administrator", administrator);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentBank createBank(String name,boolean delayed$Persistence,PersistentBank This) throws PersistenceException {
+    public static PersistentBank createBank(String name,PersistentAccount ownAccount,PersistentAdministrator administrator,boolean delayed$Persistence,PersistentBank This) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentBank result = null;
         if(delayed$Persistence){
@@ -55,6 +57,8 @@ public class Bank extends PersistentObject implements PersistentBank{
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("name", name);
+        final$$Fields.put("ownAccount", ownAccount);
+        final$$Fields.put("administrator", administrator);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -357,7 +361,6 @@ public class Bank extends PersistentObject implements PersistentBank{
         if (this.getFee() != null) return 1;
         if (this.getInternalFee() != null) return 1;
         if (this.getOwnAccount() != null) return 1;
-        if (this.getAdministrator() != null) return 1;
         if (this.getCurrentAccounts().getLength() > 0) return 1;
         return 0;
     }
@@ -409,6 +412,8 @@ public class Bank extends PersistentObject implements PersistentBank{
         this.setThis((PersistentBank)This);
 		if(this.equals(This)){
 			this.setName((String)final$$Fields.get("name"));
+			this.setOwnAccount((PersistentAccount)final$$Fields.get("ownAccount"));
+			this.setAdministrator((PersistentAdministrator)final$$Fields.get("administrator"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 
@@ -460,16 +465,24 @@ public class Bank extends PersistentObject implements PersistentBank{
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setLastAccountNumber(serverConstants.ServerConstants.FirstAccountNumber);
+    	getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
+    			getThis().getOwnAccount().getMoney().getCurrency())));
+    	getThis().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.parse("1/1"))));
+    	getThis().getAdministrator().getBanks().add(getThis());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
     public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.TransactionDeniedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
-				return argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber();
+				if(argument.getAccountNumber() == debitNoteTransfer.getReceiverAccountNumber()) {
+					argument.setMoney(argument.getMoney().add(debitNoteTransfer.getMoney()));
+					return true;
+				}
+				return false;
 			}
 		});
         
@@ -477,16 +490,13 @@ public class Bank extends PersistentObject implements PersistentBank{
         
         if (acc == null) {
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
-        } else {
+        }else {
         	acc.getLimit().checkLimit(debitNoteTransfer.getMoney());
-        	
-        	acc.getMoney().add(debitNoteTransfer.getMoney());
+            acc.getMoney().add(debitNoteTransfer.getMoney());
         }
     }
-    public void sendTransfer(final PersistentAccount from, final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.TransactionDeniedException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
-    	from.getLimit().checkLimit(debitNoteTransfer.getMoney().multiply(new Fraction(-1, 1)));
-    	
+    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
@@ -496,6 +506,12 @@ public class Bank extends PersistentObject implements PersistentBank{
     	if (result == null) {
     		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
     	} else {
+    		final PersistentMoney fee = this.calculateFee(debitNoteTransfer.getMoney());
+    		final PersistentMoney newAccountMoney = debitNoteTransfer.getSender().getMoney().subtract(fee.add(debitNoteTransfer.getMoney())); 
+    		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney.multiply(Money.createMoney(Amount.createAmount(
+    				new Fraction(-1, 1)), newAccountMoney.getCurrency())));
+    		debitNoteTransfer.getSender().setMoney(newAccountMoney);
+			getThis().getOwnAccount().getMoney().add(fee);
 			result.receiveTransfer(debitNoteTransfer);
     	}
     }
@@ -506,6 +522,35 @@ public class Bank extends PersistentObject implements PersistentBank{
 
     /* Start of protected part that is not overridden by persistence generator */
     
+    /**
+     * Calculate the Fee of <money>.
+     * @return
+     * @throws PersistenceException 
+     */
+    private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException {
+    	return getThis().getFee().accept(new TransactionFeeReturnVisitor<PersistentMoney>() {
+			@Override
+			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
+					throws PersistenceException {
+				// TODO calculate für MixedFee
+				System.out.println("TODO calculate für MixedFee machen!!!");
+				return null;
+			}
+			@Override
+			public PersistentMoney handleFixTransactionFee(
+					PersistentFixTransactionFee fixTransactionFee)
+					throws PersistenceException {
+				return fixTransactionFee.getValue();
+			}
+			@Override
+			public PersistentMoney handleProcentualFee(
+					PersistentProcentualFee procentualFee)
+					throws PersistenceException {
+				return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
+						procentualFee.getPercent().getValue())), money.getCurrency()); 
+			}
+		});
+    }
     
     
     

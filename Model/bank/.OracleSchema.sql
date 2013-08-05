@@ -209,6 +209,9 @@ create table CrtBnkCMD(
     id number primary key,
     Cls number not null,
     CrtBnkCMDNm varchar2(2000),
+    CrtBnkCMDAdmnstrtr number,
+    CrtBnkCMDAdmnstrtrCls number,
+    constraint FCrtBnkCMDAdmnstrtr foreign key (CrtBnkCMDAdmnstrtrCls) references Cls (id),
     CrtBnkCMDInvoker number,
     CrtBnkCMDInvokerCls number,
     constraint FCrtBnkCMDInvoker foreign key (CrtBnkCMDInvokerCls) references Cls (id),
@@ -362,6 +365,7 @@ create sequence SDebiTrfTran nocache;
 create table DebiTrfTran(
     id number primary key,
     Cls number not null,
+    DebiTrfTranTmstmp Timestamp,
     DebiTrfTranSbSrvc number,
     DebiTrfTranSbSrvcCls number,
     constraint FDebiTrfTranSbSrvc foreign key (DebiTrfTranSbSrvcCls) references Cls (id),

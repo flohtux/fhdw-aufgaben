@@ -64,9 +64,9 @@ public class BankCreatorProxi extends PersistentProxi implements PersistentBankC
     }
     
     
-    public void createBank(final String name, final Invoker invoker) 
+    public void createBank(final String name, final PersistentAdministrator administrator, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentBankCreator)this.getTheObject()).createBank(name, invoker);
+        ((PersistentBankCreator)this.getTheObject()).createBank(name, administrator, invoker);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
@@ -88,9 +88,9 @@ public class BankCreatorProxi extends PersistentProxi implements PersistentBankC
 				throws PersistenceException{
         ((PersistentBankCreator)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public PersistentBank createBank(final String name) 
+    public PersistentBank createBank(final String name, final PersistentAdministrator administrator) 
 				throws PersistenceException{
-        return ((PersistentBankCreator)this.getTheObject()).createBank(name);
+        return ((PersistentBankCreator)this.getTheObject()).createBank(name, administrator);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

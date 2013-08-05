@@ -12,6 +12,7 @@ import model.InvalidAccountNumberException;
 import model.InvalidBankNumberException;
 import model.Limit;
 import model.LimitAccount;
+import model.LimitViolatedException;
 import model.Money;
 import model.TransactionDeniedException;
 
@@ -38,32 +39,35 @@ public class TestTransfer extends TestCase{
 		} 	
 	}
 	
-    public void test() {
+    public void testBankintern() {
                     final String BankName = "Bank1";
-                    final String Acc1Name = "Acc1";
-                    final String Acc2Name = "Acc2";
                     try {
                     		PersistentAdministrator admin = Administrator.createAdministrator();
                     		
-                            PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName);
-                            admin.getBanks().add(bank);
-                            bank.setAdministrator(admin);
+                            PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName,admin);
+//                            admin.getBanks().add(bank);
+//                            bank.setAdministrator(admin);
                             long bankNumber = bank.getBankNumber();
                             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
-                            final long SecondAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+                            final long SecondAccountNumber = FirstAccountNumber + 1;
                             bank.createAccount("Euro");
                             bank.createAccount("Euro");
                                                                                    
-                            PersistentAccount acc1 = bank.getAccounts().get(1);
-                            PersistentAccount acc2 = bank.getAccounts().get(2);
+                            PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+                            PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
                             
                             
                             PersistentTransfer newTrans = acc1.createTransfer();
                             newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10,1)), Euro.getTheEuro()));
-                            newTrans.setReceiverAccountNumber(2);
+                            newTrans.setReceiverAccountNumber(SecondAccountNumber);
                             newTrans.setReceiverBankNumber(bankNumber);
                             try {
-								newTrans.execute();
+								try {
+									newTrans.execute();
+								} catch (LimitViolatedException e) {
+									fail();
+									e.printStackTrace();
+								}
 							} catch (InvalidBankNumberException e) {
 								fail();
 								e.printStackTrace();
@@ -85,39 +89,40 @@ public class TestTransfer extends TestCase{
     public void testLimits() {
         final String BankName = "Bank1";
         try {
-        		PersistentAdministrator admin = Administrator.createAdministrator();
-        		
-                PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName);
-                admin.getBanks().add(bank);
-                bank.setAdministrator(admin);
-                long bankNumber = bank.getBankNumber();
-                bank.createAccount("Euro");
-                bank.createAccount("Euro");
-                                                                       
-                
-                PersistentAccount acc1 = bank.getAccounts().get(1);
+        	 PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
+             
+             PersistentBank bankTestLimits = BankCreator.getTheBankCreator().createBank(BankName,adminTestLimits);
+//             adminTestLimits.getBanks().add(bankTestLimits);
+//             bankTestLimits.setAdministrator(adminTestLimits);
+             long bankNumber = bankTestLimits.getBankNumber();
+             bankTestLimits.createAccount("Euro");
+             bankTestLimits.createAccount("Euro");
+             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+             final long SecondAccountNumber = FirstAccountNumber + 1;                                                       
+             
+             PersistentAccount acc1 = bankTestLimits.getAccounts().get(FirstAccountNumber);
+             PersistentAccount acc2 = bankTestLimits.getAccounts().get(SecondAccountNumber);
+             
                 PersistentLimitAccount limit1 = LimitAccount.createLimitAccount();
                 limit1.setMinLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(0, 1)), Euro.getTheEuro())));
                 acc1.setLimit(limit1);
                 
-                PersistentAccount acc2 = bank.getAccounts().get(2);
                 
                 
                 PersistentTransfer newTrans = acc1.createTransfer();
                 newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10,1)), Euro.getTheEuro()));
-                newTrans.setReceiverAccountNumber(2);
+                newTrans.setReceiverAccountNumber(SecondAccountNumber);
                 newTrans.setReceiverBankNumber(bankNumber);
                 try {
-					newTrans.execute();
+                	newTrans.execute();
 				} catch (InvalidBankNumberException e) {
 					fail();
 					e.printStackTrace();
 				} catch (InvalidAccountNumberException e) {
 					fail();
-					e.printStackTrace();
-				} catch (TransactionDeniedException e) {
+				e.printStackTrace();
+				} catch (LimitViolatedException e) {
 					assertTrue(true);
-					e.printStackTrace();
 					return;
 				}
                 fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
@@ -130,43 +135,42 @@ public class TestTransfer extends TestCase{
     public void testLimitsMax() {
         final String BankName = "Bank1";
         try {
-        		PersistentAdministrator admin = Administrator.createAdministrator();
-        		
-                PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName);
-                admin.getBanks().add(bank);
-                bank.setAdministrator(admin);
+         PersistentAdministrator admin = Administrator.createAdministrator();
+        
+                PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName,admin);
+//                admin.getBanks().add(bank);
+//                bank.setAdministrator(admin);
                 long bankNumber = bank.getBankNumber();
                 bank.createAccount("Euro");
                 bank.createAccount("Euro");
-                                                                       
+                final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+                final long SecondAccountNumber = FirstAccountNumber + 1;                                                       
                 
-                PersistentAccount acc1 = bank.getAccounts().get(1);
-
+                PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
                 
-                PersistentAccount acc2 = bank.getAccounts().get(2);
+                PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
                 PersistentLimitAccount limit1 = LimitAccount.createLimitAccount();
                 limit1.setMaxLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro())));
                 acc2.setLimit(limit1);
                 
                 
-                
                 PersistentTransfer newTrans = acc1.createTransfer();
                 newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(100,1)), Euro.getTheEuro()));
-                newTrans.setReceiverAccountNumber(2);
+                newTrans.setReceiverAccountNumber(SecondAccountNumber);
                 newTrans.setReceiverBankNumber(bankNumber);
                 try {
-					newTrans.execute();
+                	newTrans.execute();
 				} catch (InvalidBankNumberException e) {
 					fail();
-					e.printStackTrace();
+				e.printStackTrace();
 				} catch (InvalidAccountNumberException e) {
 					fail();
-					e.printStackTrace();
-				} catch (TransactionDeniedException e) {
+				e.printStackTrace();
+				} catch (LimitViolatedException e) {
 					assertTrue(true);
 					return;
 				}
-                fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
+                	fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
                
         } catch (PersistenceException e) {
                 e.printStackTrace();

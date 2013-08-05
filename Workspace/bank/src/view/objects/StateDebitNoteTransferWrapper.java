@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class AdministratorBankWrapper extends AssociationInTreeWrapper {
+public class StateDebitNoteTransferWrapper extends AssociationInTreeWrapper {
 
-	public AdministratorBankWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public StateDebitNoteTransferWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class AdministratorBankWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association administrator in class Bank
+    	//TODO: Implement toString in wrapper class for association state in class DebitNoteTransfer
     	return this.getWrappedObject().toString();
     }
 

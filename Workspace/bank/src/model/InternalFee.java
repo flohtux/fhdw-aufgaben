@@ -15,11 +15,11 @@ public class InternalFee extends PersistentObject implements PersistentInternalF
         return (PersistentInternalFee)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentInternalFee createInternalFee() throws PersistenceException{
-        return createInternalFee(false);
+    public static PersistentInternalFee createInternalFee(PersistentPercent percent) throws PersistenceException{
+        return createInternalFee(percent,false);
     }
     
-    public static PersistentInternalFee createInternalFee(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentInternalFee createInternalFee(PersistentPercent percent,boolean delayed$Persistence) throws PersistenceException {
         PersistentInternalFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theInternalFeeFacade
@@ -30,12 +30,13 @@ public class InternalFee extends PersistentObject implements PersistentInternalF
                 .newInternalFee(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("percent", percent);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentInternalFee createInternalFee(boolean delayed$Persistence,PersistentInternalFee This) throws PersistenceException {
+    public static PersistentInternalFee createInternalFee(PersistentPercent percent,boolean delayed$Persistence,PersistentInternalFee This) throws PersistenceException {
         PersistentInternalFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theInternalFeeFacade
@@ -46,6 +47,7 @@ public class InternalFee extends PersistentObject implements PersistentInternalF
                 .newInternalFee(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("percent", percent);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -217,6 +219,7 @@ public class InternalFee extends PersistentObject implements PersistentInternalF
 				throws PersistenceException{
         this.setThis((PersistentInternalFee)This);
 		if(this.equals(This)){
+			this.setPercent((PersistentPercent)final$$Fields.get("percent"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

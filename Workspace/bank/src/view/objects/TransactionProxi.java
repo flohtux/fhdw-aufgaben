@@ -12,7 +12,8 @@ public class TransactionProxi extends DebitNoteTransferTransactionProxi implemen
     }
     
     public TransactionView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        TransactionView result$$ = new Transaction( this.getId(), this.getClassId());
+        java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
+        TransactionView result$$ = new Transaction((java.util.Date)timestamp, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

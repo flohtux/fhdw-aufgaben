@@ -28,7 +28,7 @@ public interface PersistentLimitAccount extends SubjInterface, Anything, Abstrac
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void checkLimit(final PersistentMoney money) 
-				throws model.TransactionDeniedException, PersistenceException;
+				throws model.LimitViolatedException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

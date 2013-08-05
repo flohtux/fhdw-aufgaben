@@ -137,4 +137,11 @@ public class Fraction {
 		return newEnumeratorOfThis.compareTo(newEnumeratorOfFraction) ==  +1;
 	}
 	
+	public boolean greater(Fraction fraction) {
+		BigInteger lcm = this.lcm(fraction);
+		BigInteger newEnumeratorOfThis = this.getEnumerator().multiply(lcm.divide(this.getDenominator()));
+		BigInteger newEnumeratorOfFraction = fraction.getEnumerator().multiply(lcm.divide(fraction.getDenominator()));
+		return newEnumeratorOfThis.compareTo(newEnumeratorOfFraction) == +1;
+	}
+	
 }

@@ -244,6 +244,8 @@ public class Money extends PersistentObject implements PersistentMoney{
          return visitor.handleMoney(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getAmount() != null && this.getAmount().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getCurrency() != null && this.getCurrency().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
@@ -296,17 +298,15 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     // Start of section that contains operations that must be implemented.
     
-    public void add(final PersistentMoney money) 
+    public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
     	if(getThis().getCurrency().equals(money.getCurrency())) {
-    		getThis().getAmount().setBalance(money.getAmount().getBalance().add(getThis().getAmount().getBalance()));
-    		System.out.println("money added this "+getThis().getCurrency()+ " money "+money.getCurrency());
+    		return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().add(getThis().getAmount().getBalance())),
+    				money.getCurrency());
     	}else {
-    		//TODO unterschiedliche Währung bei addieren
-    		
     		PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
     				getThis().getCurrency());
-    		getThis().add(moneyInRightCurrency);
+    		return moneyInRightCurrency;
     	}
         
     }
@@ -325,16 +325,27 @@ public class Money extends PersistentObject implements PersistentMoney{
         //TODO: implement method: initializeOnInstantiation
         
     }
-    public PersistentMoney multiply(final common.Fraction factor) 
+    public PersistentMoney multiply(final PersistentMoney money) 
 				throws PersistenceException{
-        PersistentMoney result = Money.createMoney(Amount.createAmount(getThis().getAmount().getBalance().multiply(factor)), getThis().getCurrency());
-        return result;
+	        if(getThis().getCurrency().equals(money.getCurrency())) {
+	     	   return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
+	     			   getThis().getAmount().getBalance())),money.getCurrency());
+	        }else {
+	     	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+	     			   getThis().getCurrency());
+	     	   return getThis().multiply(moneyInRightCurrency);
+	        }
     }
-    public void subtract(final PersistentMoney money) 
-				throws PersistenceException{
-        //TODO: implement method: subtract
-    	throw new RuntimeException("Subtrahieren noch nicht implementiert!!!");
-        
+    public PersistentMoney subtract(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+       if(getThis().getCurrency().equals(money.getCurrency())) {
+    	   return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().subtract(
+    			   getThis().getAmount().getBalance())),money.getCurrency());
+       }else {
+    	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+    			   getThis().getCurrency());
+    	   return getThis().subtract(moneyInRightCurrency);
+       }
     }
     
     

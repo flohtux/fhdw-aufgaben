@@ -4,11 +4,13 @@ package test;
 
 import junit.framework.TestCase;
 
+import model.Administrator;
 import model.Bank;
 import model.BankCreator;
 
 
 import persistence.PersistenceException;
+import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
 
 public class testTest extends TestCase {
@@ -26,14 +28,15 @@ public class testTest extends TestCase {
 	public void test() {
 		final String BankName = "Bank1";
 		try {
-			BankCreator.getTheBankCreator().createBank(BankName);
+			PersistentAdministrator admin = Administrator.createAdministrator();
+			BankCreator.getTheBankCreator().createBank(BankName,admin);
 			final long FirstBankNumber = serverConstants.ServerConstants.FirstBankNumber + 1;
 			PersistentBank bank = Bank.getBankByBankNumber(FirstBankNumber).iterator().next();
 			assertEquals(BankName, bank.getName());
 			final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
 			bank.createAccount("Euro");
 	        //TODO PREREQUISITES: Hashmap: how to get things out of HashMaps!
-			assertEquals(1, bank.getAccounts().get(FirstAccountNumber).getAccountNumber());
+			assertEquals(2, bank.getAccounts().get(FirstAccountNumber).getAccountNumber());
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 		}

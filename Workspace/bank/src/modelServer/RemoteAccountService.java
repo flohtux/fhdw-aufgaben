@@ -34,6 +34,22 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> executeTransfer(String debitNoteTransferProxiString){
+        try {
+            PersistentDebitNoteTransfer debitNoteTransfer = (PersistentDebitNoteTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitNoteTransferProxiString));
+            ((PersistentAccountService)this.server).executeTransfer(debitNoteTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.InvalidBankNumberException e0){
+            return createExceptionResult(e0, this);
+        }catch(model.LimitViolatedException e1){
+            return createExceptionResult(e1, this);
+        }catch(model.InvalidAccountNumberException e2){
+            return createExceptionResult(e2, this);
+        }
+    }
+    
 
 
 }
