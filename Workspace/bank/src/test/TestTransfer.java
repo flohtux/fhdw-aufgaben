@@ -76,6 +76,7 @@ public class TestTransfer extends TestCase{
 							}
                            
                             assertEquals(new Fraction(10,1), acc2.getMoney().getAmount().getBalance());
+                            assertEquals(new Fraction(-10,1), acc1.getMoney().getAmount().getBalance());
                               
                     } catch (PersistenceException e) {
                             e.printStackTrace();
