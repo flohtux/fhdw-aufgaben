@@ -239,18 +239,18 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
-        //TODO: implement method: changeMoney
-        
+        trans.getMoney().getAmount().setBalance(newAmount);
+        getThis().signalChanged(true);
     }
     public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
 				throws PersistenceException{
-        //TODO: implement method: changeReceiverAccount
-        
+    	trans.setReceiverAccountNumber(receiverAccNumber);
+        getThis().signalChanged(true);
     }
     public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
-        //TODO: implement method: changeReceiverBank
-        
+        trans.setReceiverBankNumber(receiverBankNumber);
+        getThis().signalChanged(true);
     }
     public void connected(final String user) 
 				throws PersistenceException{
