@@ -12,6 +12,7 @@ import model.InvalidBankNumberException;
 import model.Limit;
 import model.LimitAccount;
 import model.LimitViolatedException;
+import model.MixedFee;
 import model.Money;
 import model.Percent;
 import model.ProcentualFee;
@@ -23,7 +24,9 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
+import persistence.PersistentFixTransactionFee;
 import persistence.PersistentLimitAccount;
+import persistence.PersistentProcentualFee;
 import persistence.PersistentTransfer;
 
 public class TestTransfer extends TestCase{
@@ -249,6 +252,50 @@ public class TestTransfer extends TestCase{
         }
 }
     
+    public void testBankExternMixedFee() {
+        final String BankName1 = "Bank1";
+        final String BankName2 = "Bank2";
+        try {
+        	 PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
+             
+             PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1,adminTestLimits);
+             PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2,adminTestLimits);
+             PersistentProcentualFee procentualFee = ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 2)));
+             PersistentFixTransactionFee fixFee = FixTransactionFee.createFixTransactionFee(Money.createMoney(
+            		 Amount.createAmount(new Fraction(3, 1)), Euro.getTheEuro()));
+             bank1.setFee(MixedFee.createMixedFee(fixFee, procentualFee, new Fraction(5, 1)));
+             long bankNumber2 = bank2.getBankNumber();
+             bank1.createAccount("Euro");
+             bank2.createAccount("Euro");
+             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+             
+             PersistentAccount acc1 = bank1.getAccounts().get(FirstAccountNumber);
+             PersistentAccount acc2 = bank2.getAccounts().get(FirstAccountNumber);
+             
+                PersistentTransfer newTrans = acc1.createTransfer();
+                newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(11,1)), Euro.getTheEuro()));
+                newTrans.setReceiverAccountNumber(FirstAccountNumber);
+                newTrans.setReceiverBankNumber(bankNumber2);
+                try {
+                	newTrans.execute();
+				} catch (InvalidBankNumberException e) {
+					fail();
+					e.printStackTrace();
+				} catch (InvalidAccountNumberException e) {
+					fail();
+				e.printStackTrace();
+				} catch (LimitViolatedException e) {
+					fail();
+					return;
+				}
+                assertEquals(new Fraction(-17, 1), acc1.getMoney().getAmount().getBalance());
+                assertEquals(new Fraction(11, 1), acc2.getMoney().getAmount().getBalance());
+               
+        } catch (PersistenceException e) {
+                e.printStackTrace();
+        }
+}
+    
 
     public void testBankExternProcentualFeeLimitViolation() {
         final String BankName1 = "Bank1";
@@ -265,7 +312,6 @@ public class TestTransfer extends TestCase{
              final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
              
              PersistentAccount acc1 = bank1.getAccounts().get(FirstAccountNumber);
-             PersistentAccount acc2 = bank2.getAccounts().get(FirstAccountNumber);
              
              PersistentLimitAccount limit = LimitAccount.createLimitAccount();
              limit.setMinLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(-13, 1)), Euro.getTheEuro())));

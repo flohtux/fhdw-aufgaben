@@ -1140,7 +1140,7 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "limit", this.getAnything().getLimit());
+            BaseTypePanel panel = new FractionPanel(this, "limit", this.getAnything().getLimit());
             this.getScrollablePane().add(panel);
             this.panels.put(MixedFee$$limit, panel);
         }catch(view.ModelException e){

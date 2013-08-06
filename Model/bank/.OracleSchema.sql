@@ -298,7 +298,7 @@ create table TrnsctnF(
     MxdFPrcntl number,
     MxdFPrcntlCls number,
     constraint FMxdFPrcntl foreign key (MxdFPrcntlCls) references Cls (id),
-    MxdFLmt number,
+    MxdFLmt varchar2(2000),
     FxTrnsctnFVl number,
     FxTrnsctnFVlCls number,
     constraint FFxTrnsctnFVl foreign key (FxTrnsctnFVlCls) references Cls (id),

@@ -11,9 +11,9 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
     
     protected FixTransactionFeeView fix;
     protected ProcentualFeeView procentual;
-    protected long limit;
+    protected common.Fraction limit;
     
-    public MixedFee(FixTransactionFeeView fix,ProcentualFeeView procentual,long limit,long id, long classId) {
+    public MixedFee(FixTransactionFeeView fix,ProcentualFeeView procentual,common.Fraction limit,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.fix = fix;
@@ -41,10 +41,10 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
     public void setProcentual(ProcentualFeeView newValue) throws ModelException {
         this.procentual = newValue;
     }
-    public long getLimit()throws ModelException{
+    public common.Fraction getLimit()throws ModelException{
         return this.limit;
     }
-    public void setLimit(long newValue) throws ModelException {
+    public void setLimit(common.Fraction newValue) throws ModelException {
         this.limit = newValue;
     }
     
@@ -126,7 +126,7 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
                 if(rowIndex == 0) return "limit";
                 rowIndex = rowIndex - 1;
             } else {
-                if(rowIndex == 0) return new Long(getLimit());
+                if(rowIndex == 0) return this.getLimit();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -140,7 +140,7 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
-            this.setLimit(Long.parseLong(newValue));
+            this.setLimit(common.Fraction.parse(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

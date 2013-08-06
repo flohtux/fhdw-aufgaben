@@ -15,12 +15,12 @@ public class MixedFeeFacade{
 		this.con = con;
 	}
 
-    public MixedFeeProxi newMixedFee(long limit,long createMinusStorePlus) throws PersistenceException {
+    public MixedFeeProxi newMixedFee(common.Fraction limit,long createMinusStorePlus) throws PersistenceException {
         OracleCallableStatement callable;
         try{
             callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".MxdFFacade.newMxdF(?,?); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
-            callable.setLong(2, limit);
+            callable.setString(2, limit.toString());
             callable.setLong(3, createMinusStorePlus);
             callable.execute();
             long id = callable.getLong(1);
@@ -33,7 +33,7 @@ public class MixedFeeFacade{
         }
     }
     
-    public MixedFeeProxi newDelayedMixedFee(long limit) throws PersistenceException {
+    public MixedFeeProxi newDelayedMixedFee(common.Fraction limit) throws PersistenceException {
         OracleCallableStatement callable;
         try{
             callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".MxdFFacade.newDelayedMxdF(); end;");
@@ -78,7 +78,7 @@ public class MixedFeeFacade{
                                            This,
                                            fix,
                                            procentual,
-                                           obj.getLong(10),
+                                           common.Fraction.parse(obj.getString(10)),
                                            MixedFeeId);
             obj.close();
             callable.close();
@@ -116,12 +116,12 @@ public class MixedFeeFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void limitSet(long MixedFeeId, long limitVal) throws PersistenceException {
+    public void limitSet(long MixedFeeId, common.Fraction limitVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".MxdFFacade.lmtSet(?, ?); end;");
             callable.setLong(1, MixedFeeId);
-            callable.setLong(2, limitVal);
+            callable.setString(2, limitVal.toString());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

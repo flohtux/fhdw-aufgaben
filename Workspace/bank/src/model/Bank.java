@@ -515,30 +515,63 @@ public class Bank extends PersistentObject implements PersistentBank{
      * Calculate the Fee of <money>.
      * @return
      * @throws PersistenceException 
+     * @throws LimitViolatedException 
      */
-    private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException {
-    	return getThis().getFee().accept(new TransactionFeeReturnVisitor<PersistentMoney>() {
+    private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException, LimitViolatedException {
+    	return getThis().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
 			@Override
 			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
-					throws PersistenceException {
+					throws PersistenceException, LimitViolatedException {
 				// TODO calculate für MixedFee
-				System.out.println("TODO calculate für MixedFee machen!!!");
-				return null;
+				PersistentMoney result = Money.createMoney(Amount.createAmount(new Fraction(0, 1)), money.getCurrency());
+				result = result.add(mixedFee.getFix().getValue());
+				PersistentMoney procentualPart = money.subtract(Money.createMoney(Amount.createAmount(mixedFee.getLimit()), 
+						getThis().getOwnAccount().getMoney().getCurrency()));
+				result = result.add(Money.createMoney(Amount.createAmount(procentualPart.getAmount().getBalance().multiply(
+						mixedFee.getProcentual().getPercent().getValue())), procentualPart.getCurrency()));
+				return result;
 			}
 			@Override
 			public PersistentMoney handleFixTransactionFee(
 					PersistentFixTransactionFee fixTransactionFee)
-					throws PersistenceException {
+					throws PersistenceException, LimitViolatedException {
 				return fixTransactionFee.getValue();
 			}
+
 			@Override
 			public PersistentMoney handleProcentualFee(
 					PersistentProcentualFee procentualFee)
-					throws PersistenceException {
+					throws PersistenceException, LimitViolatedException {
 				return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
 						procentualFee.getPercent().getValue())), money.getCurrency()); 
 			}
 		});
+    	
+//    	return getThis().getFee().accept(new TransactionFeeReturnVisitor<PersistentMoney>() {
+//			@Override
+//			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
+//					throws PersistenceException {
+//				// TODO calculate für MixedFee
+//				PersistentMoney result = Money.createMoney(Amount.createAmount(new Fraction(0, 1)), money.getCurrency());
+//				result = result.add(mixedFee.getFix().getValue());
+//				PersistentMoney procentualPart = money.subtract(Money.createMoney(Amount.createAmount(mixedFee.getLimit()), getThis().getOwnAccount().getMoney().getCurrency()));
+//				System.out.println("TODO calculate für MixedFee machen!!!");
+//				return null;
+//			}
+//			@Override
+//			public PersistentMoney handleFixTransactionFee(
+//					PersistentFixTransactionFee fixTransactionFee)
+//					throws PersistenceException {
+//				return fixTransactionFee.getValue();
+//			}
+//			@Override
+//			public PersistentMoney handleProcentualFee(
+//					PersistentProcentualFee procentualFee)
+//					throws PersistenceException {
+//				return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
+//						procentualFee.getPercent().getValue())), money.getCurrency()); 
+//			}
+//		});
     }
     
     

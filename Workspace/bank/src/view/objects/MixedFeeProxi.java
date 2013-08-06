@@ -26,8 +26,8 @@ public class MixedFeeProxi extends TransactionFeeProxi implements MixedFeeView{
             procentual = view.objects.ViewProxi.createProxi(procentual$Info,connectionKey);
             procentual.setToString(procentual$Info.getToString());
         }
-        long limit = new Long((String)resultTable.get("limit")).longValue();
-        MixedFeeView result$$ = new MixedFee((FixTransactionFeeView)fix,(ProcentualFeeView)procentual,(long)limit, this.getId(), this.getClassId());
+        common.Fraction limit = common.Fraction.parse((String)resultTable.get("limit"));
+        MixedFeeView result$$ = new MixedFee((FixTransactionFeeView)fix,(ProcentualFeeView)procentual,(common.Fraction)limit, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -75,10 +75,10 @@ public class MixedFeeProxi extends TransactionFeeProxi implements MixedFeeView{
     public void setProcentual(ProcentualFeeView newValue) throws ModelException {
         ((MixedFee)this.getTheObject()).setProcentual(newValue);
     }
-    public long getLimit()throws ModelException{
+    public common.Fraction getLimit()throws ModelException{
         return ((MixedFee)this.getTheObject()).getLimit();
     }
-    public void setLimit(long newValue) throws ModelException {
+    public void setLimit(common.Fraction newValue) throws ModelException {
         ((MixedFee)this.getTheObject()).setLimit(newValue);
     }
     

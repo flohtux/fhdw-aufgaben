@@ -10,8 +10,8 @@ public interface PersistentMixedFee extends PersistentTransactionFee {
     public void setFix(PersistentFixTransactionFee newValue) throws PersistenceException ;
     public PersistentProcentualFee getProcentual() throws PersistenceException ;
     public void setProcentual(PersistentProcentualFee newValue) throws PersistenceException ;
-    public long getLimit() throws PersistenceException ;
-    public void setLimit(long newValue) throws PersistenceException ;
+    public common.Fraction getLimit() throws PersistenceException ;
+    public void setLimit(common.Fraction newValue) throws PersistenceException ;
     public PersistentMixedFee getThis() throws PersistenceException ;
     
     public void accept(TransactionFeeVisitor visitor) throws PersistenceException;

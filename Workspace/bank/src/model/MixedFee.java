@@ -10,11 +10,11 @@ import model.visitor.*;
 public class MixedFee extends model.TransactionFee implements PersistentMixedFee{
     
     
-    public static PersistentMixedFee createMixedFee(long limit) throws PersistenceException{
-        return createMixedFee(limit,false);
+    public static PersistentMixedFee createMixedFee(PersistentFixTransactionFee fix,PersistentProcentualFee procentual,common.Fraction limit) throws PersistenceException{
+        return createMixedFee(fix,procentual,limit,false);
     }
     
-    public static PersistentMixedFee createMixedFee(long limit,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentMixedFee createMixedFee(PersistentFixTransactionFee fix,PersistentProcentualFee procentual,common.Fraction limit,boolean delayed$Persistence) throws PersistenceException {
         PersistentMixedFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theMixedFeeFacade
@@ -25,13 +25,15 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
                 .newMixedFee(limit,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("fix", fix);
+        final$$Fields.put("procentual", procentual);
         final$$Fields.put("limit", limit);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentMixedFee createMixedFee(long limit,boolean delayed$Persistence,PersistentMixedFee This) throws PersistenceException {
+    public static PersistentMixedFee createMixedFee(PersistentFixTransactionFee fix,PersistentProcentualFee procentual,common.Fraction limit,boolean delayed$Persistence,PersistentMixedFee This) throws PersistenceException {
         PersistentMixedFee result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theMixedFeeFacade
@@ -42,6 +44,8 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
                 .newMixedFee(limit,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("fix", fix);
+        final$$Fields.put("procentual", procentual);
         final$$Fields.put("limit", limit);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
@@ -70,7 +74,7 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
                     if(forGUI && procentual.hasEssentialFields())procentual.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            result.put("limit", new Long(this.getLimit()).toString());
+            result.put("limit", this.getLimit().toString());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -94,9 +98,9 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
     }
     protected PersistentFixTransactionFee fix;
     protected PersistentProcentualFee procentual;
-    protected long limit;
+    protected common.Fraction limit;
     
-    public MixedFee(SubjInterface subService,PersistentTransactionFee This,PersistentFixTransactionFee fix,PersistentProcentualFee procentual,long limit,long id) throws persistence.PersistenceException {
+    public MixedFee(SubjInterface subService,PersistentTransactionFee This,PersistentFixTransactionFee fix,PersistentProcentualFee procentual,common.Fraction limit,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentTransactionFee)This,id);
         this.fix = fix;
@@ -156,10 +160,10 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
             ConnectionHandler.getTheConnectionHandler().theMixedFeeFacade.procentualSet(this.getId(), newValue);
         }
     }
-    public long getLimit() throws PersistenceException {
+    public common.Fraction getLimit() throws PersistenceException {
         return this.limit;
     }
-    public void setLimit(long newValue) throws PersistenceException {
+    public void setLimit(common.Fraction newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theMixedFeeFacade.limitSet(this.getId(), newValue);
         this.limit = newValue;
     }
@@ -227,7 +231,9 @@ public class MixedFee extends model.TransactionFee implements PersistentMixedFee
 				throws PersistenceException{
         this.setThis((PersistentMixedFee)This);
 		if(this.equals(This)){
-			this.setLimit((Long)final$$Fields.get("limit"));
+			this.setFix((PersistentFixTransactionFee)final$$Fields.get("fix"));
+			this.setProcentual((PersistentProcentualFee)final$$Fields.get("procentual"));
+			this.setLimit((common.Fraction)final$$Fields.get("limit"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

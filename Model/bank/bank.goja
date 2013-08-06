@@ -84,10 +84,11 @@ class Limit extends LimitType{
 }
 
 abstract class TransactionFee{}
+
 class MixedFee extends TransactionFee{
-FixTransactionFee fix;
-ProcentualFee procentual;
-prior Integer limit;
+prior FixTransactionFee fix;
+prior ProcentualFee procentual;
+prior Fraction limit;
 }
 class ProcentualFee extends TransactionFee{
 	prior Percent percent;
