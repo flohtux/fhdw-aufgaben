@@ -497,8 +497,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     		System.out.println("money " + debitNoteTransfer.getMoney());
     		final PersistentMoney newAccountMoney = debitNoteTransfer.getSender().getMoney().subtract(fee.add(debitNoteTransfer.getMoney())); 
     		System.out.println("new money " + newAccountMoney);
-    		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney.multiply(Money.createMoney(Amount.createAmount(
-    				new Fraction(-1, 1)),  newAccountMoney.getCurrency())));
+    		debitNoteTransfer.getSender().getLimit().checkLimit(newAccountMoney);
     		System.out.println("new money2 " + newAccountMoney);
     		debitNoteTransfer.getSender().setMoney(newAccountMoney);
 			getThis().getOwnAccount().getMoney().add(fee);

@@ -119,7 +119,6 @@ public class TestTransfer extends TestCase{
 					fail();
 				e.printStackTrace();
 				} catch (LimitViolatedException e) {
-					
 					assertTrue(true);
 					return;
 				}
