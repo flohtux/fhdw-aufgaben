@@ -8,6 +8,7 @@ import model.Amount;
 import model.Bank;
 import model.BankCreator;
 import model.Euro;
+import model.FixTransactionFee;
 import model.InvalidAccountNumberException;
 import model.InvalidBankNumberException;
 import model.Limit;
@@ -182,6 +183,7 @@ public class TestTransfer extends TestCase{
              
              PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1,adminTestLimits);
              PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2,adminTestLimits);
+             bank1.setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(1, 1)), Euro.getTheEuro())));
 //             adminTestLimits.getBanks().add(bankTestLimits);
 //             bankTestLimits.setAdministrator(adminTestLimits);
              long bankNumber1 = bank1.getBankNumber();
@@ -216,8 +218,8 @@ public class TestTransfer extends TestCase{
 					fail();
 					return;
 				}
-                System.out.println(acc2.getMoney() + " acc2");
-                System.out.println(acc1.getMoney() + " acc1");
+                assertEquals(new Fraction(-11, 1), acc1.getMoney().getAmount().getBalance());
+                assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
                
         } catch (PersistenceException e) {
                 e.printStackTrace();
