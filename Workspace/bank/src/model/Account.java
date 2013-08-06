@@ -59,7 +59,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("debitNoteTransferTransactions", this.getDebitNoteTransferTransactions().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             result.put("accountNumber", new Long(this.getAccountNumber()).toString());
             AbstractPersistentRoot money = (AbstractPersistentRoot)this.getMoney();
             if (money != null) {
@@ -79,6 +78,7 @@ public class Account extends PersistentObject implements PersistentAccount{
                     if(forGUI && limit.hasEssentialFields())limit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            result.put("debitNoteTransferTransactions", this.getDebitNoteTransferTransactions().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -100,20 +100,20 @@ public class Account extends PersistentObject implements PersistentAccount{
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected Account_DebitNoteTransferTransactionsProxi debitNoteTransferTransactions;
     protected long accountNumber;
     protected PersistentMoney money;
     protected PersistentLimitAccount limit;
+    protected Account_DebitNoteTransferTransactionsProxi debitNoteTransferTransactions;
     protected SubjInterface subService;
     protected PersistentAccount This;
     
     public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.debitNoteTransferTransactions = new Account_DebitNoteTransferTransactionsProxi(this);
         this.accountNumber = accountNumber;
         this.money = money;
         this.limit = limit;
+        this.debitNoteTransferTransactions = new Account_DebitNoteTransferTransactionsProxi(this);
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -131,7 +131,6 @@ public class Account extends PersistentObject implements PersistentAccount{
         if (this.getClassId() == 133) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(accountNumber,this.getId());
         super.store();
-        this.getDebitNoteTransferTransactions().store();
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.moneySet(this.getId(), getMoney());
@@ -140,6 +139,7 @@ public class Account extends PersistentObject implements PersistentAccount{
             this.getLimit().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), getLimit());
         }
+        this.getDebitNoteTransferTransactions().store();
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.subServiceSet(this.getId(), getSubService());
@@ -151,9 +151,6 @@ public class Account extends PersistentObject implements PersistentAccount{
         
     }
     
-    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
-        return this.debitNoteTransferTransactions;
-    }
     public long getAccountNumber() throws PersistenceException {
         return this.accountNumber;
     }
@@ -188,6 +185,9 @@ public class Account extends PersistentObject implements PersistentAccount{
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), newValue);
         }
+    }
+    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
+        return this.debitNoteTransferTransactions;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -315,6 +315,21 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+				throws PersistenceException{
+        //TODO: implement method: changeMoney
+        
+    }
+    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
+				throws PersistenceException{
+        //TODO: implement method: changeReceiverAccount
+        
+    }
+    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException{
+        //TODO: implement method: changeReceiverBank
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }

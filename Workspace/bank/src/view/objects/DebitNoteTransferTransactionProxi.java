@@ -10,12 +10,6 @@ public abstract class DebitNoteTransferTransactionProxi extends ViewProxi implem
     }
     
     
-    public java.util.Date getTimestamp()throws ModelException{
-        return ((DebitNoteTransferTransaction)this.getTheObject()).getTimestamp();
-    }
-    public void setTimestamp(java.util.Date newValue) throws ModelException {
-        ((DebitNoteTransferTransaction)this.getTheObject()).setTimestamp(newValue);
-    }
     
     
     
