@@ -22,6 +22,9 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
         return 133;
     }
     
+    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
+    }
     public long getAccountNumber() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getAccountNumber();
     }
@@ -39,9 +42,6 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     }
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
-    }
-    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
@@ -102,18 +102,6 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
-    }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).changeMoney(trans, newAmount);
-    }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).changeReceiverAccount(trans, receiverAccountNumber);
-    }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

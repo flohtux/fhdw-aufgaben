@@ -15,9 +15,10 @@ public class Bank extends ViewObject implements BankView{
     protected TransactionFeeView fee;
     protected InternalFeeView internalFee;
     protected AccountView ownAccount;
+    protected AdministratorView administrator;
     protected java.util.Vector<AccountView> currentAccounts;
     
-    public Bank(long bankNumber,String name,TransactionFeeView fee,InternalFeeView internalFee,AccountView ownAccount,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
+    public Bank(long bankNumber,String name,TransactionFeeView fee,InternalFeeView internalFee,AccountView ownAccount,AdministratorView administrator,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.bankNumber = bankNumber;
@@ -25,6 +26,7 @@ public class Bank extends ViewObject implements BankView{
         this.fee = fee;
         this.internalFee = internalFee;
         this.ownAccount = ownAccount;
+        this.administrator = administrator;
         this.currentAccounts = currentAccounts;        
     }
     
@@ -66,6 +68,12 @@ public class Bank extends ViewObject implements BankView{
     public void setOwnAccount(AccountView newValue) throws ModelException {
         this.ownAccount = newValue;
     }
+    public AdministratorView getAdministrator()throws ModelException{
+        return this.administrator;
+    }
+    public void setAdministrator(AdministratorView newValue) throws ModelException {
+        this.administrator = newValue;
+    }
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException{
         return this.currentAccounts;
     }
@@ -98,6 +106,10 @@ public class Bank extends ViewObject implements BankView{
         AccountView ownAccount = this.getOwnAccount();
         if (ownAccount != null) {
             ((ViewProxi)ownAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(ownAccount.getClassId(), ownAccount.getId())));
+        }
+        AdministratorView administrator = this.getAdministrator();
+        if (administrator != null) {
+            ((ViewProxi)administrator).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(administrator.getClassId(), administrator.getId())));
         }
         java.util.Vector<?> currentAccounts = this.getCurrentAccounts();
         if (currentAccounts != null) {

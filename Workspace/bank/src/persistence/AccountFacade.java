@@ -104,44 +104,6 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void accountNumberSet(long AccountId, long accountNumberVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.accntNmbrSet(?, ?); end;");
-            callable.setLong(1, AccountId);
-            callable.setLong(2, accountNumberVal);
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void moneySet(long AccountId, PersistentMoney moneyVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.mnSet(?, ?, ?); end;");
-            callable.setLong(1, AccountId);
-            callable.setLong(2, moneyVal.getId());
-            callable.setLong(3, moneyVal.getClassId());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void limitSet(long AccountId, PersistentLimitAccount limitVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.lmtSet(?, ?, ?); end;");
-            callable.setLong(1, AccountId);
-            callable.setLong(2, limitVal.getId());
-            callable.setLong(3, limitVal.getClassId());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
     public long debitNoteTransferTransactionsAdd(long AccountId, PersistentDebitNoteTransferTransaction debitNoteTransferTransactionsVal) throws PersistenceException {
         try{
             CallableStatement callable;
@@ -184,6 +146,44 @@ public class AccountFacade{
             list.close();
             callable.close();
             return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void accountNumberSet(long AccountId, long accountNumberVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.accntNmbrSet(?, ?); end;");
+            callable.setLong(1, AccountId);
+            callable.setLong(2, accountNumberVal);
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void moneySet(long AccountId, PersistentMoney moneyVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.mnSet(?, ?, ?); end;");
+            callable.setLong(1, AccountId);
+            callable.setLong(2, moneyVal.getId());
+            callable.setLong(3, moneyVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void limitSet(long AccountId, PersistentLimitAccount limitVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.lmtSet(?, ?, ?); end;");
+            callable.setLong(1, AccountId);
+            callable.setLong(2, limitVal.getId());
+            callable.setLong(3, limitVal.getClassId());
+            callable.execute();
+            callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

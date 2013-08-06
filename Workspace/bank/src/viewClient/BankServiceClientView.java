@@ -375,10 +375,10 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                 });
                 result.add(item);
                 item = new javax.swing.JMenuItem();
-                item.setText("Obergrenze festlegen ... ");
+                item.setText("changeMaxLimit ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        BankServiceChangeMaxLimitAccountFractionMssgWizard wizard = new BankServiceChangeMaxLimitAccountFractionMssgWizard("Obergrenze festlegen");
+                        BankServiceChangeMaxLimitAccountFractionMssgWizard wizard = new BankServiceChangeMaxLimitAccountFractionMssgWizard("changeMaxLimit");
                         wizard.setFirstArgument((AccountView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));

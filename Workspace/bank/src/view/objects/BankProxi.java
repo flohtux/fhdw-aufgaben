@@ -36,9 +36,16 @@ public class BankProxi extends ViewProxi implements BankView{
             ownAccount = view.objects.ViewProxi.createProxi(ownAccount$Info,connectionKey);
             ownAccount.setToString(ownAccount$Info.getToString());
         }
+        ViewProxi administrator = null;
+        String administrator$String = (String)resultTable.get("administrator");
+        if (administrator$String != null) {
+            common.ProxiInformation administrator$Info = common.RPCConstantsAndServices.createProxiInformation(administrator$String);
+            administrator = view.objects.ViewProxi.createProxi(administrator$Info,connectionKey);
+            administrator.setToString(administrator$Info.getToString());
+        }
         java.util.Vector<String> currentAccounts_string = (java.util.Vector<String>)resultTable.get("currentAccounts");
         java.util.Vector<AccountView> currentAccounts = ViewProxi.getProxiVector(currentAccounts_string, connectionKey);
-        BankView result$$ = new Bank((long)bankNumber,(String)name,(TransactionFeeView)fee,(InternalFeeView)internalFee,(AccountView)ownAccount,currentAccounts, this.getId(), this.getClassId());
+        BankView result$$ = new Bank((long)bankNumber,(String)name,(TransactionFeeView)fee,(InternalFeeView)internalFee,(AccountView)ownAccount,(AdministratorView)administrator,currentAccounts, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -118,6 +125,12 @@ public class BankProxi extends ViewProxi implements BankView{
     }
     public void setOwnAccount(AccountView newValue) throws ModelException {
         ((Bank)this.getTheObject()).setOwnAccount(newValue);
+    }
+    public AdministratorView getAdministrator()throws ModelException{
+        return ((Bank)this.getTheObject()).getAdministrator();
+    }
+    public void setAdministrator(AdministratorView newValue) throws ModelException {
+        ((Bank)this.getTheObject()).setAdministrator(newValue);
     }
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException{
         return ((Bank)this.getTheObject()).getCurrentAccounts();

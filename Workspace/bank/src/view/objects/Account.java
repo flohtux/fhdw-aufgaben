@@ -10,18 +10,18 @@ import view.visitor.*;
 
 public class Account extends ViewObject implements AccountView{
     
+    protected java.util.Vector<DebitNoteTransferTransactionView> debitNoteTransferTransactions;
     protected long accountNumber;
     protected MoneyView money;
     protected LimitAccountView limit;
-    protected java.util.Vector<DebitNoteTransferTransactionView> debitNoteTransferTransactions;
     
-    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitNoteTransferTransactionView> debitNoteTransferTransactions,long id, long classId) {
+    public Account(java.util.Vector<DebitNoteTransferTransactionView> debitNoteTransferTransactions,long accountNumber,MoneyView money,LimitAccountView limit,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
+        this.debitNoteTransferTransactions = debitNoteTransferTransactions;
         this.accountNumber = accountNumber;
         this.money = money;
-        this.limit = limit;
-        this.debitNoteTransferTransactions = debitNoteTransferTransactions;        
+        this.limit = limit;        
     }
     
     static public long getTypeId() {
@@ -32,6 +32,12 @@ public class Account extends ViewObject implements AccountView{
         return getTypeId();
     }
     
+    public java.util.Vector<DebitNoteTransferTransactionView> getDebitNoteTransferTransactions()throws ModelException{
+        return this.debitNoteTransferTransactions;
+    }
+    public void setDebitNoteTransferTransactions(java.util.Vector<DebitNoteTransferTransactionView> newValue) throws ModelException {
+        this.debitNoteTransferTransactions = newValue;
+    }
     public long getAccountNumber()throws ModelException{
         return this.accountNumber;
     }
@@ -50,12 +56,6 @@ public class Account extends ViewObject implements AccountView{
     public void setLimit(LimitAccountView newValue) throws ModelException {
         this.limit = newValue;
     }
-    public java.util.Vector<DebitNoteTransferTransactionView> getDebitNoteTransferTransactions()throws ModelException{
-        return this.debitNoteTransferTransactions;
-    }
-    public void setDebitNoteTransferTransactions(java.util.Vector<DebitNoteTransferTransactionView> newValue) throws ModelException {
-        this.debitNoteTransferTransactions = newValue;
-    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleAccount(this);
@@ -71,6 +71,10 @@ public class Account extends ViewObject implements AccountView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        java.util.Vector<?> debitNoteTransferTransactions = this.getDebitNoteTransferTransactions();
+        if (debitNoteTransferTransactions != null) {
+            ViewObject.resolveVectorProxies(debitNoteTransferTransactions, resultTable);
+        }
         MoneyView money = this.getMoney();
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
@@ -79,10 +83,6 @@ public class Account extends ViewObject implements AccountView{
         if (limit != null) {
             ((ViewProxi)limit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limit.getClassId(), limit.getId())));
         }
-        java.util.Vector<?> debitNoteTransferTransactions = this.getDebitNoteTransferTransactions();
-        if (debitNoteTransferTransactions != null) {
-            ViewObject.resolveVectorProxies(debitNoteTransferTransactions, resultTable);
-        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -90,41 +90,41 @@ public class Account extends ViewObject implements AccountView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
+        if(index < this.getDebitNoteTransferTransactions().size()) return new DebitNoteTransferTransactionsAccountWrapper(this, originalIndex, (ViewRoot)this.getDebitNoteTransferTransactions().get(index));
+        index = index - this.getDebitNoteTransferTransactions().size();
         if(index == 0 && this.getMoney() != null) return new MoneyAccountWrapper(this, originalIndex, (ViewRoot)this.getMoney());
         if(this.getMoney() != null) index = index - 1;
         if(index == 0 && this.getLimit() != null) return new LimitAccountWrapper(this, originalIndex, (ViewRoot)this.getLimit());
         if(this.getLimit() != null) index = index - 1;
-        if(index < this.getDebitNoteTransferTransactions().size()) return new DebitNoteTransferTransactionsAccountWrapper(this, originalIndex, (ViewRoot)this.getDebitNoteTransferTransactions().get(index));
-        index = index - this.getDebitNoteTransferTransactions().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
+            + (this.getDebitNoteTransferTransactions().size())
             + (this.getMoney() == null ? 0 : 1)
-            + (this.getLimit() == null ? 0 : 1)
-            + (this.getDebitNoteTransferTransactions().size());
+            + (this.getLimit() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
+            && (this.getDebitNoteTransferTransactions().size() == 0)
             && (this.getMoney() == null ? true : false)
-            && (this.getLimit() == null ? true : false)
-            && (this.getDebitNoteTransferTransactions().size() == 0);
+            && (this.getLimit() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getMoney() != null && this.getMoney().equals(child)) return result;
-        if(this.getMoney() != null) result = result + 1;
-        if(this.getLimit() != null && this.getLimit().equals(child)) return result;
-        if(this.getLimit() != null) result = result + 1;
         java.util.Iterator<?> getDebitNoteTransferTransactionsIterator = this.getDebitNoteTransferTransactions().iterator();
         while(getDebitNoteTransferTransactionsIterator.hasNext()){
             if(getDebitNoteTransferTransactionsIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getMoney() != null && this.getMoney().equals(child)) return result;
+        if(this.getMoney() != null) result = result + 1;
+        if(this.getLimit() != null && this.getLimit().equals(child)) return result;
+        if(this.getLimit() != null) result = result + 1;
         return -1;
     }
     public int getAccountNumberIndex() throws ModelException {
-        return 0;
+        return 0 + this.getDebitNoteTransferTransactions().size();
     }
     public int getRowCount(){
         return 0 

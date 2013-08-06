@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentDebitNoteTransferTransaction extends SubjInterface, Anything, AbstractPersistentProxi {
     
+    public java.sql.Timestamp getTimestamp() throws PersistenceException ;
+    public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public abstract PersistentDebitNoteTransferTransaction getThis() throws PersistenceException ;

@@ -365,6 +365,7 @@ create sequence SDebiTrfTran nocache;
 create table DebiTrfTran(
     id number primary key,
     Cls number not null,
+    DebiTrfTranTmstmp Timestamp,
     DebiTrfTranSbSrvc number,
     DebiTrfTranSbSrvcCls number,
     constraint FDebiTrfTranSbSrvc foreign key (DebiTrfTranSbSrvcCls) references Cls (id),

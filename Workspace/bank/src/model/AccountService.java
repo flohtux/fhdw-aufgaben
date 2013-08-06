@@ -237,23 +237,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
-				throws PersistenceException{
-    	getThis().getAccount().changeMoney(trans, newAmount);
-        getThis().signalChanged(true);
-        
-    }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
-				throws PersistenceException{
-        getThis().getAccount().changeReceiverAccount(trans, receiverAccNumber);
-        getThis().signalChanged(true);
-        
-    }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
-				throws PersistenceException{
-    	getThis().getAccount().changeReceiverBank(trans, receiverBankNumber);
-        getThis().signalChanged(true);
-    }
     public void connected(final String user) 
 				throws PersistenceException{
     	System.out.println("user="+user);

@@ -15,9 +15,9 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
     protected DebitNoteTransferStateView state;
     protected StornoStateView stornoState;
     
-    public DebitNoteTransfer(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public DebitNoteTransfer(java.util.Date timestamp,long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(id, classId);
+        super((java.util.Date)timestamp,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
@@ -106,25 +106,33 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
         if(this.getState() != null) result = result + 1;
         return -1;
     }
-    public int getReceiverAccountNumberIndex() throws ModelException {
+    public int getTimestampIndex() throws ModelException {
         return 0;
     }
-    public int getReceiverBankNumberIndex() throws ModelException {
+    public int getReceiverAccountNumberIndex() throws ModelException {
         return 0 + 1;
+    }
+    public int getReceiverBankNumberIndex() throws ModelException {
+        return 0 + 1 + 1;
     }
     public int getRowCount(){
         return 0 
+            + 1
             + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
-                if(rowIndex == 0) return "Empfänger Konto";
+                if(rowIndex == 0) return "timestamp";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "Empfänger Bank";
+                if(rowIndex == 0) return "receiverAccountNumber";
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "receiverBankNumber";
                 rowIndex = rowIndex - 1;
             } else {
+                if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverAccountNumber());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverBankNumber());
@@ -140,6 +148,11 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
         return true;
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
+        if(rowIndex == 0){
+            this.setTimestamp(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setReceiverAccountNumber(Long.parseLong(newValue));
             return;

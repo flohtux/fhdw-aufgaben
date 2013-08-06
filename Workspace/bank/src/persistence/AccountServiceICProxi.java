@@ -118,21 +118,9 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).changeMoney(trans, newAmount);
-    }
     public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).changePassword(newPassword1, newPassword2);
-    }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).changeReceiverAccount(trans, receiverAccNumber);
-    }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
     public void connected(final String user) 
 				throws PersistenceException{

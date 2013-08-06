@@ -119,6 +119,7 @@ public class TestTransfer extends TestCase{
 					fail();
 				e.printStackTrace();
 				} catch (LimitViolatedException e) {
+					
 					assertTrue(true);
 					return;
 				}
@@ -173,5 +174,56 @@ public class TestTransfer extends TestCase{
                 e.printStackTrace();
         }
 }
+    
+    public void testBankExtern() {
+        final String BankName1 = "Bank1";
+        final String BankName2 = "Bank2";
+        try {
+        	 PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
+             
+             PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1,adminTestLimits);
+             PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2,adminTestLimits);
+//             adminTestLimits.getBanks().add(bankTestLimits);
+//             bankTestLimits.setAdministrator(adminTestLimits);
+             long bankNumber1 = bank1.getBankNumber();
+             long bankNumber2 = bank2.getBankNumber();
+             bank1.createAccount("Euro");
+             bank2.createAccount("Euro");
+             final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+             final long SecondAccountNumber = FirstAccountNumber + 1;                                                       
+             
+             PersistentAccount acc1 = bank1.getAccounts().get(FirstAccountNumber);
+             PersistentAccount acc2 = bank2.getAccounts().get(FirstAccountNumber);
+             
+//                PersistentLimitAccount limit1 = LimitAccount.createLimitAccount();
+//                limit1.setMinLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(0, 1)), Euro.getTheEuro())));
+//                acc1.setLimit(limit1);
+                
+                
+                
+                PersistentTransfer newTrans = acc1.createTransfer();
+                newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10,1)), Euro.getTheEuro()));
+                newTrans.setReceiverAccountNumber(FirstAccountNumber);
+                newTrans.setReceiverBankNumber(bankNumber2);
+                try {
+                	newTrans.execute();
+				} catch (InvalidBankNumberException e) {
+					fail();
+					e.printStackTrace();
+				} catch (InvalidAccountNumberException e) {
+					fail();
+				e.printStackTrace();
+				} catch (LimitViolatedException e) {
+					fail();
+					return;
+				}
+                System.out.println(acc2.getMoney() + " acc2");
+                System.out.println(acc1.getMoney() + " acc1");
+               
+        } catch (PersistenceException e) {
+                e.printStackTrace();
+        }
+}
 
 }
+
