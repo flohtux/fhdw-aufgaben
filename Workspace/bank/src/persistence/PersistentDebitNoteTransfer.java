@@ -14,6 +14,8 @@ public interface PersistentDebitNoteTransfer extends PersistentDebitNoteTransfer
     public void setSender(PersistentAccount newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
+    public String getSubject() throws PersistenceException ;
+    public void setSubject(String newValue) throws PersistenceException ;
     public PersistentDebitNoteTransferState getState() throws PersistenceException ;
     public void setState(PersistentDebitNoteTransferState newValue) throws PersistenceException ;
     public PersistentStornoState getStornoState() throws PersistenceException ;

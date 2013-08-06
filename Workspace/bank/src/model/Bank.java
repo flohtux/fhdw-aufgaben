@@ -479,6 +479,8 @@ public class Bank extends PersistentObject implements PersistentBank{
         }else {
         	acc.getLimit().checkLimit(debitNoteTransfer.getMoney());
             acc.getMoney().add(debitNoteTransfer.getMoney());
+            debitNoteTransfer.setState(SuccessfullState.getTheSuccessfullState());
+            acc.getDebitNoteTransferTransactions().add(debitNoteTransfer);
         }
     }
     public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
@@ -546,40 +548,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 						procentualFee.getPercent().getValue())), money.getCurrency()); 
 			}
 		});
-    	
-//    	return getThis().getFee().accept(new TransactionFeeReturnVisitor<PersistentMoney>() {
-//			@Override
-//			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
-//					throws PersistenceException {
-//				// TODO calculate für MixedFee
-//				PersistentMoney result = Money.createMoney(Amount.createAmount(new Fraction(0, 1)), money.getCurrency());
-//				result = result.add(mixedFee.getFix().getValue());
-//				PersistentMoney procentualPart = money.subtract(Money.createMoney(Amount.createAmount(mixedFee.getLimit()), getThis().getOwnAccount().getMoney().getCurrency()));
-//				System.out.println("TODO calculate für MixedFee machen!!!");
-//				return null;
-//			}
-//			@Override
-//			public PersistentMoney handleFixTransactionFee(
-//					PersistentFixTransactionFee fixTransactionFee)
-//					throws PersistenceException {
-//				return fixTransactionFee.getValue();
-//			}
-//			@Override
-//			public PersistentMoney handleProcentualFee(
-//					PersistentProcentualFee procentualFee)
-//					throws PersistenceException {
-//				return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
-//						procentualFee.getPercent().getValue())), money.getCurrency()); 
-//			}
-//		});
     }
-    
-    
-    
-    
-    
-    
-    
     
     /* End of protected part that is not overridden by persistence generator */
     

@@ -34,6 +34,12 @@ public abstract class DebitNoteTransferProxi extends DebitNoteTransferTransactio
     public void setMoney(MoneyView newValue) throws ModelException {
         ((DebitNoteTransfer)this.getTheObject()).setMoney(newValue);
     }
+    public String getSubject()throws ModelException{
+        return ((DebitNoteTransfer)this.getTheObject()).getSubject();
+    }
+    public void setSubject(String newValue) throws ModelException {
+        ((DebitNoteTransfer)this.getTheObject()).setSubject(newValue);
+    }
     public DebitNoteTransferStateView getState()throws ModelException{
         return ((DebitNoteTransfer)this.getTheObject()).getState();
     }

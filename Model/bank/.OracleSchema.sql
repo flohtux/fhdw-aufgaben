@@ -379,6 +379,7 @@ create table DebiTrfTran(
     DbtNtTrnsfrMn number,
     DbtNtTrnsfrMnCls number,
     constraint FDbtNtTrnsfrMn foreign key (DbtNtTrnsfrMnCls) references Cls (id),
+    DbtNtTrnsfrSbjct varchar2(2000),
     DbtNtTrnsfrStt number,
     DbtNtTrnsfrSttCls number,
     constraint FDbtNtTrnsfrStt foreign key (DbtNtTrnsfrSttCls) references Cls (id),

@@ -36,6 +36,7 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
                     if(forGUI && money.hasEssentialFields())money.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            result.put("subject", this.getSubject());
             AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
             if (state != null) {
                 result.put("state", state.createProxiInformation(false, essentialLevel == 0));
@@ -69,16 +70,18 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     protected long receiverBankNumber;
     protected PersistentAccount sender;
     protected PersistentMoney money;
+    protected String subject;
     protected PersistentDebitNoteTransferState state;
     protected PersistentStornoState stornoState;
     
-    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
         this.money = money;
+        this.subject = subject;
         this.state = state;
         this.stornoState = stornoState;        
     }
@@ -154,6 +157,14 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.moneySet(this.getId(), newValue);
         }
+    }
+    public String getSubject() throws PersistenceException {
+        return this.subject;
+    }
+    public void setSubject(String newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade.subjectSet(this.getId(), newValue);
+        this.subject = newValue;
     }
     public PersistentDebitNoteTransferState getState() throws PersistenceException {
         return this.state;

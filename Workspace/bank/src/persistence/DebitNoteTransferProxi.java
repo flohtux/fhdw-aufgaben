@@ -36,6 +36,12 @@ public abstract class DebitNoteTransferProxi extends DebitNoteTransferTransactio
     public void setMoney(PersistentMoney newValue) throws PersistenceException {
         ((PersistentDebitNoteTransfer)this.getTheObject()).setMoney(newValue);
     }
+    public String getSubject() throws PersistenceException {
+        return ((PersistentDebitNoteTransfer)this.getTheObject()).getSubject();
+    }
+    public void setSubject(String newValue) throws PersistenceException {
+        ((PersistentDebitNoteTransfer)this.getTheObject()).setSubject(newValue);
+    }
     public PersistentDebitNoteTransferState getState() throws PersistenceException {
         return ((PersistentDebitNoteTransfer)this.getTheObject()).getState();
     }

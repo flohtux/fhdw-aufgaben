@@ -20,11 +20,11 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         PersistentTransfer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newDelayedTransfer(0,0);
+                .newDelayedTransfer(0,0,"");
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newTransfer(0,0,-1);
+                .newTransfer(0,0,"",-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -36,11 +36,11 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         PersistentTransfer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newDelayedTransfer(0,0);
+                .newDelayedTransfer(0,0,"");
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newTransfer(0,0,-1);
+                .newTransfer(0,0,"",-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -66,6 +66,7 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
                               this.receiverBankNumber, 
                               this.sender, 
                               this.money, 
+                              this.subject, 
                               this.state, 
                               this.stornoState, 
                               this.getId());
@@ -77,9 +78,9 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         return false;
     }
     
-    public Transfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public Transfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,id);        
+        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(String)subject,(PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {
@@ -93,7 +94,7 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 122) ConnectionHandler.getTheConnectionHandler().theTransferFacade
-            .newTransfer(0,0,this.getId());
+            .newTransfer(0,0,"",this.getId());
         super.store();
         
     }

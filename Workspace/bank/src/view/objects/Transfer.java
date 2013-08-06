@@ -10,9 +10,9 @@ import view.visitor.*;
 public class Transfer extends view.objects.DebitNoteTransfer implements TransferView{
     
     
-    public Transfer(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public Transfer(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,String subject,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState,id, classId);        
+        super((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitNoteTransferStateView)state,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -109,8 +109,12 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
     public int getReceiverBankNumberIndex() throws ModelException {
         return 0 + 1;
     }
+    public int getSubjectIndex() throws ModelException {
+        return 0 + 1 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1
             + 1;
     }
@@ -121,10 +125,14 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "Empfänger Bank";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "Betreff";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getReceiverAccountNumber());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverBankNumber());
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -144,6 +152,11 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setReceiverBankNumber(Long.parseLong(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setSubject(newValue);
             return;
         }
         rowIndex = rowIndex - 1;

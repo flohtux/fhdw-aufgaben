@@ -1043,6 +1043,7 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
+    protected static final String DebitNoteTransfer$$subject = "DebitNoteTransfer$$subject";
     protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1060,6 +1061,13 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
             BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransfer$$subject, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1251,6 +1259,7 @@ class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
     protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
+    protected static final String DebitNoteTransfer$$subject = "DebitNoteTransfer$$subject";
     protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
     
     protected DebitNoteDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1268,6 +1277,13 @@ class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
             BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitNoteTransfer$$subject, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }

@@ -12,16 +12,18 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
     protected long receiverBankNumber;
     protected AccountView sender;
     protected MoneyView money;
+    protected String subject;
     protected DebitNoteTransferStateView state;
     protected StornoStateView stornoState;
     
-    public DebitNoteTransfer(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public DebitNoteTransfer(long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,String subject,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
         this.money = money;
+        this.subject = subject;
         this.state = state;
         this.stornoState = stornoState;        
     }
@@ -49,6 +51,12 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
     }
     public void setMoney(MoneyView newValue) throws ModelException {
         this.money = newValue;
+    }
+    public String getSubject()throws ModelException{
+        return this.subject;
+    }
+    public void setSubject(String newValue) throws ModelException {
+        this.subject = newValue;
     }
     public DebitNoteTransferStateView getState()throws ModelException{
         return this.state;
@@ -112,8 +120,12 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
     public int getReceiverBankNumberIndex() throws ModelException {
         return 0 + 1;
     }
+    public int getSubjectIndex() throws ModelException {
+        return 0 + 1 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1
             + 1;
     }
@@ -124,10 +136,14 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "Empfänger Bank";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "Betreff";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getReceiverAccountNumber());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverBankNumber());
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -147,6 +163,11 @@ public abstract class DebitNoteTransfer extends view.objects.DebitNoteTransferTr
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setReceiverBankNumber(Long.parseLong(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setSubject(newValue);
             return;
         }
         rowIndex = rowIndex - 1;

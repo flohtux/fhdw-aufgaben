@@ -134,6 +134,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
+    public void changeSubject(final PersistentTransfer trans, final String subject) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeSubject(trans, subject);
+    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).connected(user);

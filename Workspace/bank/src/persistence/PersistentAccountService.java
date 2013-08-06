@@ -39,6 +39,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException;
+    public void changeSubject(final PersistentTransfer trans, final String subject) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createTransfer() 

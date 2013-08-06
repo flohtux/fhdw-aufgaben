@@ -204,6 +204,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			public void handleTransfer(final TransferView transfer)
 					throws ModelException {
 				CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, transfer);
+				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$subject, new Updater() {
+					@Override
+					public void update(String text) throws ModelException {
+						AccountServiceClientView.this.getConnection().changeSubject(transfer, text);
+					}
+					@Override
+					public String format(String text) {
+						return text;
+					}
+					@Override
+					public boolean check(String text) throws ModelException {
+						return true;
+					}
+				});
 				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$receiverBankNumber, new Updater() {
 					@Override
 					public void update(String text) throws ModelException {
@@ -452,6 +466,21 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
             }
             if (selected instanceof TransferView){
                 item = new javax.swing.JMenuItem();
+                item.setText("Betreff ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeSubjectTransferStringMssgWizard wizard = new AccountServiceChangeSubjectTransferStringMssgWizard("Betreff ändern");
+                        wizard.setFirstArgument((TransferView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
                 item.setText("Empfänger Bank ändern ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -689,6 +718,60 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			try{
 				SelectionPanel selectionPanel = (SelectionPanel)getParametersPanel().getComponent(0);
 				selectionPanel.preset(firstArgument.getReceiverBankNumber());
+				if (!selectionPanel.check()) selectionPanel.preset("");
+			}catch(ModelException me){
+				 handleException(me);
+			}
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeSubjectTransferStringMssgWizard extends Wizard {
+
+		protected AccountServiceChangeSubjectTransferStringMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeSubjectTransferStringMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeSubject(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new StringSelectionPanel("subject", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TransferView firstArgument; 
+	
+		public void setFirstArgument(TransferView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			try{
+				SelectionPanel selectionPanel = (SelectionPanel)getParametersPanel().getComponent(0);
+				selectionPanel.preset(firstArgument.getSubject());
 				if (!selectionPanel.check()) selectionPanel.preset("");
 			}catch(ModelException me){
 				 handleException(me);

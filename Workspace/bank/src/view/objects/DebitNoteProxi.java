@@ -28,6 +28,7 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements DebitNoteV
             money = view.objects.ViewProxi.createProxi(money$Info,connectionKey);
             money.setToString(money$Info.getToString());
         }
+        String subject = (String)resultTable.get("subject");
         ViewProxi state = null;
         String state$String = (String)resultTable.get("state");
         if (state$String != null) {
@@ -42,7 +43,7 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements DebitNoteV
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        DebitNoteView result$$ = new DebitNote((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        DebitNoteView result$$ = new DebitNote((long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

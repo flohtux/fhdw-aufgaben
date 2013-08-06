@@ -139,35 +139,30 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleNotExecutetState(
 			PersistentNotExecutetState notExecutetState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-
+		result = "Noch nicht versendet...";
 	}
 	@Override
 	public void handleExecutedState(PersistentExecutedState executedState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "abgesendet...";
 	}
 	@Override
 	public void handleNotSuccessfullState(
 			PersistentNotSuccessfullState notSuccessfullState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "nich vollständig ausgefüllt...";
 	}
 	@Override
 	public void handleNotExecutableState(
 			PersistentNotExecutableState notExecutableState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "Fehler...";
 	}
 	@Override
 	public void handleSuccessfullState(
 			PersistentSuccessfullState successfullState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "Erfolgreich";
 	}
 	@Override
 	public void handlePercent(PersistentPercent percent)

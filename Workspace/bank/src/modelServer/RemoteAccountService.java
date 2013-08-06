@@ -58,6 +58,16 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeSubject(String transProxiString, String subject){
+        try {
+            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            ((PersistentAccountService)this.server).changeSubject(trans, subject);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> createTransfer(){
         try {
             ((PersistentAccountService)this.server).createTransfer();

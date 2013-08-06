@@ -46,6 +46,7 @@ void executeTransfer@@Überweisung_abschicken(DebitNoteTransfer debitNoteTransfer
 void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
 void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
 void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
+void changeSubject@@Betreff_ändern(Transfer trans, String subject);
 }
 class Account {
 prior Integer accountNumber;
@@ -116,6 +117,7 @@ abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Account sender;
 	no-view Money money@@Betrag;
+	String subject@@Betreff;
 	one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
 	no-view one-to-one (no-view debitNoteTransfer) StornoState stornoState;
 }
