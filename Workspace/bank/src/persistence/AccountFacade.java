@@ -108,6 +108,28 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public AccountSearchList getAccountByAccountNumber(long accountNumber) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntFacade.getAccntByAccntNmbr(?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, accountNumber);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            AccountSearchList result = new AccountSearchList();
+            while (list.next()) {
+                long classId = list.getLong(2);
+                long objectId = list.getLong(1);
+                AccountProxi proxi = (AccountProxi)PersistentProxi.createProxi(objectId, classId);
+                result.add(proxi);
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
     public void accountNumberSet(long AccountId, long accountNumberVal) throws PersistenceException {
         try{
             CallableStatement callable;

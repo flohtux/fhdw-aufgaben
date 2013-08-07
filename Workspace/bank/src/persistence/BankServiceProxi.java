@@ -154,6 +154,10 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).disconnected();
     }
+    public void findAccount(final long accountNumber) 
+				throws model.UserException, PersistenceException{
+        ((PersistentBankService)this.getTheObject()).findAccount(accountNumber);
+    }
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).handleException(command, exception);

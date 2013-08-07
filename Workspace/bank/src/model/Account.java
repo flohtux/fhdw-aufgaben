@@ -87,6 +87,11 @@ public class Account extends PersistentObject implements PersistentAccount{
         return result;
     }
     
+    public static AccountSearchList getAccountByAccountNumber(long accountNumber) throws PersistenceException{
+        return ConnectionHandler.getTheConnectionHandler().theAccountFacade
+            .getAccountByAccountNumber(accountNumber);
+    }
+    
     public Account provideCopy() throws PersistenceException{
         Account result = this;
         result = new Account(this.accountNumber, 

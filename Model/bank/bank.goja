@@ -24,6 +24,7 @@ server BankService extends Service {
 	void closeAccount@@Konto_übertragen(Account acc, Account transAcc) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
 	void changeMaxLimit@@Obergrenze_festlegen(Account acc,Fraction amount);
 	void changeMinLimit@@Untergrenze_festlegen(Account acc,Fraction amount);
+	void findAccount@@Account_finden(Integer accountNumber) throws UserException;
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -50,7 +51,7 @@ void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
 void changeSubject@@Betreff_ändern(Transfer trans, String subject);
 }
 class Account {
-prior Integer accountNumber;
+prior indexed Integer accountNumber;
 prior one-to-one (no-view account) Money money@@Geldmenge;
 one-to-one (no-view account) LimitAccount limit;
 observe DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;

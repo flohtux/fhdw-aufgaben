@@ -87,6 +87,18 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> findAccount(String accountNumberAsString){
+        try {
+            long accountNumber = new Long(accountNumberAsString).longValue();
+            ((PersistentBankService)this.server).findAccount(accountNumber);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
 
 
 }

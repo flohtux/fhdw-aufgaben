@@ -342,6 +342,7 @@ create table Accnt(
     AccntThisCls number,
     constraint FAccntThis foreign key (AccntThisCls) references Cls (id)    
 );
+create index IAccntNmbrAccnt on Accnt (AccntAccntNmbr);
 create index IMnAccnt on Accnt (AccntMn, AccntMnCls);
 create index ILmtAccnt on Accnt (AccntLmt, AccntLmtCls);
 

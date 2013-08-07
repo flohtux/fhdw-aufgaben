@@ -45,6 +45,8 @@ public interface PersistentBankService extends PersistentService {
 				throws PersistenceException;
     public void createAccount(final String currencyType) 
 				throws PersistenceException;
+    public void findAccount(final long accountNumber) 
+				throws model.UserException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

@@ -283,6 +283,11 @@ public class BankService extends model.Service implements PersistentBankService{
     public void disconnected() 
 				throws PersistenceException{
     }
+    public void findAccount(final long accountNumber) 
+				throws model.UserException, PersistenceException{
+        getThis().getBank().getCurrentAccounts().add(Account.getAccountByAccountNumber(accountNumber));
+        getThis().signalChanged(true);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     }
