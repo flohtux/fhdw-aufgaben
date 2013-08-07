@@ -10,9 +10,9 @@ import view.visitor.*;
 public class Transaction extends view.objects.DebitNoteTransferTransaction implements TransactionView{
     
     
-    public Transaction(long id, long classId) {
+    public Transaction(java.util.Date timestamp,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(id, classId);        
+        super((java.util.Date)timestamp,id, classId);        
     }
     
     static public long getTypeId() {
@@ -69,13 +69,21 @@ public class Transaction extends view.objects.DebitNoteTransferTransaction imple
         
         return -1;
     }
+    public int getTimestampIndex() throws ModelException {
+        return 0;
+    }
     public int getRowCount(){
-        return 0 ;
+        return 0 
+            + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
+                if(rowIndex == 0) return "Zeitstempel";
+                rowIndex = rowIndex - 1;
             } else {
+                if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
         } catch (ModelException e){
@@ -87,7 +95,11 @@ public class Transaction extends view.objects.DebitNoteTransferTransaction imple
         return true;
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
-        
+        if(rowIndex == 0){
+            this.setTimestamp(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
     }
     public boolean hasTransientFields(){
         return false;

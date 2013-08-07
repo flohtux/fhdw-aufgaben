@@ -110,7 +110,7 @@ string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class DebitNoteTransferTransaction##DebiTrfTran {
 	event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
-	//Timestamp timestamp;
+	Timestamp timestamp@@Zeitstempel;
 }
 
 abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{

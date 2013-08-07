@@ -267,12 +267,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 					}
 					@Override
 					public boolean check(String text) throws ModelException {
-				        try{
+						try{
 				        	Fraction.parse(text);
 				        } catch(NumberFormatException nfe) {
 				        	return false;
 				        }
-				        return true;
+				        return Fraction.parse(text).isPositive();
 					}
 				});
 				
