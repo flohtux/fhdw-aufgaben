@@ -16,7 +16,7 @@ public class TestSupport {
 	
 	private static final File StartupDirectory = new File(System.getProperty("user.dir")); 
  
-	private static final File GojaDirectory = new File("G:/GOJAGemeinsam/Model/bank/");//TODO adjust path to goja directory
+	private static final File GojaDirectory = new File(new File(StartupDirectory.getParent()).getParent() + "/Model/bank/");//TODO adjust path to goja directory 
 
 	private static final String Password = "pg"; //TODO adjust password!
 	
