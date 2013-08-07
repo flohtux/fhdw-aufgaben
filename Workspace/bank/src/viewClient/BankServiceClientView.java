@@ -353,6 +353,12 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                                 getConnection().setEagerRefresh();
                             }catch(ModelException me){
                                 handleException(me);
+                            }catch (CloseAccountNoPossibleException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
                             }
                         }
                     }
@@ -389,6 +395,21 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                     
                 });
                 result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("Untergrenze festlegen ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        BankServiceChangeMinLimitAccountFractionMssgWizard wizard = new BankServiceChangeMinLimitAccountFractionMssgWizard("Untergrenze festlegen");
+                        wizard.setFirstArgument((AccountView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
             }
             
         }
@@ -411,6 +432,53 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		protected void perform() {
 			try {
 				getConnection().changeMaxLimit(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("amount", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private AccountView firstArgument; 
+	
+		public void setFirstArgument(AccountView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class BankServiceChangeMinLimitAccountFractionMssgWizard extends Wizard {
+
+		protected BankServiceChangeMinLimitAccountFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "BankServiceChangeMinLimitAccountFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeMinLimit(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -513,6 +581,18 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				handleException(me);
 				setVisible(false);
 				dispose();
+			}
+			catch(InvalidBankNumberException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			catch(LimitViolatedException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			catch(InvalidAccountNumberException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			catch(NoPermissionToExecuteDebitNoteTransferException e) {
+				getStatusBar().setText(e.getMessage());
 			}
 			
 		}

@@ -17,6 +17,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException{
         this.standardHandling(invalidBankNumberException);
     }
+    public void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException{
+        this.standardHandling(closeAccountNoPossibleException);
+    }
     public void handleLimitViolatedException(model.LimitViolatedException limitViolatedException) throws PersistenceException{
         this.standardHandling(limitViolatedException);
     }

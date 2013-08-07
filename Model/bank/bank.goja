@@ -20,9 +20,10 @@ singleton BankCreator {
 server BankService extends Service {
   skip-view prior final one-to-one (server-only bankServices) Bank bank;
   void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
-  void closeAccount@@Konto_schließen(Account acc);
-	void closeAccount@@Konto_übertragen(Account acc, Account transAcc);
+  void closeAccount@@Konto_schließen(Account acc) throws CloseAccountNoPossibleException;
+	void closeAccount@@Konto_übertragen(Account acc, Account transAcc) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
 	void changeMaxLimit@@Obergrenze_festlegen(Account acc,Fraction amount);
+	void changeMinLimit@@Untergrenze_festlegen(Account acc,Fraction amount);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -136,6 +137,7 @@ exception InvalidBankNumberException{}
 exception InvalidAccountNumberException{}
 exception LimitViolatedException{}
 exception NoPermissionToExecuteDebitNoteTransferException{}
+exception CloseAccountNoPossibleException{}
 }
 
 

@@ -35,10 +35,12 @@ public interface PersistentBankService extends PersistentService {
 				throws PersistenceException;
     public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
 				throws PersistenceException;
+    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+				throws PersistenceException;
     public void closeAccount(final PersistentAccount acc) 
-				throws PersistenceException;
+				throws model.CloseAccountNoPossibleException, PersistenceException;
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws PersistenceException;
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createAccount(final String currencyType) 
