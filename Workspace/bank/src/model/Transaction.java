@@ -195,8 +195,8 @@ public class Transaction extends model.DebitNoteTransferTransaction implements P
     
     // Start of section that contains overridden operations only.
     
-    public void execute() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+    public void executeImplementation() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
 		// TODO Auto-generated method stub
 		
 	}

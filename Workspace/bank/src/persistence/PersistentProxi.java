@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[71];
+		listProxiFactories = new ListProxiFactory[73];
         listProxiFactories[1] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new SubjListEntryProxi(objectId, entryId);
@@ -147,6 +147,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new MixedFeeListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[71] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountDebitNoteTransferTransactionsListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[29] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new AccountServiceListEntryProxi(objectId, entryId);
@@ -237,7 +242,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [71];
+		proxiFactories = new ProxiFactory [73];
         proxiFactories[1] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new SubjProxi(objectId);
@@ -366,6 +371,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[28] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new MixedFeeProxi(objectId);
+            }
+        };
+        proxiFactories[71] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountDebitNoteTransferTransactionsProxi(objectId);
             }
         };
         proxiFactories[29] = new ProxiFactory(){

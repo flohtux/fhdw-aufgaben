@@ -149,7 +149,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void executeTransfer(DebitNoteTransferView debitNoteTransfer) throws ModelException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException{
+    public synchronized void executeTransfer(DebitNoteTransferView debitNoteTransfer) throws ModelException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException, NoPermissionToExecuteDebitNoteTransferException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (debitNoteTransfer == null){
@@ -167,6 +167,8 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw LimitViolatedException.fromHashtableToLimitViolatedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
                     throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -173)
+                    throw NoPermissionToExecuteDebitNoteTransferException.fromHashtableToNoPermissionToExecuteDebitNoteTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){

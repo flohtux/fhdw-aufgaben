@@ -2,6 +2,8 @@
 package model;
 
 import persistence.*;
+import model.meta.DebitNoteTransferTransactionExecuteMssg;
+import model.meta.DebitNoteTransferTransactionMssgsVisitor;
 import model.visitor.*;
 
 
@@ -78,7 +80,7 @@ public class Account extends PersistentObject implements PersistentAccount{
                     if(forGUI && limit.hasEssentialFields())limit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            result.put("debitNoteTransferTransactions", this.getDebitNoteTransferTransactions().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
+            result.put("debitNoteTransferTransactions", this.getDebitNoteTransferTransactions().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -90,6 +92,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         result = new Account(this.accountNumber, 
                              this.money, 
                              this.limit, 
+                             this.debitNoteTransferTransactions, 
                              this.subService, 
                              this.This, 
                              this.getId());
@@ -103,17 +106,17 @@ public class Account extends PersistentObject implements PersistentAccount{
     protected long accountNumber;
     protected PersistentMoney money;
     protected PersistentLimitAccount limit;
-    protected Account_DebitNoteTransferTransactionsProxi debitNoteTransferTransactions;
+    protected PersistentAccountDebitNoteTransferTransactions debitNoteTransferTransactions;
     protected SubjInterface subService;
     protected PersistentAccount This;
     
-    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
+    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountDebitNoteTransferTransactions debitNoteTransferTransactions,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.accountNumber = accountNumber;
         this.money = money;
         this.limit = limit;
-        this.debitNoteTransferTransactions = new Account_DebitNoteTransferTransactionsProxi(this);
+        this.debitNoteTransferTransactions = debitNoteTransferTransactions;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -139,7 +142,10 @@ public class Account extends PersistentObject implements PersistentAccount{
             this.getLimit().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), getLimit());
         }
-        this.getDebitNoteTransferTransactions().store();
+        if(this.debitNoteTransferTransactions != null){
+            this.debitNoteTransferTransactions.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.debitNoteTransferTransactionsSet(this.getId(), debitNoteTransferTransactions);
+        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.subServiceSet(this.getId(), getSubService());
@@ -186,8 +192,16 @@ public class Account extends PersistentObject implements PersistentAccount{
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), newValue);
         }
     }
-    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
-        return this.debitNoteTransferTransactions;
+    protected void setDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.debitNoteTransferTransactions)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.debitNoteTransferTransactions = (PersistentAccountDebitNoteTransferTransactions)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.debitNoteTransferTransactionsSet(this.getId(), newValue);
+        }
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -253,7 +267,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
         if (this.getLimit() != null) return 1;
-        if (this.getDebitNoteTransferTransactions().getLength() > 0) return 1;
+        if (this.getDebitNoteTransferTransactions().getObservee().getLength() > 0) return 1;
         return 0;
     }
     
@@ -284,6 +298,14 @@ public class Account extends PersistentObject implements PersistentAccount{
 							.inverseGetAccounts(this.getId(), this.getClassId()).iterator().next();
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
+    }
+    public PersistentAccountDebitNoteTransferTransactions getDebitNoteTransferTransactions() 
+				throws PersistenceException{
+        if (this.debitNoteTransferTransactions == null) {
+			this.setDebitNoteTransferTransactions(model.AccountDebitNoteTransferTransactions.createAccountDebitNoteTransferTransactions(this.isDelayed$Persistence()));
+			this.debitNoteTransferTransactions.setObserver(this);
+		}
+		return this.debitNoteTransferTransactions;
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -339,6 +361,18 @@ public class Account extends PersistentObject implements PersistentAccount{
 		transfer.setSender(getThis());
 		getThis().getDebitNoteTransferTransactions().add(transfer);
 		return transfer;
+    }
+    public void debitNoteTransferTransactions_update(final model.meta.DebitNoteTransferTransactionMssgs event) 
+				throws PersistenceException{
+        //TODO: implement method: debitNoteTransferTransactions_update
+        event.accept(new DebitNoteTransferTransactionMssgsVisitor() {
+			@Override
+			public void handleDebitNoteTransferTransactionExecuteMssg(
+					DebitNoteTransferTransactionExecuteMssg event)
+					throws PersistenceException {
+				getThis().getAccountService().signalChanged(true);
+			}
+		});
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

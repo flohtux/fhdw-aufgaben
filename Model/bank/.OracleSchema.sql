@@ -281,6 +281,19 @@ create table LmtAccnt(
     constraint FLmtAccntThis foreign key (LmtAccntThisCls) references Cls (id)    
 );
 
+create sequence SAccntDebTrfTrans nocache;
+
+create table AccntDebTrfTrans(
+    id number primary key,
+    Cls number not null,
+    AccntDebTrfTransMstr number,
+    AccntDebTrfTransMstrCls number,
+    constraint FAccntDebTrfTransMstr foreign key (AccntDebTrfTransMstrCls) references Cls (id),
+    AccntDebTrfTransThis number,
+    AccntDebTrfTransThisCls number,
+    constraint FAccntDebTrfTransThis foreign key (AccntDebTrfTransThisCls) references Cls (id)    
+);
+
 create sequence STrnsctnF nocache;
 
 create table TrnsctnF(
@@ -319,6 +332,9 @@ create table Accnt(
     AccntLmt number,
     AccntLmtCls number,
     constraint FAccntLmt foreign key (AccntLmtCls) references Cls (id),
+    AccntDebTrfTrans number,
+    AccntDebTrfTransCls number,
+    constraint FAccntDebTrfTrans foreign key (AccntDebTrfTransCls) references Cls (id),
     AccntSbSrvc number,
     AccntSbSrvcCls number,
     constraint FAccntSbSrvc foreign key (AccntSbSrvcCls) references Cls (id),
@@ -493,17 +509,17 @@ create table AdmnstrtrBnksObs(
 );
 create index IFrmAdmnstrtrBnksObs on AdmnstrtrBnksObs(frm);
 
-create sequence SAccntDebTrfTrans nocache;
+create sequence SAccntDebTrfTransObs nocache;
 
-create table AccntDebTrfTrans(
+create table AccntDebTrfTransObs(
     id number primary key,
     frm number not null,
-    DebTrfTrans number not null,
+    obs number not null,
     Cls number not null,
-    constraint FAccntDebTrfTransCls foreign key(Cls) references Cls(id),
-    constraint FAccntDebTrfTransfrm foreign key(frm) references Accnt(id)
+    constraint FAccntDebTrfTransObsCls foreign key(Cls) references Cls(id),
+    constraint FAccntDebTrfTransObsfrm foreign key(frm) references AccntDebTrfTrans(id)
 );
-create index IFrmAccntDebTrfTrans on AccntDebTrfTrans(frm);
+create index IFrmAccntDebTrfTransObs on AccntDebTrfTransObs(frm);
 
 create sequence SCmmndCrdntrExctr nocache;
 

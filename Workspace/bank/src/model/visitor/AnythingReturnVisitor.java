@@ -18,6 +18,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Storn
     public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
+    public R handleAccountDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions accountDebitNoteTransferTransactions) throws PersistenceException;
     public R handleAccount(PersistentAccount account) throws PersistenceException;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public R handleMoney(PersistentMoney money) throws PersistenceException;

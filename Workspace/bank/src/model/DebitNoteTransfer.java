@@ -4,6 +4,9 @@ package model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import model.visitor.DebitNoteTransferStateExceptionVisitor;
+import model.visitor.DebitNoteTransferStateVisitor;
+
 import persistence.*;
 
 
@@ -227,8 +230,50 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     
     // Start of section that contains overridden operations only.
     
-    public void execute() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+    public void executeImplementation() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+    	getThis().getState().accept(new DebitNoteTransferStateExceptionVisitor<NoPermissionToExecuteDebitNoteTransferException>() {
+			@Override
+			public void handleTemplateState(
+					PersistentTemplateState templateState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+			@Override
+			public void handleNotExecutetState(
+					PersistentNotExecutetState notExecutetState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+			}
+			@Override
+			public void handleExecutedState(
+					PersistentExecutedState executedState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+			@Override
+			public void handleNotSuccessfullState(
+					PersistentNotSuccessfullState notSuccessfullState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+			}
+			@Override
+			public void handleNotExecutableState(
+					PersistentNotExecutableState notExecutableState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+			@Override
+			public void handleSuccessfullState(
+					PersistentSuccessfullState successfullState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+		});
     	getThis().getSender().getBank().sendTransfer(getThis());
     	//Timestamp tstamp = new Timestamp(new Date().getTime());
     	//getThis().setTimestamp(tstamp);

@@ -5,6 +5,8 @@ import persistence.*;
 
 public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
+    public abstract void handleAccountDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions accountDebitNoteTransferTransactions) throws PersistenceException;
+    
     public abstract void handleService(PersistentService service) throws PersistenceException;
     
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{

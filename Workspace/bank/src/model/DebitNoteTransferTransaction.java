@@ -94,6 +94,13 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
     
     
     
+    public void execute() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        model.meta.DebitNoteTransferTransactionExecuteMssg event = new model.meta.DebitNoteTransferTransactionExecuteMssg(getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitNoteTransferTransaction)This);
@@ -106,18 +113,12 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

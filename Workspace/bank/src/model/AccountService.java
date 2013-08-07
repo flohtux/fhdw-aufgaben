@@ -279,7 +279,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     }
     public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
     	debitNoteTransfer.execute();
     	getThis().signalChanged(true);
     }

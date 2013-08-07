@@ -42,7 +42,7 @@ void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountN
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
 void createTransfer@@Neue_Überweisung();
-void executeTransfer@@Überweisung_abschicken(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
+void executeTransfer@@Überweisung_abschicken(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
 void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
 void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
 void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
@@ -52,7 +52,7 @@ class Account {
 prior Integer accountNumber;
 prior one-to-one (no-view account) Money money@@Geldmenge;
 one-to-one (no-view account) LimitAccount limit;
-DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
+observe DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
 Transfer createTransfer();
 void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
 void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
@@ -108,7 +108,7 @@ class Percent {
 string-factory abstract class Currency (Euro, Dollar){}
 
 abstract class DebitNoteTransferTransaction##DebiTrfTran {
-	void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
+	event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
 	//Timestamp timestamp;
 }
 
@@ -135,5 +135,7 @@ exception PasswordException {}
 exception InvalidBankNumberException{}
 exception InvalidAccountNumberException{}
 exception LimitViolatedException{}
+exception NoPermissionToExecuteDebitNoteTransferException{}
 }
+
 

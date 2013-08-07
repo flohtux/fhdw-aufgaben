@@ -8,6 +8,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.standardHandling(mixedFee);
     }
+    public void handleAccountDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions accountDebitNoteTransferTransactions) throws PersistenceException{
+        this.standardHandling(accountDebitNoteTransferTransactions);
+    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }

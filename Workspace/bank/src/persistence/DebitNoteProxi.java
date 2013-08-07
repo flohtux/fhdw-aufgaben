@@ -80,6 +80,10 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements Persistent
 				throws PersistenceException{
         ((PersistentDebitNote)this.getTheObject()).deregister(observee);
     }
+    public void execute() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        ((PersistentDebitNote)this.getTheObject()).execute();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentDebitNote)this.getTheObject()).initialize(This, final$$Fields);
@@ -96,9 +100,9 @@ public class DebitNoteProxi extends DebitNoteTransferProxi implements Persistent
 				throws PersistenceException{
         ((PersistentDebitNote)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void execute() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentDebitNote)this.getTheObject()).execute();
+    public void executeImplementation() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        ((PersistentDebitNote)this.getTheObject()).executeImplementation();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
