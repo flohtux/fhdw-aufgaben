@@ -251,6 +251,11 @@ public class BankService extends model.Service implements PersistentBankService{
         acc.getLimit().setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
+    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+				throws PersistenceException{
+        //TODO: implement method: changeTransactionFee
+        
+    }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{
         if(acc.getMoney().getAmount().getBalance().equals(new Fraction(0, 1))) {

@@ -37,6 +37,8 @@ public interface PersistentBankService extends PersistentService {
 				throws PersistenceException;
     public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
 				throws PersistenceException;
+    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+				throws PersistenceException;
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException;
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 

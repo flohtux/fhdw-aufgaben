@@ -142,6 +142,10 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
+    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeTransactionFee(transfee, newFee);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).copyingPrivateUserAttributes(copy);

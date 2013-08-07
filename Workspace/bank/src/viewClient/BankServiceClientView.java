@@ -437,6 +437,23 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                 });
                 result.add(item);
             }
+            if (selected instanceof TransactionFeeView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Gebühren ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard wizard = new BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard("Gebühren ändern");
+                        wizard.setFirstArgument((TransactionFeeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             
         }
         
@@ -580,6 +597,53 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 			getParametersPanel().add(new PasswordSelectionPanel("newPassword2", this));		
 		}	
 		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard extends Wizard {
+
+		protected BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeTransactionFee(firstArgument, (TransactionFeeView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new ObjectSelectionPanel("Gebührentyp", "view.TransactionFeeView", (ViewRoot) getConnection().getBankServiceView(), this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TransactionFeeView firstArgument; 
+	
+		public void setFirstArgument(TransactionFeeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
 		}
 		
 		

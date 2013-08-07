@@ -344,18 +344,15 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
-        //TODO: implement method: changeMoney
-        
+        trans.getMoney().getAmount().setBalance(newAmount);
     }
     public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException{
-        //TODO: implement method: changeReceiverAccount
-        
+    	trans.setReceiverAccountNumber(receiverAccountNumber);
     }
     public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
-        //TODO: implement method: changeReceiverBank
-        
+    	trans.setReceiverBankNumber(receiverBankNumber);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

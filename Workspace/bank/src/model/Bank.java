@@ -431,6 +431,11 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
         getThis().setName(name);
     }
+    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+				throws PersistenceException{
+        //TODO: implement method: changeTransactionFee
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }

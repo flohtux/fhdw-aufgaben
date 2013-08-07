@@ -25,6 +25,7 @@ server BankService extends Service {
 	void changeMaxLimit@@Obergrenze_festlegen(Account acc,Fraction amount);
 	void changeMinLimit@@Untergrenze_festlegen(Account acc,Fraction amount);
 	void findAccount@@Account_finden(Integer accountNumber) throws UserException;
+	void changeTransactionFee@@Gebühren_ändern(TransactionFee transfee,TransactionFee newFee@@Gebührentyp);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -40,6 +41,7 @@ active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
 void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
 void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException, LimitViolatedException;
+void changeTransactionFee(TransactionFee transfee,TransactionFee newFee);
 }
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
