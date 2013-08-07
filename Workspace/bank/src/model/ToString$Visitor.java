@@ -184,7 +184,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getMoney().getAmount().toString(true);
+		this.result = "Überweisung: "+transfer.getMoney().getAmount().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
 	}
 	@Override
 	public void handleSuccessfullStornoState(

@@ -116,7 +116,7 @@ abstract class DebitNoteTransferTransaction##DebiTrfTran {
 abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
-	no-view Account sender;
+	no-view	Account sender;
 	no-view Money money@@Betrag;
 	String subject@@Betreff;
 	one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
