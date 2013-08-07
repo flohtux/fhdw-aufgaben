@@ -255,7 +255,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				        }
 				        return true;
 					}
-				});
+				}); 
 				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$money, new Updater() {
 					@Override
 					public void update(String text) throws ModelException {
