@@ -18,6 +18,7 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            result.put("timestamp", this.getTimestamp());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -29,12 +30,14 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected java.sql.Timestamp timestamp;
     protected SubjInterface subService;
     protected PersistentDebitNoteTransferTransaction This;
     
-    public DebitNoteTransferTransaction(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long id) throws persistence.PersistenceException {
+    public DebitNoteTransferTransaction(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitNoteTransferTransaction This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.timestamp = timestamp;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -61,6 +64,13 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
         
     }
     
+    public java.sql.Timestamp getTimestamp() throws PersistenceException {
+        return this.timestamp;
+    }
+    public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferTransactionFacade.timestampSet(this.getId(), newValue);
+        this.timestamp = newValue;
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
     }
@@ -94,6 +104,13 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
     
     
     
+    public void execute() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        model.meta.DebitNoteTransferTransactionExecuteMssg event = new model.meta.DebitNoteTransferTransactionExecuteMssg(getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitNoteTransferTransaction)This);
@@ -106,18 +123,12 @@ public abstract class DebitNoteTransferTransaction extends PersistentObject impl
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

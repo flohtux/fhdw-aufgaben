@@ -239,17 +239,17 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
-        trans.getMoney().getAmount().setBalance(newAmount);
+        getThis().getAccount().changeMoney(trans, newAmount);
         getThis().signalChanged(true);
     }
     public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
 				throws PersistenceException{
-    	trans.setReceiverAccountNumber(receiverAccNumber);
+    	getThis().getAccount().changeReceiverAccount(trans, receiverAccNumber);
         getThis().signalChanged(true);
     }
     public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
-        trans.setReceiverBankNumber(receiverBankNumber);
+        getThis().getAccount().changeReceiverBank(trans, receiverBankNumber);
         getThis().signalChanged(true);
     }
     public void changeSubject(final PersistentTransfer trans, final String subject) 
@@ -279,7 +279,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     }
     public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
     	debitNoteTransfer.execute();
     	getThis().signalChanged(true);
     }

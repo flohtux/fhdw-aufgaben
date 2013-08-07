@@ -90,6 +90,8 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(e1, this);
         }catch(model.InvalidAccountNumberException e2){
             return createExceptionResult(e2, this);
+        }catch(model.NoPermissionToExecuteDebitNoteTransferException e3){
+            return createExceptionResult(e3, this);
         }
     }
     

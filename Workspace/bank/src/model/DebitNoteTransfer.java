@@ -4,6 +4,9 @@ package model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import model.visitor.DebitNoteTransferStateExceptionVisitor;
+import model.visitor.DebitNoteTransferStateVisitor;
+
 import persistence.*;
 
 
@@ -74,9 +77,9 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     protected PersistentDebitNoteTransferState state;
     protected PersistentStornoState stornoState;
     
-    public DebitNoteTransfer(SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public DebitNoteTransfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
+        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.sender = sender;
@@ -227,11 +230,54 @@ public abstract class DebitNoteTransfer extends model.DebitNoteTransferTransacti
     
     // Start of section that contains overridden operations only.
     
-    public void execute() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+    public void executeImplementation() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+    	getThis().getState().accept(new DebitNoteTransferStateExceptionVisitor<NoPermissionToExecuteDebitNoteTransferException>() {
+			@Override
+			public void handleTemplateState(
+					PersistentTemplateState templateState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+			@Override
+			public void handleNotExecutetState(
+					PersistentNotExecutetState notExecutetState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+			}
+			@Override
+			public void handleExecutedState(
+					PersistentExecutedState executedState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+			@Override
+			public void handleNotSuccessfullState(
+					PersistentNotSuccessfullState notSuccessfullState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+			}
+			@Override
+			public void handleNotExecutableState(
+					PersistentNotExecutableState notExecutableState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+			@Override
+			public void handleSuccessfullState(
+					PersistentSuccessfullState successfullState)
+					throws PersistenceException,
+					NoPermissionToExecuteDebitNoteTransferException {
+				throw new NoPermissionToExecuteDebitNoteTransferException();
+			}
+		});
+    	getThis().setState(NotExecutetState.getTheNotExecutetState());
     	getThis().getSender().getBank().sendTransfer(getThis());
-    	//Timestamp tstamp = new Timestamp(new Date().getTime());
-    	//getThis().setTimestamp(tstamp);
+    	Timestamp tstamp = new Timestamp(new Date().getTime());
+    	getThis().setTimestamp(tstamp);
     }
 
     /* Start of protected part that is not overridden by persistence generator */

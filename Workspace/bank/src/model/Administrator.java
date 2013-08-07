@@ -2,6 +2,8 @@
 package model;
 
 import persistence.*;
+import model.meta.BankChangeNameStringMssg;
+import model.meta.BankMssgsVisitor;
 import model.visitor.*;
 
 
@@ -238,6 +240,7 @@ public class Administrator extends model.Service implements PersistentAdministra
 				throws PersistenceException{
         //TODO !PREREQUISITES: implement method: changeName
         bank.changeName(name, getThis());
+        getThis().signalChanged(true);
     }
     public void connected(final String user) 
 				throws PersistenceException{

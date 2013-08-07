@@ -255,7 +255,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				        }
 				        return true;
 					}
-				});
+				}); 
 				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$money, new Updater() {
 					@Override
 					public void update(String text) throws ModelException {
@@ -267,12 +267,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 					}
 					@Override
 					public boolean check(String text) throws ModelException {
-				        try{
+						try{
 				        	Fraction.parse(text);
 				        } catch(NumberFormatException nfe) {
 				        	return false;
 				        }
-				        return true;
+				        return Fraction.parse(text).isPositive();
 					}
 				});
 				
@@ -452,6 +452,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                 view.repaint();
                                 getConnection().setEagerRefresh();
                             }catch (InvalidAccountNumberException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
+                            }catch (NoPermissionToExecuteDebitNoteTransferException userException){
                                 ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
                                 view.setLocationRelativeTo(getNavigationPanel());
                                 view.setVisible(true);

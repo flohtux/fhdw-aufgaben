@@ -25,6 +25,17 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeMinLimit(String accProxiString, String amountAsString){
+        try {
+            PersistentAccount acc = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(accProxiString));
+            common.Fraction amount = common.Fraction.parse(amountAsString);
+            ((PersistentBankService)this.server).changeMinLimit(acc, amount);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changePassword(String newPassword1, String newPassword2){
         try {
             String result = ((PersistentBankService)this.server).changePassword(newPassword1, newPassword2);
@@ -36,6 +47,17 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeTransactionFee(String transfeeProxiString, String newFeeProxiString){
+        try {
+            PersistentTransactionFee transfee = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transfeeProxiString));
+            PersistentTransactionFee newFee = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(newFeeProxiString));
+            ((PersistentBankService)this.server).changeTransactionFee(transfee, newFee);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> closeAccount(String accProxiString){
         try {
             PersistentAccount acc = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(accProxiString));
@@ -43,6 +65,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.CloseAccountNoPossibleException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -54,6 +78,14 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.InvalidBankNumberException e0){
+            return createExceptionResult(e0, this);
+        }catch(model.LimitViolatedException e1){
+            return createExceptionResult(e1, this);
+        }catch(model.InvalidAccountNumberException e2){
+            return createExceptionResult(e2, this);
+        }catch(model.NoPermissionToExecuteDebitNoteTransferException e3){
+            return createExceptionResult(e3, this);
         }
     }
     
@@ -63,6 +95,18 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> findAccount(String accountNumberAsString){
+        try {
+            long accountNumber = new Long(accountNumberAsString).longValue();
+            ((PersistentBankService)this.server).findAccount(accountNumber);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

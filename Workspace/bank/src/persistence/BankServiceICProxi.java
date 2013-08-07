@@ -122,16 +122,24 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeMaxLimit(acc, amount);
     }
+    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).changeMinLimit(acc, amount);
+    }
     public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void closeAccount(final PersistentAccount acc) 
+    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
 				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).changeTransactionFee(transfee, newFee);
+    }
+    public void closeAccount(final PersistentAccount acc) 
+				throws model.CloseAccountNoPossibleException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws PersistenceException{
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc, transAcc);
     }
     public void connected(final String user) 
@@ -149,6 +157,10 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
     public void disconnected() 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).disconnected();
+    }
+    public void findAccount(final long accountNumber) 
+				throws model.UserException, PersistenceException{
+        ((PersistentBankService)this.getTheObject()).findAccount(accountNumber);
     }
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException{

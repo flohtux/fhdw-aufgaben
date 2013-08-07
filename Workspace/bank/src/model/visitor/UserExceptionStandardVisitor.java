@@ -11,8 +11,14 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException{
         this.standardHandling(passwordException);
     }
+    public void handleNoPermissionToExecuteDebitNoteTransferException(model.NoPermissionToExecuteDebitNoteTransferException noPermissionToExecuteDebitNoteTransferException) throws PersistenceException{
+        this.standardHandling(noPermissionToExecuteDebitNoteTransferException);
+    }
     public void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException{
         this.standardHandling(invalidBankNumberException);
+    }
+    public void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException{
+        this.standardHandling(closeAccountNoPossibleException);
     }
     public void handleLimitViolatedException(model.LimitViolatedException limitViolatedException) throws PersistenceException{
         this.standardHandling(limitViolatedException);

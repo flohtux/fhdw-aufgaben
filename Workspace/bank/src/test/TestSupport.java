@@ -15,8 +15,13 @@ import persistence.PersistenceException;
 public class TestSupport {
 	
 	private static final File StartupDirectory = new File(System.getProperty("user.dir")); 
+<<<<<<< HEAD
  
 	private static final File GojaDirectory = new File("G:/GOJAGemeinsam/Model/bank/");//TODO adjust path to goja directory
+=======
+
+	private static final File GojaDirectory = new File(StartupDirectory,StartupDirectory.getName());//TODO adjust path to goja directory
+>>>>>>> refs/heads/kralle
 	private static final String Password = "pg"; //TODO adjust password!
 	
 	private static java.sql.Connection connection;	

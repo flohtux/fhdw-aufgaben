@@ -40,9 +40,6 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
-    public Account_DebitNoteTransferTransactionsProxi getDebitNoteTransferTransactions() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -91,6 +88,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getBank();
     }
+    public PersistentAccountDebitNoteTransferTransactions getDebitNoteTransferTransactions() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).initialize(This, final$$Fields);
@@ -122,6 +123,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public PersistentTransfer createTransfer() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();
+    }
+    public void debitNoteTransferTransactions_update(final model.meta.DebitNoteTransferTransactionMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).debitNoteTransferTransactions_update(event);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

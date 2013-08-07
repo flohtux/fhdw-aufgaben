@@ -1,6 +1,8 @@
 
 package model;
 
+import common.Fraction;
+
 import persistence.*;
 import model.visitor.*;
 
@@ -243,15 +245,34 @@ public class BankService extends model.Service implements PersistentBankService{
         acc.getLimit().setMaxLimit(newMaxLimit);
         getThis().signalChanged(true);
     }
-    public void closeAccount(final PersistentAccount acc) 
+    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
 				throws PersistenceException{
-        //TODO: implement method: closeAccount
+    	PersistentLimit newMinLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), acc.getMoney().getCurrency()));
+        acc.getLimit().setMinLimit(newMinLimit);
+        getThis().signalChanged(true);
+    }
+    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+				throws PersistenceException{
+        //TODO: implement method: changeTransactionFee
         
     }
+    public void closeAccount(final PersistentAccount acc) 
+				throws model.CloseAccountNoPossibleException, PersistenceException{
+        if(acc.getMoney().getAmount().getBalance().equals(new Fraction(0, 1))) {
+        	throw new CloseAccountNoPossibleException();
+        }else {
+            //TODO: das löschen des accs aus der db        	
+        }
+    }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws PersistenceException{
-        //TODO: implement method: closeAccount
-        
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        PersistentTransfer transfer = Transfer.createTransfer();
+        transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
+        transfer.setSender(acc);
+        transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
+        transfer.setMoney(acc.getMoney());
+        transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
+        transfer.execute();
     }
     public void connected(final String user) 
 				throws PersistenceException{
@@ -266,6 +287,11 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void disconnected() 
 				throws PersistenceException{
+    }
+    public void findAccount(final long accountNumber) 
+				throws model.UserException, PersistenceException{
+        getThis().getBank().getCurrentAccounts().add(Account.getAccountByAccountNumber(accountNumber));
+        getThis().signalChanged(true);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

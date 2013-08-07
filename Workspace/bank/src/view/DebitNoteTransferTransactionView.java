@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface DebitNoteTransferTransactionView extends Anything, AbstractViewRoot {
     
+    public java.util.Date getTimestamp()throws ModelException;
+    public void setTimestamp(java.util.Date newValue) throws ModelException ;
     
     public void accept(DebitNoteTransferTransactionVisitor visitor) throws ModelException;
     public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws ModelException;

@@ -5,11 +5,13 @@ public interface DebitNoteTransferTransactionMssgsVisitor extends DebitNoteTrans
 
 interface DebitNoteTransferTransactionDOWNMssgsVisitor extends DebitNoteTransferDOWNMssgsVisitor, TransactionDOWNMssgsVisitor {
 
+    public void handleDebitNoteTransferTransactionExecuteMssg(DebitNoteTransferTransactionExecuteMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface DebitNoteTransferTransactionUPMssgsVisitor  {
 
+    public void handleDebitNoteTransferTransactionExecuteMssg(DebitNoteTransferTransactionExecuteMssg event) throws persistence.PersistenceException;
     
 }

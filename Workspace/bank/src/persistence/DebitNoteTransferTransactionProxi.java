@@ -12,6 +12,12 @@ public abstract class DebitNoteTransferTransactionProxi extends PersistentProxi 
     }
     
     
+    public java.sql.Timestamp getTimestamp() throws PersistenceException {
+        return ((PersistentDebitNoteTransferTransaction)this.getTheObject()).getTimestamp();
+    }
+    public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
+        ((PersistentDebitNoteTransferTransaction)this.getTheObject()).setTimestamp(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDebitNoteTransferTransaction)this.getTheObject()).getSubService();
     }
@@ -25,6 +31,10 @@ public abstract class DebitNoteTransferTransactionProxi extends PersistentProxi 
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferTransaction)this.getTheObject()).deregister(observee);
+    }
+    public void execute() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        ((PersistentDebitNoteTransferTransaction)this.getTheObject()).execute();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -42,9 +52,9 @@ public abstract class DebitNoteTransferTransactionProxi extends PersistentProxi 
 				throws PersistenceException{
         ((PersistentDebitNoteTransferTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void execute() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentDebitNoteTransferTransaction)this.getTheObject()).execute();
+    public void executeImplementation() 
+				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+        ((PersistentDebitNoteTransferTransaction)this.getTheObject()).executeImplementation();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

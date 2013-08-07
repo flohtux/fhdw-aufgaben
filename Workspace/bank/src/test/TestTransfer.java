@@ -14,6 +14,7 @@ import model.LimitAccount;
 import model.LimitViolatedException;
 import model.MixedFee;
 import model.Money;
+import model.NoPermissionToExecuteDebitNoteTransferException;
 import model.Percent;
 import model.ProcentualFee;
 
@@ -74,6 +75,9 @@ public class TestTransfer extends TestCase{
 							} catch (InvalidAccountNumberException e) {
 								fail();
 								e.printStackTrace();
+							}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+								fail();
+								e.printStackTrace();
 							}
                            
                             assertEquals(new Fraction(10,1), acc2.getMoney().getAmount().getBalance());
@@ -119,6 +123,9 @@ public class TestTransfer extends TestCase{
 				} catch (LimitViolatedException e) {
 					assertTrue(true);
 					return;
+				}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+					fail();
+					e.printStackTrace();
 				}
                 fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
                
@@ -162,6 +169,9 @@ public class TestTransfer extends TestCase{
 				} catch (LimitViolatedException e) {
 					assertTrue(true);
 					return;
+				}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+					fail();
+					e.printStackTrace();
 				}
                 	fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
                
@@ -202,6 +212,9 @@ public class TestTransfer extends TestCase{
 				} catch (LimitViolatedException e) {
 					fail();
 					return;
+				}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+					fail();
+					e.printStackTrace();
 				}
                 assertEquals(new Fraction(-11, 1), acc1.getMoney().getAmount().getBalance());
                 assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
@@ -243,6 +256,9 @@ public class TestTransfer extends TestCase{
 				} catch (LimitViolatedException e) {
 					fail();
 					return;
+				}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+					fail();
+					e.printStackTrace();
 				}
                 assertEquals(new Fraction(-15, 1), acc1.getMoney().getAmount().getBalance());
                 assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
@@ -287,6 +303,9 @@ public class TestTransfer extends TestCase{
 				} catch (LimitViolatedException e) {
 					fail();
 					return;
+				}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+					fail();
+					e.printStackTrace();
 				}
                 assertEquals(new Fraction(-17, 1), acc1.getMoney().getAmount().getBalance());
                 assertEquals(new Fraction(11, 1), acc2.getMoney().getAmount().getBalance());
@@ -331,6 +350,9 @@ public class TestTransfer extends TestCase{
 				} catch (LimitViolatedException e) {
 					assertTrue(true);
 					return;
+				}catch (NoPermissionToExecuteDebitNoteTransferException e) {
+					fail();
+					e.printStackTrace();
 				}
                 fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
                

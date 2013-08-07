@@ -25,7 +25,7 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
@@ -41,7 +41,7 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
@@ -68,15 +68,19 @@ public class AccountFacade{
             PersistentLimitAccount limit = null;
             if (obj.getLong(5) != 0)
                 limit = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            SubjInterface subService = null;
+            PersistentAccountDebitNoteTransferTransactions debitNoteTransferTransactions = null;
             if (obj.getLong(7) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            PersistentAccount This = null;
+                debitNoteTransferTransactions = (PersistentAccountDebitNoteTransferTransactions)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            SubjInterface subService = null;
             if (obj.getLong(9) != 0)
-                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            PersistentAccount This = null;
+            if (obj.getLong(11) != 0)
+                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             Account result = new Account(obj.getLong(2),
                                          money,
                                          limit,
+                                         debitNoteTransferTransactions,
                                          subService,
                                          This,
                                          AccountId);
@@ -98,6 +102,28 @@ public class AccountFacade{
             callable.setLong(2, objectId);
             callable.execute();
             long result = callable.getLong(1);
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public AccountSearchList getAccountByAccountNumber(long accountNumber) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntFacade.getAccntByAccntNmbr(?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, accountNumber);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            AccountSearchList result = new AccountSearchList();
+            while (list.next()) {
+                long classId = list.getLong(2);
+                long objectId = list.getLong(1);
+                AccountProxi proxi = (AccountProxi)PersistentProxi.createProxi(objectId, classId);
+                result.add(proxi);
+            }
+            list.close();
             callable.close();
             return result;
         }catch(SQLException se) {
@@ -142,48 +168,15 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public long debitNoteTransferTransactionsAdd(long AccountId, PersistentDebitNoteTransferTransaction debitNoteTransferTransactionsVal) throws PersistenceException {
+    public void debitNoteTransferTransactionsSet(long AccountId, PersistentAccountDebitNoteTransferTransactions debitNoteTransferTransactionsVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntFacade.DebTrfTransAdd(?, ?, ?); end;");
-            callable.registerOutParameter(1, OracleTypes.NUMBER);
-            callable.setLong(2, AccountId);
-            callable.setLong(3, debitNoteTransferTransactionsVal.getId());
-            callable.setLong(4, debitNoteTransferTransactionsVal.getClassId());
-            callable.execute();
-            long result = callable.getLong(1);
-            callable.close();
-            return result;
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void debitNoteTransferTransactionsRem(long debitNoteTransferTransactionsId) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.DebTrfTransRem(?); end;");
-            callable.setLong(1, debitNoteTransferTransactionsId);
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.DebTrfTransSet(?, ?, ?); end;");
+            callable.setLong(1, AccountId);
+            callable.setLong(2, debitNoteTransferTransactionsVal.getId());
+            callable.setLong(3, debitNoteTransferTransactionsVal.getClassId());
             callable.execute();
             callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public DebitNoteTransferTransactionList debitNoteTransferTransactionsGet(long AccountId) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntFacade.DebTrfTransGet(?); end;");
-            callable.registerOutParameter(1, OracleTypes.CURSOR);
-            callable.setLong(2, AccountId);
-            callable.execute();
-            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
-            DebitNoteTransferTransactionList result = new DebitNoteTransferTransactionList();
-            while (list.next()) {
-                result.add((PersistentDebitNoteTransferTransaction)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
-            }
-            list.close();
-            callable.close();
-            return result;
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
