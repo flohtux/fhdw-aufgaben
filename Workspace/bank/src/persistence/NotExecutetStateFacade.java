@@ -45,9 +45,9 @@ public class NotExecutetStateFacade{
             SubjInterface subService = null;
             if (obj.getLong(2) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            PersistentDebitNoteTransferState This = null;
+            PersistentDebitTransferState This = null;
             if (obj.getLong(4) != 0)
-                This = (PersistentDebitNoteTransferState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+                This = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             NotExecutetState result = new NotExecutetState(subService,
                                                            This,
                                                            NotExecutetStateId);

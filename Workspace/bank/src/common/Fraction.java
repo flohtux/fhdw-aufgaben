@@ -51,6 +51,20 @@ public class Fraction {
 	public String toString(){
 		return this.getEnumerator().toString() + (this.getDenominator().equals(BIOne) ? "" : (FractionStroke + this.getDenominator().toString())); 
 	}
+	
+	public String formatDec(Integer decimalPlace) {
+		String result = "";
+		BigInteger[] divAndRemain = this.getEnumerator().divideAndRemainder(this.getDenominator());
+		result += divAndRemain[0] + ".";
+		BigInteger remainPrev = divAndRemain[1];
+		for (int i = 0; i<decimalPlace; i++) {
+			divAndRemain = remainPrev.multiply(BigInteger.valueOf(10)).divideAndRemainder(this.getDenominator());
+			result += divAndRemain[0];
+			remainPrev = divAndRemain[1];
+		}
+		
+		return result;
+	}
 
 	public boolean equals(Object argument){
 		if (argument instanceof Fraction){
@@ -136,5 +150,6 @@ public class Fraction {
 		BigInteger newEnumeratorOfFraction = fraction.getEnumerator().multiply(lcm.divide(fraction.getDenominator()));
 		return newEnumeratorOfThis.compareTo(newEnumeratorOfFraction) == +1;
 	}
+	
 	
 }

@@ -4,14 +4,14 @@ import model.UserException;
 
 import model.visitor.*;
 
-public interface PersistentTransaction extends PersistentDebitNoteTransferTransaction {
+public interface PersistentTransaction extends PersistentDebitTransferTransaction {
     
     public PersistentTransaction getThis() throws PersistenceException ;
     
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException;
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException;
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E;
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
+    public void accept(DebitTransferTransactionVisitor visitor) throws PersistenceException;
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException;
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;

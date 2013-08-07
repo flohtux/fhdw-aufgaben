@@ -68,9 +68,9 @@ public class NoRequestStateProxi extends StornoStateProxi implements PersistentN
 				throws PersistenceException{
         ((PersistentNoRequestState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException{
-        return ((PersistentNoRequestState)this.getTheObject()).getDebitNoteTransfer();
+        return ((PersistentNoRequestState)this.getTheObject()).getDebitTransfer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

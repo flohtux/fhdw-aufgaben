@@ -15,9 +15,8 @@ import persistence.PersistenceException;
 public class TestSupport {
 	
 	private static final File StartupDirectory = new File(System.getProperty("user.dir")); 
- 
-	private static final File GojaDirectory = new File(new File(StartupDirectory.getParent()).getParent() + "/Model/bank/");//TODO adjust path to goja directory 
 
+	private static final File GojaDirectory = new File(new File(StartupDirectory.getParent()).getParent() + "/Model/bank/");//TODO adjust path to goja directory 
 	private static final String Password = "pg"; //TODO adjust password!
 	
 	private static java.sql.Connection connection;	
@@ -37,19 +36,19 @@ public class TestSupport {
         model.NoRequestState.reset$For$Test = true;
         model.ExecutedState.reset$For$Test = true;
         model.TrueValue.reset$For$Test = true;
-        model.SuccessfullState.reset$For$Test = true;
+        model.NotSuccessfulState.reset$For$Test = true;
+        model.SuccessfulState.reset$For$Test = true;
         model.NoLimit.reset$For$Test = true;
-        model.SuccessfullStornoState.reset$For$Test = true;
         model.Dollar.reset$For$Test = true;
+        model.Debit.reset$For$Test = true;
         model.RequestState.reset$For$Test = true;
-        model.NotSuccessfullStorneState.reset$For$Test = true;
-        model.DebitNote.reset$For$Test = true;
         model.Euro.reset$For$Test = true;
         model.TemplateState.reset$For$Test = true;
         model.meta.CommandCoordinator.reset$For$Test = true;
-        model.NotSuccessfullState.reset$For$Test = true;
         model.NotExecutetState.reset$For$Test = true;
         model.NotExecutableState.reset$For$Test = true;
+        model.NotSuccessfulStornoState.reset$For$Test = true;
+        model.SuccessfulStornoState.reset$For$Test = true;
         model.BankCreator.reset$For$Test = true;
 
 	}

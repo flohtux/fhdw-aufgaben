@@ -68,9 +68,9 @@ public class AccountFacade{
             PersistentLimitAccount limit = null;
             if (obj.getLong(5) != 0)
                 limit = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentAccountDebitNoteTransferTransactions debitNoteTransferTransactions = null;
+            PersistentAccountDebitTransferTransactions debitTransferTransactions = null;
             if (obj.getLong(7) != 0)
-                debitNoteTransferTransactions = (PersistentAccountDebitNoteTransferTransactions)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+                debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             SubjInterface subService = null;
             if (obj.getLong(9) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
@@ -80,7 +80,7 @@ public class AccountFacade{
             Account result = new Account(obj.getLong(2),
                                          money,
                                          limit,
-                                         debitNoteTransferTransactions,
+                                         debitTransferTransactions,
                                          subService,
                                          This,
                                          AccountId);
@@ -168,13 +168,13 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void debitNoteTransferTransactionsSet(long AccountId, PersistentAccountDebitNoteTransferTransactions debitNoteTransferTransactionsVal) throws PersistenceException {
+    public void debitTransferTransactionsSet(long AccountId, PersistentAccountDebitTransferTransactions debitTransferTransactionsVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.DebTrfTransSet(?, ?, ?); end;");
             callable.setLong(1, AccountId);
-            callable.setLong(2, debitNoteTransferTransactionsVal.getId());
-            callable.setLong(3, debitNoteTransferTransactionsVal.getClassId());
+            callable.setLong(2, debitTransferTransactionsVal.getId());
+            callable.setLong(3, debitTransferTransactionsVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

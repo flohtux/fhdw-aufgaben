@@ -1,5 +1,5 @@
 package persistence;
 
-public interface PersistentTemplateStateListEntryProxi extends PersistentDebitNoteTransferStateListEntryProxi {
+public interface PersistentTemplateStateListEntryProxi extends PersistentDebitTransferStateListEntryProxi {
 
 }

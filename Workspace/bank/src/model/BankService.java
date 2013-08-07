@@ -4,6 +4,8 @@ package model;
 import common.Fraction;
 
 import persistence.*;
+import model.meta.StringFACTORY;
+import model.meta.TransactionFeeSwitchPARAMETER;
 import model.visitor.*;
 
 
@@ -251,9 +253,30 @@ public class BankService extends model.Service implements PersistentBankService{
         acc.getLimit().setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFee(final String newFee, final common.Fraction fix, final common.Fraction limit, final common.Fraction procentual) 
 				throws PersistenceException{
-        //TODO: implement method: changeTransactionFee
+    	PersistentTransactionFee fee = StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
+			
+			@Override
+			public PersistentProcentualFee handleProcentualFee()
+					throws PersistenceException {
+				return ProcentualFee.createProcentualFee(Percent.createPercent(procentual));
+			}
+			
+			@Override
+			public PersistentMixedFee handleMixedFee() throws PersistenceException {
+				return MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getBank().getOwnAccount().getMoney().getCurrency())), ProcentualFee.createProcentualFee(Percent.createPercent(procentual)), limit);
+			}
+			
+			@Override
+			public PersistentFixTransactionFee handleFixTransactionFee()
+					throws PersistenceException {
+				return FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getBank().getOwnAccount().getMoney().getCurrency()));
+			}
+		});
+    	
+    	getThis().getBank().setFee(fee);
+    	getThis().signalChanged(true);
         
     }
     public void closeAccount(final PersistentAccount acc) 
@@ -265,7 +288,7 @@ public class BankService extends model.Service implements PersistentBankService{
         }
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         PersistentTransfer transfer = Transfer.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);

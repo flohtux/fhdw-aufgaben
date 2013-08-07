@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,StornoStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,DebitNoteTransferTransactionExceptionVisitor<E>,DebitNoteTransferStateExceptionVisitor<E>{
+public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,StornoStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,LimitTypeExceptionVisitor<E>{
     
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException, E;
     public void handlePercent(PercentView percent) throws ModelException, E;

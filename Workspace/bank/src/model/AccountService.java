@@ -259,13 +259,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void connected(final String user) 
 				throws PersistenceException{
-    	System.out.println("user="+user);
-    	System.out.println("acc"+this.getAccount());
-    	System.out.println(getThis().getAccount().getAccountNumber());
-    	System.out.println(this.getAccount().getBank());
-    	System.out.println(this.getAccount().getDebitNoteTransferTransactions());
-    	System.out.println(this.getAccount().getLimit());
-    	System.out.println(this.getAccount().getMoney());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -278,10 +271,10 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void disconnected() 
 				throws PersistenceException{
     }
-    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
-    	debitNoteTransfer.execute();
-    	getThis().signalChanged(true);
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+        debitTransfer.execute();
+        getThis().signalChanged(true);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

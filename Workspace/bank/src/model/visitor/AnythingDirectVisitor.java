@@ -5,8 +5,6 @@ import persistence.*;
 
 public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
-    public abstract void handleAccountDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions accountDebitNoteTransferTransactions) throws PersistenceException;
-    
     public abstract void handleService(PersistentService service) throws PersistenceException;
     
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
@@ -24,41 +22,21 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
     
-    public abstract void handleDebitNoteTransferTransaction(PersistentDebitNoteTransferTransaction debitNoteTransferTransaction) throws PersistenceException;
+    public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
-        this.handleDebitNoteTransferTransaction(transaction);
-    }
-    public void handleDebitNote(PersistentDebitNote debitNote) throws PersistenceException{
-        this.handleDebitNoteTransferTransaction(debitNote);
+        this.handleDebitTransferTransaction(transaction);
     }
     public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
-        this.handleDebitNoteTransferTransaction(transfer);
+        this.handleDebitTransferTransaction(transfer);
+    }
+    public void handleDebit(PersistentDebit debit) throws PersistenceException{
+        this.handleDebitTransferTransaction(debit);
     }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
-    public abstract void handleDebitNoteTransferState(PersistentDebitNoteTransferState debitNoteTransferState) throws PersistenceException;
-    
-    public void handleNotSuccessfullState(PersistentNotSuccessfullState notSuccessfullState) throws PersistenceException{
-        this.handleDebitNoteTransferState(notSuccessfullState);
-    }
-    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
-        this.handleDebitNoteTransferState(executedState);
-    }
-    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
-        this.handleDebitNoteTransferState(notExecutetState);
-    }
-    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
-        this.handleDebitNoteTransferState(notExecutableState);
-    }
-    public void handleSuccessfullState(PersistentSuccessfullState successfullState) throws PersistenceException{
-        this.handleDebitNoteTransferState(successfullState);
-    }
-    public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
-        this.handleDebitNoteTransferState(templateState);
-    }
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
@@ -72,18 +50,38 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
+    
+    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
+        this.handleDebitTransferState(executedState);
+    }
+    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
+        this.handleDebitTransferState(notExecutetState);
+    }
+    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
+        this.handleDebitTransferState(notExecutableState);
+    }
+    public void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException{
+        this.handleDebitTransferState(notSuccessfulState);
+    }
+    public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
+        this.handleDebitTransferState(successfulState);
+    }
+    public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
+        this.handleDebitTransferState(templateState);
+    }
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     
     public abstract void handleStornoState(PersistentStornoState stornoState) throws PersistenceException;
     
-    public void handleSuccessfullStornoState(PersistentSuccessfullStornoState successfullStornoState) throws PersistenceException{
-        this.handleStornoState(successfullStornoState);
+    public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
+        this.handleStornoState(notSuccessfulStornoState);
+    }
+    public void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException{
+        this.handleStornoState(successfulStornoState);
     }
     public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
         this.handleStornoState(requestState);
-    }
-    public void handleNotSuccessfullStorneState(PersistentNotSuccessfullStorneState notSuccessfullStorneState) throws PersistenceException{
-        this.handleStornoState(notSuccessfullStorneState);
     }
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.handleStornoState(noRequestState);
@@ -121,11 +119,15 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.handleCommonDate(changeNameCommand);
     }
-    public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
+    public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
     
     public abstract void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     
+    public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
+    
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
+    
+    public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
     
@@ -135,7 +137,5 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.handleCurrency(euro);
     }
-    public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
-    
     
 }

@@ -29,7 +29,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentBank getBank() 
 				throws PersistenceException;
-    public PersistentAccountDebitNoteTransferTransactions getDebitNoteTransferTransactions() 
+    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
@@ -43,7 +43,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
-    public void debitNoteTransferTransactions_update(final model.meta.DebitNoteTransferTransactionMssgs event) 
+    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

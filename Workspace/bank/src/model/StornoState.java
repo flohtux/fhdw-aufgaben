@@ -18,13 +18,13 @@ public abstract class StornoState extends PersistentObject implements Persistent
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            AbstractPersistentRoot debitNoteTransfer = (AbstractPersistentRoot)this.getDebitNoteTransfer();
-            if (debitNoteTransfer != null) {
-                result.put("debitNoteTransfer", debitNoteTransfer.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot debitTransfer = (AbstractPersistentRoot)this.getDebitTransfer();
+            if (debitTransfer != null) {
+                result.put("debitTransfer", debitTransfer.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    debitNoteTransfer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    debitTransfer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && debitNoteTransfer.hasEssentialFields())debitNoteTransfer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && debitTransfer.hasEssentialFields())debitTransfer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -103,11 +103,11 @@ public abstract class StornoState extends PersistentObject implements Persistent
     
     
     
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException{
-        PersistentDebitNoteTransfer result = null;
+        PersistentDebitTransfer result = null;
 		try {
-			if (result == null) result = (PersistentDebitNoteTransfer)ConnectionHandler.getTheConnectionHandler().theDebitNoteTransferFacade
+			if (result == null) result = (PersistentDebitTransfer)ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade
 							.inverseGetStornoState(this.getId(), this.getClassId()).iterator().next();
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;

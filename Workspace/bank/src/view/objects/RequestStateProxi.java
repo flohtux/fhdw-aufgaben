@@ -12,14 +12,14 @@ public class RequestStateProxi extends StornoStateProxi implements RequestStateV
     }
     
     public RequestStateView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi debitNoteTransfer = null;
-        String debitNoteTransfer$String = (String)resultTable.get("debitNoteTransfer");
-        if (debitNoteTransfer$String != null) {
-            common.ProxiInformation debitNoteTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitNoteTransfer$String);
-            debitNoteTransfer = view.objects.ViewProxi.createProxi(debitNoteTransfer$Info,connectionKey);
-            debitNoteTransfer.setToString(debitNoteTransfer$Info.getToString());
+        ViewProxi debitTransfer = null;
+        String debitTransfer$String = (String)resultTable.get("debitTransfer");
+        if (debitTransfer$String != null) {
+            common.ProxiInformation debitTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitTransfer$String);
+            debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
+            debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        RequestStateView result$$ = new RequestState((DebitNoteTransferView)debitNoteTransfer, this.getId(), this.getClassId());
+        RequestStateView result$$ = new RequestState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

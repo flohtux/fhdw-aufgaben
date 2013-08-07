@@ -193,6 +193,10 @@ public class TrueValue extends model.BooleanValue implements PersistentTrueValue
     
     // Start of section that contains overridden operations only.
     
+    public boolean isTrue() 
+				throws PersistenceException{
+		return true;
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

@@ -197,6 +197,11 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 			protected void standardHandling(Anything Anything) throws ModelException {
 				this.result = null;
 			}
+			
+			@Override
+			public void handleMoney(MoneyView money) throws ModelException {
+				CustomMoneyDetailPanel panel = new CustomMoneyDetailPanel(BankServiceClientView.this, money);
+			}
 			//TODO Overwrite all handle methods for the types for which you intend to provide a special panel!
 		}
 		PanelDecider decider = new PanelDecider();
@@ -284,10 +289,22 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
     private java.util.Vector<javax.swing.JButton> getToolButtonsForStaticOperations() {
         java.util.Vector<javax.swing.JButton> result = new java.util.Vector<javax.swing.JButton>();
         javax.swing.JButton currentButton = null;
-        currentButton = new javax.swing.JButton("Account finden ... ");
+        currentButton = new javax.swing.JButton("Gebühren ändern ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                BankServiceFindAccountIntegerMssgWizard wizard = new BankServiceFindAccountIntegerMssgWizard("Account finden");
+                BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard wizard = new BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard("Gebühren ändern");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });result.add(currentButton);
+        currentButton = new javax.swing.JButton("Konto finden ... ");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                BankServiceFindAccountIntegerMssgWizard wizard = new BankServiceFindAccountIntegerMssgWizard("Konto finden");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -308,10 +325,10 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
             }
             
         });result.add(currentButton);
-        currentButton = new javax.swing.JButton("changePassword ... ");
+        currentButton = new javax.swing.JButton("Passwort ändern ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                BankServiceChangePasswordStringStringMssgWizard wizard = new BankServiceChangePasswordStringStringMssgWizard("changePassword");
+                BankServiceChangePasswordStringStringMssgWizard wizard = new BankServiceChangePasswordStringStringMssgWizard("Passwort ändern");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -326,10 +343,24 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         JPopupMenu result = new JPopupMenu();
         javax.swing.JMenuItem item = null;
         item = new javax.swing.JMenuItem();
-        item.setText("(S) Account finden ... ");
+        item.setText("(S) Gebühren ändern ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                BankServiceFindAccountIntegerMssgWizard wizard = new BankServiceFindAccountIntegerMssgWizard("Account finden");
+                BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard wizard = new BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard("Gebühren ändern");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) Konto finden ... ");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                BankServiceFindAccountIntegerMssgWizard wizard = new BankServiceFindAccountIntegerMssgWizard("Konto finden");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -354,10 +385,10 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         });
         if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
-        item.setText("(S) changePassword ... ");
+        item.setText("(S) Passwort ändern ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                BankServiceChangePasswordStringStringMssgWizard wizard = new BankServiceChangePasswordStringStringMssgWizard("changePassword");
+                BankServiceChangePasswordStringStringMssgWizard wizard = new BankServiceChangePasswordStringStringMssgWizard("Passwort ändern");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -427,23 +458,6 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                     public void actionPerformed(java.awt.event.ActionEvent e) {
                         BankServiceChangeMinLimitAccountFractionMssgWizard wizard = new BankServiceChangeMinLimitAccountFractionMssgWizard("Untergrenze festlegen");
                         wizard.setFirstArgument((AccountView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-            }
-            if (selected instanceof TransactionFeeView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Gebühren ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard wizard = new BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard("Gebühren ändern");
-                        wizard.setFirstArgument((TransactionFeeView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                         wizard.pack();
@@ -602,20 +616,23 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		
 	}
 
-	class BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard extends Wizard {
+	class BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard extends Wizard {
 
-		protected BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard(String operationName){
+		protected BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "BankServiceChangeTransactionFeeTransactionFeeTransactionFeeMssgWizard.help";
+			this.helpFileName = "BankServiceChangeTransactionFeeTransactionFeeSUBTYPENameFractionFractionFractionMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().changeTransactionFee(firstArgument, (TransactionFeeView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().changeTransactionFee(((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
+									((FractionSelectionPanel)getParametersPanel().getComponent(1)).getResult(),
+									((FractionSelectionPanel)getParametersPanel().getComponent(2)).getResult(),
+									((FractionSelectionPanel)getParametersPanel().getComponent(3)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -632,18 +649,12 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new ObjectSelectionPanel("Gebührentyp", "view.TransactionFeeView", (ViewRoot) getConnection().getBankServiceView(), this));		
+			getParametersPanel().add(new RegExprSelectionPanel("Gebührentyp", this, common.RegularExpressionManager.transactionFeeSUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("fixe Gebühren", this));
+			getParametersPanel().add(new FractionSelectionPanel("Grenze", this));
+			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
 		}	
 		protected void handleDependencies(int i) {
-		}
-		
-		
-		private TransactionFeeView firstArgument; 
-	
-		public void setFirstArgument(TransactionFeeView firstArgument){
-			this.firstArgument = firstArgument;
-			this.setTitle(this.firstArgument.toString());
-			this.check();
 		}
 		
 		
@@ -672,6 +683,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				setVisible(false);
 				dispose();
 			}
+			catch(NoPermissionToExecuteDebitTransferException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			catch(InvalidBankNumberException e) {
 				getStatusBar().setText(e.getMessage());
 			}
@@ -679,9 +693,6 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				getStatusBar().setText(e.getMessage());
 			}
 			catch(InvalidAccountNumberException e) {
-				getStatusBar().setText(e.getMessage());
-			}
-			catch(NoPermissionToExecuteDebitNoteTransferException e) {
 				getStatusBar().setText(e.getMessage());
 			}
 			

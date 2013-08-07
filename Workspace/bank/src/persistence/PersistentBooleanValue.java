@@ -23,6 +23,8 @@ public interface PersistentBooleanValue extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public boolean isTrue() 
+				throws PersistenceException;
 
 }
 

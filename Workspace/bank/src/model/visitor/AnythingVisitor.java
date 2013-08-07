@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface AnythingVisitor extends ServiceVisitor,StornoStateVisitor,BooleanValueVisitor,CommonDateVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,DebitNoteTransferTransactionVisitor,DebitNoteTransferStateVisitor{
+public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CommonDateVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor{
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
@@ -18,9 +18,9 @@ public interface AnythingVisitor extends ServiceVisitor,StornoStateVisitor,Boole
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
-    public void handleAccountDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions accountDebitNoteTransferTransactions) throws PersistenceException;
     public void handleAccount(PersistentAccount account) throws PersistenceException;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
     public void handleMoney(PersistentMoney money) throws PersistenceException;
     public void handleBank(PersistentBank bank) throws PersistenceException;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;

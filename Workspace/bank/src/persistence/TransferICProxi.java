@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public class TransferICProxi extends DebitNoteTransferICProxi implements PersistentTransfer{
+public class TransferICProxi extends DebitTransferICProxi implements PersistentTransfer{
     
     public TransferICProxi(long objectId) {
         super(objectId);
@@ -26,28 +26,28 @@ public class TransferICProxi extends DebitNoteTransferICProxi implements Persist
         return ((PersistentTransfer)this.getTheObject()).getThis();
     }
     
-    public void accept(DebitNoteTransferVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferVisitor visitor) throws PersistenceException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransfer(this);
     }
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferTransactionVisitor visitor) throws PersistenceException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransfer(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -81,7 +81,7 @@ public class TransferICProxi extends DebitNoteTransferICProxi implements Persist
         ((PersistentTransfer)this.getTheObject()).deregister(observee);
     }
     public void execute() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentTransfer)this.getTheObject()).execute();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
@@ -101,7 +101,7 @@ public class TransferICProxi extends DebitNoteTransferICProxi implements Persist
         ((PersistentTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void executeImplementation() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentTransfer)this.getTheObject()).executeImplementation();
     }
     public void initializeOnCreation() 

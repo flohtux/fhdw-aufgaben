@@ -302,10 +302,10 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
     private java.util.Vector<javax.swing.JButton> getToolButtonsForStaticOperations() {
         java.util.Vector<javax.swing.JButton> result = new java.util.Vector<javax.swing.JButton>();
         javax.swing.JButton currentButton = null;
-        currentButton = new javax.swing.JButton("changePassword ... ");
+        currentButton = new javax.swing.JButton("Bank erstellen ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                AdministratorChangePasswordStringStringMssgWizard wizard = new AdministratorChangePasswordStringStringMssgWizard("changePassword");
+                AdministratorCreateBankStringMssgWizard wizard = new AdministratorCreateBankStringMssgWizard("Bank erstellen");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -314,10 +314,10 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
             }
             
         });result.add(currentButton);
-        currentButton = new javax.swing.JButton("createBank ... ");
+        currentButton = new javax.swing.JButton("Passwort ändern ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                AdministratorCreateBankStringMssgWizard wizard = new AdministratorCreateBankStringMssgWizard("createBank");
+                AdministratorChangePasswordStringStringMssgWizard wizard = new AdministratorChangePasswordStringStringMssgWizard("Passwort ändern");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -332,10 +332,10 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         JPopupMenu result = new JPopupMenu();
         javax.swing.JMenuItem item = null;
         item = new javax.swing.JMenuItem();
-        item.setText("(S) changePassword ... ");
+        item.setText("(S) Bank erstellen ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                AdministratorChangePasswordStringStringMssgWizard wizard = new AdministratorChangePasswordStringStringMssgWizard("changePassword");
+                AdministratorCreateBankStringMssgWizard wizard = new AdministratorCreateBankStringMssgWizard("Bank erstellen");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -346,10 +346,10 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         });
         if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
-        item.setText("(S) createBank ... ");
+        item.setText("(S) Passwort ändern ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                AdministratorCreateBankStringMssgWizard wizard = new AdministratorCreateBankStringMssgWizard("createBank");
+                AdministratorChangePasswordStringStringMssgWizard wizard = new AdministratorChangePasswordStringStringMssgWizard("Passwort ändern");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -379,10 +379,10 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
             }
             if (selected instanceof BankView){
                 item = new javax.swing.JMenuItem();
-                item.setText("changeName ... ");
+                item.setText("Namen ändern ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AdministratorChangeNameBankStringMssgWizard wizard = new AdministratorChangeNameBankStringMssgWizard("changeName");
+                        AdministratorChangeNameBankStringMssgWizard wizard = new AdministratorChangeNameBankStringMssgWizard("Namen ändern");
                         wizard.setFirstArgument((BankView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));

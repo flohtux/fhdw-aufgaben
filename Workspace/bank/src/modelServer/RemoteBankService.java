@@ -47,11 +47,12 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> changeTransactionFee(String transfeeProxiString, String newFeeProxiString){
+    public synchronized java.util.HashMap<?,?> changeTransactionFee(String newFee, String fixAsString, String limitAsString, String procentualAsString){
         try {
-            PersistentTransactionFee transfee = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transfeeProxiString));
-            PersistentTransactionFee newFee = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(newFeeProxiString));
-            ((PersistentBankService)this.server).changeTransactionFee(transfee, newFee);
+            common.Fraction fix = common.Fraction.parse(fixAsString);
+            common.Fraction limit = common.Fraction.parse(limitAsString);
+            common.Fraction procentual = common.Fraction.parse(procentualAsString);
+            ((PersistentBankService)this.server).changeTransactionFee(newFee, fix, limit, procentual);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -78,13 +79,13 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
-        }catch(model.InvalidBankNumberException e0){
+        }catch(model.NoPermissionToExecuteDebitTransferException e0){
             return createExceptionResult(e0, this);
-        }catch(model.LimitViolatedException e1){
+        }catch(model.InvalidBankNumberException e1){
             return createExceptionResult(e1, this);
-        }catch(model.InvalidAccountNumberException e2){
+        }catch(model.LimitViolatedException e2){
             return createExceptionResult(e2, this);
-        }catch(model.NoPermissionToExecuteDebitNoteTransferException e3){
+        }catch(model.InvalidAccountNumberException e3){
             return createExceptionResult(e3, this);
         }
     }

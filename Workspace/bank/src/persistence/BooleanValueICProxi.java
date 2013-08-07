@@ -50,6 +50,10 @@ public abstract class BooleanValueICProxi extends PersistentInCacheProxiOptimist
 				throws PersistenceException{
         ((PersistentBooleanValue)this.getTheObject()).initializeOnInstantiation();
     }
+    public boolean isTrue() 
+				throws PersistenceException{
+        return ((PersistentBooleanValue)this.getTheObject()).isTrue();
+    }
 
     
 }

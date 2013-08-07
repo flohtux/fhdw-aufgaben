@@ -86,7 +86,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAmount(PersistentAmount amount)
 			throws PersistenceException {
-		this.result = amount.getBalance().toString();
+		this.result = amount.getBalance().formatDec(2);
 	}
 	@Override
 	public void handleMoney(PersistentMoney money) throws PersistenceException {
@@ -99,7 +99,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleDebitNote(PersistentDebitNote debitNote)
+	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		
@@ -111,8 +111,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleNotSuccessfullStorneState(
-			PersistentNotSuccessfullStorneState notSuccessfullStorneState)
+	public void handleNotSuccessfulStornoState(
+			PersistentNotSuccessfulStornoState notSuccessfulStornoState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		
@@ -147,8 +147,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = "abgesendet...";
 	}
 	@Override
-	public void handleNotSuccessfullState(
-			PersistentNotSuccessfullState notSuccessfullState)
+	public void handleNotSuccessfulState(
+			PersistentNotSuccessfulState notSuccessfulState)
 			throws PersistenceException {
 		result = "nich vollständig ausgefüllt...";
 	}
@@ -159,15 +159,15 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = "Fehler...";
 	}
 	@Override
-	public void handleSuccessfullState(
-			PersistentSuccessfullState successfullState)
+	public void handleSuccessfulState(
+			PersistentSuccessfulState SuccessfulState)
 			throws PersistenceException {
 		result = "Erfolgreich";
 	}
 	@Override
 	public void handlePercent(PersistentPercent percent)
 			throws PersistenceException {
-		result = percent.getValue().multiply(new Fraction(100, 1)).toString() + PercentSign;
+		result = percent.getValue().multiply(new Fraction(100, 1)).formatDec(3) + PercentSign;
 		
 	}
 	@Override
@@ -187,8 +187,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		this.result = "Überweisung: "+transfer.getMoney().getAmount().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
 	}
 	@Override
-	public void handleSuccessfullStornoState(
-			PersistentSuccessfullStornoState successfullStornoState)
+	public void handleSuccessfulStornoState(
+			PersistentSuccessfulStornoState SuccessfulStornoState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		

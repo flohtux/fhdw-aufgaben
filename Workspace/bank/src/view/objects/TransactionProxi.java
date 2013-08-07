@@ -5,7 +5,7 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class TransactionProxi extends DebitNoteTransferTransactionProxi implements TransactionView{
+public class TransactionProxi extends DebitTransferTransactionProxi implements TransactionView{
     
     public TransactionProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
@@ -37,16 +37,16 @@ public class TransactionProxi extends DebitNoteTransferTransactionProxi implemen
     }
     
     
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws ModelException {
+    public void accept(DebitTransferTransactionVisitor visitor) throws ModelException {
         visitor.handleTransaction(this);
     }
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTransaction(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTransaction(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTransaction(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {

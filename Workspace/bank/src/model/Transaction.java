@@ -7,7 +7,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public class Transaction extends model.DebitNoteTransferTransaction implements PersistentTransaction{
+public class Transaction extends model.DebitTransferTransaction implements PersistentTransaction{
     
     
     public static PersistentTransaction createTransaction() throws PersistenceException{
@@ -70,9 +70,9 @@ public class Transaction extends model.DebitNoteTransferTransaction implements P
         return false;
     }
     
-    public Transaction(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitNoteTransferTransaction This,long id) throws persistence.PersistenceException {
+    public Transaction(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitTransferTransaction This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,id);        
+        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);        
     }
     
     static public long getTypeId() {
@@ -99,16 +99,16 @@ public class Transaction extends model.DebitNoteTransferTransaction implements P
         }return (PersistentTransaction)this.This;
     }
     
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferTransactionVisitor visitor) throws PersistenceException {
         visitor.handleTransaction(this);
     }
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTransaction(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTransaction(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransaction(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -197,7 +197,7 @@ public class Transaction extends model.DebitNoteTransferTransaction implements P
     // Start of section that contains overridden operations only.
     
     public void executeImplementation() 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
 		// TODO Auto-generated method stub
 		
 	}

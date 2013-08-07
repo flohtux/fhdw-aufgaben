@@ -1,5 +1,5 @@
 package persistence;
 
-public interface PersistentNotExecutetStateListEntryProxi extends PersistentDebitNoteTransferStateListEntryProxi {
+public interface PersistentNotExecutetStateListEntryProxi extends PersistentDebitTransferStateListEntryProxi {
 
 }

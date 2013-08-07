@@ -3,7 +3,7 @@ package view.visitor;
 
 import view.*;
 
-public interface AnythingVisitor extends ServiceVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,DebitNoteTransferTransactionVisitor,DebitNoteTransferStateVisitor{
+public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor{
     
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     public void handlePercent(PercentView percent) throws ModelException;

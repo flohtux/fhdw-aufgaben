@@ -26,9 +26,9 @@ public abstract class StornoStateProxi extends PersistentProxi implements Persis
 				throws PersistenceException{
         ((PersistentStornoState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException{
-        return ((PersistentStornoState)this.getTheObject()).getDebitNoteTransfer();
+        return ((PersistentStornoState)this.getTheObject()).getDebitTransfer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

@@ -15,7 +15,7 @@ public interface PersistentStornoState extends SubjInterface, Anything, Abstract
     public <E extends UserException>  void accept(StornoStateExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(StornoStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;

@@ -4,18 +4,18 @@ import model.UserException;
 
 import model.visitor.*;
 
-public interface PersistentTransfer extends PersistentDebitNoteTransfer {
+public interface PersistentTransfer extends PersistentDebitTransfer {
     
     public PersistentTransfer getThis() throws PersistenceException ;
     
-    public void accept(DebitNoteTransferVisitor visitor) throws PersistenceException;
-    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws PersistenceException;
-    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws PersistenceException, E;
-    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException;
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException;
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E;
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
+    public void accept(DebitTransferVisitor visitor) throws PersistenceException;
+    public <R> R accept(DebitTransferReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
+    public void accept(DebitTransferTransactionVisitor visitor) throws PersistenceException;
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException;
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;

@@ -7,7 +7,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public class NotExecutableState extends model.DebitNoteTransferState implements PersistentNotExecutableState{
+public class NotExecutableState extends model.DebitTransferState implements PersistentNotExecutableState{
     
     private static PersistentNotExecutableState theNotExecutableState = null;
     public static boolean reset$For$Test = false;
@@ -71,9 +71,9 @@ public class NotExecutableState extends model.DebitNoteTransferState implements 
         return false;
     }
     
-    public NotExecutableState(SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
+    public NotExecutableState(SubjInterface subService,PersistentDebitTransferState This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferState)This,id);        
+        super((SubjInterface)subService,(PersistentDebitTransferState)This,id);        
     }
     
     static public long getTypeId() {
@@ -96,16 +96,16 @@ public class NotExecutableState extends model.DebitNoteTransferState implements 
         }return (PersistentNotExecutableState)this.This;
     }
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferStateVisitor visitor) throws PersistenceException {
         visitor.handleNotExecutableState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleNotExecutableState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleNotExecutableState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleNotExecutableState(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {

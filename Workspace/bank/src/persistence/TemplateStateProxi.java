@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public class TemplateStateProxi extends DebitNoteTransferStateProxi implements PersistentTemplateState{
+public class TemplateStateProxi extends DebitTransferStateProxi implements PersistentTemplateState{
     
     public TemplateStateProxi(long objectId) {
         super(objectId);
@@ -26,16 +26,16 @@ public class TemplateStateProxi extends DebitNoteTransferStateProxi implements P
         return ((PersistentTemplateState)this.getTheObject()).getThis();
     }
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferStateVisitor visitor) throws PersistenceException {
         visitor.handleTemplateState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTemplateState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTemplateState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTemplateState(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -68,9 +68,9 @@ public class TemplateStateProxi extends DebitNoteTransferStateProxi implements P
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException{
-        return ((PersistentTemplateState)this.getTheObject()).getDebitNoteTransfer();
+        return ((PersistentTemplateState)this.getTheObject()).getDebitTransfer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

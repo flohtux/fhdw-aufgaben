@@ -88,9 +88,9 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getBank();
     }
-    public PersistentAccountDebitNoteTransferTransactions getDebitNoteTransferTransactions() 
+    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
 				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
+        return ((PersistentAccount)this.getTheObject()).getDebitTransferTransactions();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -124,9 +124,9 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();
     }
-    public void debitNoteTransferTransactions_update(final model.meta.DebitNoteTransferTransactionMssgs event) 
+    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).debitNoteTransferTransactions_update(event);
+        ((PersistentAccount)this.getTheObject()).debitTransferTransactions_update(event);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

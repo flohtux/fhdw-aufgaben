@@ -154,9 +154,9 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
-    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitNoteTransfer);
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer);
     }
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException{

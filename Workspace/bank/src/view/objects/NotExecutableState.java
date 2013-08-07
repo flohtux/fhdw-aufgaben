@@ -7,12 +7,12 @@ import view.visitor.*;
 
 /* Additional import section end */
 
-public class NotExecutableState extends view.objects.DebitNoteTransferState implements NotExecutableStateView{
+public class NotExecutableState extends view.objects.DebitTransferState implements NotExecutableStateView{
     
     
-    public NotExecutableState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
+    public NotExecutableState(DebitTransferView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitNoteTransferView)debitNoteTransfer,id, classId);        
+        super((DebitTransferView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -24,16 +24,16 @@ public class NotExecutableState extends view.objects.DebitNoteTransferState impl
     }
     
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws ModelException {
+    public void accept(DebitTransferStateVisitor visitor) throws ModelException {
         visitor.handleNotExecutableState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleNotExecutableState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleNotExecutableState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleNotExecutableState(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -50,9 +50,9 @@ public class NotExecutableState extends view.objects.DebitNoteTransferState impl
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
-        if (debitNoteTransfer != null) {
-            ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
+        DebitTransferView debitTransfer = this.getDebitTransfer();
+        if (debitTransfer != null) {
+            ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }
         
     }

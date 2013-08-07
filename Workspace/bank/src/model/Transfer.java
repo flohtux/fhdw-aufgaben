@@ -9,7 +9,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public class Transfer extends model.DebitNoteTransfer implements PersistentTransfer{
+public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     
     public static PersistentTransfer createTransfer() throws PersistenceException{
@@ -79,9 +79,9 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         return false;
     }
     
-    public Transfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitNoteTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitNoteTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public Transfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitNoteTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(String)subject,(PersistentDebitNoteTransferState)state,(PersistentStornoState)stornoState,id);        
+        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(String)subject,(PersistentDebitTransferState)state,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {
@@ -108,28 +108,28 @@ public class Transfer extends model.DebitNoteTransfer implements PersistentTrans
         }return (PersistentTransfer)this.This;
     }
     
-    public void accept(DebitNoteTransferVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferVisitor visitor) throws PersistenceException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransfer(this);
     }
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferTransactionVisitor visitor) throws PersistenceException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransfer(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {

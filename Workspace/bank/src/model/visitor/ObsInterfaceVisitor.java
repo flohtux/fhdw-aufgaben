@@ -5,7 +5,7 @@ import persistence.*;
 
 public interface ObsInterfaceVisitor {
     
-    public void handleAccountDebitNoteTransferTransactions(PersistentAccountDebitNoteTransferTransactions accountDebitNoteTransferTransactions) throws PersistenceException;
+    public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     
 }

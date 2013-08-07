@@ -130,16 +130,16 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
 				throws model.PasswordException, PersistenceException{
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFee(final String newFee, final common.Fraction fix, final common.Fraction limit, final common.Fraction procentual) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeTransactionFee(transfee, newFee);
+        ((PersistentBankService)this.getTheObject()).changeTransactionFee(newFee, fix, limit, procentual);
     }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc, transAcc);
     }
     public void connected(final String user) 

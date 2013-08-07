@@ -261,7 +261,7 @@ public class Cache {
 	private void initializeNumber2NameMap() {
 		this.number2NameMap = new Hashtable<Integer,String>();
 		this.number2NameMap.put(133, "Account");
-		this.number2NameMap.put(172, "AccountDebitNoteTransferTransactions");
+		this.number2NameMap.put(172, "AccountDebitTransferTransactions");
 		this.number2NameMap.put(-130, "AccountService");
 		this.number2NameMap.put(-117, "Administrator");
 		this.number2NameMap.put(125, "AdministratorBanks");
@@ -275,7 +275,7 @@ public class Cache {
 		this.number2NameMap.put(111, "CommonDate");
 		this.number2NameMap.put(107, "CreateAccountCommand");
 		this.number2NameMap.put(118, "CreateBankCommand");
-		this.number2NameMap.put(136, "DebitNote");
+		this.number2NameMap.put(177, "Debit");
 		this.number2NameMap.put(126, "Dollar");
 		this.number2NameMap.put(-135, "ErrorDisplay");
 		this.number2NameMap.put(137, "Euro");
@@ -291,15 +291,15 @@ public class Cache {
 		this.number2NameMap.put(104, "NoRequestState");
 		this.number2NameMap.put(144, "NotExecutableState");
 		this.number2NameMap.put(143, "NotExecutetState");
-		this.number2NameMap.put(142, "NotSuccessfullState");
-		this.number2NameMap.put(134, "NotSuccessfullStorneState");
+		this.number2NameMap.put(142, "NotSuccessfulState");
+		this.number2NameMap.put(134, "NotSuccessfulStornoState");
 		this.number2NameMap.put(112, "Percent");
 		this.number2NameMap.put(120, "ProcentualFee");
 		this.number2NameMap.put(131, "RequestState");
 		this.number2NameMap.put(-121, "Server");
 		this.number2NameMap.put(102, "Subj");
-		this.number2NameMap.put(113, "SuccessfullState");
-		this.number2NameMap.put(123, "SuccessfullStornoState");
+		this.number2NameMap.put(175, "SuccessfulState");
+		this.number2NameMap.put(123, "SuccessfulStornoState");
 		this.number2NameMap.put(138, "TemplateState");
 		this.number2NameMap.put(146, "Transaction");
 		this.number2NameMap.put(122, "Transfer");

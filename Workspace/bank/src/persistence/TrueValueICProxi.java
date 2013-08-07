@@ -92,6 +92,10 @@ public class TrueValueICProxi extends BooleanValueICProxi implements PersistentT
 				throws PersistenceException{
         ((PersistentTrueValue)this.getTheObject()).initializeOnInstantiation();
     }
+    public boolean isTrue() 
+				throws PersistenceException{
+        return ((PersistentTrueValue)this.getTheObject()).isTrue();
+    }
 
     
 }

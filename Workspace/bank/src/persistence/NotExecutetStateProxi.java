@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public class NotExecutetStateProxi extends DebitNoteTransferStateProxi implements PersistentNotExecutetState{
+public class NotExecutetStateProxi extends DebitTransferStateProxi implements PersistentNotExecutetState{
     
     public NotExecutetStateProxi(long objectId) {
         super(objectId);
@@ -26,16 +26,16 @@ public class NotExecutetStateProxi extends DebitNoteTransferStateProxi implement
         return ((PersistentNotExecutetState)this.getTheObject()).getThis();
     }
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferStateVisitor visitor) throws PersistenceException {
         visitor.handleNotExecutetState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleNotExecutetState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleNotExecutetState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleNotExecutetState(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -68,9 +68,9 @@ public class NotExecutetStateProxi extends DebitNoteTransferStateProxi implement
 				throws PersistenceException{
         ((PersistentNotExecutetState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException{
-        return ((PersistentNotExecutetState)this.getTheObject()).getDebitNoteTransfer();
+        return ((PersistentNotExecutetState)this.getTheObject()).getDebitTransfer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

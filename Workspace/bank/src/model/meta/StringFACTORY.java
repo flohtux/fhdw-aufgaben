@@ -7,5 +7,11 @@ public class StringFACTORY{
         if(name.equals("Euro")) return model.Euro.getTheEuro();
         throw new persistence.PersistenceException("No such type name!",0);
     }
+    public static persistence.PersistentTransactionFee createObjectBySubTypeNameForTransactionFee(String name, TransactionFeeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
+        if(name.equals("FixTransactionFee")) return switchAssistant.handleFixTransactionFee();
+        if(name.equals("MixedFee")) return switchAssistant.handleMixedFee();
+        if(name.equals("ProcentualFee")) return switchAssistant.handleProcentualFee();
+        throw new persistence.PersistenceException("No such type name!",0);
+    }
     
 }

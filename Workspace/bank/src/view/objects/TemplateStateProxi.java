@@ -5,21 +5,21 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class TemplateStateProxi extends DebitNoteTransferStateProxi implements TemplateStateView{
+public class TemplateStateProxi extends DebitTransferStateProxi implements TemplateStateView{
     
     public TemplateStateProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
     }
     
     public TemplateStateView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi debitNoteTransfer = null;
-        String debitNoteTransfer$String = (String)resultTable.get("debitNoteTransfer");
-        if (debitNoteTransfer$String != null) {
-            common.ProxiInformation debitNoteTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitNoteTransfer$String);
-            debitNoteTransfer = view.objects.ViewProxi.createProxi(debitNoteTransfer$Info,connectionKey);
-            debitNoteTransfer.setToString(debitNoteTransfer$Info.getToString());
+        ViewProxi debitTransfer = null;
+        String debitTransfer$String = (String)resultTable.get("debitTransfer");
+        if (debitTransfer$String != null) {
+            common.ProxiInformation debitTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitTransfer$String);
+            debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
+            debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        TemplateStateView result$$ = new TemplateState((DebitNoteTransferView)debitNoteTransfer, this.getId(), this.getClassId());
+        TemplateStateView result$$ = new TemplateState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -43,16 +43,16 @@ public class TemplateStateProxi extends DebitNoteTransferStateProxi implements T
     }
     
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws ModelException {
+    public void accept(DebitTransferStateVisitor visitor) throws ModelException {
         visitor.handleTemplateState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTemplateState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTemplateState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTemplateState(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {

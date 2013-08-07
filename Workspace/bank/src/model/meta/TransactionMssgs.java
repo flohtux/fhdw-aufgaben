@@ -4,5 +4,5 @@ public interface TransactionMssgs {
     void accept(TransactionMssgsVisitor visitor) throws persistence.PersistenceException;
 }
 
-interface TransactionDOWNMssgs extends DebitNoteTransferTransactionDOWNMssgs, TransactionMssgs{}
+interface TransactionDOWNMssgs extends DebitTransferTransactionDOWNMssgs, TransactionMssgs{}
 interface TransactionUPMssgs extends Mssgs, TransactionMssgs{}
