@@ -54,8 +54,9 @@ public class Fraction {
 	
 	public String formatDec(Integer decimalPlace) {
 		String result = "";
-		BigInteger[] divAndRemain = this.getEnumerator().divideAndRemainder(this.getDenominator());
-		result += divAndRemain[0] + ".";
+		result += (this.isPositive() ? "" : "-");
+		BigInteger[] divAndRemain = this.getEnumerator().abs().divideAndRemainder(this.getDenominator());
+		result += divAndRemain[0] +(decimalPlace.equals(0) ? "" : ".");
 		BigInteger remainPrev = divAndRemain[1];
 		for (int i = 0; i<decimalPlace; i++) {
 			divAndRemain = remainPrev.multiply(BigInteger.valueOf(10)).divideAndRemainder(this.getDenominator());

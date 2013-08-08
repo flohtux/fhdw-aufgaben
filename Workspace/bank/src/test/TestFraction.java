@@ -193,6 +193,27 @@ public class TestFraction extends TestCase {
              assertEquals(r4, r4.subtract(r5));
              assertEquals(r10, r7.subtract(r1));
      }
+     
+     public void testFormatDec() {
+    	 Fraction r1 = new Fraction(2, 3);
+    	 assertEquals("0.66", r1.formatDec(2));
+    	 r1 = new Fraction(-0, 1);
+    	 assertEquals("0.00", r1.formatDec(2));
+    	 r1 = new Fraction(-2, -3);
+    	 assertEquals("0.66", r1.formatDec(2));
+    	 r1 = new Fraction(-7, 3);
+    	 assertEquals("-2.33", r1.formatDec(2));
+    	 r1 = new Fraction(-7, 1);
+    	 assertEquals("-7.00", r1.formatDec(2));
+    	 r1 = new Fraction(-7, 1);
+    	 assertEquals("-7", r1.formatDec(0));
+    	 r1 = new Fraction(-15, 2);
+    	 assertEquals("-7", r1.formatDec(0));
+    	 r1 = new Fraction(-10000, 1);
+    	 assertEquals("-10000.0000000000", r1.formatDec(10));
+    	 
+     }
+     
 }
 
 

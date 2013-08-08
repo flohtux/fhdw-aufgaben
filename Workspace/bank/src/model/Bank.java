@@ -431,9 +431,19 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
         getThis().setName(name);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFeeToFix(final common.Fraction fix) 
 				throws PersistenceException{
-        //TODO: implement method: changeTransactionFee
+        getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getOwnAccount().getMoney().getCurrency())));
+        
+    }
+    public void changeTransactionFeeToMixed(final common.Fraction fix, final common.Fraction procentual, final common.Fraction limit) 
+				throws PersistenceException{
+        getThis().setFee(MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getOwnAccount().getMoney().getCurrency())), ProcentualFee.createProcentualFee(Percent.createPercent(procentual)), limit));
+        
+    }
+    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+				throws PersistenceException{
+        getThis().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(procentual)));
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -500,12 +510,8 @@ public class Bank extends PersistentObject implements PersistentBank{
     		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
     	} else {
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
-    		System.out.println("fee " + fee);
-    		System.out.println("money " + debitTransfer.getMoney());
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.getMoney())); 
-    		System.out.println("new money " + newAccountMoney);
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
-    		System.out.println("new money2 " + newAccountMoney);
     		debitTransfer.getSender().setMoney(newAccountMoney);
 			getThis().getOwnAccount().getMoney().add(fee);
 			result.receiveTransfer(debitTransfer);

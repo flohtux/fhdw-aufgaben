@@ -142,9 +142,17 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFeeToFix(final common.Fraction fix) 
 				throws PersistenceException{
-        ((PersistentBank)this.getTheObject()).changeTransactionFee(transfee, newFee);
+        ((PersistentBank)this.getTheObject()).changeTransactionFeeToFix(fix);
+    }
+    public void changeTransactionFeeToMixed(final common.Fraction fix, final common.Fraction procentual, final common.Fraction limit) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeTransactionFeeToMixed(fix, procentual, limit);
+    }
+    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeTransactionFeeToProcentual(procentual);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

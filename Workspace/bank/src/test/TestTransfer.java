@@ -216,7 +216,6 @@ public class TestTransfer extends TestCase{
 					fail();
 					e.printStackTrace();
 				}
-                
                 assertEquals(new Fraction(-11, 1), acc1.getMoney().getAmount().getBalance());
                 assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
                

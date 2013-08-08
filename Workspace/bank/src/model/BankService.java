@@ -255,27 +255,28 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void changeTransactionFee(final String newFee, final common.Fraction fix, final common.Fraction limit, final common.Fraction procentual) 
 				throws PersistenceException{
-    	PersistentTransactionFee fee = StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
+    	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
 			
 			@Override
 			public PersistentProcentualFee handleProcentualFee()
 					throws PersistenceException {
-				return ProcentualFee.createProcentualFee(Percent.createPercent(procentual));
+				getThis().getBank().changeTransactionFeeToProcentual(procentual);
+				return null;
 			}
 			
 			@Override
 			public PersistentMixedFee handleMixedFee() throws PersistenceException {
-				return MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getBank().getOwnAccount().getMoney().getCurrency())), ProcentualFee.createProcentualFee(Percent.createPercent(procentual)), limit);
+				getThis().getBank().changeTransactionFeeToMixed(fix, procentual, limit);
+				return null;
 			}
 			
 			@Override
 			public PersistentFixTransactionFee handleFixTransactionFee()
 					throws PersistenceException {
-				return FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getBank().getOwnAccount().getMoney().getCurrency()));
+				getThis().getBank().changeTransactionFeeToFix(fix);
+				return null;
 			}
 		});
-    	
-    	getThis().getBank().setFee(fee);
     	getThis().signalChanged(true);
         
     }
