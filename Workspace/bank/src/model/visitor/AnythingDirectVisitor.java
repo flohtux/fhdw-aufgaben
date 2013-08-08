@@ -88,7 +88,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
+    public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
+    
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
+    
+    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
     
@@ -98,8 +102,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
     }
-    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
-    
     public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
     
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{

@@ -4,15 +4,21 @@ server Server {
 one-to-one (server-only access) Service service;
 }
 abstract server Service{
-  String changePassword(String newPassword1 PASSWORD, String newPassword2 PASSWORD) throws PasswordException;
+  String changePassword@@Passwort_ändern(String newPassword1 PASSWORD, String newPassword2 PASSWORD) throws PasswordException;
 }
 server Administrator extends Service {
   observe Bank ** banks;
-	//hashmap exchange;
-  void createBank(String name);
-	Money translateMoney(Money money, Currency currency);
-  void changeName(Bank bank, String name@@Name);
+  void createBank@@Bank_erstellen(String name);
+  void changeName@@Namen_ändern(Bank bank, String name@@Name);
+	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currency, Fraction rate);
 }
+
+singleton CurrencyManager {
+	Amount** Currency** exchange;
+	void changeCurrencyRate(Currency currency, Fraction rate);
+	Money translateMoney(Money money, Currency currency);
+}
+
 singleton BankCreator {
   server-only Integer lastBankNumber;
   active Bank createBank(String name, Administrator administrator);
@@ -21,11 +27,11 @@ server BankService extends Service {
   skip-view prior final one-to-one (server-only bankServices) Bank bank;
   void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
   void closeAccount@@Konto_schließen(Account acc) throws CloseAccountNoPossibleException;
-	void closeAccount@@Konto_übertragen(Account acc, Account transAcc) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
-	void changeMaxLimit@@Obergrenze_festlegen(Account acc,Fraction amount);
-	void changeMinLimit@@Untergrenze_festlegen(Account acc,Fraction amount);
-	void findAccount@@Account_finden(Integer accountNumber) throws UserException;
-	void changeTransactionFee@@Gebühren_ändern(TransactionFee transfee,TransactionFee newFee@@Gebührentyp);
+	void closeAccount@@Konto_übertragen(Account acc, Account transAcc) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	void changeMaxLimit@@Obergrenze_festlegen(Account acc@@Konto,Fraction amount@@Obergrenze);
+	void changeMinLimit@@Untergrenze_festlegen(Account acc@@Konto,Fraction amount@@Untergrenze);
+	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
+	void changeTransactionFee@@Gebühren_ändern(TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, Fraction limit@@Grenze, Fraction procentual@@variable_Gebühren);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -39,28 +45,32 @@ symmetric (server-only banks) prior server-only Administrator administrator;
 transient Account ** currentAccounts;
 active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
-void sendTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
-void receiveTransfer(DebitNoteTransfer debitNoteTransfer) throws InvalidAccountNumberException, LimitViolatedException;
-void changeTransactionFee(TransactionFee transfee,TransactionFee newFee);
+void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
+void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, LimitViolatedException;
+void changeTransactionFeeToFix(Fraction fix);
+void changeTransactionFeeToProcentual(Fraction procentual);
+void changeTransactionFeeToMixed(Fraction fix, Fraction procentual, Fraction limit);
 }
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
 void createTransfer@@Neue_Überweisung();
-void executeTransfer@@Überweisung_abschicken(DebitNoteTransfer debitNoteTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
+void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
 void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
 void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
 void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
 void changeSubject@@Betreff_ändern(Transfer trans, String subject);
+void changeCurrency@@Währung_ändern(Transfer trans, CurrencySUBTYPEName currency);
 }
 class Account {
-prior indexed Integer accountNumber;
+prior indexed Integer accountNumber@@Kontonummer;
 prior one-to-one (no-view account) Money money@@Geldmenge;
 one-to-one (no-view account) LimitAccount limit;
-observe DebitNoteTransferTransaction ** debitNoteTransferTransactions##DebTrfTrans;
+observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 Transfer createTransfer();
 void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
 void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
 void changeMoney(Transfer trans, Fraction newAmount);
+void changeCurrency(Transfer trans, Currency currency);
 }
 
 class Money {
@@ -81,14 +91,16 @@ class LimitAccount {
 	void checkLimit(Money money) throws LimitViolatedException;
 }
 
-abstract class BooleanValue(TrueValue,FalseValue){}
+abstract class BooleanValue(TrueValue,FalseValue){
+	extern boolean isTrue();
+}
 
 abstract class LimitType(NoLimit) {}
 class Limit extends LimitType{
 	prior Money money;
 }
 
-abstract class TransactionFee{}
+string-factory abstract class TransactionFee{}
 
 class MixedFee extends TransactionFee{
 prior FixTransactionFee fix;
@@ -111,35 +123,35 @@ class Percent {
 
 string-factory abstract class Currency (Euro, Dollar){}
 
-abstract class DebitNoteTransferTransaction##DebiTrfTran {
-	event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitNoteTransferException;
+abstract class DebitTransferTransaction##DebiTrfTran {
+	event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
 	Timestamp timestamp@@Zeitstempel;
 }
 
-abstract class DebitNoteTransfer(DebitNote) extends DebitNoteTransferTransaction{
+abstract class DebitTransfer(Debit) extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view	Account sender;
 	no-view Money money@@Betrag;
 	String subject@@Betreff;
-	one-to-one (no-view debitNoteTransfer) DebitNoteTransferState state;
-	no-view one-to-one (no-view debitNoteTransfer) StornoState stornoState;
+	one-to-one (no-view debitTransfer) DebitTransferState state;
+	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 }
 
-class Transfer extends DebitNoteTransfer {}
+class Transfer extends DebitTransfer {}
 
-class Transaction extends DebitNoteTransferTransaction {}
+class Transaction extends DebitTransferTransaction {}
 
-abstract class DebitNoteTransferState##DebiTraStat(SuccessfullState,NotSuccessfullState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
+abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
 }
 
-abstract class StornoState(SuccessfullStornoState##SucStoSta,NotSuccessfullStorneState##NoSucStoSta,RequestState,NoRequestState){}
+abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
 
 exception PasswordException {}
 exception InvalidBankNumberException{}
 exception InvalidAccountNumberException{}
 exception LimitViolatedException{}
-exception NoPermissionToExecuteDebitNoteTransferException{}
+exception NoPermissionToExecuteDebitTransferException{}
 exception CloseAccountNoPossibleException{}
 }
 

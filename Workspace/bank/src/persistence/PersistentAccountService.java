@@ -33,6 +33,8 @@ public interface PersistentAccountService extends PersistentService {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void changeCurrency(final PersistentTransfer trans, final String currency) 
+				throws PersistenceException;
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
     public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 

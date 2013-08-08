@@ -35,6 +35,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.standardHandling(templateState);
     }
+    public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException{
+        this.standardHandling(currencyManager);
+    }
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
     }

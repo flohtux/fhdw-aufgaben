@@ -86,6 +86,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
+    public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
+    
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;

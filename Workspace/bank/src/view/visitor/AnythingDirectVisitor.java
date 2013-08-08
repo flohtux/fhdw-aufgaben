@@ -84,6 +84,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleServer(ServerView server) throws ModelException;
     
+    public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
+    
     public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     
     public abstract void handleLimitType(LimitTypeView limitType) throws ModelException;

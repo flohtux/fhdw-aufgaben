@@ -32,6 +32,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.standardHandling(templateState);
     }
+    public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException{
+        this.standardHandling(currencyManager);
+    }
     public void handleFixTransactionFee(FixTransactionFeeView fixTransactionFee) throws ModelException{
         this.standardHandling(fixTransactionFee);
     }
@@ -44,11 +47,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.standardHandling(executedState);
     }
-    public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
-        this.standardHandling(notExecutableState);
-    }
     public void handleTrueValue(TrueValueView trueValue) throws ModelException{
         this.standardHandling(trueValue);
+    }
+    public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
+        this.standardHandling(notExecutableState);
     }
     public void handlePercent(PercentView percent) throws ModelException{
         this.standardHandling(percent);

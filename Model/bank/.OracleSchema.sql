@@ -67,6 +67,38 @@ create index IAccntAccntSrvc on Srvc (AccntSrvcAccnt, AccntSrvcAccntCls);
 create index IBnkBnkSrvc on Srvc (BnkSrvcBnk, BnkSrvcBnkCls);
 
 
+create sequence SDebiTrfTran nocache;
+
+create table DebiTrfTran(
+    id number primary key,
+    Cls number not null,
+    DebiTrfTranTmstmp Timestamp,
+    DebiTrfTranSbSrvc number,
+    DebiTrfTranSbSrvcCls number,
+    constraint FDebiTrfTranSbSrvc foreign key (DebiTrfTranSbSrvcCls) references Cls (id),
+    DebiTrfTranThis number,
+    DebiTrfTranThisCls number,
+    constraint FDebiTrfTranThis foreign key (DebiTrfTranThisCls) references Cls (id),
+    DbtTrnsfrRecaccno number,
+    DbtTrnsfrRcvrBnkNmbr number,
+    DbtTrnsfrSndr number,
+    DbtTrnsfrSndrCls number,
+    constraint FDbtTrnsfrSndr foreign key (DbtTrnsfrSndrCls) references Cls (id),
+    DbtTrnsfrMn number,
+    DbtTrnsfrMnCls number,
+    constraint FDbtTrnsfrMn foreign key (DbtTrnsfrMnCls) references Cls (id),
+    DbtTrnsfrSbjct varchar2(2000),
+    DbtTrnsfrStt number,
+    DbtTrnsfrSttCls number,
+    constraint FDbtTrnsfrStt foreign key (DbtTrnsfrSttCls) references Cls (id),
+    DbtTrnsfrStrnStt number,
+    DbtTrnsfrStrnSttCls number,
+    constraint FDbtTrnsfrStrnStt foreign key (DbtTrnsfrStrnSttCls) references Cls (id)    
+);
+create index ISttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStt, DbtTrnsfrSttCls);
+create index IStrnSttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStrnStt, DbtTrnsfrStrnSttCls);
+
+
 create sequence SSubj nocache;
 
 create table Subj(
@@ -94,6 +126,19 @@ create table ChngNmCMD(
     constraint FChngNmCMDMyCmmnDt foreign key (ChngNmCMDMyCmmnDtCls) references Cls (id)    
 );
 
+create sequence SDebiTraStat nocache;
+
+create table DebiTraStat(
+    id number primary key,
+    Cls number not null,
+    DebiTraStatSbSrvc number,
+    DebiTraStatSbSrvcCls number,
+    constraint FDebiTraStatSbSrvc foreign key (DebiTraStatSbSrvcCls) references Cls (id),
+    DebiTraStatThis number,
+    DebiTraStatThisCls number,
+    constraint FDebiTraStatThis foreign key (DebiTraStatThisCls) references Cls (id)    
+);
+
 create sequence SStrnStt nocache;
 
 create table StrnStt(
@@ -105,6 +150,19 @@ create table StrnStt(
     StrnSttThis number,
     StrnSttThisCls number,
     constraint FStrnSttThis foreign key (StrnSttThisCls) references Cls (id)    
+);
+
+create sequence SCrrncMngr nocache;
+
+create table CrrncMngr(
+    id number primary key,
+    Cls number not null,
+    CrrncMngrSbSrvc number,
+    CrrncMngrSbSrvcCls number,
+    constraint FCrrncMngrSbSrvc foreign key (CrrncMngrSbSrvcCls) references Cls (id),
+    CrrncMngrThis number,
+    CrrncMngrThisCls number,
+    constraint FCrrncMngrThis foreign key (CrrncMngrThisCls) references Cls (id)    
 );
 
 create sequence SCrtAccntCMD nocache;
@@ -281,19 +339,6 @@ create table LmtAccnt(
     constraint FLmtAccntThis foreign key (LmtAccntThisCls) references Cls (id)    
 );
 
-create sequence SAccntDebTrfTrans nocache;
-
-create table AccntDebTrfTrans(
-    id number primary key,
-    Cls number not null,
-    AccntDebTrfTransMstr number,
-    AccntDebTrfTransMstrCls number,
-    constraint FAccntDebTrfTransMstr foreign key (AccntDebTrfTransMstrCls) references Cls (id),
-    AccntDebTrfTransThis number,
-    AccntDebTrfTransThisCls number,
-    constraint FAccntDebTrfTransThis foreign key (AccntDebTrfTransThisCls) references Cls (id)    
-);
-
 create sequence STrnsctnF nocache;
 
 create table TrnsctnF(
@@ -370,44 +415,25 @@ create table LmtTp(
     constraint FLmtMn foreign key (LmtMnCls) references Cls (id)    
 );
 
+create sequence SAccntDebTrfTrans nocache;
+
+create table AccntDebTrfTrans(
+    id number primary key,
+    Cls number not null,
+    AccntDebTrfTransMstr number,
+    AccntDebTrfTransMstrCls number,
+    constraint FAccntDebTrfTransMstr foreign key (AccntDebTrfTransMstrCls) references Cls (id),
+    AccntDebTrfTransThis number,
+    AccntDebTrfTransThisCls number,
+    constraint FAccntDebTrfTransThis foreign key (AccntDebTrfTransThisCls) references Cls (id)    
+);
+
 create sequence SCmmndExctr nocache;
 
 create table CmmndExctr(
     id number primary key,
     Cls number not null    
 );
-
-create sequence SDebiTrfTran nocache;
-
-create table DebiTrfTran(
-    id number primary key,
-    Cls number not null,
-    DebiTrfTranTmstmp Timestamp,
-    DebiTrfTranSbSrvc number,
-    DebiTrfTranSbSrvcCls number,
-    constraint FDebiTrfTranSbSrvc foreign key (DebiTrfTranSbSrvcCls) references Cls (id),
-    DebiTrfTranThis number,
-    DebiTrfTranThisCls number,
-    constraint FDebiTrfTranThis foreign key (DebiTrfTranThisCls) references Cls (id),
-    DbtNtTrnsfrRecaccno number,
-    DbtNtTrnsfrRcvrBnkNmbr number,
-    DbtNtTrnsfrSndr number,
-    DbtNtTrnsfrSndrCls number,
-    constraint FDbtNtTrnsfrSndr foreign key (DbtNtTrnsfrSndrCls) references Cls (id),
-    DbtNtTrnsfrMn number,
-    DbtNtTrnsfrMnCls number,
-    constraint FDbtNtTrnsfrMn foreign key (DbtNtTrnsfrMnCls) references Cls (id),
-    DbtNtTrnsfrSbjct varchar2(2000),
-    DbtNtTrnsfrStt number,
-    DbtNtTrnsfrSttCls number,
-    constraint FDbtNtTrnsfrStt foreign key (DbtNtTrnsfrSttCls) references Cls (id),
-    DbtNtTrnsfrStrnStt number,
-    DbtNtTrnsfrStrnSttCls number,
-    constraint FDbtNtTrnsfrStrnStt foreign key (DbtNtTrnsfrStrnSttCls) references Cls (id)    
-);
-create index ISttDbtNtTrnsfr on DebiTrfTran (DbtNtTrnsfrStt, DbtNtTrnsfrSttCls);
-create index IStrnSttDbtNtTrnsfr on DebiTrfTran (DbtNtTrnsfrStrnStt, DbtNtTrnsfrStrnSttCls);
-
 
 create sequence SMn nocache;
 
@@ -460,19 +486,6 @@ create index INmBnk on Bnk (BnkNm);
 create index IAdmnstrtrBnk on Bnk (BnkAdmnstrtr, BnkAdmnstrtrCls);
 
 
-create sequence SDebiTraStat nocache;
-
-create table DebiTraStat(
-    id number primary key,
-    Cls number not null,
-    DebiTraStatSbSrvc number,
-    DebiTraStatSbSrvcCls number,
-    constraint FDebiTraStatSbSrvc foreign key (DebiTraStatSbSrvcCls) references Cls (id),
-    DebiTraStatThis number,
-    DebiTraStatThisCls number,
-    constraint FDebiTraStatThis foreign key (DebiTraStatThisCls) references Cls (id)    
-);
-
 create sequence SBnkCrtr nocache;
 
 create table BnkCrtr(
@@ -499,6 +512,22 @@ create table SubjObs(
 );
 create index IFrmSubjObs on SubjObs(frm);
 
+create sequence SCrrncMngrExchng nocache;
+
+create table CrrncMngrExchng(
+    id number primary key,
+    frm number not null,
+    CrrncMngrExchngindxx number not null,
+    CrrncMngrExchngindxxCls number not null,
+    constraint FCrrncMngrExchngindxx foreign key (CrrncMngrExchngindxxCls) references Cls (id),
+    exchng number not null,
+    Cls number not null,
+    constraint FCrrncMngrExchngCls foreign key(Cls) references Cls(id),
+    constraint FCrrncMngrExchngfrm foreign key(frm) references CrrncMngr(id)
+);
+create index IFrmCrrncMngrExchng on CrrncMngrExchng(frm);
+create index IIndxxCrrncMngrExchng on CrrncMngrExchng(CrrncMngrExchngindxx);
+
 create sequence SAdmnstrtrBnksObs nocache;
 
 create table AdmnstrtrBnksObs(
@@ -511,18 +540,6 @@ create table AdmnstrtrBnksObs(
 );
 create index IFrmAdmnstrtrBnksObs on AdmnstrtrBnksObs(frm);
 
-create sequence SAccntDebTrfTransObs nocache;
-
-create table AccntDebTrfTransObs(
-    id number primary key,
-    frm number not null,
-    obs number not null,
-    Cls number not null,
-    constraint FAccntDebTrfTransObsCls foreign key(Cls) references Cls(id),
-    constraint FAccntDebTrfTransObsfrm foreign key(frm) references AccntDebTrfTrans(id)
-);
-create index IFrmAccntDebTrfTransObs on AccntDebTrfTransObs(frm);
-
 create sequence SCmmndCrdntrExctr nocache;
 
 create table CmmndCrdntrExctr(
@@ -534,6 +551,18 @@ create table CmmndCrdntrExctr(
     constraint FCmmndCrdntrExctrfrm foreign key(frm) references CmmndCrdntr(id)
 );
 create index IFrmCmmndCrdntrExctr on CmmndCrdntrExctr(frm);
+
+create sequence SAccntDebTrfTransObs nocache;
+
+create table AccntDebTrfTransObs(
+    id number primary key,
+    frm number not null,
+    obs number not null,
+    Cls number not null,
+    constraint FAccntDebTrfTransObsCls foreign key(Cls) references Cls(id),
+    constraint FAccntDebTrfTransObsfrm foreign key(frm) references AccntDebTrfTrans(id)
+);
+create index IFrmAccntDebTrfTransObs on AccntDebTrfTransObs(frm);
 
 create sequence SCmmndExctrCommands nocache;
 

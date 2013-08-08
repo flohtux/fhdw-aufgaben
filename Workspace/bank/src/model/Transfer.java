@@ -207,8 +207,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public void initializeOnCreation() 
 				throws PersistenceException{
         getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
-        //TODO machen?
-//        getThis().setSender(Account.createAccount(0, Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro())));
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
         getThis().setState(NotExecutetState.getTheNotExecutetState());

@@ -104,6 +104,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
     }
+    public void changeCurrency(final PersistentTransfer trans, final PersistentCurrency currency) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeCurrency(trans, currency);
+    }
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeMoney(trans, newAmount);

@@ -35,6 +35,8 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void banks_update(final model.meta.BankMssgs event) 
 				throws PersistenceException;
+    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
+				throws PersistenceException;
     public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -44,8 +46,6 @@ public interface PersistentAdministrator extends PersistentService {
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
-				throws PersistenceException;
-    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
 				throws PersistenceException;
 
 }

@@ -8,6 +8,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,
     public R handleSubj(PersistentSubj subj) throws PersistenceException;
     public R handleAccount(PersistentAccount account) throws PersistenceException;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;

@@ -118,6 +118,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
+    public void changeCurrency(final PersistentTransfer trans, final String currency) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeCurrency(trans, currency);
+    }
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoney(trans, newAmount);

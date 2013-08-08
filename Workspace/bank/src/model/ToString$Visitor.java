@@ -184,7 +184,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getMoney().getAmount().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
 	}
 	@Override
 	public void handleSuccessfulStornoState(
@@ -210,6 +210,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleTrueValue(PersistentTrueValue trueValue)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCurrencyManager(PersistentCurrencyManager currencyManager)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		

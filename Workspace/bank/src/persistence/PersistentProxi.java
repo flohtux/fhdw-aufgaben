@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[78];
+		listProxiFactories = new ListProxiFactory[79];
         listProxiFactories[1] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new SubjListEntryProxi(objectId, entryId);
@@ -35,6 +35,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[3] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new NoRequestStateListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[78] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new CurrencyManagerListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[6] = new ListProxiFactory(){
@@ -242,7 +247,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [78];
+		proxiFactories = new ProxiFactory [79];
         proxiFactories[1] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new SubjProxi(objectId);
@@ -261,6 +266,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[3] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new NoRequestStateProxi(objectId);
+            }
+        };
+        proxiFactories[78] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new CurrencyManagerProxi(objectId);
             }
         };
         proxiFactories[6] = new ProxiFactory(){

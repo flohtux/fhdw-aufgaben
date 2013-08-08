@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import model.Administrator;
 import model.Amount;
 import model.BankCreator;
+import model.Dollar;
 import model.Euro;
 import model.FixTransactionFee;
 import model.InvalidAccountNumberException;
@@ -87,6 +88,52 @@ public class TestTransfer extends TestCase{
                             e.printStackTrace();
                     }
             }
+    
+    public void testBankinternOtherCurrencies() {
+        final String BankName = "Bank1";
+        try {
+        		PersistentAdministrator admin = Administrator.createAdministrator();
+        		
+                PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName,admin);
+                long bankNumber = bank.getBankNumber();
+                final long FirstAccountNumber = serverConstants.ServerConstants.FirstAccountNumber + 1;
+                final long SecondAccountNumber = FirstAccountNumber + 1;
+                bank.createAccount("Euro");
+                bank.createAccount("Euro");
+                                                                       
+                PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+                PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
+                
+                
+                PersistentTransfer newTrans = acc1.createTransfer();
+                newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10,1)), Dollar.getTheDollar()));
+                newTrans.setReceiverAccountNumber(SecondAccountNumber);
+                newTrans.setReceiverBankNumber(bankNumber);
+                try {
+					try {
+						newTrans.execute();
+					} catch (LimitViolatedException e) {
+						fail();
+						e.printStackTrace();
+					}
+				} catch (InvalidBankNumberException e) {
+					fail();
+					e.printStackTrace();
+				} catch (InvalidAccountNumberException e) {
+					fail();
+					e.printStackTrace();
+				}catch (NoPermissionToExecuteDebitTransferException e) {
+					fail();
+					e.printStackTrace();
+				}
+                
+                assertEquals(new Fraction(10,1), acc2.getMoney().getAmount().getBalance());
+                assertEquals(new Fraction(-10,1), acc1.getMoney().getAmount().getBalance());
+                  
+        } catch (PersistenceException e) {
+                e.printStackTrace();
+        }
+}
     
     public void testLimits() {
         final String BankName = "Bank1";

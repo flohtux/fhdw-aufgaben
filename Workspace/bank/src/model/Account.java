@@ -342,6 +342,11 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeCurrency(final PersistentTransfer trans, final PersistentCurrency currency) 
+				throws PersistenceException{
+        trans.getMoney().setCurrency(currency);
+        
+    }
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         trans.getMoney().getAmount().setBalance(newAmount);

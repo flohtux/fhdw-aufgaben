@@ -505,7 +505,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new FractionSelectionPanel("amount", this));		
+			getParametersPanel().add(new FractionSelectionPanel("Obergrenze", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -552,7 +552,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new FractionSelectionPanel("amount", this));		
+			getParametersPanel().add(new FractionSelectionPanel("Untergrenze", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

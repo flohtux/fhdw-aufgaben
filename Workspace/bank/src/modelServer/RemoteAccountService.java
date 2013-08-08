@@ -14,6 +14,16 @@ public  class RemoteAccountService extends RemoteService {
 
 	 
 
+    public synchronized java.util.HashMap<?,?> changeCurrency(String transProxiString, String currency){
+        try {
+            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            ((PersistentAccountService)this.server).changeCurrency(trans, currency);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeMoney(String transProxiString, String newAmountAsString){
         try {
             PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));

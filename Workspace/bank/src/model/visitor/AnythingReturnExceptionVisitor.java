@@ -9,6 +9,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
     public R handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public R handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
+    public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
     public R handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException, E;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public R handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;

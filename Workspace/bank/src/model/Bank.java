@@ -482,18 +482,14 @@ public class Bank extends PersistentObject implements PersistentBank{
         PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
-				if(argument.getAccountNumber() == debitTransfer.getReceiverAccountNumber()) {
-					argument.setMoney(argument.getMoney().add(debitTransfer.getMoney()));
-					return true;
-				}
-				return false;
+				return argument.getAccountNumber() == debitTransfer.getReceiverAccountNumber();
 			}
 		});
         if (acc == null) {
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
         }else {
         	acc.getLimit().checkLimit(debitTransfer.getMoney());
-            acc.getMoney().add(debitTransfer.getMoney());
+            acc.setMoney(acc.getMoney().add(debitTransfer.getMoney()));
             debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
             acc.getDebitTransferTransactions().add(debitTransfer);
         }

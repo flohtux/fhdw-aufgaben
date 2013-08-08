@@ -9,6 +9,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
     public R handleSubj(PersistentSubj subj) throws PersistenceException;
     public R handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException;
+    public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public R handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public R handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;

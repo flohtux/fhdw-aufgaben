@@ -13,12 +13,13 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException;
     public abstract void handleEuro(PersistentEuro euro) throws PersistenceException;
     public abstract void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException;
+    public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public abstract void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException;
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public abstract void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException;
     public abstract void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException;
-    public abstract void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException;
     public abstract void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException;
+    public abstract void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException;
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     public abstract void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException;
     public abstract void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException;

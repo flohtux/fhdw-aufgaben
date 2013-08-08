@@ -2,6 +2,7 @@
 package model;
 
 import persistence.*;
+import model.meta.StringFACTORY;
 import model.visitor.*;
 
 
@@ -237,6 +238,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeCurrency(final PersistentTransfer trans, final String currency) 
+				throws PersistenceException{
+        getThis().getAccount().changeCurrency(trans, StringFACTORY.createObjectBySubTypeNameForCurrency(currency));
+        getThis().signalChanged(true);
+        
+    }
     public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         getThis().getAccount().changeMoney(trans, newAmount);

@@ -1,9 +1,14 @@
 
 package model;
 
+import java.util.Iterator;
+
+import common.Fraction;
+
 import persistence.*;
 import model.meta.BankChangeNameStringMssg;
 import model.meta.BankMssgsVisitor;
+import model.meta.StringFACTORY;
 import model.visitor.*;
 
 
@@ -236,6 +241,11 @@ public class Administrator extends model.Service implements PersistentAdministra
         //TODO !PREREQUISITES: implement method: banks_update
         getThis().signalChanged(true);
     }
+    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
+				throws PersistenceException{
+        CurrencyManager.getTheCurrencyManager().changeCurrencyRate(StringFACTORY.createObjectBySubTypeNameForCurrency(currency), rate);
+        
+    }
     public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException{
         //TODO !PREREQUISITES: implement method: changeName
@@ -262,12 +272,6 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-    }
-    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
-				throws PersistenceException{
-        //TODO: implement method: translateMoney
-    	System.out.println("Du bist doof, da du unterschiedliche Währung verwendest!!! :-)");
-    	return null;
     }
     
     
@@ -314,10 +318,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
 
     /* Start of protected part that is not overridden by persistence generator */
-    
-    
-    
-    
+   
     
     
     

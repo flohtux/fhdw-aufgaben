@@ -9,6 +9,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
     public void handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
+    public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException, E;
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;

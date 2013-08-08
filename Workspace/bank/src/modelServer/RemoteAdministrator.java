@@ -14,6 +14,16 @@ public  class RemoteAdministrator extends RemoteService {
 
 	 
 
+    public synchronized java.util.HashMap<?,?> changeCurrencyRateGUI(String currency, String rateAsString){
+        try {
+            common.Fraction rate = common.Fraction.parse(rateAsString);
+            ((PersistentAdministrator)this.server).changeCurrencyRateGUI(currency, rate);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeName(String bankProxiString, String name){
         try {
             PersistentBank bank = (PersistentBank)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(bankProxiString));
@@ -39,18 +49,6 @@ public  class RemoteAdministrator extends RemoteService {
         try {
             ((PersistentAdministrator)this.server).createBank(name);
             return createOKResult();
-        }catch(PersistenceException pe){
-            return createExceptionResult(pe);
-        }
-    }
-    
-    @SuppressWarnings("unchecked")
-    public synchronized java.util.HashMap<?,?> translateMoney(String moneyProxiString, String currencyProxiString){
-        try {
-            PersistentMoney money = (PersistentMoney)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(moneyProxiString));
-            PersistentCurrency currency = (PersistentCurrency)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(currencyProxiString));
-            PersistentMoney result = ((PersistentAdministrator)this.server).translateMoney(money, currency);
-            return createOKResult(result, 1, this);
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
         }

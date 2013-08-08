@@ -5,6 +5,7 @@ import view.*;
 
 public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,StornoStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,LimitTypeExceptionVisitor<E>{
     
+    public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException, E;
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException, E;
     public void handlePercent(PercentView percent) throws ModelException, E;
     public void handleAmount(AmountView amount) throws ModelException, E;

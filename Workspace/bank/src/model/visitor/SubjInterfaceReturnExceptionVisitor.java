@@ -8,6 +8,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public R handleAccount(PersistentAccount account) throws PersistenceException, E;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
+    public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public R handlePercent(PersistentPercent percent) throws PersistenceException, E;
     public R handleAmount(PersistentAmount amount) throws PersistenceException, E;

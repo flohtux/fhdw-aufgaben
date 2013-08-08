@@ -298,13 +298,14 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
+    	System.out.println(money.toString() + getThis());
     	if(getThis().getCurrency().equals(money.getCurrency())) {
     		return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().add(getThis().getAmount().getBalance())),
     				money.getCurrency());
     	}else {
-    		PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+    		PersistentMoney moneyInRightCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, 
     				getThis().getCurrency());
-    		return moneyInRightCurrency;
+    		return getThis().add(moneyInRightCurrency);
     	}
         
     }
@@ -329,7 +330,7 @@ public class Money extends PersistentObject implements PersistentMoney{
 	     	   return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
 	     			   getThis().getAmount().getBalance())),money.getCurrency());
 	        }else {
-	     	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+	     	   PersistentMoney moneyInRightCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, 
 	     			   getThis().getCurrency());
 	     	   return getThis().multiply(moneyInRightCurrency);
 	        }
@@ -340,7 +341,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     	   return Money.createMoney(Amount.createAmount(getThis().getAmount().getBalance().subtract(
     			   money.getAmount().getBalance())),money.getCurrency());
        }else {
-    	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+    	   PersistentMoney moneyInRightCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, 
     			   getThis().getCurrency());
     	   return getThis().subtract(moneyInRightCurrency);
        }

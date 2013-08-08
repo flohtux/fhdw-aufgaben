@@ -9,10 +9,12 @@ public class Fraction {
 	private static final BigInteger BIMinusOne = new BigInteger("-1");
 	
 	public static final Fraction Null = new Fraction(BIZero, BIOne);
+	public static final Fraction One = new Fraction(BIOne, BIOne);
 	
 	private static final String FractionStroke = "/";
 	private static final String MinusSign = "-";
 	private static final String DecimalPoint = ",";
+
 
 	public static Fraction parse(String fraction) {
 		
@@ -121,7 +123,7 @@ public class Fraction {
 	}
 	
 	/**
-	 * Division of <this> and <fraction>. 
+	 * Division of <this> and <fraction>.
 	 */
 	public Fraction divide(Fraction divisor) throws ArithmeticException {
 		try {

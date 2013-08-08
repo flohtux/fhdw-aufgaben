@@ -700,6 +700,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoRequestState(view.NoRequestStateView object){
         result = new NoRequestStateDefaultDetailPanel(handler, object);
     }
+    public void handleCurrencyManager(view.CurrencyManagerView object){
+        result = new CurrencyManagerDefaultDetailPanel(handler, object);
+    }
     public void handleFixTransactionFee(view.FixTransactionFeeView object){
         result = new FixTransactionFeeDefaultDetailPanel(handler, object);
     }
@@ -829,6 +832,22 @@ class NoRequestStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NoRequestStateView getAnything(){
         return (view.NoRequestStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String CurrencyManager$$exchange = "CurrencyManager$$exchange";
+    
+    protected CurrencyManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CurrencyManagerView getAnything(){
+        return (view.CurrencyManagerView)this.anything;
     }
 }
 
