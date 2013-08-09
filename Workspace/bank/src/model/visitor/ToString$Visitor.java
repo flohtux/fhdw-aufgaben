@@ -12,6 +12,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     public abstract void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException;
     public abstract void handleEuro(PersistentEuro euro) throws PersistenceException;
+    public abstract void handleYen(PersistentYen yen) throws PersistenceException;
     public abstract void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException;
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public abstract void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException;
@@ -31,6 +32,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     public abstract void handleBankService(PersistentBankService bankService) throws PersistenceException;
     public abstract void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException;
+    public abstract void handlePfund(PersistentPfund pfund) throws PersistenceException;
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleTransfer(PersistentTransfer transfer) throws PersistenceException;
     public abstract void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException;
@@ -38,6 +40,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     public abstract void handleDollar(PersistentDollar dollar) throws PersistenceException;
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
+    public abstract void handleFranken(PersistentFranken franken) throws PersistenceException;
     public abstract void handleLimit(PersistentLimit limit) throws PersistenceException;
     public abstract void handleDebit(PersistentDebit debit) throws PersistenceException;
     

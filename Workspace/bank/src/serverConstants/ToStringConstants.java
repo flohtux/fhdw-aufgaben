@@ -15,6 +15,9 @@ public class ToStringConstants {
 	public static final String MinLimitPrefix = "Min Limit: ";
 	public static final String MinMaxLimitDelimiter = ";";
 	public static final String PercentSign = "%";
+	public static final String PfundCurrencyToString = "Pfund";
+	public static final String FrankenCurrencyToString = "Franken";
+	public static final String YenCurrencyToString = "Yen";
 
 	
 	

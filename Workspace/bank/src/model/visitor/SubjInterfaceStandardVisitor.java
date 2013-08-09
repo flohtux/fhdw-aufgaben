@@ -32,6 +32,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
+    public void handleYen(PersistentYen yen) throws PersistenceException{
+        this.standardHandling(yen);
+    }
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.standardHandling(templateState);
     }
@@ -44,17 +47,17 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
     }
-    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
-        this.standardHandling(executedState);
-    }
     public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
         this.standardHandling(notExecutetState);
     }
-    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
-        this.standardHandling(trueValue);
+    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
+        this.standardHandling(executedState);
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
+        this.standardHandling(trueValue);
     }
     public void handlePercent(PersistentPercent percent) throws PersistenceException{
         this.standardHandling(percent);
@@ -89,6 +92,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.standardHandling(procentualFee);
     }
+    public void handlePfund(PersistentPfund pfund) throws PersistenceException{
+        this.standardHandling(pfund);
+    }
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
     }
@@ -109,6 +115,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
+    }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.standardHandling(franken);
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.standardHandling(limit);

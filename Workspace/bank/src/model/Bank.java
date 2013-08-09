@@ -431,19 +431,19 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
         getThis().setName(name);
     }
-    public void changeTransactionFeeToFix(final common.Fraction fix) 
+    public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException{
-        getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getOwnAccount().getMoney().getCurrency())));
+        getThis().setFee(FixTransactionFee.createFixTransactionFee(fix));
         
     }
-    public void changeTransactionFeeToMixed(final common.Fraction fix, final common.Fraction procentual, final common.Fraction limit) 
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
 				throws PersistenceException{
-        getThis().setFee(MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(fix), getThis().getOwnAccount().getMoney().getCurrency())), ProcentualFee.createProcentualFee(Percent.createPercent(procentual)), limit));
+        getThis().setFee(MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(procentual), limit));
         
     }
-    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
 				throws PersistenceException{
-        getThis().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(procentual)));
+        getThis().setFee(ProcentualFee.createProcentualFee(procentual));
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -509,7 +509,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.getMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
     		debitTransfer.getSender().setMoney(newAccountMoney);
-			getThis().getOwnAccount().getMoney().add(fee);
+			getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
 			result.receiveTransfer(debitTransfer);
     	}
     }
@@ -531,13 +531,12 @@ public class Bank extends PersistentObject implements PersistentBank{
 			@Override
 			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
 					throws PersistenceException, LimitViolatedException {
-				// TODO calculate für MixedFee
 				PersistentMoney result = Money.createMoney(Amount.createAmount(new Fraction(0, 1)), money.getCurrency());
 				result = result.add(mixedFee.getFix().getValue());
-				PersistentMoney procentualPart = money.subtract(Money.createMoney(Amount.createAmount(mixedFee.getLimit()), 
-						getThis().getOwnAccount().getMoney().getCurrency()));
-				result = result.add(Money.createMoney(Amount.createAmount(procentualPart.getAmount().getBalance().multiply(
-						mixedFee.getProcentual().getPercent().getValue())), procentualPart.getCurrency()));
+				PersistentMoney procentualPart = money.subtract(mixedFee.getLimit());
+				if (procentualPart.getAmount().getBalance().isPositive()) {
+					result = result.add(procentualPart.multiply(mixedFee.getProcentual().getPercent().getValue()));
+				}
 				return result;
 			}
 			@Override

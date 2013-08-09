@@ -67,6 +67,16 @@ create index IAccntAccntSrvc on Srvc (AccntSrvcAccnt, AccntSrvcAccntCls);
 create index IBnkBnkSrvc on Srvc (BnkSrvcBnk, BnkSrvcBnkCls);
 
 
+create sequence SSubj nocache;
+
+create table Subj(
+    id number primary key,
+    Cls number not null,
+    SubjThis number,
+    SubjThisCls number,
+    constraint FSubjThis foreign key (SubjThisCls) references Cls (id)    
+);
+
 create sequence SDebiTrfTran nocache;
 
 create table DebiTrfTran(
@@ -98,16 +108,6 @@ create table DebiTrfTran(
 create index ISttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStt, DbtTrnsfrSttCls);
 create index IStrnSttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStrnStt, DbtTrnsfrStrnSttCls);
 
-
-create sequence SSubj nocache;
-
-create table Subj(
-    id number primary key,
-    Cls number not null,
-    SubjThis number,
-    SubjThisCls number,
-    constraint FSubjThis foreign key (SubjThisCls) references Cls (id)    
-);
 
 create sequence SChngNmCMD nocache;
 
@@ -356,7 +356,9 @@ create table TrnsctnF(
     MxdFPrcntl number,
     MxdFPrcntlCls number,
     constraint FMxdFPrcntl foreign key (MxdFPrcntlCls) references Cls (id),
-    MxdFLmt varchar2(2000),
+    MxdFLmt number,
+    MxdFLmtCls number,
+    constraint FMxdFLmt foreign key (MxdFLmtCls) references Cls (id),
     FxTrnsctnFVl number,
     FxTrnsctnFVlCls number,
     constraint FFxTrnsctnFVl foreign key (FxTrnsctnFVlCls) references Cls (id),

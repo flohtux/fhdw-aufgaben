@@ -33,8 +33,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleBank(BankView bank) throws ModelException;
     
-    public abstract void handleAccount(AccountView account) throws ModelException;
-    
     public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
     
     public void handleFixTransactionFee(FixTransactionFeeView fixTransactionFee) throws ModelException{
@@ -46,6 +44,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(AccountView account) throws ModelException;
+    
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
@@ -115,8 +115,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleDollar(DollarView dollar) throws ModelException{
         this.handleCurrency(dollar);
     }
+    public void handleFranken(FrankenView franken) throws ModelException{
+        this.handleCurrency(franken);
+    }
+    public void handlePfund(PfundView pfund) throws ModelException{
+        this.handleCurrency(pfund);
+    }
     public void handleEuro(EuroView euro) throws ModelException{
         this.handleCurrency(euro);
+    }
+    public void handleYen(YenView yen) throws ModelException{
+        this.handleCurrency(yen);
     }
     
 }

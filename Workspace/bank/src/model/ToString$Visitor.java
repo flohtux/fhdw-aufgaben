@@ -220,6 +220,22 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void handleYen(PersistentYen yen) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.YenCurrencyToString;
+		
+	}
+	@Override
+	public void handlePfund(PersistentPfund pfund) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.PfundCurrencyToString;
+		
+	}
+	@Override
+	public void handleFranken(PersistentFranken franken)
+			throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.FrankenCurrencyToString;
+		
+	}
 
 
 }

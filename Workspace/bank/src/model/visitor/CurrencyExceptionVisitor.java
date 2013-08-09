@@ -6,6 +6,9 @@ import persistence.*;
 public interface CurrencyExceptionVisitor<E extends UserException> {
     
     public void handleEuro(PersistentEuro euro) throws PersistenceException, E;
+    public void handleYen(PersistentYen yen) throws PersistenceException, E;
+    public void handlePfund(PersistentPfund pfund) throws PersistenceException, E;
     public void handleDollar(PersistentDollar dollar) throws PersistenceException, E;
+    public void handleFranken(PersistentFranken franken) throws PersistenceException, E;
     
 }

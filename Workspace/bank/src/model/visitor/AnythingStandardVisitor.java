@@ -35,6 +35,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
+    public void handleYen(PersistentYen yen) throws PersistenceException{
+        this.standardHandling(yen);
+    }
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.standardHandling(templateState);
     }
@@ -110,6 +113,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.standardHandling(procentualFee);
     }
+    public void handlePfund(PersistentPfund pfund) throws PersistenceException{
+        this.standardHandling(pfund);
+    }
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
     }
@@ -133,6 +139,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
+    }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.standardHandling(franken);
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.standardHandling(limit);

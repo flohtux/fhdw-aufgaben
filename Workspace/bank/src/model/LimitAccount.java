@@ -299,7 +299,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     public void checkLimit(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
         //TODO: Was ist mit unterschiedlichen Währungen? Können diese auftreten?
-        final Fraction newAmount = getThis().getAccount().getMoney().getAmount().getBalance().add(money.getAmount().getBalance());
+        final PersistentMoney newAmount = getThis().getAccount().getMoney().add(money);
         if(money.getAmount().getBalance().isPositive()) {
 	        System.out.println("Checke MaxLimit " + money + " acc: "+ getThis().getAccount());
 	       
@@ -308,7 +308,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 			   public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException, LimitViolatedException {}
 			   @Override
 			   public void handleLimit(PersistentLimit limit) throws PersistenceException, LimitViolatedException {
-				   if(newAmount.greater(limit.getMoney().getAmount().getBalance())) {
+				   if(newAmount.greater(limit.getMoney()).isTrue()) {
 				   throw new LimitViolatedException("Oberes Limit überschritten!");
 				   }
 			   }
@@ -322,7 +322,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 			   @Override
 			   public void handleLimit(PersistentLimit limit)
 			   throws PersistenceException, LimitViolatedException {
-				   if (!newAmount.greaterOrEqual(limit.getMoney().getAmount().getBalance())) {
+				   if (!newAmount.greaterOrEqual(limit.getMoney()).isTrue()) {
 				   throw new LimitViolatedException("Unteres Limit unterschritten!");
 				   }
 			   }

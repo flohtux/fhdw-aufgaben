@@ -142,15 +142,15 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
-    public void changeTransactionFeeToFix(final common.Fraction fix) 
+    public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToFix(fix);
     }
-    public void changeTransactionFeeToMixed(final common.Fraction fix, final common.Fraction procentual, final common.Fraction limit) 
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToMixed(fix, procentual, limit);
     }
-    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToProcentual(procentual);
     }

@@ -253,31 +253,31 @@ public class BankService extends model.Service implements PersistentBankService{
         acc.getLimit().setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
-    public void changeTransactionFee(final String newFee, final common.Fraction fix, final common.Fraction limit, final common.Fraction procentual) 
+    public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
-    	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
+       	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
 			
-			@Override
-			public PersistentProcentualFee handleProcentualFee()
-					throws PersistenceException {
-				getThis().getBank().changeTransactionFeeToProcentual(procentual);
-				return null;
-			}
-			
-			@Override
-			public PersistentMixedFee handleMixedFee() throws PersistenceException {
-				getThis().getBank().changeTransactionFeeToMixed(fix, procentual, limit);
-				return null;
-			}
-			
-			@Override
-			public PersistentFixTransactionFee handleFixTransactionFee()
-					throws PersistenceException {
-				getThis().getBank().changeTransactionFeeToFix(fix);
-				return null;
-			}
-		});
-    	getThis().signalChanged(true);
+    			@Override
+    			public PersistentProcentualFee handleProcentualFee()
+    					throws PersistenceException {
+    				getThis().getBank().changeTransactionFeeToProcentual(Percent.createPercent(procentual));
+    				return null;
+    			}
+    			
+    			@Override
+    			public PersistentMixedFee handleMixedFee() throws PersistenceException {
+    				getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), Percent.createPercent(procentual), Money.createMoney(Amount.createAmount(limit), StringFACTORY.createObjectBySubTypeNameForCurrency(limitCurrency)));
+    				return null;
+    			}
+    			
+    			@Override
+    			public PersistentFixTransactionFee handleFixTransactionFee()
+    					throws PersistenceException {
+    				getThis().getBank().changeTransactionFeeToFix(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
+    				return null;
+    			}
+    		});
+        	getThis().signalChanged(true);
         
     }
     public void closeAccount(final PersistentAccount acc) 

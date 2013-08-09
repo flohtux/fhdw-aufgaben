@@ -26,8 +26,14 @@ public class MixedFeeProxi extends TransactionFeeProxi implements MixedFeeView{
             procentual = view.objects.ViewProxi.createProxi(procentual$Info,connectionKey);
             procentual.setToString(procentual$Info.getToString());
         }
-        common.Fraction limit = common.Fraction.parse((String)resultTable.get("limit"));
-        MixedFeeView result$$ = new MixedFee((FixTransactionFeeView)fix,(ProcentualFeeView)procentual,(common.Fraction)limit, this.getId(), this.getClassId());
+        ViewProxi limit = null;
+        String limit$String = (String)resultTable.get("limit");
+        if (limit$String != null) {
+            common.ProxiInformation limit$Info = common.RPCConstantsAndServices.createProxiInformation(limit$String);
+            limit = view.objects.ViewProxi.createProxi(limit$Info,connectionKey);
+            limit.setToString(limit$Info.getToString());
+        }
+        MixedFeeView result$$ = new MixedFee((FixTransactionFeeView)fix,(ProcentualFeeView)procentual,(MoneyView)limit, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -41,18 +47,22 @@ public class MixedFeeProxi extends TransactionFeeProxi implements MixedFeeView{
         if(this.getFix() != null) index = index - 1;
         if(index == 0 && this.getProcentual() != null) return new ProcentualMixedFeeWrapper(this, originalIndex, (ViewRoot)this.getProcentual());
         if(this.getProcentual() != null) index = index - 1;
+        if(index == 0 && this.getLimit() != null) return new LimitMixedFeeWrapper(this, originalIndex, (ViewRoot)this.getLimit());
+        if(this.getLimit() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getFix() == null ? 0 : 1)
-            + (this.getProcentual() == null ? 0 : 1);
+            + (this.getProcentual() == null ? 0 : 1)
+            + (this.getLimit() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getFix() == null ? true : false)
-            && (this.getProcentual() == null ? true : false);
+            && (this.getProcentual() == null ? true : false)
+            && (this.getLimit() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -60,6 +70,8 @@ public class MixedFeeProxi extends TransactionFeeProxi implements MixedFeeView{
         if(this.getFix() != null) result = result + 1;
         if(this.getProcentual() != null && this.getProcentual().equals(child)) return result;
         if(this.getProcentual() != null) result = result + 1;
+        if(this.getLimit() != null && this.getLimit().equals(child)) return result;
+        if(this.getLimit() != null) result = result + 1;
         return -1;
     }
     
@@ -75,10 +87,10 @@ public class MixedFeeProxi extends TransactionFeeProxi implements MixedFeeView{
     public void setProcentual(ProcentualFeeView newValue) throws ModelException {
         ((MixedFee)this.getTheObject()).setProcentual(newValue);
     }
-    public common.Fraction getLimit()throws ModelException{
+    public MoneyView getLimit()throws ModelException{
         return ((MixedFee)this.getTheObject()).getLimit();
     }
-    public void setLimit(common.Fraction newValue) throws ModelException {
+    public void setLimit(MoneyView newValue) throws ModelException {
         ((MixedFee)this.getTheObject()).setLimit(newValue);
     }
     

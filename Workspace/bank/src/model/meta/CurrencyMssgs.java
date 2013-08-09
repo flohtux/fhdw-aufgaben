@@ -5,4 +5,4 @@ public interface CurrencyMssgs {
 }
 
 interface CurrencyDOWNMssgs extends Mssgs, CurrencyMssgs{}
-interface CurrencyUPMssgs extends EuroUPMssgs, DollarUPMssgs, CurrencyMssgs{}
+interface CurrencyUPMssgs extends EuroUPMssgs, YenUPMssgs, PfundUPMssgs, DollarUPMssgs, FrankenUPMssgs, CurrencyMssgs{}

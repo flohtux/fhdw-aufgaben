@@ -29,6 +29,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleEuro(EuroView euro) throws ModelException{
         this.standardHandling(euro);
     }
+    public void handleYen(YenView yen) throws ModelException{
+        this.standardHandling(yen);
+    }
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.standardHandling(templateState);
     }
@@ -86,6 +89,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.standardHandling(procentualFee);
     }
+    public void handlePfund(PfundView pfund) throws ModelException{
+        this.standardHandling(pfund);
+    }
     public void handleServer(ServerView server) throws ModelException{
         this.standardHandling(server);
     }
@@ -106,6 +112,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException{
         this.standardHandling(limitAccount);
+    }
+    public void handleFranken(FrankenView franken) throws ModelException{
+        this.standardHandling(franken);
     }
     public void handleLimit(LimitView limit) throws ModelException{
         this.standardHandling(limit);

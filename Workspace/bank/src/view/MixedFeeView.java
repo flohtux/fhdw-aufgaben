@@ -8,8 +8,8 @@ public interface MixedFeeView extends TransactionFeeView {
     public void setFix(FixTransactionFeeView newValue) throws ModelException ;
     public ProcentualFeeView getProcentual()throws ModelException;
     public void setProcentual(ProcentualFeeView newValue) throws ModelException ;
-    public common.Fraction getLimit()throws ModelException;
-    public void setLimit(common.Fraction newValue) throws ModelException ;
+    public MoneyView getLimit()throws ModelException;
+    public void setLimit(MoneyView newValue) throws ModelException ;
     
     public void accept(TransactionFeeVisitor visitor) throws ModelException;
     public <R> R accept(TransactionFeeReturnVisitor<R>  visitor) throws ModelException;

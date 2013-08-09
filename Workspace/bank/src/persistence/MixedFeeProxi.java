@@ -34,10 +34,10 @@ public class MixedFeeProxi extends TransactionFeeProxi implements PersistentMixe
     public void setProcentual(PersistentProcentualFee newValue) throws PersistenceException {
         ((PersistentMixedFee)this.getTheObject()).setProcentual(newValue);
     }
-    public common.Fraction getLimit() throws PersistenceException {
+    public PersistentMoney getLimit() throws PersistenceException {
         return ((PersistentMixedFee)this.getTheObject()).getLimit();
     }
-    public void setLimit(common.Fraction newValue) throws PersistenceException {
+    public void setLimit(PersistentMoney newValue) throws PersistenceException {
         ((PersistentMixedFee)this.getTheObject()).setLimit(newValue);
     }
     public PersistentMixedFee getThis() throws PersistenceException {

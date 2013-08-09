@@ -86,12 +86,14 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeTransactionFee(String newFee, common.Fraction fix, common.Fraction limit, common.Fraction procentual) throws ModelException{
+    public synchronized void changeTransactionFee(String newFee, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             parameters.add(newFee);
             parameters.add(fix.toString());
+            parameters.add(fixCurrency);
             parameters.add(limit.toString());
+            parameters.add(limitCurrency);
             parameters.add(procentual.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeTransactionFee", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){

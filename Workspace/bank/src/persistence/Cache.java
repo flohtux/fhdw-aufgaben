@@ -283,6 +283,7 @@ public class Cache {
 		this.number2NameMap.put(110, "ExecutedState");
 		this.number2NameMap.put(166, "FalseValue");
 		this.number2NameMap.put(108, "FixTransactionFee");
+		this.number2NameMap.put(180, "Franken");
 		this.number2NameMap.put(109, "InternalFee");
 		this.number2NameMap.put(128, "Limit");
 		this.number2NameMap.put(127, "LimitAccount");
@@ -295,6 +296,7 @@ public class Cache {
 		this.number2NameMap.put(142, "NotSuccessfulState");
 		this.number2NameMap.put(134, "NotSuccessfulStornoState");
 		this.number2NameMap.put(112, "Percent");
+		this.number2NameMap.put(182, "Pfund");
 		this.number2NameMap.put(120, "ProcentualFee");
 		this.number2NameMap.put(131, "RequestState");
 		this.number2NameMap.put(-121, "Server");
@@ -304,7 +306,8 @@ public class Cache {
 		this.number2NameMap.put(138, "TemplateState");
 		this.number2NameMap.put(146, "Transaction");
 		this.number2NameMap.put(122, "Transfer");
-		this.number2NameMap.put(168, "TrueValue");	
+		this.number2NameMap.put(168, "TrueValue");
+		this.number2NameMap.put(181, "Yen");	
 	}
 	
 }

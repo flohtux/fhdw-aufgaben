@@ -5,8 +5,6 @@ import persistence.*;
 
 public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor {
     
-    public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
-    
     public abstract void handleService(PersistentService service) throws PersistenceException;
     
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
@@ -18,7 +16,11 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
     }
+    public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
+    
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
+    
+    public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
@@ -31,8 +33,6 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleDebit(PersistentDebit debit) throws PersistenceException{
         this.handleDebitTransferTransaction(debit);
     }
-    public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
-    
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
@@ -117,8 +117,17 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.handleCurrency(dollar);
     }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.handleCurrency(franken);
+    }
+    public void handlePfund(PersistentPfund pfund) throws PersistenceException{
+        this.handleCurrency(pfund);
+    }
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.handleCurrency(euro);
+    }
+    public void handleYen(PersistentYen yen) throws PersistenceException{
+        this.handleCurrency(yen);
     }
     
 }

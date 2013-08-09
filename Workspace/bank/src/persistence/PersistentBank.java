@@ -47,11 +47,11 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws PersistenceException;
     public void changeNameImplementation(final String name) 
 				throws PersistenceException;
-    public void changeTransactionFeeToFix(final common.Fraction fix) 
+    public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException;
-    public void changeTransactionFeeToMixed(final common.Fraction fix, final common.Fraction procentual, final common.Fraction limit) 
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
 				throws PersistenceException;
-    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

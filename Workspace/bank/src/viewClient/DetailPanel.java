@@ -751,6 +751,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleLimitAccount(view.LimitAccountView object){
         result = new LimitAccountDefaultDetailPanel(handler, object);
     }
+    public void handleFranken(view.FrankenView object){
+        result = new FrankenDefaultDetailPanel(handler, object);
+    }
     public void handleLimit(view.LimitView object){
         result = new LimitDefaultDetailPanel(handler, object);
     }
@@ -778,6 +781,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTemplateState(view.TemplateStateView object){
         result = new TemplateStateDefaultDetailPanel(handler, object);
     }
+    public void handleYen(view.YenView object){
+        result = new YenDefaultDetailPanel(handler, object);
+    }
     public void handleNotExecutetState(view.NotExecutetStateView object){
         result = new NotExecutetStateDefaultDetailPanel(handler, object);
     }
@@ -792,6 +798,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleBank(view.BankView object){
         result = new BankDefaultDetailPanel(handler, object);
+    }
+    public void handlePfund(view.PfundView object){
+        result = new PfundDefaultDetailPanel(handler, object);
     }
     public void handleNotSuccessfulStornoState(view.NotSuccessfulStornoStateView object){
         result = new NotSuccessfulStornoStateDefaultDetailPanel(handler, object);
@@ -1148,6 +1157,20 @@ class LimitAccountDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class FrankenDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected FrankenDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.FrankenView getAnything(){
+        return (view.FrankenView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class LimitDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Limit$$money = "Limit$$money";
@@ -1222,13 +1245,6 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
         super(exceptionHandler, anything);
     }
     protected void addFields(){
-        try{
-            BaseTypePanel panel = new FractionPanel(this, "limit", this.getAnything().getLimit());
-            this.getScrollablePane().add(panel);
-            this.panels.put(MixedFee$$limit, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
         
     }
     protected view.MixedFeeView getAnything(){
@@ -1344,6 +1360,20 @@ class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class YenDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected YenDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.YenView getAnything(){
+        return (view.YenView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class NotExecutetStateDefaultDetailPanel extends DefaultDetailPanel{
     
     protected NotExecutetStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1443,6 +1473,20 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.BankView getAnything(){
         return (view.BankView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class PfundDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected PfundDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.PfundView getAnything(){
+        return (view.PfundView)this.anything;
     }
 }
 

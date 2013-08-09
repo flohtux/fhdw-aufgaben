@@ -31,7 +31,7 @@ server BankService extends Service {
 	void changeMaxLimit@@Obergrenze_festlegen(Account acc@@Konto,Fraction amount@@Obergrenze);
 	void changeMinLimit@@Untergrenze_festlegen(Account acc@@Konto,Fraction amount@@Untergrenze);
 	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
-	void changeTransactionFee@@Gebühren_ändern(TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, Fraction limit@@Grenze, Fraction procentual@@variable_Gebühren);
+	void changeTransactionFee@@Gebühren_ändern(TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
 }
 class Bank {
 indexed Integer bankNumber@@BLZ;
@@ -47,9 +47,9 @@ active event void changeName(String name);
 active void createAccount(CurrencySUBTYPEName currencyType);
 void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
 void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, LimitViolatedException;
-void changeTransactionFeeToFix(Fraction fix);
-void changeTransactionFeeToProcentual(Fraction procentual);
-void changeTransactionFeeToMixed(Fraction fix, Fraction procentual, Fraction limit);
+void changeTransactionFeeToFix(Money fix);
+void changeTransactionFeeToProcentual(Percent procentual);
+void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
 }
 server AccountService extends Service {
 prior final one-to-one (server-only  accountService) skip-view Account account;
@@ -78,7 +78,9 @@ skip-view prior Amount amount;
 skip-view prior Currency currency;
 Money add(Money money);
 Money subtract(Money money) throws LimitViolatedException;
-Money multiply (Money money);
+Money multiply (Fraction factor);
+BooleanValue greater(Money money);
+BooleanValue greaterOrEqual(Money money);
 }
 
 class Amount {
@@ -105,7 +107,7 @@ string-factory abstract class TransactionFee{}
 class MixedFee extends TransactionFee{
 prior FixTransactionFee fix;
 prior ProcentualFee procentual;
-prior Fraction limit;
+prior Money limit;
 }
 class ProcentualFee extends TransactionFee{
 	prior Percent percent;
@@ -121,7 +123,7 @@ class Percent {
 	prior Fraction value;
 }
 
-string-factory abstract class Currency (Euro, Dollar){}
+string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 
 abstract class DebitTransferTransaction##DebiTrfTran {
 	event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;

@@ -105,8 +105,8 @@ public class ConnectionHandler {
 	private String name;
 
     public ServiceFacade theServiceFacade;
-    public DebitTransferTransactionFacade theDebitTransferTransactionFacade;
     public SubjFacade theSubjFacade;
+    public DebitTransferTransactionFacade theDebitTransferTransactionFacade;
     public FalseValueFacade theFalseValueFacade;
     public ChangeNameCommandFacade theChangeNameCommandFacade;
     public DebitTransferStateFacade theDebitTransferStateFacade;
@@ -136,6 +136,7 @@ public class ConnectionHandler {
     public AdministratorBanksFacade theAdministratorBanksFacade;
     public DollarFacade theDollarFacade;
     public LimitAccountFacade theLimitAccountFacade;
+    public FrankenFacade theFrankenFacade;
     public LimitFacade theLimitFacade;
     public DebitFacade theDebitFacade;
     public MixedFeeFacade theMixedFeeFacade;
@@ -146,15 +147,17 @@ public class ConnectionHandler {
     public ErrorDisplayFacade theErrorDisplayFacade;
     public EuroFacade theEuroFacade;
     public TemplateStateFacade theTemplateStateFacade;
+    public YenFacade theYenFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public LimitTypeFacade theLimitTypeFacade;
     public NotExecutetStateFacade theNotExecutetStateFacade;
-    public NotExecutableStateFacade theNotExecutableStateFacade;
     public AccountDebitTransferTransactionsFacade theAccountDebitTransferTransactionsFacade;
+    public NotExecutableStateFacade theNotExecutableStateFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
     public TransactionFacade theTransactionFacade;
     public MoneyFacade theMoneyFacade;
     public BankFacade theBankFacade;
+    public PfundFacade thePfundFacade;
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
     public BankCreatorFacade theBankCreatorFacade;
@@ -180,8 +183,8 @@ public class ConnectionHandler {
 			callable.execute();
 			callable.close();
             this.theServiceFacade= new ServiceFacade(this.schemaName, this.con);
-            this.theDebitTransferTransactionFacade= new DebitTransferTransactionFacade(this.schemaName, this.con);
             this.theSubjFacade= new SubjFacade(this.schemaName, this.con);
+            this.theDebitTransferTransactionFacade= new DebitTransferTransactionFacade(this.schemaName, this.con);
             this.theFalseValueFacade= new FalseValueFacade(this.schemaName, this.con);
             this.theChangeNameCommandFacade= new ChangeNameCommandFacade(this.schemaName, this.con);
             this.theDebitTransferStateFacade= new DebitTransferStateFacade(this.schemaName, this.con);
@@ -211,6 +214,7 @@ public class ConnectionHandler {
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);
             this.theLimitAccountFacade= new LimitAccountFacade(this.schemaName, this.con);
+            this.theFrankenFacade= new FrankenFacade(this.schemaName, this.con);
             this.theLimitFacade= new LimitFacade(this.schemaName, this.con);
             this.theDebitFacade= new DebitFacade(this.schemaName, this.con);
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
@@ -221,15 +225,17 @@ public class ConnectionHandler {
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
             this.theTemplateStateFacade= new TemplateStateFacade(this.schemaName, this.con);
+            this.theYenFacade= new YenFacade(this.schemaName, this.con);
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade(this.schemaName, this.con);
             this.theLimitTypeFacade= new LimitTypeFacade(this.schemaName, this.con);
             this.theNotExecutetStateFacade= new NotExecutetStateFacade(this.schemaName, this.con);
-            this.theNotExecutableStateFacade= new NotExecutableStateFacade(this.schemaName, this.con);
             this.theAccountDebitTransferTransactionsFacade= new AccountDebitTransferTransactionsFacade(this.schemaName, this.con);
+            this.theNotExecutableStateFacade= new NotExecutableStateFacade(this.schemaName, this.con);
             this.theCommandExecuterFacade= new CommandExecuterFacade(this.schemaName, this.con);
             this.theTransactionFacade= new TransactionFacade(this.schemaName, this.con);
             this.theMoneyFacade= new MoneyFacade(this.schemaName, this.con);
             this.theBankFacade= new BankFacade(this.schemaName, this.con);
+            this.thePfundFacade= new PfundFacade(this.schemaName, this.con);
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
