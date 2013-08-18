@@ -80,6 +80,10 @@ public class AmountICProxi extends PersistentInCacheProxiOptimistic implements P
 				throws PersistenceException{
         ((PersistentAmount)this.getTheObject()).updateObservers(event);
     }
+    public PersistentAmount add(final PersistentAmount a) 
+				throws PersistenceException{
+        return ((PersistentAmount)this.getTheObject()).add(a);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentAmount)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -91,6 +95,10 @@ public class AmountICProxi extends PersistentInCacheProxiOptimistic implements P
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAmount)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentAmount subtract(final PersistentAmount a) 
+				throws PersistenceException{
+        return ((PersistentAmount)this.getTheObject()).subtract(a);
     }
 
     

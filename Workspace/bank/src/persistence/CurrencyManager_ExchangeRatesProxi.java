@@ -3,14 +3,14 @@ package persistence;
 import model.*;
 import java.util.Hashtable;
 
-public class CurrencyManager_ExchangeProxi {
+public class CurrencyManager_ExchangeRatesProxi {
 
 	private CurrencyManager owner;
 
 	private Hashtable<PersistentCurrency, PersistentAmount> data;
 	private AmountSearchList values;
 
-	public CurrencyManager_ExchangeProxi(CurrencyManager owner) {
+	public CurrencyManager_ExchangeRatesProxi(CurrencyManager owner) {
 		this.owner = owner;
 		this.data = new Hashtable<PersistentCurrency, PersistentAmount>();
 	}
@@ -22,7 +22,7 @@ public class CurrencyManager_ExchangeProxi {
 		if (!this.owner.isDelayed$Persistence()){
 			key.store();
 			entry.store();
-			ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeAdd(owner.getId(), key, entry);
+			ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeRatesAdd(owner.getId(), key, entry);
 		}
 		this.data.put(key, entry);
 		this.values = null;
@@ -32,7 +32,7 @@ public class CurrencyManager_ExchangeProxi {
 	public synchronized PersistentAmount get(PersistentCurrency key) throws PersistenceException {
 		PersistentAmount result = this.data.get(key);
 		if (result == null && !this.owner.isDelayed$Persistence()) {
-			result = ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeGet(owner.getId(), key);
+			result = ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeRatesGet(owner.getId(), key);
 			if (result != null)
 				this.data.put(key, result);
 		}
@@ -44,13 +44,13 @@ public class CurrencyManager_ExchangeProxi {
 		this.data.remove(key);
 		this.values = null;
 		if (!this.owner.isDelayed$Persistence()){
-			ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeRem(this.owner.getId(), key);
+			ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeRatesRem(this.owner.getId(), key);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public CurrencyManager_ExchangeProxi copy(CurrencyManager owner) throws PersistenceException {
-		CurrencyManager_ExchangeProxi result = new CurrencyManager_ExchangeProxi(owner);
+	public CurrencyManager_ExchangeRatesProxi copy(CurrencyManager owner) throws PersistenceException {
+		CurrencyManager_ExchangeRatesProxi result = new CurrencyManager_ExchangeRatesProxi(owner);
 		result.data = (Hashtable<PersistentCurrency, PersistentAmount>) this.data.clone();
 		return result;
 	}
@@ -63,7 +63,7 @@ public class CurrencyManager_ExchangeProxi {
 					this.values.add(current);
 				}
 			} else {
-				this.values = ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeGetValues(owner.getId());
+				this.values = ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeRatesGetValues(owner.getId());
 			}		
 		}
 		return this.values;
@@ -74,7 +74,7 @@ public class CurrencyManager_ExchangeProxi {
 			PersistentCurrency key = keys.next();
 			key.store();
 			data.get(key).store();
-			ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeAdd(owner.getId(), key, data.get(key));
+			ConnectionHandler.getTheConnectionHandler().theCurrencyManagerFacade.exchangeRatesAdd(owner.getId(), key, data.get(key));
 		}
 	}
 }

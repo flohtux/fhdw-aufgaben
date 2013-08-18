@@ -847,7 +847,8 @@ class NoRequestStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String CurrencyManager$$exchange = "CurrencyManager$$exchange";
+    protected static final String CurrencyManager$$exchangeRates = "CurrencyManager$$exchangeRates";
+    protected static final String CurrencyManager$$currencyStock = "CurrencyManager$$currencyStock";
     
     protected CurrencyManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -863,8 +864,6 @@ class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String FixTransactionFee$$value = "FixTransactionFee$$value";
-    
     protected FixTransactionFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
@@ -878,8 +877,6 @@ class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class InternalFeeDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String InternalFee$$percent = "InternalFee$$percent";
     
     protected InternalFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1011,6 +1008,7 @@ class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class AdministratorDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String Administrator$$currencyManager = "Administrator$$currencyManager";
     protected static final String Administrator$$banks = "Administrator$$banks";
     
     protected AdministratorDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1042,8 +1040,6 @@ class BankServiceDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class ProcentualFeeDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String ProcentualFee$$percent = "ProcentualFee$$percent";
     
     protected ProcentualFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

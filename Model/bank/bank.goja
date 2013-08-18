@@ -1,90 +1,103 @@
 model bank {
 
 server Server {
-one-to-one (server-only access) Service service;
+	one-to-one (server-only access) Service service;
 }
 abstract server Service{
-  String changePassword@@Passwort_ändern(String newPassword1 PASSWORD, String newPassword2 PASSWORD) throws PasswordException;
+	String changePassword@@Passwort_ändern(String newPassword1 PASSWORD, String newPassword2 PASSWORD) throws PasswordException;
 }
 server Administrator extends Service {
-  observe Bank ** banks;
-  void createBank@@Bank_erstellen(String name);
-  void changeName@@Namen_ändern(Bank bank, String name@@Name);
+	observe CurrencyManager currencyManager;
+	observe Bank ** banks;
+	void createBank@@Bank_erstellen(String name);
+	void changeName@@Namen_ändern(Bank bank, String name@@Name);
 	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currency, Fraction rate);
 }
 
-singleton CurrencyManager {
-	Amount** Currency** exchange;
-	void changeCurrencyRate(Currency currency, Fraction rate);
-	Money translateMoney(Money money, Currency currency);
+singleton CurrencyManager@@Zentralbank {
+	Amount** Currency** exchangeRates;
+	Money** currencyStock;
+	Money translateMoneyWithoutChanging(Money money, Currency target);
+	Money translateMoney(Money money, Currency target);
+	Amount translateMoneyToReferenceWithoutChanging(Money money);
+	Amount calculateExchangeRateCompensationReferenceAmount();
+	void shiftCurrencyStock(Money variance);
+
+	void changeExchangeRate(Currency currency, Amount newRate);
+	Amount fetchExchangeRate(Currency currency);
 }
 
 singleton BankCreator {
-  server-only Integer lastBankNumber;
-  active Bank createBank(String name, Administrator administrator);
+	server-only Integer lastBankNumber;
+	active Bank createBank(String name, Administrator administrator);
 }
 server BankService extends Service {
-  skip-view prior final one-to-one (server-only bankServices) Bank bank;
-  void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
-  void closeAccount@@Konto_schließen(Account acc) throws CloseAccountNoPossibleException;
-	void closeAccount@@Konto_übertragen(Account acc, Account transAcc) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
-	void changeMaxLimit@@Obergrenze_festlegen(Account acc@@Konto,Fraction amount@@Obergrenze);
-	void changeMinLimit@@Untergrenze_festlegen(Account acc@@Konto,Fraction amount@@Untergrenze);
+	skip-view prior final one-to-one (server-only bankServices) Bank bank;
+	void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
+	void closeAccount@@Konto_schließen(Account acc) throws CloseAccountNoPossibleException;
+	void closeAccount@@Konto_übertragen(Account acc, Account transAcc{bank;currentAccounts}) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, CloseAccountNoPossibleException, NoPermissionToExecuteDebitTransferException;
+	void changeMaxLimit@@Obergrenze_festlegen(LimitAccount limit,Fraction amount@@Obergrenze);
+	void changeMinLimit@@Untergrenze_festlegen(LimitAccount limit, Fraction amount@@Untergrenze);
+	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit);
+	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
 	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
 	void changeTransactionFee@@Gebühren_ändern(TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
 }
 class Bank {
-indexed Integer bankNumber@@BLZ;
-indexed prior String name@@Name;
-server-only Integer lastAccountNumber##lstAccNo;
-TransactionFee fee;
-InternalFee internalFee;
-prior Account ownAccount;
-server-only one-to-one (server-only bank) Account ** Integer ** accounts;
-symmetric (server-only banks) prior server-only Administrator administrator;
-transient Account ** currentAccounts;
-active event void changeName(String name);
-active void createAccount(CurrencySUBTYPEName currencyType);
-void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
-void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, LimitViolatedException;
-void changeTransactionFeeToFix(Money fix);
-void changeTransactionFeeToProcentual(Percent procentual);
-void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
+	indexed Integer bankNumber@@BLZ;
+	indexed prior String name@@Name;
+	server-only Integer lastAccountNumber##lstAccNo;
+	TransactionFee fee;
+	InternalFee internalFee;
+	prior Account ownAccount;
+	server-only one-to-one (server-only bank) Account ** Integer ** accounts;
+	symmetric (server-only banks) prior server-only Administrator administrator;
+	transient Account ** currentAccounts;
+	active event void changeName(String name);
+	active void createAccount(CurrencySUBTYPEName currencyType);
+	void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
+	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, LimitViolatedException;
+	void changeTransactionFeeToFix(Money fix);
+	void changeTransactionFeeToProcentual(Percent procentual);
+	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
 }
 server AccountService extends Service {
-prior final one-to-one (server-only  accountService) skip-view Account account;
-void createTransfer@@Neue_Überweisung();
-void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
-void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
-void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
-void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
-void changeSubject@@Betreff_ändern(Transfer trans, String subject);
-void changeCurrency@@Währung_ändern(Transfer trans, CurrencySUBTYPEName currency);
+	prior final one-to-one (server-only  accountService) skip-view Account account;
+	void createTransfer@@Neue_Überweisung();
+	void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
+	void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
+	void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
+	void changeSubject@@Betreff_ändern(Transfer trans, String subject);
+	void changeCurrency@@Währung_ändern(Transfer trans, CurrencySUBTYPEName currency);
 }
 class Account {
-prior indexed Integer accountNumber@@Kontonummer;
-prior one-to-one (no-view account) Money money@@Geldmenge;
-one-to-one (no-view account) LimitAccount limit;
-observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
-Transfer createTransfer();
-void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
-void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
-void changeMoney(Transfer trans, Fraction newAmount);
-void changeCurrency(Transfer trans, Currency currency);
+	prior indexed Integer accountNumber@@Kontonummer;
+	prior one-to-one (no-view account) Money money@@Geldmenge;
+	one-to-one (no-view account) LimitAccount limit;
+	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	Transfer createTransfer();
+	void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
+	void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
+	void changeMoney(Transfer trans, Fraction newAmount);
+	void changeCurrency(Transfer trans, Currency currency);
 }
 
 class Money {
-skip-view prior Amount amount;
-skip-view prior Currency currency;
-Money add(Money money);
-Money subtract(Money money) throws LimitViolatedException;
-Money multiply (Fraction factor);
-BooleanValue greater(Money money);
-BooleanValue greaterOrEqual(Money money);
+	skip-view prior Amount amount;
+	skip-view prior Currency currency;
+	Money add(Money money);
+	Money subtract(Money money) throws LimitViolatedException;
+	Money multiply (Fraction factor);
+	BooleanValue greater(Money money);
+	BooleanValue greaterOrEqual(Money money);
+	BooleanValue equalsValue(Money money);
 }
 
 class Amount {
-prior Fraction balance;
+	prior Fraction balance;
+	Amount add(Amount a);
+	Amount subtract(Amount a);
 }
 
 class LimitAccount {
@@ -105,19 +118,19 @@ class Limit extends LimitType{
 string-factory abstract class TransactionFee{}
 
 class MixedFee extends TransactionFee{
-prior FixTransactionFee fix;
-prior ProcentualFee procentual;
-prior Money limit;
+	prior FixTransactionFee fix;
+	prior ProcentualFee procentual;
+	prior Money limit;
 }
 class ProcentualFee extends TransactionFee{
-	prior Percent percent;
+	prior no-view Percent percent;
 }
 class FixTransactionFee extends TransactionFee {
-	prior Money value;
+	prior no-view Money value;
 }
 
 class InternalFee {
- 	prior Percent percent;
+ 	prior no-view Percent percent;
 }
 class Percent {
 	prior Fraction value;
@@ -150,7 +163,7 @@ abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulStat
 abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
 
 exception PasswordException {}
-exception InvalidBankNumberException{}
+exception InvalidBankNumberException{prior Integer bn;}
 exception InvalidAccountNumberException{}
 exception LimitViolatedException{}
 exception NoPermissionToExecuteDebitTransferException{}

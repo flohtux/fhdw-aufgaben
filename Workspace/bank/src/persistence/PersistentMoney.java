@@ -31,6 +31,8 @@ public interface PersistentMoney extends SubjInterface, Anything, AbstractPersis
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    public PersistentBooleanValue equalsValue(final PersistentMoney money) 
+				throws PersistenceException;
     public PersistentBooleanValue greaterOrEqual(final PersistentMoney money) 
 				throws PersistenceException;
     public PersistentBooleanValue greater(final PersistentMoney money) 

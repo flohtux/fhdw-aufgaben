@@ -75,16 +75,16 @@ public class CurrencyManagerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public long exchangeAdd(long CurrencyManagerId, PersistentCurrency indxxVal, PersistentAmount exchangeVal) throws PersistenceException {
+    public long exchangeRatesAdd(long CurrencyManagerId, PersistentCurrency indxxVal, PersistentAmount exchangeRatesVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.exchngAdd(?, ?, ?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.exchngRtsAdd(?, ?, ?, ?, ?); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.setLong(2, CurrencyManagerId);
             callable.setLong(3, indxxVal.getId());
             callable.setLong(4, indxxVal.getClassId());
-            callable.setLong(5, exchangeVal.getId());
-            callable.setLong(6, exchangeVal.getClassId());
+            callable.setLong(5, exchangeRatesVal.getId());
+            callable.setLong(6, exchangeRatesVal.getClassId());
             callable.execute();
             long result = callable.getLong(1);
             callable.close();
@@ -93,10 +93,10 @@ public class CurrencyManagerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void exchangeRem(long CurrencyManagerId, PersistentCurrency indxxVal) throws PersistenceException {
+    public void exchangeRatesRem(long CurrencyManagerId, PersistentCurrency indxxVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrrncMngrFacade.exchngRem(?,?,?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrrncMngrFacade.exchngRtsRem(?,?,?); end;");
             callable.setLong(1, CurrencyManagerId);
             callable.setLong(2, indxxVal.getId());
             callable.setLong(3, indxxVal.getClassId());
@@ -106,10 +106,10 @@ public class CurrencyManagerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public PersistentAmount exchangeGet(long CurrencyManagerId, PersistentCurrency indxxVal) throws PersistenceException {
+    public PersistentAmount exchangeRatesGet(long CurrencyManagerId, PersistentCurrency indxxVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.exchngGet(?,?,?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.exchngRtsGet(?,?,?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CurrencyManagerId);
             callable.setLong(3, indxxVal.getId());
@@ -125,10 +125,10 @@ public class CurrencyManagerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public AmountSearchList exchangeGetValues(long CurrencyManagerId) throws PersistenceException {
+    public AmountSearchList exchangeRatesGetValues(long CurrencyManagerId) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.exchngGetValues(?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.exchngRtsGetValues(?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CurrencyManagerId);
             callable.execute();
@@ -136,6 +136,52 @@ public class CurrencyManagerFacade{
             AmountSearchList result = new AmountSearchList();
             while (list.next()) {
                 result.add((PersistentAmount)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public long currencyStockAdd(long CurrencyManagerId, PersistentMoney currencyStockVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.crrncStckAdd(?, ?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, CurrencyManagerId);
+            callable.setLong(3, currencyStockVal.getId());
+            callable.setLong(4, currencyStockVal.getClassId());
+            callable.execute();
+            long result = callable.getLong(1);
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void currencyStockRem(long currencyStockId) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrrncMngrFacade.crrncStckRem(?); end;");
+            callable.setLong(1, currencyStockId);
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public MoneyList currencyStockGet(long CurrencyManagerId) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.crrncStckGet(?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, CurrencyManagerId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            MoneyList result = new MoneyList();
+            while (list.next()) {
+                result.add((PersistentMoney)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
             }
             list.close();
             callable.close();

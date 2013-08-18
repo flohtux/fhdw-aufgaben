@@ -33,7 +33,7 @@ import rGType.Value;
 
 public class TestMoney extends TestCase {
 
-	public void NOsetUp(){
+	public void setUp(){
 		try {
 			TestSupport.prepareDatabase(); //TODO PREREQUISITES: Test: substitute by following statement for database-less test: ConnectionHandler.getTheConnectionHandler().connect("", "", "", null, false);
 			TestSupport.prepareSingletons();
@@ -43,23 +43,21 @@ public class TestMoney extends TestCase {
 		} 	
 	}
 	
-//	@Test
-//	public void test1() throws PersistenceException {
-//		PersistentMoney m = Money.createMoney(Amount.createAmount(Fraction.parse("15")), Euro.getTheEuro());
-//		assertEquals(Fraction.parse("15"), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getAmount().getBalance());
-//		assertEquals(Dollar.getTheDollar(), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getCurrency());
-//		
-//		CurrencyManager.getTheCurrencyManager().changeCurrencyRate(Euro.getTheEuro(), Fraction.parse("3/2"));
-//		
-//		m = Money.createMoney(Amount.createAmount(Fraction.parse("15")), Euro.getTheEuro());
-//		assertEquals(Fraction.parse("10"), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getAmount().getBalance());
-//		assertEquals(Dollar.getTheDollar(), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getCurrency());
-//		
-//		m = Money.createMoney(Amount.createAmount(Fraction.parse("15")), Euro.getTheEuro());
-//		assertEquals(Fraction.parse("15"), CurrencyManager.getTheCurrencyManager().translateMoney(m, Euro.getTheEuro()).getAmount().getBalance());
-//		assertEquals(Euro.getTheEuro(), CurrencyManager.getTheCurrencyManager().translateMoney(m, Euro.getTheEuro()).getCurrency());
-//		
-//	}
+	@Test
+	public void test1() throws PersistenceException {
+		PersistentMoney m = Money.createMoney(Amount.createAmount(Fraction.parse("15")), Euro.getTheEuro());
+		assertEquals(Fraction.parse("15"), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getAmount().getBalance());
+		assertEquals(Dollar.getTheDollar(), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getCurrency());
+		
+		CurrencyManager.getTheCurrencyManager().changeExchangeRate(Euro.getTheEuro(), Amount.createAmount(Fraction.parse("3/2")));
+		m = Money.createMoney(Amount.createAmount(Fraction.parse("15")), Euro.getTheEuro());
+		assertEquals(Fraction.parse("10"), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getAmount().getBalance());
+		assertEquals(Dollar.getTheDollar(), CurrencyManager.getTheCurrencyManager().translateMoney(m, Dollar.getTheDollar()).getCurrency());
+		
+		m = Money.createMoney(Amount.createAmount(Fraction.parse("15")), Euro.getTheEuro());
+		assertEquals(Fraction.parse("15"), CurrencyManager.getTheCurrencyManager().translateMoney(m, Euro.getTheEuro()).getAmount().getBalance());
+		assertEquals(Euro.getTheEuro(), CurrencyManager.getTheCurrencyManager().translateMoney(m, Euro.getTheEuro()).getCurrency());
+	}
 	
 	@Test
 	public void testDecRegex() throws ContextException, RegExprException {

@@ -217,7 +217,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCurrencyManager(PersistentCurrencyManager currencyManager)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		result = "EZB";
 		
 	}
 	@Override

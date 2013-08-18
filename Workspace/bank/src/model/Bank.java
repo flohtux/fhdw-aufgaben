@@ -493,6 +493,7 @@ public class Bank extends PersistentObject implements PersistentBank{
             debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
             acc.getDebitTransferTransactions().add(debitTransfer);
         }
+        System.out.println("received");
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
@@ -503,8 +504,9 @@ public class Bank extends PersistentObject implements PersistentBank{
 			}
 		});
     	if (result == null) {
-    		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage);
+    		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage, debitTransfer.getReceiverBankNumber());
     	} else {
+    		System.out.println("sending");
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.getMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);

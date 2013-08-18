@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class ExchangeCurrencyManagerWrapper extends AssociationInTreeWrapper {
+public class ExchangeRatesCurrencyManagerWrapper extends AssociationInTreeWrapper {
 
-	public ExchangeCurrencyManagerWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public ExchangeRatesCurrencyManagerWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class ExchangeCurrencyManagerWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association exchange in class CurrencyManager
+    	//TODO: Implement toString in wrapper class for association exchangeRates in class CurrencyManager
     	return this.getWrappedObject().toString();
     }
 

@@ -167,7 +167,6 @@ public class ProcentualFee extends model.TransactionFee implements PersistentPro
          return visitor.handleProcentualFee(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getPercent() != null) return 1;
         return 0;
     }
     

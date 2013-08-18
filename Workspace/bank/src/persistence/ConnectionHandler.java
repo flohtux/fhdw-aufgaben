@@ -144,6 +144,7 @@ public class ConnectionHandler {
     public RequestStateFacade theRequestStateFacade;
     public TransactionFeeFacade theTransactionFeeFacade;
     public AccountFacade theAccountFacade;
+    public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
     public EuroFacade theEuroFacade;
     public TemplateStateFacade theTemplateStateFacade;
@@ -222,6 +223,7 @@ public class ConnectionHandler {
             this.theRequestStateFacade= new RequestStateFacade(this.schemaName, this.con);
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
+            this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
             this.theTemplateStateFacade= new TemplateStateFacade(this.schemaName, this.con);

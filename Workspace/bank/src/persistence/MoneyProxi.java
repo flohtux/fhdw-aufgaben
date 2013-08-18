@@ -98,6 +98,10 @@ public class MoneyProxi extends PersistentProxi implements PersistentMoney{
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentBooleanValue equalsValue(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).equalsValue(money);
+    }
     public PersistentBooleanValue greaterOrEqual(final PersistentMoney money) 
 				throws PersistenceException{
         return ((PersistentMoney)this.getTheObject()).greaterOrEqual(money);

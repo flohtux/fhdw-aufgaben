@@ -50,6 +50,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
+    public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
+    
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{

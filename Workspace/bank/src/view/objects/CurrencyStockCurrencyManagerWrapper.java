@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class ValueFixTransactionFeeWrapper extends AssociationInTreeWrapper {
+public class CurrencyStockCurrencyManagerWrapper extends AssociationInTreeWrapper {
 
-	public ValueFixTransactionFeeWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public CurrencyStockCurrencyManagerWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class ValueFixTransactionFeeWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association value in class FixTransactionFee
+    	//TODO: Implement toString in wrapper class for association currencyStock in class CurrencyManager
     	return this.getWrappedObject().toString();
     }
 

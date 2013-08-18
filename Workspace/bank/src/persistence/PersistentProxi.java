@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[82];
+		listProxiFactories = new ListProxiFactory[83];
         listProxiFactories[1] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new SubjListEntryProxi(objectId, entryId);
@@ -177,6 +177,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new AccountListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[82] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AdministratorCurrencyManagerListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[34] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new ErrorDisplayListEntryProxi(objectId, entryId);
@@ -262,7 +267,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [82];
+		proxiFactories = new ProxiFactory [83];
         proxiFactories[1] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new SubjProxi(objectId);
@@ -421,6 +426,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[32] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new AccountProxi(objectId);
+            }
+        };
+        proxiFactories[82] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AdministratorCurrencyManagerProxi(objectId);
             }
         };
         proxiFactories[34] = new ProxiFactory(){

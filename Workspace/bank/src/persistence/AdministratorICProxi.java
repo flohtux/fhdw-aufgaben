@@ -100,6 +100,10 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
 				throws PersistenceException{
         return ((PersistentAdministrator)this.getTheObject()).getBanks();
     }
+    public PersistentCurrencyManager getCurrencyManager() 
+				throws PersistenceException{
+        return ((PersistentAdministrator)this.getTheObject()).getCurrencyManager();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).initialize(This, final$$Fields);
@@ -107,6 +111,10 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).register(observee);
+    }
+    public void setCurrencyManager(final PersistentCurrencyManager currencyManager) 
+				throws PersistenceException{
+        ((PersistentAdministrator)this.getTheObject()).setCurrencyManager(currencyManager);
     }
     public void signalChanged(final boolean signal) 
 				throws PersistenceException{
@@ -143,6 +151,10 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
     public void createBank(final String name) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).createBank(name);
+    }
+    public void currencyManager_update(final model.meta.CurrencyManagerMssgs event) 
+				throws PersistenceException{
+        ((PersistentAdministrator)this.getTheObject()).currencyManager_update(event);
     }
     public void disconnected() 
 				throws PersistenceException{

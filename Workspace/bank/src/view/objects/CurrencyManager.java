@@ -9,12 +9,14 @@ import view.visitor.*;
 
 public class CurrencyManager extends ViewObject implements CurrencyManagerView{
     
-    protected java.util.Vector<AmountView> exchange;
+    protected java.util.Vector<AmountView> exchangeRates;
+    protected java.util.Vector<MoneyView> currencyStock;
     
-    public CurrencyManager(java.util.Vector<AmountView> exchange,long id, long classId) {
+    public CurrencyManager(java.util.Vector<AmountView> exchangeRates,java.util.Vector<MoneyView> currencyStock,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.exchange = exchange;        
+        this.exchangeRates = exchangeRates;
+        this.currencyStock = currencyStock;        
     }
     
     static public long getTypeId() {
@@ -25,11 +27,17 @@ public class CurrencyManager extends ViewObject implements CurrencyManagerView{
         return getTypeId();
     }
     
-    public java.util.Vector<AmountView> getExchange()throws ModelException{
-        return this.exchange;
+    public java.util.Vector<AmountView> getExchangeRates()throws ModelException{
+        return this.exchangeRates;
     }
-    public void setExchange(java.util.Vector<AmountView> newValue) throws ModelException {
-        this.exchange = newValue;
+    public void setExchangeRates(java.util.Vector<AmountView> newValue) throws ModelException {
+        this.exchangeRates = newValue;
+    }
+    public java.util.Vector<MoneyView> getCurrencyStock()throws ModelException{
+        return this.currencyStock;
+    }
+    public void setCurrencyStock(java.util.Vector<MoneyView> newValue) throws ModelException {
+        this.currencyStock = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -46,9 +54,13 @@ public class CurrencyManager extends ViewObject implements CurrencyManagerView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        java.util.Vector<?> exchange = this.getExchange();
-        if (exchange != null) {
-            ViewObject.resolveVectorProxies(exchange, resultTable);
+        java.util.Vector<?> exchangeRates = this.getExchangeRates();
+        if (exchangeRates != null) {
+            ViewObject.resolveVectorProxies(exchangeRates, resultTable);
+        }
+        java.util.Vector<?> currencyStock = this.getCurrencyStock();
+        if (currencyStock != null) {
+            ViewObject.resolveVectorProxies(currencyStock, resultTable);
         }
         
     }
@@ -57,23 +69,32 @@ public class CurrencyManager extends ViewObject implements CurrencyManagerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getExchange().size()) return new ExchangeCurrencyManagerWrapper(this, originalIndex, (ViewRoot)this.getExchange().get(index));
-        index = index - this.getExchange().size();
+        if(index < this.getExchangeRates().size()) return new ExchangeRatesCurrencyManagerWrapper(this, originalIndex, (ViewRoot)this.getExchangeRates().get(index));
+        index = index - this.getExchangeRates().size();
+        if(index < this.getCurrencyStock().size()) return new CurrencyStockCurrencyManagerWrapper(this, originalIndex, (ViewRoot)this.getCurrencyStock().get(index));
+        index = index - this.getCurrencyStock().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getExchange().size());
+            + (this.getExchangeRates().size())
+            + (this.getCurrencyStock().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getExchange().size() == 0);
+            && (this.getExchangeRates().size() == 0)
+            && (this.getCurrencyStock().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getExchangeIterator = this.getExchange().iterator();
-        while(getExchangeIterator.hasNext()){
-            if(getExchangeIterator.next().equals(child)) return result;
+        java.util.Iterator<?> getExchangeRatesIterator = this.getExchangeRates().iterator();
+        while(getExchangeRatesIterator.hasNext()){
+            if(getExchangeRatesIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
+        java.util.Iterator<?> getCurrencyStockIterator = this.getCurrencyStock().iterator();
+        while(getCurrencyStockIterator.hasNext()){
+            if(getCurrencyStockIterator.next().equals(child)) return result;
             result = result + 1;
         }
         return -1;

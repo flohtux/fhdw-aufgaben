@@ -353,10 +353,12 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException{
+
     	trans.setReceiverAccountNumber(receiverAccountNumber);
     }
     public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
+    	System.out.println("manual change receiverbank");
     	trans.setReceiverBankNumber(receiverBankNumber);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

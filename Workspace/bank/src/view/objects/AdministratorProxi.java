@@ -15,9 +15,16 @@ public class AdministratorProxi extends ServiceProxi implements AdministratorVie
     public AdministratorView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> errors_string = (java.util.Vector<String>)resultTable.get("errors");
         java.util.Vector<ErrorDisplayView> errors = ViewProxi.getProxiVector(errors_string, connectionKey);
+        ViewProxi currencyManager = null;
+        String currencyManager$String = (String)resultTable.get("currencyManager");
+        if (currencyManager$String != null) {
+            common.ProxiInformation currencyManager$Info = common.RPCConstantsAndServices.createProxiInformation(currencyManager$String);
+            currencyManager = view.objects.ViewProxi.createProxi(currencyManager$Info,connectionKey);
+            currencyManager.setToString(currencyManager$Info.getToString());
+        }
         java.util.Vector<String> banks_string = (java.util.Vector<String>)resultTable.get("banks");
         java.util.Vector<BankView> banks = ViewProxi.getProxiVector(banks_string, connectionKey);
-        AdministratorView result$$ = new Administrator(errors,banks, this.getId(), this.getClassId());
+        AdministratorView result$$ = new Administrator(errors,(CurrencyManagerView)currencyManager,banks, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -27,21 +34,27 @@ public class AdministratorProxi extends ServiceProxi implements AdministratorVie
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
+        if(index == 0 && this.getCurrencyManager() != null) return new CurrencyManagerAdministratorWrapper(this, originalIndex, (ViewRoot)this.getCurrencyManager());
+        if(this.getCurrencyManager() != null) index = index - 1;
         if(index < this.getBanks().size()) return new BanksAdministratorWrapper(this, originalIndex, (ViewRoot)this.getBanks().get(index));
         index = index - this.getBanks().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
+            + (this.getCurrencyManager() == null ? 0 : 1)
             + (this.getBanks().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
+            && (this.getCurrencyManager() == null ? true : false)
             && (this.getBanks().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
+        if(this.getCurrencyManager() != null && this.getCurrencyManager().equals(child)) return result;
+        if(this.getCurrencyManager() != null) result = result + 1;
         java.util.Iterator<?> getBanksIterator = this.getBanks().iterator();
         while(getBanksIterator.hasNext()){
             if(getBanksIterator.next().equals(child)) return result;
@@ -50,6 +63,12 @@ public class AdministratorProxi extends ServiceProxi implements AdministratorVie
         return -1;
     }
     
+    public CurrencyManagerView getCurrencyManager()throws ModelException{
+        return ((Administrator)this.getTheObject()).getCurrencyManager();
+    }
+    public void setCurrencyManager(CurrencyManagerView newValue) throws ModelException {
+        ((Administrator)this.getTheObject()).setCurrencyManager(newValue);
+    }
     public java.util.Vector<BankView> getBanks()throws ModelException{
         return ((Administrator)this.getTheObject()).getBanks();
     }

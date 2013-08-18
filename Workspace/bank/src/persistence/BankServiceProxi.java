@@ -114,17 +114,21 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).signalChanged(signal);
     }
+    public AccountSearchList transAcc_Path_In_CloseAccount() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentBankService)this.getTheObject()).transAcc_Path_In_CloseAccount();
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
-    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeMaxLimit(acc, amount);
+        ((PersistentBankService)this.getTheObject()).changeMaxLimit(limit, amount);
     }
-    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeMinLimit(acc, amount);
+        ((PersistentBankService)this.getTheObject()).changeMinLimit(limit, amount);
     }
     public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
@@ -139,7 +143,7 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
         ((PersistentBankService)this.getTheObject()).closeAccount(acc);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc, transAcc);
     }
     public void connected(final String user) 
@@ -181,6 +185,14 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void resetMaxLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).resetMaxLimit(limit);
+    }
+    public void resetMinLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).resetMinLimit(limit);
     }
 
     

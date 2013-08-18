@@ -33,16 +33,18 @@ public interface PersistentBankService extends PersistentService {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public AccountSearchList transAcc_Path_In_CloseAccount() 
+				throws model.UserException, PersistenceException;
+    public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException;
-    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException;
     public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException;
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException;
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createAccount(final String currencyType) 
@@ -52,6 +54,10 @@ public interface PersistentBankService extends PersistentService {
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void resetMaxLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException;
+    public void resetMinLimit(final PersistentLimitAccount limit) 
 				throws PersistenceException;
 
 }

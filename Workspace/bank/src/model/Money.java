@@ -314,6 +314,14 @@ public class Money extends PersistentObject implements PersistentMoney{
         //TODO: implement method: copyingPrivateUserAttributes
         
     }
+    public PersistentBooleanValue equalsValue(final PersistentMoney money) 
+				throws PersistenceException{
+    	if (getThis().getCurrency().equals(money.getCurrency()) && getThis().getAmount().equals(money.getAmount())) {
+    		return TrueValue.getTheTrueValue();
+    	} else {
+    		return FalseValue.getTheFalseValue();
+    	}
+    }
     public PersistentBooleanValue greaterOrEqual(final PersistentMoney money) 
 				throws PersistenceException{
     	PersistentMoney moneyInThisCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, getCurrency());
@@ -363,7 +371,6 @@ public class Money extends PersistentObject implements PersistentMoney{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    
     
     
     /* End of protected part that is not overridden by persistence generator */

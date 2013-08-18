@@ -22,8 +22,11 @@ public class CurrencyManagerProxi extends PersistentProxi implements PersistentC
         return 179;
     }
     
-    public CurrencyManager_ExchangeProxi getExchange() throws PersistenceException {
-        return ((PersistentCurrencyManager)this.getTheObject()).getExchange();
+    public CurrencyManager_ExchangeRatesProxi getExchangeRates() throws PersistenceException {
+        return ((PersistentCurrencyManager)this.getTheObject()).getExchangeRates();
+    }
+    public CurrencyManager_CurrencyStockProxi getCurrencyStock() throws PersistenceException {
+        return ((PersistentCurrencyManager)this.getTheObject()).getCurrencyStock();
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCurrencyManager)this.getTheObject()).getSubService();
@@ -77,13 +80,21 @@ public class CurrencyManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCurrencyManager)this.getTheObject()).updateObservers(event);
     }
-    public void changeCurrencyRate(final PersistentCurrency currency, final common.Fraction rate) 
+    public PersistentAmount calculateExchangeRateCompensationReferenceAmount() 
 				throws PersistenceException{
-        ((PersistentCurrencyManager)this.getTheObject()).changeCurrencyRate(currency, rate);
+        return ((PersistentCurrencyManager)this.getTheObject()).calculateExchangeRateCompensationReferenceAmount();
+    }
+    public void changeExchangeRate(final PersistentCurrency currency, final PersistentAmount newRate) 
+				throws PersistenceException{
+        ((PersistentCurrencyManager)this.getTheObject()).changeExchangeRate(currency, newRate);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentCurrencyManager)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public PersistentAmount fetchExchangeRate(final PersistentCurrency currency) 
+				throws PersistenceException{
+        return ((PersistentCurrencyManager)this.getTheObject()).fetchExchangeRate(currency);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -93,9 +104,21 @@ public class CurrencyManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCurrencyManager)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
+    public void shiftCurrencyStock(final PersistentMoney variance) 
 				throws PersistenceException{
-        return ((PersistentCurrencyManager)this.getTheObject()).translateMoney(money, currency);
+        ((PersistentCurrencyManager)this.getTheObject()).shiftCurrencyStock(variance);
+    }
+    public PersistentAmount translateMoneyToReferenceWithoutChanging(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentCurrencyManager)this.getTheObject()).translateMoneyToReferenceWithoutChanging(money);
+    }
+    public PersistentMoney translateMoneyWithoutChanging(final PersistentMoney money, final PersistentCurrency target) 
+				throws PersistenceException{
+        return ((PersistentCurrencyManager)this.getTheObject()).translateMoneyWithoutChanging(money, target);
+    }
+    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency target) 
+				throws PersistenceException{
+        return ((PersistentCurrencyManager)this.getTheObject()).translateMoney(money, target);
     }
 
     

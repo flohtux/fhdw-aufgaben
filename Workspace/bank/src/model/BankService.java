@@ -228,6 +228,11 @@ public class BankService extends model.Service implements PersistentBankService{
 		}
 		subService.register(observee);
     }
+    public AccountSearchList transAcc_Path_In_CloseAccount() 
+				throws model.UserException, PersistenceException{
+        	return new AccountSearchList(getThis().getBank().
+                getCurrentAccounts().getList());
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -241,16 +246,16 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), acc.getMoney().getCurrency()));
-        acc.getLimit().setMaxLimit(newMaxLimit);
+        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
+        limit.setMaxLimit(newMaxLimit);
         getThis().signalChanged(true);
     }
-    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-    	PersistentLimit newMinLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), acc.getMoney().getCurrency()));
-        acc.getLimit().setMinLimit(newMinLimit);
+    	PersistentLimit newMinLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
+        limit.setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
     public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
@@ -282,14 +287,14 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{
-        if(acc.getMoney().getAmount().getBalance().equals(new Fraction(0, 1))) {
+        if(!acc.getMoney().getAmount().getBalance().equals(Fraction.Null)) {
         	throw new CloseAccountNoPossibleException();
         }else {
-            //TODO: das löschen des accs aus der db        	
+            acc.delete$Me();      	
         }
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         PersistentTransfer transfer = Transfer.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);
@@ -297,6 +302,7 @@ public class BankService extends model.Service implements PersistentBankService{
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
         transfer.execute();
+        getThis().closeAccount(acc);
     }
     public void connected(final String user) 
 				throws PersistenceException{
@@ -328,6 +334,17 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void resetMaxLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        limit.setMaxLimit(NoLimit.getTheNoLimit());
+        getThis().signalChanged(true);
+    }
+    public void resetMinLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        limit.setMinLimit(NoLimit.getTheNoLimit());
+        getThis().signalChanged(true);
+        
     }
     
     
