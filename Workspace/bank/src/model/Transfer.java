@@ -198,7 +198,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     
     // Start of section that contains operations that must be implemented.
-    
+     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
