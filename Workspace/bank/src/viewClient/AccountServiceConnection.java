@@ -216,7 +216,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void executeTransfer(DebitTransferView debitTransfer) throws ModelException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException{
+    public synchronized void executeTransferImplementation(DebitTransferView debitTransfer) throws ModelException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (debitTransfer == null){
@@ -224,7 +224,7 @@ public class AccountServiceConnection extends ServiceConnection {
             } else {
                 parameters.add(((view.objects.ViewProxi)debitTransfer).createProxiInformation());
             }
-            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "executeTransfer", parameters);
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "executeTransferImplementation", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());

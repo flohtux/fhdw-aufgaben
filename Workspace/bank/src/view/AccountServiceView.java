@@ -8,6 +8,10 @@ public interface AccountServiceView extends ServiceView {
     
     public AccountView getAccount()throws ModelException;
     public void setAccount(AccountView newValue) throws ModelException ;
+    public java.util.Vector<DebitTransferView> getSuccessfullStates()throws ModelException;
+    public void setSuccessfullStates(java.util.Vector<DebitTransferView> newValue) throws ModelException ;
+    public java.util.Vector<DebitTransferView> getNotSuccessfullStates()throws ModelException;
+    public void setNotSuccessfullStates(java.util.Vector<DebitTransferView> newValue) throws ModelException ;
     
     public void accept(ServiceVisitor visitor) throws ModelException;
     public <R> R accept(ServiceReturnVisitor<R>  visitor) throws ModelException;

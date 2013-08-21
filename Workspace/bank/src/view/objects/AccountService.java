@@ -11,11 +11,15 @@ import view.visitor.*;
 public class AccountService extends view.objects.Service implements AccountServiceView{
     
     protected AccountView account;
+    protected java.util.Vector<DebitTransferView> successfullStates;
+    protected java.util.Vector<DebitTransferView> notSuccessfullStates;
     
-    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,long id, long classId) {
+    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,java.util.Vector<DebitTransferView> successfullStates,java.util.Vector<DebitTransferView> notSuccessfullStates,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
-        this.account = account;        
+        this.account = account;
+        this.successfullStates = successfullStates;
+        this.notSuccessfullStates = notSuccessfullStates;        
     }
     
     static public long getTypeId() {
@@ -31,6 +35,18 @@ public class AccountService extends view.objects.Service implements AccountServi
     }
     public void setAccount(AccountView newValue) throws ModelException {
         this.account = newValue;
+    }
+    public java.util.Vector<DebitTransferView> getSuccessfullStates()throws ModelException{
+        return this.successfullStates;
+    }
+    public void setSuccessfullStates(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+        this.successfullStates = newValue;
+    }
+    public java.util.Vector<DebitTransferView> getNotSuccessfullStates()throws ModelException{
+        return this.notSuccessfullStates;
+    }
+    public void setNotSuccessfullStates(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+        this.notSuccessfullStates = newValue;
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {
@@ -79,6 +95,14 @@ public class AccountService extends view.objects.Service implements AccountServi
         if (account != null) {
             ((ViewProxi)account).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(account.getClassId(), account.getId())));
         }
+        java.util.Vector<?> successfullStates = this.getSuccessfullStates();
+        if (successfullStates != null) {
+            ViewObject.resolveVectorProxies(successfullStates, resultTable);
+        }
+        java.util.Vector<?> notSuccessfullStates = this.getNotSuccessfullStates();
+        if (notSuccessfullStates != null) {
+            ViewObject.resolveVectorProxies(notSuccessfullStates, resultTable);
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -89,20 +113,38 @@ public class AccountService extends view.objects.Service implements AccountServi
         if(this.getAccount() != null && index < this.getAccount().getTheObject().getChildCount())
             return this.getAccount().getTheObject().getChild(index);
         if(this.getAccount() != null) index = index - this.getAccount().getTheObject().getChildCount();
+        if(index < this.getSuccessfullStates().size()) return new SuccessfullStatesAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getSuccessfullStates().get(index));
+        index = index - this.getSuccessfullStates().size();
+        if(index < this.getNotSuccessfullStates().size()) return new NotSuccessfullStatesAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getNotSuccessfullStates().get(index));
+        index = index - this.getNotSuccessfullStates().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount());
+            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
+            + (this.getSuccessfullStates().size())
+            + (this.getNotSuccessfullStates().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf());
+            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
+            && (this.getSuccessfullStates().size() == 0)
+            && (this.getNotSuccessfullStates().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getAccount() != null && this.getAccount().equals(child)) return result;
         if(this.getAccount() != null) result = result + 1;
+        java.util.Iterator<?> getSuccessfullStatesIterator = this.getSuccessfullStates().iterator();
+        while(getSuccessfullStatesIterator.hasNext()){
+            if(getSuccessfullStatesIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
+        java.util.Iterator<?> getNotSuccessfullStatesIterator = this.getNotSuccessfullStates().iterator();
+        while(getNotSuccessfullStatesIterator.hasNext()){
+            if(getNotSuccessfullStatesIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     public int getRowCount(){

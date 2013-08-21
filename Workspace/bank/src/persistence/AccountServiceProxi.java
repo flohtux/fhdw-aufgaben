@@ -98,6 +98,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
     }
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer);
+    }
     public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer, invoker);
@@ -105,6 +109,14 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public PersistentServer getAccess() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
+    }
+    public PersistentAccountServiceNotSuccessfullStates getNotSuccessfullStates() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getNotSuccessfullStates();
+    }
+    public PersistentAccountServiceSuccessfullStates getSuccessfullStates() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getSuccessfullStates();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -170,9 +182,9 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void executeTransferImplementation(final PersistentDebitTransfer debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer);
+        ((PersistentAccountService)this.getTheObject()).executeTransferImplementation(debitTransfer);
     }
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException{
@@ -193,6 +205,14 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void notSuccessfullStates_update(final model.meta.DebitTransferMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).notSuccessfullStates_update(event);
+    }
+    public void successfullStates_update(final model.meta.DebitTransferMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).successfullStates_update(event);
     }
 
     

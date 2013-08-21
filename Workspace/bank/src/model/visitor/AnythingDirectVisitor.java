@@ -16,6 +16,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
     }
+    public abstract void handleAccountServiceSuccessfullStates(PersistentAccountServiceSuccessfullStates accountServiceSuccessfullStates) throws PersistenceException;
+    
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
@@ -149,6 +151,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    
+    public abstract void handleAccountServiceNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates accountServiceNotSuccessfullStates) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

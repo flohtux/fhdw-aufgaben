@@ -22,7 +22,11 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             account = view.objects.ViewProxi.createProxi(account$Info,connectionKey);
             account.setToString(account$Info.getToString());
         }
-        AccountServiceView result$$ = new AccountService(errors,(AccountView)account, this.getId(), this.getClassId());
+        java.util.Vector<String> successfullStates_string = (java.util.Vector<String>)resultTable.get("successfullStates");
+        java.util.Vector<DebitTransferView> successfullStates = ViewProxi.getProxiVector(successfullStates_string, connectionKey);
+        java.util.Vector<String> notSuccessfullStates_string = (java.util.Vector<String>)resultTable.get("notSuccessfullStates");
+        java.util.Vector<DebitTransferView> notSuccessfullStates = ViewProxi.getProxiVector(notSuccessfullStates_string, connectionKey);
+        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,successfullStates,notSuccessfullStates, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -35,21 +39,39 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         if(this.getAccount() != null && index < this.getAccount().getTheObject().getChildCount())
             return this.getAccount().getTheObject().getChild(index);
         if(this.getAccount() != null) index = index - this.getAccount().getTheObject().getChildCount();
+        if(index < this.getSuccessfullStates().size()) return new SuccessfullStatesAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getSuccessfullStates().get(index));
+        index = index - this.getSuccessfullStates().size();
+        if(index < this.getNotSuccessfullStates().size()) return new NotSuccessfullStatesAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getNotSuccessfullStates().get(index));
+        index = index - this.getNotSuccessfullStates().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount());
+            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
+            + (this.getSuccessfullStates().size())
+            + (this.getNotSuccessfullStates().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf());
+            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
+            && (this.getSuccessfullStates().size() == 0)
+            && (this.getNotSuccessfullStates().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getAccount() != null && this.getAccount().equals(child)) return result;
         if(this.getAccount() != null) result = result + 1;
+        java.util.Iterator<?> getSuccessfullStatesIterator = this.getSuccessfullStates().iterator();
+        while(getSuccessfullStatesIterator.hasNext()){
+            if(getSuccessfullStatesIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
+        java.util.Iterator<?> getNotSuccessfullStatesIterator = this.getNotSuccessfullStates().iterator();
+        while(getNotSuccessfullStatesIterator.hasNext()){
+            if(getNotSuccessfullStatesIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     
@@ -58,6 +80,18 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
     }
     public void setAccount(AccountView newValue) throws ModelException {
         ((AccountService)this.getTheObject()).setAccount(newValue);
+    }
+    public java.util.Vector<DebitTransferView> getSuccessfullStates()throws ModelException{
+        return ((AccountService)this.getTheObject()).getSuccessfullStates();
+    }
+    public void setSuccessfullStates(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setSuccessfullStates(newValue);
+    }
+    public java.util.Vector<DebitTransferView> getNotSuccessfullStates()throws ModelException{
+        return ((AccountService)this.getTheObject()).getNotSuccessfullStates();
+    }
+    public void setNotSuccessfullStates(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setNotSuccessfullStates(newValue);
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {

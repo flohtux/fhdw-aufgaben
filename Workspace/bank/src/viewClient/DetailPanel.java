@@ -1255,6 +1255,8 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String AccountService$$account = "AccountService$$account";
+    protected static final String AccountService$$successfullStates = "AccountService$$successfullStates";
+    protected static final String AccountService$$notSuccessfullStates = "AccountService$$notSuccessfullStates";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

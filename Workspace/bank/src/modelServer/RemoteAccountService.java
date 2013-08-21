@@ -107,10 +107,10 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> executeTransfer(String debitTransferProxiString){
+    public synchronized java.util.HashMap<?,?> executeTransferImplementation(String debitTransferProxiString){
         try {
             PersistentDebitTransfer debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
-            ((PersistentAccountService)this.server).executeTransfer(debitTransfer);
+            ((PersistentAccountService)this.server).executeTransferImplementation(debitTransfer);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

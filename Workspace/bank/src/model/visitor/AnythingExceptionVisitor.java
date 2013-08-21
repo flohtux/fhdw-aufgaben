@@ -7,6 +7,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException, E;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
+    public void handleAccountServiceSuccessfullStates(PersistentAccountServiceSuccessfullStates accountServiceSuccessfullStates) throws PersistenceException, E;
     public void handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
@@ -17,6 +18,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleAmount(PersistentAmount amount) throws PersistenceException, E;
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;
+    public void handleAccountServiceNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates accountServiceNotSuccessfullStates) throws PersistenceException, E;
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;

@@ -5,6 +5,9 @@ import persistence.*;
 
 public abstract class AnythingStandardVisitor implements AnythingVisitor {
     
+    public void handleAccountServiceSuccessfullStates(PersistentAccountServiceSuccessfullStates accountServiceSuccessfullStates) throws PersistenceException{
+        this.standardHandling(accountServiceSuccessfullStates);
+    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
@@ -71,6 +74,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
     }
+    public void handleAccountServiceNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates accountServiceNotSuccessfullStates) throws PersistenceException{
+        this.standardHandling(accountServiceNotSuccessfullStates);
+    }
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
         this.standardHandling(executeCommand);
     }
@@ -86,11 +92,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
     }
-    public void handleDebit(PersistentDebit debit) throws PersistenceException{
-        this.standardHandling(debit);
-    }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.standardHandling(limit);
+    }
+    public void handleDebit(PersistentDebit debit) throws PersistenceException{
+        this.standardHandling(debit);
     }
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.standardHandling(mixedFee);
@@ -125,11 +131,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
         this.standardHandling(notExecutetState);
     }
-    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
-        this.standardHandling(notExecutableState);
-    }
     public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
         this.standardHandling(accountDebitTransferTransactions);
+    }
+    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
+        this.standardHandling(notExecutableState);
     }
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException{
         this.standardHandling(commandExecuter);

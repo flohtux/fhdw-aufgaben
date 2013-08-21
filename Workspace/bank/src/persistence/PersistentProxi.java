@@ -16,7 +16,12 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[93];
+		listProxiFactories = new ListProxiFactory[96];
+        listProxiFactories[93] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountServiceSuccessfullStatesListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[1] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new SubjListEntryProxi(objectId, entryId);
@@ -125,6 +130,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[21] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new TransferListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[94] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountServiceNotSuccessfullStatesListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[85] = new ListProxiFactory(){
@@ -282,7 +292,12 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [93];
+		proxiFactories = new ProxiFactory [96];
+        proxiFactories[93] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountServiceSuccessfullStatesProxi(objectId);
+            }
+        };
         proxiFactories[1] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new SubjProxi(objectId);
@@ -391,6 +406,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[21] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new TransferProxi(objectId);
+            }
+        };
+        proxiFactories[94] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountServiceNotSuccessfullStatesProxi(objectId);
             }
         };
         proxiFactories[85] = new ProxiFactory(){

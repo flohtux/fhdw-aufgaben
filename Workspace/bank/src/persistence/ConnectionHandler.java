@@ -104,6 +104,7 @@ public class ConnectionHandler {
 	protected Connection con;
 	private String name;
 
+    public AccountServiceSuccessfullStatesFacade theAccountServiceSuccessfullStatesFacade;
     public ServiceFacade theServiceFacade;
     public SubjFacade theSubjFacade;
     public DebitTransferTransactionFacade theDebitTransferTransactionFacade;
@@ -133,6 +134,7 @@ public class ConnectionHandler {
     public ProcentualFeeFacade theProcentualFeeFacade;
     public ServerFacade theServerFacade;
     public TransferFacade theTransferFacade;
+    public AccountServiceNotSuccessfullStatesFacade theAccountServiceNotSuccessfullStatesFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
     public AdministratorBanksFacade theAdministratorBanksFacade;
     public DollarFacade theDollarFacade;
@@ -186,6 +188,7 @@ public class ConnectionHandler {
 			CallableStatement callable = this.con.prepareCall("Begin " + this.schemaName + ".ClassFacade.initialize; end;");
 			callable.execute();
 			callable.close();
+            this.theAccountServiceSuccessfullStatesFacade= new AccountServiceSuccessfullStatesFacade(this.schemaName, this.con);
             this.theServiceFacade= new ServiceFacade(this.schemaName, this.con);
             this.theSubjFacade= new SubjFacade(this.schemaName, this.con);
             this.theDebitTransferTransactionFacade= new DebitTransferTransactionFacade(this.schemaName, this.con);
@@ -215,6 +218,7 @@ public class ConnectionHandler {
             this.theProcentualFeeFacade= new ProcentualFeeFacade(this.schemaName, this.con);
             this.theServerFacade= new ServerFacade(this.schemaName, this.con);
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);
+            this.theAccountServiceNotSuccessfullStatesFacade= new AccountServiceNotSuccessfullStatesFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);

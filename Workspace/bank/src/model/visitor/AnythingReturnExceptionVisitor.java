@@ -7,6 +7,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     
     public R handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException, E;
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
+    public R handleAccountServiceSuccessfullStates(PersistentAccountServiceSuccessfullStates accountServiceSuccessfullStates) throws PersistenceException, E;
     public R handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public R handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
     public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
@@ -17,6 +18,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleAmount(PersistentAmount amount) throws PersistenceException, E;
     public R handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;
+    public R handleAccountServiceNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates accountServiceNotSuccessfullStates) throws PersistenceException, E;
     public R handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;

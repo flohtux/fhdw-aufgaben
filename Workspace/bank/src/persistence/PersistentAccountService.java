@@ -31,7 +31,13 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException;
+    public PersistentAccountServiceNotSuccessfullStates getNotSuccessfullStates() 
+				throws PersistenceException;
+    public PersistentAccountServiceSuccessfullStates getSuccessfullStates() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
@@ -53,11 +59,15 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void executeTransferImplementation(final PersistentDebitTransfer debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void notSuccessfullStates_update(final model.meta.DebitTransferMssgs event) 
+				throws PersistenceException;
+    public void successfullStates_update(final model.meta.DebitTransferMssgs event) 
 				throws PersistenceException;
 
 }

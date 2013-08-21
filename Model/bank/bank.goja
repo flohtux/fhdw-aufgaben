@@ -63,16 +63,19 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
+	observe DebitTransfer ** successfullStates##sucstates;
+	observe DebitTransfer ** notSuccessfullStates##ntsucstates;
 	void createTransfer@@Neue_Überweisung();
-	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	active event void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
 	void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
 	void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
 	void changeSubject@@Betreff_ändern(Transfer trans, String subject);
 	void changeCurrency@@Währung_ändern(Transfer trans, CurrencySUBTYPEName currency);
 	void createDebit@@Neue_Lastschrift();
-	void createDebitGrant(Account receiver, LimitType limit);
+	void createDebitGrant@@Neuen_Benutzer_hinzufügen(Account receiver, LimitType limit);
 }
+
 class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;

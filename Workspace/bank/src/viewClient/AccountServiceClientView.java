@@ -207,6 +207,142 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			}
 			
 			@Override
+			 public void handleDebit(final DebitView debit) throws ModelException{
+				final CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, debit);
+				debit.getState().accept(new view.visitor.DebitTransferStateVisitor() {
+					@Override
+					public void handleTemplateState(TemplateStateView templateState)
+							throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+					@Override
+					public void handleSuccessfulState(SuccessfulStateView successfulState)
+							throws ModelException {
+					}
+					@Override
+					public void handleNotSuccessfulState(
+							NotSuccessfulStateView notSuccessfulState) throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+					@Override
+					public void handleNotExecutetState(NotExecutetStateView notExecutetState)
+							throws ModelException {
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeSubject(debit, text);
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								return true;
+							}
+						});
+						
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeReceiverBank(debit, Integer.parseInt(text));
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+						        try{
+						        	Integer.parseInt(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return true;
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeReceiverAccount(debit, Integer.parseInt(text));
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+						        try{
+						        	Integer.parseInt(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return true;
+							}
+						}); 
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeMoney(debit, Fraction.parse(text));
+							}
+							@Override
+							public String format(String text) {
+								try{
+						        	Fraction frac = Fraction.parse(text);
+						        	return frac.formatDec(2);
+						        } catch(NumberFormatException nfe) {
+						        	return text;
+						        }
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								try{
+						        	Fraction.parse(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return Fraction.parse(text).isPositive();
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeCurrency(debit, text);
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								try {
+									StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+									return true;
+								} catch (PersistenceException e) {
+									return false;
+								}
+							}
+						});
+						
+					}
+					@Override
+					public void handleNotExecutableState(
+							NotExecutableStateView notExecutableState) throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+					@Override
+					public void handleExecutedState(ExecutedStateView executedState)
+							throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+			
+			@Override
 			public void handleTransfer(final TransferView transfer)
 					throws ModelException {
 				final CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, transfer);
@@ -222,9 +358,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 					@Override
 					public void handleSuccessfulState(SuccessfulStateView successfulState)
 							throws ModelException {
-						// TODO Auto-generated method stub
-						
-						
 					}
 					
 					@Override
@@ -533,54 +666,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
-            if (selected instanceof DebitTransferView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Überweisung abschicken");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().executeTransfer((DebitTransferView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }catch (NoPermissionToExecuteDebitTransferException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (InvalidBankNumberException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (LimitViolatedException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (InvalidAccountNumberException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }
-                        }
-                    }
-                    
-                });
-                result.add(item);
-            }
             if (selected instanceof AccountView){
                 item = new javax.swing.JMenuItem();
-                item.setText("createDebitGrant ... ");
+                item.setText("Neuen Benutzer hinzufügen ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard wizard = new AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard("createDebitGrant");
+                        AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard wizard = new AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard("Neuen Benutzer hinzufügen");
                         wizard.setFirstArgument((AccountView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -1035,6 +1126,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			super(exceptionHandler, anything);
 		}
 		
+		
 		@Override
 		protected void addFields() {
 			super.addFields();
@@ -1053,7 +1145,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 	            this.getExceptionAndEventhandler().handleException(e);
 	        }
 		}
-
 	}
+	
 	
 }

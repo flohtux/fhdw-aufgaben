@@ -263,6 +263,8 @@ public class Cache {
 		this.number2NameMap.put(133, "Account");
 		this.number2NameMap.put(172, "AccountDebitTransferTransactions");
 		this.number2NameMap.put(-130, "AccountService");
+		this.number2NameMap.put(195, "AccountServiceNotSuccessfullStates");
+		this.number2NameMap.put(194, "AccountServiceSuccessfullStates");
 		this.number2NameMap.put(-117, "Administrator");
 		this.number2NameMap.put(125, "AdministratorBanks");
 		this.number2NameMap.put(183, "AdministratorCurrencyManager");

@@ -42,6 +42,19 @@ create table Association3 (
     constraint FAssociation3Target foreign key (target) references Cls(id)
 );
 
+create sequence SAccntSrvcSucstates nocache;
+
+create table AccntSrvcSucstates(
+    id number primary key,
+    Cls number not null,
+    AccntSrvcSucstatesMstr number,
+    AccntSrvcSucstatesMstrCls number,
+    constraint FAccntSrvcSucstatesMstr foreign key (AccntSrvcSucstatesMstrCls) references Cls (id),
+    AccntSrvcSucstatesThis number,
+    AccntSrvcSucstatesThisCls number,
+    constraint FAccntSrvcSucstatesThis foreign key (AccntSrvcSucstatesThisCls) references Cls (id)    
+);
+
 create sequence SSrvc nocache;
 
 create table Srvc(
@@ -64,7 +77,13 @@ create table Srvc(
     constraint FBnkSrvcBnk foreign key (BnkSrvcBnkCls) references Cls (id),
     AccntSrvcAccnt number,
     AccntSrvcAccntCls number,
-    constraint FAccntSrvcAccnt foreign key (AccntSrvcAccntCls) references Cls (id)    
+    constraint FAccntSrvcAccnt foreign key (AccntSrvcAccntCls) references Cls (id),
+    AccntSrvcSucstates number,
+    AccntSrvcSucstatesCls number,
+    constraint FAccntSrvcSucstates foreign key (AccntSrvcSucstatesCls) references Cls (id),
+    AccntSrvcNtsucstates number,
+    AccntSrvcNtsucstatesCls number,
+    constraint FAccntSrvcNtsucstates foreign key (AccntSrvcNtsucstatesCls) references Cls (id)    
 );
 create index IBnkBnkSrvc on Srvc (BnkSrvcBnk, BnkSrvcBnkCls);
 create index IAccntAccntSrvc on Srvc (AccntSrvcAccnt, AccntSrvcAccntCls);
@@ -309,6 +328,19 @@ create table Srvr(
 create index ISrvcSrvr on Srvr (SrvrSrvc, SrvrSrvcCls);
 create index IUserSrvr on Srvr (SrvrUser);
 
+
+create sequence SAccntSrvcNtsucstates nocache;
+
+create table AccntSrvcNtsucstates(
+    id number primary key,
+    Cls number not null,
+    AccntSrvcNtsucstatesMstr number,
+    AccntSrvcNtsucstatesMstrCls number,
+    constraint FAccntSrvcNtsucstatesMstr foreign key (AccntSrvcNtsucstatesMstrCls) references Cls (id),
+    AccntSrvcNtsucstatesThis number,
+    AccntSrvcNtsucstatesThisCls number,
+    constraint FAccntSrvcNtsucstatesThis foreign key (AccntSrvcNtsucstatesThisCls) references Cls (id)    
+);
 
 create sequence SExctCMD nocache;
 
@@ -575,6 +607,18 @@ create table BnkCrtr(
     constraint FBnkCrtrThis foreign key (BnkCrtrThisCls) references Cls (id)    
 );
 
+create sequence SAccntSrvcSucstatesObs nocache;
+
+create table AccntSrvcSucstatesObs(
+    id number primary key,
+    frm number not null,
+    obs number not null,
+    Cls number not null,
+    constraint FAccntSrvcSucstatesObsCls foreign key(Cls) references Cls(id),
+    constraint FAccntSrvcSucstatesObsfrm foreign key(frm) references AccntSrvcSucstates(id)
+);
+create index IFrmAccntSrvcSucstatesObs on AccntSrvcSucstatesObs(frm);
+
 create sequence SSubjObs nocache;
 
 create table SubjObs(
@@ -614,6 +658,18 @@ create table CrrncMngrCrrncStck(
     constraint FCrrncMngrCrrncStckfrm foreign key(frm) references CrrncMngr(id)
 );
 create index IFrmCrrncMngrCrrncStck on CrrncMngrCrrncStck(frm);
+
+create sequence SAccntSrvcNtsucstatesObs nocache;
+
+create table AccntSrvcNtsucstatesObs(
+    id number primary key,
+    frm number not null,
+    obs number not null,
+    Cls number not null,
+    constraint FAccntSrvcNtsucstatesObsCls foreign key(Cls) references Cls(id),
+    constraint FAccntSrvcNtsucstatesObsfrm foreign key(frm) references AccntSrvcNtsucstates(id)
+);
+create index IFrmAccntSrvcNtsucstatesObs on AccntSrvcNtsucstatesObs(frm);
 
 create sequence SAdmnstrtrBnksObs nocache;
 
