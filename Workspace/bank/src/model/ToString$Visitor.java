@@ -2,7 +2,6 @@ package model;
 
 import common.Fraction;
 import static serverConstants.ToStringConstants.*;
-
 import persistence.*;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -217,7 +216,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCurrencyManager(PersistentCurrencyManager currencyManager)
 			throws PersistenceException {
-		result = "EZB";
+		result = "EZB - Kontostand: " + currencyManager.calculateExchangeRateCompensationReferenceAmount();
 		
 	}
 	@Override
@@ -234,6 +233,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleFranken(PersistentFranken franken)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.FrankenCurrencyToString;
+		
+	}
+	@Override
+	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
+		this.result = "Einzugsermächtigung für " + debitGrant.getPermittedAccount();
 		
 	}
 

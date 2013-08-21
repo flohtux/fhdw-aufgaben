@@ -193,6 +193,11 @@ public class NoLimit extends model.LimitType implements PersistentNoLimit{
     
     // Start of section that contains overridden operations only.
     
+    public void checkLimit(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+		return;
+		
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

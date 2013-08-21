@@ -47,11 +47,11 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
     }
-    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
-        this.standardHandling(notExecutetState);
-    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.standardHandling(executedState);
+    }
+    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
+        this.standardHandling(notExecutetState);
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
@@ -106,6 +106,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException{
         this.standardHandling(successfulStornoState);
+    }
+    public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException{
+        this.standardHandling(debitGrant);
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);

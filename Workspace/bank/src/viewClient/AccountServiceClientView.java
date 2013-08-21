@@ -441,6 +441,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private java.util.Vector<javax.swing.JButton> getToolButtonsForStaticOperations() {
         java.util.Vector<javax.swing.JButton> result = new java.util.Vector<javax.swing.JButton>();
         javax.swing.JButton currentButton = null;
+        currentButton = new javax.swing.JButton("Neue Lastschrift");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Lastschrift" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createDebit();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });result.add(currentButton);
         currentButton = new javax.swing.JButton("Neue Überweisung");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -472,6 +486,22 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private JPopupMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations) {
         JPopupMenu result = new JPopupMenu();
         javax.swing.JMenuItem item = null;
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) Neue Lastschrift");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Lastschrift" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createDebit();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
         item.setText("(S) Neue Überweisung");
         item.addActionListener(new java.awt.event.ActionListener() {
@@ -540,6 +570,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                 getConnection().setEagerRefresh();
                             }
                         }
+                    }
+                    
+                });
+                result.add(item);
+            }
+            if (selected instanceof AccountView){
+                item = new javax.swing.JMenuItem();
+                item.setText("createDebitGrant ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard wizard = new AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard("createDebitGrant");
+                        wizard.setFirstArgument((AccountView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
                     }
                     
                 });
@@ -919,6 +966,53 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			}catch(ModelException me){
 				 handleException(me);
 			}
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard extends Wizard {
+
+		protected AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceCreateDebitGrantAccountLimitTypeMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().createDebitGrant(firstArgument, (LimitTypeView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new ObjectSelectionPanel("limit", "view.LimitTypeView", (ViewRoot) getConnection().getAccountServiceView(), this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private AccountView firstArgument; 
+	
+		public void setFirstArgument(AccountView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
 			this.check();
 		}
 		

@@ -15,14 +15,37 @@ public class DebitFacade{
 		this.con = con;
 	}
 
-    public DebitProxi getTheDebit() throws PersistenceException {
-        CallableStatement callable;
+    public DebitProxi newDebit(java.sql.Timestamp timestamp,long receiverAccountNumber,long receiverBankNumber,String subject,long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbtFacade.getTheDbt; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".DbtFacade.newDbt(?,?,?,?,?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setTimestamp(2, timestamp);
+            callable.setLong(3, receiverAccountNumber);
+            callable.setLong(4, receiverBankNumber);
+            callable.setString(5, subject);
+            callable.setLong(6, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            Debit result = new Debit(timestamp,null,null,receiverAccountNumber,receiverBankNumber,null,null,subject,null,null,id);
+            Cache.getTheCache().put(result);
+            return (DebitProxi)PersistentProxi.createProxi(id, 177);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public DebitProxi newDelayedDebit(java.sql.Timestamp timestamp,long receiverAccountNumber,long receiverBankNumber,String subject) throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".DbtFacade.newDelayedDbt(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
+            Debit result = new Debit(timestamp,null,null,receiverAccountNumber,receiverBankNumber,null,null,subject,null,null,id);
+            Cache.getTheCache().put(result);
             return (DebitProxi)PersistentProxi.createProxi(id, 177);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());

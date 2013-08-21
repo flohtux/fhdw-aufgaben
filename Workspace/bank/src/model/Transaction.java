@@ -197,8 +197,10 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     // Start of section that contains overridden operations only.
     
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
 		// TODO Auto-generated method stub
+    	
+    	throw new NoPermissionToExecuteDebitTransferException("NOT IMPLEMENTED");
 		
 	}
 

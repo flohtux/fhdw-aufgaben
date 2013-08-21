@@ -5,4 +5,4 @@ public interface TransactionFeeMssgs {
 }
 
 interface TransactionFeeDOWNMssgs extends Mssgs, TransactionFeeMssgs{}
-interface TransactionFeeUPMssgs extends MixedFeeUPMssgs, FixTransactionFeeUPMssgs, ProcentualFeeUPMssgs, TransactionFeeMssgs{}
+interface TransactionFeeUPMssgs extends FixTransactionFeeUPMssgs, ProcentualFeeUPMssgs, MixedFeeUPMssgs, TransactionFeeMssgs{}

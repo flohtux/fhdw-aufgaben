@@ -96,6 +96,10 @@ public class SuccessfulStateICProxi extends DebitTransferStateICProxi implements
 				throws PersistenceException{
         ((PersistentSuccessfulState)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+        return ((PersistentSuccessfulState)this.getTheObject()).isExecutable();
+    }
 
     
 }

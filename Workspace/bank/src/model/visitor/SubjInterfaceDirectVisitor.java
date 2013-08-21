@@ -7,11 +7,11 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleService(PersistentService service) throws PersistenceException;
     
-    public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
-        this.handleService(administrator);
-    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.handleService(accountService);
+    }
+    public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
+        this.handleService(administrator);
     }
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
@@ -39,22 +39,22 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
-    public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
-        this.handleTransactionFee(fixTransactionFee);
-    }
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.handleTransactionFee(mixedFee);
+    }
+    public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
+        this.handleTransactionFee(fixTransactionFee);
     }
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
-    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
-        this.handleDebitTransferState(executedState);
-    }
     public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
         this.handleDebitTransferState(notExecutetState);
+    }
+    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
+        this.handleDebitTransferState(executedState);
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.handleDebitTransferState(notExecutableState);
@@ -106,6 +106,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
         this.handleBooleanValue(trueValue);
     }
+    public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
+    
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
@@ -117,11 +119,11 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.handleCurrency(dollar);
     }
-    public void handleFranken(PersistentFranken franken) throws PersistenceException{
-        this.handleCurrency(franken);
-    }
     public void handlePfund(PersistentPfund pfund) throws PersistenceException{
         this.handleCurrency(pfund);
+    }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.handleCurrency(franken);
     }
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.handleCurrency(euro);

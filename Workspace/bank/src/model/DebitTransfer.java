@@ -228,56 +228,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     // Start of section that contains overridden operations only.
     
-    public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-		getThis().getState().accept(new DebitTransferStateExceptionVisitor<NoPermissionToExecuteDebitTransferException>() {
-			@Override
-			public void handleTemplateState(
-					PersistentTemplateState templateState)
-					throws PersistenceException,
-					NoPermissionToExecuteDebitTransferException {
-				throw new NoPermissionToExecuteDebitTransferException();
-			}
-			@Override
-			public void handleNotExecutetState(
-					PersistentNotExecutetState notExecutetState)
-					throws PersistenceException,
-					NoPermissionToExecuteDebitTransferException {
-			}
-			@Override
-			public void handleExecutedState(
-					PersistentExecutedState executedState)
-					throws PersistenceException,
-					NoPermissionToExecuteDebitTransferException {
-				throw new NoPermissionToExecuteDebitTransferException();
-			}
-			@Override
-			public void handleNotSuccessfulState(
-					PersistentNotSuccessfulState notSuccessfulState)
-					throws PersistenceException,
-					NoPermissionToExecuteDebitTransferException {
-			}
-			@Override
-			public void handleNotExecutableState(
-					PersistentNotExecutableState notExecutableState)
-					throws PersistenceException,
-					NoPermissionToExecuteDebitTransferException {
-				throw new NoPermissionToExecuteDebitTransferException();
-			}
-			@Override
-			public void handleSuccessfulState(
-					PersistentSuccessfulState SuccessfulState)
-					throws PersistenceException,
-					NoPermissionToExecuteDebitTransferException {
-				throw new NoPermissionToExecuteDebitTransferException();
-			}
-		});
-    	getThis().setState(NotExecutetState.getTheNotExecutetState());
-    	getThis().getSender().getBank().sendTransfer(getThis());
-    	Timestamp tstamp = new Timestamp(new Date().getTime());
-    	getThis().setTimestamp(tstamp);
-		
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
 

@@ -8,11 +8,11 @@ public abstract class CurrencyStandardVisitor implements CurrencyVisitor {
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
     }
-    public void handleFranken(PersistentFranken franken) throws PersistenceException{
-        this.standardHandling(franken);
-    }
     public void handlePfund(PersistentPfund pfund) throws PersistenceException{
         this.standardHandling(pfund);
+    }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.standardHandling(franken);
     }
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);

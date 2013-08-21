@@ -16,6 +16,7 @@ public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransa
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public void handleMoney(PersistentMoney money) throws PersistenceException;
     public void handleBank(PersistentBank bank) throws PersistenceException;
+    public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
 }

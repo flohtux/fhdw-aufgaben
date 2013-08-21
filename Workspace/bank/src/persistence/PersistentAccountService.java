@@ -31,6 +31,8 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentTransfer trans, final String currency) 
@@ -44,6 +46,10 @@ public interface PersistentAccountService extends PersistentService {
     public void changeSubject(final PersistentTransfer trans, final String subject) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
+				throws PersistenceException;
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException;
+    public void createDebit() 
 				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;

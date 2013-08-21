@@ -1,7 +1,7 @@
 
 package model.visitor;
 
-public interface CommandVisitor extends BankCreatorCommandVisitor,BankCommandVisitor{
+public interface CommandVisitor extends BankCreatorCommandVisitor,DebitTransferTransactionCommandVisitor,AccountServiceCommandVisitor,BankCommandVisitor{
     
     
 }

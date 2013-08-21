@@ -54,6 +54,10 @@ public abstract class DebitTransferStateProxi extends PersistentProxi implements
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+        return ((PersistentDebitTransferState)this.getTheObject()).isExecutable();
+    }
 
     
 }

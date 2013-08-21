@@ -5,12 +5,12 @@ import expressions.RegularExpressionHandler;
 public class RegularExpressionManager {
 
     public static RegularExpressionHandler currencySUBTYPEName = new RegularExpressionHandler( "[(Dollar)" + 
-		"(Franken)" + 
 		"(Pfund)" + 
+		"(Franken)" + 
 		"(Euro)" + 
 		"(Yen)]" );
-    public static RegularExpressionHandler transactionFeeSUBTYPEName = new RegularExpressionHandler( "[(FixTransactionFee)" + 
-		"(MixedFee)" + 
+    public static RegularExpressionHandler transactionFeeSUBTYPEName = new RegularExpressionHandler( "[(MixedFee)" + 
+		"(FixTransactionFee)" + 
 		"(ProcentualFee)]" );
     
 

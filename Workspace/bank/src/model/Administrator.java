@@ -307,7 +307,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     public void currencyManager_update(final model.meta.CurrencyManagerMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: currencyManager_update
+        getThis().signalChanged(true);
         
     }
     public void disconnected() 

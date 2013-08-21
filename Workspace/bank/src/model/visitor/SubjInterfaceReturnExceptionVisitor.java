@@ -16,6 +16,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public R handleMoney(PersistentMoney money) throws PersistenceException, E;
     public R handleBank(PersistentBank bank) throws PersistenceException, E;
+    public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException, E;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException, E;
     
 }

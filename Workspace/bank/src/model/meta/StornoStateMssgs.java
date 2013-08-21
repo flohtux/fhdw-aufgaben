@@ -5,4 +5,4 @@ public interface StornoStateMssgs {
 }
 
 interface StornoStateDOWNMssgs extends Mssgs, StornoStateMssgs{}
-interface StornoStateUPMssgs extends RequestStateUPMssgs, NoRequestStateUPMssgs, NotSuccessfulStornoStateUPMssgs, SuccessfulStornoStateUPMssgs, StornoStateMssgs{}
+interface StornoStateUPMssgs extends NoRequestStateUPMssgs, RequestStateUPMssgs, NotSuccessfulStornoStateUPMssgs, SuccessfulStornoStateUPMssgs, StornoStateMssgs{}

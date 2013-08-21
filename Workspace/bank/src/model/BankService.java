@@ -2,7 +2,6 @@
 package model;
 
 import common.Fraction;
-
 import persistence.*;
 import model.meta.StringFACTORY;
 import model.meta.TransactionFeeSwitchPARAMETER;
@@ -290,11 +289,19 @@ public class BankService extends model.Service implements PersistentBankService{
         if(!acc.getMoney().getAmount().getBalance().equals(Fraction.Null)) {
         	throw new CloseAccountNoPossibleException();
         }else {
-            acc.delete$Me();      	
+        	acc.getAccountService().delete$Me();
+            acc.delete$Me();
+            getThis().getBank().getAccounts().remove(acc.getAccountNumber());
+            getThis().getBank().getCurrentAccounts().removeFirstSuccess(new Predcate<PersistentAccount>() {
+				public boolean test(PersistentAccount argument) throws PersistenceException {
+					return argument.equals(acc);
+				}
+			});
         }
+        getThis().signalChanged(true);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.InvalidAccountNumberException, PersistenceException{
         PersistentTransfer transfer = Transfer.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);
@@ -326,7 +333,11 @@ public class BankService extends model.Service implements PersistentBankService{
 				return argument.getBank().equals(getThis().getBank());
 			}
 		});
-        getThis().getBank().getCurrentAccounts().add(sl);
+        if (sl.getLength() == 0) {
+        	throw new NoAccountsFound();
+        } else {
+            getThis().getBank().getCurrentAccounts().add(sl);
+        }
         getThis().signalChanged(true);
     }
     public void initializeOnCreation() 

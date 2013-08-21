@@ -86,6 +86,10 @@ public class LimitICProxi extends LimitTypeICProxi implements PersistentLimit{
 				throws PersistenceException{
         ((PersistentLimit)this.getTheObject()).updateObservers(event);
     }
+    public void checkLimit(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+        ((PersistentLimit)this.getTheObject()).checkLimit(money);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentLimit)this.getTheObject()).copyingPrivateUserAttributes(copy);

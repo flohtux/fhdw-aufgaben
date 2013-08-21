@@ -1,6 +1,6 @@
 package persistence;
 
-
+import model.UserException;
 
 public abstract class LimitTypeProxi extends PersistentProxi implements PersistentLimitType{
     
@@ -37,6 +37,10 @@ public abstract class LimitTypeProxi extends PersistentProxi implements Persiste
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentLimitType)this.getTheObject()).updateObservers(event);
+    }
+    public void checkLimit(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+        ((PersistentLimitType)this.getTheObject()).checkLimit(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

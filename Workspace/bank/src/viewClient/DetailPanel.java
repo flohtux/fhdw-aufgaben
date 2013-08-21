@@ -778,11 +778,11 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleEuro(view.EuroView object){
         result = new EuroDefaultDetailPanel(handler, object);
     }
-    public void handleTemplateState(view.TemplateStateView object){
-        result = new TemplateStateDefaultDetailPanel(handler, object);
-    }
     public void handleYen(view.YenView object){
         result = new YenDefaultDetailPanel(handler, object);
+    }
+    public void handleTemplateState(view.TemplateStateView object){
+        result = new TemplateStateDefaultDetailPanel(handler, object);
     }
     public void handleNotExecutetState(view.NotExecutetStateView object){
         result = new NotExecutetStateDefaultDetailPanel(handler, object);
@@ -807,6 +807,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleSuccessfulStornoState(view.SuccessfulStornoStateView object){
         result = new SuccessfulStornoStateDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitGrant(view.DebitGrantView object){
+        result = new DebitGrantDefaultDetailPanel(handler, object);
     }
     public void handleBankCreator(view.BankCreatorView object){
         result = new BankCreatorDefaultDetailPanel(handler, object);
@@ -1285,6 +1288,8 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
     protected static final String Account$$debitTransferTransactions = "Account$$debitTransferTransactions";
+    protected static final String Account$$grantedDebitGrants = "Account$$grantedDebitGrants";
+    protected static final String Account$$receivedDebitGrants = "Account$$receivedDebitGrants";
     
     protected AccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1342,20 +1347,6 @@ class EuroDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected TemplateStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.TemplateStateView getAnything(){
-        return (view.TemplateStateView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class YenDefaultDetailPanel extends DefaultDetailPanel{
     
     protected YenDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1366,6 +1357,20 @@ class YenDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.YenView getAnything(){
         return (view.YenView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected TemplateStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.TemplateStateView getAnything(){
+        return (view.TemplateStateView)this.anything;
     }
 }
 
@@ -1511,6 +1516,23 @@ class SuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.SuccessfulStornoStateView getAnything(){
         return (view.SuccessfulStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitGrantDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitGrant$$permittedAccount = "DebitGrant$$permittedAccount";
+    protected static final String DebitGrant$$limits = "DebitGrant$$limits";
+    
+    protected DebitGrantDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitGrantView getAnything(){
+        return (view.DebitGrantView)this.anything;
     }
 }
 

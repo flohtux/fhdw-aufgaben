@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import model.Administrator;
 import model.Amount;
 import model.BankCreator;
+import model.DebitException;
 import model.Dollar;
 import model.Euro;
 import model.FixTransactionFee;
@@ -13,7 +14,7 @@ import model.InvalidAccountNumberException;
 import model.InvalidBankNumberException;
 import model.Limit;
 import model.LimitAccount;
-import model.LimitViolatedException;
+import model.DebitException;
 import model.MixedFee;
 import model.Money;
 import model.NoPermissionToExecuteDebitTransferException;
@@ -33,7 +34,6 @@ import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentTransfer;
-
 import common.Fraction;
 
 public class TestTransfer {
@@ -64,7 +64,7 @@ public class TestTransfer {
 	}
 
 	@Test
-	public void testBankintern() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankintern() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
@@ -87,7 +87,7 @@ public class TestTransfer {
 	}
 
 	@Test
-	public void testBankinternOtherCurrencies() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankinternOtherCurrencies() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
@@ -131,7 +131,7 @@ public class TestTransfer {
 		System.err.println(bankTestLimits.getBankNumber());
 		try {
 			newTrans.execute();
-		} catch (LimitViolatedException e) {
+		} catch (DebitException e) {
 			assertTrue(true);
 			return;
 		}
@@ -159,7 +159,7 @@ public class TestTransfer {
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
 		try {
 			newTrans.execute();
-		} catch (LimitViolatedException e) {
+		} catch (DebitException e) {
 			assertTrue(true);
 			return;
 		}	
@@ -169,7 +169,7 @@ public class TestTransfer {
 	}
 	@Test
 	public void testBankExternFixFee() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			LimitViolatedException, InvalidAccountNumberException {
+			InvalidAccountNumberException, DebitException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -192,7 +192,7 @@ public class TestTransfer {
 	}
 	@Test
 	public void testBankExternProcentualFee() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			LimitViolatedException, InvalidAccountNumberException {
+			DebitException, InvalidAccountNumberException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -213,8 +213,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternMixedFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternMixedFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, InvalidAccountNumberException, PersistenceException, DebitException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -264,7 +263,7 @@ public class TestTransfer {
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
 		try {
 			newTrans.execute();
-		} catch (LimitViolatedException e) {
+		} catch (DebitException e) {
 			assertTrue(true);
 			return;
 		}
@@ -272,7 +271,7 @@ public class TestTransfer {
 	}
 	@Test
 	public void testBankinternNoCharge() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			LimitViolatedException, InvalidAccountNumberException {
+			DebitException, InvalidAccountNumberException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -295,7 +294,7 @@ public class TestTransfer {
 	}
 	@Test
 	public void testBankinternZeroMoney() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			LimitViolatedException, InvalidAccountNumberException {
+			DebitException, InvalidAccountNumberException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -317,7 +316,7 @@ public class TestTransfer {
 
 	}
 	@Test
-	public void testBankExternNoCharge() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankExternNoCharge() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
@@ -341,7 +340,7 @@ public class TestTransfer {
 		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternFixFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankExternFixFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
@@ -367,7 +366,7 @@ public class TestTransfer {
 
 	}
 	@Test
-	public void testBankinternFixFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankinternFixFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
@@ -390,7 +389,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(5, 1), bank.getOwnAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternProcentualFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankExternProcentualFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
@@ -414,7 +413,7 @@ public class TestTransfer {
 		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankinternProcentualFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankinternProcentualFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
@@ -436,7 +435,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(-210, 1), acc1.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternMixedFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankExternMixedFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator a = Administrator.createAdministrator();
 
@@ -462,7 +461,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(150, 1), acc2.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankInternMixFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankInternMixFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
@@ -508,7 +507,7 @@ public class TestTransfer {
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
 		try {
 			newTrans.execute();
-		} catch (LimitViolatedException e) {
+		} catch (DebitException e) {
 			assertTrue(true);
 			return;
 		}
@@ -535,7 +534,7 @@ public class TestTransfer {
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
 		try {
 			newTrans.execute();
-		} catch (LimitViolatedException e) {
+		} catch (DebitException e) {
 			assertTrue(true);
 			return;
 		}
@@ -564,14 +563,14 @@ public class TestTransfer {
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
 		try {
 			newTrans.execute();
-		} catch (LimitViolatedException e) {
+		} catch (DebitException e) {
 			assertTrue(true);
 			return;
 		}
 		fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
 	}
 	@Test
-	public void testBankExternCurrencyTransfer() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException,
+	public void testBankExternCurrencyTransfer() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
 			InvalidAccountNumberException, PersistenceException {
 		PersistentAdministrator a = Administrator.createAdministrator();
 

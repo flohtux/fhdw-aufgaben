@@ -15,6 +15,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
     public R handleMoney(MoneyView money) throws ModelException;
     public R handleBank(BankView bank) throws ModelException;
+    public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException;
     
 }

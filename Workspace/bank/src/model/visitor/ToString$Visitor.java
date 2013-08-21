@@ -42,6 +42,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handlePfund(PersistentPfund pfund) throws PersistenceException;
     public abstract void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException;
     public abstract void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException;
+    public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
 }

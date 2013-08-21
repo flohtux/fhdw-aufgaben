@@ -1,8 +1,10 @@
 
 package model;
 
-import common.Fraction;
+import java.sql.Timestamp;
+import java.util.Date;
 
+import common.Fraction;
 import persistence.*;
 import model.visitor.*;
 
@@ -222,9 +224,20 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
+    public void executeImplementation() 
+				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	if (!getThis().getState().isExecutable().isTrue()) {
+    		throw new NoPermissionToExecuteDebitTransferException();
+    	}
+    	getThis().setState(NotExecutetState.getTheNotExecutetState());
+    	getThis().getSender().getBank().sendTransfer(getThis());
+    	Timestamp tstamp = new Timestamp(new Date().getTime());
+    	getThis().setTimestamp(tstamp);
+		
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
-    
+ 
     /* End of protected part that is not overridden by persistence generator */
     
 }
