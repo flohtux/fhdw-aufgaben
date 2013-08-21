@@ -205,7 +205,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         
-    }
+    } 
     public void initializeOnCreation() 
 				throws PersistenceException{
         getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
