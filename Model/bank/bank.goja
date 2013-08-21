@@ -35,7 +35,7 @@ server BankService extends Service {
 	skip-view prior final one-to-one (server-only bankServices) Bank bank;
 	void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
 	void closeAccount@@Konto_schließen(Account acc) throws CloseAccountNoPossibleException;
-	void closeAccount@@Konto_übertragen(Account acc, Account transAcc{bank;currentAccounts}) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, CloseAccountNoPossibleException, NoPermissionToExecuteDebitTransferException;
+	void closeAccount@@Konto_übertragen(Account acc, Account transAcc{bank;currentAccounts}) throws InvalidBankNumberException, InvalidAccountNumberException, DebitException, CloseAccountNoPossibleException, NoPermissionToExecuteDebitTransferException;
 	void changeMaxLimit@@Obergrenze_festlegen(LimitAccount limit,Fraction amount@@Obergrenze);
 	void changeMinLimit@@Untergrenze_festlegen(LimitAccount limit, Fraction amount@@Untergrenze);
 	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit);
@@ -55,8 +55,8 @@ class Bank {
 	transient Account ** currentAccounts;
 	active event void changeName(String name);
 	active void createAccount(CurrencySUBTYPEName currencyType);
-	void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException;
-	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, LimitViolatedException;
+	void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, DebitException;
+	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
 	void changeTransactionFeeToFix(Money fix);
 	void changeTransactionFeeToProcentual(Percent procentual);
 	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
@@ -64,23 +64,32 @@ class Bank {
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
 	void createTransfer@@Neue_Überweisung();
-	void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
 	void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
 	void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
 	void changeSubject@@Betreff_ändern(Transfer trans, String subject);
 	void changeCurrency@@Währung_ändern(Transfer trans, CurrencySUBTYPEName currency);
+	void createDebit@@Neue_Lastschrift();
+	void createDebitGrant(Account receiver, LimitType limit);
 }
 class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
 	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	DebitGrant ** grantedDebitGrants##GrntdGrnts;
+	DebitGrant ** receivedDebitGrants##RcvdGrnts;
+
 	Transfer createTransfer();
 	void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
 	void changeMoney(Transfer trans, Fraction newAmount);
 	void changeCurrency(Transfer trans, Currency currency);
+
+	Debit createDebit();
+	void createDebitGrant(Account receiver, LimitType limit);
+
 }
 
 class Money {
@@ -110,7 +119,9 @@ abstract class BooleanValue(TrueValue,FalseValue){
 	extern boolean isTrue();
 }
 
-abstract class LimitType(NoLimit) {}
+abstract class LimitType(NoLimit) {
+	void checkLimit(Money money) throws LimitViolatedException;
+}
 class Limit extends LimitType{
 	prior Money money;
 }
@@ -139,11 +150,11 @@ class Percent {
 string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 
 abstract class DebitTransferTransaction##DebiTrfTran {
-	event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	active event void execute()  throws InvalidBankNumberException, InvalidAccountNumberException, DebitException, NoPermissionToExecuteDebitTransferException;
 	Timestamp timestamp@@Zeitstempel;
 }
 
-abstract class DebitTransfer(Debit) extends DebitTransferTransaction{
+abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view	Account sender;
@@ -154,10 +165,18 @@ abstract class DebitTransfer(Debit) extends DebitTransferTransaction{
 }
 
 class Transfer extends DebitTransfer {}
+class Debit extends DebitTransfer {}
 
 class Transaction extends DebitTransferTransaction {}
 
+
+class DebitGrant {
+	prior Account permittedAccount;
+	prior LimitType limits;
+}
+
 abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
+	BooleanValue isExecutable();
 }
 
 abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
@@ -165,9 +184,13 @@ abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoS
 exception PasswordException {}
 exception InvalidBankNumberException{prior Integer bn;}
 exception InvalidAccountNumberException{}
-exception LimitViolatedException{}
+exception LimitViolatedException extends DebitException{}
 exception NoPermissionToExecuteDebitTransferException{}
 exception CloseAccountNoPossibleException{}
+exception NoAccountsFound{}
+exception DebitNotGrantedException extends DebitException{}
+
+abstract exception DebitException {}
 }
 
 

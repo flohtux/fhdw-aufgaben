@@ -3,7 +3,7 @@ package model.meta;
 public interface DebitTransferTransactionMssgsVisitor extends DebitTransferTransactionDOWNMssgsVisitor, DebitTransferTransactionUPMssgsVisitor {}
 
 
-interface DebitTransferTransactionDOWNMssgsVisitor extends TransactionDOWNMssgsVisitor, DebitTransferDOWNMssgsVisitor {
+interface DebitTransferTransactionDOWNMssgsVisitor extends DebitTransferDOWNMssgsVisitor, TransactionDOWNMssgsVisitor {
 
     public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws persistence.PersistenceException;
     

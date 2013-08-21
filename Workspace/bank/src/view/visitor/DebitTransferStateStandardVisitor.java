@@ -5,11 +5,11 @@ import view.*;
 
 public abstract class DebitTransferStateStandardVisitor implements DebitTransferStateVisitor {
     
-    public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
-        this.standardHandling(executedState);
-    }
     public void handleNotExecutetState(NotExecutetStateView notExecutetState) throws ModelException{
         this.standardHandling(notExecutetState);
+    }
+    public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
+        this.standardHandling(executedState);
     }
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);

@@ -40,6 +40,12 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
+    public Account_GrantedDebitGrantsProxi getGrantedDebitGrants() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrants();
+    }
+    public Account_ReceivedDebitGrantsProxi getReceivedDebitGrants() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrants();
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -123,6 +129,14 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit);
+    }
+    public PersistentDebit createDebit() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).createDebit();
     }
     public PersistentTransfer createTransfer() 
 				throws PersistenceException{

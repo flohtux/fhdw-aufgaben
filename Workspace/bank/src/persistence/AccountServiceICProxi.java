@@ -98,6 +98,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
     }
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer, invoker);
+    }
     public PersistentServer getAccess() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
@@ -149,6 +153,14 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createDebitGrant(receiver, limit);
+    }
+    public void createDebit() 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createDebit();
     }
     public void createTransfer() 
 				throws PersistenceException{

@@ -3,7 +3,7 @@ package model.meta;
 public interface TransactionFeeMssgsVisitor extends TransactionFeeDOWNMssgsVisitor, TransactionFeeUPMssgsVisitor {}
 
 
-interface TransactionFeeDOWNMssgsVisitor extends MixedFeeDOWNMssgsVisitor, FixTransactionFeeDOWNMssgsVisitor, ProcentualFeeDOWNMssgsVisitor {
+interface TransactionFeeDOWNMssgsVisitor extends FixTransactionFeeDOWNMssgsVisitor, ProcentualFeeDOWNMssgsVisitor, MixedFeeDOWNMssgsVisitor {
 
     
 }

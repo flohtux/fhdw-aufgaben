@@ -209,6 +209,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.deregister(observee);
     }
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentExecuteTransferCommand command = model.meta.ExecuteTransferCommand.createExecuteTransferCommand(now, now);
+		command.setDebitTransfer(debitTransfer);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAccountService)This);
@@ -270,6 +279,17 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        getThis().getAccount().createDebitGrant(receiver, limit);
+        signalChanged(true);
+        
+    }
+    public void createDebit() 
+				throws PersistenceException{
+        getThis().getAccount().createDebit();
+        signalChanged(true);
+    }
     public void createTransfer() 
 				throws PersistenceException{
         getThis().getAccount().createTransfer();
@@ -280,8 +300,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        debitTransfer.execute();
-        getThis().signalChanged(true);
+    	debitTransfer.execute(getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

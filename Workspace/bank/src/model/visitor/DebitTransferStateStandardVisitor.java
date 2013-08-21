@@ -5,11 +5,11 @@ import persistence.*;
 
 public abstract class DebitTransferStateStandardVisitor implements DebitTransferStateVisitor {
     
-    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
-        this.standardHandling(executedState);
-    }
     public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
         this.standardHandling(notExecutetState);
+    }
+    public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
+        this.standardHandling(executedState);
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);

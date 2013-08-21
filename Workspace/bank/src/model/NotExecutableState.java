@@ -193,6 +193,10 @@ public class NotExecutableState extends model.DebitTransferState implements Pers
     
     // Start of section that contains overridden operations only.
     
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+		return FalseValue.getTheFalseValue();
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

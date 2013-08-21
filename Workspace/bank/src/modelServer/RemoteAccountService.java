@@ -78,6 +78,26 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> createDebitGrant(String receiverProxiString, String limitProxiString){
+        try {
+            PersistentAccount receiver = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(receiverProxiString));
+            PersistentLimitType limit = (PersistentLimitType)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));
+            ((PersistentAccountService)this.server).createDebitGrant(receiver, limit);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> createDebit(){
+        try {
+            ((PersistentAccountService)this.server).createDebit();
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> createTransfer(){
         try {
             ((PersistentAccountService)this.server).createTransfer();

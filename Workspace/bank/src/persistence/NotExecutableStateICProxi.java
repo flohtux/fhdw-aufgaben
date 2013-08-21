@@ -96,6 +96,10 @@ public class NotExecutableStateICProxi extends DebitTransferStateICProxi impleme
 				throws PersistenceException{
         ((PersistentNotExecutableState)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+        return ((PersistentNotExecutableState)this.getTheObject()).isExecutable();
+    }
 
     
 }

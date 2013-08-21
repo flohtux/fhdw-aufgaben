@@ -2,7 +2,6 @@
 package model;
 
 import common.Fraction;
-
 import persistence.*;
 import model.meta.StringFACTORY;
 import model.visitor.*;
@@ -478,8 +477,8 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
     }
     public void receiveTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
+				throws model.DebitException, model.InvalidAccountNumberException, PersistenceException{
+        final PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
 			@Override
 			public boolean test(PersistentAccount argument) throws PersistenceException {
 				return argument.getAccountNumber() == debitTransfer.getReceiverAccountNumber();
@@ -488,15 +487,35 @@ public class Bank extends PersistentObject implements PersistentBank{
         if (acc == null) {
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
         }else {
+        	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
+				public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {
+				}
+				public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
+					PersistentDebitGrant grant = acc.getGrantedDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
+						public boolean test(PersistentDebitGrant argument) throws PersistenceException {
+							System.out.println("hier");
+							return argument.getPermittedAccount().equals(debit.getSender());
+//							return true;
+						}
+					});
+					if (grant == null) {
+						throw new DebitNotGrantedException();
+					} else {
+						grant.getLimits().checkLimit(debit.getMoney());
+					}
+				}
+			});
+        	
         	acc.getLimit().checkLimit(debitTransfer.getMoney());
             acc.setMoney(acc.getMoney().add(debitTransfer.getMoney()));
             debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
             acc.getDebitTransferTransactions().add(debitTransfer);
         }
-        System.out.println("received");
+        
+        
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
     	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
@@ -506,7 +525,6 @@ public class Bank extends PersistentObject implements PersistentBank{
     	if (result == null) {
     		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage, debitTransfer.getReceiverBankNumber());
     	} else {
-    		System.out.println("sending");
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.getMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);

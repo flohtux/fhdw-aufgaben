@@ -9,7 +9,7 @@ import view.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class LimitViolatedException extends view.UserException{
+public class LimitViolatedException extends view.DebitException{
     
     public static LimitViolatedException fromHashtableToLimitViolatedException(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         String message = (String)resultTable.get("?Message?");
@@ -22,6 +22,18 @@ public class LimitViolatedException extends view.UserException{
     }
     
     
+    public void accept(DebitExceptionVisitor visitor) throws ModelException {
+        visitor.handleLimitViolatedException(this);
+    }
+    public <R> R accept(DebitExceptionReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleLimitViolatedException(this);
+    }
+    public <E extends UserException>  void accept(DebitExceptionExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleLimitViolatedException(this);
+    }
+    public <R, E extends UserException> R accept(DebitExceptionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleLimitViolatedException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws ModelException {
         visitor.handleLimitViolatedException(this);
     }

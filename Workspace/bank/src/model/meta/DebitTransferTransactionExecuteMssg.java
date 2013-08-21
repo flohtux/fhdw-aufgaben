@@ -14,9 +14,6 @@ public class DebitTransferTransactionExecuteMssg implements DebitTransferTransac
     public void accept(DebitTransferTransactionMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferTransactionExecuteMssg(this);
     }
-    public void accept(TransactionMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
-    }
     public void accept(DebitTransferMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferTransactionExecuteMssg(this);
     }
@@ -24,6 +21,9 @@ public class DebitTransferTransactionExecuteMssg implements DebitTransferTransac
         visitor.handleDebitTransferTransactionExecuteMssg(this);
     }
     public void accept(DebitMssgsVisitor visitor) throws persistence.PersistenceException{
+        visitor.handleDebitTransferTransactionExecuteMssg(this);
+    }
+    public void accept(TransactionMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferTransactionExecuteMssg(this);
     }
     public synchronized void execute() {
@@ -36,11 +36,11 @@ public class DebitTransferTransactionExecuteMssg implements DebitTransferTransac
             }
         }
     }
-    public synchronized void getResult() throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException {
+    public synchronized void getResult() throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException {
         if(this.excptn != null) {
             if(this.excptn instanceof model.NoPermissionToExecuteDebitTransferException) throw (model.NoPermissionToExecuteDebitTransferException) this.excptn;
+            if(this.excptn instanceof model.DebitException) throw (model.DebitException) this.excptn;
             if(this.excptn instanceof model.InvalidBankNumberException) throw (model.InvalidBankNumberException) this.excptn;
-            if(this.excptn instanceof model.LimitViolatedException) throw (model.LimitViolatedException) this.excptn;
             if(this.excptn instanceof model.InvalidAccountNumberException) throw (model.InvalidAccountNumberException) this.excptn;
             if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
             if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;

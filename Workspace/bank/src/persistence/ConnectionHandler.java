@@ -133,6 +133,7 @@ public class ConnectionHandler {
     public ProcentualFeeFacade theProcentualFeeFacade;
     public ServerFacade theServerFacade;
     public TransferFacade theTransferFacade;
+    public ExecuteCommandFacade theExecuteCommandFacade;
     public AdministratorBanksFacade theAdministratorBanksFacade;
     public DollarFacade theDollarFacade;
     public LimitAccountFacade theLimitAccountFacade;
@@ -147,8 +148,8 @@ public class ConnectionHandler {
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
     public EuroFacade theEuroFacade;
-    public TemplateStateFacade theTemplateStateFacade;
     public YenFacade theYenFacade;
+    public TemplateStateFacade theTemplateStateFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public LimitTypeFacade theLimitTypeFacade;
     public NotExecutetStateFacade theNotExecutetStateFacade;
@@ -161,6 +162,8 @@ public class ConnectionHandler {
     public PfundFacade thePfundFacade;
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
+    public DebitGrantFacade theDebitGrantFacade;
+    public ExecuteTransferCommandFacade theExecuteTransferCommandFacade;
     public BankCreatorFacade theBankCreatorFacade;
 
 	protected ConnectionHandler(String name) throws PersistenceException {
@@ -212,6 +215,7 @@ public class ConnectionHandler {
             this.theProcentualFeeFacade= new ProcentualFeeFacade(this.schemaName, this.con);
             this.theServerFacade= new ServerFacade(this.schemaName, this.con);
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);
+            this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);
             this.theLimitAccountFacade= new LimitAccountFacade(this.schemaName, this.con);
@@ -226,8 +230,8 @@ public class ConnectionHandler {
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
-            this.theTemplateStateFacade= new TemplateStateFacade(this.schemaName, this.con);
             this.theYenFacade= new YenFacade(this.schemaName, this.con);
+            this.theTemplateStateFacade= new TemplateStateFacade(this.schemaName, this.con);
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade(this.schemaName, this.con);
             this.theLimitTypeFacade= new LimitTypeFacade(this.schemaName, this.con);
             this.theNotExecutetStateFacade= new NotExecutetStateFacade(this.schemaName, this.con);
@@ -240,6 +244,8 @@ public class ConnectionHandler {
             this.thePfundFacade= new PfundFacade(this.schemaName, this.con);
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
+            this.theDebitGrantFacade= new DebitGrantFacade(this.schemaName, this.con);
+            this.theExecuteTransferCommandFacade= new ExecuteTransferCommandFacade(this.schemaName, this.con);
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
 		} catch (SQLException sqlExc) {
 			throw new PersistenceException(sqlExc.getMessage(), sqlExc.getErrorCode());

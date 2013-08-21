@@ -119,6 +119,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSuccessfulStornoState(SuccessfulStornoStateView successfulStornoState) throws ModelException{
         this.standardHandling(successfulStornoState);
     }
+    public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException{
+        this.standardHandling(debitGrant);
+    }
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException{
         this.standardHandling(bankCreator);
     }

@@ -5,4 +5,4 @@ public interface DebitTransferTransactionMssgs {
 }
 
 interface DebitTransferTransactionDOWNMssgs extends Mssgs, DebitTransferTransactionMssgs{}
-interface DebitTransferTransactionUPMssgs extends TransactionUPMssgs, DebitTransferUPMssgs, DebitTransferTransactionMssgs{}
+interface DebitTransferTransactionUPMssgs extends DebitTransferUPMssgs, TransactionUPMssgs, DebitTransferTransactionMssgs{}

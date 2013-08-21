@@ -5,6 +5,9 @@ import persistence.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException{
+        this.standardHandling(noAccountsFound);
+    }
     public void handleCycleException(model.CycleException cycleException) throws PersistenceException{
         this.standardHandling(cycleException);
     }
@@ -28,6 +31,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     }
     public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
         this.standardHandling(invalidAccountNumberException);
+    }
+    public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
+        this.standardHandling(debitNotGrantedException);
     }
     protected abstract void standardHandling(model.UserException userException) throws PersistenceException;
 }

@@ -92,11 +92,11 @@ public  class RemoteBankService extends RemoteService {
             return createExceptionResult(pe);
         }catch(model.NoPermissionToExecuteDebitTransferException e0){
             return createExceptionResult(e0, this);
-        }catch(model.InvalidBankNumberException e1){
+        }catch(model.DebitException e1){
             return createExceptionResult(e1, this);
-        }catch(model.CloseAccountNoPossibleException e2){
+        }catch(model.InvalidBankNumberException e2){
             return createExceptionResult(e2, this);
-        }catch(model.LimitViolatedException e3){
+        }catch(model.CloseAccountNoPossibleException e3){
             return createExceptionResult(e3, this);
         }catch(model.InvalidAccountNumberException e4){
             return createExceptionResult(e4, this);

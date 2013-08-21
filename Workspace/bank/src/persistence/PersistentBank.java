@@ -62,9 +62,9 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void receiveTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.DebitException, model.InvalidAccountNumberException, PersistenceException;
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
 
 }
 
