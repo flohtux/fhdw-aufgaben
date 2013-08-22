@@ -182,9 +182,9 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
     }
     
     
-    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+    public void createDebitGrant(final PersistentAccountPx receiver, final PersistentLimitType limit) 
 				throws PersistenceException{
-        model.meta.DebitGrantListeCreateDebitGrantAccountLimitTypeMssg event = new model.meta.DebitGrantListeCreateDebitGrantAccountLimitTypeMssg(receiver, limit, getThis());
+        model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event = new model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(receiver, limit, getThis());
 		event.execute();
 		getThis().updateObservers(event);
 		event.getResult();
@@ -230,10 +230,10 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
 				throws PersistenceException{
         
     }
-    public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
+    public void createDebitGrantImplementation(final PersistentAccountPx receiver, final PersistentLimitType limit) 
 				throws PersistenceException{
-        //TODO: implement method: createDebitGrant
-        
+        PersistentDebitGrant debitGrant = DebitGrant.createDebitGrant(receiver, limit);
+        getThis().getDebitGrants().add(debitGrant);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

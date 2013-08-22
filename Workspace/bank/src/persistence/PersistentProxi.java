@@ -252,11 +252,6 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new NotExecutetStateListEntryProxi(objectId, entryId);
             }
         };
-        listProxiFactories[71] = new ListProxiFactory(){
-            PersistentListEntryProxi create(long objectId, long entryId){
-                return new AccountDebitTransferTransactionsListEntryProxi(objectId, entryId);
-            }
-        };
         listProxiFactories[43] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new NotExecutableStateListEntryProxi(objectId, entryId);
@@ -561,11 +556,6 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[42] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new NotExecutetStateProxi(objectId);
-            }
-        };
-        proxiFactories[71] = new ProxiFactory(){
-            PersistentProxi create(long objectId){
-                return new AccountDebitTransferTransactionsProxi(objectId);
             }
         };
         proxiFactories[43] = new ProxiFactory(){

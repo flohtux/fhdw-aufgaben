@@ -40,6 +40,9 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
+    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getDebitTransferTransactions();
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -91,10 +94,6 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public PersistentBank getBank() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getBank();
-    }
-    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
-				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).getDebitTransferTransactions();
     }
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException{
@@ -155,10 +154,6 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public PersistentTransfer createTransfer() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();
-    }
-    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).debitTransferTransactions_update(event);
     }
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{

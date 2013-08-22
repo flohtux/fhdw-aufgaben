@@ -20,13 +20,13 @@ public interface PersistentDebitGrantListe extends SubjInterface, Anything, Abst
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+    public void createDebitGrant(final PersistentAccountPx receiver, final PersistentLimitType limit) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
+    public void createDebitGrantImplementation(final PersistentAccountPx receiver, final PersistentLimitType limit) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

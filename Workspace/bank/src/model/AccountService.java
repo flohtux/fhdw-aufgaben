@@ -406,6 +406,13 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	debitTransfer.execute(getThis());
+    	getThis().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+			@Override
+			public boolean test(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				return argument.equals(debitTransfer);
+			}
+		});
     	getThis().getSuccessful().getSuccessfuls().add(debitTransfer);
     	getThis().signalChanged(true);
     }

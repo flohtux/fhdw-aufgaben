@@ -248,11 +248,6 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new NotExecutetStateICProxi(objectId);
             }
         };
-        iCProxiFactories[71] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new AccountDebitTransferTransactionsICProxi(objectId);
-            }
-        };
         iCProxiFactories[43] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new NotExecutableStateICProxi(objectId);

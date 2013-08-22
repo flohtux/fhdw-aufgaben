@@ -2,23 +2,23 @@ package model.meta;
 
 import persistence.PersistenceException;
 
-public class DebitGrantListeCreateDebitGrantAccountLimitTypeMssg implements DebitGrantListeDOWNMssgs,DebitGrantListeUPMssgs{
+public class DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg implements DebitGrantListeDOWNMssgs,DebitGrantListeUPMssgs{
     
     private java.util.Date exctDte = null;
     private Exception excptn;
     public final persistence.PersistentDebitGrantListe rcvr;
-    public final persistence.PersistentAccount receiver;
+    public final persistence.PersistentAccountPx receiver;
     public final persistence.PersistentLimitType limit;
     
-    public DebitGrantListeCreateDebitGrantAccountLimitTypeMssg(persistence.PersistentAccount receiver,
-                                                               persistence.PersistentLimitType limit,
-                                                               persistence.PersistentDebitGrantListe rcvr){
+    public DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(persistence.PersistentAccountPx receiver,
+                                                                 persistence.PersistentLimitType limit,
+                                                                 persistence.PersistentDebitGrantListe rcvr){
         this.receiver = receiver;
         this.limit = limit;
         this.rcvr = rcvr;
     }
     public void accept(DebitGrantListeMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitGrantListeCreateDebitGrantAccountLimitTypeMssg(this);
+        visitor.handleDebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(this);
     }
     public synchronized void execute() {
         if (this.exctDte == null){

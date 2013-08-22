@@ -146,9 +146,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
         this.standardHandling(notExecutetState);
     }
-    public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
-        this.standardHandling(accountDebitTransferTransactions);
-    }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
     }

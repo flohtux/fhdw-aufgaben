@@ -2,11 +2,8 @@
 package model;
 
 import persistence.*;
-import model.meta.DebitGrantListeCreateDebitGrantAccountLimitTypeMssg;
+import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
-import model.meta.DebitGrantMssgsVisitor;
-import model.meta.DebitTransferTransactionExecuteMssg;
-import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.visitor.*;
 
 
@@ -83,7 +80,7 @@ public class Account extends PersistentObject implements PersistentAccount{
                     if(forGUI && limit.hasEssentialFields())limit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            result.put("debitTransferTransactions", this.getDebitTransferTransactions().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
+            result.put("debitTransferTransactions", this.getDebitTransferTransactions().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             AbstractPersistentRoot grantedDebitGrant = (AbstractPersistentRoot)this.getGrantedDebitGrant();
             if (grantedDebitGrant != null) {
                 result.put("grantedDebitGrant", grantedDebitGrant.createProxiInformation(false, essentialLevel == 0));
@@ -118,7 +115,6 @@ public class Account extends PersistentObject implements PersistentAccount{
         result = new Account(this.accountNumber, 
                              this.money, 
                              this.limit, 
-                             this.debitTransferTransactions, 
                              this.grantedDebitGrant, 
                              this.receivedDebitGrant, 
                              this.subService, 
@@ -134,19 +130,19 @@ public class Account extends PersistentObject implements PersistentAccount{
     protected long accountNumber;
     protected PersistentMoney money;
     protected PersistentLimitAccount limit;
-    protected PersistentAccountDebitTransferTransactions debitTransferTransactions;
+    protected Account_DebitTransferTransactionsProxi debitTransferTransactions;
     protected PersistentAccountGrantedDebitGrant grantedDebitGrant;
     protected PersistentAccountReceivedDebitGrant receivedDebitGrant;
     protected SubjInterface subService;
     protected PersistentAccount This;
     
-    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountDebitTransferTransactions debitTransferTransactions,PersistentAccountGrantedDebitGrant grantedDebitGrant,PersistentAccountReceivedDebitGrant receivedDebitGrant,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
+    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountGrantedDebitGrant grantedDebitGrant,PersistentAccountReceivedDebitGrant receivedDebitGrant,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.accountNumber = accountNumber;
         this.money = money;
         this.limit = limit;
-        this.debitTransferTransactions = debitTransferTransactions;
+        this.debitTransferTransactions = new Account_DebitTransferTransactionsProxi(this);
         this.grantedDebitGrant = grantedDebitGrant;
         this.receivedDebitGrant = receivedDebitGrant;
         this.subService = subService;
@@ -174,10 +170,7 @@ public class Account extends PersistentObject implements PersistentAccount{
             this.getLimit().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), getLimit());
         }
-        if(this.debitTransferTransactions != null){
-            this.debitTransferTransactions.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.debitTransferTransactionsSet(this.getId(), debitTransferTransactions);
-        }
+        this.getDebitTransferTransactions().store();
         if(this.grantedDebitGrant != null){
             this.grantedDebitGrant.store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.grantedDebitGrantSet(this.getId(), grantedDebitGrant);
@@ -232,16 +225,8 @@ public class Account extends PersistentObject implements PersistentAccount{
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.limitSet(this.getId(), newValue);
         }
     }
-    protected void setDebitTransferTransactions(PersistentAccountDebitTransferTransactions newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.debitTransferTransactions)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.debitTransferTransactionsSet(this.getId(), newValue);
-        }
+    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException {
+        return this.debitTransferTransactions;
     }
     protected void setGrantedDebitGrant(PersistentAccountGrantedDebitGrant newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -369,14 +354,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
     }
-    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
-				throws PersistenceException{
-        if (this.debitTransferTransactions == null) {
-			this.setDebitTransferTransactions(model.AccountDebitTransferTransactions.createAccountDebitTransferTransactions(this.isDelayed$Persistence()));
-			this.debitTransferTransactions.setObserver(this);
-		}
-		return this.debitTransferTransactions;
-    }
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException{
         if (this.grantedDebitGrant== null) return null;
@@ -458,13 +435,11 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws PersistenceException{
     	PersistentAccountPx receiverAccPx = AccountPx.createAccountPx(receiver);
-    	PersistentDebitGrant debitGrant = DebitGrant.createDebitGrant(receiverAccPx, limit);
-        getThis().getReceivedDebitGrant().getDebitGrants().add(debitGrant);
+        getThis().getReceivedDebitGrant().createDebitGrant(receiverAccPx, limit);
         System.out.println("create"+getThis().getGrantedDebitGrant().getDebitGrants());
         
         PersistentAccountPx thisAccPx = AccountPx.createAccountPx(getThis());
-    	debitGrant = DebitGrant.createDebitGrant(thisAccPx, limit);
-        receiver.getGrantedDebitGrant().getDebitGrants().add(debitGrant);
+        receiver.getGrantedDebitGrant().createDebitGrant(thisAccPx, limit);
         System.out.println("create"+receiver.getReceivedDebitGrant().getDebitGrants());
         
         
@@ -483,24 +458,12 @@ public class Account extends PersistentObject implements PersistentAccount{
 		getThis().getDebitTransferTransactions().add(transfer);
 		return transfer;
     }
-    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
-				throws PersistenceException{
-        //TODO: implement method: debitNoteTransferTransactions_update
-        event.accept(new DebitTransferTransactionMssgsVisitor() {
-			@Override
-			public void handleDebitTransferTransactionExecuteMssg(
-					DebitTransferTransactionExecuteMssg event)
-					throws PersistenceException {
-				getThis().getAccountService().signalChanged(true);
-			}
-		});
-    }
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
         event.accept(new DebitGrantListeMssgsVisitor() {
 			@Override
-			public void handleDebitGrantListeCreateDebitGrantAccountLimitTypeMssg(
-					DebitGrantListeCreateDebitGrantAccountLimitTypeMssg event)
+			public void handleDebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(
+					DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event)
 					throws PersistenceException {
 				getThis().getAccountService().signalChanged(true);
 			}
@@ -521,13 +484,14 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
-    event.accept(new DebitGrantListeMssgsVisitor() {
-		@Override
-		public void handleDebitGrantListeCreateDebitGrantAccountLimitTypeMssg(
-				DebitGrantListeCreateDebitGrantAccountLimitTypeMssg event)
-				throws PersistenceException {
-		}
-	});
+    	event.accept(new DebitGrantListeMssgsVisitor() {
+			@Override
+			public void handleDebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(
+					DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event)
+					throws PersistenceException {
+					getThis().getAccountService().signalChanged(true);
+			}
+		});
 }
     
     

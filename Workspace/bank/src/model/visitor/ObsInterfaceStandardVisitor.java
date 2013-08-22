@@ -8,9 +8,6 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException{
         this.standardHandling(accountReceivedDebitGrant);
     }
-    public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
-        this.standardHandling(accountDebitTransferTransactions);
-    }
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException{
         this.standardHandling(administratorCurrencyManager);
     }

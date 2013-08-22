@@ -12,6 +12,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
+    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;
@@ -30,8 +31,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public PersistentAccountService getAccountService() 
 				throws PersistenceException;
     public PersistentBank getBank() 
-				throws PersistenceException;
-    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
 				throws PersistenceException;
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException;
@@ -58,8 +57,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public PersistentDebit createDebit() 
 				throws PersistenceException;
     public PersistentTransfer createTransfer() 
-				throws PersistenceException;
-    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException;
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;

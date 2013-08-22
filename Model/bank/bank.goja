@@ -90,7 +90,7 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	no-view observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 
@@ -111,7 +111,7 @@ class AccountPx {
 
 class DebitGrantListe {
 	DebitGrant ** debitGrants;
-	event void createDebitGrant(Account receiver, LimitType limit);
+	event void createDebitGrant(AccountPx receiver, LimitType limit);
 }
 
 class Money {
