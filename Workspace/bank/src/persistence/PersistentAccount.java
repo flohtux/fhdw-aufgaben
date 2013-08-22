@@ -35,13 +35,13 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeCurrency(final PersistentTransfer trans, final PersistentCurrency currency) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException;
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException;
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

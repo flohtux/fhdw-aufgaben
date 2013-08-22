@@ -207,6 +207,10 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         //TODO: implement method: copyingPrivateUserAttributes
         
     }
+    public PersistentMoney fetchRealMoney() 
+				throws PersistenceException{
+        return getThis().getMoney().multiply(Fraction.MinusOne);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));

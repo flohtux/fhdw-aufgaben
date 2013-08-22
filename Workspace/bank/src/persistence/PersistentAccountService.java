@@ -31,24 +31,34 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+				throws PersistenceException;
     public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException;
+    public PersistentDebitTransferNotExecuted getNotExecuted() 
+				throws PersistenceException;
+    public PersistentDebitTransferSuccessful getSuccessful() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeCurrency(final PersistentTransfer trans, final String currency) 
+    public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
 				throws PersistenceException;
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
 				throws PersistenceException;
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException;
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
-    public void changeSubject(final PersistentTransfer trans, final String subject) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 
+				throws PersistenceException;
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException;
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
-				throws PersistenceException;
+    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
     public void createDebit() 
 				throws PersistenceException;
     public void createTransfer() 
@@ -58,6 +68,10 @@ public interface PersistentAccountService extends PersistentService {
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
+				throws PersistenceException;
+    public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException;
 
 }

@@ -263,6 +263,8 @@ public class Cache {
 		this.number2NameMap.put(133, "Account");
 		this.number2NameMap.put(172, "AccountDebitTransferTransactions");
 		this.number2NameMap.put(-130, "AccountService");
+		this.number2NameMap.put(201, "AccountServiceNotExecuted");
+		this.number2NameMap.put(199, "AccountServiceSuccessful");
 		this.number2NameMap.put(-117, "Administrator");
 		this.number2NameMap.put(125, "AdministratorBanks");
 		this.number2NameMap.put(183, "AdministratorCurrencyManager");
@@ -276,9 +278,12 @@ public class Cache {
 		this.number2NameMap.put(111, "CommonDate");
 		this.number2NameMap.put(107, "CreateAccountCommand");
 		this.number2NameMap.put(118, "CreateBankCommand");
+		this.number2NameMap.put(198, "CreateDebitGrantCommand");
 		this.number2NameMap.put(179, "CurrencyManager");
 		this.number2NameMap.put(177, "Debit");
 		this.number2NameMap.put(191, "DebitGrant");
+		this.number2NameMap.put(200, "DebitTransferNotExecuted");
+		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(126, "Dollar");
 		this.number2NameMap.put(-135, "ErrorDisplay");
 		this.number2NameMap.put(137, "Euro");

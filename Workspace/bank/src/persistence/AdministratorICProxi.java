@@ -180,6 +180,10 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBank searchBankByBankNumber(final long bankNum) 
+				throws model.InvalidBankNumberException, PersistenceException{
+        return ((PersistentAdministrator)this.getTheObject()).searchBankByBankNumber(bankNum);
+    }
 
     
 }

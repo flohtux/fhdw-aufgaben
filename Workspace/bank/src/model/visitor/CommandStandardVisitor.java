@@ -20,5 +20,8 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException{
         this.standardHandling(executeTransferCommand);
     }
+    public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
+        this.standardHandling(createDebitGrantCommand);
+    }
     protected abstract void standardHandling(Command command) throws PersistenceException;
 }

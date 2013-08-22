@@ -15,7 +15,6 @@ public class InvalidBankNumberException extends model.UserException{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("bn", new Long(this.getBn()).toString());
             
         }
         return result;
@@ -24,11 +23,9 @@ public class InvalidBankNumberException extends model.UserException{
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected long bn;
     
-    public InvalidBankNumberException(String message, long bn) throws persistence.PersistenceException {
-        super(message);
-        this.bn = bn;        
+    public InvalidBankNumberException(String message) throws persistence.PersistenceException {
+        super(message);        
     }
     
     static public long getTypeId() {
@@ -39,12 +36,6 @@ public class InvalidBankNumberException extends model.UserException{
         return getTypeId();
     }
     
-    public long getBn(){
-        return this.bn;
-    }
-    public void setBn(long newValue) throws PersistenceException {
-        this.bn = newValue;
-    }
     
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
         visitor.handleInvalidBankNumberException(this);
@@ -69,7 +60,10 @@ public class InvalidBankNumberException extends model.UserException{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    
+	public InvalidBankNumberException(long bn) throws PersistenceException{
+		this(String.format(serverConstants.ExceptionMessages.InvalidBankMessage, bn));
+	}
+
     /* End of protected part that is not overridden by persistence generator */
     
 }

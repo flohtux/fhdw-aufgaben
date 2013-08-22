@@ -25,8 +25,8 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleDollar(PersistentDollar dollar) throws PersistenceException;
     public abstract void handleFranken(PersistentFranken franken) throws PersistenceException;
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
-    public abstract void handleDebit(PersistentDebit debit) throws PersistenceException;
     public abstract void handleLimit(PersistentLimit limit) throws PersistenceException;
+    public abstract void handleDebit(PersistentDebit debit) throws PersistenceException;
     public abstract void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException;
     public abstract void handleRequestState(PersistentRequestState requestState) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
@@ -34,11 +34,13 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleEuro(PersistentEuro euro) throws PersistenceException;
     public abstract void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException;
     public abstract void handleYen(PersistentYen yen) throws PersistenceException;
+    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     public abstract void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException;
     public abstract void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException;
     public abstract void handleTransaction(PersistentTransaction transaction) throws PersistenceException;
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
+    public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public abstract void handlePfund(PersistentPfund pfund) throws PersistenceException;
     public abstract void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException;
     public abstract void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException;

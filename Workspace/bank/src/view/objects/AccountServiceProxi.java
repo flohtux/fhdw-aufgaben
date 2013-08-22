@@ -22,7 +22,21 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             account = view.objects.ViewProxi.createProxi(account$Info,connectionKey);
             account.setToString(account$Info.getToString());
         }
-        AccountServiceView result$$ = new AccountService(errors,(AccountView)account, this.getId(), this.getClassId());
+        ViewProxi successful = null;
+        String successful$String = (String)resultTable.get("successful");
+        if (successful$String != null) {
+            common.ProxiInformation successful$Info = common.RPCConstantsAndServices.createProxiInformation(successful$String);
+            successful = view.objects.ViewProxi.createProxi(successful$Info,connectionKey);
+            successful.setToString(successful$Info.getToString());
+        }
+        ViewProxi notExecuted = null;
+        String notExecuted$String = (String)resultTable.get("notExecuted");
+        if (notExecuted$String != null) {
+            common.ProxiInformation notExecuted$Info = common.RPCConstantsAndServices.createProxiInformation(notExecuted$String);
+            notExecuted = view.objects.ViewProxi.createProxi(notExecuted$Info,connectionKey);
+            notExecuted.setToString(notExecuted$Info.getToString());
+        }
+        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -35,21 +49,33 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         if(this.getAccount() != null && index < this.getAccount().getTheObject().getChildCount())
             return this.getAccount().getTheObject().getChild(index);
         if(this.getAccount() != null) index = index - this.getAccount().getTheObject().getChildCount();
+        if(index == 0 && this.getSuccessful() != null) return new SuccessfulAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getSuccessful());
+        if(this.getSuccessful() != null) index = index - 1;
+        if(index == 0 && this.getNotExecuted() != null) return new NotExecutedAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getNotExecuted());
+        if(this.getNotExecuted() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount());
+            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
+            + (this.getSuccessful() == null ? 0 : 1)
+            + (this.getNotExecuted() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf());
+            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
+            && (this.getSuccessful() == null ? true : false)
+            && (this.getNotExecuted() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getAccount() != null && this.getAccount().equals(child)) return result;
         if(this.getAccount() != null) result = result + 1;
+        if(this.getSuccessful() != null && this.getSuccessful().equals(child)) return result;
+        if(this.getSuccessful() != null) result = result + 1;
+        if(this.getNotExecuted() != null && this.getNotExecuted().equals(child)) return result;
+        if(this.getNotExecuted() != null) result = result + 1;
         return -1;
     }
     
@@ -58,6 +84,18 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
     }
     public void setAccount(AccountView newValue) throws ModelException {
         ((AccountService)this.getTheObject()).setAccount(newValue);
+    }
+    public DebitTransferSuccessfulView getSuccessful()throws ModelException{
+        return ((AccountService)this.getTheObject()).getSuccessful();
+    }
+    public void setSuccessful(DebitTransferSuccessfulView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setSuccessful(newValue);
+    }
+    public DebitTransferNotExecutedView getNotExecuted()throws ModelException{
+        return ((AccountService)this.getTheObject()).getNotExecuted();
+    }
+    public void setNotExecuted(DebitTransferNotExecutedView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setNotExecuted(newValue);
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {

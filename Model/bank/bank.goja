@@ -12,6 +12,7 @@ server Administrator extends Service {
 	void createBank@@Bank_erstellen(String name);
 	void changeName@@Namen_ändern(Bank bank, String name@@Name);
 	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currency, Fraction rate);
+	Bank searchBankByBankNumber(Integer bankNum) throws InvalidBankNumberException;
 }
 
 singleton CurrencyManager@@Zentralbank {
@@ -60,19 +61,31 @@ class Bank {
 	void changeTransactionFeeToFix(Money fix);
 	void changeTransactionFeeToProcentual(Percent procentual);
 	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
+	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
+	observe DebitTransferSuccessful successful;
+	observe DebitTransferNotExecuted notExecuted;
 	void createTransfer@@Neue_Überweisung();
 	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
-	void changeReceiverBank@@Empfänger_Bank_ändern(Transfer trans, Integer receiverBankNumber);
-	void changeReceiverAccount@@Empfänger_Konto_ändern(Transfer trans, Integer receiverAccNumber);
-	void changeMoney@@Überweisungsbetrag_ändern(Transfer trans, Fraction newAmount);
-	void changeSubject@@Betreff_ändern(Transfer trans, String subject);
-	void changeCurrency@@Währung_ändern(Transfer trans, CurrencySUBTYPEName currency);
+	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
+	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);
+	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans, Fraction newAmount);
+	void changeSubject@@Betreff_ändern(DebitTransfer trans, String subject);
+	void changeCurrency@@Währung_ändern(DebitTransfer trans, CurrencySUBTYPEName currency);
 	void createDebit@@Neue_Lastschrift();
-	void createDebitGrant(Account receiver, LimitType limit);
+	active void createDebitGrant@@Neue_Erlaubnis_erteilen(Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException;
 }
+
+class DebitTransferSuccessful##DbtTrnSucc {
+	DebitTransfer ** successfuls;
+}
+
+class DebitTransferNotExecuted##DbTrNtExec {
+	DebitTransfer ** notExecuteds;
+}
+
 class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
@@ -82,10 +95,10 @@ class Account {
 	DebitGrant ** receivedDebitGrants##RcvdGrnts;
 
 	Transfer createTransfer();
-	void changeReceiverBank(Transfer trans, Integer receiverBankNumber);
-	void changeReceiverAccount(Transfer trans, Integer receiverAccountNumber);
-	void changeMoney(Transfer trans, Fraction newAmount);
-	void changeCurrency(Transfer trans, Currency currency);
+	void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
+	void changeReceiverAccount(DebitTransfer trans, Integer receiverAccountNumber);
+	void changeMoney(DebitTransfer trans, Fraction newAmount);
+	void changeCurrency(DebitTransfer trans, Currency currency);
 
 	Debit createDebit();
 	void createDebitGrant(Account receiver, LimitType limit);
@@ -119,7 +132,7 @@ abstract class BooleanValue(TrueValue,FalseValue){
 	extern boolean isTrue();
 }
 
-abstract class LimitType(NoLimit) {
+abstract string-factory class LimitType(NoLimit) {
 	void checkLimit(Money money) throws LimitViolatedException;
 }
 class Limit extends LimitType{
@@ -162,6 +175,7 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 	String subject@@Betreff;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
+	abstract Money fetchRealMoney();
 }
 
 class Transfer extends DebitTransfer {}
@@ -182,7 +196,7 @@ abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulStat
 abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
 
 exception PasswordException {}
-exception InvalidBankNumberException{prior Integer bn;}
+exception InvalidBankNumberException{}
 exception InvalidAccountNumberException{}
 exception LimitViolatedException extends DebitException{}
 exception NoPermissionToExecuteDebitTransferException{}

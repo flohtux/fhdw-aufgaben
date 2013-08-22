@@ -101,7 +101,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
-		
+		this.result = "Lastschrift";
 	}
 	@Override
 	public void handleRequestState(PersistentRequestState requestState)
@@ -183,7 +183,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+//		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+		this.result = "Überweisung";
 	}
 	@Override
 	public void handleSuccessfulStornoState(
@@ -240,6 +241,17 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		this.result = "Einzugsermächtigung für " + debitGrant.getPermittedAccount();
 		
 	}
+	@Override
+	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException {
+		this.result = "History";
+		
+	}
+	@Override
+	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException {
+		this.result = "Noch nicht erledigte Aufträge";
+		
+	}
+	
 
 
 }

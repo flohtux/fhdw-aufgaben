@@ -12,6 +12,8 @@ public class RegularExpressionManager {
     public static RegularExpressionHandler transactionFeeSUBTYPEName = new RegularExpressionHandler( "[(MixedFee)" + 
 		"(FixTransactionFee)" + 
 		"(ProcentualFee)]" );
+    public static RegularExpressionHandler limitTypeSUBTYPEName = new RegularExpressionHandler( "[(NoLimit)" + 
+		"(Limit)]" );
     
 
 }

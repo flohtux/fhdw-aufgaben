@@ -17,7 +17,7 @@ public class MoneyAccountWrapper extends AssociationInTreeWrapper {
 	
 	public String toString(){
     	//TODO: Implement toString in wrapper class for association money in class Account
-    	return this.getWrappedObject().toString();
+    	return "Kontostand: "+this.getWrappedObject().toString();
     }
 
     /*End of protected part that is not overridden by persistence generator*/

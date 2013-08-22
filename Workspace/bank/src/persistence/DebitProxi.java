@@ -108,6 +108,10 @@ public class DebitProxi extends DebitTransferProxi implements PersistentDebit{
 				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentDebit)this.getTheObject()).executeImplementation();
     }
+    public PersistentMoney fetchRealMoney() 
+				throws PersistenceException{
+        return ((PersistentDebit)this.getTheObject()).fetchRealMoney();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentDebit)this.getTheObject()).initializeOnCreation();

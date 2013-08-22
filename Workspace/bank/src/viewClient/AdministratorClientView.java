@@ -338,6 +338,18 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
             }
             
         });result.add(currentButton);
+        currentButton = new javax.swing.JButton("searchBankByBankNumber ... ");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                AdministratorSearchBankByBankNumberIntegerMssgWizard wizard = new AdministratorSearchBankByBankNumberIntegerMssgWizard("searchBankByBankNumber");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });result.add(currentButton);
         return result;
     }
     private JPopupMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations) {
@@ -376,6 +388,20 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 AdministratorChangeCurrencyRateGUICurrencySUBTYPENameFractionMssgWizard wizard = new AdministratorChangeCurrencyRateGUICurrencySUBTYPENameFractionMssgWizard("Wechselkurs festlegen");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) searchBankByBankNumber ... ");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                AdministratorSearchBankByBankNumberIntegerMssgWizard wizard = new AdministratorSearchBankByBankNumberIntegerMssgWizard("searchBankByBankNumber");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -582,6 +608,51 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		
 		protected void addParameters(){
 			getParametersPanel().add(new StringSelectionPanel("name", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class AdministratorSearchBankByBankNumberIntegerMssgWizard extends Wizard {
+
+		protected AdministratorSearchBankByBankNumberIntegerMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AdministratorSearchBankByBankNumberIntegerMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				ViewRoot result = (ViewRoot) getConnection().searchBankByBankNumber(((IntegerSelectionPanel)getParametersPanel().getComponent(0)).getResult().longValue());
+				ReturnValueView view = new ReturnValueView(result, new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+				view.setLocationRelativeTo(getNavigationScrollPane());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();
+				view.setVisible(true);
+				view.repaint();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			catch(InvalidBankNumberException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new IntegerSelectionPanel("bankNum", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

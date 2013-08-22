@@ -6,7 +6,9 @@ import persistence.*;
 public interface ObsInterfaceReturnVisitor<R> {
     
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
+    public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     public R handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     public R handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
+    public R handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     
 }

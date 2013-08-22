@@ -16,5 +16,10 @@ public class StringFACTORY{
         if(name.equals("ProcentualFee")) return switchAssistant.handleProcentualFee();
         throw new persistence.PersistenceException("No such type name!",0);
     }
+    public static persistence.PersistentLimitType createObjectBySubTypeNameForLimitType(String name, LimitTypeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
+        if(name.equals("NoLimit")) return model.NoLimit.getTheNoLimit();
+        if(name.equals("Limit")) return switchAssistant.handleLimit();
+        throw new persistence.PersistenceException("No such type name!",0);
+    }
     
 }
