@@ -26,7 +26,7 @@ public class DebitGrantProxi extends ViewProxi implements DebitGrantView{
             limits = view.objects.ViewProxi.createProxi(limits$Info,connectionKey);
             limits.setToString(limits$Info.getToString());
         }
-        DebitGrantView result$$ = new DebitGrant((AccountView)permittedAccount,(LimitTypeView)limits, this.getId(), this.getClassId());
+        DebitGrantView result$$ = new DebitGrant((AccountPxView)permittedAccount,(LimitTypeView)limits, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -62,10 +62,10 @@ public class DebitGrantProxi extends ViewProxi implements DebitGrantView{
         return -1;
     }
     
-    public AccountView getPermittedAccount()throws ModelException{
+    public AccountPxView getPermittedAccount()throws ModelException{
         return ((DebitGrant)this.getTheObject()).getPermittedAccount();
     }
-    public void setPermittedAccount(AccountView newValue) throws ModelException {
+    public void setPermittedAccount(AccountPxView newValue) throws ModelException {
         ((DebitGrant)this.getTheObject()).setPermittedAccount(newValue);
     }
     public LimitTypeView getLimits()throws ModelException{

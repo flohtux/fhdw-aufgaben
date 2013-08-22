@@ -90,9 +90,9 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
-	DebitGrant ** grantedDebitGrants##GrntdGrnts;
-	DebitGrant ** receivedDebitGrants##RcvdGrnts;
+	no-view observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	DebitGrantListe grantedDebitGrant##GrntdGrnt;
+	DebitGrantListe receivedDebitGrant##RcvdGrnt;
 
 	Transfer createTransfer();
 	void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
@@ -103,6 +103,14 @@ class Account {
 	Debit createDebit();
 	void createDebitGrant(Account receiver, LimitType limit);
 
+}
+
+class AccountPx {
+	server-only prior Account account;
+}
+
+class DebitGrantListe {
+	DebitGrant ** debitGrants;
 }
 
 class Money {
@@ -136,7 +144,7 @@ abstract string-factory class LimitType(NoLimit) {
 	void checkLimit(Money money) throws LimitViolatedException;
 }
 class Limit extends LimitType{
-	prior Money money;
+	prior skip-view Money money;
 }
 
 string-factory abstract class TransactionFee{}
@@ -185,7 +193,7 @@ class Transaction extends DebitTransferTransaction {}
 
 
 class DebitGrant {
-	prior Account permittedAccount;
+	prior AccountPx permittedAccount;
 	prior LimitType limits;
 }
 

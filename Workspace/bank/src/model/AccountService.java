@@ -388,12 +388,14 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void createDebit() 
 				throws PersistenceException{
-        getThis().getAccount().createDebit();
+        PersistentDebit debit = getThis().getAccount().createDebit();
+        getThis().getNotExecuted().getNotExecuteds().add(debit);
         signalChanged(true);
     }
     public void createTransfer() 
 				throws PersistenceException{
-    	getThis().getAccount().createTransfer();
+    	PersistentTransfer transfer = getThis().getAccount().createTransfer();
+    	getThis().getNotExecuted().getNotExecuteds().add(transfer);
         getThis().signalChanged(true);
     }
     public void disconnected() 

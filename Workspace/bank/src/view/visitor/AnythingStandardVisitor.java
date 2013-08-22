@@ -74,11 +74,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleMixedFee(MixedFeeView mixedFee) throws ModelException{
         this.standardHandling(mixedFee);
     }
+    public void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException{
+        this.standardHandling(debitGrantListe);
+    }
     public void handleRequestState(RequestStateView requestState) throws ModelException{
         this.standardHandling(requestState);
     }
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.standardHandling(accountService);
+    }
+    public void handleAccountPx(AccountPxView accountPx) throws ModelException{
+        this.standardHandling(accountPx);
     }
     public void handleAccount(AccountView account) throws ModelException{
         this.standardHandling(account);

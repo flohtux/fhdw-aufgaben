@@ -12,8 +12,10 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
-    public Account_GrantedDebitGrantsProxi getGrantedDebitGrants() throws PersistenceException ;
-    public Account_ReceivedDebitGrantsProxi getReceivedDebitGrants() throws PersistenceException ;
+    public PersistentDebitGrantListe getGrantedDebitGrant() throws PersistenceException ;
+    public void setGrantedDebitGrant(PersistentDebitGrantListe newValue) throws PersistenceException ;
+    public PersistentDebitGrantListe getReceivedDebitGrant() throws PersistenceException ;
+    public void setReceivedDebitGrant(PersistentDebitGrantListe newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;

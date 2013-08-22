@@ -4,12 +4,12 @@ import model.*;
 
 import java.util.Iterator;
 
-public class Account_GrantedDebitGrantsProxi extends PersistentListProxi<PersistentDebitGrant> {
+public class DebitGrantListe_DebitGrantsProxi extends PersistentListProxi<PersistentDebitGrant> {
 
   	private DebitGrantList list;
-  	private Account owner;
+  	private DebitGrantListe owner;
 
-  	public Account_GrantedDebitGrantsProxi(Account owner) {
+  	public DebitGrantListe_DebitGrantsProxi(DebitGrantListe owner) {
     	this.owner = owner;
   	}
   	public DebitGrantList getList() throws PersistenceException{
@@ -19,7 +19,7 @@ public class Account_GrantedDebitGrantsProxi extends PersistentListProxi<Persist
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
-                      		.theAccountFacade.grantedDebitGrantsGet(this.owner.getId());
+                      		.theDebitGrantListeFacade.debitGrantsGet(this.owner.getId());
       		}
     	}
     	return this.list;
@@ -36,8 +36,8 @@ public class Account_GrantedDebitGrantsProxi extends PersistentListProxi<Persist
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
-        		entryId = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-        	               	.grantedDebitGrantsAdd(owner.getId(), entry);
+        		entryId = ConnectionHandler.getTheConnectionHandler().theDebitGrantListeFacade
+        	               	.debitGrantsAdd(owner.getId(), entry);
       		}
       		list.add((PersistentDebitGrant)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
@@ -47,12 +47,12 @@ public class Account_GrantedDebitGrantsProxi extends PersistentListProxi<Persist
   	}
   	protected void remove(PersistentListEntryProxi entry) throws PersistenceException {
     	if (!this.owner.isDelayed$Persistence()) {
-      		ConnectionHandler.getTheConnectionHandler().theAccountFacade.grantedDebitGrantsRem(entry.getListEntryId());
+      		ConnectionHandler.getTheConnectionHandler().theDebitGrantListeFacade.debitGrantsRem(entry.getListEntryId());
     	}
     	
   	}
-  	public Account_GrantedDebitGrantsProxi copy(Account owner) throws PersistenceException {
-  		Account_GrantedDebitGrantsProxi result = new Account_GrantedDebitGrantsProxi(owner);
+  	public DebitGrantListe_DebitGrantsProxi copy(DebitGrantListe owner) throws PersistenceException {
+  		DebitGrantListe_DebitGrantsProxi result = new DebitGrantListe_DebitGrantsProxi(owner);
   		result.list = this.getList().copy();
   		return result;
   	}	 
@@ -61,8 +61,8 @@ public class Account_GrantedDebitGrantsProxi extends PersistentListProxi<Persist
   		while (entries.hasNext()){
   			PersistentDebitGrant current = entries.next();
   			current.store();
-      		long entryId = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-            	           .grantedDebitGrantsAdd(owner.getId(), current);
+      		long entryId = ConnectionHandler.getTheConnectionHandler().theDebitGrantListeFacade
+            	           .debitGrantsAdd(owner.getId(), current);
         	((PersistentListEntryProxi)current).setListEntryId(entryId);
 		}
 	}

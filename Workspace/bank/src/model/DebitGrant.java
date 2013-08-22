@@ -15,11 +15,11 @@ public class DebitGrant extends PersistentObject implements PersistentDebitGrant
         return (PersistentDebitGrant)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentDebitGrant createDebitGrant(PersistentAccount permittedAccount,PersistentLimitType limits) throws PersistenceException{
+    public static PersistentDebitGrant createDebitGrant(PersistentAccountPx permittedAccount,PersistentLimitType limits) throws PersistenceException{
         return createDebitGrant(permittedAccount,limits,false);
     }
     
-    public static PersistentDebitGrant createDebitGrant(PersistentAccount permittedAccount,PersistentLimitType limits,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentDebitGrant createDebitGrant(PersistentAccountPx permittedAccount,PersistentLimitType limits,boolean delayed$Persistence) throws PersistenceException {
         PersistentDebitGrant result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theDebitGrantFacade
@@ -37,7 +37,7 @@ public class DebitGrant extends PersistentObject implements PersistentDebitGrant
         return result;
     }
     
-    public static PersistentDebitGrant createDebitGrant(PersistentAccount permittedAccount,PersistentLimitType limits,boolean delayed$Persistence,PersistentDebitGrant This) throws PersistenceException {
+    public static PersistentDebitGrant createDebitGrant(PersistentAccountPx permittedAccount,PersistentLimitType limits,boolean delayed$Persistence,PersistentDebitGrant This) throws PersistenceException {
         PersistentDebitGrant result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theDebitGrantFacade
@@ -97,12 +97,12 @@ public class DebitGrant extends PersistentObject implements PersistentDebitGrant
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentAccount permittedAccount;
+    protected PersistentAccountPx permittedAccount;
     protected PersistentLimitType limits;
     protected SubjInterface subService;
     protected PersistentDebitGrant This;
     
-    public DebitGrant(PersistentAccount permittedAccount,PersistentLimitType limits,SubjInterface subService,PersistentDebitGrant This,long id) throws persistence.PersistenceException {
+    public DebitGrant(PersistentAccountPx permittedAccount,PersistentLimitType limits,SubjInterface subService,PersistentDebitGrant This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.permittedAccount = permittedAccount;
@@ -143,15 +143,15 @@ public class DebitGrant extends PersistentObject implements PersistentDebitGrant
         
     }
     
-    public PersistentAccount getPermittedAccount() throws PersistenceException {
+    public PersistentAccountPx getPermittedAccount() throws PersistenceException {
         return this.permittedAccount;
     }
-    public void setPermittedAccount(PersistentAccount newValue) throws PersistenceException {
+    public void setPermittedAccount(PersistentAccountPx newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.permittedAccount)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.permittedAccount = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        this.permittedAccount = (PersistentAccountPx)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theDebitGrantFacade.permittedAccountSet(this.getId(), newValue);
@@ -252,7 +252,7 @@ public class DebitGrant extends PersistentObject implements PersistentDebitGrant
 				throws PersistenceException{
         this.setThis((PersistentDebitGrant)This);
 		if(this.equals(This)){
-			this.setPermittedAccount((PersistentAccount)final$$Fields.get("permittedAccount"));
+			this.setPermittedAccount((PersistentAccountPx)final$$Fields.get("permittedAccount"));
 			this.setLimits((PersistentLimitType)final$$Fields.get("limits"));
 		}
     }

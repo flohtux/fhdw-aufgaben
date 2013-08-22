@@ -61,9 +61,9 @@ public class DebitGrantFacade{
                 callable.close();
                 return null;
             }
-            PersistentAccount permittedAccount = null;
+            PersistentAccountPx permittedAccount = null;
             if (obj.getLong(2) != 0)
-                permittedAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+                permittedAccount = (PersistentAccountPx)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentLimitType limits = null;
             if (obj.getLong(4) != 0)
                 limits = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
@@ -102,7 +102,7 @@ public class DebitGrantFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void permittedAccountSet(long DebitGrantId, PersistentAccount permittedAccountVal) throws PersistenceException {
+    public void permittedAccountSet(long DebitGrantId, PersistentAccountPx permittedAccountVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtGrntFacade.prmttdAccntSet(?, ?, ?); end;");

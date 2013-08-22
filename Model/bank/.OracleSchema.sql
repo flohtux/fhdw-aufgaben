@@ -401,6 +401,35 @@ create table LmtAccnt(
     constraint FLmtAccntThis foreign key (LmtAccntThisCls) references Cls (id)    
 );
 
+create sequence SDbtGrntLst nocache;
+
+create table DbtGrntLst(
+    id number primary key,
+    Cls number not null,
+    DbtGrntLstSbSrvc number,
+    DbtGrntLstSbSrvcCls number,
+    constraint FDbtGrntLstSbSrvc foreign key (DbtGrntLstSbSrvcCls) references Cls (id),
+    DbtGrntLstThis number,
+    DbtGrntLstThisCls number,
+    constraint FDbtGrntLstThis foreign key (DbtGrntLstThisCls) references Cls (id)    
+);
+
+create sequence SAccntPx nocache;
+
+create table AccntPx(
+    id number primary key,
+    Cls number not null,
+    AccntPxAccnt number,
+    AccntPxAccntCls number,
+    constraint FAccntPxAccnt foreign key (AccntPxAccntCls) references Cls (id),
+    AccntPxSbSrvc number,
+    AccntPxSbSrvcCls number,
+    constraint FAccntPxSbSrvc foreign key (AccntPxSbSrvcCls) references Cls (id),
+    AccntPxThis number,
+    AccntPxThisCls number,
+    constraint FAccntPxThis foreign key (AccntPxThisCls) references Cls (id)    
+);
+
 create sequence STrnsctnF nocache;
 
 create table TrnsctnF(
@@ -444,6 +473,12 @@ create table Accnt(
     AccntDebTrfTrans number,
     AccntDebTrfTransCls number,
     constraint FAccntDebTrfTrans foreign key (AccntDebTrfTransCls) references Cls (id),
+    AccntGrntdGrnt number,
+    AccntGrntdGrntCls number,
+    constraint FAccntGrntdGrnt foreign key (AccntGrntdGrntCls) references Cls (id),
+    AccntRcvdGrnt number,
+    AccntRcvdGrntCls number,
+    constraint FAccntRcvdGrnt foreign key (AccntRcvdGrntCls) references Cls (id),
     AccntSbSrvc number,
     AccntSbSrvcCls number,
     constraint FAccntSbSrvc foreign key (AccntSbSrvcCls) references Cls (id),
@@ -712,29 +747,17 @@ create table AdmnstrtrBnksObs(
 );
 create index IFrmAdmnstrtrBnksObs on AdmnstrtrBnksObs(frm);
 
-create sequence SAccntGrntdGrnts nocache;
+create sequence SDbtGrntLstDbtGrnts nocache;
 
-create table AccntGrntdGrnts(
+create table DbtGrntLstDbtGrnts(
     id number primary key,
     frm number not null,
-    GrntdGrnts number not null,
+    dbtGrnts number not null,
     Cls number not null,
-    constraint FAccntGrntdGrntsCls foreign key(Cls) references Cls(id),
-    constraint FAccntGrntdGrntsfrm foreign key(frm) references Accnt(id)
+    constraint FDbtGrntLstDbtGrntsCls foreign key(Cls) references Cls(id),
+    constraint FDbtGrntLstDbtGrntsfrm foreign key(frm) references DbtGrntLst(id)
 );
-create index IFrmAccntGrntdGrnts on AccntGrntdGrnts(frm);
-
-create sequence SAccntRcvdGrnts nocache;
-
-create table AccntRcvdGrnts(
-    id number primary key,
-    frm number not null,
-    RcvdGrnts number not null,
-    Cls number not null,
-    constraint FAccntRcvdGrntsCls foreign key(Cls) references Cls(id),
-    constraint FAccntRcvdGrntsfrm foreign key(frm) references Accnt(id)
-);
-create index IFrmAccntRcvdGrnts on AccntRcvdGrnts(frm);
+create index IFrmDbtGrntLstDbtGrnts on DbtGrntLstDbtGrnts(frm);
 
 create sequence SDbTrNtExecNtExctds nocache;
 

@@ -101,11 +101,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.standardHandling(mixedFee);
     }
+    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException{
+        this.standardHandling(debitGrantListe);
+    }
     public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
         this.standardHandling(requestState);
     }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
+    }
+    public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
+        this.standardHandling(accountPx);
     }
     public void handleAccount(PersistentAccount account) throws PersistenceException{
         this.standardHandling(account);

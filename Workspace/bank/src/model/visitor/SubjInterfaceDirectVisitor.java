@@ -20,6 +20,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
     
+    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
+    
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
@@ -34,6 +36,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
         this.handleDebitTransferTransaction(debit);
     }
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
+    
+    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     

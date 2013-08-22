@@ -14,18 +14,18 @@ public class Account extends ViewObject implements AccountView{
     protected MoneyView money;
     protected LimitAccountView limit;
     protected java.util.Vector<DebitTransferTransactionView> debitTransferTransactions;
-    protected java.util.Vector<DebitGrantView> grantedDebitGrants;
-    protected java.util.Vector<DebitGrantView> receivedDebitGrants;
+    protected DebitGrantListeView grantedDebitGrant;
+    protected DebitGrantListeView receivedDebitGrant;
     
-    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,java.util.Vector<DebitGrantView> grantedDebitGrants,java.util.Vector<DebitGrantView> receivedDebitGrants,long id, long classId) {
+    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListeView receivedDebitGrant,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.accountNumber = accountNumber;
         this.money = money;
         this.limit = limit;
         this.debitTransferTransactions = debitTransferTransactions;
-        this.grantedDebitGrants = grantedDebitGrants;
-        this.receivedDebitGrants = receivedDebitGrants;        
+        this.grantedDebitGrant = grantedDebitGrant;
+        this.receivedDebitGrant = receivedDebitGrant;        
     }
     
     static public long getTypeId() {
@@ -60,17 +60,17 @@ public class Account extends ViewObject implements AccountView{
     public void setDebitTransferTransactions(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         this.debitTransferTransactions = newValue;
     }
-    public java.util.Vector<DebitGrantView> getGrantedDebitGrants()throws ModelException{
-        return this.grantedDebitGrants;
+    public DebitGrantListeView getGrantedDebitGrant()throws ModelException{
+        return this.grantedDebitGrant;
     }
-    public void setGrantedDebitGrants(java.util.Vector<DebitGrantView> newValue) throws ModelException {
-        this.grantedDebitGrants = newValue;
+    public void setGrantedDebitGrant(DebitGrantListeView newValue) throws ModelException {
+        this.grantedDebitGrant = newValue;
     }
-    public java.util.Vector<DebitGrantView> getReceivedDebitGrants()throws ModelException{
-        return this.receivedDebitGrants;
+    public DebitGrantListeView getReceivedDebitGrant()throws ModelException{
+        return this.receivedDebitGrant;
     }
-    public void setReceivedDebitGrants(java.util.Vector<DebitGrantView> newValue) throws ModelException {
-        this.receivedDebitGrants = newValue;
+    public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException {
+        this.receivedDebitGrant = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -99,13 +99,13 @@ public class Account extends ViewObject implements AccountView{
         if (debitTransferTransactions != null) {
             ViewObject.resolveVectorProxies(debitTransferTransactions, resultTable);
         }
-        java.util.Vector<?> grantedDebitGrants = this.getGrantedDebitGrants();
-        if (grantedDebitGrants != null) {
-            ViewObject.resolveVectorProxies(grantedDebitGrants, resultTable);
+        DebitGrantListeView grantedDebitGrant = this.getGrantedDebitGrant();
+        if (grantedDebitGrant != null) {
+            ((ViewProxi)grantedDebitGrant).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(grantedDebitGrant.getClassId(), grantedDebitGrant.getId())));
         }
-        java.util.Vector<?> receivedDebitGrants = this.getReceivedDebitGrants();
-        if (receivedDebitGrants != null) {
-            ViewObject.resolveVectorProxies(receivedDebitGrants, resultTable);
+        DebitGrantListeView receivedDebitGrant = this.getReceivedDebitGrant();
+        if (receivedDebitGrant != null) {
+            ((ViewProxi)receivedDebitGrant).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(receivedDebitGrant.getClassId(), receivedDebitGrant.getId())));
         }
         
     }
@@ -118,29 +118,25 @@ public class Account extends ViewObject implements AccountView{
         if(this.getMoney() != null) index = index - 1;
         if(index == 0 && this.getLimit() != null) return new LimitAccountWrapper(this, originalIndex, (ViewRoot)this.getLimit());
         if(this.getLimit() != null) index = index - 1;
-        if(index < this.getDebitTransferTransactions().size()) return new DebitTransferTransactionsAccountWrapper(this, originalIndex, (ViewRoot)this.getDebitTransferTransactions().get(index));
-        index = index - this.getDebitTransferTransactions().size();
-        if(index < this.getGrantedDebitGrants().size()) return new GrantedDebitGrantsAccountWrapper(this, originalIndex, (ViewRoot)this.getGrantedDebitGrants().get(index));
-        index = index - this.getGrantedDebitGrants().size();
-        if(index < this.getReceivedDebitGrants().size()) return new ReceivedDebitGrantsAccountWrapper(this, originalIndex, (ViewRoot)this.getReceivedDebitGrants().get(index));
-        index = index - this.getReceivedDebitGrants().size();
+        if(index == 0 && this.getGrantedDebitGrant() != null) return new GrantedDebitGrantAccountWrapper(this, originalIndex, (ViewRoot)this.getGrantedDebitGrant());
+        if(this.getGrantedDebitGrant() != null) index = index - 1;
+        if(index == 0 && this.getReceivedDebitGrant() != null) return new ReceivedDebitGrantAccountWrapper(this, originalIndex, (ViewRoot)this.getReceivedDebitGrant());
+        if(this.getReceivedDebitGrant() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getMoney() == null ? 0 : 1)
             + (this.getLimit() == null ? 0 : 1)
-            + (this.getDebitTransferTransactions().size())
-            + (this.getGrantedDebitGrants().size())
-            + (this.getReceivedDebitGrants().size());
+            + (this.getGrantedDebitGrant() == null ? 0 : 1)
+            + (this.getReceivedDebitGrant() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getMoney() == null ? true : false)
             && (this.getLimit() == null ? true : false)
-            && (this.getDebitTransferTransactions().size() == 0)
-            && (this.getGrantedDebitGrants().size() == 0)
-            && (this.getReceivedDebitGrants().size() == 0);
+            && (this.getGrantedDebitGrant() == null ? true : false)
+            && (this.getReceivedDebitGrant() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -148,21 +144,10 @@ public class Account extends ViewObject implements AccountView{
         if(this.getMoney() != null) result = result + 1;
         if(this.getLimit() != null && this.getLimit().equals(child)) return result;
         if(this.getLimit() != null) result = result + 1;
-        java.util.Iterator<?> getDebitTransferTransactionsIterator = this.getDebitTransferTransactions().iterator();
-        while(getDebitTransferTransactionsIterator.hasNext()){
-            if(getDebitTransferTransactionsIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
-        java.util.Iterator<?> getGrantedDebitGrantsIterator = this.getGrantedDebitGrants().iterator();
-        while(getGrantedDebitGrantsIterator.hasNext()){
-            if(getGrantedDebitGrantsIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
-        java.util.Iterator<?> getReceivedDebitGrantsIterator = this.getReceivedDebitGrants().iterator();
-        while(getReceivedDebitGrantsIterator.hasNext()){
-            if(getReceivedDebitGrantsIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
+        if(this.getGrantedDebitGrant() != null && this.getGrantedDebitGrant().equals(child)) return result;
+        if(this.getGrantedDebitGrant() != null) result = result + 1;
+        if(this.getReceivedDebitGrant() != null && this.getReceivedDebitGrant().equals(child)) return result;
+        if(this.getReceivedDebitGrant() != null) result = result + 1;
         return -1;
     }
     public int getAccountNumberIndex() throws ModelException {

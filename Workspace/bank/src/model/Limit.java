@@ -167,7 +167,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
          return visitor.handleLimit(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getMoney() != null) return 1;
+        if (this.getMoney() != null && this.getMoney().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     

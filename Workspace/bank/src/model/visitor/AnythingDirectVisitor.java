@@ -29,6 +29,10 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
+    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
+    
+    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
+    
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
@@ -86,6 +90,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
+    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
+    
     public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
     
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
@@ -102,8 +108,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
     }
-    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
-    
     public abstract void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;
     
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{

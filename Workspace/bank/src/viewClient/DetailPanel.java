@@ -763,11 +763,17 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleMixedFee(view.MixedFeeView object){
         result = new MixedFeeDefaultDetailPanel(handler, object);
     }
+    public void handleDebitGrantListe(view.DebitGrantListeView object){
+        result = new DebitGrantListeDefaultDetailPanel(handler, object);
+    }
     public void handleAccountService(view.AccountServiceView object){
         result = new AccountServiceDefaultDetailPanel(handler, object);
     }
     public void handleRequestState(view.RequestStateView object){
         result = new RequestStateDefaultDetailPanel(handler, object);
+    }
+    public void handleAccountPx(view.AccountPxView object){
+        result = new AccountPxDefaultDetailPanel(handler, object);
     }
     public void handleAccount(view.AccountView object){
         result = new AccountDefaultDetailPanel(handler, object);
@@ -1258,6 +1264,22 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DebitGrantListeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitGrantListe$$debitGrants = "DebitGrantListe$$debitGrants";
+    
+    protected DebitGrantListeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitGrantListeView getAnything(){
+        return (view.DebitGrantListeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String AccountService$$account = "AccountService$$account";
@@ -1290,14 +1312,27 @@ class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class AccountPxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected AccountPxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.AccountPxView getAnything(){
+        return (view.AccountPxView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
-    protected static final String Account$$debitTransferTransactions = "Account$$debitTransferTransactions";
-    protected static final String Account$$grantedDebitGrants = "Account$$grantedDebitGrants";
-    protected static final String Account$$receivedDebitGrants = "Account$$receivedDebitGrants";
+    protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
+    protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
     
     protected AccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

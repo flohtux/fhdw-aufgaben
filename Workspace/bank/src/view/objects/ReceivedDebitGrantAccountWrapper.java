@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class DebitTransferTransactionsAccountWrapper extends AssociationInTreeWrapper {
+public class ReceivedDebitGrantAccountWrapper extends AssociationInTreeWrapper {
 
-	public DebitTransferTransactionsAccountWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public ReceivedDebitGrantAccountWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,8 +16,8 @@ public class DebitTransferTransactionsAccountWrapper extends AssociationInTreeWr
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association debitTransferTransactions in class Account
-    	return this.getWrappedObject().toString();
+    	//TODO: Implement toString in wrapper class for association receivedDebitGrant in class Account
+    	return viewConstants.WrapperConstants.receivedDebitGrantMainTitle+this.getWrappedObject().toString();
     }
 
     /*End of protected part that is not overridden by persistence generator*/

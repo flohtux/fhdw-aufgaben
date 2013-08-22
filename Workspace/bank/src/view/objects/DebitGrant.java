@@ -9,10 +9,10 @@ import view.visitor.*;
 
 public class DebitGrant extends ViewObject implements DebitGrantView{
     
-    protected AccountView permittedAccount;
+    protected AccountPxView permittedAccount;
     protected LimitTypeView limits;
     
-    public DebitGrant(AccountView permittedAccount,LimitTypeView limits,long id, long classId) {
+    public DebitGrant(AccountPxView permittedAccount,LimitTypeView limits,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.permittedAccount = permittedAccount;
@@ -27,10 +27,10 @@ public class DebitGrant extends ViewObject implements DebitGrantView{
         return getTypeId();
     }
     
-    public AccountView getPermittedAccount()throws ModelException{
+    public AccountPxView getPermittedAccount()throws ModelException{
         return this.permittedAccount;
     }
-    public void setPermittedAccount(AccountView newValue) throws ModelException {
+    public void setPermittedAccount(AccountPxView newValue) throws ModelException {
         this.permittedAccount = newValue;
     }
     public LimitTypeView getLimits()throws ModelException{
@@ -54,7 +54,7 @@ public class DebitGrant extends ViewObject implements DebitGrantView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        AccountView permittedAccount = this.getPermittedAccount();
+        AccountPxView permittedAccount = this.getPermittedAccount();
         if (permittedAccount != null) {
             ((ViewProxi)permittedAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(permittedAccount.getClassId(), permittedAccount.getId())));
         }

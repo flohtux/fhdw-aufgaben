@@ -27,6 +27,10 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleDebit(DebitView debit) throws ModelException{
         this.handleDebitTransferTransaction(debit);
     }
+    public abstract void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
+    
+    public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
+    
     public abstract void handleAccount(AccountView account) throws ModelException;
     
     public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;

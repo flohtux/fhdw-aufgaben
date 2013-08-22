@@ -6,8 +6,8 @@ import model.visitor.*;
 
 public interface PersistentDebitGrant extends SubjInterface, Anything, AbstractPersistentProxi {
     
-    public PersistentAccount getPermittedAccount() throws PersistenceException ;
-    public void setPermittedAccount(PersistentAccount newValue) throws PersistenceException ;
+    public PersistentAccountPx getPermittedAccount() throws PersistenceException ;
+    public void setPermittedAccount(PersistentAccountPx newValue) throws PersistenceException ;
     public PersistentLimitType getLimits() throws PersistenceException ;
     public void setLimits(PersistentLimitType newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;

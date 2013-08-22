@@ -22,10 +22,10 @@ public class DebitGrantProxi extends PersistentProxi implements PersistentDebitG
         return 191;
     }
     
-    public PersistentAccount getPermittedAccount() throws PersistenceException {
+    public PersistentAccountPx getPermittedAccount() throws PersistenceException {
         return ((PersistentDebitGrant)this.getTheObject()).getPermittedAccount();
     }
-    public void setPermittedAccount(PersistentAccount newValue) throws PersistenceException {
+    public void setPermittedAccount(PersistentAccountPx newValue) throws PersistenceException {
         ((PersistentDebitGrant)this.getTheObject()).setPermittedAccount(newValue);
     }
     public PersistentLimitType getLimits() throws PersistenceException {

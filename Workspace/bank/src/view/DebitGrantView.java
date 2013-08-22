@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface DebitGrantView extends Anything, AbstractViewRoot {
     
-    public AccountView getPermittedAccount()throws ModelException;
-    public void setPermittedAccount(AccountView newValue) throws ModelException ;
+    public AccountPxView getPermittedAccount()throws ModelException;
+    public void setPermittedAccount(AccountPxView newValue) throws ModelException ;
     public LimitTypeView getLimits()throws ModelException;
     public void setLimits(LimitTypeView newValue) throws ModelException ;
     

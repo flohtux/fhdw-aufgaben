@@ -40,11 +40,17 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
-    public Account_GrantedDebitGrantsProxi getGrantedDebitGrants() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrants();
+    public PersistentDebitGrantListe getGrantedDebitGrant() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrant();
     }
-    public Account_ReceivedDebitGrantsProxi getReceivedDebitGrants() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrants();
+    public void setGrantedDebitGrant(PersistentDebitGrantListe newValue) throws PersistenceException {
+        ((PersistentAccount)this.getTheObject()).setGrantedDebitGrant(newValue);
+    }
+    public PersistentDebitGrantListe getReceivedDebitGrant() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrant();
+    }
+    public void setReceivedDebitGrant(PersistentDebitGrantListe newValue) throws PersistenceException {
+        ((PersistentAccount)this.getTheObject()).setReceivedDebitGrant(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();

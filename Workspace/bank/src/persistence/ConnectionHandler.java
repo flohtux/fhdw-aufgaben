@@ -143,8 +143,10 @@ public class ConnectionHandler {
     public LimitFacade theLimitFacade;
     public DebitFacade theDebitFacade;
     public MixedFeeFacade theMixedFeeFacade;
+    public DebitGrantListeFacade theDebitGrantListeFacade;
     public AccountServiceFacade theAccountServiceFacade;
     public RequestStateFacade theRequestStateFacade;
+    public AccountPxFacade theAccountPxFacade;
     public TransactionFeeFacade theTransactionFeeFacade;
     public AccountFacade theAccountFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
@@ -230,8 +232,10 @@ public class ConnectionHandler {
             this.theLimitFacade= new LimitFacade(this.schemaName, this.con);
             this.theDebitFacade= new DebitFacade(this.schemaName, this.con);
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
+            this.theDebitGrantListeFacade= new DebitGrantListeFacade(this.schemaName, this.con);
             this.theAccountServiceFacade= new AccountServiceFacade(this.schemaName, this.con);
             this.theRequestStateFacade= new RequestStateFacade(this.schemaName, this.con);
+            this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);

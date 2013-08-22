@@ -28,8 +28,10 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleLimit(PersistentLimit limit) throws PersistenceException;
     public abstract void handleDebit(PersistentDebit debit) throws PersistenceException;
     public abstract void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException;
+    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public abstract void handleRequestState(PersistentRequestState requestState) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
+    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     public abstract void handleEuro(PersistentEuro euro) throws PersistenceException;
     public abstract void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException;
