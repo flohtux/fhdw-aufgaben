@@ -359,21 +359,21 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeCurrency(final PersistentTransfer trans, final PersistentCurrency currency) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
         trans.getMoney().setCurrency(currency);
         
     }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         trans.getMoney().getAmount().setBalance(newAmount);
     }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException{
 
     	trans.setReceiverAccountNumber(receiverAccountNumber);
     }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
     	System.out.println("manual change receiverbank");
     	trans.setReceiverBankNumber(receiverBankNumber);
@@ -397,6 +397,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
     	PersistentDebit a = Debit.createDebit();
     	a.setSender(getThis());
+        getThis().getDebitTransferTransactions().add(a);
     	return a;
     }
     public PersistentTransfer createTransfer() 

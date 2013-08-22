@@ -5,12 +5,6 @@ import persistence.*;
 
 public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor {
     
-    public void handleAccountServiceSuccessfullStates(PersistentAccountServiceSuccessfullStates accountServiceSuccessfullStates) throws PersistenceException{
-        this.standardHandling(accountServiceSuccessfullStates);
-    }
-    public void handleAccountServiceNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates accountServiceNotSuccessfullStates) throws PersistenceException{
-        this.standardHandling(accountServiceNotSuccessfullStates);
-    }
     public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
         this.standardHandling(accountDebitTransferTransactions);
     }
@@ -19,6 +13,12 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     }
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException{
         this.standardHandling(administratorBanks);
+    }
+    public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException{
+        this.standardHandling(accountServiceNotExecuted);
+    }
+    public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException{
+        this.standardHandling(accountServiceSuccessful);
     }
     protected abstract void standardHandling(ObsInterface obsInterface) throws PersistenceException;
 }

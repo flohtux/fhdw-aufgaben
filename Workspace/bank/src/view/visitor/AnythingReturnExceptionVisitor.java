@@ -13,8 +13,10 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public R handleAccount(AccountView account) throws ModelException, E;
     public R handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
+    public R handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException, E;
     public R handleMoney(MoneyView money) throws ModelException, E;
     public R handleBank(BankView bank) throws ModelException, E;
+    public R handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException, E;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;
     

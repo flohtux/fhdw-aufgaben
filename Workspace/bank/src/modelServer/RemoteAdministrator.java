@@ -54,6 +54,19 @@ public  class RemoteAdministrator extends RemoteService {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> searchBankByBankNumber(String bankNumAsString){
+        try {
+            long bankNum = new Long(bankNumAsString).longValue();
+            PersistentBank result = ((PersistentAdministrator)this.server).searchBankByBankNumber(bankNum);
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.InvalidBankNumberException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
 
 
 }

@@ -10,10 +10,12 @@ public class Fraction {
 	
 	public static final Fraction Null = new Fraction(BIZero, BIOne);
 	public static final Fraction One = new Fraction(BIOne, BIOne);
+	public static final Fraction MinusOne = new Fraction(BIMinusOne, BIOne);
 	
 	private static final String FractionStroke = "/";
 	private static final String MinusSign = "-";
 	private static final String DecimalPoint = ",";
+
 
 
 	public static Fraction parse(String fraction) {

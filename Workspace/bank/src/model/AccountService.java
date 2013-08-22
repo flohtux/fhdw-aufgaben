@@ -4,6 +4,7 @@ package model;
 import persistence.*;
 import model.meta.DebitTransferMssgsVisitor;
 import model.meta.DebitTransferTransactionExecuteMssg;
+import model.meta.LimitTypeSwitchPARAMETER;
 import model.meta.StringFACTORY;
 import model.visitor.*;
 
@@ -65,8 +66,24 @@ public class AccountService extends model.Service implements PersistentAccountSe
                     if(forGUI && account.hasEssentialFields())account.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            result.put("successfullStates", this.getSuccessfullStates().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
-            result.put("notSuccessfullStates", this.getNotSuccessfullStates().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
+            AbstractPersistentRoot successful = (AbstractPersistentRoot)this.getSuccessful();
+            if (successful != null) {
+                result.put("successful", successful.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    successful.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && successful.hasEssentialFields())successful.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot notExecuted = (AbstractPersistentRoot)this.getNotExecuted();
+            if (notExecuted != null) {
+                result.put("notExecuted", notExecuted.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    notExecuted.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && notExecuted.hasEssentialFields())notExecuted.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -78,8 +95,8 @@ public class AccountService extends model.Service implements PersistentAccountSe
         result = new AccountService(this.subService, 
                                     this.This, 
                                     this.account, 
-                                    this.successfullStates, 
-                                    this.notSuccessfullStates, 
+                                    this.successful, 
+                                    this.notExecuted, 
                                     this.getId());
         result.errors = this.errors.copy(result);
         this.copyingPrivateUserAttributes(result);
@@ -90,15 +107,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
         return false;
     }
     protected PersistentAccount account;
-    protected PersistentAccountServiceSuccessfullStates successfullStates;
-    protected PersistentAccountServiceNotSuccessfullStates notSuccessfullStates;
+    protected PersistentAccountServiceSuccessful successful;
+    protected PersistentAccountServiceNotExecuted notExecuted;
     
-    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentAccountServiceSuccessfullStates successfullStates,PersistentAccountServiceNotSuccessfullStates notSuccessfullStates,long id) throws persistence.PersistenceException {
+    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentService)This,id);
         this.account = account;
-        this.successfullStates = successfullStates;
-        this.notSuccessfullStates = notSuccessfullStates;        
+        this.successful = successful;
+        this.notExecuted = notExecuted;        
     }
     
     static public long getTypeId() {
@@ -118,13 +135,13 @@ public class AccountService extends model.Service implements PersistentAccountSe
             this.getAccount().store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.accountSet(this.getId(), getAccount());
         }
-        if(this.successfullStates != null){
-            this.successfullStates.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.successfullStatesSet(this.getId(), successfullStates);
+        if(this.successful != null){
+            this.successful.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.successfulSet(this.getId(), successful);
         }
-        if(this.notSuccessfullStates != null){
-            this.notSuccessfullStates.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.notSuccessfullStatesSet(this.getId(), notSuccessfullStates);
+        if(this.notExecuted != null){
+            this.notExecuted.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.notExecutedSet(this.getId(), notExecuted);
         }
         
     }
@@ -144,26 +161,26 @@ public class AccountService extends model.Service implements PersistentAccountSe
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.accountSet(this.getId(), newValue);
         }
     }
-    protected void setSuccessfullStates(PersistentAccountServiceSuccessfullStates newValue) throws PersistenceException {
+    protected void setSuccessful(PersistentAccountServiceSuccessful newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.successfullStates)) return;
+        if(newValue.equals(this.successful)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.successfullStates = (PersistentAccountServiceSuccessfullStates)PersistentProxi.createProxi(objectId, classId);
+        this.successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.successfullStatesSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.successfulSet(this.getId(), newValue);
         }
     }
-    protected void setNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates newValue) throws PersistenceException {
+    protected void setNotExecuted(PersistentAccountServiceNotExecuted newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.notSuccessfullStates)) return;
+        if(newValue.equals(this.notExecuted)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.notSuccessfullStates = (PersistentAccountServiceNotSuccessfullStates)PersistentProxi.createProxi(objectId, classId);
+        this.notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.notSuccessfullStatesSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.notExecutedSet(this.getId(), newValue);
         }
     }
     public PersistentAccountService getThis() throws PersistenceException {
@@ -235,13 +252,21 @@ public class AccountService extends model.Service implements PersistentAccountSe
          return visitor.handleAccountService(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getSuccessfullStates().getObservee().getLength() > 0) return 1;
-        if (this.getNotSuccessfullStates().getObservee().getLength() > 0) return 1;
+        if (this.getSuccessful() != null) return 1;
+        if (this.getNotExecuted() != null) return 1;
         if (this.getAccount() != null && this.getAccount().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
     
+    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentCreateDebitGrantCommand command = model.meta.CreateDebitGrantCommand.createCreateDebitGrantCommand(receiverBankNumber, receiverAccNumber, limitType, amount, cur, now, now);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -250,13 +275,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
 			getThis().setSubService(subService);
 		}
 		subService.deregister(observee);
-    }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        model.meta.AccountServiceExecuteTransferDebitTransferMssg event = new model.meta.AccountServiceExecuteTransferDebitTransferMssg(debitTransfer, getThis());
-		event.execute();
-		getThis().updateObservers(event);
-		event.getResult();
     }
     public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
 				throws PersistenceException{
@@ -267,21 +285,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public PersistentAccountServiceNotSuccessfullStates getNotSuccessfullStates() 
+    public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException{
-        if (this.notSuccessfullStates == null) {
-			this.setNotSuccessfullStates(model.AccountServiceNotSuccessfullStates.createAccountServiceNotSuccessfullStates(this.isDelayed$Persistence()));
-			this.notSuccessfullStates.setObserver(this);
-		}
-		return this.notSuccessfullStates;
+        if (this.notExecuted== null) return null;
+		return this.notExecuted.getObservee();
     }
-    public PersistentAccountServiceSuccessfullStates getSuccessfullStates() 
+    public PersistentDebitTransferSuccessful getSuccessful() 
 				throws PersistenceException{
-        if (this.successfullStates == null) {
-			this.setSuccessfullStates(model.AccountServiceSuccessfullStates.createAccountServiceSuccessfullStates(this.isDelayed$Persistence()));
-			this.successfullStates.setObserver(this);
-		}
-		return this.successfullStates;
+        if (this.successful== null) return null;
+		return this.successful.getObservee();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -299,6 +311,22 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.register(observee);
     }
+    public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
+				throws PersistenceException{
+        if (this.notExecuted == null) {
+			this.setNotExecuted(model.AccountServiceNotExecuted.createAccountServiceNotExecuted(this.isDelayed$Persistence()));
+			this.notExecuted.setObserver(getThis());
+		}
+		this.notExecuted.setObservee(notExecuted);
+    }
+    public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
+				throws PersistenceException{
+        if (this.successful == null) {
+			this.setSuccessful(model.AccountServiceSuccessful.createAccountServiceSuccessful(this.isDelayed$Persistence()));
+			this.successful.setObserver(getThis());
+		}
+		this.successful.setObservee(successful);
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -312,28 +340,28 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeCurrency(final PersistentTransfer trans, final String currency) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
         getThis().getAccount().changeCurrency(trans, StringFACTORY.createObjectBySubTypeNameForCurrency(currency));
         getThis().signalChanged(true);
         
     }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         getThis().getAccount().changeMoney(trans, newAmount);
         getThis().signalChanged(true);
     }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 
 				throws PersistenceException{
     	getThis().getAccount().changeReceiverAccount(trans, receiverAccNumber);
         getThis().signalChanged(true);
     }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         getThis().getAccount().changeReceiverBank(trans, receiverBankNumber);
         getThis().signalChanged(true);
     }
-    public void changeSubject(final PersistentTransfer trans, final String subject) 
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{
        trans.setSubject(subject);
        getThis().signalChanged(true);
@@ -344,44 +372,53 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
-        //TODO: implement method: createDebitGrant
-        
+    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+    	PersistentBank b = getThis().getAccount().getBank().getAdministrator().searchBankByBankNumber(receiverBankNumber);
+    	PersistentAccount a = b.searchAccountByAccNumber(receiverAccNumber);
+    	
+    	PersistentLimitType limit = StringFACTORY.createObjectBySubTypeNameForLimitType(limitType, new LimitTypeSwitchPARAMETER() {
+			public PersistentLimit handleLimit() throws PersistenceException {
+				return Limit.createLimit(Money.createMoney(Amount.createAmount(amount), StringFACTORY.createObjectBySubTypeNameForCurrency(cur)));
+			}
+		});
+    	
+    	getThis().getAccount().createDebitGrant(a, limit);
+    	getThis().signalChanged(true);
     }
     public void createDebit() 
 				throws PersistenceException{
-        PersistentDebit debit = getThis().getAccount().createDebit();
-        getThis().getAccount().getDebitTransferTransactions().add(debit);
+        getThis().getAccount().createDebit();
         signalChanged(true);
     }
     public void createTransfer() 
 				throws PersistenceException{
-        PersistentTransfer transfer = getThis().getAccount().createTransfer();
-        getThis().getNotSuccessfullStates().add(transfer);
+    	getThis().getAccount().createTransfer();
         getThis().signalChanged(true);
     }
     public void disconnected() 
 				throws PersistenceException{
     }
-    public void executeTransferImplementation(final PersistentDebitTransfer debitTransfer) 
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	debitTransfer.execute(getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setSuccessful(DebitTransferSuccessful.createDebitTransferSuccessful());
+    	getThis().setNotExecuted(DebitTransferNotExecuted.createDebitTransferNotExecuted());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void notSuccessfullStates_update(final model.meta.DebitTransferMssgs event) 
+    public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: notSuccessfullStates_update
+        //TODO: implement method: notExecuted_update
         
     }
-    public void successfullStates_update(final model.meta.DebitTransferMssgs event) 
+    public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: successfullStates_update
+        //TODO: implement method: successful_update
         
     }
     

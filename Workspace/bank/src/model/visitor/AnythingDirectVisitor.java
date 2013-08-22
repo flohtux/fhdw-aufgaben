@@ -16,8 +16,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
     }
-    public abstract void handleAccountServiceSuccessfullStates(PersistentAccountServiceSuccessfullStates accountServiceSuccessfullStates) throws PersistenceException;
-    
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
@@ -86,6 +84,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     
+    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
+    
     public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
     
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
@@ -121,6 +121,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.handleCommonDate(changeNameCommand);
     }
+    public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
+        this.handleCommonDate(createDebitGrantCommand);
+    }
     public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
     
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
@@ -150,15 +153,19 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
-    public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
-    public abstract void handleAccountServiceNotSuccessfullStates(PersistentAccountServiceNotSuccessfullStates accountServiceNotSuccessfullStates) throws PersistenceException;
+    public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
+    
+    public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     
     public abstract void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
+    
+    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     

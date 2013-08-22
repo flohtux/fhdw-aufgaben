@@ -13,20 +13,14 @@ public class InvalidBankNumberException extends view.UserException{
     
     public static InvalidBankNumberException fromHashtableToInvalidBankNumberException(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         String message = (String)resultTable.get("?Message?");
-        long bn = new Long((String)resultTable.get("bn")).longValue();
-        return new InvalidBankNumberException(message, (long)bn);
+        return new InvalidBankNumberException(message);
     }
-    protected long bn;
     
-    public InvalidBankNumberException(String message, long bn) {
+    public InvalidBankNumberException(String message) {
         /* Shall not be used. Objects are created on the server only */
-        super(message);
-        this.bn = bn;        
+        super(message);        
     }
     
-    public long getBn()throws ModelException{
-        return this.bn;
-    }
     
     public void accept(UserExceptionVisitor visitor) throws ModelException {
         visitor.handleInvalidBankNumberException(this);

@@ -102,7 +102,7 @@ public class TestDebit {
 		System.out.println(acc2.getGrantedDebitGrants());
 		System.out.println(acc2.getReceivedDebitGrants().getLength());
 		PersistentDebit newDebit = acc1.createDebit();
-		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(-10, 1)), Euro.getTheEuro()));
+		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();

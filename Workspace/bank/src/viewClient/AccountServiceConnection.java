@@ -17,7 +17,7 @@ public class AccountServiceConnection extends ServiceConnection {
 		return (AccountServiceView)super.getServer();
 	}
 
-    public synchronized void changeCurrency(TransferView trans, String currency) throws ModelException{
+    public synchronized void changeCurrency(DebitTransferView trans, String currency) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (trans == null){
@@ -40,7 +40,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeMoney(TransferView trans, common.Fraction newAmount) throws ModelException{
+    public synchronized void changeMoney(DebitTransferView trans, common.Fraction newAmount) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (trans == null){
@@ -86,7 +86,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeReceiverAccount(TransferView trans, long receiverAccNumber) throws ModelException{
+    public synchronized void changeReceiverAccount(DebitTransferView trans, long receiverAccNumber) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (trans == null){
@@ -109,7 +109,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeReceiverBank(TransferView trans, long receiverBankNumber) throws ModelException{
+    public synchronized void changeReceiverBank(DebitTransferView trans, long receiverBankNumber) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (trans == null){
@@ -132,7 +132,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeSubject(TransferView trans, String subject) throws ModelException{
+    public synchronized void changeSubject(DebitTransferView trans, String subject) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (trans == null){
@@ -155,23 +155,22 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void createDebitGrant(AccountView receiver, LimitTypeView limit) throws ModelException{
+    public synchronized void createDebitGrant(long receiverBankNumber, long receiverAccNumber, String limitType, common.Fraction amount, String cur) throws ModelException, InvalidBankNumberException, InvalidAccountNumberException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (receiver == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)receiver).createProxiInformation());
-            }
-            if (limit == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)limit).createProxiInformation());
-            }
+            parameters.add(new Long(receiverBankNumber).toString());
+            parameters.add(new Long(receiverAccNumber).toString());
+            parameters.add(limitType);
+            parameters.add(amount.toString());
+            parameters.add(cur);
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "createDebitGrant", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
+                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
+                    throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -216,7 +215,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void executeTransferImplementation(DebitTransferView debitTransfer) throws ModelException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException{
+    public synchronized void executeTransfer(DebitTransferView debitTransfer) throws ModelException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (debitTransfer == null){
@@ -224,7 +223,7 @@ public class AccountServiceConnection extends ServiceConnection {
             } else {
                 parameters.add(((view.objects.ViewProxi)debitTransfer).createProxiInformation());
             }
-            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "executeTransferImplementation", parameters);
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "executeTransfer", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());

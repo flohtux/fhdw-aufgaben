@@ -4,7 +4,6 @@ package model;
 import java.util.Iterator;
 
 import common.Fraction;
-
 import persistence.*;
 import model.meta.BankChangeNameStringMssg;
 import model.meta.BankMssgsVisitor;
@@ -319,6 +318,19 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public PersistentBank searchBankByBankNumber(final long bankNum) 
+				throws model.InvalidBankNumberException, PersistenceException{
+        PersistentBank b = getThis().getBanks().findFirst(new Predcate<PersistentBank>() {
+			public boolean test(PersistentBank argument) throws PersistenceException {
+				return argument.getBankNumber() == bankNum;
+			}
+		});
+        if (b == null) {
+        	throw new InvalidBankNumberException(bankNum);
+        } else {
+        	return b;
+        }
     }
     
     

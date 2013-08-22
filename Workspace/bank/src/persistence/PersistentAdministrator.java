@@ -53,6 +53,8 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public PersistentBank searchBankByBankNumber(final long bankNum) 
+				throws model.InvalidBankNumberException, PersistenceException;
 
 }
 

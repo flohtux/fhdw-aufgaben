@@ -13,8 +13,10 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
     public void handleAccount(AccountView account) throws ModelException;
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
+    public void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;
     public void handleMoney(MoneyView money) throws ModelException;
     public void handleBank(BankView bank) throws ModelException;
+    public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException;
     

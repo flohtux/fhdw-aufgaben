@@ -4,12 +4,12 @@ import model.*;
 
 import java.util.Iterator;
 
-public class AccountServiceSuccessfullStates_ObserveeProxi extends PersistentListProxi<PersistentDebitTransfer> {
+public class DebitTransferSuccessful_SuccessfulsProxi extends PersistentListProxi<PersistentDebitTransfer> {
 
   	private DebitTransferList list;
-  	private AccountServiceSuccessfullStates owner;
+  	private DebitTransferSuccessful owner;
 
-  	public AccountServiceSuccessfullStates_ObserveeProxi(AccountServiceSuccessfullStates owner) {
+  	public DebitTransferSuccessful_SuccessfulsProxi(DebitTransferSuccessful owner) {
     	this.owner = owner;
   	}
   	public DebitTransferList getList() throws PersistenceException{
@@ -19,7 +19,7 @@ public class AccountServiceSuccessfullStates_ObserveeProxi extends PersistentLis
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
-                      		.theAccountServiceSuccessfullStatesFacade.observeeGet(this.owner.getId());
+                      		.theDebitTransferSuccessfulFacade.successfulsGet(this.owner.getId());
       		}
     	}
     	return this.list;
@@ -36,23 +36,23 @@ public class AccountServiceSuccessfullStates_ObserveeProxi extends PersistentLis
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
-        		entryId = ConnectionHandler.getTheConnectionHandler().theAccountServiceSuccessfullStatesFacade
-        	               	.observeeAdd(owner.getId(), entry);
+        		entryId = ConnectionHandler.getTheConnectionHandler().theDebitTransferSuccessfulFacade
+        	               	.successfulsAdd(owner.getId(), entry);
       		}
       		list.add((PersistentDebitTransfer)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
         	    	                   entryId));
-      		entry.register(this.owner);
+      		
     	}
   	}
   	protected void remove(PersistentListEntryProxi entry) throws PersistenceException {
     	if (!this.owner.isDelayed$Persistence()) {
-      		ConnectionHandler.getTheConnectionHandler().theAccountServiceSuccessfullStatesFacade.observeeRem(entry.getListEntryId());
+      		ConnectionHandler.getTheConnectionHandler().theDebitTransferSuccessfulFacade.successfulsRem(entry.getListEntryId());
     	}
-    	((PersistentDebitTransfer)entry).deregister(this.owner);
+    	
   	}
-  	public AccountServiceSuccessfullStates_ObserveeProxi copy(AccountServiceSuccessfullStates owner) throws PersistenceException {
-  		AccountServiceSuccessfullStates_ObserveeProxi result = new AccountServiceSuccessfullStates_ObserveeProxi(owner);
+  	public DebitTransferSuccessful_SuccessfulsProxi copy(DebitTransferSuccessful owner) throws PersistenceException {
+  		DebitTransferSuccessful_SuccessfulsProxi result = new DebitTransferSuccessful_SuccessfulsProxi(owner);
   		result.list = this.getList().copy();
   		return result;
   	}	 
@@ -61,8 +61,8 @@ public class AccountServiceSuccessfullStates_ObserveeProxi extends PersistentLis
   		while (entries.hasNext()){
   			PersistentDebitTransfer current = entries.next();
   			current.store();
-      		long entryId = ConnectionHandler.getTheConnectionHandler().theAccountServiceSuccessfullStatesFacade
-            	           .observeeAdd(owner.getId(), current);
+      		long entryId = ConnectionHandler.getTheConnectionHandler().theDebitTransferSuccessfulFacade
+            	           .successfulsAdd(owner.getId(), current);
         	((PersistentListEntryProxi)current).setListEntryId(entryId);
 		}
 	}

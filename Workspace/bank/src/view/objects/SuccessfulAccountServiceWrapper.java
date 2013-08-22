@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class NotSuccessfullStatesAccountServiceWrapper extends AssociationInTreeWrapper {
+public class SuccessfulAccountServiceWrapper extends AssociationInTreeWrapper {
 
-	public NotSuccessfullStatesAccountServiceWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public SuccessfulAccountServiceWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class NotSuccessfullStatesAccountServiceWrapper extends AssociationInTree
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association notSuccessfullStates in class AccountService
+    	//TODO: Implement toString in wrapper class for association successful in class AccountService
     	return this.getWrappedObject().toString();
     }
 

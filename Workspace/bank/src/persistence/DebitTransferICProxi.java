@@ -90,6 +90,10 @@ public abstract class DebitTransferICProxi extends DebitTransferTransactionICPro
 				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).executeImplementation();
     }
+    public PersistentMoney fetchRealMoney() 
+				throws PersistenceException{
+        return ((PersistentDebitTransfer)this.getTheObject()).fetchRealMoney();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).initializeOnCreation();

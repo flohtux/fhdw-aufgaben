@@ -241,6 +241,16 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		this.result = "Einzugsermächtigung für " + debitGrant.getPermittedAccount();
 		
 	}
+	@Override
+	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException {
+		this.result = "History";
+		
+	}
+	@Override
+	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException {
+		this.result = "Noch nicht erledigte Aufträge";
+		
+	}
 	
 
 

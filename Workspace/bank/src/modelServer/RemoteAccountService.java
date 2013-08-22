@@ -16,7 +16,7 @@ public  class RemoteAccountService extends RemoteService {
 
     public synchronized java.util.HashMap<?,?> changeCurrency(String transProxiString, String currency){
         try {
-            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
             ((PersistentAccountService)this.server).changeCurrency(trans, currency);
             return createOKResult();
         }catch(PersistenceException pe){
@@ -26,7 +26,7 @@ public  class RemoteAccountService extends RemoteService {
     
     public synchronized java.util.HashMap<?,?> changeMoney(String transProxiString, String newAmountAsString){
         try {
-            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
             common.Fraction newAmount = common.Fraction.parse(newAmountAsString);
             ((PersistentAccountService)this.server).changeMoney(trans, newAmount);
             return createOKResult();
@@ -48,7 +48,7 @@ public  class RemoteAccountService extends RemoteService {
     
     public synchronized java.util.HashMap<?,?> changeReceiverAccount(String transProxiString, String receiverAccNumberAsString){
         try {
-            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
             long receiverAccNumber = new Long(receiverAccNumberAsString).longValue();
             ((PersistentAccountService)this.server).changeReceiverAccount(trans, receiverAccNumber);
             return createOKResult();
@@ -59,7 +59,7 @@ public  class RemoteAccountService extends RemoteService {
     
     public synchronized java.util.HashMap<?,?> changeReceiverBank(String transProxiString, String receiverBankNumberAsString){
         try {
-            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
             long receiverBankNumber = new Long(receiverBankNumberAsString).longValue();
             ((PersistentAccountService)this.server).changeReceiverBank(trans, receiverBankNumber);
             return createOKResult();
@@ -70,7 +70,7 @@ public  class RemoteAccountService extends RemoteService {
     
     public synchronized java.util.HashMap<?,?> changeSubject(String transProxiString, String subject){
         try {
-            PersistentTransfer trans = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
+            PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
             ((PersistentAccountService)this.server).changeSubject(trans, subject);
             return createOKResult();
         }catch(PersistenceException pe){
@@ -78,14 +78,19 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createDebitGrant(String receiverProxiString, String limitProxiString){
+    public synchronized java.util.HashMap<?,?> createDebitGrant(String receiverBankNumberAsString, String receiverAccNumberAsString, String limitType, String amountAsString, String cur){
         try {
-            PersistentAccount receiver = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(receiverProxiString));
-            PersistentLimitType limit = (PersistentLimitType)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));
-            ((PersistentAccountService)this.server).createDebitGrant(receiver, limit);
+            long receiverBankNumber = new Long(receiverBankNumberAsString).longValue();
+            long receiverAccNumber = new Long(receiverAccNumberAsString).longValue();
+            common.Fraction amount = common.Fraction.parse(amountAsString);
+            ((PersistentAccountService)this.server).createDebitGrant(receiverBankNumber, receiverAccNumber, limitType, amount, cur);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.InvalidBankNumberException e0){
+            return createExceptionResult(e0, this);
+        }catch(model.InvalidAccountNumberException e1){
+            return createExceptionResult(e1, this);
         }
     }
     
@@ -107,10 +112,10 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> executeTransferImplementation(String debitTransferProxiString){
+    public synchronized java.util.HashMap<?,?> executeTransfer(String debitTransferProxiString){
         try {
             PersistentDebitTransfer debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
-            ((PersistentAccountService)this.server).executeTransferImplementation(debitTransfer);
+            ((PersistentAccountService)this.server).executeTransfer(debitTransfer);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

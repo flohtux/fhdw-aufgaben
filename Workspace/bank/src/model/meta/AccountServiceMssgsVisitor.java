@@ -5,13 +5,11 @@ public interface AccountServiceMssgsVisitor extends AccountServiceDOWNMssgsVisit
 
 interface AccountServiceDOWNMssgsVisitor  {
 
-    public void handleAccountServiceExecuteTransferDebitTransferMssg(AccountServiceExecuteTransferDebitTransferMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface AccountServiceUPMssgsVisitor extends ServiceUPMssgsVisitor {
 
-    public void handleAccountServiceExecuteTransferDebitTransferMssg(AccountServiceExecuteTransferDebitTransferMssg event) throws persistence.PersistenceException;
     
 }

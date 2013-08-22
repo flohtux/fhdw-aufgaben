@@ -80,6 +80,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     
+    public abstract void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;
+    
     public abstract void handleBooleanValue(BooleanValueView booleanValue) throws ModelException;
     
     public void handleFalseValue(FalseValueView falseValue) throws ModelException{
@@ -120,6 +122,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleMoney(MoneyView money) throws ModelException;
     
     public abstract void handleBank(BankView bank) throws ModelException;
+    
+    public abstract void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     
     public abstract void handleServer(ServerView server) throws ModelException;
     

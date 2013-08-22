@@ -110,19 +110,19 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
     }
-    public void changeCurrency(final PersistentTransfer trans, final PersistentCurrency currency) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeCurrency(trans, currency);
     }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeMoney(trans, newAmount);
     }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverAccount(trans, receiverAccountNumber);
     }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }

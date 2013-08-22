@@ -488,14 +488,11 @@ public class Bank extends PersistentObject implements PersistentBank{
         	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
         }else {
         	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
-				public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {
-				}
+				public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {}
 				public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
 					PersistentDebitGrant grant = acc.getGrantedDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
 						public boolean test(PersistentDebitGrant argument) throws PersistenceException {
-							System.out.println("hier");
 							return argument.getPermittedAccount().equals(debit.getSender());
-//							return true;
 						}
 					});
 					if (grant == null) {
@@ -505,14 +502,26 @@ public class Bank extends PersistentObject implements PersistentBank{
 					}
 				}
 			});
-        	
-        	acc.getLimit().checkLimit(debitTransfer.getMoney());
-            acc.setMoney(acc.getMoney().add(debitTransfer.getMoney()));
+        	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
+			acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
             debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
             acc.getDebitTransferTransactions().add(debitTransfer);
         }
         
         
+    }
+    public PersistentAccount searchAccountByAccNumber(final long accNum) 
+				throws model.InvalidAccountNumberException, PersistenceException{
+    	PersistentAccount a = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
+			public boolean test(PersistentAccount argument) throws PersistenceException {
+				return argument.getAccountNumber() == accNum;
+			}
+		});
+    	if (a == null) {
+    		throw new InvalidAccountNumberException(accNum);
+    	} else {
+    		return a;
+    	}
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
@@ -523,10 +532,10 @@ public class Bank extends PersistentObject implements PersistentBank{
 			}
 		});
     	if (result == null) {
-    		throw new InvalidBankNumberException(viewConstants.ExceptionConstants.InvalidBankNumberMessage, debitTransfer.getReceiverBankNumber());
+    		throw new InvalidBankNumberException(debitTransfer.getReceiverBankNumber());
     	} else {
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
-    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.getMoney())); 
+    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
     		debitTransfer.getSender().setMoney(newAccountMoney);
 			getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));

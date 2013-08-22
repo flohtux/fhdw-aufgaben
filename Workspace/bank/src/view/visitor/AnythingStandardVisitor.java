@@ -95,6 +95,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleYen(YenView yen) throws ModelException{
         this.standardHandling(yen);
     }
+    public void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException{
+        this.standardHandling(debitTransferNotExecuted);
+    }
     public void handleNotExecutetState(NotExecutetStateView notExecutetState) throws ModelException{
         this.standardHandling(notExecutetState);
     }
@@ -109,6 +112,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleBank(BankView bank) throws ModelException{
         this.standardHandling(bank);
+    }
+    public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException{
+        this.standardHandling(debitTransferSuccessful);
     }
     public void handlePfund(PfundView pfund) throws ModelException{
         this.standardHandling(pfund);

@@ -13,8 +13,10 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public void handleAccount(AccountView account) throws ModelException, E;
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
+    public void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException, E;
     public void handleMoney(MoneyView money) throws ModelException, E;
     public void handleBank(BankView bank) throws ModelException, E;
+    public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException, E;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;
     

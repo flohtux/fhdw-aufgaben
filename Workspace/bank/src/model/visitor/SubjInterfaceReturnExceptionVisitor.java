@@ -14,8 +14,10 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public R handleAccount(PersistentAccount account) throws PersistenceException, E;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
+    public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public R handleMoney(PersistentMoney money) throws PersistenceException, E;
     public R handleBank(PersistentBank bank) throws PersistenceException, E;
+    public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
     public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException, E;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException, E;
     

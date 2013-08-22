@@ -48,6 +48,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
+    
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
     public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
@@ -87,6 +89,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
+    
+    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     

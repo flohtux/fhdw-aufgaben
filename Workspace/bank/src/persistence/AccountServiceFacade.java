@@ -70,17 +70,17 @@ public class AccountServiceFacade{
             PersistentAccount account = null;
             if (obj.getLong(6) != 0)
                 account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentAccountServiceSuccessfullStates successfullStates = null;
+            PersistentAccountServiceSuccessful successful = null;
             if (obj.getLong(8) != 0)
-                successfullStates = (PersistentAccountServiceSuccessfullStates)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            PersistentAccountServiceNotSuccessfullStates notSuccessfullStates = null;
+                successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentAccountServiceNotExecuted notExecuted = null;
             if (obj.getLong(10) != 0)
-                notSuccessfullStates = (PersistentAccountServiceNotSuccessfullStates)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+                notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             AccountService result = new AccountService(subService,
                                                        This,
                                                        account,
-                                                       successfullStates,
-                                                       notSuccessfullStates,
+                                                       successful,
+                                                       notExecuted,
                                                        AccountServiceId);
             obj.close();
             callable.close();
@@ -105,26 +105,26 @@ public class AccountServiceFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void successfullStatesSet(long AccountServiceId, PersistentAccountServiceSuccessfullStates successfullStatesVal) throws PersistenceException {
+    public void successfulSet(long AccountServiceId, PersistentAccountServiceSuccessful successfulVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.sucstatesSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.sccssflSet(?, ?, ?); end;");
             callable.setLong(1, AccountServiceId);
-            callable.setLong(2, successfullStatesVal.getId());
-            callable.setLong(3, successfullStatesVal.getClassId());
+            callable.setLong(2, successfulVal.getId());
+            callable.setLong(3, successfulVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void notSuccessfullStatesSet(long AccountServiceId, PersistentAccountServiceNotSuccessfullStates notSuccessfullStatesVal) throws PersistenceException {
+    public void notExecutedSet(long AccountServiceId, PersistentAccountServiceNotExecuted notExecutedVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.ntsucstatesSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.ntExctdSet(?, ?, ?); end;");
             callable.setLong(1, AccountServiceId);
-            callable.setLong(2, notSuccessfullStatesVal.getId());
-            callable.setLong(3, notSuccessfullStatesVal.getClassId());
+            callable.setLong(2, notExecutedVal.getId());
+            callable.setLong(3, notExecutedVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
