@@ -155,9 +155,14 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void createDebitGrant(long receiverBankNumber, long receiverAccNumber, String limitType, common.Fraction amount, String cur) throws ModelException, InvalidBankNumberException, InvalidAccountNumberException{
+    public synchronized void createDebitGrant(DebitGrantListeView debitGrantList, long receiverBankNumber, long receiverAccNumber, String limitType, common.Fraction amount, String cur) throws ModelException, InvalidBankNumberException, InvalidAccountNumberException{
         try {
             Vector<Object> parameters = new Vector<Object>();
+            if (debitGrantList == null){
+                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
+            } else {
+                parameters.add(((view.objects.ViewProxi)debitGrantList).createProxiInformation());
+            }
             parameters.add(new Long(receiverBankNumber).toString());
             parameters.add(new Long(receiverAccNumber).toString());
             parameters.add(limitType);

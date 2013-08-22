@@ -94,9 +94,9 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     }
     
     
-    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createDebitGrant(receiverBankNumber, receiverAccNumber, limitType, amount, cur, invoker);
+        ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur, invoker);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
@@ -174,9 +174,9 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
 				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createDebitGrant(receiverBankNumber, receiverAccNumber, limitType, amount, cur);
+        ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur);
     }
     public void createDebit() 
 				throws PersistenceException{

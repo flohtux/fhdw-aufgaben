@@ -76,6 +76,22 @@ create index IBnkBnkSrvc on Srvc (BnkSrvcBnk, BnkSrvcBnkCls);
 create index IAccntAccntSrvc on Srvc (AccntSrvcAccnt, AccntSrvcAccntCls);
 
 
+create sequence SAccntRcvdGrnt nocache;
+
+create table AccntRcvdGrnt(
+    id number primary key,
+    Cls number not null,
+    AccntRcvdGrntMstr number,
+    AccntRcvdGrntMstrCls number,
+    constraint FAccntRcvdGrntMstr foreign key (AccntRcvdGrntMstrCls) references Cls (id),
+    AccntRcvdGrntObs number,
+    AccntRcvdGrntObsCls number,
+    constraint FAccntRcvdGrntObs foreign key (AccntRcvdGrntObsCls) references Cls (id),
+    AccntRcvdGrntThis number,
+    AccntRcvdGrntThisCls number,
+    constraint FAccntRcvdGrntThis foreign key (AccntRcvdGrntThisCls) references Cls (id)    
+);
+
 create sequence SSubj nocache;
 
 create table Subj(
@@ -117,6 +133,22 @@ create table DebiTrfTran(
 create index ISttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStt, DbtTrnsfrSttCls);
 create index IStrnSttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStrnStt, DbtTrnsfrStrnSttCls);
 
+
+create sequence SAccntGrntdGrnt nocache;
+
+create table AccntGrntdGrnt(
+    id number primary key,
+    Cls number not null,
+    AccntGrntdGrntMstr number,
+    AccntGrntdGrntMstrCls number,
+    constraint FAccntGrntdGrntMstr foreign key (AccntGrntdGrntMstrCls) references Cls (id),
+    AccntGrntdGrntObs number,
+    AccntGrntdGrntObsCls number,
+    constraint FAccntGrntdGrntObs foreign key (AccntGrntdGrntObsCls) references Cls (id),
+    AccntGrntdGrntThis number,
+    AccntGrntdGrntThisCls number,
+    constraint FAccntGrntdGrntThis foreign key (AccntGrntdGrntThisCls) references Cls (id)    
+);
 
 create sequence SChngNmCMD nocache;
 
@@ -321,6 +353,9 @@ create sequence SCrtDbtGrntCMD nocache;
 create table CrtDbtGrntCMD(
     id number primary key,
     Cls number not null,
+    CrtDbtGrntCMDDbtGrntLst number,
+    CrtDbtGrntCMDDbtGrntLstCls number,
+    constraint FCrtDbtGrntCMDDbtGrntLst foreign key (CrtDbtGrntCMDDbtGrntLstCls) references Cls (id),
     CrtDbtGrntCMDRcvrBnkNmbr number,
     CrtDbtGrntCMDRcvrAccNmbr number,
     CrtDbtGrntCMDLmtTp varchar2(2000),

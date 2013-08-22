@@ -61,6 +61,10 @@ public class DebitGrantListeICProxi extends PersistentInCacheProxiOptimistic imp
     }
     
     
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        ((PersistentDebitGrantListe)this.getTheObject()).createDebitGrant(receiver, limit);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).deregister(observee);
@@ -80,6 +84,10 @@ public class DebitGrantListeICProxi extends PersistentInCacheProxiOptimistic imp
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        ((PersistentDebitGrantListe)this.getTheObject()).createDebitGrantImplementation(receiver, limit);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

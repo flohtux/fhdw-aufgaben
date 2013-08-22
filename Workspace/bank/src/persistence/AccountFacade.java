@@ -71,12 +71,12 @@ public class AccountFacade{
             PersistentAccountDebitTransferTransactions debitTransferTransactions = null;
             if (obj.getLong(7) != 0)
                 debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            PersistentDebitGrantListe grantedDebitGrant = null;
+            PersistentAccountGrantedDebitGrant grantedDebitGrant = null;
             if (obj.getLong(9) != 0)
-                grantedDebitGrant = (PersistentDebitGrantListe)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            PersistentDebitGrantListe receivedDebitGrant = null;
+                grantedDebitGrant = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            PersistentAccountReceivedDebitGrant receivedDebitGrant = null;
             if (obj.getLong(11) != 0)
-                receivedDebitGrant = (PersistentDebitGrantListe)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+                receivedDebitGrant = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             SubjInterface subService = null;
             if (obj.getLong(13) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
@@ -189,7 +189,7 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void grantedDebitGrantSet(long AccountId, PersistentDebitGrantListe grantedDebitGrantVal) throws PersistenceException {
+    public void grantedDebitGrantSet(long AccountId, PersistentAccountGrantedDebitGrant grantedDebitGrantVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.GrntdGrntSet(?, ?, ?); end;");
@@ -202,7 +202,7 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void receivedDebitGrantSet(long AccountId, PersistentDebitGrantListe receivedDebitGrantVal) throws PersistenceException {
+    public void receivedDebitGrantSet(long AccountId, PersistentAccountReceivedDebitGrant receivedDebitGrantVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.RcvdGrntSet(?, ?, ?); end;");

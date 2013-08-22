@@ -2,6 +2,7 @@
 package model;
 
 import persistence.*;
+import model.meta.DebitGrantMssgsVisitor;
 import model.visitor.*;
 
 
@@ -181,6 +182,13 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
     }
     
     
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        model.meta.DebitGrantListeCreateDebitGrantAccountLimitTypeMssg event = new model.meta.DebitGrantListeCreateDebitGrantAccountLimitTypeMssg(receiver, limit, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -220,18 +228,18 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
+        
+    }
+    public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        //TODO: implement method: createDebitGrant
         
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

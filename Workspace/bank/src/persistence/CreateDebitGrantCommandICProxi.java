@@ -22,6 +22,12 @@ public class CreateDebitGrantCommandICProxi extends PersistentInCacheProxi imple
         return 198;
     }
     
+    public PersistentDebitGrantListe getDebitGrantList() throws PersistenceException {
+        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getDebitGrantList();
+    }
+    public void setDebitGrantList(PersistentDebitGrantListe newValue) throws PersistenceException {
+        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setDebitGrantList(newValue);
+    }
     public long getReceiverBankNumber() throws PersistenceException {
         return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getReceiverBankNumber();
     }

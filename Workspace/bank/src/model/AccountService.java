@@ -3,6 +3,7 @@ package model;
 
 import persistence.*;
 import model.meta.DebitTransferMssgsVisitor;
+import model.meta.DebitTransferNotExecutedMssgsVisitor;
 import model.meta.DebitTransferTransactionExecuteMssg;
 import model.meta.LimitTypeSwitchPARAMETER;
 import model.meta.StringFACTORY;
@@ -259,10 +260,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
-    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentCreateDebitGrantCommand command = model.meta.CreateDebitGrantCommand.createCreateDebitGrantCommand(receiverBankNumber, receiverAccNumber, limitType, amount, cur, now, now);
+		command.setDebitGrantList(debitGrantList);
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
@@ -372,7 +374,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
 				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
     	PersistentBank b = getThis().getAccount().getBank().getAdministrator().searchBankByBankNumber(receiverBankNumber);
     	PersistentAccount a = b.searchAccountByAccNumber(receiverAccNumber);
@@ -404,6 +406,8 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	debitTransfer.execute(getThis());
+    	getThis().getSuccessful().getSuccessfuls().add(debitTransfer);
+    	getThis().signalChanged(true);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -416,7 +420,8 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
 				throws PersistenceException{
         //TODO: implement method: notExecuted_update
-        
+        event.accept(new DebitTransferNotExecutedMssgsVisitor() {
+		});
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{

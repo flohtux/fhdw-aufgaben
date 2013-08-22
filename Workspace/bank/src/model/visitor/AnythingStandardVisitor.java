@@ -5,11 +5,17 @@ import persistence.*;
 
 public abstract class AnythingStandardVisitor implements AnythingVisitor {
     
+    public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException{
+        this.standardHandling(accountReceivedDebitGrant);
+    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
         this.standardHandling(falseValue);
+    }
+    public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException{
+        this.standardHandling(accountGrantedDebitGrant);
     }
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.standardHandling(changeNameCommand);

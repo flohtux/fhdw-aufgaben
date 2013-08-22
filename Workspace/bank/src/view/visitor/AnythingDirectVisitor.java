@@ -82,18 +82,10 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
     
-    public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
-    
     public abstract void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;
     
-    public abstract void handleBooleanValue(BooleanValueView booleanValue) throws ModelException;
+    public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     
-    public void handleFalseValue(FalseValueView falseValue) throws ModelException{
-        this.handleBooleanValue(falseValue);
-    }
-    public void handleTrueValue(TrueValueView trueValue) throws ModelException{
-        this.handleBooleanValue(trueValue);
-    }
     public abstract void handleLimitType(LimitTypeView limitType) throws ModelException;
     
     public void handleNoLimit(NoLimitView noLimit) throws ModelException{
@@ -101,6 +93,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public void handleLimit(LimitView limit) throws ModelException{
         this.handleLimitType(limit);
+    }
+    public abstract void handleBooleanValue(BooleanValueView booleanValue) throws ModelException;
+    
+    public void handleFalseValue(FalseValueView falseValue) throws ModelException{
+        this.handleBooleanValue(falseValue);
+    }
+    public void handleTrueValue(TrueValueView trueValue) throws ModelException{
+        this.handleBooleanValue(trueValue);
     }
     public abstract void handlePercent(PercentView percent) throws ModelException;
     

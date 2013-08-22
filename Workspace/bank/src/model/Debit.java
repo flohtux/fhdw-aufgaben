@@ -204,8 +204,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException{
@@ -222,8 +220,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     
@@ -231,10 +227,12 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     public void executeImplementation() 
 				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
-		getThis().setState(NotExecutetState.getTheNotExecutetState());
+		//TODO warum wird hier der state geänder????
+    	
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}
+		getThis().setState(NotExecutetState.getTheNotExecutetState());
 		getThis().getSender().getBank().sendTransfer(getThis());
 		
 		

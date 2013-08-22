@@ -31,7 +31,7 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException;
     public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
 				throws PersistenceException;
@@ -57,7 +57,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createDebitGrant(final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
 				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
     public void createDebit() 
 				throws PersistenceException;

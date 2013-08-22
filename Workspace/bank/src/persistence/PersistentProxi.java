@@ -16,7 +16,12 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[103];
+		listProxiFactories = new ListProxiFactory[106];
+        listProxiFactories[104] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountReceivedDebitGrantListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[1] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new SubjListEntryProxi(objectId, entryId);
@@ -25,6 +30,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[65] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new FalseValueListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[105] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountGrantedDebitGrantListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[2] = new ListProxiFactory(){
@@ -317,7 +327,12 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [103];
+		proxiFactories = new ProxiFactory [106];
+        proxiFactories[104] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountReceivedDebitGrantProxi(objectId);
+            }
+        };
         proxiFactories[1] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new SubjProxi(objectId);
@@ -326,6 +341,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[65] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new FalseValueProxi(objectId);
+            }
+        };
+        proxiFactories[105] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountGrantedDebitGrantProxi(objectId);
             }
         };
         proxiFactories[2] = new ProxiFactory(){

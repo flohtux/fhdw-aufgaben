@@ -39,6 +39,7 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
+    protected PersistentDebitGrantListe debitGrantList;
     protected long receiverBankNumber;
     protected long receiverAccNumber;
     protected String limitType;
@@ -50,9 +51,10 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     
     private model.UserException commandException = null;
     
-    public CreateDebitGrantCommand(long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public CreateDebitGrantCommand(PersistentDebitGrantListe debitGrantList,long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.debitGrantList = debitGrantList;
         this.receiverBankNumber = receiverBankNumber;
         this.receiverAccNumber = receiverAccNumber;
         this.limitType = limitType;
@@ -76,6 +78,10 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
         if (this.getClassId() == 198) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade
             .newCreateDebitGrantCommand(receiverBankNumber,receiverAccNumber,limitType,amount,cur,this.getId());
         super.store();
+        if(this.getDebitGrantList() != null){
+            this.getDebitGrantList().store();
+            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.debitGrantListSet(this.getId(), getDebitGrantList());
+        }
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -91,6 +97,20 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
         
     }
     
+    public PersistentDebitGrantListe getDebitGrantList() throws PersistenceException {
+        return this.debitGrantList;
+    }
+    public void setDebitGrantList(PersistentDebitGrantListe newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.debitGrantList)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.debitGrantList = (PersistentDebitGrantListe)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.debitGrantListSet(this.getId(), newValue);
+        }
+    }
     public long getReceiverBankNumber() throws PersistenceException {
         return this.receiverBankNumber;
     }
@@ -236,6 +256,7 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
          return visitor.handleCreateDebitGrantCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getDebitGrantList() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -252,7 +273,7 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     public void execute() 
 				throws PersistenceException{
         try{
-			this.getCommandReceiver().createDebitGrant(this.getReceiverBankNumber(), this.getReceiverAccNumber(), this.getLimitType(), this.getAmount(), this.getCur());
+			this.getCommandReceiver().createDebitGrant(this.getDebitGrantList(), this.getReceiverBankNumber(), this.getReceiverAccNumber(), this.getLimitType(), this.getAmount(), this.getCur());
 		}
 		catch(model.InvalidBankNumberException e){
 			this.commandException = e;

@@ -575,18 +575,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private java.util.Vector<javax.swing.JButton> getToolButtonsForStaticOperations() {
         java.util.Vector<javax.swing.JButton> result = new java.util.Vector<javax.swing.JButton>();
         javax.swing.JButton currentButton = null;
-        currentButton = new javax.swing.JButton("Neue Erlaubnis erteilen ... ");
-        currentButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard wizard = new AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard("Neue Erlaubnis erteilen");
-                wizard.pack();
-                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                wizard.pack();
-                wizard.setLocationRelativeTo(getNavigationPanel());
-                wizard.setVisible(true);
-            }
-            
-        });result.add(currentButton);
         currentButton = new javax.swing.JButton("Neue Lastschrift");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -632,20 +620,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private JPopupMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations) {
         JPopupMenu result = new JPopupMenu();
         javax.swing.JMenuItem item = null;
-        item = new javax.swing.JMenuItem();
-        item.setText("(S) Neue Erlaubnis erteilen ... ");
-        item.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard wizard = new AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard("Neue Erlaubnis erteilen");
-                wizard.pack();
-                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                wizard.pack();
-                wizard.setLocationRelativeTo(getNavigationPanel());
-                wizard.setVisible(true);
-            }
-            
-        });
-        if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
         item.setText("(S) Neue Lastschrift");
         item.addActionListener(new java.awt.event.ActionListener() {
@@ -693,6 +667,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
+            if (selected instanceof DebitGrantListeView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Neue Erlaubnis erteilen ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard wizard = new AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard("Neue Erlaubnis erteilen");
+                        wizard.setFirstArgument((DebitGrantListeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             if (selected instanceof DebitTransferView){
                 item = new javax.swing.JMenuItem();
                 item.setText("Betreff ändern ... ");
@@ -1113,20 +1104,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-	class AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard extends Wizard {
+	class AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard extends Wizard {
 
-		protected AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard(String operationName){
+		protected AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceCreateDebitGrantIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard.help";
+			this.helpFileName = "AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().createDebitGrant(((IntegerSelectionPanel)getParametersPanel().getComponent(0)).getResult().longValue(),
+				getConnection().createDebitGrant(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getComponent(0)).getResult().longValue(),
 									((IntegerSelectionPanel)getParametersPanel().getComponent(1)).getResult().longValue(),
 									((StringSelectionPanel)getParametersPanel().getComponent(2)).getResult(),
 									((FractionSelectionPanel)getParametersPanel().getComponent(3)).getResult(),
@@ -1160,6 +1151,15 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			getParametersPanel().add(new RegExprSelectionPanel("cur", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
+		}
+		
+		
+		private DebitGrantListeView firstArgument; 
+	
+		public void setFirstArgument(DebitGrantListeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
 		}
 		
 		

@@ -75,7 +75,7 @@ server AccountService extends Service {
 	void changeSubject@@Betreff_ändern(DebitTransfer trans, String subject);
 	void changeCurrency@@Währung_ändern(DebitTransfer trans, CurrencySUBTYPEName currency);
 	void createDebit@@Neue_Lastschrift();
-	active void createDebitGrant@@Neue_Erlaubnis_erteilen(Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException;
+	active void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException;
 }
 
 class DebitTransferSuccessful##DbtTrnSucc {
@@ -83,7 +83,7 @@ class DebitTransferSuccessful##DbtTrnSucc {
 }
 
 class DebitTransferNotExecuted##DbTrNtExec {
-	DebitTransfer ** notExecuteds;
+	DebitTransfer ** notExecuteds;	
 }
 
 class Account {
@@ -91,8 +91,8 @@ class Account {
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
 	no-view observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
-	DebitGrantListe grantedDebitGrant##GrntdGrnt;
-	DebitGrantListe receivedDebitGrant##RcvdGrnt;
+	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
+	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 
 	Transfer createTransfer();
 	void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
@@ -101,7 +101,7 @@ class Account {
 	void changeCurrency(DebitTransfer trans, Currency currency);
 
 	Debit createDebit();
-	void createDebitGrant(Account receiver, LimitType limit);
+	event void createDebitGrant(Account receiver, LimitType limit);
 
 }
 
@@ -111,6 +111,7 @@ class AccountPx {
 
 class DebitGrantListe {
 	DebitGrant ** debitGrants;
+	event void createDebitGrant(Account receiver, LimitType limit);
 }
 
 class Money {

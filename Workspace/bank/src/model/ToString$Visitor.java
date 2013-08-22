@@ -100,7 +100,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
 		this.result = "Lastschrift";
 	}
 	@Override
@@ -243,7 +242,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException {
-		this.result = "History";
+		this.result = "Historie";
 		
 	}
 	@Override

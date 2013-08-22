@@ -105,9 +105,11 @@ public class ConnectionHandler {
 	private String name;
 
     public ServiceFacade theServiceFacade;
+    public AccountReceivedDebitGrantFacade theAccountReceivedDebitGrantFacade;
     public SubjFacade theSubjFacade;
     public DebitTransferTransactionFacade theDebitTransferTransactionFacade;
     public FalseValueFacade theFalseValueFacade;
+    public AccountGrantedDebitGrantFacade theAccountGrantedDebitGrantFacade;
     public ChangeNameCommandFacade theChangeNameCommandFacade;
     public DebitTransferStateFacade theDebitTransferStateFacade;
     public NoRequestStateFacade theNoRequestStateFacade;
@@ -194,9 +196,11 @@ public class ConnectionHandler {
 			callable.execute();
 			callable.close();
             this.theServiceFacade= new ServiceFacade(this.schemaName, this.con);
+            this.theAccountReceivedDebitGrantFacade= new AccountReceivedDebitGrantFacade(this.schemaName, this.con);
             this.theSubjFacade= new SubjFacade(this.schemaName, this.con);
             this.theDebitTransferTransactionFacade= new DebitTransferTransactionFacade(this.schemaName, this.con);
             this.theFalseValueFacade= new FalseValueFacade(this.schemaName, this.con);
+            this.theAccountGrantedDebitGrantFacade= new AccountGrantedDebitGrantFacade(this.schemaName, this.con);
             this.theChangeNameCommandFacade= new ChangeNameCommandFacade(this.schemaName, this.con);
             this.theDebitTransferStateFacade= new DebitTransferStateFacade(this.schemaName, this.con);
             this.theNoRequestStateFacade= new NoRequestStateFacade(this.schemaName, this.con);

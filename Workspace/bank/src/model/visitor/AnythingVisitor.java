@@ -7,7 +7,9 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
+    public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
     public void handleSubj(PersistentSubj subj) throws PersistenceException;
+    public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException;

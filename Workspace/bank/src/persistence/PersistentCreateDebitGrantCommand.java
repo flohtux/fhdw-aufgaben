@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentCreateDebitGrantCommand extends AccountServiceCommand, Anything, PersistentCommonDate, AbstractPersistentProxi {
     
+    public PersistentDebitGrantListe getDebitGrantList() throws PersistenceException ;
+    public void setDebitGrantList(PersistentDebitGrantListe newValue) throws PersistenceException ;
     public long getReceiverBankNumber() throws PersistenceException ;
     public void setReceiverBankNumber(long newValue) throws PersistenceException ;
     public long getReceiverAccNumber() throws PersistenceException ;

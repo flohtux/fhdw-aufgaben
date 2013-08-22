@@ -16,6 +16,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
     }
+    public abstract void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
+    
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
@@ -47,6 +49,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
         this.handleTransactionFee(procentualFee);
     }
     public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
+    
+    public abstract void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
@@ -86,20 +90,12 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     
-    public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
-    
     public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
+    
+    public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     
     public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     
-    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
-    
-    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
-        this.handleBooleanValue(falseValue);
-    }
-    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
-        this.handleBooleanValue(trueValue);
-    }
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
     
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
@@ -107,6 +103,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
+    }
+    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
+    
+    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
+        this.handleBooleanValue(falseValue);
+    }
+    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
+        this.handleBooleanValue(trueValue);
     }
     public abstract void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;
     
@@ -169,9 +173,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
-    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
-    
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
+    
+    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     
     
 }
