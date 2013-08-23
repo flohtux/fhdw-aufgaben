@@ -14,22 +14,33 @@ public  class RemoteBankService extends RemoteService {
 
 	 
 
-    public synchronized java.util.HashMap<?,?> changeMaxLimit(String accProxiString, String amountAsString){
+    public synchronized java.util.HashMap<?,?> transAcc_Path_In_CloseAccount(){
         try {
-            PersistentAccount acc = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(accProxiString));
+            AccountSearchList result = ((PersistentBankService)this.server).transAcc_Path_In_CloseAccount();
+            return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeMaxLimit(String limitProxiString, String amountAsString){
+        try {
+            PersistentLimitAccount limit = (PersistentLimitAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));
             common.Fraction amount = common.Fraction.parse(amountAsString);
-            ((PersistentBankService)this.server).changeMaxLimit(acc, amount);
+            ((PersistentBankService)this.server).changeMaxLimit(limit, amount);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
         }
     }
     
-    public synchronized java.util.HashMap<?,?> changeMinLimit(String accProxiString, String amountAsString){
+    public synchronized java.util.HashMap<?,?> changeMinLimit(String limitProxiString, String amountAsString){
         try {
-            PersistentAccount acc = (PersistentAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(accProxiString));
+            PersistentLimitAccount limit = (PersistentLimitAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));
             common.Fraction amount = common.Fraction.parse(amountAsString);
-            ((PersistentBankService)this.server).changeMinLimit(acc, amount);
+            ((PersistentBankService)this.server).changeMinLimit(limit, amount);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -47,11 +58,12 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> changeTransactionFee(String transfeeProxiString, String newFeeProxiString){
+    public synchronized java.util.HashMap<?,?> changeTransactionFee(String newFee, String fixAsString, String fixCurrency, String limitAsString, String limitCurrency, String procentualAsString){
         try {
-            PersistentTransactionFee transfee = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transfeeProxiString));
-            PersistentTransactionFee newFee = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(newFeeProxiString));
-            ((PersistentBankService)this.server).changeTransactionFee(transfee, newFee);
+            common.Fraction fix = common.Fraction.parse(fixAsString);
+            common.Fraction limit = common.Fraction.parse(limitAsString);
+            common.Fraction procentual = common.Fraction.parse(procentualAsString);
+            ((PersistentBankService)this.server).changeTransactionFee(newFee, fix, fixCurrency, limit, limitCurrency, procentual);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -78,14 +90,16 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
-        }catch(model.InvalidBankNumberException e0){
+        }catch(model.NoPermissionToExecuteDebitTransferException e0){
             return createExceptionResult(e0, this);
-        }catch(model.LimitViolatedException e1){
+        }catch(model.DebitException e1){
             return createExceptionResult(e1, this);
-        }catch(model.InvalidAccountNumberException e2){
+        }catch(model.InvalidBankNumberException e2){
             return createExceptionResult(e2, this);
-        }catch(model.NoPermissionToExecuteDebitNoteTransferException e3){
+        }catch(model.CloseAccountNoPossibleException e3){
             return createExceptionResult(e3, this);
+        }catch(model.InvalidAccountNumberException e4){
+            return createExceptionResult(e4, this);
         }
     }
     
@@ -107,6 +121,26 @@ public  class RemoteBankService extends RemoteService {
             return createExceptionResult(pe);
         }catch(model.UserException e0){
             return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> resetMaxLimit(String limitProxiString){
+        try {
+            PersistentLimitAccount limit = (PersistentLimitAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));
+            ((PersistentBankService)this.server).resetMaxLimit(limit);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> resetMinLimit(String limitProxiString){
+        try {
+            PersistentLimitAccount limit = (PersistentLimitAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));
+            ((PersistentBankService)this.server).resetMinLimit(limit);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
         }
     }
     

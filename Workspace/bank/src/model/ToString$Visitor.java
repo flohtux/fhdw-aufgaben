@@ -2,7 +2,6 @@ package model;
 
 import common.Fraction;
 import static serverConstants.ToStringConstants.*;
-
 import persistence.*;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -86,7 +85,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAmount(PersistentAmount amount)
 			throws PersistenceException {
-		this.result = amount.getBalance().toString();
+		this.result = amount.getBalance().formatDec(2);
 	}
 	@Override
 	public void handleMoney(PersistentMoney money) throws PersistenceException {
@@ -99,10 +98,9 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleDebitNote(PersistentDebitNote debitNote)
+	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Lastschrift";
 	}
 	@Override
 	public void handleRequestState(PersistentRequestState requestState)
@@ -111,8 +109,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleNotSuccessfullStorneState(
-			PersistentNotSuccessfullStorneState notSuccessfullStorneState)
+	public void handleNotSuccessfulStornoState(
+			PersistentNotSuccessfulStornoState notSuccessfulStornoState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		
@@ -147,8 +145,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = "abgesendet...";
 	}
 	@Override
-	public void handleNotSuccessfullState(
-			PersistentNotSuccessfullState notSuccessfullState)
+	public void handleNotSuccessfulState(
+			PersistentNotSuccessfulState notSuccessfulState)
 			throws PersistenceException {
 		result = "nich vollständig ausgefüllt...";
 	}
@@ -159,15 +157,15 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = "Fehler...";
 	}
 	@Override
-	public void handleSuccessfullState(
-			PersistentSuccessfullState successfullState)
+	public void handleSuccessfulState(
+			PersistentSuccessfulState SuccessfulState)
 			throws PersistenceException {
 		result = "Erfolgreich";
 	}
 	@Override
 	public void handlePercent(PersistentPercent percent)
 			throws PersistenceException {
-		result = percent.getValue().multiply(new Fraction(100, 1)).toString() + PercentSign;
+		result = percent.getValue().multiply(new Fraction(100, 1)).formatDec(3) + PercentSign;
 		
 	}
 	@Override
@@ -184,11 +182,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getMoney().getAmount().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+//		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+		this.result = "Überweisung";
 	}
 	@Override
-	public void handleSuccessfullStornoState(
-			PersistentSuccessfullStornoState successfullStornoState)
+	public void handleSuccessfulStornoState(
+			PersistentSuccessfulStornoState SuccessfulStornoState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		
@@ -214,6 +213,60 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void handleCurrencyManager(PersistentCurrencyManager currencyManager)
+			throws PersistenceException {
+		result = "EZB - Kontostand: " + currencyManager.calculateExchangeRateCompensationReferenceAmount();
+		
+	}
+	@Override
+	public void handleYen(PersistentYen yen) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.YenCurrencyToString;
+		
+	}
+	@Override
+	public void handlePfund(PersistentPfund pfund) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.PfundCurrencyToString;
+		
+	}
+	@Override
+	public void handleFranken(PersistentFranken franken)
+			throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.FrankenCurrencyToString;
+		
+	}
+	@Override
+	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
+		this.result = "Einzugsermächtigung für " + debitGrant.getPermittedAccount();
+		
+	}
+	@Override
+	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException {
+		this.result = "Historie";
+		
+	}
+	@Override
+	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException {
+		this.result = "Noch nicht erledigte Aufträge";
+		
+	}
+	@Override
+	public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe)
+			throws PersistenceException {
+		this.result = "";
+	}
+	@Override
+	public void handleAccountPx(PersistentAccountPx accountPx)
+			throws PersistenceException {
+		this.result = "Account: " + new Long(accountPx.getAccount().getAccountNumber()).toString();
+	}
+	@Override
+	public void handleDebitTransferTemplate(
+			PersistentDebitTransferTemplate debitTransferTemplate)
+			throws PersistenceException {
+		this.result = "";
+	}
+	
 
 
 }

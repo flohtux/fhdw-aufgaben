@@ -47,7 +47,11 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws PersistenceException;
     public void changeNameImplementation(final String name) 
 				throws PersistenceException;
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFeeToFix(final PersistentMoney fix) 
+				throws PersistenceException;
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
+				throws PersistenceException;
+    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
@@ -57,10 +61,12 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
-    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
+    public void receiveTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.DebitException, model.InvalidAccountNumberException, PersistenceException;
+    public PersistentAccount searchAccountByAccNumber(final long accNum) 
+				throws model.InvalidAccountNumberException, PersistenceException;
+    public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
 
 }
 

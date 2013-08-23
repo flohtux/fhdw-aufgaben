@@ -29,18 +29,19 @@ public class LimitProxi extends LimitTypeProxi implements LimitView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getMoney() != null) return new MoneyLimitWrapper(this, originalIndex, (ViewRoot)this.getMoney());
-        if(this.getMoney() != null) index = index - 1;
+        if(this.getMoney() != null && index < this.getMoney().getTheObject().getChildCount())
+            return this.getMoney().getTheObject().getChild(index);
+        if(this.getMoney() != null) index = index - this.getMoney().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getMoney() == null ? 0 : 1);
+            + (this.getMoney() == null ? 0 : this.getMoney().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getMoney() == null ? true : false);
+            && (this.getMoney() == null ? true : this.getMoney().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;

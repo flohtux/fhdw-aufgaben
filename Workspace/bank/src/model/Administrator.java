@@ -1,9 +1,13 @@
 
 package model;
 
+import java.util.Iterator;
+
+import common.Fraction;
 import persistence.*;
 import model.meta.BankChangeNameStringMssg;
 import model.meta.BankMssgsVisitor;
+import model.meta.StringFACTORY;
 import model.visitor.*;
 
 
@@ -52,6 +56,15 @@ public class Administrator extends model.Service implements PersistentAdministra
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot currencyManager = (AbstractPersistentRoot)this.getCurrencyManager();
+            if (currencyManager != null) {
+                result.put("currencyManager", currencyManager.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    currencyManager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && currencyManager.hasEssentialFields())currencyManager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             result.put("banks", this.getBanks().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -63,6 +76,7 @@ public class Administrator extends model.Service implements PersistentAdministra
         Administrator result = this;
         result = new Administrator(this.subService, 
                                    this.This, 
+                                   this.currencyManager, 
                                    this.banks, 
                                    this.getId());
         result.errors = this.errors.copy(result);
@@ -73,11 +87,13 @@ public class Administrator extends model.Service implements PersistentAdministra
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentAdministratorCurrencyManager currencyManager;
     protected PersistentAdministratorBanks banks;
     
-    public Administrator(SubjInterface subService,PersistentService This,PersistentAdministratorBanks banks,long id) throws persistence.PersistenceException {
+    public Administrator(SubjInterface subService,PersistentService This,PersistentAdministratorCurrencyManager currencyManager,PersistentAdministratorBanks banks,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentService)This,id);
+        this.currencyManager = currencyManager;
         this.banks = banks;        
     }
     
@@ -94,6 +110,10 @@ public class Administrator extends model.Service implements PersistentAdministra
         if (this.getClassId() == -117) ConnectionHandler.getTheConnectionHandler().theAdministratorFacade
             .newAdministrator(this.getId());
         super.store();
+        if(this.currencyManager != null){
+            this.currencyManager.store();
+            ConnectionHandler.getTheConnectionHandler().theAdministratorFacade.currencyManagerSet(this.getId(), currencyManager);
+        }
         if(this.banks != null){
             this.banks.store();
             ConnectionHandler.getTheConnectionHandler().theAdministratorFacade.banksSet(this.getId(), banks);
@@ -101,6 +121,17 @@ public class Administrator extends model.Service implements PersistentAdministra
         
     }
     
+    protected void setCurrencyManager(PersistentAdministratorCurrencyManager newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.currencyManager)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.currencyManager = (PersistentAdministratorCurrencyManager)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAdministratorFacade.currencyManagerSet(this.getId(), newValue);
+        }
+    }
     protected void setBanks(PersistentAdministratorBanks newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.banks)) return;
@@ -181,6 +212,7 @@ public class Administrator extends model.Service implements PersistentAdministra
          return visitor.handleAdministrator(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getCurrencyManager() != null) return 1;
         if (this.getBanks().getObservee().getLength() > 0) return 1;
         return 0;
     }
@@ -203,6 +235,11 @@ public class Administrator extends model.Service implements PersistentAdministra
 		}
 		return this.banks;
     }
+    public PersistentCurrencyManager getCurrencyManager() 
+				throws PersistenceException{
+        if (this.currencyManager== null) return null;
+		return this.currencyManager.getObservee();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAdministrator)This);
@@ -217,6 +254,14 @@ public class Administrator extends model.Service implements PersistentAdministra
 			getThis().setSubService(subService);
 		}
 		subService.register(observee);
+    }
+    public void setCurrencyManager(final PersistentCurrencyManager currencyManager) 
+				throws PersistenceException{
+        if (this.currencyManager == null) {
+			this.setCurrencyManager(model.AdministratorCurrencyManager.createAdministratorCurrencyManager(this.isDelayed$Persistence()));
+			this.currencyManager.setObserver(getThis());
+		}
+		this.currencyManager.setObservee(currencyManager);
     }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
@@ -236,6 +281,11 @@ public class Administrator extends model.Service implements PersistentAdministra
         //TODO !PREREQUISITES: implement method: banks_update
         getThis().signalChanged(true);
     }
+    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
+				throws PersistenceException{
+        CurrencyManager.getTheCurrencyManager().changeExchangeRate(StringFACTORY.createObjectBySubTypeNameForCurrency(currency), Amount.createAmount(rate));
+        
+    }
     public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException{
         //TODO !PREREQUISITES: implement method: changeName
@@ -254,20 +304,33 @@ public class Administrator extends model.Service implements PersistentAdministra
         BankCreator.getTheBankCreator().createBank(name, getThis());
         getThis().signalChanged(true);
     }
+    public void currencyManager_update(final model.meta.CurrencyManagerMssgs event) 
+				throws PersistenceException{
+        getThis().signalChanged(true);
+        
+    }
     public void disconnected() 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setCurrencyManager(CurrencyManager.getTheCurrencyManager());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
-				throws PersistenceException{
-        //TODO: implement method: translateMoney
-    	System.out.println("Du bist doof, da du unterschiedliche Währung verwendest!!! :-)");
-    	return null;
+    public PersistentBank searchBankByBankNumber(final long bankNum) 
+				throws model.InvalidBankNumberException, PersistenceException{
+        PersistentBank b = getThis().getBanks().findFirst(new Predcate<PersistentBank>() {
+			public boolean test(PersistentBank argument) throws PersistenceException {
+				return argument.getBankNumber() == bankNum;
+			}
+		});
+        if (b == null) {
+        	throw new InvalidBankNumberException(bankNum);
+        } else {
+        	return b;
+        }
     }
     
     
@@ -314,10 +377,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
 
     /* Start of protected part that is not overridden by persistence generator */
-    
-    
-    
-    
+   
     
     
     

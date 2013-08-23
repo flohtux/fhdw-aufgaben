@@ -60,7 +60,10 @@ public class InvalidBankNumberException extends model.UserException{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    
+	public InvalidBankNumberException(long bn) throws PersistenceException{
+		this(String.format(serverConstants.ExceptionMessages.InvalidBankMessage, bn));
+	}
+
     /* End of protected part that is not overridden by persistence generator */
     
 }

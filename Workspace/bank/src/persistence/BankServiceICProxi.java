@@ -114,32 +114,36 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).signalChanged(signal);
     }
+    public AccountSearchList transAcc_Path_In_CloseAccount() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentBankService)this.getTheObject()).transAcc_Path_In_CloseAccount();
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
-    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeMaxLimit(acc, amount);
+        ((PersistentBankService)this.getTheObject()).changeMaxLimit(limit, amount);
     }
-    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeMinLimit(acc, amount);
+        ((PersistentBankService)this.getTheObject()).changeMinLimit(limit, amount);
     }
     public String changePassword(final String newPassword1, final String newPassword2) 
 				throws model.PasswordException, PersistenceException{
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeTransactionFee(transfee, newFee);
+        ((PersistentBankService)this.getTheObject()).changeTransactionFee(newFee, fix, fixCurrency, limit, limitCurrency, procentual);
     }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).closeAccount(acc, transAcc);
     }
     public void connected(final String user) 
@@ -181,6 +185,14 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void resetMaxLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).resetMaxLimit(limit);
+    }
+    public void resetMinLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).resetMinLimit(limit);
     }
 
     

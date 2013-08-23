@@ -28,6 +28,24 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void setAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setAccount(newValue);
     }
+    public PersistentDebitTransferSuccessful getSuccessful() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getSuccessful();
+    }
+    public void setSuccessful(PersistentDebitTransferSuccessful newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setSuccessful(newValue);
+    }
+    public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getNotExecuted();
+    }
+    public void setNotExecuted(PersistentDebitTransferNotExecuted newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setNotExecuted(newValue);
+    }
+    public PersistentDebitTransferTemplate getTemplate() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getTemplate();
+    }
+    public void setTemplate(PersistentDebitTransferTemplate newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setTemplate(newValue);
+    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }
@@ -94,9 +112,17 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     }
     
     
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur, invoker);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
+    }
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer, invoker);
     }
     public PersistentServer getAccess() 
 				throws PersistenceException{
@@ -118,7 +144,15 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransfer, invoker);
+    }
+    public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeCurrency(trans, currency);
+    }
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoney(trans, newAmount);
     }
@@ -126,15 +160,15 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws model.PasswordException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeReceiverAccount(trans, receiverAccNumber);
     }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
-    public void changeSubject(final PersistentTransfer trans, final String subject) 
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeSubject(trans, subject);
     }
@@ -146,6 +180,18 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur);
+    }
+    public void createDebit() 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createDebit();
+    }
+    public void createTemplate() 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createTemplate();
+    }
     public void createTransfer() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer();
@@ -154,9 +200,9 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
-    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitNoteTransfer);
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer);
     }
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException{
@@ -177,6 +223,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void useTemplate(final PersistentTransfer debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransfer);
     }
 
     

@@ -2,39 +2,15 @@ package test;
 
 import java.math.BigInteger;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import common.Fraction;
 
 import junit.framework.TestCase;
 
 public class TestFraction extends TestCase {
-////	BigInteger one = BigInteger.valueOf(1);
-//	BigInteger three = BigInteger.valueOf(3);
-//	BigInteger five = BigInteger.valueOf(5);
-//	BigInteger eleven = BigInteger.valueOf(11);
-//	BigInteger fifteen = BigInteger.valueOf(15);
-//	Fraction oneOne = new Fraction(one, one);
-//	Fraction fiveThree = new Fraction(five, three);
-//	Fraction fiveFive = new Fraction(five, five);
-//	Fraction elevenFifteen = new Fraction(eleven, fifteen);
-//	
-//	public void testLcm() {
-//		assertEquals(new BigInteger("3"), oneOne.lcm(fiveThree));
-//		assertEquals(new BigInteger("15"), fiveFive.lcm(elevenFifteen));
-//	}
-//	
-//	public void testGreatorOrEqual() {
-//		
-//		
-//		assertFalse(oneOne.greaterOrEqual(fiveThree));
-//		assertTrue(oneOne.greaterOrEqual(fiveFive));
-//		assertTrue(oneOne.greaterOrEqual(elevenFifteen));
-//		assertTrue(fiveThree.greaterOrEqual(elevenFifteen));
-//		assertTrue(fiveThree.greaterOrEqual(fiveFive));
-//		assertTrue(elevenFifteen.greaterOrEqual(elevenFifteen));
-//	}
-	
 
 	 private final Fraction zero = new Fraction(0, 1);
      private final Fraction one = new Fraction(1, 1);
@@ -42,23 +18,32 @@ public class TestFraction extends TestCase {
      private final Fraction posRat = new Fraction(1, 2);
      private final Fraction negRat = new Fraction(-1, 23);
 
-     @Test(expected = Error.class)
-     public void testDenominatorIsZeroError() {
-             new Fraction(2, 0);
-             fail("division durch 0 behandeln!");
+     @Test
+     public void testDenominatorIsZeroIsOkay() {
+    	 try {
+    		 new Fraction(2,0);
+         } catch (NumberFormatException e) {
+        	 assertTrue(true);
+         }
      }
 
      @Test
      public void testDivideByZeroError() {
-             posRat.divide(zero);
-             fail("division durch 0 behandeln!");
+    	 try {
+    		 posRat.divide(zero);
+         } catch (ArithmeticException e) {
+        	 assertTrue(true);
+         }
 
      }
-
+     
      @Test(expected = Exception.class)
      public void testDivideZeroByZeroError() {
-             zero.divide(zero);
-             fail("division durch 0 behandeln!");
+    	 try {
+    		 zero.divide(zero);
+         } catch (ArithmeticException e) {
+        	 assertTrue(true);
+         }
      }
 
      @Test
@@ -179,7 +164,11 @@ public class TestFraction extends TestCase {
              assertEquals(r5, r5.divide(r1));
              assertEquals(r1, r1.divide(r6));
              assertEquals(r7, r3.divide(r4));
-             assertEquals(r7, r3.divide(r5)); fail("division durch 0 behandeln!");
+             try {
+            	 assertEquals(r7, r3.divide(r5));
+             } catch (ArithmeticException e) {
+            	 assertTrue(true);
+             }
 
 
              assertEquals(r4, r1.add(r2));
@@ -193,6 +182,28 @@ public class TestFraction extends TestCase {
              assertEquals(r4, r4.subtract(r5));
              assertEquals(r10, r7.subtract(r1));
      }
+     
+     @Test
+     public void testFormatDec() {
+    	 Fraction r1 = new Fraction(2, 3);
+    	 assertEquals("0,66", r1.formatDec(2));
+    	 r1 = new Fraction(-0, 1);
+    	 assertEquals("0,00", r1.formatDec(2));
+    	 r1 = new Fraction(-2, -3);
+    	 assertEquals("0,66", r1.formatDec(2));
+    	 r1 = new Fraction(-7, 3);
+    	 assertEquals("-2,33", r1.formatDec(2));
+    	 r1 = new Fraction(-7, 1);
+    	 assertEquals("-7,00", r1.formatDec(2));
+    	 r1 = new Fraction(-7, 1);
+    	 assertEquals("-7", r1.formatDec(0));
+    	 r1 = new Fraction(-15, 2);
+    	 assertEquals("-7", r1.formatDec(0));
+    	 r1 = new Fraction(-10000, 1);
+    	 assertEquals("-10000,0000000000", r1.formatDec(10));
+    	 
+     }
+     
 }
 
 

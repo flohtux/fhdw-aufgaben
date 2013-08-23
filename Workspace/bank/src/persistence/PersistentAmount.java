@@ -23,11 +23,15 @@ public interface PersistentAmount extends SubjInterface, Anything, AbstractPersi
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public PersistentAmount add(final PersistentAmount a) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public PersistentAmount subtract(final PersistentAmount a) 
 				throws PersistenceException;
 
 }

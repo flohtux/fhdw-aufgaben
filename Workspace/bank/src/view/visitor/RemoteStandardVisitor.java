@@ -5,11 +5,11 @@ import view.*;
 
 public abstract class RemoteStandardVisitor implements RemoteVisitor {
     
-    public void handleAccountService(AccountServiceView accountService) throws ModelException{
-        this.standardHandling(accountService);
-    }
     public void handleAdministrator(AdministratorView administrator) throws ModelException{
         this.standardHandling(administrator);
+    }
+    public void handleAccountService(AccountServiceView accountService) throws ModelException{
+        this.standardHandling(accountService);
     }
     public void handleBankService(BankServiceView bankService) throws ModelException{
         this.standardHandling(bankService);

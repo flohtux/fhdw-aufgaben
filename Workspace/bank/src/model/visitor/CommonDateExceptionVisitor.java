@@ -8,6 +8,10 @@ public interface CommonDateExceptionVisitor<E extends UserException> {
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException, E;
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException, E;
+    public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException, E;
+    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
+    public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException, E;
+    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException, E;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;
     
 }

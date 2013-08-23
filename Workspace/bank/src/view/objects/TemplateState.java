@@ -7,12 +7,12 @@ import view.visitor.*;
 
 /* Additional import section end */
 
-public class TemplateState extends view.objects.DebitNoteTransferState implements TemplateStateView{
+public class TemplateState extends view.objects.DebitTransferState implements TemplateStateView{
     
     
-    public TemplateState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
+    public TemplateState(DebitTransferView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitNoteTransferView)debitNoteTransfer,id, classId);        
+        super((DebitTransferView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -24,16 +24,16 @@ public class TemplateState extends view.objects.DebitNoteTransferState implement
     }
     
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws ModelException {
+    public void accept(DebitTransferStateVisitor visitor) throws ModelException {
         visitor.handleTemplateState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTemplateState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTemplateState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTemplateState(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -50,9 +50,9 @@ public class TemplateState extends view.objects.DebitNoteTransferState implement
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
-        if (debitNoteTransfer != null) {
-            ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
+        DebitTransferView debitTransfer = this.getDebitTransfer();
+        if (debitTransfer != null) {
+            ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }
         
     }

@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public class TemplateStateICProxi extends DebitNoteTransferStateICProxi implements PersistentTemplateState{
+public class TemplateStateICProxi extends DebitTransferStateICProxi implements PersistentTemplateState{
     
     public TemplateStateICProxi(long objectId) {
         super(objectId);
@@ -26,16 +26,16 @@ public class TemplateStateICProxi extends DebitNoteTransferStateICProxi implemen
         return ((PersistentTemplateState)this.getTheObject()).getThis();
     }
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferStateVisitor visitor) throws PersistenceException {
         visitor.handleTemplateState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTemplateState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTemplateState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTemplateState(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -68,9 +68,9 @@ public class TemplateStateICProxi extends DebitNoteTransferStateICProxi implemen
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitNoteTransfer getDebitNoteTransfer() 
+    public PersistentDebitTransfer getDebitTransfer() 
 				throws PersistenceException{
-        return ((PersistentTemplateState)this.getTheObject()).getDebitNoteTransfer();
+        return ((PersistentTemplateState)this.getTheObject()).getDebitTransfer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -84,6 +84,14 @@ public class TemplateStateICProxi extends DebitNoteTransferStateICProxi implemen
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).updateObservers(event);
     }
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException{
+        ((PersistentTemplateState)this.getTheObject()).addDebitTransferFromList(state);
+    }
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentTemplateState)this.getTheObject()).changeState(newState);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -95,6 +103,14 @@ public class TemplateStateICProxi extends DebitNoteTransferStateICProxi implemen
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+        return ((PersistentTemplateState)this.getTheObject()).isExecutable();
+    }
+    public void removeDebitTransferFromList() 
+				throws PersistenceException{
+        ((PersistentTemplateState)this.getTheObject()).removeDebitTransferFromList();
     }
 
     

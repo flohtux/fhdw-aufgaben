@@ -167,7 +167,6 @@ public class FixTransactionFee extends model.TransactionFee implements Persisten
          return visitor.handleFixTransactionFee(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getValue() != null) return 1;
         return 0;
     }
     

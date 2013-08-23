@@ -7,12 +7,12 @@ import view.visitor.*;
 
 /* Additional import section end */
 
-public class Transfer extends view.objects.DebitNoteTransfer implements TransferView{
+public class Transfer extends view.objects.DebitTransfer implements TransferView{
     
     
-    public Transfer(java.util.Date timestamp,long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,String subject,DebitNoteTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public Transfer(java.util.Date timestamp,long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,String subject,DebitTransferStateView state,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitNoteTransferStateView)state,(StornoStateView)stornoState,id, classId);        
+        super((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitTransferStateView)state,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -24,28 +24,28 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
     }
     
     
-    public void accept(DebitNoteTransferVisitor visitor) throws ModelException {
+    public void accept(DebitTransferVisitor visitor) throws ModelException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTransfer(this);
     }
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws ModelException {
+    public void accept(DebitTransferTransactionVisitor visitor) throws ModelException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTransfer(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -70,7 +70,7 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
-        DebitNoteTransferStateView state = this.getState();
+        DebitTransferStateView state = this.getState();
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
         }
@@ -85,7 +85,7 @@ public class Transfer extends view.objects.DebitNoteTransfer implements Transfer
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(index == 0 && this.getState() != null) return new StateDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
         return null;
     }

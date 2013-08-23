@@ -9,7 +9,7 @@ interface ExecutedStateDOWNMssgsVisitor  {
 }
 
 
-interface ExecutedStateUPMssgsVisitor extends DebitNoteTransferStateUPMssgsVisitor {
+interface ExecutedStateUPMssgsVisitor extends DebitTransferStateUPMssgsVisitor {
 
     
 }

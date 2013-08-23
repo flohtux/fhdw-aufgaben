@@ -10,11 +10,13 @@ import view.visitor.*;
 
 public class Administrator extends view.objects.Service implements AdministratorView{
     
+    protected CurrencyManagerView currencyManager;
     protected java.util.Vector<BankView> banks;
     
-    public Administrator(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<BankView> banks,long id, long classId) {
+    public Administrator(java.util.Vector<ErrorDisplayView> errors,CurrencyManagerView currencyManager,java.util.Vector<BankView> banks,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
+        this.currencyManager = currencyManager;
         this.banks = banks;        
     }
     
@@ -26,6 +28,12 @@ public class Administrator extends view.objects.Service implements Administrator
         return getTypeId();
     }
     
+    public CurrencyManagerView getCurrencyManager()throws ModelException{
+        return this.currencyManager;
+    }
+    public void setCurrencyManager(CurrencyManagerView newValue) throws ModelException {
+        this.currencyManager = newValue;
+    }
     public java.util.Vector<BankView> getBanks()throws ModelException{
         return this.banks;
     }
@@ -75,6 +83,10 @@ public class Administrator extends view.objects.Service implements Administrator
         if (errors != null) {
             ViewObject.resolveVectorProxies(errors, resultTable);
         }
+        CurrencyManagerView currencyManager = this.getCurrencyManager();
+        if (currencyManager != null) {
+            ((ViewProxi)currencyManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(currencyManager.getClassId(), currencyManager.getId())));
+        }
         java.util.Vector<?> banks = this.getBanks();
         if (banks != null) {
             ViewObject.resolveVectorProxies(banks, resultTable);
@@ -86,20 +98,26 @@ public class Administrator extends view.objects.Service implements Administrator
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
+        if(index == 0 && this.getCurrencyManager() != null) return new CurrencyManagerAdministratorWrapper(this, originalIndex, (ViewRoot)this.getCurrencyManager());
+        if(this.getCurrencyManager() != null) index = index - 1;
         if(index < this.getBanks().size()) return new BanksAdministratorWrapper(this, originalIndex, (ViewRoot)this.getBanks().get(index));
         index = index - this.getBanks().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
+            + (this.getCurrencyManager() == null ? 0 : 1)
             + (this.getBanks().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
+            && (this.getCurrencyManager() == null ? true : false)
             && (this.getBanks().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
+        if(this.getCurrencyManager() != null && this.getCurrencyManager().equals(child)) return result;
+        if(this.getCurrencyManager() != null) result = result + 1;
         java.util.Iterator<?> getBanksIterator = this.getBanks().iterator();
         while(getBanksIterator.hasNext()){
             if(getBanksIterator.next().equals(child)) return result;

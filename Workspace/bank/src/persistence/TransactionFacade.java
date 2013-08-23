@@ -65,9 +65,9 @@ public class TransactionFacade{
             SubjInterface subService = null;
             if (obj.getLong(3) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentDebitNoteTransferTransaction This = null;
+            PersistentDebitTransferTransaction This = null;
             if (obj.getLong(5) != 0)
-                This = (PersistentDebitNoteTransferTransaction)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             Transaction result = new Transaction(obj.getTimestamp(2),
                                                  subService,
                                                  This,

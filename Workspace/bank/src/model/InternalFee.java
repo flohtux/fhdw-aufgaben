@@ -201,7 +201,6 @@ public class InternalFee extends PersistentObject implements PersistentInternalF
          return visitor.handleInternalFee(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getPercent() != null) return 1;
         return 0;
     }
     

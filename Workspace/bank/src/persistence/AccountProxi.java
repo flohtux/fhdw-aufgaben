@@ -40,6 +40,9 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
+    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getDebitTransferTransactions();
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -76,6 +79,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     }
     
     
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).deregister(observee);
@@ -88,9 +95,13 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getBank();
     }
-    public PersistentAccountDebitNoteTransferTransactions getDebitNoteTransferTransactions() 
+    public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).getDebitNoteTransferTransactions();
+        return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrant();
+    }
+    public PersistentDebitGrantListe getReceivedDebitGrant() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrant();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -100,19 +111,31 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).register(observee);
     }
+    public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).setGrantedDebitGrant(grantedDebitGrant);
+    }
+    public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).setReceivedDebitGrant(receivedDebitGrant);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
     }
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeCurrency(trans, currency);
+    }
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeMoney(trans, newAmount);
     }
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverAccount(trans, receiverAccountNumber);
     }
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
@@ -120,13 +143,25 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).createDebitGrantImplementation(receiver, limit);
+    }
+    public PersistentDebit createDebit() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).createDebit();
+    }
+    public PersistentTransfer createTemplate() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).createTemplate();
+    }
     public PersistentTransfer createTransfer() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();
     }
-    public void debitNoteTransferTransactions_update(final model.meta.DebitNoteTransferTransactionMssgs event) 
+    public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).debitNoteTransferTransactions_update(event);
+        ((PersistentAccount)this.getTheObject()).grantedDebitGrant_update(event);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -135,6 +170,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).receivedDebitGrant_update(event);
     }
 
     

@@ -9,7 +9,7 @@ interface TemplateStateDOWNMssgsVisitor  {
 }
 
 
-interface TemplateStateUPMssgsVisitor extends DebitNoteTransferStateUPMssgsVisitor {
+interface TemplateStateUPMssgsVisitor extends DebitTransferStateUPMssgsVisitor {
 
     
 }

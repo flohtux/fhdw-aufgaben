@@ -700,6 +700,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoRequestState(view.NoRequestStateView object){
         result = new NoRequestStateDefaultDetailPanel(handler, object);
     }
+    public void handleCurrencyManager(view.CurrencyManagerView object){
+        result = new CurrencyManagerDefaultDetailPanel(handler, object);
+    }
     public void handleFixTransactionFee(view.FixTransactionFeeView object){
         result = new FixTransactionFeeDefaultDetailPanel(handler, object);
     }
@@ -715,8 +718,11 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handlePercent(view.PercentView object){
         result = new PercentDefaultDetailPanel(handler, object);
     }
-    public void handleSuccessfullState(view.SuccessfullStateView object){
-        result = new SuccessfullStateDefaultDetailPanel(handler, object);
+    public void handleNotSuccessfulState(view.NotSuccessfulStateView object){
+        result = new NotSuccessfulStateDefaultDetailPanel(handler, object);
+    }
+    public void handleSuccessfulState(view.SuccessfulStateView object){
+        result = new SuccessfulStateDefaultDetailPanel(handler, object);
     }
     public void handleAmount(view.AmountView object){
         result = new AmountDefaultDetailPanel(handler, object);
@@ -736,14 +742,17 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleServer(view.ServerView object){
         result = new ServerDefaultDetailPanel(handler, object);
     }
+    public void handleDebitTransferTemplate(view.DebitTransferTemplateView object){
+        result = new DebitTransferTemplateDefaultDetailPanel(handler, object);
+    }
     public void handleTransfer(view.TransferView object){
         result = new TransferDefaultDetailPanel(handler, object);
     }
-    public void handleSuccessfullStornoState(view.SuccessfullStornoStateView object){
-        result = new SuccessfullStornoStateDefaultDetailPanel(handler, object);
-    }
     public void handleDollar(view.DollarView object){
         result = new DollarDefaultDetailPanel(handler, object);
+    }
+    public void handleFranken(view.FrankenView object){
+        result = new FrankenDefaultDetailPanel(handler, object);
     }
     public void handleLimitAccount(view.LimitAccountView object){
         result = new LimitAccountDefaultDetailPanel(handler, object);
@@ -751,8 +760,14 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleLimit(view.LimitView object){
         result = new LimitDefaultDetailPanel(handler, object);
     }
+    public void handleDebit(view.DebitView object){
+        result = new DebitDefaultDetailPanel(handler, object);
+    }
     public void handleMixedFee(view.MixedFeeView object){
         result = new MixedFeeDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitGrantListe(view.DebitGrantListeView object){
+        result = new DebitGrantListeDefaultDetailPanel(handler, object);
     }
     public void handleAccountService(view.AccountServiceView object){
         result = new AccountServiceDefaultDetailPanel(handler, object);
@@ -760,26 +775,26 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleRequestState(view.RequestStateView object){
         result = new RequestStateDefaultDetailPanel(handler, object);
     }
+    public void handleAccountPx(view.AccountPxView object){
+        result = new AccountPxDefaultDetailPanel(handler, object);
+    }
     public void handleAccount(view.AccountView object){
         result = new AccountDefaultDetailPanel(handler, object);
-    }
-    public void handleNotSuccessfullStorneState(view.NotSuccessfullStorneStateView object){
-        result = new NotSuccessfullStorneStateDefaultDetailPanel(handler, object);
     }
     public void handleErrorDisplay(view.ErrorDisplayView object){
         result = new ErrorDisplayDefaultDetailPanel(handler, object);
     }
-    public void handleDebitNote(view.DebitNoteView object){
-        result = new DebitNoteDefaultDetailPanel(handler, object);
-    }
     public void handleEuro(view.EuroView object){
         result = new EuroDefaultDetailPanel(handler, object);
+    }
+    public void handleYen(view.YenView object){
+        result = new YenDefaultDetailPanel(handler, object);
     }
     public void handleTemplateState(view.TemplateStateView object){
         result = new TemplateStateDefaultDetailPanel(handler, object);
     }
-    public void handleNotSuccessfullState(view.NotSuccessfullStateView object){
-        result = new NotSuccessfullStateDefaultDetailPanel(handler, object);
+    public void handleDebitTransferNotExecuted(view.DebitTransferNotExecutedView object){
+        result = new DebitTransferNotExecutedDefaultDetailPanel(handler, object);
     }
     public void handleNotExecutetState(view.NotExecutetStateView object){
         result = new NotExecutetStateDefaultDetailPanel(handler, object);
@@ -795,6 +810,21 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleBank(view.BankView object){
         result = new BankDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitTransferSuccessful(view.DebitTransferSuccessfulView object){
+        result = new DebitTransferSuccessfulDefaultDetailPanel(handler, object);
+    }
+    public void handlePfund(view.PfundView object){
+        result = new PfundDefaultDetailPanel(handler, object);
+    }
+    public void handleNotSuccessfulStornoState(view.NotSuccessfulStornoStateView object){
+        result = new NotSuccessfulStornoStateDefaultDetailPanel(handler, object);
+    }
+    public void handleSuccessfulStornoState(view.SuccessfulStornoStateView object){
+        result = new SuccessfulStornoStateDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitGrant(view.DebitGrantView object){
+        result = new DebitGrantDefaultDetailPanel(handler, object);
     }
     public void handleBankCreator(view.BankCreatorView object){
         result = new BankCreatorDefaultDetailPanel(handler, object);
@@ -833,9 +863,24 @@ class NoRequestStateDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
+class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String FixTransactionFee$$value = "FixTransactionFee$$value";
+    protected static final String CurrencyManager$$exchangeRates = "CurrencyManager$$exchangeRates";
+    protected static final String CurrencyManager$$currencyStock = "CurrencyManager$$currencyStock";
+    
+    protected CurrencyManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CurrencyManagerView getAnything(){
+        return (view.CurrencyManagerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
     
     protected FixTransactionFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -850,8 +895,6 @@ class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class InternalFeeDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String InternalFee$$percent = "InternalFee$$percent";
     
     protected InternalFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -916,16 +959,30 @@ class PercentDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class SuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
+class NotSuccessfulStateDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected SuccessfullStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected NotSuccessfulStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         
     }
-    protected view.SuccessfullStateView getAnything(){
-        return (view.SuccessfullStateView)this.anything;
+    protected view.NotSuccessfulStateView getAnything(){
+        return (view.NotSuccessfulStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class SuccessfulStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected SuccessfulStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.SuccessfulStateView getAnything(){
+        return (view.SuccessfulStateView)this.anything;
     }
 }
 
@@ -969,6 +1026,7 @@ class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class AdministratorDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String Administrator$$currencyManager = "Administrator$$currencyManager";
     protected static final String Administrator$$banks = "Administrator$$banks";
     
     protected AdministratorDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1000,8 +1058,6 @@ class BankServiceDefaultDetailPanel extends DefaultDetailPanel{
 
 @SuppressWarnings("serial")
 class ProcentualFeeDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String ProcentualFee$$percent = "ProcentualFee$$percent";
     
     protected ProcentualFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1039,13 +1095,29 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferTemplate$$templates = "DebitTransferTemplate$$templates";
+    
+    protected DebitTransferTemplateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferTemplateView getAnything(){
+        return (view.DebitTransferTemplateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
-    protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
-    protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
-    protected static final String DebitNoteTransfer$$subject = "DebitNoteTransfer$$subject";
-    protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
+    protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
+    protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$subject = "DebitTransfer$$subject";
+    protected static final String DebitTransfer$$state = "DebitTransfer$$state";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1054,28 +1126,28 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
         try{
             BaseTypePanel panel = new TimestampPanel(this, "Zeitstempel", this.getAnything().getTimestamp());
             this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
+            this.panels.put(DebitTransferTransaction$$timestamp, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
             BaseTypePanel panel = new IntegerPanel(this, "Empfänger Konto", this.getAnything().getReceiverAccountNumber());
             this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransfer$$receiverAccountNumber, panel);
+            this.panels.put(DebitTransfer$$receiverAccountNumber, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
             BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
             this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
+            this.panels.put(DebitTransfer$$receiverBankNumber, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
             BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
             this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransfer$$subject, panel);
+            this.panels.put(DebitTransfer$$subject, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1083,20 +1155,6 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.TransferView getAnything(){
         return (view.TransferView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class SuccessfullStornoStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected SuccessfullStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.SuccessfullStornoStateView getAnything(){
-        return (view.SuccessfullStornoStateView)this.anything;
     }
 }
 
@@ -1111,6 +1169,20 @@ class DollarDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DollarView getAnything(){
         return (view.DollarView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class FrankenDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected FrankenDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.FrankenView getAnything(){
+        return (view.FrankenView)this.anything;
     }
 }
 
@@ -1145,6 +1217,54 @@ class LimitDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DebitDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
+    protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$subject = "DebitTransfer$$subject";
+    protected static final String DebitTransfer$$state = "DebitTransfer$$state";
+    
+    protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new TimestampPanel(this, "Zeitstempel", this.getAnything().getTimestamp());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitTransferTransaction$$timestamp, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Konto", this.getAnything().getReceiverAccountNumber());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitTransfer$$receiverAccountNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitTransfer$$receiverBankNumber, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
+            this.getScrollablePane().add(panel);
+            this.panels.put(DebitTransfer$$subject, panel);
+        }catch(view.ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.DebitView getAnything(){
+        return (view.DebitView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String MixedFee$$fix = "MixedFee$$fix";
@@ -1155,13 +1275,6 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
         super(exceptionHandler, anything);
     }
     protected void addFields(){
-        try{
-            BaseTypePanel panel = new FractionPanel(this, "limit", this.getAnything().getLimit());
-            this.getScrollablePane().add(panel);
-            this.panels.put(MixedFee$$limit, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
         
     }
     protected view.MixedFeeView getAnything(){
@@ -1170,9 +1283,28 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DebitGrantListeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitGrantListe$$debitGrants = "DebitGrantListe$$debitGrants";
+    
+    protected DebitGrantListeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitGrantListeView getAnything(){
+        return (view.DebitGrantListeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String AccountService$$account = "AccountService$$account";
+    protected static final String AccountService$$successful = "AccountService$$successful";
+    protected static final String AccountService$$notExecuted = "AccountService$$notExecuted";
+    protected static final String AccountService$$template = "AccountService$$template";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1200,19 +1332,34 @@ class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class AccountPxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected AccountPxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.AccountPxView getAnything(){
+        return (view.AccountPxView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
-    protected static final String Account$$debitNoteTransferTransactions = "Account$$debitNoteTransferTransactions";
+    protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
+    protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
     
     protected AccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "accountNumber", this.getAnything().getAccountNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Kontonummer", this.getAnything().getAccountNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(Account$$accountNumber, panel);
         }catch(view.ModelException e){
@@ -1222,20 +1369,6 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.AccountView getAnything(){
         return (view.AccountView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class NotSuccessfullStorneStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected NotSuccessfullStorneStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.NotSuccessfullStorneStateView getAnything(){
-        return (view.NotSuccessfullStorneStateView)this.anything;
     }
 }
 
@@ -1263,54 +1396,6 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class DebitNoteDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
-    protected static final String DebitNoteTransfer$$receiverAccountNumber = "DebitNoteTransfer$$receiverAccountNumber";
-    protected static final String DebitNoteTransfer$$receiverBankNumber = "DebitNoteTransfer$$receiverBankNumber";
-    protected static final String DebitNoteTransfer$$subject = "DebitNoteTransfer$$subject";
-    protected static final String DebitNoteTransfer$$state = "DebitNoteTransfer$$state";
-    
-    protected DebitNoteDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        try{
-            BaseTypePanel panel = new TimestampPanel(this, "Zeitstempel", this.getAnything().getTimestamp());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Konto", this.getAnything().getReceiverAccountNumber());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransfer$$receiverAccountNumber, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "Empfänger Bank", this.getAnything().getReceiverBankNumber());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransfer$$receiverBankNumber, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
-            this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransfer$$subject, panel);
-        }catch(view.ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        
-    }
-    protected view.DebitNoteView getAnything(){
-        return (view.DebitNoteView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class EuroDefaultDetailPanel extends DefaultDetailPanel{
     
     protected EuroDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1321,6 +1406,20 @@ class EuroDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.EuroView getAnything(){
         return (view.EuroView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class YenDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected YenDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.YenView getAnything(){
+        return (view.YenView)this.anything;
     }
 }
 
@@ -1339,16 +1438,18 @@ class TemplateStateDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class NotSuccessfullStateDefaultDetailPanel extends DefaultDetailPanel{
+class DebitTransferNotExecutedDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected NotSuccessfullStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+    protected static final String DebitTransferNotExecuted$$notExecuteds = "DebitTransferNotExecuted$$notExecuteds";
+    
+    protected DebitTransferNotExecutedDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         
     }
-    protected view.NotSuccessfullStateView getAnything(){
-        return (view.NotSuccessfullStateView)this.anything;
+    protected view.DebitTransferNotExecutedView getAnything(){
+        return (view.DebitTransferNotExecutedView)this.anything;
     }
 }
 
@@ -1383,7 +1484,7 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String DebitNoteTransferTransaction$$timestamp = "DebitNoteTransferTransaction$$timestamp";
+    protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
     
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1392,7 +1493,7 @@ class TransactionDefaultDetailPanel extends DefaultDetailPanel{
         try{
             BaseTypePanel panel = new TimestampPanel(this, "Zeitstempel", this.getAnything().getTimestamp());
             this.getScrollablePane().add(panel);
-            this.panels.put(DebitNoteTransferTransaction$$timestamp, panel);
+            this.panels.put(DebitTransferTransaction$$timestamp, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1452,6 +1553,81 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.BankView getAnything(){
         return (view.BankView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitTransferSuccessfulDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferSuccessful$$successfuls = "DebitTransferSuccessful$$successfuls";
+    
+    protected DebitTransferSuccessfulDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferSuccessfulView getAnything(){
+        return (view.DebitTransferSuccessfulView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class PfundDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected PfundDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.PfundView getAnything(){
+        return (view.PfundView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NotSuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NotSuccessfulStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NotSuccessfulStornoStateView getAnything(){
+        return (view.NotSuccessfulStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class SuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected SuccessfulStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.SuccessfulStornoStateView getAnything(){
+        return (view.SuccessfulStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitGrantDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitGrant$$permittedAccount = "DebitGrant$$permittedAccount";
+    protected static final String DebitGrant$$limits = "DebitGrant$$limits";
+    
+    protected DebitGrantDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitGrantView getAnything(){
+        return (view.DebitGrantView)this.anything;
     }
 }
 

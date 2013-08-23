@@ -3,7 +3,7 @@ package model.meta;
 public interface CurrencyMssgsVisitor extends CurrencyDOWNMssgsVisitor, CurrencyUPMssgsVisitor {}
 
 
-interface CurrencyDOWNMssgsVisitor extends EuroDOWNMssgsVisitor, DollarDOWNMssgsVisitor {
+interface CurrencyDOWNMssgsVisitor extends DollarDOWNMssgsVisitor, FrankenDOWNMssgsVisitor, EuroDOWNMssgsVisitor, YenDOWNMssgsVisitor, PfundDOWNMssgsVisitor {
 
     
 }

@@ -142,9 +142,17 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException{
-        ((PersistentBank)this.getTheObject()).changeTransactionFee(transfee, newFee);
+        ((PersistentBank)this.getTheObject()).changeTransactionFeeToFix(fix);
+    }
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeTransactionFeeToMixed(fix, procentual, limit);
+    }
+    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeTransactionFeeToProcentual(procentual);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -162,13 +170,17 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).initializeOnInstantiation();
     }
-    public void receiveTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentBank)this.getTheObject()).receiveTransfer(debitNoteTransfer);
+    public void receiveTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.DebitException, model.InvalidAccountNumberException, PersistenceException{
+        ((PersistentBank)this.getTheObject()).receiveTransfer(debitTransfer);
     }
-    public void sendTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentBank)this.getTheObject()).sendTransfer(debitNoteTransfer);
+    public PersistentAccount searchAccountByAccNumber(final long accNum) 
+				throws model.InvalidAccountNumberException, PersistenceException{
+        return ((PersistentBank)this.getTheObject()).searchAccountByAccNumber(accNum);
+    }
+    public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+        ((PersistentBank)this.getTheObject()).sendTransfer(debitTransfer);
     }
 
     

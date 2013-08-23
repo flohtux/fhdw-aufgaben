@@ -11,11 +11,17 @@ import view.visitor.*;
 public class AccountService extends view.objects.Service implements AccountServiceView{
     
     protected AccountView account;
+    protected DebitTransferSuccessfulView successful;
+    protected DebitTransferNotExecutedView notExecuted;
+    protected DebitTransferTemplateView template;
     
-    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,long id, long classId) {
+    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,DebitTransferSuccessfulView successful,DebitTransferNotExecutedView notExecuted,DebitTransferTemplateView template,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
-        this.account = account;        
+        this.account = account;
+        this.successful = successful;
+        this.notExecuted = notExecuted;
+        this.template = template;        
     }
     
     static public long getTypeId() {
@@ -31,6 +37,24 @@ public class AccountService extends view.objects.Service implements AccountServi
     }
     public void setAccount(AccountView newValue) throws ModelException {
         this.account = newValue;
+    }
+    public DebitTransferSuccessfulView getSuccessful()throws ModelException{
+        return this.successful;
+    }
+    public void setSuccessful(DebitTransferSuccessfulView newValue) throws ModelException {
+        this.successful = newValue;
+    }
+    public DebitTransferNotExecutedView getNotExecuted()throws ModelException{
+        return this.notExecuted;
+    }
+    public void setNotExecuted(DebitTransferNotExecutedView newValue) throws ModelException {
+        this.notExecuted = newValue;
+    }
+    public DebitTransferTemplateView getTemplate()throws ModelException{
+        return this.template;
+    }
+    public void setTemplate(DebitTransferTemplateView newValue) throws ModelException {
+        this.template = newValue;
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {
@@ -79,6 +103,18 @@ public class AccountService extends view.objects.Service implements AccountServi
         if (account != null) {
             ((ViewProxi)account).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(account.getClassId(), account.getId())));
         }
+        DebitTransferSuccessfulView successful = this.getSuccessful();
+        if (successful != null) {
+            ((ViewProxi)successful).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(successful.getClassId(), successful.getId())));
+        }
+        DebitTransferNotExecutedView notExecuted = this.getNotExecuted();
+        if (notExecuted != null) {
+            ((ViewProxi)notExecuted).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(notExecuted.getClassId(), notExecuted.getId())));
+        }
+        DebitTransferTemplateView template = this.getTemplate();
+        if (template != null) {
+            ((ViewProxi)template).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(template.getClassId(), template.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -89,20 +125,38 @@ public class AccountService extends view.objects.Service implements AccountServi
         if(this.getAccount() != null && index < this.getAccount().getTheObject().getChildCount())
             return this.getAccount().getTheObject().getChild(index);
         if(this.getAccount() != null) index = index - this.getAccount().getTheObject().getChildCount();
+        if(index == 0 && this.getSuccessful() != null) return new SuccessfulAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getSuccessful());
+        if(this.getSuccessful() != null) index = index - 1;
+        if(index == 0 && this.getNotExecuted() != null) return new NotExecutedAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getNotExecuted());
+        if(this.getNotExecuted() != null) index = index - 1;
+        if(index == 0 && this.getTemplate() != null) return new TemplateAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getTemplate());
+        if(this.getTemplate() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount());
+            + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
+            + (this.getSuccessful() == null ? 0 : 1)
+            + (this.getNotExecuted() == null ? 0 : 1)
+            + (this.getTemplate() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf());
+            && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
+            && (this.getSuccessful() == null ? true : false)
+            && (this.getNotExecuted() == null ? true : false)
+            && (this.getTemplate() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getAccount() != null && this.getAccount().equals(child)) return result;
         if(this.getAccount() != null) result = result + 1;
+        if(this.getSuccessful() != null && this.getSuccessful().equals(child)) return result;
+        if(this.getSuccessful() != null) result = result + 1;
+        if(this.getNotExecuted() != null && this.getNotExecuted().equals(child)) return result;
+        if(this.getNotExecuted() != null) result = result + 1;
+        if(this.getTemplate() != null && this.getTemplate().equals(child)) return result;
+        if(this.getTemplate() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

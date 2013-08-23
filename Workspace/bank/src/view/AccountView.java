@@ -12,8 +12,12 @@ public interface AccountView extends Anything, AbstractViewRoot {
     public void setMoney(MoneyView newValue) throws ModelException ;
     public LimitAccountView getLimit()throws ModelException;
     public void setLimit(LimitAccountView newValue) throws ModelException ;
-    public java.util.Vector<DebitNoteTransferTransactionView> getDebitNoteTransferTransactions()throws ModelException;
-    public void setDebitNoteTransferTransactions(java.util.Vector<DebitNoteTransferTransactionView> newValue) throws ModelException ;
+    public java.util.Vector<DebitTransferTransactionView> getDebitTransferTransactions()throws ModelException;
+    public void setDebitTransferTransactions(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException ;
+    public DebitGrantListeView getGrantedDebitGrant()throws ModelException;
+    public void setGrantedDebitGrant(DebitGrantListeView newValue) throws ModelException ;
+    public DebitGrantListeView getReceivedDebitGrant()throws ModelException;
+    public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

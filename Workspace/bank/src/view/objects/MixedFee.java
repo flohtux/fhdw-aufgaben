@@ -11,9 +11,9 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
     
     protected FixTransactionFeeView fix;
     protected ProcentualFeeView procentual;
-    protected common.Fraction limit;
+    protected MoneyView limit;
     
-    public MixedFee(FixTransactionFeeView fix,ProcentualFeeView procentual,common.Fraction limit,long id, long classId) {
+    public MixedFee(FixTransactionFeeView fix,ProcentualFeeView procentual,MoneyView limit,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.fix = fix;
@@ -41,10 +41,10 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
     public void setProcentual(ProcentualFeeView newValue) throws ModelException {
         this.procentual = newValue;
     }
-    public common.Fraction getLimit()throws ModelException{
+    public MoneyView getLimit()throws ModelException{
         return this.limit;
     }
-    public void setLimit(common.Fraction newValue) throws ModelException {
+    public void setLimit(MoneyView newValue) throws ModelException {
         this.limit = newValue;
     }
     
@@ -82,6 +82,10 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
         if (procentual != null) {
             ((ViewProxi)procentual).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(procentual.getClassId(), procentual.getId())));
         }
+        MoneyView limit = this.getLimit();
+        if (limit != null) {
+            ((ViewProxi)limit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limit.getClassId(), limit.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -93,17 +97,21 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
         if(this.getFix() != null) index = index - 1;
         if(index == 0 && this.getProcentual() != null) return new ProcentualMixedFeeWrapper(this, originalIndex, (ViewRoot)this.getProcentual());
         if(this.getProcentual() != null) index = index - 1;
+        if(index == 0 && this.getLimit() != null) return new LimitMixedFeeWrapper(this, originalIndex, (ViewRoot)this.getLimit());
+        if(this.getLimit() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getFix() == null ? 0 : 1)
-            + (this.getProcentual() == null ? 0 : 1);
+            + (this.getProcentual() == null ? 0 : 1)
+            + (this.getLimit() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getFix() == null ? true : false)
-            && (this.getProcentual() == null ? true : false);
+            && (this.getProcentual() == null ? true : false)
+            && (this.getLimit() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -111,23 +119,17 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
         if(this.getFix() != null) result = result + 1;
         if(this.getProcentual() != null && this.getProcentual().equals(child)) return result;
         if(this.getProcentual() != null) result = result + 1;
+        if(this.getLimit() != null && this.getLimit().equals(child)) return result;
+        if(this.getLimit() != null) result = result + 1;
         return -1;
     }
-    public int getLimitIndex() throws ModelException {
-        return 0 + (this.getFix() == null ? 0 : 1) + (this.getProcentual() == null ? 0 : 1);
-    }
     public int getRowCount(){
-        return 0 
-            + 1;
+        return 0 ;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
-                if(rowIndex == 0) return "limit";
-                rowIndex = rowIndex - 1;
             } else {
-                if(rowIndex == 0) return this.getLimit();
-                rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
         } catch (ModelException e){
@@ -139,11 +141,7 @@ public class MixedFee extends view.objects.TransactionFee implements MixedFeeVie
         return true;
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
-        if(rowIndex == 0){
-            this.setLimit(common.Fraction.parse(newValue));
-            return;
-        }
-        rowIndex = rowIndex - 1;
+        
     }
     public boolean hasTransientFields(){
         return false;

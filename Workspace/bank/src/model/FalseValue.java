@@ -193,6 +193,10 @@ public class FalseValue extends model.BooleanValue implements PersistentFalseVal
     
     // Start of section that contains overridden operations only.
     
+    public boolean isTrue() 
+				throws PersistenceException{
+		return false;
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

@@ -8,23 +8,23 @@ import view.*;
 
 public abstract class StornoState extends ViewObject implements StornoStateView{
     
-    protected DebitNoteTransferView debitNoteTransfer;
+    protected DebitTransferView debitTransfer;
     
-    public StornoState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
+    public StornoState(DebitTransferView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.debitNoteTransfer = debitNoteTransfer;        
+        this.debitTransfer = debitTransfer;        
     }
     
-    public DebitNoteTransferView getDebitNoteTransfer()throws ModelException{
-        return this.debitNoteTransfer;
+    public DebitTransferView getDebitTransfer()throws ModelException{
+        return this.debitTransfer;
     }
     
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
-        if (debitNoteTransfer != null) {
-            ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
+        DebitTransferView debitTransfer = this.getDebitTransfer();
+        if (debitTransfer != null) {
+            ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }
         
     }

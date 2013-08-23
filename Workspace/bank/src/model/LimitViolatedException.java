@@ -8,7 +8,7 @@ import model.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class LimitViolatedException extends model.UserException{
+public class LimitViolatedException extends model.DebitException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -37,6 +37,18 @@ public class LimitViolatedException extends model.UserException{
     }
     
     
+    public void accept(DebitExceptionVisitor visitor) throws PersistenceException {
+        visitor.handleLimitViolatedException(this);
+    }
+    public <R> R accept(DebitExceptionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleLimitViolatedException(this);
+    }
+    public <E extends UserException>  void accept(DebitExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleLimitViolatedException(this);
+    }
+    public <R, E extends UserException> R accept(DebitExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleLimitViolatedException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
         visitor.handleLimitViolatedException(this);
     }

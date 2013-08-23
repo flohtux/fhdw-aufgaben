@@ -28,24 +28,17 @@ public class InternalFeeProxi extends ViewProxi implements InternalFeeView{
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getPercent() != null) return new PercentInternalFeeWrapper(this, originalIndex, (ViewRoot)this.getPercent());
-        if(this.getPercent() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getPercent() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        if (this.object == null) return this.getLeafInfo() == 0;
-        return true 
-            && (this.getPercent() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getPercent() != null && this.getPercent().equals(child)) return result;
-        if(this.getPercent() != null) result = result + 1;
+        
         return -1;
     }
     

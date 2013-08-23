@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface AdministratorView extends ServiceView {
     
+    public CurrencyManagerView getCurrencyManager()throws ModelException;
+    public void setCurrencyManager(CurrencyManagerView newValue) throws ModelException ;
     public java.util.Vector<BankView> getBanks()throws ModelException;
     public void setBanks(java.util.Vector<BankView> newValue) throws ModelException ;
     

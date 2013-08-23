@@ -98,6 +98,18 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentBooleanValue equalsValue(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).equalsValue(money);
+    }
+    public PersistentBooleanValue greaterOrEqual(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).greaterOrEqual(money);
+    }
+    public PersistentBooleanValue greater(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).greater(money);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initializeOnCreation();
@@ -106,9 +118,9 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentMoney multiply(final PersistentMoney money) 
+    public PersistentMoney multiply(final common.Fraction factor) 
 				throws PersistenceException{
-        return ((PersistentMoney)this.getTheObject()).multiply(money);
+        return ((PersistentMoney)this.getTheObject()).multiply(factor);
     }
     public PersistentMoney subtract(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{

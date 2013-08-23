@@ -5,21 +5,21 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class NotExecutableStateProxi extends DebitNoteTransferStateProxi implements NotExecutableStateView{
+public class NotExecutableStateProxi extends DebitTransferStateProxi implements NotExecutableStateView{
     
     public NotExecutableStateProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
     }
     
     public NotExecutableStateView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi debitNoteTransfer = null;
-        String debitNoteTransfer$String = (String)resultTable.get("debitNoteTransfer");
-        if (debitNoteTransfer$String != null) {
-            common.ProxiInformation debitNoteTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitNoteTransfer$String);
-            debitNoteTransfer = view.objects.ViewProxi.createProxi(debitNoteTransfer$Info,connectionKey);
-            debitNoteTransfer.setToString(debitNoteTransfer$Info.getToString());
+        ViewProxi debitTransfer = null;
+        String debitTransfer$String = (String)resultTable.get("debitTransfer");
+        if (debitTransfer$String != null) {
+            common.ProxiInformation debitTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitTransfer$String);
+            debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
+            debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NotExecutableStateView result$$ = new NotExecutableState((DebitNoteTransferView)debitNoteTransfer, this.getId(), this.getClassId());
+        NotExecutableStateView result$$ = new NotExecutableState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -43,16 +43,16 @@ public class NotExecutableStateProxi extends DebitNoteTransferStateProxi impleme
     }
     
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws ModelException {
+    public void accept(DebitTransferStateVisitor visitor) throws ModelException {
         visitor.handleNotExecutableState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleNotExecutableState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleNotExecutableState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleNotExecutableState(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {

@@ -31,9 +31,15 @@ public interface PersistentAdministrator extends PersistentService {
     
     public PersistentAdministratorBanks getBanks() 
 				throws PersistenceException;
+    public PersistentCurrencyManager getCurrencyManager() 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void setCurrencyManager(final PersistentCurrencyManager currencyManager) 
+				throws PersistenceException;
     public void banks_update(final model.meta.BankMssgs event) 
+				throws PersistenceException;
+    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
 				throws PersistenceException;
     public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException;
@@ -41,12 +47,14 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void createBank(final String name) 
 				throws PersistenceException;
+    public void currencyManager_update(final model.meta.CurrencyManagerMssgs event) 
+				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency currency) 
-				throws PersistenceException;
+    public PersistentBank searchBankByBankNumber(final long bankNum) 
+				throws model.InvalidBankNumberException, PersistenceException;
 
 }
 

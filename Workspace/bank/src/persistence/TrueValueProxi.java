@@ -92,6 +92,10 @@ public class TrueValueProxi extends BooleanValueProxi implements PersistentTrueV
 				throws PersistenceException{
         ((PersistentTrueValue)this.getTheObject()).initializeOnInstantiation();
     }
+    public boolean isTrue() 
+				throws PersistenceException{
+        return ((PersistentTrueValue)this.getTheObject()).isTrue();
+    }
 
     
 }

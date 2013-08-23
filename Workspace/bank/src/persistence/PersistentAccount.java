@@ -12,6 +12,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
+    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;
@@ -25,29 +26,47 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException;
     public PersistentAccountService getAccountService() 
 				throws PersistenceException;
     public PersistentBank getBank() 
 				throws PersistenceException;
-    public PersistentAccountDebitNoteTransferTransactions getDebitNoteTransferTransactions() 
+    public PersistentDebitGrantListe getGrantedDebitGrant() 
+				throws PersistenceException;
+    public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException;
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccountNumber) 
+    public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
 				throws PersistenceException;
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
+				throws PersistenceException;
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
+				throws PersistenceException;
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
+				throws PersistenceException;
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws PersistenceException;
+    public PersistentDebit createDebit() 
+				throws PersistenceException;
+    public PersistentTransfer createTemplate() 
+				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
-    public void debitNoteTransferTransactions_update(final model.meta.DebitNoteTransferTransactionMssgs event) 
+    public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
 
 }

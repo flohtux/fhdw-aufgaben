@@ -24,7 +24,7 @@ public class AdministratorFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Administrator result = new Administrator(null,null,null,id);
+            Administrator result = new Administrator(null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AdministratorProxi)PersistentProxi.createProxi(id, -117);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class AdministratorFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Administrator result = new Administrator(null,null,null,id);
+            Administrator result = new Administrator(null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AdministratorProxi)PersistentProxi.createProxi(id, -117);
         }catch(SQLException se) {
@@ -67,11 +67,15 @@ public class AdministratorFacade{
             PersistentService This = null;
             if (obj.getLong(4) != 0)
                 This = (PersistentService)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            PersistentAdministratorBanks banks = null;
+            PersistentAdministratorCurrencyManager currencyManager = null;
             if (obj.getLong(6) != 0)
-                banks = (PersistentAdministratorBanks)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+                currencyManager = (PersistentAdministratorCurrencyManager)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentAdministratorBanks banks = null;
+            if (obj.getLong(8) != 0)
+                banks = (PersistentAdministratorBanks)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             Administrator result = new Administrator(subService,
                                                      This,
+                                                     currencyManager,
                                                      banks,
                                                      AdministratorId);
             obj.close();
@@ -80,6 +84,19 @@ public class AdministratorFacade{
             Administrator objectInCache = (Administrator)inCache.getTheObject();
             if (objectInCache == result)result.initializeOnInstantiation();
             return objectInCache;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void currencyManagerSet(long AdministratorId, PersistentAdministratorCurrencyManager currencyManagerVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AdmnstrtrFacade.crrncMngrSet(?, ?, ?); end;");
+            callable.setLong(1, AdministratorId);
+            callable.setLong(2, currencyManagerVal.getId());
+            callable.setLong(3, currencyManagerVal.getClassId());
+            callable.execute();
+            callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

@@ -15,17 +15,16 @@ public class MixedFeeFacade{
 		this.con = con;
 	}
 
-    public MixedFeeProxi newMixedFee(common.Fraction limit,long createMinusStorePlus) throws PersistenceException {
+    public MixedFeeProxi newMixedFee(long createMinusStorePlus) throws PersistenceException {
         OracleCallableStatement callable;
         try{
-            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".MxdFFacade.newMxdF(?,?); end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".MxdFFacade.newMxdF(?); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
-            callable.setString(2, limit.toString());
-            callable.setLong(3, createMinusStorePlus);
+            callable.setLong(2, createMinusStorePlus);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            MixedFee result = new MixedFee(null,null,null,null,limit,id);
+            MixedFee result = new MixedFee(null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (MixedFeeProxi)PersistentProxi.createProxi(id, 129);
         }catch(SQLException se) {
@@ -33,7 +32,7 @@ public class MixedFeeFacade{
         }
     }
     
-    public MixedFeeProxi newDelayedMixedFee(common.Fraction limit) throws PersistenceException {
+    public MixedFeeProxi newDelayedMixedFee() throws PersistenceException {
         OracleCallableStatement callable;
         try{
             callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".MxdFFacade.newDelayedMxdF(); end;");
@@ -41,7 +40,7 @@ public class MixedFeeFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            MixedFee result = new MixedFee(null,null,null,null,limit,id);
+            MixedFee result = new MixedFee(null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (MixedFeeProxi)PersistentProxi.createProxi(id, 129);
         }catch(SQLException se) {
@@ -74,11 +73,14 @@ public class MixedFeeFacade{
             PersistentProcentualFee procentual = null;
             if (obj.getLong(8) != 0)
                 procentual = (PersistentProcentualFee)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentMoney limit = null;
+            if (obj.getLong(10) != 0)
+                limit = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             MixedFee result = new MixedFee(subService,
                                            This,
                                            fix,
                                            procentual,
-                                           common.Fraction.parse(obj.getString(10)),
+                                           limit,
                                            MixedFeeId);
             obj.close();
             callable.close();
@@ -116,12 +118,13 @@ public class MixedFeeFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void limitSet(long MixedFeeId, common.Fraction limitVal) throws PersistenceException {
+    public void limitSet(long MixedFeeId, PersistentMoney limitVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".MxdFFacade.lmtSet(?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".MxdFFacade.lmtSet(?, ?, ?); end;");
             callable.setLong(1, MixedFeeId);
-            callable.setString(2, limitVal.toString());
+            callable.setLong(2, limitVal.getId());
+            callable.setLong(3, limitVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

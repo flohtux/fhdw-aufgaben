@@ -10,9 +10,9 @@ import view.visitor.*;
 public class RequestState extends view.objects.StornoState implements RequestStateView{
     
     
-    public RequestState(DebitNoteTransferView debitNoteTransfer,long id, long classId) {
+    public RequestState(DebitTransferView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitNoteTransferView)debitNoteTransfer,id, classId);        
+        super((DebitTransferView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -50,9 +50,9 @@ public class RequestState extends view.objects.StornoState implements RequestSta
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitNoteTransferView debitNoteTransfer = this.getDebitNoteTransfer();
-        if (debitNoteTransfer != null) {
-            ((ViewProxi)debitNoteTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitNoteTransfer.getClassId(), debitNoteTransfer.getId())));
+        DebitTransferView debitTransfer = this.getDebitTransfer();
+        if (debitTransfer != null) {
+            ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }
         
     }

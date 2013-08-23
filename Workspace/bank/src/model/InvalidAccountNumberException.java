@@ -61,6 +61,10 @@ public class InvalidAccountNumberException extends model.UserException{
 
     /* Start of protected part that is not overridden by persistence generator */
     
+    public InvalidAccountNumberException(long accNum) throws PersistenceException {
+		this(String.format(serverConstants.ExceptionMessages.InvalidAccountNumberMessage, accNum));
+	}
+
     /* End of protected part that is not overridden by persistence generator */
     
 }

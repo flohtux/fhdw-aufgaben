@@ -28,24 +28,17 @@ public class FixTransactionFeeProxi extends TransactionFeeProxi implements FixTr
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getValue() != null) return new ValueFixTransactionFeeWrapper(this, originalIndex, (ViewRoot)this.getValue());
-        if(this.getValue() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getValue() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        if (this.object == null) return this.getLeafInfo() == 0;
-        return true 
-            && (this.getValue() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getValue() != null && this.getValue().equals(child)) return result;
-        if(this.getValue() != null) result = result + 1;
+        
         return -1;
     }
     

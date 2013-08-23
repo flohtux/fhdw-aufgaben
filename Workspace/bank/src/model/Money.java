@@ -298,13 +298,14 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
+    	System.out.println(money.toString() + getThis());
     	if(getThis().getCurrency().equals(money.getCurrency())) {
     		return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().add(getThis().getAmount().getBalance())),
     				money.getCurrency());
     	}else {
-    		PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+    		PersistentMoney moneyInRightCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, 
     				getThis().getCurrency());
-    		return moneyInRightCurrency;
+    		return getThis().add(moneyInRightCurrency);
     	}
         
     }
@@ -312,6 +313,32 @@ public class Money extends PersistentObject implements PersistentMoney{
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         
+    }
+    public PersistentBooleanValue equalsValue(final PersistentMoney money) 
+				throws PersistenceException{
+    	if (getThis().getCurrency().equals(money.getCurrency()) && getThis().getAmount().equals(money.getAmount())) {
+    		return TrueValue.getTheTrueValue();
+    	} else {
+    		return FalseValue.getTheFalseValue();
+    	}
+    }
+    public PersistentBooleanValue greaterOrEqual(final PersistentMoney money) 
+				throws PersistenceException{
+    	PersistentMoney moneyInThisCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, getCurrency());
+    	if (getThis().getAmount().getBalance().greaterOrEqual(moneyInThisCurrency.getAmount().getBalance())) {
+    		return TrueValue.getTheTrueValue();
+    	} else {
+    		return FalseValue.getTheFalseValue();
+    	}
+    }
+    public PersistentBooleanValue greater(final PersistentMoney money) 
+				throws PersistenceException{
+    	PersistentMoney moneyInThisCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, getCurrency());
+    	if (getThis().getAmount().getBalance().greater(moneyInThisCurrency.getAmount().getBalance())) {
+    		return TrueValue.getTheTrueValue();
+    	} else {
+    		return FalseValue.getTheFalseValue();
+    	}
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -323,16 +350,9 @@ public class Money extends PersistentObject implements PersistentMoney{
         //TODO: implement method: initializeOnInstantiation
         
     }
-    public PersistentMoney multiply(final PersistentMoney money) 
+    public PersistentMoney multiply(final common.Fraction factor) 
 				throws PersistenceException{
-	        if(getThis().getCurrency().equals(money.getCurrency())) {
-	     	   return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().multiply(
-	     			   getThis().getAmount().getBalance())),money.getCurrency());
-	        }else {
-	     	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
-	     			   getThis().getCurrency());
-	     	   return getThis().multiply(moneyInRightCurrency);
-	        }
+        return Money.createMoney(Amount.createAmount(getThis().getAmount().getBalance().multiply(factor)), getThis().getCurrency());
     }
     public PersistentMoney subtract(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
@@ -340,7 +360,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     	   return Money.createMoney(Amount.createAmount(getThis().getAmount().getBalance().subtract(
     			   money.getAmount().getBalance())),money.getCurrency());
        }else {
-    	   PersistentMoney moneyInRightCurrency = getThis().getAccount().getBank().getAdministrator().translateMoney(money, 
+    	   PersistentMoney moneyInRightCurrency = CurrencyManager.getTheCurrencyManager().translateMoney(money, 
     			   getThis().getCurrency());
     	   return getThis().subtract(moneyInRightCurrency);
        }
@@ -351,7 +371,6 @@ public class Money extends PersistentObject implements PersistentMoney{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    
     
     
     /* End of protected part that is not overridden by persistence generator */

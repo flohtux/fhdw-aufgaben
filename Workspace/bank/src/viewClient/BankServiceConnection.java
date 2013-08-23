@@ -17,13 +17,52 @@ public class BankServiceConnection extends ServiceConnection {
 		return (BankServiceView)super.getServer();
 	}
 
-    public synchronized void changeMaxLimit(AccountView acc, common.Fraction amount) throws ModelException{
+    public synchronized java.util.Vector<?> transAcc_Path_In_CloseAccount() throws ModelException, UserException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (acc == null){
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "transAcc_Path_In_CloseAccount", parameters);
+            if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
+                if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
+                    throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -188)
+                    throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -162)
+                    throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
+                    throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)
+                    throw LimitViolatedException.fromHashtableToLimitViolatedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -192)
+                    throw DebitNotGrantedException.fromHashtableToDebitNotGrantedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
+                    throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -178)
+                    throw NoPermissionToExecuteDebitTransferException.fromHashtableToNoPermissionToExecuteDebitTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
+                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
+                    throw RestrictionException.fromHashtableToRestrictionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
+                    throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
+            }else{
+                return view.objects.ViewProxi.getProxiVector((Vector<String>)success.get(common.RPCConstantsAndServices.ResultListFieldName),getHandler());
+            }
+        }catch(IOException ioe){
+            throw new ModelException(ioe.getMessage(),0);
+        }catch(XmlRpcException xre){
+            throw new ModelException(xre.getMessage(),0);
+        }
+        
+    }
+    
+    public synchronized void changeMaxLimit(LimitAccountView limit, common.Fraction amount) throws ModelException{
+        try {
+            Vector<Object> parameters = new Vector<Object>();
+            if (limit == null){
                 parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
             } else {
-                parameters.add(((view.objects.ViewProxi)acc).createProxiInformation());
+                parameters.add(((view.objects.ViewProxi)limit).createProxiInformation());
             }
             parameters.add(amount.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeMaxLimit", parameters);
@@ -40,13 +79,13 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeMinLimit(AccountView acc, common.Fraction amount) throws ModelException{
+    public synchronized void changeMinLimit(LimitAccountView limit, common.Fraction amount) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (acc == null){
+            if (limit == null){
                 parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
             } else {
-                parameters.add(((view.objects.ViewProxi)acc).createProxiInformation());
+                parameters.add(((view.objects.ViewProxi)limit).createProxiInformation());
             }
             parameters.add(amount.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeMinLimit", parameters);
@@ -86,19 +125,15 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeTransactionFee(TransactionFeeView transfee, TransactionFeeView newFee) throws ModelException{
+    public synchronized void changeTransactionFee(String newFee, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (transfee == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)transfee).createProxiInformation());
-            }
-            if (newFee == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)newFee).createProxiInformation());
-            }
+            parameters.add(newFee);
+            parameters.add(fix.toString());
+            parameters.add(fixCurrency);
+            parameters.add(limit.toString());
+            parameters.add(limitCurrency);
+            parameters.add(procentual.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeTransactionFee", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
@@ -137,7 +172,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void closeAccount(AccountView acc, AccountView transAcc) throws ModelException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException, NoPermissionToExecuteDebitNoteTransferException{
+    public synchronized void closeAccount(AccountView acc, AccountView transAcc) throws ModelException, NoPermissionToExecuteDebitTransferException, DebitException, InvalidBankNumberException, CloseAccountNoPossibleException, InvalidAccountNumberException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (acc == null){
@@ -154,14 +189,18 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
-                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -178)
+                    throw NoPermissionToExecuteDebitTransferException.fromHashtableToNoPermissionToExecuteDebitTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)
                     throw LimitViolatedException.fromHashtableToLimitViolatedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -192)
+                    throw DebitNotGrantedException.fromHashtableToDebitNotGrantedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
+                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
+                    throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
                     throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -173)
-                    throw NoPermissionToExecuteDebitNoteTransferException.fromHashtableToNoPermissionToExecuteDebitNoteTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -198,22 +237,70 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -188)
+                    throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -162)
                     throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -173)
-                    throw NoPermissionToExecuteDebitNoteTransferException.fromHashtableToNoPermissionToExecuteDebitNoteTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
-                    throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
-                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)
                     throw LimitViolatedException.fromHashtableToLimitViolatedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -192)
+                    throw DebitNotGrantedException.fromHashtableToDebitNotGrantedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
+                    throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -178)
+                    throw NoPermissionToExecuteDebitTransferException.fromHashtableToNoPermissionToExecuteDebitTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
+                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
                     throw RestrictionException.fromHashtableToRestrictionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
                     throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
+            }
+        }catch(IOException ioe){
+            throw new ModelException(ioe.getMessage(),0);
+        }catch(XmlRpcException xre){
+            throw new ModelException(xre.getMessage(),0);
+        }
+        
+    }
+    
+    public synchronized void resetMaxLimit(LimitAccountView limit) throws ModelException{
+        try {
+            Vector<Object> parameters = new Vector<Object>();
+            if (limit == null){
+                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
+            } else {
+                parameters.add(((view.objects.ViewProxi)limit).createProxiInformation());
+            }
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "resetMaxLimit", parameters);
+            if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
+                if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
+                    throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
+            }
+        }catch(IOException ioe){
+            throw new ModelException(ioe.getMessage(),0);
+        }catch(XmlRpcException xre){
+            throw new ModelException(xre.getMessage(),0);
+        }
+        
+    }
+    
+    public synchronized void resetMinLimit(LimitAccountView limit) throws ModelException{
+        try {
+            Vector<Object> parameters = new Vector<Object>();
+            if (limit == null){
+                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
+            } else {
+                parameters.add(((view.objects.ViewProxi)limit).createProxiInformation());
+            }
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "resetMinLimit", parameters);
+            if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
+                if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
+                    throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){

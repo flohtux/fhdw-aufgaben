@@ -9,8 +9,14 @@ public class Fraction {
 	private static final BigInteger BIMinusOne = new BigInteger("-1");
 	
 	public static final Fraction Null = new Fraction(BIZero, BIOne);
+	public static final Fraction One = new Fraction(BIOne, BIOne);
+	public static final Fraction MinusOne = new Fraction(BIMinusOne, BIOne);
 	
 	private static final String FractionStroke = "/";
+	private static final String MinusSign = "-";
+	private static final String DecimalPoint = ",";
+
+
 
 	public static Fraction parse(String fraction) {
 		
@@ -44,12 +50,28 @@ public class Fraction {
 		boolean negativeDenominator = denominator.compareTo(BIZero) < 0;
 		this.enumerator = enumarator.divide(gcd).multiply(negativeDenominator ? BIMinusOne : BIOne);
 		this.denominator = denominator.divide(gcd).multiply(negativeDenominator ? BIMinusOne : BIOne);
+		if (denominator.equals(BIZero)) throw new NumberFormatException("Denominator must not be zero!");
 	}
 	 public Fraction(int enumarator, int denominator) {
          this(BigInteger.valueOf(enumarator), BigInteger.valueOf(denominator));
 	 }
 	public String toString(){
 		return this.getEnumerator().toString() + (this.getDenominator().equals(BIOne) ? "" : (FractionStroke + this.getDenominator().toString())); 
+	}
+	
+	public String formatDec(Integer decimalPlace) {
+		String result = "";
+		result += (this.isPositive() ? "" : MinusSign);
+		BigInteger[] divAndRemain = this.getEnumerator().abs().divideAndRemainder(this.getDenominator());
+		result += divAndRemain[0] +(decimalPlace.equals(0) ? "" : DecimalPoint);
+		BigInteger remainPrev = divAndRemain[1];
+		for (int i = 0; i<decimalPlace; i++) {
+			divAndRemain = remainPrev.multiply(BigInteger.valueOf(10)).divideAndRemainder(this.getDenominator());
+			result += divAndRemain[0];
+			remainPrev = divAndRemain[1];
+		}
+		
+		return result;
 	}
 
 	public boolean equals(Object argument){
@@ -103,11 +125,14 @@ public class Fraction {
 	}
 	
 	/**
-	 * Division of <this> and <fraction>. 
+	 * Division of <this> and <fraction>.
 	 */
-	public Fraction divide(Fraction divisor) {
-	        return new Fraction(this.getEnumerator().multiply(divisor.getDenominator()),
-	                        this.getDenominator().multiply(divisor.getEnumerator()));
+	public Fraction divide(Fraction divisor) throws ArithmeticException {
+		try {
+			return new Fraction(this.getEnumerator().multiply(divisor.getDenominator()), this.getDenominator().multiply(divisor.getEnumerator()));
+		} catch (NumberFormatException e) {
+			throw new ArithmeticException("Divide by 0 error!");
+		}
 	}
 	/**
 	 * Addition of <this> and <fraction>. 
@@ -136,5 +161,6 @@ public class Fraction {
 		BigInteger newEnumeratorOfFraction = fraction.getEnumerator().multiply(lcm.divide(fraction.getDenominator()));
 		return newEnumeratorOfThis.compareTo(newEnumeratorOfFraction) == +1;
 	}
+	
 	
 }

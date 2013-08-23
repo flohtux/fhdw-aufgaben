@@ -1,4 +1,3 @@
-
 package model;
 
 import persistence.*;
@@ -7,7 +6,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public class TemplateState extends model.DebitNoteTransferState implements PersistentTemplateState{
+public class TemplateState extends model.DebitTransferState implements PersistentTemplateState{
     
     private static PersistentTemplateState theTemplateState = null;
     public static boolean reset$For$Test = false;
@@ -71,9 +70,9 @@ public class TemplateState extends model.DebitNoteTransferState implements Persi
         return false;
     }
     
-    public TemplateState(SubjInterface subService,PersistentDebitNoteTransferState This,long id) throws persistence.PersistenceException {
+    public TemplateState(SubjInterface subService,PersistentDebitTransferState This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((SubjInterface)subService,(PersistentDebitNoteTransferState)This,id);        
+        super((SubjInterface)subService,(PersistentDebitTransferState)This,id);        
     }
     
     static public long getTypeId() {
@@ -96,16 +95,16 @@ public class TemplateState extends model.DebitNoteTransferState implements Persi
         }return (PersistentTemplateState)this.This;
     }
     
-    public void accept(DebitNoteTransferStateVisitor visitor) throws PersistenceException {
+    public void accept(DebitTransferStateVisitor visitor) throws PersistenceException {
         visitor.handleTemplateState(this);
     }
-    public <R> R accept(DebitNoteTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleTemplateState(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleTemplateState(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTemplateState(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
@@ -193,6 +192,17 @@ public class TemplateState extends model.DebitNoteTransferState implements Persi
     
     // Start of section that contains overridden operations only.
     
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+		getThis().removeDebitTransferFromList();
+		getThis().addDebitTransferFromList(newState);
+		getThis().getDebitTransfer().setState(newState);
+		
+	}
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+		return FalseValue.getTheFalseValue();
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

@@ -224,6 +224,10 @@ public class Amount extends PersistentObject implements PersistentAmount{
     
     // Start of section that contains operations that must be implemented.
     
+    public PersistentAmount add(final PersistentAmount a) 
+				throws PersistenceException{
+    	return Amount.createAmount(getThis().getBalance().add(a.getBalance()));
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
@@ -238,6 +242,10 @@ public class Amount extends PersistentObject implements PersistentAmount{
 				throws PersistenceException{
         //TODO: implement method: initializeOnInstantiation
         
+    }
+    public PersistentAmount subtract(final PersistentAmount a) 
+				throws PersistenceException{
+    	return Amount.createAmount(getThis().getBalance().subtract(a.getBalance()));
     }
     
     

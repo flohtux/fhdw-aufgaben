@@ -5,7 +5,7 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class TransferProxi extends DebitNoteTransferProxi implements TransferView{
+public class TransferProxi extends DebitTransferProxi implements TransferView{
     
     public TransferProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
@@ -44,7 +44,7 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        TransferView result$$ = new Transfer((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitNoteTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        TransferView result$$ = new Transfer((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -54,7 +54,7 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitNoteTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(index == 0 && this.getState() != null) return new StateDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
         return null;
     }
@@ -75,28 +75,28 @@ public class TransferProxi extends DebitNoteTransferProxi implements TransferVie
     }
     
     
-    public void accept(DebitNoteTransferVisitor visitor) throws ModelException {
+    public void accept(DebitTransferVisitor visitor) throws ModelException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTransfer(this);
     }
-    public void accept(DebitNoteTransferTransactionVisitor visitor) throws ModelException {
+    public void accept(DebitTransferTransactionVisitor visitor) throws ModelException {
         visitor.handleTransfer(this);
     }
-    public <R> R accept(DebitNoteTransferTransactionReturnVisitor<R>  visitor) throws ModelException {
+    public <R> R accept(DebitTransferTransactionReturnVisitor<R>  visitor) throws ModelException {
          return visitor.handleTransfer(this);
     }
-    public <E extends UserException>  void accept(DebitNoteTransferTransactionExceptionVisitor<E> visitor) throws ModelException, E {
+    public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws ModelException, E {
          visitor.handleTransfer(this);
     }
-    public <R, E extends UserException> R accept(DebitNoteTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+    public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleTransfer(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {

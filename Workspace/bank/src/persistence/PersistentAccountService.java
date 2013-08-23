@@ -8,6 +8,12 @@ public interface PersistentAccountService extends PersistentService {
     
     public PersistentAccount getAccount() throws PersistenceException ;
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
+    public PersistentDebitTransferSuccessful getSuccessful() throws PersistenceException ;
+    public void setSuccessful(PersistentDebitTransferSuccessful newValue) throws PersistenceException ;
+    public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException ;
+    public void setNotExecuted(PersistentDebitTransferNotExecuted newValue) throws PersistenceException ;
+    public PersistentDebitTransferTemplate getTemplate() throws PersistenceException ;
+    public void setTemplate(PersistentDebitTransferTemplate newValue) throws PersistenceException ;
     public PersistentAccountService getThis() throws PersistenceException ;
     
     public void accept(ServiceVisitor visitor) throws PersistenceException;
@@ -31,25 +37,41 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
+				throws PersistenceException;
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeMoney(final PersistentTransfer trans, final common.Fraction newAmount) 
+    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
 				throws PersistenceException;
-    public void changeReceiverAccount(final PersistentTransfer trans, final long receiverAccNumber) 
+    public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException;
-    public void changeReceiverBank(final PersistentTransfer trans, final long receiverBankNumber) 
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
-    public void changeSubject(final PersistentTransfer trans, final String subject) 
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 
+				throws PersistenceException;
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException;
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
+    public void createDebit() 
+				throws PersistenceException;
+    public void createTemplate() 
+				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
-    public void executeTransfer(final PersistentDebitNoteTransfer debitNoteTransfer) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException;
+    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void useTemplate(final PersistentTransfer debitTransfer) 
 				throws PersistenceException;
 
 }

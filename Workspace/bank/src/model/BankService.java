@@ -2,8 +2,9 @@
 package model;
 
 import common.Fraction;
-
 import persistence.*;
+import model.meta.StringFACTORY;
+import model.meta.TransactionFeeSwitchPARAMETER;
 import model.visitor.*;
 
 
@@ -226,6 +227,11 @@ public class BankService extends model.Service implements PersistentBankService{
 		}
 		subService.register(observee);
     }
+    public AccountSearchList transAcc_Path_In_CloseAccount() 
+				throws model.UserException, PersistenceException{
+        	return new AccountSearchList(getThis().getBank().
+                getCurrentAccounts().getList());
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -239,33 +245,63 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeMaxLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), acc.getMoney().getCurrency()));
-        acc.getLimit().setMaxLimit(newMaxLimit);
+        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
+        limit.setMaxLimit(newMaxLimit);
         getThis().signalChanged(true);
     }
-    public void changeMinLimit(final PersistentAccount acc, final common.Fraction amount) 
+    public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
-    	PersistentLimit newMinLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), acc.getMoney().getCurrency()));
-        acc.getLimit().setMinLimit(newMinLimit);
+    	PersistentLimit newMinLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
+        limit.setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
-    public void changeTransactionFee(final PersistentTransactionFee transfee, final PersistentTransactionFee newFee) 
+    public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
-        //TODO: implement method: changeTransactionFee
+       	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
+			
+    			@Override
+    			public PersistentProcentualFee handleProcentualFee()
+    					throws PersistenceException {
+    				getThis().getBank().changeTransactionFeeToProcentual(Percent.createPercent(procentual));
+    				return null;
+    			}
+    			
+    			@Override
+    			public PersistentMixedFee handleMixedFee() throws PersistenceException {
+    				getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), Percent.createPercent(procentual), Money.createMoney(Amount.createAmount(limit), StringFACTORY.createObjectBySubTypeNameForCurrency(limitCurrency)));
+    				return null;
+    			}
+    			
+    			@Override
+    			public PersistentFixTransactionFee handleFixTransactionFee()
+    					throws PersistenceException {
+    				getThis().getBank().changeTransactionFeeToFix(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
+    				return null;
+    			}
+    		});
+        	getThis().signalChanged(true);
         
     }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{
-        if(acc.getMoney().getAmount().getBalance().equals(new Fraction(0, 1))) {
+        if(!acc.getMoney().getAmount().getBalance().equals(Fraction.Null)) {
         	throw new CloseAccountNoPossibleException();
         }else {
-            //TODO: das löschen des accs aus der db        	
+        	acc.getAccountService().delete$Me();
+            acc.delete$Me();
+            getThis().getBank().getAccounts().remove(acc.getAccountNumber());
+            getThis().getBank().getCurrentAccounts().removeFirstSuccess(new Predcate<PersistentAccount>() {
+				public boolean test(PersistentAccount argument) throws PersistenceException {
+					return argument.equals(acc);
+				}
+			});
         }
+        getThis().signalChanged(true);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, model.NoPermissionToExecuteDebitNoteTransferException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.InvalidAccountNumberException, PersistenceException{
         PersistentTransfer transfer = Transfer.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);
@@ -273,6 +309,7 @@ public class BankService extends model.Service implements PersistentBankService{
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
         transfer.execute();
+        getThis().closeAccount(acc);
     }
     public void connected(final String user) 
 				throws PersistenceException{
@@ -290,7 +327,17 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void findAccount(final long accountNumber) 
 				throws model.UserException, PersistenceException{
-        getThis().getBank().getCurrentAccounts().add(Account.getAccountByAccountNumber(accountNumber));
+    	AccountSearchList sl = Account.getAccountByAccountNumber(accountNumber);
+    	sl.filter(new Predcate<PersistentAccount>() {
+			public boolean test(PersistentAccount argument) throws PersistenceException {
+				return argument.getBank().equals(getThis().getBank());
+			}
+		});
+        if (sl.getLength() == 0) {
+        	throw new NoAccountsFound();
+        } else {
+            getThis().getBank().getCurrentAccounts().add(sl);
+        }
         getThis().signalChanged(true);
     }
     public void initializeOnCreation() 
@@ -298,6 +345,17 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void resetMaxLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        limit.setMaxLimit(NoLimit.getTheNoLimit());
+        getThis().signalChanged(true);
+    }
+    public void resetMinLimit(final PersistentLimitAccount limit) 
+				throws PersistenceException{
+        limit.setMinLimit(NoLimit.getTheNoLimit());
+        getThis().signalChanged(true);
+        
     }
     
     

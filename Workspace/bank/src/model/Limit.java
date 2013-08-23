@@ -167,7 +167,7 @@ public class Limit extends model.LimitType implements PersistentLimit{
          return visitor.handleLimit(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getMoney() != null) return 1;
+        if (this.getMoney() != null && this.getMoney().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
@@ -229,6 +229,15 @@ public class Limit extends model.LimitType implements PersistentLimit{
     
     // Start of section that contains overridden operations only.
     
+    public void checkLimit(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+		if (money.greaterOrEqual(getThis().getMoney()).isTrue()) {
+			return;
+		} else {
+			throw new LimitViolatedException();
+		}
+		
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

@@ -2,6 +2,9 @@ package viewClient;
 
 import view.*;
 import view.objects.ViewRoot;
+import view.visitor.DebitTransferReturnVisitor;
+import view.visitor.DebitTransferStateExceptionVisitor;
+import view.visitor.DebitTransferStateReturnVisitor;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -13,6 +16,26 @@ import javax.swing.JScrollPane;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
+
+import persistence.PersistenceException;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebit;
+import persistence.PersistentExecutedState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutetState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransfer;
+
+import model.BooleanValue;
+import model.Debit;
+import model.FalseValue;
+import model.TemplateState;
+import model.Transfer;
+import model.TrueValue;
+import model.meta.StringFACTORY;
+import model.visitor.DebitTransferStateVisitor;
 
 import common.Fraction;
 
@@ -200,79 +223,284 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				this.result = null;
 			}
 			
+			
+			@Override
+			 public void handleDebit(final DebitView debit) throws ModelException{
+				final CustomDebitDetailPanel panel = new CustomDebitDetailPanel(AccountServiceClientView.this, debit);
+				debit.getState().accept(new view.visitor.DebitTransferStateVisitor() {
+					@Override
+					public void handleTemplateState(TemplateStateView templateState)
+							throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+					@Override
+					public void handleSuccessfulState(SuccessfulStateView successfulState)
+							throws ModelException {
+					}
+					@Override
+					public void handleNotSuccessfulState(
+							NotSuccessfulStateView notSuccessfulState) throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+					@Override
+					public void handleNotExecutetState(NotExecutetStateView notExecutetState)
+							throws ModelException {
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeSubject(debit, text);
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								return true;
+							}
+						});
+						
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeReceiverBank(debit, Integer.parseInt(text));
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+						        try{
+						        	Integer.parseInt(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return true;
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeReceiverAccount(debit, Integer.parseInt(text));
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+						        try{
+						        	Integer.parseInt(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return true;
+							}
+						}); 
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeMoney(debit, Fraction.parse(text));
+							}
+							@Override
+							public String format(String text) {
+								try{
+						        	Fraction frac = Fraction.parse(text);
+						        	return frac.formatDec(2);
+						        } catch(NumberFormatException nfe) {
+						        	return text;
+						        }
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								try{
+						        	Fraction.parse(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return Fraction.parse(text).isPositive();
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeCurrency(debit, text);
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								try {
+									StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+									return true;
+								} catch (PersistenceException e) {
+									return false;
+								}
+							}
+						});
+						
+					}
+					@Override
+					public void handleNotExecutableState(
+							NotExecutableStateView notExecutableState) throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+					@Override
+					public void handleExecutedState(ExecutedStateView executedState)
+							throws ModelException {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				
+		    	result = panel;
+			}
+			
 			@Override
 			public void handleTransfer(final TransferView transfer)
 					throws ModelException {
-				CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, transfer);
-				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$subject, new Updater() {
+				final CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, transfer);
+				transfer.getState().accept(new view.visitor.DebitTransferStateVisitor() {
+					
 					@Override
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeSubject(transfer, text);
+					public void handleTemplateState(TemplateStateView templateState)
+							throws ModelException {
+						// TODO Auto-generated method stub
+						
 					}
+					
 					@Override
-					public String format(String text) {
-						return text;
+					public void handleSuccessfulState(SuccessfulStateView successfulState)
+							throws ModelException {
 					}
+					
 					@Override
-					public boolean check(String text) throws ModelException {
-						return true;
+					public void handleNotSuccessfulState(
+							NotSuccessfulStateView notSuccessfulState) throws ModelException {
+						// TODO Auto-generated method stub
+						
 					}
-				});
-				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$receiverBankNumber, new Updater() {
+					
 					@Override
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text));
+					public void handleNotExecutetState(NotExecutetStateView notExecutetState)
+							throws ModelException {
+						
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeSubject(transfer, text);
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								return true;
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text));
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+						        try{
+						        	Integer.parseInt(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return true;
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+						        try{
+						        	Integer.parseInt(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return true;
+							}
+						}); 
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parse(text));
+							}
+							@Override
+							public String format(String text) {
+								try{
+						        	Fraction frac = Fraction.parse(text);
+						        	return frac.formatDec(2);
+						        } catch(NumberFormatException nfe) {
+						        	return text;
+						        }
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								try{
+						        	Fraction.parse(text);
+						        } catch(NumberFormatException nfe) {
+						        	return false;
+						        }
+						        return Fraction.parse(text).isPositive();
+							}
+						});
+						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+							@Override
+							public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeCurrency(transfer, text);
+							}
+							@Override
+							public String format(String text) {
+								return text;
+							}
+							@Override
+							public boolean check(String text) throws ModelException {
+								try {
+									StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+									return true;
+								} catch (PersistenceException e) {
+									return false;
+								}
+							}
+						});
+						
 					}
+					
 					@Override
-					public String format(String text) {
-						return text;
+					public void handleNotExecutableState(
+							NotExecutableStateView notExecutableState) throws ModelException {
+						// TODO Auto-generated method stub
+						
 					}
+					
 					@Override
-					public boolean check(String text) throws ModelException {
-				        try{
-				        	Integer.parseInt(text);
-				        } catch(NumberFormatException nfe) {
-				        	return false;
-				        }
-				        return true;
-					}
-				});
-				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$receiverAccountNumber, new Updater() {
-					@Override
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));
-					}
-					@Override
-					public String format(String text) {
-						return text;
-					}
-					@Override
-					public boolean check(String text) throws ModelException {
-				        try{
-				        	Integer.parseInt(text);
-				        } catch(NumberFormatException nfe) {
-				        	return false;
-				        }
-				        return true;
-					}
-				}); 
-				panel.registerUpdater(CustomTransferDetailPanel.DebitNoteTransfer$$money, new Updater() {
-					@Override
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parse(text));
-					}
-					@Override
-					public String format(String text) {
-						return text;
-					}
-					@Override
-					public boolean check(String text) throws ModelException {
-						try{
-				        	Fraction.parse(text);
-				        } catch(NumberFormatException nfe) {
-				        	return false;
-				        }
-				        return Fraction.parse(text).isPositive();
+					public void handleExecutedState(ExecutedStateView executedState)
+							throws ModelException {
+						// TODO Auto-generated method stub
+						
 					}
 				});
 				
@@ -366,6 +594,34 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private java.util.Vector<javax.swing.JButton> getToolButtonsForStaticOperations() {
         java.util.Vector<javax.swing.JButton> result = new java.util.Vector<javax.swing.JButton>();
         javax.swing.JButton currentButton = null;
+        currentButton = new javax.swing.JButton("Neue Lastschrift");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Lastschrift" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createDebit();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });result.add(currentButton);
+        currentButton = new javax.swing.JButton("Neue Vorlage");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Vorlage" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createTemplate();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });result.add(currentButton);
         currentButton = new javax.swing.JButton("Neue Überweisung");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -380,10 +636,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
             }
             
         });result.add(currentButton);
-        currentButton = new javax.swing.JButton("changePassword ... ");
+        currentButton = new javax.swing.JButton("Passwort ändern ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                AccountServiceChangePasswordStringStringMssgWizard wizard = new AccountServiceChangePasswordStringStringMssgWizard("changePassword");
+                AccountServiceChangePasswordStringStringMssgWizard wizard = new AccountServiceChangePasswordStringStringMssgWizard("Passwort ändern");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -397,6 +653,38 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private JPopupMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations) {
         JPopupMenu result = new JPopupMenu();
         javax.swing.JMenuItem item = null;
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) Neue Lastschrift");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Lastschrift" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createDebit();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) Neue Vorlage");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Vorlage" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createTemplate();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
         item.setText("(S) Neue Überweisung");
         item.addActionListener(new java.awt.event.ActionListener() {
@@ -414,10 +702,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
-        item.setText("(S) changePassword ... ");
+        item.setText("(S) Passwort ändern ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                AccountServiceChangePasswordStringStringMssgWizard wizard = new AccountServiceChangePasswordStringStringMssgWizard("changePassword");
+                AccountServiceChangePasswordStringStringMssgWizard wizard = new AccountServiceChangePasswordStringStringMssgWizard("Passwort ändern");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -428,17 +716,100 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
-            if (selected instanceof DebitNoteTransferView){
+            if (selected instanceof DebitGrantListeView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Neue Erlaubnis erteilen ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard wizard = new AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard("Neue Erlaubnis erteilen");
+                        wizard.setFirstArgument((DebitGrantListeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
+            if (selected instanceof DebitTransferView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Betreff ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeSubjectDebitTransferStringMssgWizard wizard = new AccountServiceChangeSubjectDebitTransferStringMssgWizard("Betreff ändern");
+                        wizard.setFirstArgument((DebitTransferView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("Empfänger Bank ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard("Empfänger Bank ändern");
+                        wizard.setFirstArgument((DebitTransferView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("Empfänger Konto ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard("Empfänger Konto ändern");
+                        wizard.setFirstArgument((DebitTransferView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("Währung ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard wizard = new AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard("Währung ändern");
+                        wizard.setFirstArgument((DebitTransferView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
                 item = new javax.swing.JMenuItem();
                 item.setText("Überweisung abschicken");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
                         if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                             try {
-                                getConnection().executeTransfer((DebitNoteTransferView)selected);
+                                getConnection().executeTransfer((DebitTransferView)selected);
                                 getConnection().setEagerRefresh();
                             }catch(ModelException me){
                                 handleException(me);
+                            }catch (NoPermissionToExecuteDebitTransferException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
                             }catch (InvalidBankNumberException userException){
                                 ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
                                 view.setLocationRelativeTo(getNavigationPanel());
@@ -457,61 +828,8 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                 view.setVisible(true);
                                 view.repaint();
                                 getConnection().setEagerRefresh();
-                            }catch (NoPermissionToExecuteDebitNoteTransferException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
-            }
-            if (selected instanceof TransferView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Betreff ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeSubjectTransferStringMssgWizard wizard = new AccountServiceChangeSubjectTransferStringMssgWizard("Betreff ändern");
-                        wizard.setFirstArgument((TransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Empfänger Bank ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeReceiverBankTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverBankTransferIntegerMssgWizard("Empfänger Bank ändern");
-                        wizard.setFirstArgument((TransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Empfänger Konto ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeReceiverAccountTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverAccountTransferIntegerMssgWizard("Empfänger Konto ändern");
-                        wizard.setFirstArgument((TransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
                     }
                     
                 });
@@ -520,13 +838,31 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 item.setText("Überweisungsbetrag ändern ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeMoneyTransferFractionMssgWizard wizard = new AccountServiceChangeMoneyTransferFractionMssgWizard("Überweisungsbetrag ändern");
-                        wizard.setFirstArgument((TransferView)selected);
+                        AccountServiceChangeMoneyDebitTransferFractionMssgWizard wizard = new AccountServiceChangeMoneyDebitTransferFractionMssgWizard("Überweisungsbetrag ändern");
+                        wizard.setFirstArgument((DebitTransferView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                         wizard.pack();
                         wizard.setLocationRelativeTo(getNavigationPanel());
                         wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
+            if (selected instanceof TransferView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Vorlage verwenden");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Vorlage verwenden" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().useTemplate((TransferView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
                     }
                     
                 });
@@ -539,14 +875,61 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         return result;
     }
     
-	class AccountServiceChangeMoneyTransferFractionMssgWizard extends Wizard {
+	class AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard extends Wizard {
 
-		protected AccountServiceChangeMoneyTransferFractionMssgWizard(String operationName){
+		protected AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceChangeMoneyTransferFractionMssgWizard.help";
+			this.helpFileName = "AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeCurrency(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new RegExprSelectionPanel("currency", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private DebitTransferView firstArgument; 
+	
+		public void setFirstArgument(DebitTransferView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeMoneyDebitTransferFractionMssgWizard extends Wizard {
+
+		protected AccountServiceChangeMoneyDebitTransferFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeMoneyDebitTransferFractionMssgWizard.help";
 			super.initialize();			
 		}
 				
@@ -575,9 +958,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		
-		private TransferView firstArgument; 
+		private DebitTransferView firstArgument; 
 	
-		public void setFirstArgument(TransferView firstArgument){
+		public void setFirstArgument(DebitTransferView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();
@@ -633,14 +1016,14 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-	class AccountServiceChangeReceiverAccountTransferIntegerMssgWizard extends Wizard {
+	class AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard extends Wizard {
 
-		protected AccountServiceChangeReceiverAccountTransferIntegerMssgWizard(String operationName){
+		protected AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceChangeReceiverAccountTransferIntegerMssgWizard.help";
+			this.helpFileName = "AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard.help";
 			super.initialize();			
 		}
 				
@@ -669,9 +1052,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		
-		private TransferView firstArgument; 
+		private DebitTransferView firstArgument; 
 	
-		public void setFirstArgument(TransferView firstArgument){
+		public void setFirstArgument(DebitTransferView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();
@@ -680,14 +1063,14 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-	class AccountServiceChangeReceiverBankTransferIntegerMssgWizard extends Wizard {
+	class AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard extends Wizard {
 
-		protected AccountServiceChangeReceiverBankTransferIntegerMssgWizard(String operationName){
+		protected AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceChangeReceiverBankTransferIntegerMssgWizard.help";
+			this.helpFileName = "AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard.help";
 			super.initialize();			
 		}
 				
@@ -716,9 +1099,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		
-		private TransferView firstArgument; 
+		private DebitTransferView firstArgument; 
 	
-		public void setFirstArgument(TransferView firstArgument){
+		public void setFirstArgument(DebitTransferView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			try{
@@ -734,14 +1117,14 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-	class AccountServiceChangeSubjectTransferStringMssgWizard extends Wizard {
+	class AccountServiceChangeSubjectDebitTransferStringMssgWizard extends Wizard {
 
-		protected AccountServiceChangeSubjectTransferStringMssgWizard(String operationName){
+		protected AccountServiceChangeSubjectDebitTransferStringMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceChangeSubjectTransferStringMssgWizard.help";
+			this.helpFileName = "AccountServiceChangeSubjectDebitTransferStringMssgWizard.help";
 			super.initialize();			
 		}
 				
@@ -770,9 +1153,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		
-		private TransferView firstArgument; 
+		private DebitTransferView firstArgument; 
 	
-		public void setFirstArgument(TransferView firstArgument){
+		public void setFirstArgument(DebitTransferView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			try{
@@ -788,10 +1171,134 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
+	class AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard extends Wizard {
+
+		protected AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().createDebitGrant(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getComponent(0)).getResult().longValue(),
+									((IntegerSelectionPanel)getParametersPanel().getComponent(1)).getResult().longValue(),
+									((StringSelectionPanel)getParametersPanel().getComponent(2)).getResult(),
+									((FractionSelectionPanel)getParametersPanel().getComponent(3)).getResult(),
+									((StringSelectionPanel)getParametersPanel().getComponent(4)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			catch(InvalidBankNumberException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			catch(InvalidAccountNumberException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new IntegerSelectionPanel("receiverBankNumber", this));
+			getParametersPanel().add(new IntegerSelectionPanel("receiverAccNumber", this));
+			getParametersPanel().add(new RegExprSelectionPanel("limitType", this, common.RegularExpressionManager.limitTypeSUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("amount", this));
+			getParametersPanel().add(new RegExprSelectionPanel("cur", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private DebitGrantListeView firstArgument; 
+	
+		public void setFirstArgument(DebitGrantListeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
 	/* Menu and wizard section end */
 	
 	private void addNotGeneratedItems(JPopupMenu result, ViewRoot selected) {
 		// TODO Add items if you have not generated service calls!!!
 	}
+	
+	@SuppressWarnings("serial")
+	class CustomTransferDetailPanel extends TransferDefaultDetailPanel {
+
+		protected static final String DebitTransfer$$money$$balance = "DebitTransfer$$money$$balance";
+		protected static final String DebitTransfer$$money$$currency = "DebitTransfer$$money$$currency";
+		
+		protected CustomTransferDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+			super(exceptionHandler, anything);
+		}
+		
+		
+		@Override
+		protected void addFields() {
+			super.addFields();
+	        try{
+	            BaseTypePanel panel = new FractionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance());
+	            this.getScrollablePane().add(panel);
+	            this.panels.put(DebitTransfer$$money$$balance, panel);
+	        }catch(view.ModelException e){
+	            this.getExceptionAndEventhandler().handleException(e);
+	        }
+	        try{
+	            BaseTypePanel panel = new StringPanel(this, "Währung", this.getAnything().getMoney().getCurrency().toString());
+	            this.getScrollablePane().add(panel);
+	            this.panels.put(DebitTransfer$$money$$currency, panel);
+	        }catch(view.ModelException e){
+	            this.getExceptionAndEventhandler().handleException(e);
+	        }
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	class CustomDebitDetailPanel extends DebitDefaultDetailPanel {
+
+		protected static final String DebitTransfer$$money$$balance = "DebitTransfer$$money$$balance";
+		protected static final String DebitTransfer$$money$$currency = "DebitTransfer$$money$$currency";
+		
+		protected CustomDebitDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+			super(exceptionHandler, anything);
+		}
+		
+		
+		@Override
+		protected void addFields() {
+			super.addFields();
+	        try{
+	            BaseTypePanel panel = new FractionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance());
+	            this.getScrollablePane().add(panel);
+	            this.panels.put(DebitTransfer$$money$$balance, panel);
+	        }catch(view.ModelException e){
+	            this.getExceptionAndEventhandler().handleException(e);
+	        }
+	        try{
+	            BaseTypePanel panel = new StringPanel(this, "Währung", this.getAnything().getMoney().getCurrency().toString());
+	            this.getScrollablePane().add(panel);
+	            this.panels.put(DebitTransfer$$money$$currency, panel);
+	        }catch(view.ModelException e){
+	            this.getExceptionAndEventhandler().handleException(e);
+	        }
+		}
+	}
+	
 	
 }
