@@ -192,6 +192,13 @@ public class TemplateState extends model.DebitTransferState implements Persisten
     
     // Start of section that contains overridden operations only.
     
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+		getThis().removeDebitTransferFromList();
+		getThis().addDebitTransferFromList(newState);
+		getThis().getDebitTransfer().setState(newState);
+		
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();

@@ -8,6 +8,12 @@ public interface PersistentAccountService extends PersistentService {
     
     public PersistentAccount getAccount() throws PersistenceException ;
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
+    public PersistentDebitTransferSuccessful getSuccessful() throws PersistenceException ;
+    public void setSuccessful(PersistentDebitTransferSuccessful newValue) throws PersistenceException ;
+    public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException ;
+    public void setNotExecuted(PersistentDebitTransferNotExecuted newValue) throws PersistenceException ;
+    public PersistentDebitTransferTemplate getTemplate() throws PersistenceException ;
+    public void setTemplate(PersistentDebitTransferTemplate newValue) throws PersistenceException ;
     public PersistentAccountService getThis() throws PersistenceException ;
     
     public void accept(ServiceVisitor visitor) throws PersistenceException;
@@ -35,15 +41,9 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
 				throws PersistenceException;
-    public PersistentDebitTransferNotExecuted getNotExecuted() 
-				throws PersistenceException;
-    public PersistentDebitTransferSuccessful getSuccessful() 
-				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
-				throws PersistenceException;
-    public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
+    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException;
@@ -61,6 +61,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
     public void createDebit() 
 				throws PersistenceException;
+    public void createTemplate() 
+				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
     public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
@@ -69,9 +71,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
-				throws PersistenceException;
-    public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
+    public void useTemplate(final PersistentTransfer debitTransfer) 
 				throws PersistenceException;
 
 }

@@ -19,6 +19,10 @@ public interface PersistentDebitTransferState extends SubjInterface, Anything, A
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException;
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
@@ -26,6 +30,8 @@ public interface PersistentDebitTransferState extends SubjInterface, Anything, A
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public PersistentBooleanValue isExecutable() 
+				throws PersistenceException;
+    public void removeDebitTransferFromList() 
 				throws PersistenceException;
 
 }

@@ -253,13 +253,18 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
 		this.result = "";
 	}
 	@Override
 	public void handleAccountPx(PersistentAccountPx accountPx)
 			throws PersistenceException {
 		this.result = "Account: " + new Long(accountPx.getAccount().getAccountNumber()).toString();
+	}
+	@Override
+	public void handleDebitTransferTemplate(
+			PersistentDebitTransferTemplate debitTransferTemplate)
+			throws PersistenceException {
+		this.result = "";
 	}
 	
 

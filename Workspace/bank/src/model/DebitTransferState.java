@@ -1,6 +1,7 @@
 
 package model;
 
+import model.visitor.DebitTransferStateVisitor;
 import persistence.*;
 
 
@@ -124,26 +125,159 @@ public abstract class DebitTransferState extends PersistentObject implements Per
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     
     // Start of section that contains overridden operations only.
     
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException{
+		state.accept(new DebitTransferStateVisitor() {
+			@Override
+			public void handleTemplateState(PersistentTemplateState templateState)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getSender().getAccountService().getTemplate().getTemplates().add(getThis().getDebitTransfer());
+				
+			}
+			@Override
+			public void handleSuccessfulState(PersistentSuccessfulState successfulState)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().getSuccessfuls().add(getThis().getDebitTransfer());
+			}
+			@Override
+			public void handleNotSuccessfulState(
+					PersistentNotSuccessfulState notSuccessfulState)
+					throws PersistenceException {}
+			@Override
+			public void handleNotExecutetState(
+					PersistentNotExecutetState notExecutetState)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().add(getThis().getDebitTransfer());
+			}
+			@Override
+			public void handleNotExecutableState(
+					PersistentNotExecutableState notExecutableState)
+					throws PersistenceException {}
+			@Override
+			public void handleExecutedState(PersistentExecutedState executedState)
+					throws PersistenceException {}
+		});
+		
+	}
+    public void removeDebitTransferFromList() 
+				throws PersistenceException{
+    	getThis().accept(new DebitTransferStateVisitor() {
+    		@Override
+    		public void handleTemplateState(PersistentTemplateState templateState)
+    				throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getTemplate().getTemplates().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+    				@Override
+    				public boolean test(PersistentDebitTransfer argument)
+    						throws PersistenceException {
+    					return argument.equals(getThis().getDebitTransfer());
+    				}
+    			});
+    		}
+    		@Override
+    		public void handleSuccessfulState(PersistentSuccessfulState successfulState)
+    				throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().getSuccessfuls().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+    				@Override
+    				public boolean test(PersistentDebitTransfer argument)
+    						throws PersistenceException {
+    					return argument.equals(getThis().getDebitTransfer());
+    				}
+    			});
+    		}
+    		@Override
+    		public void handleNotSuccessfulState(
+    				PersistentNotSuccessfulState notSuccessfulState)
+    				throws PersistenceException {
+    		}
+    		@Override
+    		public void handleNotExecutetState(
+    				PersistentNotExecutetState notExecutetState)
+    				throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+    				@Override
+    				public boolean test(PersistentDebitTransfer argument)
+    						throws PersistenceException {
+    					return argument.equals(getThis().getDebitTransfer());
+    				}
+    			});
+    		}
+    		@Override
+    		public void handleNotExecutableState(
+    				PersistentNotExecutableState notExecutableState)
+    				throws PersistenceException {
+    		}
+    		@Override
+    		public void handleExecutedState(PersistentExecutedState executedState)
+    				throws PersistenceException {
+    		}
+    	});
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
-    
+    public void deleteDebitTransferFromList() throws PersistenceException {
+    	getThis().accept(new DebitTransferStateVisitor() {
+    		@Override
+    		public void handleTemplateState(PersistentTemplateState templateState)
+    				throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getTemplate().getTemplates().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+    				@Override
+    				public boolean test(PersistentDebitTransfer argument)
+    						throws PersistenceException {
+    					return argument.equals(getThis().getDebitTransfer());
+    				}
+    			});
+    		}
+    		@Override
+    		public void handleSuccessfulState(PersistentSuccessfulState successfulState)
+    				throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().getSuccessfuls().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+    				@Override
+    				public boolean test(PersistentDebitTransfer argument)
+    						throws PersistenceException {
+    					return argument.equals(getThis().getDebitTransfer());
+    				}
+    			});
+    		}
+    		@Override
+    		public void handleNotSuccessfulState(
+    				PersistentNotSuccessfulState notSuccessfulState)
+    				throws PersistenceException {
+    		}
+    		@Override
+    		public void handleNotExecutetState(
+    				PersistentNotExecutetState notExecutetState)
+    				throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+    				@Override
+    				public boolean test(PersistentDebitTransfer argument)
+    						throws PersistenceException {
+    					return argument.equals(getThis().getDebitTransfer());
+    				}
+    			});
+    		}
+    		@Override
+    		public void handleNotExecutableState(
+    				PersistentNotExecutableState notExecutableState)
+    				throws PersistenceException {
+    		}
+    		@Override
+    		public void handleExecutedState(PersistentExecutedState executedState)
+    				throws PersistenceException {
+    		}
+    	});
+    }
+   
     /* End of protected part that is not overridden by persistence generator */
     
 }

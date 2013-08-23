@@ -123,6 +123,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
         this.handleCommonDate(executeCommand);
     }
+    public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
+        this.handleCommonDate(useTemplateCommand);
+    }
     public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException{
         this.handleCommonDate(executeTransferCommand);
     }
@@ -161,7 +164,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
-    public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
+    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
@@ -172,8 +175,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
-    
-    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     
     
 }

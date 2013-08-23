@@ -42,6 +42,14 @@ public abstract class DebitTransferStateICProxi extends PersistentInCacheProxiOp
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).updateObservers(event);
     }
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException{
+        ((PersistentDebitTransferState)this.getTheObject()).addDebitTransferFromList(state);
+    }
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentDebitTransferState)this.getTheObject()).changeState(newState);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -57,6 +65,10 @@ public abstract class DebitTransferStateICProxi extends PersistentInCacheProxiOp
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentDebitTransferState)this.getTheObject()).isExecutable();
+    }
+    public void removeDebitTransferFromList() 
+				throws PersistenceException{
+        ((PersistentDebitTransferState)this.getTheObject()).removeDebitTransferFromList();
     }
 
     

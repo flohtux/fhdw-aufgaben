@@ -193,6 +193,13 @@ public class NotExecutableState extends model.DebitTransferState implements Pers
     
     // Start of section that contains overridden operations only.
     
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+		getThis().removeDebitTransferFromList();
+		getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().add(getThis().getDebitTransfer());
+		getThis().getDebitTransfer().setState(newState);
+		
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();

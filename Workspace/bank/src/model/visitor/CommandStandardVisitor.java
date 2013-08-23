@@ -14,6 +14,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
         this.standardHandling(executeCommand);
     }
+    public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
+        this.standardHandling(useTemplateCommand);
+    }
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.standardHandling(changeNameCommand);
     }

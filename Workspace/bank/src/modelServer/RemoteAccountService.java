@@ -104,6 +104,15 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> createTemplate(){
+        try {
+            ((PersistentAccountService)this.server).createTemplate();
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> createTransfer(){
         try {
             ((PersistentAccountService)this.server).createTransfer();
@@ -128,6 +137,16 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(e2, this);
         }catch(model.InvalidAccountNumberException e3){
             return createExceptionResult(e3, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> useTemplate(String debitTransferProxiString){
+        try {
+            PersistentTransfer debitTransfer = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
+            ((PersistentAccountService)this.server).useTemplate(debitTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
         }
     }
     

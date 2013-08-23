@@ -1,10 +1,10 @@
 package persistence;
 
-public class AccountServiceSuccessfulListEntryProxi extends AccountServiceSuccessfulProxi implements PersistentAccountServiceSuccessfulListEntryProxi {
+public class UseTemplateCommandListEntryProxi extends UseTemplateCommandProxi implements PersistentUseTemplateCommandListEntryProxi {
 
   long entryId;
 
-  public AccountServiceSuccessfulListEntryProxi(long objectId, long entryId) {
+  public UseTemplateCommandListEntryProxi(long objectId, long entryId) {
     super(objectId);
     this.entryId = entryId;
   }

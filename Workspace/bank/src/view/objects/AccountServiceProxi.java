@@ -36,7 +36,14 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             notExecuted = view.objects.ViewProxi.createProxi(notExecuted$Info,connectionKey);
             notExecuted.setToString(notExecuted$Info.getToString());
         }
-        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted, this.getId(), this.getClassId());
+        ViewProxi template = null;
+        String template$String = (String)resultTable.get("template");
+        if (template$String != null) {
+            common.ProxiInformation template$Info = common.RPCConstantsAndServices.createProxiInformation(template$String);
+            template = view.objects.ViewProxi.createProxi(template$Info,connectionKey);
+            template.setToString(template$Info.getToString());
+        }
+        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted,(DebitTransferTemplateView)template, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -53,20 +60,24 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         if(this.getSuccessful() != null) index = index - 1;
         if(index == 0 && this.getNotExecuted() != null) return new NotExecutedAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getNotExecuted());
         if(this.getNotExecuted() != null) index = index - 1;
+        if(index == 0 && this.getTemplate() != null) return new TemplateAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getTemplate());
+        if(this.getTemplate() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
             + (this.getSuccessful() == null ? 0 : 1)
-            + (this.getNotExecuted() == null ? 0 : 1);
+            + (this.getNotExecuted() == null ? 0 : 1)
+            + (this.getTemplate() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
             && (this.getSuccessful() == null ? true : false)
-            && (this.getNotExecuted() == null ? true : false);
+            && (this.getNotExecuted() == null ? true : false)
+            && (this.getTemplate() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -76,6 +87,8 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         if(this.getSuccessful() != null) result = result + 1;
         if(this.getNotExecuted() != null && this.getNotExecuted().equals(child)) return result;
         if(this.getNotExecuted() != null) result = result + 1;
+        if(this.getTemplate() != null && this.getTemplate().equals(child)) return result;
+        if(this.getTemplate() != null) result = result + 1;
         return -1;
     }
     
@@ -96,6 +109,12 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
     }
     public void setNotExecuted(DebitTransferNotExecutedView newValue) throws ModelException {
         ((AccountService)this.getTheObject()).setNotExecuted(newValue);
+    }
+    public DebitTransferTemplateView getTemplate()throws ModelException{
+        return ((AccountService)this.getTheObject()).getTemplate();
+    }
+    public void setTemplate(DebitTransferTemplateView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setTemplate(newValue);
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {

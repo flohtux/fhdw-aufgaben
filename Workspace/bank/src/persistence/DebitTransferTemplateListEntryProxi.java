@@ -1,10 +1,10 @@
 package persistence;
 
-public class AccountServiceNotExecutedListEntryProxi extends AccountServiceNotExecutedProxi implements PersistentAccountServiceNotExecutedListEntryProxi {
+public class DebitTransferTemplateListEntryProxi extends DebitTransferTemplateProxi implements PersistentDebitTransferTemplateListEntryProxi {
 
   long entryId;
 
-  public AccountServiceNotExecutedListEntryProxi(long objectId, long entryId) {
+  public DebitTransferTemplateListEntryProxi(long objectId, long entryId) {
     super(objectId);
     this.entryId = entryId;
   }

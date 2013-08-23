@@ -742,6 +742,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleServer(view.ServerView object){
         result = new ServerDefaultDetailPanel(handler, object);
     }
+    public void handleDebitTransferTemplate(view.DebitTransferTemplateView object){
+        result = new DebitTransferTemplateDefaultDetailPanel(handler, object);
+    }
     public void handleTransfer(view.TransferView object){
         result = new TransferDefaultDetailPanel(handler, object);
     }
@@ -1092,6 +1095,22 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferTemplate$$templates = "DebitTransferTemplate$$templates";
+    
+    protected DebitTransferTemplateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferTemplateView getAnything(){
+        return (view.DebitTransferTemplateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
@@ -1285,6 +1304,7 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String AccountService$$account = "AccountService$$account";
     protected static final String AccountService$$successful = "AccountService$$successful";
     protected static final String AccountService$$notExecuted = "AccountService$$notExecuted";
+    protected static final String AccountService$$template = "AccountService$$template";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

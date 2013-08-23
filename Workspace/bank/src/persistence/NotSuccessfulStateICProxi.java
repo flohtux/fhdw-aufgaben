@@ -84,6 +84,14 @@ public class NotSuccessfulStateICProxi extends DebitTransferStateICProxi impleme
 				throws PersistenceException{
         ((PersistentNotSuccessfulState)this.getTheObject()).updateObservers(event);
     }
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException{
+        ((PersistentNotSuccessfulState)this.getTheObject()).addDebitTransferFromList(state);
+    }
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentNotSuccessfulState)this.getTheObject()).changeState(newState);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentNotSuccessfulState)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -99,6 +107,10 @@ public class NotSuccessfulStateICProxi extends DebitTransferStateICProxi impleme
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentNotSuccessfulState)this.getTheObject()).isExecutable();
+    }
+    public void removeDebitTransferFromList() 
+				throws PersistenceException{
+        ((PersistentNotSuccessfulState)this.getTheObject()).removeDebitTransferFromList();
     }
 
     

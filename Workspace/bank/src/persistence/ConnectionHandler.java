@@ -134,12 +134,12 @@ public class ConnectionHandler {
     public BankServiceFacade theBankServiceFacade;
     public ProcentualFeeFacade theProcentualFeeFacade;
     public ServerFacade theServerFacade;
+    public DebitTransferTemplateFacade theDebitTransferTemplateFacade;
     public TransferFacade theTransferFacade;
     public CreateDebitGrantCommandFacade theCreateDebitGrantCommandFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
     public AdministratorBanksFacade theAdministratorBanksFacade;
     public DollarFacade theDollarFacade;
-    public AccountServiceSuccessfulFacade theAccountServiceSuccessfulFacade;
     public FrankenFacade theFrankenFacade;
     public LimitAccountFacade theLimitAccountFacade;
     public LimitFacade theLimitFacade;
@@ -152,6 +152,7 @@ public class ConnectionHandler {
     public TransactionFeeFacade theTransactionFeeFacade;
     public AccountFacade theAccountFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
+    public UseTemplateCommandFacade theUseTemplateCommandFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
     public EuroFacade theEuroFacade;
     public YenFacade theYenFacade;
@@ -166,7 +167,6 @@ public class ConnectionHandler {
     public MoneyFacade theMoneyFacade;
     public BankFacade theBankFacade;
     public DebitTransferSuccessfulFacade theDebitTransferSuccessfulFacade;
-    public AccountServiceNotExecutedFacade theAccountServiceNotExecutedFacade;
     public PfundFacade thePfundFacade;
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
@@ -224,12 +224,12 @@ public class ConnectionHandler {
             this.theBankServiceFacade= new BankServiceFacade(this.schemaName, this.con);
             this.theProcentualFeeFacade= new ProcentualFeeFacade(this.schemaName, this.con);
             this.theServerFacade= new ServerFacade(this.schemaName, this.con);
+            this.theDebitTransferTemplateFacade= new DebitTransferTemplateFacade(this.schemaName, this.con);
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);
             this.theCreateDebitGrantCommandFacade= new CreateDebitGrantCommandFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);
-            this.theAccountServiceSuccessfulFacade= new AccountServiceSuccessfulFacade(this.schemaName, this.con);
             this.theFrankenFacade= new FrankenFacade(this.schemaName, this.con);
             this.theLimitAccountFacade= new LimitAccountFacade(this.schemaName, this.con);
             this.theLimitFacade= new LimitFacade(this.schemaName, this.con);
@@ -242,6 +242,7 @@ public class ConnectionHandler {
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
+            this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
             this.theYenFacade= new YenFacade(this.schemaName, this.con);
@@ -256,7 +257,6 @@ public class ConnectionHandler {
             this.theMoneyFacade= new MoneyFacade(this.schemaName, this.con);
             this.theBankFacade= new BankFacade(this.schemaName, this.con);
             this.theDebitTransferSuccessfulFacade= new DebitTransferSuccessfulFacade(this.schemaName, this.con);
-            this.theAccountServiceNotExecutedFacade= new AccountServiceNotExecutedFacade(this.schemaName, this.con);
             this.thePfundFacade= new PfundFacade(this.schemaName, this.con);
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
