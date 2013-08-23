@@ -227,12 +227,9 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     public void executeImplementation() 
 				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
-		//TODO warum wird hier der state geänder????
-    	
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}
-		getThis().setState(NotExecutetState.getTheNotExecutetState());
 		getThis().getSender().getBank().sendTransfer(getThis());
 		
 		

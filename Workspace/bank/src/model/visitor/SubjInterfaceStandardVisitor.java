@@ -107,6 +107,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handlePfund(PersistentPfund pfund) throws PersistenceException{
         this.standardHandling(pfund);
     }
+    public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
+        this.standardHandling(debitTransferTemplate);
+    }
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
     }

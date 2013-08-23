@@ -104,6 +104,15 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> createTemplate(){
+        try {
+            ((PersistentAccountService)this.server).createTemplate();
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> createTransfer(){
         try {
             ((PersistentAccountService)this.server).createTransfer();

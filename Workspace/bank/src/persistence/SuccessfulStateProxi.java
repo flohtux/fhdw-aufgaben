@@ -84,6 +84,14 @@ public class SuccessfulStateProxi extends DebitTransferStateProxi implements Per
 				throws PersistenceException{
         ((PersistentSuccessfulState)this.getTheObject()).updateObservers(event);
     }
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException{
+        ((PersistentSuccessfulState)this.getTheObject()).addDebitTransferFromList(state);
+    }
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentSuccessfulState)this.getTheObject()).changeState(newState);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentSuccessfulState)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -99,6 +107,10 @@ public class SuccessfulStateProxi extends DebitTransferStateProxi implements Per
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentSuccessfulState)this.getTheObject()).isExecutable();
+    }
+    public void removeDebitTransferFromList() 
+				throws PersistenceException{
+        ((PersistentSuccessfulState)this.getTheObject()).removeDebitTransferFromList();
     }
 
     

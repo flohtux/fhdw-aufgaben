@@ -11,6 +11,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
     public R handleServer(PersistentServer server) throws PersistenceException;
+    public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public R handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;

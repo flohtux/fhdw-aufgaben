@@ -233,11 +233,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     	if (!getThis().getState().isExecutable().isTrue()) {
     		throw new NoPermissionToExecuteDebitTransferException();
     	}
-    	//TODO warum wird hier der state geändert?
-    	getThis().setState(NotExecutetState.getTheNotExecutetState());
-    	getThis().getSender().getBank().sendTransfer(getThis());
     	Timestamp tstamp = new Timestamp(new Date().getTime());
     	getThis().setTimestamp(tstamp);
+    	getThis().getSender().getBank().sendTransfer(getThis());
 		
 	}
 

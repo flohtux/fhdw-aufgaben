@@ -65,8 +65,9 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
-	observe DebitTransferSuccessful successful;
-	observe DebitTransferNotExecuted notExecuted;
+	DebitTransferSuccessful successful;
+	DebitTransferNotExecuted notExecuted;
+	DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
 	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
@@ -75,6 +76,7 @@ server AccountService extends Service {
 	void changeSubject@@Betreff_ändern(DebitTransfer trans, String subject);
 	void changeCurrency@@Währung_ändern(DebitTransfer trans, CurrencySUBTYPEName currency);
 	void createDebit@@Neue_Lastschrift();
+	void createTemplate@@Neue_Vorlage();
 	active void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException;
 }
 
@@ -86,6 +88,10 @@ class DebitTransferNotExecuted##DbTrNtExec {
 	DebitTransfer ** notExecuteds;	
 }
 
+class DebitTransferTemplate##DbTrNtTmpl {
+	DebitTransfer ** templates;	
+}
+
 class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
@@ -93,8 +99,9 @@ class Account {
 	no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
-
+ 
 	Transfer createTransfer();
+	Transfer createTemplate();
 	void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount(DebitTransfer trans, Integer receiverAccountNumber);
 	void changeMoney(DebitTransfer trans, Fraction newAmount);
@@ -200,6 +207,9 @@ class DebitGrant {
 
 abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
 	BooleanValue isExecutable();
+	void changeState(DebitTransferState newState);
+	void removeDebitTransferFromList();
+	void addDebitTransferFromList(DebitTransferState state);
 }
 
 abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}

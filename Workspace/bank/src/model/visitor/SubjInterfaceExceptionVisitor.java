@@ -11,6 +11,7 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handlePercent(PersistentPercent percent) throws PersistenceException, E;
     public void handleAmount(PersistentAmount amount) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;
+    public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;

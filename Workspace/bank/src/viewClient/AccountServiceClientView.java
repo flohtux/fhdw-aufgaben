@@ -589,6 +589,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
             }
             
         });result.add(currentButton);
+        currentButton = new javax.swing.JButton("Neue Vorlage");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Vorlage" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createTemplate();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });result.add(currentButton);
         currentButton = new javax.swing.JButton("Neue Überweisung");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -627,6 +641,22 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Lastschrift" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                     try {
                         getConnection().createDebit();
+                        getConnection().setEagerRefresh();
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) Neue Vorlage");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Vorlage" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                    try {
+                        getConnection().createTemplate();
                         getConnection().setEagerRefresh();
                     }catch(ModelException me){
                         handleException(me);

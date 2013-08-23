@@ -17,11 +17,5 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException{
         this.standardHandling(accountGrantedDebitGrant);
     }
-    public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException{
-        this.standardHandling(accountServiceNotExecuted);
-    }
-    public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException{
-        this.standardHandling(accountServiceSuccessful);
-    }
     protected abstract void standardHandling(ObsInterface obsInterface) throws PersistenceException;
 }

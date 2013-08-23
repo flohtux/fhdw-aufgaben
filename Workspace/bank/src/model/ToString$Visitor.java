@@ -261,6 +261,13 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		this.result = "Account: " + new Long(accountPx.getAccount().getAccountNumber()).toString();
 	}
+	@Override
+	public void handleDebitTransferTemplate(
+			PersistentDebitTransferTemplate debitTransferTemplate)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 

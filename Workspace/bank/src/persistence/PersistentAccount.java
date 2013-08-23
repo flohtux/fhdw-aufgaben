@@ -56,6 +56,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentDebit createDebit() 
 				throws PersistenceException;
+    public PersistentTransfer createTemplate() 
+				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 

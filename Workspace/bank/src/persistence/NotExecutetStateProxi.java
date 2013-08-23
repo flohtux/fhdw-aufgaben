@@ -84,6 +84,14 @@ public class NotExecutetStateProxi extends DebitTransferStateProxi implements Pe
 				throws PersistenceException{
         ((PersistentNotExecutetState)this.getTheObject()).updateObservers(event);
     }
+    public void addDebitTransferFromList(final PersistentDebitTransferState state) 
+				throws PersistenceException{
+        ((PersistentNotExecutetState)this.getTheObject()).addDebitTransferFromList(state);
+    }
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentNotExecutetState)this.getTheObject()).changeState(newState);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentNotExecutetState)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -99,6 +107,10 @@ public class NotExecutetStateProxi extends DebitTransferStateProxi implements Pe
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentNotExecutetState)this.getTheObject()).isExecutable();
+    }
+    public void removeDebitTransferFromList() 
+				throws PersistenceException{
+        ((PersistentNotExecutetState)this.getTheObject()).removeDebitTransferFromList();
     }
 
     
