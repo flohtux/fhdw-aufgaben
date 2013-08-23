@@ -69,7 +69,7 @@ server AccountService extends Service {
 	DebitTransferNotExecuted notExecuted;
 	DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
-	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer checked) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(Transfer debitTransfer);
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);

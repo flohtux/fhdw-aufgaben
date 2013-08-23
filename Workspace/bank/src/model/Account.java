@@ -38,7 +38,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         result.initializeOnCreation();
         return result;
     }
-     
+    
     public static PersistentAccount createAccount(long accountNumber,PersistentMoney money,boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
