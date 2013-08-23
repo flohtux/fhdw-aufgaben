@@ -539,6 +539,25 @@ create table AdmnstrtrCrrncMngr(
     constraint FAdmnstrtrCrrncMngrThis foreign key (AdmnstrtrCrrncMngrThisCls) references Cls (id)    
 );
 
+create sequence SUsTmpltCMD nocache;
+
+create table UsTmpltCMD(
+    id number primary key,
+    Cls number not null,
+    UsTmpltCMDDbtTrnsfr number,
+    UsTmpltCMDDbtTrnsfrCls number,
+    constraint FUsTmpltCMDDbtTrnsfr foreign key (UsTmpltCMDDbtTrnsfrCls) references Cls (id),
+    UsTmpltCMDInvoker number,
+    UsTmpltCMDInvokerCls number,
+    constraint FUsTmpltCMDInvoker foreign key (UsTmpltCMDInvokerCls) references Cls (id),
+    UsTmpltCMDCReceiver number,
+    UsTmpltCMDCReceiverCls number,
+    constraint FUsTmpltCMDCReceiver foreign key (UsTmpltCMDCReceiverCls) references Cls (id),
+    UsTmpltCMDMyCmmnDt number,
+    UsTmpltCMDMyCmmnDtCls number,
+    constraint FUsTmpltCMDMyCmmnDt foreign key (UsTmpltCMDMyCmmnDtCls) references Cls (id)    
+);
+
 create sequence SDbTrNtExec nocache;
 
 create table DbTrNtExec(

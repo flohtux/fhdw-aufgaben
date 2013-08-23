@@ -253,7 +253,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
 		this.result = "";
 	}
 	@Override
@@ -265,8 +264,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleDebitTransferTemplate(
 			PersistentDebitTransferTemplate debitTransferTemplate)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "";
 	}
 	
 

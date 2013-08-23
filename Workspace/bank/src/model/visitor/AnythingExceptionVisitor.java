@@ -28,6 +28,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException, E;
+    public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException, E;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public void handleMoney(PersistentMoney money) throws PersistenceException, E;

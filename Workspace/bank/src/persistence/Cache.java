@@ -318,6 +318,7 @@ public class Cache {
 		this.number2NameMap.put(146, "Transaction");
 		this.number2NameMap.put(122, "Transfer");
 		this.number2NameMap.put(168, "TrueValue");
+		this.number2NameMap.put(209, "UseTemplateCommand");
 		this.number2NameMap.put(181, "Yen");	
 	}
 	

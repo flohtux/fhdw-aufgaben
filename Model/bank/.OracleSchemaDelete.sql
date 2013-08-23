@@ -60,6 +60,8 @@ drop sequence SAccnt;
 drop table Accnt cascade constraints;
 drop sequence SAdmnstrtrCrrncMngr;
 drop table AdmnstrtrCrrncMngr cascade constraints;
+drop sequence SUsTmpltCMD;
+drop table UsTmpltCMD cascade constraints;
 drop sequence SDbTrNtExec;
 drop table DbTrNtExec cascade constraints;
 drop sequence SCmmndCrdntr;

@@ -144,6 +144,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
+    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransfer, invoker);
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeCurrency(trans, currency);
@@ -219,6 +223,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void useTemplate(final PersistentTransfer debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransfer);
     }
 
     

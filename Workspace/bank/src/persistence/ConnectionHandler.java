@@ -152,6 +152,7 @@ public class ConnectionHandler {
     public TransactionFeeFacade theTransactionFeeFacade;
     public AccountFacade theAccountFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
+    public UseTemplateCommandFacade theUseTemplateCommandFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
     public EuroFacade theEuroFacade;
     public YenFacade theYenFacade;
@@ -241,6 +242,7 @@ public class ConnectionHandler {
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
+            this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
             this.theYenFacade= new YenFacade(this.schemaName, this.con);

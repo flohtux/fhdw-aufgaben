@@ -349,6 +349,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.updateObservers(event);
     }
+    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentUseTemplateCommand command = model.meta.UseTemplateCommand.createUseTemplateCommand(now, now);
+		command.setDebitTransfer(debitTransfer);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     
     
     // Start of section that contains operations that must be implemented.
@@ -438,9 +447,14 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     	getThis().setSuccessful(DebitTransferSuccessful.createDebitTransferSuccessful());
     	getThis().setNotExecuted(DebitTransferNotExecuted.createDebitTransferNotExecuted());
+    	getThis().setTemplate(DebitTransferTemplate.createDebitTransferTemplate());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void useTemplate(final PersistentTransfer debitTransfer) 
+				throws PersistenceException{
+        //TODO
     }
     
     

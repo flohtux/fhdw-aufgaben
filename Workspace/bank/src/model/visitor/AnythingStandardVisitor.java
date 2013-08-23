@@ -125,6 +125,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException{
         this.standardHandling(administratorCurrencyManager);
     }
+    public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
+        this.standardHandling(useTemplateCommand);
+    }
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException{
         this.standardHandling(errorDisplay);
     }

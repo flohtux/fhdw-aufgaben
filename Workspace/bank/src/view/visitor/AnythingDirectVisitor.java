@@ -129,9 +129,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     
-    public abstract void handleServer(ServerView server) throws ModelException;
-    
     public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    
+    public abstract void handleServer(ServerView server) throws ModelException;
     
     public abstract void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     
