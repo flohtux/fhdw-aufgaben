@@ -703,6 +703,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleCurrencyManager(view.CurrencyManagerView object){
         result = new CurrencyManagerDefaultDetailPanel(handler, object);
     }
+    public void handleDebitTransferListe(view.DebitTransferListeView object){
+        result = new DebitTransferListeDefaultDetailPanel(handler, object);
+    }
     public void handleFixTransactionFee(view.FixTransactionFeeView object){
         result = new FixTransactionFeeDefaultDetailPanel(handler, object);
     }
@@ -876,6 +879,22 @@ class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.CurrencyManagerView getAnything(){
         return (view.CurrencyManagerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitTransferListeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferListe$$debitTransfers = "DebitTransferListe$$debitTransfers";
+    
+    protected DebitTransferListeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferListeView getAnything(){
+        return (view.DebitTransferListeView)this.anything;
     }
 }
 
@@ -1485,6 +1504,7 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String Transaction$$debitTransfer = "Transaction$$debitTransfer";
     
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

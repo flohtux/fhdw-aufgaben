@@ -94,7 +94,7 @@ public class DebitTransferNotExecutedFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public long notExecutedsAdd(long DebitTransferNotExecutedId, PersistentDebitTransfer notExecutedsVal) throws PersistenceException {
+    public long notExecutedsAdd(long DebitTransferNotExecutedId, PersistentDebitTransferTransaction notExecutedsVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbTrNtExecFacade.ntExctdsAdd(?, ?, ?); end;");
@@ -121,7 +121,7 @@ public class DebitTransferNotExecutedFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public DebitTransferList notExecutedsGet(long DebitTransferNotExecutedId) throws PersistenceException {
+    public DebitTransferTransactionList notExecutedsGet(long DebitTransferNotExecutedId) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbTrNtExecFacade.ntExctdsGet(?); end;");
@@ -129,9 +129,9 @@ public class DebitTransferNotExecutedFacade{
             callable.setLong(2, DebitTransferNotExecutedId);
             callable.execute();
             ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
-            DebitTransferList result = new DebitTransferList();
+            DebitTransferTransactionList result = new DebitTransferTransactionList();
             while (list.next()) {
-                result.add((PersistentDebitTransfer)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
+                result.add((PersistentDebitTransferTransaction)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
             }
             list.close();
             callable.close();

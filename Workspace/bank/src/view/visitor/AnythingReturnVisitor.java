@@ -6,6 +6,7 @@ import view.*;
 public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,StornoStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,LimitTypeReturnVisitor<R> {
     
     public R handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
+    public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     public R handleInternalFee(InternalFeeView internalFee) throws ModelException;
     public R handlePercent(PercentView percent) throws ModelException;
     public R handleAmount(AmountView amount) throws ModelException;

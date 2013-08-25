@@ -7,6 +7,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     
     public abstract void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException;
     public abstract void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException;
+    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public abstract void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException;
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;

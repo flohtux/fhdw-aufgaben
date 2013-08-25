@@ -64,6 +64,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.handleDebitTransferState(templateState);
     }
+    public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
+    
     public abstract void handleStornoState(StornoStateView stornoState) throws ModelException;
     
     public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
@@ -78,7 +80,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
         this.handleStornoState(noRequestState);
     }
-    public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
+    public abstract void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
     

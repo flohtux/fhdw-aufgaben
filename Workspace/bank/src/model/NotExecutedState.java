@@ -183,21 +183,20 @@ public class NotExecutedState extends model.DebitTransferState implements Persis
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-	@Override
-	public void changeState(PersistentDebitTransferState newState)
-			throws PersistenceException {
-		getThis().removeDebitTransferFromList();
-		getThis().addDebitTransferFromList(newState);
-		getThis().getDebitTransfer().setState(newState);
-	}
-	@Override
-	public PersistentBooleanValue isExecutable() throws PersistenceException {
-		return TrueValue.getTheTrueValue();
-	}
     
     
     // Start of section that contains overridden operations only.
     
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+		getThis().removeDebitTransferFromList();
+		getThis().addDebitTransferFromList(newState);
+		getThis().getDebitTransfer().setState(newState);
+	}
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
+		return TrueValue.getTheTrueValue();
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

@@ -14,7 +14,7 @@ public class DebitTransferNotExecutedProxi extends ViewProxi implements DebitTra
     @SuppressWarnings("unchecked")
     public DebitTransferNotExecutedView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> notExecuteds_string = (java.util.Vector<String>)resultTable.get("notExecuteds");
-        java.util.Vector<DebitTransferView> notExecuteds = ViewProxi.getProxiVector(notExecuteds_string, connectionKey);
+        java.util.Vector<DebitTransferTransactionView> notExecuteds = ViewProxi.getProxiVector(notExecuteds_string, connectionKey);
         DebitTransferNotExecutedView result$$ = new DebitTransferNotExecuted(notExecuteds, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
@@ -48,10 +48,10 @@ public class DebitTransferNotExecutedProxi extends ViewProxi implements DebitTra
         return -1;
     }
     
-    public java.util.Vector<DebitTransferView> getNotExecuteds()throws ModelException{
+    public java.util.Vector<DebitTransferTransactionView> getNotExecuteds()throws ModelException{
         return ((DebitTransferNotExecuted)this.getTheObject()).getNotExecuteds();
     }
-    public void setNotExecuteds(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+    public void setNotExecuteds(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         ((DebitTransferNotExecuted)this.getTheObject()).setNotExecuteds(newValue);
     }
     

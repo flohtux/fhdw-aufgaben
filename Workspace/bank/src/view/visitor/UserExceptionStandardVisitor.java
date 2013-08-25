@@ -14,11 +14,11 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handlePasswordException(PasswordException passwordException) throws ModelException{
         this.standardHandling(passwordException);
     }
-    public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{
-        this.standardHandling(invalidBankNumberException);
-    }
     public void handleNoPermissionToExecuteDebitTransferException(NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws ModelException{
         this.standardHandling(noPermissionToExecuteDebitTransferException);
+    }
+    public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{
+        this.standardHandling(invalidBankNumberException);
     }
     public void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException{
         this.standardHandling(closeAccountNoPossibleException);
@@ -29,11 +29,11 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException{
         this.standardHandling(restrictionException);
     }
-    public void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException{
-        this.standardHandling(invalidAccountNumberException);
-    }
     public void handleDebitNotGrantedException(DebitNotGrantedException debitNotGrantedException) throws ModelException{
         this.standardHandling(debitNotGrantedException);
+    }
+    public void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException{
+        this.standardHandling(invalidAccountNumberException);
     }
     protected abstract void standardHandling(UserException userException) throws ModelException;
 }

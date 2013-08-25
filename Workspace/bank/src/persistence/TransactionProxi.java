@@ -22,6 +22,12 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
         return 146;
     }
     
+    public PersistentDebitTransferListe getDebitTransfer() throws PersistenceException {
+        return ((PersistentTransaction)this.getTheObject()).getDebitTransfer();
+    }
+    public void setDebitTransfer(PersistentDebitTransferListe newValue) throws PersistenceException {
+        ((PersistentTransaction)this.getTheObject()).setDebitTransfer(newValue);
+    }
     public PersistentTransaction getThis() throws PersistenceException {
         return ((PersistentTransaction)this.getTheObject()).getThis();
     }
@@ -69,7 +75,7 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
         ((PersistentTransaction)this.getTheObject()).deregister(observee);
     }
     public void execute() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentTransaction)this.getTheObject()).execute();
     }
     public void execute(final Invoker invoker) 
@@ -88,12 +94,16 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).updateObservers(event);
     }
+    public void addToTransaction(final PersistentDebitTransfer debitTransfer) 
+				throws PersistenceException{
+        ((PersistentTransaction)this.getTheObject()).addToTransaction(debitTransfer);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentTransaction)this.getTheObject()).executeImplementation();
     }
     public void initializeOnCreation() 

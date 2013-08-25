@@ -459,6 +459,11 @@ public class Account extends PersistentObject implements PersistentAccount{
        getThis().getDebitTransferTransactions().add(template);
        return template;
     }
+    public PersistentTransaction createTransaction() 
+				throws PersistenceException{
+        PersistentTransaction transaction = Transaction.createTransaction();
+        return transaction;
+    }
     public PersistentTransfer createTransfer() 
 				throws PersistenceException{
 		PersistentTransfer transfer = Transfer.createTransfer();

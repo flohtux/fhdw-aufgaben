@@ -11,6 +11,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
         this.standardHandling(noRequestState);
     }
+    public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException{
+        this.standardHandling(debitTransferListe);
+    }
     public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException{
         this.standardHandling(currencyManager);
     }

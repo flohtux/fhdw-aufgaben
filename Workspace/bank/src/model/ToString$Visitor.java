@@ -165,13 +165,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handlePercent(PersistentPercent percent)
 			throws PersistenceException {
 		result = percent.getValue().multiply(new Fraction(100, 1)).formatDec(3) + PercentSign;
-		
 	}
 	@Override
 	public void handleTransaction(PersistentTransaction transaction)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Transaktion";
 	}
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
@@ -264,6 +262,13 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		this.result = "";
 	}
+	@Override
+	public void handleDebitTransferListe(
+			PersistentDebitTransferListe debitTransferListe)
+			throws PersistenceException {
+		this.result = "";		
+	}
+	
 	
 
 

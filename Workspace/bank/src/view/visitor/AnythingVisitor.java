@@ -6,6 +6,7 @@ import view.*;
 public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor{
     
     public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
+    public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     public void handlePercent(PercentView percent) throws ModelException;
     public void handleAmount(AmountView amount) throws ModelException;

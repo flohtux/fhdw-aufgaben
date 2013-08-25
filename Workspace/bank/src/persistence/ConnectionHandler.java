@@ -115,6 +115,7 @@ public class ConnectionHandler {
     public NoRequestStateFacade theNoRequestStateFacade;
     public StornoStateFacade theStornoStateFacade;
     public CurrencyManagerFacade theCurrencyManagerFacade;
+    public DebitTransferListeFacade theDebitTransferListeFacade;
     public CreateAccountCommandFacade theCreateAccountCommandFacade;
     public FixTransactionFeeFacade theFixTransactionFeeFacade;
     public InternalFeeFacade theInternalFeeFacade;
@@ -205,6 +206,7 @@ public class ConnectionHandler {
             this.theNoRequestStateFacade= new NoRequestStateFacade(this.schemaName, this.con);
             this.theStornoStateFacade= new StornoStateFacade(this.schemaName, this.con);
             this.theCurrencyManagerFacade= new CurrencyManagerFacade(this.schemaName, this.con);
+            this.theDebitTransferListeFacade= new DebitTransferListeFacade(this.schemaName, this.con);
             this.theCreateAccountCommandFacade= new CreateAccountCommandFacade(this.schemaName, this.con);
             this.theFixTransactionFeeFacade= new FixTransactionFeeFacade(this.schemaName, this.con);
             this.theInternalFeeFacade= new InternalFeeFacade(this.schemaName, this.con);

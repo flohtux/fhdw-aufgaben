@@ -8,7 +8,7 @@ import model.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class InvalidAccountNumberException extends model.UserException{
+public class InvalidAccountNumberException extends model.ExecuteException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -37,6 +37,18 @@ public class InvalidAccountNumberException extends model.UserException{
     }
     
     
+    public void accept(ExecuteExceptionVisitor visitor) throws PersistenceException {
+        visitor.handleInvalidAccountNumberException(this);
+    }
+    public <R> R accept(ExecuteExceptionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleInvalidAccountNumberException(this);
+    }
+    public <E extends UserException>  void accept(ExecuteExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleInvalidAccountNumberException(this);
+    }
+    public <R, E extends UserException> R accept(ExecuteExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleInvalidAccountNumberException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
         visitor.handleInvalidAccountNumberException(this);
     }

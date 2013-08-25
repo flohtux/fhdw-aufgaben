@@ -22,10 +22,10 @@ public class ExecuteTransferCommandProxi extends PersistentProxi implements Pers
         return 184;
     }
     
-    public PersistentDebitTransfer getDebitTransfer() throws PersistenceException {
+    public PersistentDebitTransferTransaction getDebitTransfer() throws PersistenceException {
         return ((PersistentExecuteTransferCommand)this.getTheObject()).getDebitTransfer();
     }
-    public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
+    public void setDebitTransfer(PersistentDebitTransferTransaction newValue) throws PersistenceException {
         ((PersistentExecuteTransferCommand)this.getTheObject()).setDebitTransfer(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {

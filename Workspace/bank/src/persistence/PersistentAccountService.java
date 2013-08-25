@@ -39,11 +39,13 @@ public interface PersistentAccountService extends PersistentService {
     
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException;
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer, final Invoker invoker) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void useTemplate(final PersistentTransfer transfer, final Invoker invoker) 
+				throws PersistenceException;
+    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException;
@@ -63,9 +65,11 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void createTemplate() 
 				throws PersistenceException;
+    public void createTransaction() 
+				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

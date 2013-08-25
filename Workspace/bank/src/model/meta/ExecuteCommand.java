@@ -205,16 +205,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
         try{
 			this.getCommandReceiver().execute();
 		}
-		catch(model.NoPermissionToExecuteDebitTransferException e){
-			this.commandException = e;
-		}
-		catch(model.DebitException e){
-			this.commandException = e;
-		}
-		catch(model.InvalidBankNumberException e){
-			this.commandException = e;
-		}
-		catch(model.InvalidAccountNumberException e){
+		catch(model.ExecuteException e){
 			this.commandException = e;
 		}
     }

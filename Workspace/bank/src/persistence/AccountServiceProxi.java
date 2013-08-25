@@ -120,7 +120,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer, invoker);
     }
@@ -147,6 +147,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void useTemplate(final PersistentTransfer transfer, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).useTemplate(transfer, invoker);
+    }
+    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
@@ -192,6 +196,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTemplate();
     }
+    public void createTransaction() 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createTransaction();
+    }
     public void createTransfer() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer();
@@ -200,7 +208,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer);
     }
