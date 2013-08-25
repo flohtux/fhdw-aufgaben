@@ -13,7 +13,14 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements T
     
     public TransactionView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
-        TransactionView result$$ = new Transaction((java.util.Date)timestamp, this.getId(), this.getClassId());
+        ViewProxi debitTransfer = null;
+        String debitTransfer$String = (String)resultTable.get("debitTransfer");
+        if (debitTransfer$String != null) {
+            common.ProxiInformation debitTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(debitTransfer$String);
+            debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
+            debitTransfer.setToString(debitTransfer$Info.getToString());
+        }
+        TransactionView result$$ = new Transaction((java.util.Date)timestamp,(DebitTransferListeView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -22,20 +29,34 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements T
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(this.getDebitTransfer() != null && index < this.getDebitTransfer().getTheObject().getChildCount())
+            return this.getDebitTransfer().getTheObject().getChild(index);
+        if(this.getDebitTransfer() != null) index = index - this.getDebitTransfer().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getDebitTransfer() == null ? 0 : this.getDebitTransfer().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        if (this.object == null) return this.getLeafInfo() == 0;
+        return true 
+            && (this.getDebitTransfer() == null ? true : this.getDebitTransfer().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getDebitTransfer() != null && this.getDebitTransfer().equals(child)) return result;
+        if(this.getDebitTransfer() != null) result = result + 1;
         return -1;
     }
     
+    public DebitTransferListeView getDebitTransfer()throws ModelException{
+        return ((Transaction)this.getTheObject()).getDebitTransfer();
+    }
+    public void setDebitTransfer(DebitTransferListeView newValue) throws ModelException {
+        ((Transaction)this.getTheObject()).setDebitTransfer(newValue);
+    }
     
     public void accept(DebitTransferTransactionVisitor visitor) throws ModelException {
         visitor.handleTransaction(this);

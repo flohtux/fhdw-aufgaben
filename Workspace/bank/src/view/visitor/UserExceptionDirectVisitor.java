@@ -11,23 +11,26 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handlePasswordException(PasswordException passwordException) throws ModelException;
     
-    public abstract void handleDebitException(DebitException debitException) throws ModelException;
-    
-    public void handleLimitViolatedException(LimitViolatedException limitViolatedException) throws ModelException{
-        this.handleDebitException(limitViolatedException);
-    }
-    public void handleDebitNotGrantedException(DebitNotGrantedException debitNotGrantedException) throws ModelException{
-        this.handleDebitException(debitNotGrantedException);
-    }
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
-    
-    public abstract void handleNoPermissionToExecuteDebitTransferException(NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws ModelException;
-    
-    public abstract void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException;
     
     public abstract void handleRestrictionException(RestrictionException restrictionException) throws ModelException;
     
-    public abstract void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException;
+    public abstract void handleExecuteException(ExecuteException executeException) throws ModelException;
     
+    public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{
+        this.handleExecuteException(invalidBankNumberException);
+    }
+    public void handleNoPermissionToExecuteDebitTransferException(NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws ModelException{
+        this.handleExecuteException(noPermissionToExecuteDebitTransferException);
+    }
+    public void handleLimitViolatedException(LimitViolatedException limitViolatedException) throws ModelException{
+        this.handleExecuteException(limitViolatedException);
+    }
+    public void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException{
+        this.handleExecuteException(invalidAccountNumberException);
+    }
+    public void handleDebitNotGrantedException(DebitNotGrantedException debitNotGrantedException) throws ModelException{
+        this.handleExecuteException(debitNotGrantedException);
+    }
     
 }

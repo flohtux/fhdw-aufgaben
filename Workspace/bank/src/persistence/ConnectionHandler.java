@@ -115,6 +115,7 @@ public class ConnectionHandler {
     public NoRequestStateFacade theNoRequestStateFacade;
     public StornoStateFacade theStornoStateFacade;
     public CurrencyManagerFacade theCurrencyManagerFacade;
+    public DebitTransferListeFacade theDebitTransferListeFacade;
     public CreateAccountCommandFacade theCreateAccountCommandFacade;
     public FixTransactionFeeFacade theFixTransactionFeeFacade;
     public InternalFeeFacade theInternalFeeFacade;
@@ -154,13 +155,13 @@ public class ConnectionHandler {
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public UseTemplateCommandFacade theUseTemplateCommandFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
+    public NotExecutedStateFacade theNotExecutedStateFacade;
     public EuroFacade theEuroFacade;
     public YenFacade theYenFacade;
     public TemplateStateFacade theTemplateStateFacade;
     public DebitTransferNotExecutedFacade theDebitTransferNotExecutedFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public LimitTypeFacade theLimitTypeFacade;
-    public NotExecutetStateFacade theNotExecutetStateFacade;
     public NotExecutableStateFacade theNotExecutableStateFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
     public TransactionFacade theTransactionFacade;
@@ -205,6 +206,7 @@ public class ConnectionHandler {
             this.theNoRequestStateFacade= new NoRequestStateFacade(this.schemaName, this.con);
             this.theStornoStateFacade= new StornoStateFacade(this.schemaName, this.con);
             this.theCurrencyManagerFacade= new CurrencyManagerFacade(this.schemaName, this.con);
+            this.theDebitTransferListeFacade= new DebitTransferListeFacade(this.schemaName, this.con);
             this.theCreateAccountCommandFacade= new CreateAccountCommandFacade(this.schemaName, this.con);
             this.theFixTransactionFeeFacade= new FixTransactionFeeFacade(this.schemaName, this.con);
             this.theInternalFeeFacade= new InternalFeeFacade(this.schemaName, this.con);
@@ -244,13 +246,13 @@ public class ConnectionHandler {
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
+            this.theNotExecutedStateFacade= new NotExecutedStateFacade(this.schemaName, this.con);
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
             this.theYenFacade= new YenFacade(this.schemaName, this.con);
             this.theTemplateStateFacade= new TemplateStateFacade(this.schemaName, this.con);
             this.theDebitTransferNotExecutedFacade= new DebitTransferNotExecutedFacade(this.schemaName, this.con);
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade(this.schemaName, this.con);
             this.theLimitTypeFacade= new LimitTypeFacade(this.schemaName, this.con);
-            this.theNotExecutetStateFacade= new NotExecutetStateFacade(this.schemaName, this.con);
             this.theNotExecutableStateFacade= new NotExecutableStateFacade(this.schemaName, this.con);
             this.theCommandExecuterFacade= new CommandExecuterFacade(this.schemaName, this.con);
             this.theTransactionFacade= new TransactionFacade(this.schemaName, this.con);

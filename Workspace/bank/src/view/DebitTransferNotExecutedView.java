@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface DebitTransferNotExecutedView extends Anything, AbstractViewRoot {
     
-    public java.util.Vector<DebitTransferView> getNotExecuteds()throws ModelException;
-    public void setNotExecuteds(java.util.Vector<DebitTransferView> newValue) throws ModelException ;
+    public java.util.Vector<DebitTransferTransactionView> getNotExecuteds()throws ModelException;
+    public void setNotExecuteds(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

@@ -61,9 +61,9 @@ public class ExecuteTransferCommandFacade{
                 callable.close();
                 return null;
             }
-            PersistentDebitTransfer debitTransfer = null;
+            PersistentDebitTransferTransaction debitTransfer = null;
             if (obj.getLong(2) != 0)
-                debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+                debitTransfer = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             Invoker invoker = null;
             if (obj.getLong(4) != 0)
                 invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
@@ -101,7 +101,7 @@ public class ExecuteTransferCommandFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void debitTransferSet(long ExecuteTransferCommandId, PersistentDebitTransfer debitTransferVal) throws PersistenceException {
+    public void debitTransferSet(long ExecuteTransferCommandId, PersistentDebitTransferTransaction debitTransferVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".ExctTrnsfrCMDFacade.dbtTrnsfrSet(?, ?, ?); end;");

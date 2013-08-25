@@ -12,6 +12,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
+    public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException;
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;

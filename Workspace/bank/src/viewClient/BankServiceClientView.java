@@ -725,19 +725,10 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				setVisible(false);
 				dispose();
 			}
-			catch(NoPermissionToExecuteDebitTransferException e) {
-				getStatusBar().setText(e.getMessage());
-			}
-			catch(DebitException e) {
-				getStatusBar().setText(e.getMessage());
-			}
-			catch(InvalidBankNumberException e) {
+			catch(ExecuteException e) {
 				getStatusBar().setText(e.getMessage());
 			}
 			catch(CloseAccountNoPossibleException e) {
-				getStatusBar().setText(e.getMessage());
-			}
-			catch(InvalidAccountNumberException e) {
 				getStatusBar().setText(e.getMessage());
 			}
 			

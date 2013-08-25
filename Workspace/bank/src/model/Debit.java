@@ -214,7 +214,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
-        getThis().setState(NotExecutetState.getTheNotExecutetState());
+        getThis().setState(NotExecutedState.getTheNotExecutedState());
         getThis().setStornoState(NoRequestState.getTheNoRequestState());
         
     }
@@ -226,7 +226,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     // Start of section that contains overridden operations only.
     
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}

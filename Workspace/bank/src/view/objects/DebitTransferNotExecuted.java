@@ -9,9 +9,9 @@ import view.visitor.*;
 
 public class DebitTransferNotExecuted extends ViewObject implements DebitTransferNotExecutedView{
     
-    protected java.util.Vector<DebitTransferView> notExecuteds;
+    protected java.util.Vector<DebitTransferTransactionView> notExecuteds;
     
-    public DebitTransferNotExecuted(java.util.Vector<DebitTransferView> notExecuteds,long id, long classId) {
+    public DebitTransferNotExecuted(java.util.Vector<DebitTransferTransactionView> notExecuteds,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.notExecuteds = notExecuteds;        
@@ -25,10 +25,10 @@ public class DebitTransferNotExecuted extends ViewObject implements DebitTransfe
         return getTypeId();
     }
     
-    public java.util.Vector<DebitTransferView> getNotExecuteds()throws ModelException{
+    public java.util.Vector<DebitTransferTransactionView> getNotExecuteds()throws ModelException{
         return this.notExecuteds;
     }
-    public void setNotExecuteds(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+    public void setNotExecuteds(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         this.notExecuteds = newValue;
     }
     

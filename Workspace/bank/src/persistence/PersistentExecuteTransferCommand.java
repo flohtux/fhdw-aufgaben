@@ -6,8 +6,8 @@ import model.visitor.*;
 
 public interface PersistentExecuteTransferCommand extends AccountServiceCommand, Anything, PersistentCommonDate, AbstractPersistentProxi {
     
-    public PersistentDebitTransfer getDebitTransfer() throws PersistenceException ;
-    public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
+    public PersistentDebitTransferTransaction getDebitTransfer() throws PersistenceException ;
+    public void setDebitTransfer(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentAccountService getCommandReceiver() throws PersistenceException ;

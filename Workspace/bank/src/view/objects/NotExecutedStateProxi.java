@@ -5,13 +5,13 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class NotExecutetStateProxi extends DebitTransferStateProxi implements NotExecutetStateView{
+public class NotExecutedStateProxi extends DebitTransferStateProxi implements NotExecutedStateView{
     
-    public NotExecutetStateProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
+    public NotExecutedStateProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
     }
     
-    public NotExecutetStateView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
+    public NotExecutedStateView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         ViewProxi debitTransfer = null;
         String debitTransfer$String = (String)resultTable.get("debitTransfer");
         if (debitTransfer$String != null) {
@@ -19,7 +19,7 @@ public class NotExecutetStateProxi extends DebitTransferStateProxi implements No
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NotExecutetStateView result$$ = new NotExecutetState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        NotExecutedStateView result$$ = new NotExecutedState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -44,28 +44,28 @@ public class NotExecutetStateProxi extends DebitTransferStateProxi implements No
     
     
     public void accept(DebitTransferStateVisitor visitor) throws ModelException {
-        visitor.handleNotExecutetState(this);
+        visitor.handleNotExecutedState(this);
     }
     public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleNotExecutetState(this);
+         visitor.handleNotExecutedState(this);
     }
     public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {
-        visitor.handleNotExecutetState(this);
+        visitor.handleNotExecutedState(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleNotExecutetState(this);
+         visitor.handleNotExecutedState(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     
     public boolean hasTransientFields(){

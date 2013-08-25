@@ -124,8 +124,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTemplateState(PersistentTemplateState templateState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Vorlage";
 	}
 	@Override
 	public void handleInternalFee(PersistentInternalFee internalFee)
@@ -134,8 +133,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleNotExecutetState(
-			PersistentNotExecutetState notExecutetState)
+	public void handleNotExecutedState(
+			PersistentNotExecutedState notExecutedState)
 			throws PersistenceException {
 		result = "Noch nicht versendet...";
 	}
@@ -166,13 +165,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handlePercent(PersistentPercent percent)
 			throws PersistenceException {
 		result = percent.getValue().multiply(new Fraction(100, 1)).formatDec(3) + PercentSign;
-		
 	}
 	@Override
 	public void handleTransaction(PersistentTransaction transaction)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Transaktion";
 	}
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
@@ -182,8 +179,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-//		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
-		this.result = "Überweisung";
+		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
 	}
 	@Override
 	public void handleSuccessfulStornoState(
@@ -266,6 +262,13 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		this.result = "";
 	}
+	@Override
+	public void handleDebitTransferListe(
+			PersistentDebitTransferListe debitTransferListe)
+			throws PersistenceException {
+		this.result = "";		
+	}
+	
 	
 
 

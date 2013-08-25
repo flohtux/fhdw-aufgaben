@@ -703,6 +703,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleCurrencyManager(view.CurrencyManagerView object){
         result = new CurrencyManagerDefaultDetailPanel(handler, object);
     }
+    public void handleDebitTransferListe(view.DebitTransferListeView object){
+        result = new DebitTransferListeDefaultDetailPanel(handler, object);
+    }
     public void handleFixTransactionFee(view.FixTransactionFeeView object){
         result = new FixTransactionFeeDefaultDetailPanel(handler, object);
     }
@@ -784,6 +787,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleErrorDisplay(view.ErrorDisplayView object){
         result = new ErrorDisplayDefaultDetailPanel(handler, object);
     }
+    public void handleNotExecutedState(view.NotExecutedStateView object){
+        result = new NotExecutedStateDefaultDetailPanel(handler, object);
+    }
     public void handleEuro(view.EuroView object){
         result = new EuroDefaultDetailPanel(handler, object);
     }
@@ -795,9 +801,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleDebitTransferNotExecuted(view.DebitTransferNotExecutedView object){
         result = new DebitTransferNotExecutedDefaultDetailPanel(handler, object);
-    }
-    public void handleNotExecutetState(view.NotExecutetStateView object){
-        result = new NotExecutetStateDefaultDetailPanel(handler, object);
     }
     public void handleNotExecutableState(view.NotExecutableStateView object){
         result = new NotExecutableStateDefaultDetailPanel(handler, object);
@@ -876,6 +879,22 @@ class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.CurrencyManagerView getAnything(){
         return (view.CurrencyManagerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitTransferListeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferListe$$debitTransfers = "DebitTransferListe$$debitTransfers";
+    
+    protected DebitTransferListeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferListeView getAnything(){
+        return (view.DebitTransferListeView)this.anything;
     }
 }
 
@@ -1396,6 +1415,20 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class NotExecutedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NotExecutedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NotExecutedStateView getAnything(){
+        return (view.NotExecutedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class EuroDefaultDetailPanel extends DefaultDetailPanel{
     
     protected EuroDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1454,20 +1487,6 @@ class DebitTransferNotExecutedDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class NotExecutetStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected NotExecutetStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.NotExecutetStateView getAnything(){
-        return (view.NotExecutetStateView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
     
     protected NotExecutableStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1485,6 +1504,7 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String Transaction$$debitTransfer = "Transaction$$debitTransfer";
     
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

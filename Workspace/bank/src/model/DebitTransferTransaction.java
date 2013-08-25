@@ -105,7 +105,7 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     
     
     public void execute() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         model.meta.DebitTransferTransactionExecuteMssg event = new model.meta.DebitTransferTransactionExecuteMssg(getThis());
 		event.execute();
 		getThis().updateObservers(event);

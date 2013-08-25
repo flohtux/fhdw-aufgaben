@@ -5,9 +5,6 @@ import view.*;
 
 public abstract class DebitTransferStateStandardVisitor implements DebitTransferStateVisitor {
     
-    public void handleNotExecutetState(NotExecutetStateView notExecutetState) throws ModelException{
-        this.standardHandling(notExecutetState);
-    }
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.standardHandling(executedState);
     }
@@ -19,6 +16,9 @@ public abstract class DebitTransferStateStandardVisitor implements DebitTransfer
     }
     public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
         this.standardHandling(successfulState);
+    }
+    public void handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException{
+        this.standardHandling(notExecutedState);
     }
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.standardHandling(templateState);

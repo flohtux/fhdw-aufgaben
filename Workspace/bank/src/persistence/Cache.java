@@ -283,6 +283,7 @@ public class Cache {
 		this.number2NameMap.put(177, "Debit");
 		this.number2NameMap.put(191, "DebitGrant");
 		this.number2NameMap.put(202, "DebitGrantListe");
+		this.number2NameMap.put(211, "DebitTransferListe");
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(208, "DebitTransferTemplate");
@@ -303,7 +304,7 @@ public class Cache {
 		this.number2NameMap.put(116, "NoLimit");
 		this.number2NameMap.put(104, "NoRequestState");
 		this.number2NameMap.put(144, "NotExecutableState");
-		this.number2NameMap.put(143, "NotExecutetState");
+		this.number2NameMap.put(210, "NotExecutedState");
 		this.number2NameMap.put(142, "NotSuccessfulState");
 		this.number2NameMap.put(134, "NotSuccessfulStornoState");
 		this.number2NameMap.put(112, "Percent");

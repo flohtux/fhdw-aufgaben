@@ -37,14 +37,14 @@ public class ExecuteTransferCommand extends PersistentObject implements Persiste
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
-    protected PersistentDebitTransfer debitTransfer;
+    protected PersistentDebitTransferTransaction debitTransfer;
     protected Invoker invoker;
     protected PersistentAccountService commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public ExecuteTransferCommand(PersistentDebitTransfer debitTransfer,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public ExecuteTransferCommand(PersistentDebitTransferTransaction debitTransfer,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.debitTransfer = debitTransfer;
@@ -85,15 +85,15 @@ public class ExecuteTransferCommand extends PersistentObject implements Persiste
         
     }
     
-    public PersistentDebitTransfer getDebitTransfer() throws PersistenceException {
+    public PersistentDebitTransferTransaction getDebitTransfer() throws PersistenceException {
         return this.debitTransfer;
     }
-    public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
+    public void setDebitTransfer(PersistentDebitTransferTransaction newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.debitTransfer)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(objectId, classId);
+        this.debitTransfer = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theExecuteTransferCommandFacade.debitTransferSet(this.getId(), newValue);

@@ -1,10 +1,10 @@
 package persistence;
 
-public class NotExecutetStateListEntryProxi extends NotExecutetStateProxi implements PersistentNotExecutetStateListEntryProxi {
+public class NotExecutedStateListEntryProxi extends NotExecutedStateProxi implements PersistentNotExecutedStateListEntryProxi {
 
   long entryId;
 
-  public NotExecutetStateListEntryProxi(long objectId, long entryId) {
+  public NotExecutedStateListEntryProxi(long objectId, long entryId) {
     super(objectId);
     this.entryId = entryId;
   }

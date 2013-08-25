@@ -155,6 +155,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTemplate();
     }
+    public PersistentTransaction createTransaction() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).createTransaction();
+    }
     public PersistentTransfer createTransfer() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();

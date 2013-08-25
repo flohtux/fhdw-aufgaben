@@ -49,6 +49,18 @@ public class DebitNotGrantedException extends model.DebitException{
     public <R, E extends UserException> R accept(DebitExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleDebitNotGrantedException(this);
     }
+    public void accept(ExecuteExceptionVisitor visitor) throws PersistenceException {
+        visitor.handleDebitNotGrantedException(this);
+    }
+    public <R> R accept(ExecuteExceptionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleDebitNotGrantedException(this);
+    }
+    public <E extends UserException>  void accept(ExecuteExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleDebitNotGrantedException(this);
+    }
+    public <R, E extends UserException> R accept(ExecuteExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleDebitNotGrantedException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
         visitor.handleDebitNotGrantedException(this);
     }

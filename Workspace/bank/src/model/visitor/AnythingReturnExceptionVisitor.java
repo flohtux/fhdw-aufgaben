@@ -12,6 +12,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException, E;
     public R handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
     public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
+    public R handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException, E;
     public R handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException, E;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public R handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;

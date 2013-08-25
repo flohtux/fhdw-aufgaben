@@ -315,7 +315,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.deregister(observee);
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentExecuteTransferCommand command = model.meta.ExecuteTransferCommand.createExecuteTransferCommand(now, now);
@@ -349,11 +349,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.updateObservers(event);
     }
-    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
+    public void useTemplate(final PersistentTransfer transfer, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentUseTemplateCommand command = model.meta.UseTemplateCommand.createUseTemplateCommand(now, now);
-		command.setDebitTransfer(debitTransfer);
+		command.setTransfer(transfer);
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
@@ -362,6 +362,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+				throws PersistenceException{
+        transaction.addToTransaction(debitTransfer);
+        getThis().signalChanged(true);
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
         getThis().getAccount().changeCurrency(trans, StringFACTORY.createObjectBySubTypeNameForCurrency(currency));
@@ -421,6 +426,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().signalChanged(true);
         
     }
+    public void createTransaction() 
+				throws PersistenceException{
+        PersistentTransaction transaction = getThis().getAccount().createTransaction();
+        getThis().getNotExecuted().getNotExecuteds().add(transaction);
+        getThis().signalChanged(true);
+    }
     public void createTransfer() 
 				throws PersistenceException{
     	PersistentTransfer transfer = getThis().getAccount().createTransfer();
@@ -430,7 +441,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void disconnected() 
 				throws PersistenceException{
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
     	debitTransfer.execute(getThis());
 //    	getThis().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
@@ -452,9 +463,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void useTemplate(final PersistentTransfer debitTransfer) 
+    public void useTemplate(final PersistentTransfer transfer) 
 				throws PersistenceException{
-        //TODO
+    	PersistentTransfer newTransfer = transfer.copy();
+    	newTransfer.setState(NotExecutedState.getTheNotExecutedState());
+    	getThis().getNotExecuted().getNotExecuteds().add(newTransfer);
+    	getThis().signalChanged(true);
     }
     
     

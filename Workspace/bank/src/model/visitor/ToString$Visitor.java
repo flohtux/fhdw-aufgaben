@@ -7,6 +7,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     
     public abstract void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException;
     public abstract void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException;
+    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public abstract void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException;
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
@@ -34,11 +35,11 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    public abstract void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException;
     public abstract void handleEuro(PersistentEuro euro) throws PersistenceException;
     public abstract void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException;
     public abstract void handleYen(PersistentYen yen) throws PersistenceException;
     public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
-    public abstract void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException;
     public abstract void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException;
     public abstract void handleTransaction(PersistentTransaction transaction) throws PersistenceException;
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;

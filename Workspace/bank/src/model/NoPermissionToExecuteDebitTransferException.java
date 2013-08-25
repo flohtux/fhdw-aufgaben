@@ -8,7 +8,7 @@ import model.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class NoPermissionToExecuteDebitTransferException extends model.UserException{
+public class NoPermissionToExecuteDebitTransferException extends model.ExecuteException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -37,6 +37,18 @@ public class NoPermissionToExecuteDebitTransferException extends model.UserExcep
     }
     
     
+    public void accept(ExecuteExceptionVisitor visitor) throws PersistenceException {
+        visitor.handleNoPermissionToExecuteDebitTransferException(this);
+    }
+    public <R> R accept(ExecuteExceptionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleNoPermissionToExecuteDebitTransferException(this);
+    }
+    public <E extends UserException>  void accept(ExecuteExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleNoPermissionToExecuteDebitTransferException(this);
+    }
+    public <R, E extends UserException> R accept(ExecuteExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleNoPermissionToExecuteDebitTransferException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
         visitor.handleNoPermissionToExecuteDebitTransferException(this);
     }

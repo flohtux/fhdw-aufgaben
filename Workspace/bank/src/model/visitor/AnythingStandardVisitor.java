@@ -23,14 +23,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.standardHandling(noRequestState);
     }
+    public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException{
+        this.standardHandling(debitTransferListe);
+    }
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException{
         this.standardHandling(currencyManager);
     }
-    public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
-        this.standardHandling(createAccountCommand);
-    }
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
+    }
+    public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
+        this.standardHandling(createAccountCommand);
     }
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
@@ -131,6 +134,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException{
         this.standardHandling(errorDisplay);
     }
+    public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
+        this.standardHandling(notExecutedState);
+    }
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
@@ -145,9 +151,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException{
         this.standardHandling(commandCoordinator);
-    }
-    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
-        this.standardHandling(notExecutetState);
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);

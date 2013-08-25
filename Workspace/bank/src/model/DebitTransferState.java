@@ -155,8 +155,8 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 					PersistentNotSuccessfulState notSuccessfulState)
 					throws PersistenceException {}
 			@Override
-			public void handleNotExecutetState(
-					PersistentNotExecutetState notExecutetState)
+			public void handleNotExecutedState(
+					PersistentNotExecutedState notExecutedState)
 					throws PersistenceException {
 				getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().add(getThis().getDebitTransfer());
 			}
@@ -201,17 +201,18 @@ public abstract class DebitTransferState extends PersistentObject implements Per
     				throws PersistenceException {
     		}
     		@Override
-    		public void handleNotExecutetState(
-    				PersistentNotExecutetState notExecutetState)
+    		public void handleNotExecutedState(
+    				PersistentNotExecutedState notExecutedState)
     				throws PersistenceException {
-    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
-    				@Override
-    				public boolean test(PersistentDebitTransfer argument)
-    						throws PersistenceException {
-    					return argument.equals(getThis().getDebitTransfer());
-    				}
-    			});
+    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+					@Override
+					public boolean test(PersistentDebitTransferTransaction argument)
+							throws PersistenceException {
+						return argument.equals(getThis().getDebitTransfer());
+					}
+				});
     		}
+    			
     		@Override
     		public void handleNotExecutableState(
     				PersistentNotExecutableState notExecutableState)
@@ -255,16 +256,16 @@ public abstract class DebitTransferState extends PersistentObject implements Per
     				throws PersistenceException {
     		}
     		@Override
-    		public void handleNotExecutetState(
-    				PersistentNotExecutetState notExecutetState)
+    		public void handleNotExecutedState(
+    				PersistentNotExecutedState notExecutedState)
     				throws PersistenceException {
-    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
-    				@Override
-    				public boolean test(PersistentDebitTransfer argument)
-    						throws PersistenceException {
+    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+					@Override
+					public boolean test(PersistentDebitTransferTransaction argument)
+							throws PersistenceException {
     					return argument.equals(getThis().getDebitTransfer());
-    				}
-    			});
+					}
+				});
     		}
     		@Override
     		public void handleNotExecutableState(

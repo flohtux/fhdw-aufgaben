@@ -7,52 +7,48 @@ import view.visitor.*;
 
 /* Additional import section end */
 
-public class NotExecutetState extends view.objects.DebitTransferState implements NotExecutetStateView{
+public class DebitTransferListe extends ViewObject implements DebitTransferListeView{
     
+    protected java.util.Vector<DebitTransferView> debitTransfers;
     
-    public NotExecutetState(DebitTransferView debitTransfer,long id, long classId) {
+    public DebitTransferListe(java.util.Vector<DebitTransferView> debitTransfers,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitTransferView)debitTransfer,id, classId);        
+        super(id, classId);
+        this.debitTransfers = debitTransfers;        
     }
     
     static public long getTypeId() {
-        return 143;
+        return 211;
     }
     
     public long getClassId() {
         return getTypeId();
     }
     
+    public java.util.Vector<DebitTransferView> getDebitTransfers()throws ModelException{
+        return this.debitTransfers;
+    }
+    public void setDebitTransfers(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+        this.debitTransfers = newValue;
+    }
     
-    public void accept(DebitTransferStateVisitor visitor) throws ModelException {
-        visitor.handleNotExecutetState(this);
-    }
-    public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleNotExecutetState(this);
-    }
-    public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleNotExecutetState(this);
-    }
-    public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleNotExecutetState(this);
-    }
     public void accept(AnythingVisitor visitor) throws ModelException {
-        visitor.handleNotExecutetState(this);
+        visitor.handleDebitTransferListe(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleDebitTransferListe(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleNotExecutetState(this);
+         visitor.handleDebitTransferListe(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleDebitTransferListe(this);
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitTransferView debitTransfer = this.getDebitTransfer();
-        if (debitTransfer != null) {
-            ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
+        java.util.Vector<?> debitTransfers = this.getDebitTransfers();
+        if (debitTransfers != null) {
+            ViewObject.resolveVectorProxies(debitTransfers, resultTable);
         }
         
     }
@@ -60,17 +56,26 @@ public class NotExecutetState extends view.objects.DebitTransferState implements
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index < this.getDebitTransfers().size()) return new DebitTransfersDebitTransferListeWrapper(this, originalIndex, (ViewRoot)this.getDebitTransfers().get(index));
+        index = index - this.getDebitTransfers().size();
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getDebitTransfers().size());
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getDebitTransfers().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        java.util.Iterator<?> getDebitTransfersIterator = this.getDebitTransfers().iterator();
+        while(getDebitTransfersIterator.hasNext()){
+            if(getDebitTransfersIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     public int getRowCount(){
