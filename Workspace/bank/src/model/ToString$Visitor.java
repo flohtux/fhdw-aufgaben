@@ -124,8 +124,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTemplateState(PersistentTemplateState templateState)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = "Vorlage";
 	}
 	@Override
 	public void handleInternalFee(PersistentInternalFee internalFee)
@@ -182,8 +181,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-//		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
-		this.result = "Überweisung";
+		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
 	}
 	@Override
 	public void handleSuccessfulStornoState(
