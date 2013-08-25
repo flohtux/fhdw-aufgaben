@@ -4,9 +4,9 @@ import model.UserException;
 
 import model.visitor.*;
 
-public interface PersistentNotExecutetState extends PersistentDebitTransferState {
+public interface PersistentNotExecutedState extends PersistentDebitTransferState {
     
-    public PersistentNotExecutetState getThis() throws PersistenceException ;
+    public PersistentNotExecutedState getThis() throws PersistenceException ;
     
     public void accept(DebitTransferStateVisitor visitor) throws PersistenceException;
     public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException;

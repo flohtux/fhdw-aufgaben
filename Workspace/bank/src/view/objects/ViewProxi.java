@@ -48,7 +48,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [109];
+		proxiFactories = new ProxiFactory [110];
         proxiFactories[65] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new FalseValueProxi(objectId, classId, connectionKey);
@@ -199,6 +199,11 @@ public abstract class ViewProxi extends ViewRoot {
                 return new ErrorDisplayProxi(objectId, classId, connectionKey);
             }
         };
+        proxiFactories[109] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NotExecutedStateProxi(objectId, classId, connectionKey);
+            }
+        };
         proxiFactories[36] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new EuroProxi(objectId, classId, connectionKey);
@@ -217,11 +222,6 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[99] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new DebitTransferNotExecutedProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[42] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new NotExecutetStateProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[43] = new ProxiFactory(){

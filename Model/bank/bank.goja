@@ -69,8 +69,8 @@ server AccountService extends Service {
 	DebitTransferNotExecuted notExecuted;
 	DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
-	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer checked) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
-	active void useTemplate@@Vorlage_verwenden(Transfer debitTransfer);
+	active void executeTransfer@@Überweisung_abschicken(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	active void useTemplate@@Vorlage_verwenden(Transfer transfer);
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);
 	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans, Fraction newAmount);
@@ -195,7 +195,9 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 	abstract Money fetchRealMoney();
 }
 
-class Transfer extends DebitTransfer {}
+class Transfer extends DebitTransfer {
+	Transfer copy();
+}
 class Debit extends DebitTransfer {}
 
 class Transaction extends DebitTransferTransaction {}
@@ -206,7 +208,7 @@ class DebitGrant {
 	prior LimitType limits;
 }
 
-abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulState##NotSucState,TemplateState,ExecutedState,NotExecutetState,NotExecutableState){
+abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulState##NotSucState,TemplateState,ExecutedState,NotExecutedState,NotExecutableState){
 	BooleanValue isExecutable();
 	void changeState(DebitTransferState newState);
 	void removeDebitTransferFromList();

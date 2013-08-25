@@ -784,6 +784,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleErrorDisplay(view.ErrorDisplayView object){
         result = new ErrorDisplayDefaultDetailPanel(handler, object);
     }
+    public void handleNotExecutedState(view.NotExecutedStateView object){
+        result = new NotExecutedStateDefaultDetailPanel(handler, object);
+    }
     public void handleEuro(view.EuroView object){
         result = new EuroDefaultDetailPanel(handler, object);
     }
@@ -795,9 +798,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleDebitTransferNotExecuted(view.DebitTransferNotExecutedView object){
         result = new DebitTransferNotExecutedDefaultDetailPanel(handler, object);
-    }
-    public void handleNotExecutetState(view.NotExecutetStateView object){
-        result = new NotExecutetStateDefaultDetailPanel(handler, object);
     }
     public void handleNotExecutableState(view.NotExecutableStateView object){
         result = new NotExecutableStateDefaultDetailPanel(handler, object);
@@ -1396,6 +1396,20 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class NotExecutedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NotExecutedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NotExecutedStateView getAnything(){
+        return (view.NotExecutedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class EuroDefaultDetailPanel extends DefaultDetailPanel{
     
     protected EuroDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1450,20 +1464,6 @@ class DebitTransferNotExecutedDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DebitTransferNotExecutedView getAnything(){
         return (view.DebitTransferNotExecutedView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class NotExecutetStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected NotExecutetStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.NotExecutetStateView getAnything(){
-        return (view.NotExecutetStateView)this.anything;
     }
 }
 

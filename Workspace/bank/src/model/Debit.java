@@ -214,7 +214,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
-        getThis().setState(NotExecutetState.getTheNotExecutetState());
+        getThis().setState(NotExecutedState.getTheNotExecutedState());
         getThis().setStornoState(NoRequestState.getTheNoRequestState());
         
     }

@@ -46,9 +46,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
-    public void handleNotExecutetState(NotExecutetStateView notExecutetState) throws ModelException{
-        this.handleDebitTransferState(notExecutetState);
-    }
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.handleDebitTransferState(executedState);
     }
@@ -60,6 +57,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
         this.handleDebitTransferState(successfulState);
+    }
+    public void handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException{
+        this.handleDebitTransferState(notExecutedState);
     }
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.handleDebitTransferState(templateState);

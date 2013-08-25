@@ -22,7 +22,7 @@ import persistence.PersistentBooleanValue;
 import persistence.PersistentDebit;
 import persistence.PersistentExecutedState;
 import persistence.PersistentNotExecutableState;
-import persistence.PersistentNotExecutetState;
+import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
@@ -245,7 +245,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 						
 					}
 					@Override
-					public void handleNotExecutetState(NotExecutetStateView notExecutetState)
+					public void handleNotExecutedState(NotExecutedStateView notExecutedState)
 							throws ModelException {
 						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
 							@Override
@@ -388,7 +388,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 					}
 					
 					@Override
-					public void handleNotExecutetState(NotExecutetStateView notExecutetState)
+					public void handleNotExecutedState(NotExecutedStateView notExecutedState)
 							throws ModelException {
 						
 						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
@@ -794,48 +794,46 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     
                 });
                 result.add(item);
-                if (this.filterExecuteTransfer((DebitTransferView) selected)) {
-                    item = new javax.swing.JMenuItem();
-                    item.setText("Überweisung abschicken");
-                    item.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                                try {
-                                    getConnection().executeTransfer((DebitTransferView)selected);
-                                    getConnection().setEagerRefresh();
-                                }catch(ModelException me){
-                                    handleException(me);
-                                }catch (NoPermissionToExecuteDebitTransferException userException){
-                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                    view.setLocationRelativeTo(getNavigationPanel());
-                                    view.setVisible(true);
-                                    view.repaint();
-                                    getConnection().setEagerRefresh();
-                                }catch (InvalidBankNumberException userException){
-                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                    view.setLocationRelativeTo(getNavigationPanel());
-                                    view.setVisible(true);
-                                    view.repaint();
-                                    getConnection().setEagerRefresh();
-                                }catch (LimitViolatedException userException){
-                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                    view.setLocationRelativeTo(getNavigationPanel());
-                                    view.setVisible(true);
-                                    view.repaint();
-                                    getConnection().setEagerRefresh();
-                                }catch (InvalidAccountNumberException userException){
-                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                    view.setLocationRelativeTo(getNavigationPanel());
-                                    view.setVisible(true);
-                                    view.repaint();
-                                    getConnection().setEagerRefresh();
-                                }
+                item = new javax.swing.JMenuItem();
+                item.setText("Überweisung abschicken");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().executeTransfer((DebitTransferView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }catch (NoPermissionToExecuteDebitTransferException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
+                            }catch (InvalidBankNumberException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
+                            }catch (LimitViolatedException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
+                            }catch (InvalidAccountNumberException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
                             }
                         }
-                        
-                    });
-                    result.add(item);
-                }
+                    }
+                    
+                });
+                result.add(item);
                 item = new javax.swing.JMenuItem();
                 item.setText("Überweisungsbetrag ändern ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {

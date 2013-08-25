@@ -95,6 +95,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException{
         this.standardHandling(errorDisplay);
     }
+    public void handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException{
+        this.standardHandling(notExecutedState);
+    }
     public void handleEuro(EuroView euro) throws ModelException{
         this.standardHandling(euro);
     }
@@ -106,9 +109,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException{
         this.standardHandling(debitTransferNotExecuted);
-    }
-    public void handleNotExecutetState(NotExecutetStateView notExecutetState) throws ModelException{
-        this.standardHandling(notExecutetState);
     }
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);

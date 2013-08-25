@@ -134,8 +134,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleNotExecutetState(
-			PersistentNotExecutetState notExecutetState)
+	public void handleNotExecutedState(
+			PersistentNotExecutedState notExecutedState)
 			throws PersistenceException {
 		result = "Noch nicht versendet...";
 	}

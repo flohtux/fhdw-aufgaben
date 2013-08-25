@@ -48,9 +48,6 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
-    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
-        this.handleDebitTransferState(notExecutetState);
-    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.handleDebitTransferState(executedState);
     }
@@ -62,6 +59,9 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
         this.handleDebitTransferState(successfulState);
+    }
+    public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
+        this.handleDebitTransferState(notExecutedState);
     }
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.handleDebitTransferState(templateState);

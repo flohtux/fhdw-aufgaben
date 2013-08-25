@@ -2,7 +2,7 @@ package view;
 
 import view.visitor.*;
 
-public interface NotExecutetStateView extends DebitTransferStateView {
+public interface NotExecutedStateView extends DebitTransferStateView {
     
     
     public void accept(DebitTransferStateVisitor visitor) throws ModelException;

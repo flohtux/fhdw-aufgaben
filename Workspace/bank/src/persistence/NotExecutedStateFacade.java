@@ -5,36 +5,36 @@ import model.*;
 import java.sql.*;
 import oracle.jdbc.*;
 
-public class NotExecutetStateFacade{
+public class NotExecutedStateFacade{
 
 	private String schemaName;
 	private Connection con;
 
-	public NotExecutetStateFacade(String schemaName, Connection con) {
+	public NotExecutedStateFacade(String schemaName, Connection con) {
 		this.schemaName = schemaName;
 		this.con = con;
 	}
 
-    public NotExecutetStateProxi getTheNotExecutetState() throws PersistenceException {
+    public NotExecutedStateProxi getTheNotExecutedState() throws PersistenceException {
         CallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExcttSttFacade.getTheNtExcttStt; end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExctdSttFacade.getTheNtExctdStt; end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            return (NotExecutetStateProxi)PersistentProxi.createProxi(id, 143);
+            return (NotExecutedStateProxi)PersistentProxi.createProxi(id, 210);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
     
-    public NotExecutetState getNotExecutetState(long NotExecutetStateId) throws PersistenceException{
+    public NotExecutedState getNotExecutedState(long NotExecutedStateId) throws PersistenceException{
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExcttSttFacade.getNtExcttStt(?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExctdSttFacade.getNtExctdStt(?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
-            callable.setLong(2, NotExecutetStateId);
+            callable.setLong(2, NotExecutedStateId);
             callable.execute();
             ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
             if (!obj.next()) {
@@ -48,13 +48,13 @@ public class NotExecutetStateFacade{
             PersistentDebitTransferState This = null;
             if (obj.getLong(4) != 0)
                 This = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            NotExecutetState result = new NotExecutetState(subService,
+            NotExecutedState result = new NotExecutedState(subService,
                                                            This,
-                                                           NotExecutetStateId);
+                                                           NotExecutedStateId);
             obj.close();
             callable.close();
-            NotExecutetStateICProxi inCache = (NotExecutetStateICProxi)Cache.getTheCache().put(result);
-            NotExecutetState objectInCache = (NotExecutetState)inCache.getTheObject();
+            NotExecutedStateICProxi inCache = (NotExecutedStateICProxi)Cache.getTheCache().put(result);
+            NotExecutedState objectInCache = (NotExecutedState)inCache.getTheObject();
             if (objectInCache == result)result.initializeOnInstantiation();
             return objectInCache;
         }catch(SQLException se) {

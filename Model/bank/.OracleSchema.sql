@@ -544,9 +544,9 @@ create sequence SUsTmpltCMD nocache;
 create table UsTmpltCMD(
     id number primary key,
     Cls number not null,
-    UsTmpltCMDDbtTrnsfr number,
-    UsTmpltCMDDbtTrnsfrCls number,
-    constraint FUsTmpltCMDDbtTrnsfr foreign key (UsTmpltCMDDbtTrnsfrCls) references Cls (id),
+    UsTmpltCMDTrnsfr number,
+    UsTmpltCMDTrnsfrCls number,
+    constraint FUsTmpltCMDTrnsfr foreign key (UsTmpltCMDTrnsfrCls) references Cls (id),
     UsTmpltCMDInvoker number,
     UsTmpltCMDInvokerCls number,
     constraint FUsTmpltCMDInvoker foreign key (UsTmpltCMDInvokerCls) references Cls (id),

@@ -7,16 +7,16 @@ import view.visitor.*;
 
 /* Additional import section end */
 
-public class NotExecutetState extends view.objects.DebitTransferState implements NotExecutetStateView{
+public class NotExecutedState extends view.objects.DebitTransferState implements NotExecutedStateView{
     
     
-    public NotExecutetState(DebitTransferView debitTransfer,long id, long classId) {
+    public NotExecutedState(DebitTransferView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((DebitTransferView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
-        return 143;
+        return 210;
     }
     
     public long getClassId() {
@@ -25,28 +25,28 @@ public class NotExecutetState extends view.objects.DebitTransferState implements
     
     
     public void accept(DebitTransferStateVisitor visitor) throws ModelException {
-        visitor.handleNotExecutetState(this);
+        visitor.handleNotExecutedState(this);
     }
     public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleNotExecutetState(this);
+         visitor.handleNotExecutedState(this);
     }
     public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     public void accept(AnythingVisitor visitor) throws ModelException {
-        visitor.handleNotExecutetState(this);
+        visitor.handleNotExecutedState(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleNotExecutetState(this);
+         visitor.handleNotExecutedState(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleNotExecutetState(this);
+         return visitor.handleNotExecutedState(this);
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {

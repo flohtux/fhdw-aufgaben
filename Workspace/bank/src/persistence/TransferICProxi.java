@@ -104,6 +104,10 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentTransfer copy() 
+				throws PersistenceException{
+        return ((PersistentTransfer)this.getTheObject()).copy();
+    }
     public void executeImplementation() 
 				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentTransfer)this.getTheObject()).executeImplementation();

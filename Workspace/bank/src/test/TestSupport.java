@@ -43,11 +43,11 @@ public class TestSupport {
         model.Dollar.reset$For$Test = true;
         model.Franken.reset$For$Test = true;
         model.RequestState.reset$For$Test = true;
+        model.NotExecutedState.reset$For$Test = true;
         model.Euro.reset$For$Test = true;
         model.Yen.reset$For$Test = true;
         model.TemplateState.reset$For$Test = true;
         model.meta.CommandCoordinator.reset$For$Test = true;
-        model.NotExecutetState.reset$For$Test = true;
         model.NotExecutableState.reset$For$Test = true;
         model.Pfund.reset$For$Test = true;
         model.NotSuccessfulStornoState.reset$For$Test = true;
