@@ -128,9 +128,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.handleCommonDate(useTemplateCommand);
     }
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException{
-        this.handleCommonDate(executeTransferCommand);
-    }
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.handleCommonDate(changeNameCommand);
     }

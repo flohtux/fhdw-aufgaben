@@ -68,7 +68,7 @@ public class NotExecutedStateProxi extends DebitTransferStateProxi implements Pe
 				throws PersistenceException{
         ((PersistentNotExecutedState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentDebitTransferTransaction getDebitTransfer() 
 				throws PersistenceException{
         return ((PersistentNotExecutedState)this.getTheObject()).getDebitTransfer();
     }

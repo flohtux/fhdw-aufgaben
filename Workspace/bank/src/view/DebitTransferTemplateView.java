@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface DebitTransferTemplateView extends Anything, AbstractViewRoot {
     
-    public java.util.Vector<DebitTransferView> getTemplates()throws ModelException;
-    public void setTemplates(java.util.Vector<DebitTransferView> newValue) throws ModelException ;
+    public java.util.Vector<DebitTransferTransactionView> getTemplates()throws ModelException;
+    public void setTemplates(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

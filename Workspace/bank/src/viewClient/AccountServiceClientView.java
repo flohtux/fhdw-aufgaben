@@ -716,17 +716,15 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
             }
             
         });result.add(currentButton);
-        currentButton = new javax.swing.JButton("Neue Vorlage");
+        currentButton = new javax.swing.JButton("Neue Vorlage ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Vorlage" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                    try {
-                        getConnection().createTemplate();
-                        getConnection().setEagerRefresh();
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
+                AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard wizard = new AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard("Neue Vorlage");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
             }
             
         });result.add(currentButton);
@@ -794,17 +792,15 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
-        item.setText("(S) Neue Vorlage");
+        item.setText("(S) Neue Vorlage ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Neue Vorlage" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                    try {
-                        getConnection().createTemplate();
-                        getConnection().setEagerRefresh();
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
+                AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard wizard = new AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard("Neue Vorlage");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
             }
             
         });
@@ -874,19 +870,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                 view.setVisible(true);
                                 view.repaint();
                                 getConnection().setEagerRefresh();
-                            }catch (InvalidBankNumberException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (LimitViolatedException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (InvalidAccountNumberException userException){
+                            }catch (ExecuteException userException){
                                 ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
                                 view.setLocationRelativeTo(getNavigationPanel());
                                 view.setVisible(true);
@@ -1417,6 +1401,44 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard extends Wizard {
+
+		protected AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceCreateTemplateDebitTransferTransactionSUBTYPENameMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().createTemplate(((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
+		}	
+		protected void handleDependencies(int i) {
 		}
 		
 		

@@ -36,7 +36,6 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleBank(PersistentBank bank) throws PersistenceException;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
-    public R handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
 }

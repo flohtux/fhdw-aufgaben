@@ -19,7 +19,7 @@ public class NotExecutedStateProxi extends DebitTransferStateProxi implements No
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NotExecutedStateView result$$ = new NotExecutedState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        NotExecutedStateView result$$ = new NotExecutedState((DebitTransferTransactionView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

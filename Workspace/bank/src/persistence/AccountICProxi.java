@@ -151,9 +151,9 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createDebit();
     }
-    public PersistentTransfer createTemplate() 
+    public PersistentDebitTransferTransaction createTemplate(final String type) 
 				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).createTemplate();
+        return ((PersistentAccount)this.getTheObject()).createTemplate(type);
     }
     public PersistentTransaction createTransaction() 
 				throws PersistenceException{

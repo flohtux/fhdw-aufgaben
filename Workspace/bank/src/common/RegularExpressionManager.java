@@ -4,6 +4,9 @@ import expressions.RegularExpressionHandler;
 
 public class RegularExpressionManager {
 
+    public static RegularExpressionHandler debitTransferTransactionSUBTYPEName = new RegularExpressionHandler( "[(Transaction)" + 
+		"(Transfer)" + 
+		"(Debit)]" );
     public static RegularExpressionHandler currencySUBTYPEName = new RegularExpressionHandler( "[(Dollar)" + 
 		"(Pfund)" + 
 		"(Franken)" + 

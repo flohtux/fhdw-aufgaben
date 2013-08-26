@@ -14,7 +14,7 @@ public class DebitTransferSuccessfulProxi extends ViewProxi implements DebitTran
     @SuppressWarnings("unchecked")
     public DebitTransferSuccessfulView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> successfuls_string = (java.util.Vector<String>)resultTable.get("successfuls");
-        java.util.Vector<DebitTransferView> successfuls = ViewProxi.getProxiVector(successfuls_string, connectionKey);
+        java.util.Vector<DebitTransferTransactionView> successfuls = ViewProxi.getProxiVector(successfuls_string, connectionKey);
         DebitTransferSuccessfulView result$$ = new DebitTransferSuccessful(successfuls, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
@@ -48,10 +48,10 @@ public class DebitTransferSuccessfulProxi extends ViewProxi implements DebitTran
         return -1;
     }
     
-    public java.util.Vector<DebitTransferView> getSuccessfuls()throws ModelException{
+    public java.util.Vector<DebitTransferTransactionView> getSuccessfuls()throws ModelException{
         return ((DebitTransferSuccessful)this.getTheObject()).getSuccessfuls();
     }
-    public void setSuccessfuls(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+    public void setSuccessfuls(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         ((DebitTransferSuccessful)this.getTheObject()).setSuccessfuls(newValue);
     }
     

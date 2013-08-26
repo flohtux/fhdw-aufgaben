@@ -68,7 +68,7 @@ public class NotSuccessfulStateICProxi extends DebitTransferStateICProxi impleme
 				throws PersistenceException{
         ((PersistentNotSuccessfulState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentDebitTransferTransaction getDebitTransfer() 
 				throws PersistenceException{
         return ((PersistentNotSuccessfulState)this.getTheObject()).getDebitTransfer();
     }

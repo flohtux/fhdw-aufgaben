@@ -10,9 +10,9 @@ import view.visitor.*;
 public class Debit extends view.objects.DebitTransfer implements DebitView{
     
     
-    public Debit(java.util.Date timestamp,long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,String subject,DebitTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public Debit(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,String subject,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitTransferStateView)state,(StornoStateView)stornoState,id, classId);        
+        super((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(String)subject,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -66,13 +66,13 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
         if (sender != null) {
             ((ViewProxi)sender).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(sender.getClassId(), sender.getId())));
         }
-        MoneyView money = this.getMoney();
-        if (money != null) {
-            ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
-        }
         DebitTransferStateView state = this.getState();
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
+        MoneyView money = this.getMoney();
+        if (money != null) {
+            ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
         StornoStateView stornoState = this.getStornoState();
         if (stornoState != null) {
@@ -85,7 +85,7 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
         return null;
     }
@@ -107,13 +107,13 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
         return 0;
     }
     public int getReceiverAccountNumberIndex() throws ModelException {
-        return 0 + 1;
+        return 0 + 1 + (this.getState() == null ? 0 : 1);
     }
     public int getReceiverBankNumberIndex() throws ModelException {
-        return 0 + 1 + 1;
+        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1;
     }
     public int getSubjectIndex() throws ModelException {
-        return 0 + 1 + 1 + 1;
+        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1 + 1;
     }
     public int getRowCount(){
         return 0 

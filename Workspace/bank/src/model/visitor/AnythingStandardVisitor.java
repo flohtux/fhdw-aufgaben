@@ -29,11 +29,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException{
         this.standardHandling(currencyManager);
     }
-    public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
-        this.standardHandling(fixTransactionFee);
-    }
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.standardHandling(createAccountCommand);
+    }
+    public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
+        this.standardHandling(fixTransactionFee);
     }
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
@@ -181,9 +181,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException{
         this.standardHandling(debitGrant);
-    }
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException{
-        this.standardHandling(executeTransferCommand);
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);

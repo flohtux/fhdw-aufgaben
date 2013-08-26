@@ -19,7 +19,7 @@ public class SuccessfulStateProxi extends DebitTransferStateProxi implements Suc
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        SuccessfulStateView result$$ = new SuccessfulState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        SuccessfulStateView result$$ = new SuccessfulState((DebitTransferTransactionView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

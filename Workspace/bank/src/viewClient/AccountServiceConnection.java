@@ -230,9 +230,10 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void createTemplate() throws ModelException{
+    public synchronized void createTemplate(String type) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
+            parameters.add(type);
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "createTemplate", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
@@ -281,7 +282,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void executeTransfer(DebitTransferTransactionView debitTransfer) throws ModelException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, LimitViolatedException, InvalidAccountNumberException{
+    public synchronized void executeTransfer(DebitTransferTransactionView debitTransfer) throws ModelException, NoPermissionToExecuteDebitTransferException, ExecuteException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (debitTransfer == null){
@@ -295,10 +296,14 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -178)
                     throw NoPermissionToExecuteDebitTransferException.fromHashtableToNoPermissionToExecuteDebitTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
-                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)
                     throw LimitViolatedException.fromHashtableToLimitViolatedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -192)
+                    throw DebitNotGrantedException.fromHashtableToDebitNotGrantedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -178)
+                    throw NoPermissionToExecuteDebitTransferException.fromHashtableToNoPermissionToExecuteDebitTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
+                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
                     throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);

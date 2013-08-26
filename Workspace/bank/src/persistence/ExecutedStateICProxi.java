@@ -68,7 +68,7 @@ public class ExecutedStateICProxi extends DebitTransferStateICProxi implements P
 				throws PersistenceException{
         ((PersistentExecutedState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentDebitTransferTransaction getDebitTransfer() 
 				throws PersistenceException{
         return ((PersistentExecutedState)this.getTheObject()).getDebitTransfer();
     }

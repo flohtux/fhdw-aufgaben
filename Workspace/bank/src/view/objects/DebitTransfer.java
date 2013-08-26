@@ -10,21 +10,17 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
-    protected AccountView sender;
     protected MoneyView money;
     protected String subject;
-    protected DebitTransferStateView state;
     protected StornoStateView stornoState;
     
-    public DebitTransfer(java.util.Date timestamp,long receiverAccountNumber,long receiverBankNumber,AccountView sender,MoneyView money,String subject,DebitTransferStateView state,StornoStateView stornoState,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,String subject,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,id, classId);
+        super((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
-        this.sender = sender;
         this.money = money;
         this.subject = subject;
-        this.state = state;
         this.stornoState = stornoState;        
     }
     
@@ -40,12 +36,6 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     public void setReceiverBankNumber(long newValue) throws ModelException {
         this.receiverBankNumber = newValue;
     }
-    public AccountView getSender()throws ModelException{
-        return this.sender;
-    }
-    public void setSender(AccountView newValue) throws ModelException {
-        this.sender = newValue;
-    }
     public MoneyView getMoney()throws ModelException{
         return this.money;
     }
@@ -57,12 +47,6 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     }
     public void setSubject(String newValue) throws ModelException {
         this.subject = newValue;
-    }
-    public DebitTransferStateView getState()throws ModelException{
-        return this.state;
-    }
-    public void setState(DebitTransferStateView newValue) throws ModelException {
-        this.state = newValue;
     }
     public StornoStateView getStornoState()throws ModelException{
         return this.stornoState;
@@ -77,13 +61,13 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         if (sender != null) {
             ((ViewProxi)sender).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(sender.getClassId(), sender.getId())));
         }
-        MoneyView money = this.getMoney();
-        if (money != null) {
-            ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
-        }
         DebitTransferStateView state = this.getState();
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
+        MoneyView money = this.getMoney();
+        if (money != null) {
+            ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
         StornoStateView stornoState = this.getStornoState();
         if (stornoState != null) {
@@ -96,7 +80,7 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
         return null;
     }
@@ -118,13 +102,13 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         return 0;
     }
     public int getReceiverAccountNumberIndex() throws ModelException {
-        return 0 + 1;
+        return 0 + 1 + (this.getState() == null ? 0 : 1);
     }
     public int getReceiverBankNumberIndex() throws ModelException {
-        return 0 + 1 + 1;
+        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1;
     }
     public int getSubjectIndex() throws ModelException {
-        return 0 + 1 + 1 + 1;
+        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1 + 1;
     }
     public int getRowCount(){
         return 0 

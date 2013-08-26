@@ -24,12 +24,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setReceiverBankNumber(long newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setReceiverBankNumber(newValue);
     }
-    public PersistentAccount getSender() throws PersistenceException {
-        return ((PersistentDebitTransfer)this.getTheObject()).getSender();
-    }
-    public void setSender(PersistentAccount newValue) throws PersistenceException {
-        ((PersistentDebitTransfer)this.getTheObject()).setSender(newValue);
-    }
     public PersistentMoney getMoney() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getMoney();
     }
@@ -41,12 +35,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     }
     public void setSubject(String newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setSubject(newValue);
-    }
-    public PersistentDebitTransferState getState() throws PersistenceException {
-        return ((PersistentDebitTransfer)this.getTheObject()).getState();
-    }
-    public void setState(PersistentDebitTransferState newValue) throws PersistenceException {
-        ((PersistentDebitTransfer)this.getTheObject()).setState(newValue);
     }
     public PersistentStornoState getStornoState() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getStornoState();

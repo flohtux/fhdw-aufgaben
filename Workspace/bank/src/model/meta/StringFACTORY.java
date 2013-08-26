@@ -2,6 +2,12 @@ package model.meta;
 
 public class StringFACTORY{
 
+    public static persistence.PersistentDebitTransferTransaction createObjectBySubTypeNameForDebitTransferTransaction(String name, DebitTransferTransactionSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
+        if(name.equals("Transaction")) return switchAssistant.handleTransaction();
+        if(name.equals("Transfer")) return switchAssistant.handleTransfer();
+        if(name.equals("Debit")) return switchAssistant.handleDebit();
+        throw new persistence.PersistenceException("No such type name!",0);
+    }
     public static persistence.PersistentCurrency createObjectBySubTypeNameForCurrency(String name) throws persistence.PersistenceException {
         if(name.equals("Dollar")) return model.Dollar.getTheDollar();
         if(name.equals("Pfund")) return model.Pfund.getThePfund();

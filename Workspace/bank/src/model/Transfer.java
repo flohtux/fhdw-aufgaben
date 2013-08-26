@@ -63,14 +63,14 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public Transfer provideCopy() throws PersistenceException{
         Transfer result = this;
         result = new Transfer(this.timestamp, 
+                              this.sender, 
+                              this.state, 
                               this.subService, 
                               this.This, 
                               this.receiverAccountNumber, 
                               this.receiverBankNumber, 
-                              this.sender, 
                               this.money, 
                               this.subject, 
-                              this.state, 
                               this.stornoState, 
                               this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -81,9 +81,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         return false;
     }
     
-    public Transfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public Transfer(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,String subject,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(String)subject,(PersistentDebitTransferState)state,(PersistentStornoState)stornoState,id);        
+        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(String)subject,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {

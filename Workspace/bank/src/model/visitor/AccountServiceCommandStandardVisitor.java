@@ -8,9 +8,6 @@ public abstract class AccountServiceCommandStandardVisitor implements AccountSer
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.standardHandling(useTemplateCommand);
     }
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException{
-        this.standardHandling(executeTransferCommand);
-    }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
     }

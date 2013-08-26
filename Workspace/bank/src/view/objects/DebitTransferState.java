@@ -8,21 +8,21 @@ import view.*;
 
 public abstract class DebitTransferState extends ViewObject implements DebitTransferStateView{
     
-    protected DebitTransferView debitTransfer;
+    protected DebitTransferTransactionView debitTransfer;
     
-    public DebitTransferState(DebitTransferView debitTransfer,long id, long classId) {
+    public DebitTransferState(DebitTransferTransactionView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.debitTransfer = debitTransfer;        
     }
     
-    public DebitTransferView getDebitTransfer()throws ModelException{
+    public DebitTransferTransactionView getDebitTransfer()throws ModelException{
         return this.debitTransfer;
     }
     
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitTransferView debitTransfer = this.getDebitTransfer();
+        DebitTransferTransactionView debitTransfer = this.getDebitTransfer();
         if (debitTransfer != null) {
             ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }

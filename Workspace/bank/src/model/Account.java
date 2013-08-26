@@ -4,6 +4,8 @@ package model;
 import persistence.*;
 import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
+import model.meta.DebitTransferTransactionSwitchPARAMETER;
+import model.meta.StringFACTORY;
 import model.visitor.*;
 
 
@@ -451,13 +453,33 @@ public class Account extends PersistentObject implements PersistentAccount{
         getThis().getDebitTransferTransactions().add(a);
     	return a;
     }
-    public PersistentTransfer createTemplate() 
+    public PersistentDebitTransferTransaction createTemplate(final String type) 
 				throws PersistenceException{
-       PersistentTransfer template = Transfer.createTransfer();
-       template.setSender(getThis());
-       template.setState(TemplateState.getTheTemplateState());
-       getThis().getDebitTransferTransactions().add(template);
-       return template;
+    	PersistentDebitTransferTransaction result = StringFACTORY.createObjectBySubTypeNameForDebitTransferTransaction(type, new DebitTransferTransactionSwitchPARAMETER() {
+			public PersistentTransfer handleTransfer() throws PersistenceException {
+		    	PersistentTransfer template = Transfer.createTransfer();
+		    	template.setSender(getThis());
+		    	template.getState().changeState(TemplateState.getTheTemplateState());
+		    	getThis().getDebitTransferTransactions().add(template);
+		    	return template;
+			}
+			public PersistentTransaction handleTransaction() throws PersistenceException {
+		    	PersistentTransaction template = Transaction.createTransaction();
+		    	template.getState().changeState(TemplateState.getTheTemplateState());
+		    	getThis().getDebitTransferTransactions().add(template);
+		    	return template;
+			}
+			public PersistentDebit handleDebit() throws PersistenceException {
+		    	PersistentDebit template = Debit.createDebit();
+		    	template.setSender(getThis());
+		    	template.getState().changeState(TemplateState.getTheTemplateState());
+		    	getThis().getDebitTransferTransactions().add(template);
+		    	return template;
+			}
+		});
+    	
+
+    	return result;
     }
     public PersistentTransaction createTransaction() 
 				throws PersistenceException{

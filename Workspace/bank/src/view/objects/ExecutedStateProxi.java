@@ -19,7 +19,7 @@ public class ExecutedStateProxi extends DebitTransferStateProxi implements Execu
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        ExecutedStateView result$$ = new ExecutedState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        ExecutedStateView result$$ = new ExecutedState((DebitTransferTransactionView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

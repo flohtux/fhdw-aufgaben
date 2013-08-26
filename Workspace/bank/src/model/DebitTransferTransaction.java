@@ -19,6 +19,24 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("timestamp", this.getTimestamp());
+            AbstractPersistentRoot sender = (AbstractPersistentRoot)this.getSender();
+            if (sender != null) {
+                result.put("sender", sender.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    sender.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && sender.hasEssentialFields())sender.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
+            if (state != null) {
+                result.put("state", state.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -31,13 +49,17 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
         return false;
     }
     protected java.sql.Timestamp timestamp;
+    protected PersistentAccount sender;
+    protected PersistentDebitTransferState state;
     protected SubjInterface subService;
     protected PersistentDebitTransferTransaction This;
     
-    public DebitTransferTransaction(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitTransferTransaction This,long id) throws persistence.PersistenceException {
+    public DebitTransferTransaction(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.timestamp = timestamp;
+        this.sender = sender;
+        this.state = state;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -53,6 +75,14 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
+        if(this.getSender() != null){
+            this.getSender().store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.senderSet(this.getId(), getSender());
+        }
+        if(this.getState() != null){
+            this.getState().store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.stateSet(this.getId(), getState());
+        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.subServiceSet(this.getId(), getSubService());
@@ -70,6 +100,34 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.timestampSet(this.getId(), newValue);
         this.timestamp = newValue;
+    }
+    public PersistentAccount getSender() throws PersistenceException {
+        return this.sender;
+    }
+    public void setSender(PersistentAccount newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.sender)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.sender = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.senderSet(this.getId(), newValue);
+        }
+    }
+    public PersistentDebitTransferState getState() throws PersistenceException {
+        return this.state;
+    }
+    public void setState(PersistentDebitTransferState newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.state)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.state = (PersistentDebitTransferState)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.stateSet(this.getId(), newValue);
+        }
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;

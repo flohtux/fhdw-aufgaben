@@ -19,7 +19,7 @@ public class TemplateStateProxi extends DebitTransferStateProxi implements Templ
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        TemplateStateView result$$ = new TemplateState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        TemplateStateView result$$ = new TemplateState((DebitTransferTransactionView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

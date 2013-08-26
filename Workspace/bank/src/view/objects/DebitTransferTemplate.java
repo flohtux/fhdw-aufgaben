@@ -9,9 +9,9 @@ import view.visitor.*;
 
 public class DebitTransferTemplate extends ViewObject implements DebitTransferTemplateView{
     
-    protected java.util.Vector<DebitTransferView> templates;
+    protected java.util.Vector<DebitTransferTransactionView> templates;
     
-    public DebitTransferTemplate(java.util.Vector<DebitTransferView> templates,long id, long classId) {
+    public DebitTransferTemplate(java.util.Vector<DebitTransferTransactionView> templates,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.templates = templates;        
@@ -25,10 +25,10 @@ public class DebitTransferTemplate extends ViewObject implements DebitTransferTe
         return getTypeId();
     }
     
-    public java.util.Vector<DebitTransferView> getTemplates()throws ModelException{
+    public java.util.Vector<DebitTransferTransactionView> getTemplates()throws ModelException{
         return this.templates;
     }
-    public void setTemplates(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+    public void setTemplates(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         this.templates = newValue;
     }
     

@@ -36,7 +36,6 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleBank(PersistentBank bank) throws PersistenceException;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
 }

@@ -13,8 +13,6 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
     
     public DebitView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
-        long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
-        long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
         ViewProxi sender = null;
         String sender$String = (String)resultTable.get("sender");
         if (sender$String != null) {
@@ -22,6 +20,15 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             sender = view.objects.ViewProxi.createProxi(sender$Info,connectionKey);
             sender.setToString(sender$Info.getToString());
         }
+        ViewProxi state = null;
+        String state$String = (String)resultTable.get("state");
+        if (state$String != null) {
+            common.ProxiInformation state$Info = common.RPCConstantsAndServices.createProxiInformation(state$String);
+            state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
+            state.setToString(state$Info.getToString());
+        }
+        long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
+        long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
         ViewProxi money = null;
         String money$String = (String)resultTable.get("money");
         if (money$String != null) {
@@ -30,13 +37,6 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             money.setToString(money$Info.getToString());
         }
         String subject = (String)resultTable.get("subject");
-        ViewProxi state = null;
-        String state$String = (String)resultTable.get("state");
-        if (state$String != null) {
-            common.ProxiInformation state$Info = common.RPCConstantsAndServices.createProxiInformation(state$String);
-            state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
-            state.setToString(state$Info.getToString());
-        }
         ViewProxi stornoState = null;
         String stornoState$String = (String)resultTable.get("stornoState");
         if (stornoState$String != null) {
@@ -44,7 +44,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        DebitView result$$ = new Debit((java.util.Date)timestamp,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)sender,(MoneyView)money,(String)subject,(DebitTransferStateView)state,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        DebitView result$$ = new Debit((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(String)subject,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -54,7 +54,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
         return null;
     }

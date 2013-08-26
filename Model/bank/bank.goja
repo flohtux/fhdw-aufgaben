@@ -70,9 +70,9 @@ server AccountService extends Service {
 	DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
 	void createDebit@@Neue_Lastschrift();
-	void createTemplate@@Neue_Vorlage();
+	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type);
 	void createTransaction@@Neue_Transaktion();
-	active void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, LimitViolatedException, NoPermissionToExecuteDebitTransferException;
+	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(Transfer transfer);
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);
@@ -84,7 +84,7 @@ server AccountService extends Service {
 }
 
 class DebitTransferSuccessful##DbtTrnSucc {
-	DebitTransfer ** successfuls;
+	DebitTransferTransaction ** successfuls;
 }
 
 class DebitTransferNotExecuted##DbTrNtExec {
@@ -92,7 +92,7 @@ class DebitTransferNotExecuted##DbTrNtExec {
 }
 
 class DebitTransferTemplate##DbTrNtTmpl {
-	DebitTransfer ** templates;	
+	DebitTransferTransaction ** templates;	
 }
 
 class Account {
@@ -112,7 +112,7 @@ class Account {
 	Debit createDebit();
 	event void createDebitGrant(Account receiver, LimitType limit);
 
-	Transfer createTemplate();
+	DebitTransferTransaction createTemplate(DebitTransferTransactionSUBTYPEName type);
 	Transaction createTransaction();
 }
 
@@ -182,18 +182,18 @@ class Percent {
 
 string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 
-abstract class DebitTransferTransaction##DebiTrfTran {
+string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	active event void execute()  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
+	no-view	Account sender;
+	one-to-one (no-view debitTransfer) DebitTransferState state;
 }
 
 abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
-	no-view	Account sender;
 	no-view Money money@@Betrag;
 	String subject@@Betreff;
-	one-to-one (no-view debitTransfer) DebitTransferState state;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
 }

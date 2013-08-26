@@ -36,7 +36,6 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleBank(PersistentBank bank) throws PersistenceException, E;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException, E;
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException, E;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException, E;
     
 }

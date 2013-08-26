@@ -11,7 +11,6 @@ public interface CommonDateVisitor {
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException;
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException;
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException;
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;
     
 }

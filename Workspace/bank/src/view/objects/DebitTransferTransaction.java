@@ -9,11 +9,15 @@ import view.*;
 public abstract class DebitTransferTransaction extends ViewObject implements DebitTransferTransactionView{
     
     protected java.util.Date timestamp;
+    protected AccountView sender;
+    protected DebitTransferStateView state;
     
-    public DebitTransferTransaction(java.util.Date timestamp,long id, long classId) {
+    public DebitTransferTransaction(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.timestamp = timestamp;        
+        this.timestamp = timestamp;
+        this.sender = sender;
+        this.state = state;        
     }
     
     public java.util.Date getTimestamp()throws ModelException{
@@ -22,26 +26,52 @@ public abstract class DebitTransferTransaction extends ViewObject implements Deb
     public void setTimestamp(java.util.Date newValue) throws ModelException {
         this.timestamp = newValue;
     }
+    public AccountView getSender()throws ModelException{
+        return this.sender;
+    }
+    public void setSender(AccountView newValue) throws ModelException {
+        this.sender = newValue;
+    }
+    public DebitTransferStateView getState()throws ModelException{
+        return this.state;
+    }
+    public void setState(DebitTransferStateView newValue) throws ModelException {
+        this.state = newValue;
+    }
     
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        AccountView sender = this.getSender();
+        if (sender != null) {
+            ((ViewProxi)sender).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(sender.getClassId(), sender.getId())));
+        }
+        DebitTransferStateView state = this.getState();
+        if (state != null) {
+            ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getState() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getState() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
     public int getTimestampIndex() throws ModelException {

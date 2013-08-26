@@ -25,7 +25,7 @@ public class TransactionFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transaction result = new Transaction(timestamp,null,null,null,id);
+            Transaction result = new Transaction(timestamp,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransactionProxi)PersistentProxi.createProxi(id, 146);
         }catch(SQLException se) {
@@ -41,7 +41,7 @@ public class TransactionFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transaction result = new Transaction(timestamp,null,null,null,id);
+            Transaction result = new Transaction(timestamp,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransactionProxi)PersistentProxi.createProxi(id, 146);
         }catch(SQLException se) {
@@ -62,16 +62,24 @@ public class TransactionFacade{
                 callable.close();
                 return null;
             }
-            SubjInterface subService = null;
+            PersistentAccount sender = null;
             if (obj.getLong(3) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentDebitTransferTransaction This = null;
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
+            PersistentDebitTransferState state = null;
             if (obj.getLong(5) != 0)
-                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentDebitTransferListe debitTransfer = null;
+                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            SubjInterface subService = null;
             if (obj.getLong(7) != 0)
-                debitTransfer = (PersistentDebitTransferListe)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentDebitTransferTransaction This = null;
+            if (obj.getLong(9) != 0)
+                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            PersistentDebitTransferListe debitTransfer = null;
+            if (obj.getLong(11) != 0)
+                debitTransfer = (PersistentDebitTransferListe)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             Transaction result = new Transaction(obj.getTimestamp(2),
+                                                 sender,
+                                                 state,
                                                  subService,
                                                  This,
                                                  debitTransfer,

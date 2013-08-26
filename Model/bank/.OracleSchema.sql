@@ -111,6 +111,12 @@ create table DebiTrfTran(
     id number primary key,
     Cls number not null,
     DebiTrfTranTmstmp Timestamp,
+    DebiTrfTranSndr number,
+    DebiTrfTranSndrCls number,
+    constraint FDebiTrfTranSndr foreign key (DebiTrfTranSndrCls) references Cls (id),
+    DebiTrfTranStt number,
+    DebiTrfTranSttCls number,
+    constraint FDebiTrfTranStt foreign key (DebiTrfTranSttCls) references Cls (id),
     DebiTrfTranSbSrvc number,
     DebiTrfTranSbSrvcCls number,
     constraint FDebiTrfTranSbSrvc foreign key (DebiTrfTranSbSrvcCls) references Cls (id),
@@ -119,16 +125,10 @@ create table DebiTrfTran(
     constraint FDebiTrfTranThis foreign key (DebiTrfTranThisCls) references Cls (id),
     DbtTrnsfrRecaccno number,
     DbtTrnsfrRcvrBnkNmbr number,
-    DbtTrnsfrSndr number,
-    DbtTrnsfrSndrCls number,
-    constraint FDbtTrnsfrSndr foreign key (DbtTrnsfrSndrCls) references Cls (id),
     DbtTrnsfrMn number,
     DbtTrnsfrMnCls number,
     constraint FDbtTrnsfrMn foreign key (DbtTrnsfrMnCls) references Cls (id),
     DbtTrnsfrSbjct varchar2(2000),
-    DbtTrnsfrStt number,
-    DbtTrnsfrSttCls number,
-    constraint FDbtTrnsfrStt foreign key (DbtTrnsfrSttCls) references Cls (id),
     DbtTrnsfrStrnStt number,
     DbtTrnsfrStrnSttCls number,
     constraint FDbtTrnsfrStrnStt foreign key (DbtTrnsfrStrnSttCls) references Cls (id),
@@ -136,7 +136,7 @@ create table DebiTrfTran(
     TrnsctnDbtTrnsfrCls number,
     constraint FTrnsctnDbtTrnsfr foreign key (TrnsctnDbtTrnsfrCls) references Cls (id)    
 );
-create index ISttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStt, DbtTrnsfrSttCls);
+create index ISttDebiTrfTran on DebiTrfTran (DebiTrfTranStt, DebiTrfTranSttCls);
 create index IStrnSttDbtTrnsfr on DebiTrfTran (DbtTrnsfrStrnStt, DbtTrnsfrStrnSttCls);
 
 
@@ -698,25 +698,6 @@ create table DbtGrnt(
     DbtGrntThis number,
     DbtGrntThisCls number,
     constraint FDbtGrntThis foreign key (DbtGrntThisCls) references Cls (id)    
-);
-
-create sequence SExctTrnsfrCMD nocache;
-
-create table ExctTrnsfrCMD(
-    id number primary key,
-    Cls number not null,
-    ExctTrnsfrCMDDbtTrnsfr number,
-    ExctTrnsfrCMDDbtTrnsfrCls number,
-    constraint FExctTrnsfrCMDDbtTrnsfr foreign key (ExctTrnsfrCMDDbtTrnsfrCls) references Cls (id),
-    ExctTrnsfrCMDInvoker number,
-    ExctTrnsfrCMDInvokerCls number,
-    constraint FExctTrnsfrCMDInvoker foreign key (ExctTrnsfrCMDInvokerCls) references Cls (id),
-    ExctTrnsfrCMDCReceiver number,
-    ExctTrnsfrCMDCReceiverCls number,
-    constraint FExctTrnsfrCMDCReceiver foreign key (ExctTrnsfrCMDCReceiverCls) references Cls (id),
-    ExctTrnsfrCMDMyCmmnDt number,
-    ExctTrnsfrCMDMyCmmnDtCls number,
-    constraint FExctTrnsfrCMDMyCmmnDt foreign key (ExctTrnsfrCMDMyCmmnDtCls) references Cls (id)    
 );
 
 create sequence SBnkCrtr nocache;

@@ -26,7 +26,7 @@ public abstract class DebitTransferStateICProxi extends PersistentInCacheProxiOp
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentDebitTransferTransaction getDebitTransfer() 
 				throws PersistenceException{
         return ((PersistentDebitTransferState)this.getTheObject()).getDebitTransfer();
     }
