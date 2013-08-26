@@ -230,10 +230,28 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		final PersistentTransaction copy = Transaction.createTransaction();
+		getThis().getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				copy.getDebitTransfer().getDebitTransfers().add((PersistentDebitTransfer) argument.copy());
+			}
+		});
+		System.out.println("start0");
+		copy.setSender(getThis().getSender());
+		System.out.println("start12");
+		copy.setState(getThis().getState());
+		System.out.println("start1");
+		copy.setTimestamp(getThis().getTimestamp());
+		System.out.println("fertig");
+		return copy;
+	}
     public void executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {
-
 			@Override
 			public void doItTo(PersistentDebitTransfer argument)
 					throws PersistenceException, ExecuteException {

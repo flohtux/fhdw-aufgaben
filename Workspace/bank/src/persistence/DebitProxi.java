@@ -104,6 +104,10 @@ public class DebitProxi extends DebitTransferProxi implements PersistentDebit{
 				throws PersistenceException{
         ((PersistentDebit)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+        return ((PersistentDebit)this.getTheObject()).copy();
+    }
     public void executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
         ((PersistentDebit)this.getTheObject()).executeImplementation();

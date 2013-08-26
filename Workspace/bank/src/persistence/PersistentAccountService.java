@@ -41,7 +41,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void useTemplate(final PersistentTransfer transfer, final Invoker invoker) 
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
@@ -73,7 +73,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void useTemplate(final PersistentTransfer transfer) 
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException;
 
 }

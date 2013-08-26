@@ -340,11 +340,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.updateObservers(event);
     }
-    public void useTemplate(final PersistentTransfer transfer, final Invoker invoker) 
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentUseTemplateCommand command = model.meta.UseTemplateCommand.createUseTemplateCommand(now, now);
-		command.setTransfer(transfer);
+		command.setDebitTransferTransaction(debitTransferTransaction);
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
@@ -360,23 +360,23 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
-        getThis().getAccount().changeCurrency(trans, StringFACTORY.createObjectBySubTypeNameForCurrency(currency));
+        getThis().getAccount().changeCurrency(trans, StringFACTORY.createObjectBySubTypeNameForCurrency(currency),getThis());
         getThis().signalChanged(true);
         
     }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
-        getThis().getAccount().changeMoney(trans, newAmount);
+        getThis().getAccount().changeMoney(trans, newAmount,getThis());
         getThis().signalChanged(true);
     }
     public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 
 				throws PersistenceException{
-    	getThis().getAccount().changeReceiverAccount(trans, receiverAccNumber);
+    	getThis().getAccount().changeReceiverAccount(trans, receiverAccNumber,getThis());
         getThis().signalChanged(true);
     }
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
-        getThis().getAccount().changeReceiverBank(trans, receiverBankNumber);
+        getThis().getAccount().changeReceiverBank(trans, receiverBankNumber,getThis());
         getThis().signalChanged(true);
     }
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
@@ -435,14 +435,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
     	debitTransfer.execute(getThis());
-//    	getThis().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
-//			@Override
-//			public boolean test(PersistentDebitTransfer argument)
-//					throws PersistenceException {
-//				return argument.equals(debitTransfer);
-//			}
-//		});
-//    	getThis().getSuccessful().getSuccessfuls().add(debitTransfer);
     	getThis().signalChanged(true);
     }
     public void initializeOnCreation() 
@@ -454,11 +446,29 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void useTemplate(final PersistentTransfer transfer) 
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-    	PersistentTransfer newTransfer = transfer.copy();
-    	newTransfer.setState(NotExecutedState.getTheNotExecutedState());
-    	getThis().getNotExecuted().getNotExecuteds().add(newTransfer);
+    	PersistentDebitTransferTransaction debitTransferTransactionCopy = debitTransferTransaction.copy();
+    	debitTransferTransactionCopy.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {}
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {}
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {
+				transaction.getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
+					@Override
+					public void doItTo(PersistentDebitTransfer argument)
+							throws PersistenceException {
+						argument.setState(NotExecutedState.getTheNotExecutedState());
+					}
+				});
+			}
+		});
+    	debitTransferTransactionCopy.setState(NotExecutedState.getTheNotExecutedState());
+    	getThis().getNotExecuted().getNotExecuteds().add(debitTransferTransactionCopy);
     	getThis().signalChanged(true);
     }
     

@@ -104,7 +104,7 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public PersistentTransfer copy() 
+    public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).copy();
     }

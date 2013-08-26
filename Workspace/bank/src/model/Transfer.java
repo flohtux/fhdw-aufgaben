@@ -206,30 +206,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         //TODO: implement method: copyingPrivateUserAttributes
         
     }
-    public PersistentTransfer copy() 
-				throws PersistenceException{
-    	PersistentTransfer copy = Transfer.createTransfer();
-    	System.out.println("fertig0");
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		System.out.println("fertig1");
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		System.out.println("fertig2");
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		System.out.println("fertig3");
-		copy.setSender(getThis().getSender());
-		System.out.println("fertig4");
-		copy.setState(getThis().getState());
-		System.out.println("fertig5");
-		copy.setStornoState(getThis().getStornoState());
-		System.out.println("fertig6");
-		String copySubject = getThis().getSubject();
-		copy.setSubject(copySubject);
-		System.out.println("fertig7");
-		copy.setTimestamp(getThis().getTimestamp());
-		System.out.println("fertig");
-		return copy;
-    }
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException{
         return getThis().getMoney();
@@ -252,6 +228,19 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		PersistentTransfer copy = Transfer.createTransfer();
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
+		copy.setMoney(copyMoney);
+		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
+		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
+		copy.setSender(getThis().getSender());
+		copy.setState(getThis().getState());
+		copy.setStornoState(getThis().getStornoState());
+		copy.setTimestamp(getThis().getTimestamp());
+		return copy;
+	}
     public void executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
     	if (!getThis().getState().isExecutable().isTrue()) {
