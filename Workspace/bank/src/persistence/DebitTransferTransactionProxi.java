@@ -18,6 +18,18 @@ public abstract class DebitTransferTransactionProxi extends PersistentProxi impl
     public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
         ((PersistentDebitTransferTransaction)this.getTheObject()).setTimestamp(newValue);
     }
+    public PersistentAccount getSender() throws PersistenceException {
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).getSender();
+    }
+    public void setSender(PersistentAccount newValue) throws PersistenceException {
+        ((PersistentDebitTransferTransaction)this.getTheObject()).setSender(newValue);
+    }
+    public PersistentDebitTransferState getState() throws PersistenceException {
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).getState();
+    }
+    public void setState(PersistentDebitTransferState newValue) throws PersistenceException {
+        ((PersistentDebitTransferTransaction)this.getTheObject()).setState(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDebitTransferTransaction)this.getTheObject()).getSubService();
     }

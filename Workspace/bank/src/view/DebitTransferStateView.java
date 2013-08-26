@@ -6,7 +6,7 @@ import view.visitor.*;
 
 public interface DebitTransferStateView extends Anything, AbstractViewRoot {
     
-    public DebitTransferView getDebitTransfer()throws ModelException;
+    public DebitTransferTransactionView getDebitTransfer()throws ModelException;
     
     public void accept(DebitTransferStateVisitor visitor) throws ModelException;
     public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws ModelException;

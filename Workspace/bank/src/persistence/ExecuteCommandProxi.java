@@ -19,7 +19,7 @@ public class ExecuteCommandProxi extends PersistentProxi implements PersistentEx
     }
     
     public long getClassId() {
-        return 186;
+        return 213;
     }
     
     public Invoker getInvoker() throws PersistenceException {

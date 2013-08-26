@@ -80,8 +80,6 @@ drop sequence SDbtTrnSucc;
 drop table DbtTrnSucc cascade constraints;
 drop sequence SDbtGrnt;
 drop table DbtGrnt cascade constraints;
-drop sequence SExctTrnsfrCMD;
-drop table ExctTrnsfrCMD cascade constraints;
 drop sequence SBnkCrtr;
 drop table BnkCrtr cascade constraints;
 drop sequence SSubjObs;

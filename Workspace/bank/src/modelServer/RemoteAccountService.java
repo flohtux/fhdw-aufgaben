@@ -115,9 +115,9 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createTemplate(){
+    public synchronized java.util.HashMap<?,?> createTemplate(String type){
         try {
-            ((PersistentAccountService)this.server).createTemplate();
+            ((PersistentAccountService)this.server).createTemplate(type);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -151,12 +151,8 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(pe);
         }catch(model.NoPermissionToExecuteDebitTransferException e0){
             return createExceptionResult(e0, this);
-        }catch(model.InvalidBankNumberException e1){
+        }catch(model.ExecuteException e1){
             return createExceptionResult(e1, this);
-        }catch(model.LimitViolatedException e2){
-            return createExceptionResult(e2, this);
-        }catch(model.InvalidAccountNumberException e3){
-            return createExceptionResult(e3, this);
         }
     }
     

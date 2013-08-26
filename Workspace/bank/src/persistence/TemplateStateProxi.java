@@ -68,7 +68,7 @@ public class TemplateStateProxi extends DebitTransferStateProxi implements Persi
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentDebitTransferTransaction getDebitTransfer() 
 				throws PersistenceException{
         return ((PersistentTemplateState)this.getTheObject()).getDebitTransfer();
     }

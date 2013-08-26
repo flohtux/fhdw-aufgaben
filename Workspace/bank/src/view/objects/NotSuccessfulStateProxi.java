@@ -19,7 +19,7 @@ public class NotSuccessfulStateProxi extends DebitTransferStateProxi implements 
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NotSuccessfulStateView result$$ = new NotSuccessfulState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        NotSuccessfulStateView result$$ = new NotSuccessfulState((DebitTransferTransactionView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

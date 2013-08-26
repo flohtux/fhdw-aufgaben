@@ -10,7 +10,7 @@ public abstract class DebitTransferStateProxi extends ViewProxi implements Debit
     }
     
     
-    public DebitTransferView getDebitTransfer()throws ModelException{
+    public DebitTransferTransactionView getDebitTransfer()throws ModelException{
         return ((DebitTransferState)this.getTheObject()).getDebitTransfer();
     }
     

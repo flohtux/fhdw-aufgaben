@@ -172,7 +172,6 @@ public class ConnectionHandler {
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
     public DebitGrantFacade theDebitGrantFacade;
-    public ExecuteTransferCommandFacade theExecuteTransferCommandFacade;
     public BankCreatorFacade theBankCreatorFacade;
 
 	protected ConnectionHandler(String name) throws PersistenceException {
@@ -263,7 +262,6 @@ public class ConnectionHandler {
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theDebitGrantFacade= new DebitGrantFacade(this.schemaName, this.con);
-            this.theExecuteTransferCommandFacade= new ExecuteTransferCommandFacade(this.schemaName, this.con);
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
 		} catch (SQLException sqlExc) {
 			throw new PersistenceException(sqlExc.getMessage(), sqlExc.getErrorCode());

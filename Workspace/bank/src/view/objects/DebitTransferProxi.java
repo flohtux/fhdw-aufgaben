@@ -22,12 +22,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setReceiverBankNumber(long newValue) throws ModelException {
         ((DebitTransfer)this.getTheObject()).setReceiverBankNumber(newValue);
     }
-    public AccountView getSender()throws ModelException{
-        return ((DebitTransfer)this.getTheObject()).getSender();
-    }
-    public void setSender(AccountView newValue) throws ModelException {
-        ((DebitTransfer)this.getTheObject()).setSender(newValue);
-    }
     public MoneyView getMoney()throws ModelException{
         return ((DebitTransfer)this.getTheObject()).getMoney();
     }
@@ -39,12 +33,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     }
     public void setSubject(String newValue) throws ModelException {
         ((DebitTransfer)this.getTheObject()).setSubject(newValue);
-    }
-    public DebitTransferStateView getState()throws ModelException{
-        return ((DebitTransfer)this.getTheObject()).getState();
-    }
-    public void setState(DebitTransferStateView newValue) throws ModelException {
-        ((DebitTransfer)this.getTheObject()).setState(newValue);
     }
     public StornoStateView getStornoState()throws ModelException{
         return ((DebitTransfer)this.getTheObject()).getStornoState();

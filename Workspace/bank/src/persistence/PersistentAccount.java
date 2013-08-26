@@ -56,7 +56,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentDebit createDebit() 
 				throws PersistenceException;
-    public PersistentTransfer createTemplate() 
+    public PersistentDebitTransferTransaction createTemplate(final String type) 
 				throws PersistenceException;
     public PersistentTransaction createTransaction() 
 				throws PersistenceException;

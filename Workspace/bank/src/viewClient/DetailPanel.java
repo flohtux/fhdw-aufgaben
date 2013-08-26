@@ -1133,10 +1133,10 @@ class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
 class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
     protected static final String DebitTransfer$$subject = "DebitTransfer$$subject";
-    protected static final String DebitTransfer$$state = "DebitTransfer$$state";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1239,10 +1239,10 @@ class LimitDefaultDetailPanel extends DefaultDetailPanel{
 class DebitDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
     protected static final String DebitTransfer$$subject = "DebitTransfer$$subject";
-    protected static final String DebitTransfer$$state = "DebitTransfer$$state";
     
     protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1504,6 +1504,7 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
+    protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String Transaction$$debitTransfer = "Transaction$$debitTransfer";
     
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

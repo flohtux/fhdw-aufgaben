@@ -19,7 +19,7 @@ public class NotExecutableStateProxi extends DebitTransferStateProxi implements 
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NotExecutableStateView result$$ = new NotExecutableState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        NotExecutableStateView result$$ = new NotExecutableState((DebitTransferTransactionView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

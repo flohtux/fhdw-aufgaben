@@ -315,15 +315,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.deregister(observee);
     }
-    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentExecuteTransferCommand command = model.meta.ExecuteTransferCommand.createExecuteTransferCommand(now, now);
-		command.setDebitTransfer(debitTransfer);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAccountService)This);
@@ -419,9 +410,9 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().getNotExecuted().getNotExecuteds().add(debit);
         signalChanged(true);
     }
-    public void createTemplate() 
+    public void createTemplate(final String type) 
 				throws PersistenceException{
-    	PersistentTransfer template = getThis().getAccount().createTemplate();
+    	PersistentDebitTransferTransaction template = getThis().getAccount().createTemplate(type);
     	getThis().getTemplate().getTemplates().add(template);
         getThis().signalChanged(true);
         
@@ -442,7 +433,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
     	debitTransfer.execute(getThis());
 //    	getThis().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
 //			@Override

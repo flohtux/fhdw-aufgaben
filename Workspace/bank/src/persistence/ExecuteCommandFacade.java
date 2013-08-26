@@ -26,7 +26,7 @@ public class ExecuteCommandFacade{
             callable.close();
             ExecuteCommand result = new ExecuteCommand(null,null,null,id);
             Cache.getTheCache().put(result);
-            return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 186);
+            return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 213);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -42,7 +42,7 @@ public class ExecuteCommandFacade{
             callable.close();
             ExecuteCommand result = new ExecuteCommand(null,null,null,id);
             Cache.getTheCache().put(result);
-            return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 186);
+            return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 213);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

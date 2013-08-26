@@ -19,15 +19,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("receiverAccountNumber", new Long(this.getReceiverAccountNumber()).toString());
             result.put("receiverBankNumber", new Long(this.getReceiverBankNumber()).toString());
-            AbstractPersistentRoot sender = (AbstractPersistentRoot)this.getSender();
-            if (sender != null) {
-                result.put("sender", sender.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    sender.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && sender.hasEssentialFields())sender.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             AbstractPersistentRoot money = (AbstractPersistentRoot)this.getMoney();
             if (money != null) {
                 result.put("money", money.createProxiInformation(false, essentialLevel == 0));
@@ -38,15 +29,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
                 }
             }
             result.put("subject", this.getSubject());
-            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
-            if (state != null) {
-                result.put("state", state.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             AbstractPersistentRoot stornoState = (AbstractPersistentRoot)this.getStornoState();
             if (stornoState != null) {
                 result.put("stornoState", stornoState.createProxiInformation(false, essentialLevel == 0));
@@ -69,21 +51,17 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     }
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
-    protected PersistentAccount sender;
     protected PersistentMoney money;
     protected String subject;
-    protected PersistentDebitTransferState state;
     protected PersistentStornoState stornoState;
     
-    public DebitTransfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public DebitTransfer(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,String subject,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
+        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
-        this.sender = sender;
         this.money = money;
         this.subject = subject;
-        this.state = state;
         this.stornoState = stornoState;        
     }
     
@@ -98,17 +76,9 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
-        if(this.getSender() != null){
-            this.getSender().store();
-            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.senderSet(this.getId(), getSender());
-        }
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.moneySet(this.getId(), getMoney());
-        }
-        if(this.getState() != null){
-            this.getState().store();
-            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.stateSet(this.getId(), getState());
         }
         if(this.getStornoState() != null){
             this.getStornoState().store();
@@ -131,20 +101,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverBankNumberSet(this.getId(), newValue);
         this.receiverBankNumber = newValue;
     }
-    public PersistentAccount getSender() throws PersistenceException {
-        return this.sender;
-    }
-    public void setSender(PersistentAccount newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.sender)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.sender = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.senderSet(this.getId(), newValue);
-        }
-    }
     public PersistentMoney getMoney() throws PersistenceException {
         return this.money;
     }
@@ -166,20 +122,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
         if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.subjectSet(this.getId(), newValue);
         this.subject = newValue;
-    }
-    public PersistentDebitTransferState getState() throws PersistenceException {
-        return this.state;
-    }
-    public void setState(PersistentDebitTransferState newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.state)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.state = (PersistentDebitTransferState)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.stateSet(this.getId(), newValue);
-        }
     }
     public PersistentStornoState getStornoState() throws PersistenceException {
         return this.stornoState;
