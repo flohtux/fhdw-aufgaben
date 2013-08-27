@@ -1392,9 +1392,5 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		return result;
 	}
-	
-<<<<<<< HEAD
-=======
-	
->>>>>>> refs/heads/kralle
+
 }
