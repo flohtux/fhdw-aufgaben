@@ -142,13 +142,13 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 			@Override
 			public void handleTemplateState(PersistentTemplateState templateState)
 					throws PersistenceException {
-				getThis().getDebitTransfer().getSender().getAccountService().getTemplate().getTemplates().add(getThis().getDebitTransfer());
+				getThis().getDebitTransfer().getSender().getAccountService().getTemplate().add(getThis().getDebitTransfer());
 				
 			}
 			@Override
 			public void handleSuccessfulState(PersistentSuccessfulState successfulState)
 					throws PersistenceException {
-				getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().getSuccessfuls().add(getThis().getDebitTransfer());
+				getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().add(getThis().getDebitTransfer());
 			}
 			@Override
 			public void handleNotSuccessfulState(
@@ -158,7 +158,7 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 			public void handleNotExecutedState(
 					PersistentNotExecutedState notExecutedState)
 					throws PersistenceException {
-				getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().add(getThis().getDebitTransfer());
+				getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().add(getThis().getDebitTransfer());
 			}
 			@Override
 			public void handleNotExecutableState(
@@ -176,52 +176,31 @@ public abstract class DebitTransferState extends PersistentObject implements Per
     		@Override
     		public void handleTemplateState(PersistentTemplateState templateState)
     				throws PersistenceException {
-    			getThis().getDebitTransfer().getSender().getAccountService().getTemplate().getTemplates().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
-    				@Override
-    				public boolean test(PersistentDebitTransferTransaction argument)
-    						throws PersistenceException {
-    					return argument.equals(getThis().getDebitTransfer());
-    				}
-    			});
+    			getThis().getDebitTransfer().getSender().getAccountService().getTemplate().remove(getThis().getDebitTransfer());
     		}
     		@Override
     		public void handleSuccessfulState(PersistentSuccessfulState successfulState)
     				throws PersistenceException {
-    			getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().getSuccessfuls().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
-    				@Override
-    				public boolean test(PersistentDebitTransferTransaction argument)
-    						throws PersistenceException {
-    					return argument.equals(getThis().getDebitTransfer());
-    				}
-    			});
+    			getThis().getDebitTransfer().getSender().getAccountService().getSuccessful().remove(getThis().getDebitTransfer());
     		}
     		@Override
     		public void handleNotSuccessfulState(
     				PersistentNotSuccessfulState notSuccessfulState)
-    				throws PersistenceException {
-    		}
+    				throws PersistenceException {}
     		@Override
     		public void handleNotExecutedState(
     				PersistentNotExecutedState notExecutedState)
     				throws PersistenceException {
-    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
-					@Override
-					public boolean test(PersistentDebitTransferTransaction argument)
-							throws PersistenceException {
-						return argument.equals(getThis().getDebitTransfer());
-					}
-				});
+    			getThis().getDebitTransfer().getSender().getAccountService().getNotExecuted().remove(getThis().getDebitTransfer());
     		}
     			
     		@Override
     		public void handleNotExecutableState(
     				PersistentNotExecutableState notExecutableState)
-    				throws PersistenceException {
-    		}
+    				throws PersistenceException {}
     		@Override
     		public void handleExecutedState(PersistentExecutedState executedState)
-    				throws PersistenceException {
-    		}
+    				throws PersistenceException {}
     	});
     }
 

@@ -66,8 +66,8 @@ class Bank {
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
 	observe DebitTransferSuccessful successful;
-	DebitTransferNotExecuted notExecuted;
-	DebitTransferTemplate template;
+	observe DebitTransferNotExecuted notExecuted;
+	observe DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type);
@@ -85,14 +85,20 @@ server AccountService extends Service {
 
 class DebitTransferSuccessful##DbtTrnSucc {
 	DebitTransferTransaction ** successfuls;
+	event void add(DebitTransferTransaction debitTransferTransaction);
+	event void remove (DebitTransferTransaction debitTransferTransaction);
 }
 
 class DebitTransferNotExecuted##DbTrNtExec {
 	DebitTransferTransaction ** notExecuteds;	
+	event void add(DebitTransferTransaction debitTransferTransaction);
+	event void remove (DebitTransferTransaction debitTransferTransaction);
 }
 
 class DebitTransferTemplate##DbTrNtTmpl {
 	DebitTransferTransaction ** templates;	
+	event void add(DebitTransferTransaction debitTransferTransaction);
+	event void remove (DebitTransferTransaction debitTransferTransaction);
 }
 
 class Account {

@@ -314,6 +314,22 @@ create table Prcnt(
     constraint FPrcntThis foreign key (PrcntThisCls) references Cls (id)    
 );
 
+create sequence SAccntSrvcTmplt nocache;
+
+create table AccntSrvcTmplt(
+    id number primary key,
+    Cls number not null,
+    AccntSrvcTmpltMstr number,
+    AccntSrvcTmpltMstrCls number,
+    constraint FAccntSrvcTmpltMstr foreign key (AccntSrvcTmpltMstrCls) references Cls (id),
+    AccntSrvcTmpltObs number,
+    AccntSrvcTmpltObsCls number,
+    constraint FAccntSrvcTmpltObs foreign key (AccntSrvcTmpltObsCls) references Cls (id),
+    AccntSrvcTmpltThis number,
+    AccntSrvcTmpltThisCls number,
+    constraint FAccntSrvcTmpltThis foreign key (AccntSrvcTmpltThisCls) references Cls (id)    
+);
+
 create sequence SCrrnc nocache;
 
 create table Crrnc(
@@ -777,6 +793,22 @@ create table DbtTrnSucc(
     DbtTrnSuccThis number,
     DbtTrnSuccThisCls number,
     constraint FDbtTrnSuccThis foreign key (DbtTrnSuccThisCls) references Cls (id)    
+);
+
+create sequence SAccntSrvcNtExctd nocache;
+
+create table AccntSrvcNtExctd(
+    id number primary key,
+    Cls number not null,
+    AccntSrvcNtExctdMstr number,
+    AccntSrvcNtExctdMstrCls number,
+    constraint FAccntSrvcNtExctdMstr foreign key (AccntSrvcNtExctdMstrCls) references Cls (id),
+    AccntSrvcNtExctdObs number,
+    AccntSrvcNtExctdObsCls number,
+    constraint FAccntSrvcNtExctdObs foreign key (AccntSrvcNtExctdObsCls) references Cls (id),
+    AccntSrvcNtExctdThis number,
+    AccntSrvcNtExctdThisCls number,
+    constraint FAccntSrvcNtExctdThis foreign key (AccntSrvcNtExctdThisCls) references Cls (id)    
 );
 
 create sequence SDbtGrnt nocache;

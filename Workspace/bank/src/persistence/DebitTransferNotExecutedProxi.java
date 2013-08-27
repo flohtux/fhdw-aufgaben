@@ -61,6 +61,10 @@ public class DebitTransferNotExecutedProxi extends PersistentProxi implements Pe
     }
     
     
+    public void add(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferNotExecuted)this.getTheObject()).add(debitTransferTransaction);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitTransferNotExecuted)this.getTheObject()).deregister(observee);
@@ -73,9 +77,17 @@ public class DebitTransferNotExecutedProxi extends PersistentProxi implements Pe
 				throws PersistenceException{
         ((PersistentDebitTransferNotExecuted)this.getTheObject()).register(observee);
     }
+    public void remove(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferNotExecuted)this.getTheObject()).remove(debitTransferTransaction);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentDebitTransferNotExecuted)this.getTheObject()).updateObservers(event);
+    }
+    public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferNotExecuted)this.getTheObject()).addImplementation(debitTransferTransaction);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -88,6 +100,10 @@ public class DebitTransferNotExecutedProxi extends PersistentProxi implements Pe
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentDebitTransferNotExecuted)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void removeImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferNotExecuted)this.getTheObject()).removeImplementation(debitTransferTransaction);
     }
 
     

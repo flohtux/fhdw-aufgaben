@@ -19,7 +19,7 @@ public class AccountServiceSuccessfulProxi extends PersistentProxi implements Pe
     }
     
     public long getClassId() {
-        return 221;
+        return 220;
     }
     
     public PersistentAccountService getObserver() throws PersistenceException {

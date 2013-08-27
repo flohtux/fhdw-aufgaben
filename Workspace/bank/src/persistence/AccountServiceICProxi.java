@@ -28,18 +28,6 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void setAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setAccount(newValue);
     }
-    public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException {
-        return ((PersistentAccountService)this.getTheObject()).getNotExecuted();
-    }
-    public void setNotExecuted(PersistentDebitTransferNotExecuted newValue) throws PersistenceException {
-        ((PersistentAccountService)this.getTheObject()).setNotExecuted(newValue);
-    }
-    public PersistentDebitTransferTemplate getTemplate() throws PersistenceException {
-        return ((PersistentAccountService)this.getTheObject()).getTemplate();
-    }
-    public void setTemplate(PersistentDebitTransferTemplate newValue) throws PersistenceException {
-        ((PersistentAccountService)this.getTheObject()).setTemplate(newValue);
-    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }
@@ -118,9 +106,17 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
     }
+    public PersistentDebitTransferNotExecuted getNotExecuted() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getNotExecuted();
+    }
     public PersistentDebitTransferSuccessful getSuccessful() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getSuccessful();
+    }
+    public PersistentDebitTransferTemplate getTemplate() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getTemplate();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -130,9 +126,17 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).register(observee);
     }
+    public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).setNotExecuted(notExecuted);
+    }
     public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).setSuccessful(successful);
+    }
+    public void setTemplate(final PersistentDebitTransferTemplate template) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).setTemplate(template);
     }
     public void signalChanged(final boolean signal) 
 				throws PersistenceException{
@@ -230,9 +234,17 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).notExecuted_update(event);
+    }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).successful_update(event);
+    }
+    public void template_update(final model.meta.DebitTransferTemplateMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).template_update(event);
     }
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{

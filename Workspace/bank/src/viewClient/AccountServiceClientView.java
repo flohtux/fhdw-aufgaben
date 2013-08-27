@@ -298,7 +298,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 						}
 						
 						@Override
-						public void handleNotSuccessfulState(NotSuccessfulStateView notSuccessfulState) throws ModelException {
+						public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
 							// no edit possible
 						}
 						

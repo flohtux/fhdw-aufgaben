@@ -35,8 +35,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
-    
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
@@ -48,6 +46,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    
     public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     
     public abstract void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
@@ -148,6 +148,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
+    public abstract void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
+    
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
     
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
@@ -174,6 +176,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
+    
+    public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     

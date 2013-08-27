@@ -59,6 +59,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
         this.standardHandling(successfulState);
     }
+    public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException{
+        this.standardHandling(accountServiceTemplate);
+    }
     public void handleAmount(PersistentAmount amount) throws PersistenceException{
         this.standardHandling(amount);
     }
@@ -101,11 +104,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
     }
-    public void handleFranken(PersistentFranken franken) throws PersistenceException{
-        this.standardHandling(franken);
-    }
     public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException{
         this.standardHandling(accountServiceSuccessful);
+    }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.standardHandling(franken);
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.standardHandling(limit);
@@ -184,6 +187,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException{
         this.standardHandling(debitTransferSuccessful);
+    }
+    public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException{
+        this.standardHandling(accountServiceNotExecuted);
     }
     public void handlePfund(PersistentPfund pfund) throws PersistenceException{
         this.standardHandling(pfund);
