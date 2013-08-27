@@ -29,6 +29,8 @@ public interface PersistentDebitTransferTransaction extends SubjInterface, Anyth
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException;
     public void executeImplementation() 
 				throws model.ExecuteException, PersistenceException;
     public void initializeOnCreation() 

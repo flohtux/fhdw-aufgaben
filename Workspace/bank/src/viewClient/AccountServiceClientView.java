@@ -4,7 +4,9 @@ import view.*;
 import view.objects.ViewRoot;
 import view.visitor.DebitTransferReturnVisitor;
 import view.visitor.DebitTransferStateExceptionVisitor;
+import view.visitor.DebitTransferStateReturnExceptionVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -246,6 +248,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 							        	return false;
 							        }
 							        return true;
+
 								}
 							});
 							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
@@ -288,7 +291,19 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 							});
 							result = panel;
 						};
+						
+						@Override
+						public void handleExecutedState(ExecutedStateView executedState) throws ModelException {
+							// no edit possible
+						}
+						
+						@Override
+						public void handleNotSuccessfulState(NotSuccessfulStateView notSuccessfulState) throws ModelException {
+							// no edit possible
+						}
+						
 					});
+
 			}
 			
 			@Override
@@ -356,6 +371,13 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 							});
 							result = panel;
 						};
+						
+						public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException {
+							// no edit possible
+						}
+						public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
+							// no edit possible
+						}
 					});
 				
 					
@@ -614,34 +636,54 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof DebitTransferTransactionView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Überweisung abschicken");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().executeTransfer((DebitTransferTransactionView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }catch (NoPermissionToExecuteDebitTransferException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (ExecuteException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
+                if (this.filterUseTemplate((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Vorlage verwenden");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Vorlage verwenden" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().useTemplate((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterExecuteTransfer((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Überweisung abschicken");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().executeTransfer((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }catch (NoPermissionToExecuteDebitTransferException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }catch (ExecuteException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
             }
             if (selected instanceof DebitGrantListeView){
                 item = new javax.swing.JMenuItem();
@@ -732,24 +774,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                         wizard.pack();
                         wizard.setLocationRelativeTo(getNavigationPanel());
                         wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-            }
-            if (selected instanceof TransferView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Vorlage verwenden");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Vorlage verwenden" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().useTemplate((TransferView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
                     }
                     
                 });
@@ -1270,6 +1294,102 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 	            this.getExceptionAndEventhandler().handleException(e);
 	        }
 		}
+	}
+	
+	private boolean filterExecuteTransfer(DebitTransferTransactionView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleExecutedState(
+						ExecutedStateView executedState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState)
+						throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleTemplateState(
+						TemplateStateView templateState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	private boolean filterUseTemplate(DebitTransferTransactionView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState) throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState)
+						throws ModelException {
+					return true;
+				}
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	

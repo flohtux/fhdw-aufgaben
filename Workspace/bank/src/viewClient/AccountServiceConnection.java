@@ -316,13 +316,13 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void useTemplate(TransferView transfer) throws ModelException{
+    public synchronized void useTemplate(DebitTransferTransactionView debitTransferTransaction) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (transfer == null){
+            if (debitTransferTransaction == null){
                 parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
             } else {
-                parameters.add(((view.objects.ViewProxi)transfer).createProxiInformation());
+                parameters.add(((view.objects.ViewProxi)debitTransferTransaction).createProxiInformation());
             }
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "useTemplate", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){

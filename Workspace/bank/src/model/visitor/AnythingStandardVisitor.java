@@ -29,11 +29,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException{
         this.standardHandling(currencyManager);
     }
-    public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
-        this.standardHandling(createAccountCommand);
-    }
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
+    }
+    public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
+        this.standardHandling(createAccountCommand);
     }
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
@@ -46,6 +46,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
         this.standardHandling(trueValue);
+    }
+    public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException{
+        this.standardHandling(changeReceiverBankCommand);
     }
     public void handlePercent(PersistentPercent percent) throws PersistenceException{
         this.standardHandling(percent);
@@ -107,6 +110,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleDebit(PersistentDebit debit) throws PersistenceException{
         this.standardHandling(debit);
     }
+    public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
+        this.standardHandling(changeReceiverAccountCommand);
+    }
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.standardHandling(mixedFee);
     }
@@ -149,11 +155,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException{
         this.standardHandling(debitTransferNotExecuted);
     }
+    public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException{
+        this.standardHandling(changeCurrencyCommand);
+    }
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException{
         this.standardHandling(commandCoordinator);
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
+        this.standardHandling(changeMoneyCommand);
     }
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException{
         this.standardHandling(commandExecuter);

@@ -26,6 +26,14 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency, final Invoker invoker) 
+				throws PersistenceException;
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount, final Invoker invoker) 
+				throws PersistenceException;
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber, final Invoker invoker) 
+				throws PersistenceException;
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber, final Invoker invoker) 
+				throws PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws PersistenceException;
     public PersistentAccountService getAccountService() 

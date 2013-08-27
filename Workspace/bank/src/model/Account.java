@@ -322,6 +322,43 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeCurrencyCommand command = model.meta.ChangeCurrencyCommand.createChangeCurrencyCommand(now, now);
+		command.setTrans(trans);
+		command.setCurrency(currency);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeMoneyCommand command = model.meta.ChangeMoneyCommand.createChangeMoneyCommand(newAmount, now, now);
+		command.setTrans(trans);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeReceiverAccountCommand command = model.meta.ChangeReceiverAccountCommand.createChangeReceiverAccountCommand(receiverAccountNumber, now, now);
+		command.setTrans(trans);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeReceiverBankCommand command = model.meta.ChangeReceiverBankCommand.createChangeReceiverBankCommand(receiverBankNumber, now, now);
+		command.setTrans(trans);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws PersistenceException{
         model.meta.AccountCreateDebitGrantAccountLimitTypeMssg event = new model.meta.AccountCreateDebitGrantAccountLimitTypeMssg(receiver, limit, getThis());
@@ -459,25 +496,25 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public PersistentTransfer handleTransfer() throws PersistenceException {
 		    	PersistentTransfer template = Transfer.createTransfer();
 		    	template.setSender(getThis());
-		    	template.getState().changeState(TemplateState.getTheTemplateState());
+		    	template.setState(TemplateState.getTheTemplateState());
 		    	getThis().getDebitTransferTransactions().add(template);
 		    	return template;
 			}
 			public PersistentTransaction handleTransaction() throws PersistenceException {
 		    	PersistentTransaction template = Transaction.createTransaction();
-		    	template.getState().changeState(TemplateState.getTheTemplateState());
+		    	template.setSender(getThis());
+		    	template.setState(TemplateState.getTheTemplateState());
 		    	getThis().getDebitTransferTransactions().add(template);
 		    	return template;
 			}
 			public PersistentDebit handleDebit() throws PersistenceException {
 		    	PersistentDebit template = Debit.createDebit();
 		    	template.setSender(getThis());
-		    	template.getState().changeState(TemplateState.getTheTemplateState());
+		    	template.setState(TemplateState.getTheTemplateState());
 		    	getThis().getDebitTransferTransactions().add(template);
 		    	return template;
 			}
 		});
-    	
 
     	return result;
     }

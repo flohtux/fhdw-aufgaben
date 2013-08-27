@@ -280,6 +280,26 @@ create table CmmnDt(
     CmmnDtCmmtdt Date    
 );
 
+create sequence SChngRcvrBnkCMD nocache;
+
+create table ChngRcvrBnkCMD(
+    id number primary key,
+    Cls number not null,
+    ChngRcvrBnkCMDTrns number,
+    ChngRcvrBnkCMDTrnsCls number,
+    constraint FChngRcvrBnkCMDTrns foreign key (ChngRcvrBnkCMDTrnsCls) references Cls (id),
+    ChngRcvrBnkCMDRcvrBnkNmbr number,
+    ChngRcvrBnkCMDInvoker number,
+    ChngRcvrBnkCMDInvokerCls number,
+    constraint FChngRcvrBnkCMDInvoker foreign key (ChngRcvrBnkCMDInvokerCls) references Cls (id),
+    ChngRcvrBnkCMDCReceiver number,
+    ChngRcvrBnkCMDCReceiverCls number,
+    constraint FChngRcvrBnkCMDCReceiver foreign key (ChngRcvrBnkCMDCReceiverCls) references Cls (id),
+    ChngRcvrBnkCMDMyCmmnDt number,
+    ChngRcvrBnkCMDMyCmmnDtCls number,
+    constraint FChngRcvrBnkCMDMyCmmnDt foreign key (ChngRcvrBnkCMDMyCmmnDtCls) references Cls (id)    
+);
+
 create sequence SPrcnt nocache;
 
 create table Prcnt(
@@ -452,6 +472,26 @@ create table LmtAccnt(
     constraint FLmtAccntThis foreign key (LmtAccntThisCls) references Cls (id)    
 );
 
+create sequence SChngRcvAccCMD nocache;
+
+create table ChngRcvAccCMD(
+    id number primary key,
+    Cls number not null,
+    ChngRcvAccCMDTrns number,
+    ChngRcvAccCMDTrnsCls number,
+    constraint FChngRcvAccCMDTrns foreign key (ChngRcvAccCMDTrnsCls) references Cls (id),
+    ChngRcvAccCMDRecAccNr number,
+    ChngRcvAccCMDInvoker number,
+    ChngRcvAccCMDInvokerCls number,
+    constraint FChngRcvAccCMDInvoker foreign key (ChngRcvAccCMDInvokerCls) references Cls (id),
+    ChngRcvAccCMDCReceiver number,
+    ChngRcvAccCMDCReceiverCls number,
+    constraint FChngRcvAccCMDCReceiver foreign key (ChngRcvAccCMDCReceiverCls) references Cls (id),
+    ChngRcvAccCMDMyCmmnDt number,
+    ChngRcvAccCMDMyCmmnDtCls number,
+    constraint FChngRcvAccCMDMyCmmnDt foreign key (ChngRcvAccCMDMyCmmnDtCls) references Cls (id)    
+);
+
 create sequence SDbtGrntLst nocache;
 
 create table DbtGrntLst(
@@ -560,9 +600,9 @@ create sequence SUsTmpltCMD nocache;
 create table UsTmpltCMD(
     id number primary key,
     Cls number not null,
-    UsTmpltCMDTrnsfr number,
-    UsTmpltCMDTrnsfrCls number,
-    constraint FUsTmpltCMDTrnsfr foreign key (UsTmpltCMDTrnsfrCls) references Cls (id),
+    UsTmpltCMDDbtTrafTran number,
+    UsTmpltCMDDbtTrafTranCls number,
+    constraint FUsTmpltCMDDbtTrafTran foreign key (UsTmpltCMDDbtTrafTranCls) references Cls (id),
     UsTmpltCMDInvoker number,
     UsTmpltCMDInvokerCls number,
     constraint FUsTmpltCMDInvoker foreign key (UsTmpltCMDInvokerCls) references Cls (id),
@@ -587,6 +627,28 @@ create table DbTrNtExec(
     constraint FDbTrNtExecThis foreign key (DbTrNtExecThisCls) references Cls (id)    
 );
 
+create sequence SChngCrrncCMD nocache;
+
+create table ChngCrrncCMD(
+    id number primary key,
+    Cls number not null,
+    ChngCrrncCMDTrns number,
+    ChngCrrncCMDTrnsCls number,
+    constraint FChngCrrncCMDTrns foreign key (ChngCrrncCMDTrnsCls) references Cls (id),
+    ChngCrrncCMDCrrnc number,
+    ChngCrrncCMDCrrncCls number,
+    constraint FChngCrrncCMDCrrnc foreign key (ChngCrrncCMDCrrncCls) references Cls (id),
+    ChngCrrncCMDInvoker number,
+    ChngCrrncCMDInvokerCls number,
+    constraint FChngCrrncCMDInvoker foreign key (ChngCrrncCMDInvokerCls) references Cls (id),
+    ChngCrrncCMDCReceiver number,
+    ChngCrrncCMDCReceiverCls number,
+    constraint FChngCrrncCMDCReceiver foreign key (ChngCrrncCMDCReceiverCls) references Cls (id),
+    ChngCrrncCMDMyCmmnDt number,
+    ChngCrrncCMDMyCmmnDtCls number,
+    constraint FChngCrrncCMDMyCmmnDt foreign key (ChngCrrncCMDMyCmmnDtCls) references Cls (id)    
+);
+
 create sequence SCmmndCrdntr nocache;
 
 create table CmmndCrdntr(
@@ -608,6 +670,26 @@ create table LmtTp(
     LmtMn number,
     LmtMnCls number,
     constraint FLmtMn foreign key (LmtMnCls) references Cls (id)    
+);
+
+create sequence SChngMnCMD nocache;
+
+create table ChngMnCMD(
+    id number primary key,
+    Cls number not null,
+    ChngMnCMDTrns number,
+    ChngMnCMDTrnsCls number,
+    constraint FChngMnCMDTrns foreign key (ChngMnCMDTrnsCls) references Cls (id),
+    ChngMnCMDNwAmnt varchar2(2000),
+    ChngMnCMDInvoker number,
+    ChngMnCMDInvokerCls number,
+    constraint FChngMnCMDInvoker foreign key (ChngMnCMDInvokerCls) references Cls (id),
+    ChngMnCMDCReceiver number,
+    ChngMnCMDCReceiverCls number,
+    constraint FChngMnCMDCReceiver foreign key (ChngMnCMDCReceiverCls) references Cls (id),
+    ChngMnCMDMyCmmnDt number,
+    ChngMnCMDMyCmmnDtCls number,
+    constraint FChngMnCMDMyCmmnDt foreign key (ChngMnCMDMyCmmnDtCls) references Cls (id)    
 );
 
 create sequence SCmmndExctr nocache;

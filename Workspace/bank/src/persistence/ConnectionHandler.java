@@ -123,6 +123,7 @@ public class ConnectionHandler {
     public ExecutedStateFacade theExecutedStateFacade;
     public CommonDateFacade theCommonDateFacade;
     public TrueValueFacade theTrueValueFacade;
+    public ChangeReceiverBankCommandFacade theChangeReceiverBankCommandFacade;
     public PercentFacade thePercentFacade;
     public NotSuccessfulStateFacade theNotSuccessfulStateFacade;
     public SuccessfulStateFacade theSuccessfulStateFacade;
@@ -145,6 +146,7 @@ public class ConnectionHandler {
     public LimitAccountFacade theLimitAccountFacade;
     public LimitFacade theLimitFacade;
     public DebitFacade theDebitFacade;
+    public ChangeReceiverAccountCommandFacade theChangeReceiverAccountCommandFacade;
     public MixedFeeFacade theMixedFeeFacade;
     public DebitGrantListeFacade theDebitGrantListeFacade;
     public AccountServiceFacade theAccountServiceFacade;
@@ -160,9 +162,11 @@ public class ConnectionHandler {
     public YenFacade theYenFacade;
     public TemplateStateFacade theTemplateStateFacade;
     public DebitTransferNotExecutedFacade theDebitTransferNotExecutedFacade;
+    public ChangeCurrencyCommandFacade theChangeCurrencyCommandFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public LimitTypeFacade theLimitTypeFacade;
     public NotExecutableStateFacade theNotExecutableStateFacade;
+    public ChangeMoneyCommandFacade theChangeMoneyCommandFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
     public TransactionFacade theTransactionFacade;
     public MoneyFacade theMoneyFacade;
@@ -213,6 +217,7 @@ public class ConnectionHandler {
             this.theExecutedStateFacade= new ExecutedStateFacade(this.schemaName, this.con);
             this.theCommonDateFacade= new CommonDateFacade(this.schemaName, this.con);
             this.theTrueValueFacade= new TrueValueFacade(this.schemaName, this.con);
+            this.theChangeReceiverBankCommandFacade= new ChangeReceiverBankCommandFacade(this.schemaName, this.con);
             this.thePercentFacade= new PercentFacade(this.schemaName, this.con);
             this.theNotSuccessfulStateFacade= new NotSuccessfulStateFacade(this.schemaName, this.con);
             this.theSuccessfulStateFacade= new SuccessfulStateFacade(this.schemaName, this.con);
@@ -235,6 +240,7 @@ public class ConnectionHandler {
             this.theLimitAccountFacade= new LimitAccountFacade(this.schemaName, this.con);
             this.theLimitFacade= new LimitFacade(this.schemaName, this.con);
             this.theDebitFacade= new DebitFacade(this.schemaName, this.con);
+            this.theChangeReceiverAccountCommandFacade= new ChangeReceiverAccountCommandFacade(this.schemaName, this.con);
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
             this.theDebitGrantListeFacade= new DebitGrantListeFacade(this.schemaName, this.con);
             this.theAccountServiceFacade= new AccountServiceFacade(this.schemaName, this.con);
@@ -250,9 +256,11 @@ public class ConnectionHandler {
             this.theYenFacade= new YenFacade(this.schemaName, this.con);
             this.theTemplateStateFacade= new TemplateStateFacade(this.schemaName, this.con);
             this.theDebitTransferNotExecutedFacade= new DebitTransferNotExecutedFacade(this.schemaName, this.con);
+            this.theChangeCurrencyCommandFacade= new ChangeCurrencyCommandFacade(this.schemaName, this.con);
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade(this.schemaName, this.con);
             this.theLimitTypeFacade= new LimitTypeFacade(this.schemaName, this.con);
             this.theNotExecutableStateFacade= new NotExecutableStateFacade(this.schemaName, this.con);
+            this.theChangeMoneyCommandFacade= new ChangeMoneyCommandFacade(this.schemaName, this.con);
             this.theCommandExecuterFacade= new CommandExecuterFacade(this.schemaName, this.con);
             this.theTransactionFacade= new TransactionFacade(this.schemaName, this.con);
             this.theMoneyFacade= new MoneyFacade(this.schemaName, this.con);
