@@ -18,6 +18,18 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
     public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
         ((PersistentDebitTransferTransaction)this.getTheObject()).setTimestamp(newValue);
     }
+    public PersistentAccount getSender() throws PersistenceException {
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).getSender();
+    }
+    public void setSender(PersistentAccount newValue) throws PersistenceException {
+        ((PersistentDebitTransferTransaction)this.getTheObject()).setSender(newValue);
+    }
+    public PersistentDebitTransferState getState() throws PersistenceException {
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).getState();
+    }
+    public void setState(PersistentDebitTransferState newValue) throws PersistenceException {
+        ((PersistentDebitTransferTransaction)this.getTheObject()).setState(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDebitTransferTransaction)this.getTheObject()).getSubService();
     }
@@ -33,7 +45,7 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
         ((PersistentDebitTransferTransaction)this.getTheObject()).deregister(observee);
     }
     public void execute() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).execute();
     }
     public void execute(final Invoker invoker) 
@@ -56,8 +68,12 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
 				throws PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).copy();
+    }
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).executeImplementation();
     }
     public void initializeOnCreation() 

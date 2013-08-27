@@ -54,9 +54,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
-    public void handleNotExecutetState(PersistentNotExecutetState notExecutetState) throws PersistenceException{
-        this.handleDebitTransferState(notExecutetState);
-    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.handleDebitTransferState(executedState);
     }
@@ -69,9 +66,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
         this.handleDebitTransferState(successfulState);
     }
+    public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
+        this.handleDebitTransferState(notExecutedState);
+    }
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.handleDebitTransferState(templateState);
     }
+    public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    
     public abstract void handleStornoState(PersistentStornoState stornoState) throws PersistenceException;
     
     public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
@@ -86,7 +88,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.handleStornoState(noRequestState);
     }
-    public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     
@@ -117,20 +119,29 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.handleCommonDate(createAccountCommand);
     }
+    public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException{
+        this.handleCommonDate(changeCurrencyCommand);
+    }
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException{
         this.handleCommonDate(createBankCommand);
     }
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
         this.handleCommonDate(executeCommand);
     }
+    public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException{
+        this.handleCommonDate(changeReceiverBankCommand);
+    }
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.handleCommonDate(useTemplateCommand);
     }
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException{
-        this.handleCommonDate(executeTransferCommand);
-    }
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.handleCommonDate(changeNameCommand);
+    }
+    public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
+        this.handleCommonDate(changeMoneyCommand);
+    }
+    public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
+        this.handleCommonDate(changeReceiverAccountCommand);
     }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.handleCommonDate(createDebitGrantCommand);

@@ -14,7 +14,7 @@ public class DebitTransferTemplateProxi extends ViewProxi implements DebitTransf
     @SuppressWarnings("unchecked")
     public DebitTransferTemplateView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> templates_string = (java.util.Vector<String>)resultTable.get("templates");
-        java.util.Vector<DebitTransferView> templates = ViewProxi.getProxiVector(templates_string, connectionKey);
+        java.util.Vector<DebitTransferTransactionView> templates = ViewProxi.getProxiVector(templates_string, connectionKey);
         DebitTransferTemplateView result$$ = new DebitTransferTemplate(templates, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
@@ -48,10 +48,10 @@ public class DebitTransferTemplateProxi extends ViewProxi implements DebitTransf
         return -1;
     }
     
-    public java.util.Vector<DebitTransferView> getTemplates()throws ModelException{
+    public java.util.Vector<DebitTransferTransactionView> getTemplates()throws ModelException{
         return ((DebitTransferTemplate)this.getTheObject()).getTemplates();
     }
-    public void setTemplates(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+    public void setTemplates(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         ((DebitTransferTemplate)this.getTheObject()).setTemplates(newValue);
     }
     

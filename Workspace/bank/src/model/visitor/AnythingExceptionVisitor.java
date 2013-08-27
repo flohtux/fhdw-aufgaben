@@ -12,9 +12,11 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException, E;
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException, E;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
+    public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException, E;
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException, E;
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;
+    public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException, E;
     public void handlePercent(PersistentPercent percent) throws PersistenceException, E;
     public void handleAmount(PersistentAmount amount) throws PersistenceException, E;
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException, E;
@@ -24,6 +26,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
+    public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException, E;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
@@ -31,11 +34,12 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException, E;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
+    public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException, E;
+    public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException, E;
     public void handleMoney(PersistentMoney money) throws PersistenceException, E;
     public void handleBank(PersistentBank bank) throws PersistenceException, E;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException, E;
-    public void handleExecuteTransferCommand(PersistentExecuteTransferCommand executeTransferCommand) throws PersistenceException, E;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException, E;
     
 }

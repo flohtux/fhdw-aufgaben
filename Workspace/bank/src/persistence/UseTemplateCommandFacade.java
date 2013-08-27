@@ -61,9 +61,9 @@ public class UseTemplateCommandFacade{
                 callable.close();
                 return null;
             }
-            PersistentTransfer debitTransfer = null;
+            PersistentDebitTransferTransaction debitTransferTransaction = null;
             if (obj.getLong(2) != 0)
-                debitTransfer = (PersistentTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+                debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             Invoker invoker = null;
             if (obj.getLong(4) != 0)
                 invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
@@ -73,7 +73,7 @@ public class UseTemplateCommandFacade{
             PersistentCommonDate myCommonDate = null;
             if (obj.getLong(8) != 0)
                 myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            UseTemplateCommand result = new UseTemplateCommand(debitTransfer,
+            UseTemplateCommand result = new UseTemplateCommand(debitTransferTransaction,
                                                                invoker,
                                                                commandReceiver,
                                                                myCommonDate,
@@ -101,13 +101,13 @@ public class UseTemplateCommandFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void debitTransferSet(long UseTemplateCommandId, PersistentTransfer debitTransferVal) throws PersistenceException {
+    public void debitTransferTransactionSet(long UseTemplateCommandId, PersistentDebitTransferTransaction debitTransferTransactionVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".UsTmpltCMDFacade.dbtTrnsfrSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".UsTmpltCMDFacade.dbtTrafTranSet(?, ?, ?); end;");
             callable.setLong(1, UseTemplateCommandId);
-            callable.setLong(2, debitTransferVal.getId());
-            callable.setLong(3, debitTransferVal.getClassId());
+            callable.setLong(2, debitTransferTransactionVal.getId());
+            callable.setLong(3, debitTransferTransactionVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

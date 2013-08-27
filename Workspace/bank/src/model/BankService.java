@@ -301,7 +301,7 @@ public class BankService extends model.Service implements PersistentBankService{
         getThis().signalChanged(true);
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.CloseAccountNoPossibleException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, model.CloseAccountNoPossibleException, PersistenceException{
         PersistentTransfer transfer = Transfer.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);

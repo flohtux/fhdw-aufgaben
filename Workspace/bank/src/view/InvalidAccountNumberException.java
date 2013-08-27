@@ -9,7 +9,7 @@ import view.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class InvalidAccountNumberException extends view.UserException{
+public class InvalidAccountNumberException extends view.ExecuteException{
     
     public static InvalidAccountNumberException fromHashtableToInvalidAccountNumberException(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         String message = (String)resultTable.get("?Message?");
@@ -22,6 +22,18 @@ public class InvalidAccountNumberException extends view.UserException{
     }
     
     
+    public void accept(ExecuteExceptionVisitor visitor) throws ModelException {
+        visitor.handleInvalidAccountNumberException(this);
+    }
+    public <R> R accept(ExecuteExceptionReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleInvalidAccountNumberException(this);
+    }
+    public <E extends UserException>  void accept(ExecuteExceptionExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleInvalidAccountNumberException(this);
+    }
+    public <R, E extends UserException> R accept(ExecuteExceptionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleInvalidAccountNumberException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws ModelException {
         visitor.handleInvalidAccountNumberException(this);
     }

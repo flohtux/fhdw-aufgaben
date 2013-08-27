@@ -2,11 +2,10 @@ package persistence;
 
 import java.util.*;
 
-public class DebitTransferTransactionList {
+public class DebitTransferTransactionList  extends DebitTransferTransactionSearchList{
 
-	protected Vector<PersistentDebitTransferTransaction> data; //List of proxies
 	protected DebitTransferTransactionList() {
-		this.data = new Vector<PersistentDebitTransferTransaction>();
+		super();
 	}
 	public Iterator<PersistentDebitTransferTransaction> iterator(PersistentListProxi<PersistentDebitTransferTransaction> listProxi) {
 		return new PersistentListIterator<PersistentDebitTransferTransaction>(listProxi, this.data);

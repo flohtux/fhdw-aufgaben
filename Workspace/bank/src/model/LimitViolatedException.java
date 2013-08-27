@@ -49,6 +49,18 @@ public class LimitViolatedException extends model.DebitException{
     public <R, E extends UserException> R accept(DebitExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleLimitViolatedException(this);
     }
+    public void accept(ExecuteExceptionVisitor visitor) throws PersistenceException {
+        visitor.handleLimitViolatedException(this);
+    }
+    public <R> R accept(ExecuteExceptionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleLimitViolatedException(this);
+    }
+    public <E extends UserException>  void accept(ExecuteExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleLimitViolatedException(this);
+    }
+    public <R, E extends UserException> R accept(ExecuteExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleLimitViolatedException(this);
+    }
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
         visitor.handleLimitViolatedException(this);
     }

@@ -19,7 +19,7 @@ public class ExecuteCommandICProxi extends PersistentInCacheProxi implements Per
     }
     
     public long getClassId() {
-        return 186;
+        return 213;
     }
     
     public Invoker getInvoker() throws PersistenceException {

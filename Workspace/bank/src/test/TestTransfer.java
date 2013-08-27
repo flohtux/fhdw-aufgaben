@@ -9,6 +9,7 @@ import model.BankCreator;
 import model.DebitException;
 import model.Dollar;
 import model.Euro;
+import model.ExecuteException;
 import model.FixTransactionFee;
 import model.InvalidAccountNumberException;
 import model.InvalidBankNumberException;
@@ -21,6 +22,7 @@ import model.NoPermissionToExecuteDebitTransferException;
 import model.Percent;
 import model.Pfund;
 import model.ProcentualFee;
+import model.SuccessfulState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,8 +66,7 @@ public class TestTransfer {
 	}
 
 	@Test
-	public void testBankintern() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankintern() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -83,12 +84,12 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
+		assertEquals(SuccessfulState.getTheSuccessfulState(), newTrans.getState());
 
 	}
 
 	@Test
-	public void testBankinternOtherCurrencies() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankinternOtherCurrencies() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -106,12 +107,12 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
+		assertEquals(SuccessfulState.getTheSuccessfulState(), newTrans.getState());
 
 	}
 
 	@Test
-	public void testLimits() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, InvalidAccountNumberException,
-			PersistenceException {
+	public void testLimits() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bankTestLimits = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -138,11 +139,11 @@ public class TestTransfer {
 		fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
 	}
 	@Test
-	public void testLimitsMax() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, InvalidAccountNumberException,
-			PersistenceException {
+	public void testLimitsMax() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		System.out.println("last bank" + BankCreator.getTheBankCreator().getLastBankNumber());
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -168,8 +169,7 @@ public class TestTransfer {
 
 	}
 	@Test
-	public void testBankExternFixFee() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			InvalidAccountNumberException, DebitException {
+	public void testBankExternFixFee() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -191,8 +191,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternProcentualFee() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			DebitException, InvalidAccountNumberException {
+	public void testBankExternProcentualFee() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -213,7 +212,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternMixedFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, InvalidAccountNumberException, PersistenceException, DebitException {
+	public void testBankExternMixedFee() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -242,8 +241,7 @@ public class TestTransfer {
 	}
 	
 	@Test
-	public void testBankExternProcentualFeeLimitViolation() throws PersistenceException, NoPermissionToExecuteDebitTransferException,
-			InvalidBankNumberException, InvalidAccountNumberException {
+	public void testBankExternProcentualFeeLimitViolation() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -270,8 +268,7 @@ public class TestTransfer {
 		fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
 	}
 	@Test
-	public void testBankinternNoCharge() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			DebitException, InvalidAccountNumberException {
+	public void testBankinternNoCharge() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -293,8 +290,7 @@ public class TestTransfer {
 
 	}
 	@Test
-	public void testBankinternZeroMoney() throws PersistenceException, NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			DebitException, InvalidAccountNumberException {
+	public void testBankinternZeroMoney() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -316,8 +312,7 @@ public class TestTransfer {
 
 	}
 	@Test
-	public void testBankExternNoCharge() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternNoCharge() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -340,8 +335,7 @@ public class TestTransfer {
 		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternFixFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternFixFee2() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -366,8 +360,7 @@ public class TestTransfer {
 
 	}
 	@Test
-	public void testBankinternFixFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankinternFixFee() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -389,8 +382,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(5, 1), bank.getOwnAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternProcentualFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternProcentualFee2() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -413,8 +405,7 @@ public class TestTransfer {
 		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankinternProcentualFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankinternProcentualFee() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -435,8 +426,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(-210, 1), acc1.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankExternMixedFee2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternMixedFee2() throws PersistenceException, ExecuteException {
 		PersistentAdministrator a = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, a);
@@ -461,8 +451,7 @@ public class TestTransfer {
 		assertEquals(new Fraction(150, 1), acc2.getMoney().getAmount().getBalance());
 	}
 	@Test
-	public void testBankInternMixFee() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankInternMixFee() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -486,8 +475,7 @@ public class TestTransfer {
 		assertMoneyEquals(Money.createMoney(Amount.createAmount(Fraction.parse("-160")), Euro.getTheEuro()), acc1.getMoney());
 	}
 	@Test
-	public void testBankExternFixFeeLimitViolation() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternFixFeeLimitViolation() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -514,8 +502,7 @@ public class TestTransfer {
 		fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
 	}
 	@Test
-	public void testBankInternLimitViolation() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, InvalidAccountNumberException,
-			PersistenceException {
+	public void testBankInternLimitViolation() throws PersistenceException, ExecuteException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
@@ -541,8 +528,7 @@ public class TestTransfer {
 		fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
 	}
 	@Test
-	public void testBankExternProcentualFeeLimitViolation2() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternProcentualFeeLimitViolation2() throws PersistenceException, ExecuteException {
 		PersistentAdministrator adminTestLimits = Administrator.createAdministrator();
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
@@ -570,8 +556,7 @@ public class TestTransfer {
 		fail("Es hätte ein Fehler auftreten sollen, weil Limit überschritten!!!");
 	}
 	@Test
-	public void testBankExternCurrencyTransfer() throws NoPermissionToExecuteDebitTransferException, InvalidBankNumberException, DebitException,
-			InvalidAccountNumberException, PersistenceException {
+	public void testBankExternCurrencyTransfer() throws PersistenceException, ExecuteException {
 		PersistentAdministrator a = Administrator.createAdministrator();
 
 		a.changeCurrencyRateGUI("Euro", Fraction.parse("2"));

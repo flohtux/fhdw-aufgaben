@@ -272,7 +272,11 @@ public class Cache {
 		this.number2NameMap.put(-149, "Bank");
 		this.number2NameMap.put(152, "BankCreator");
 		this.number2NameMap.put(-119, "BankService");
+		this.number2NameMap.put(219, "ChangeCurrencyCommand");
+		this.number2NameMap.put(218, "ChangeMoneyCommand");
 		this.number2NameMap.put(103, "ChangeNameCommand");
+		this.number2NameMap.put(217, "ChangeReceiverAccountCommand");
+		this.number2NameMap.put(215, "ChangeReceiverBankCommand");
 		this.number2NameMap.put(-139, "CommandCoordinator");
 		this.number2NameMap.put(-145, "CommandExecuter");
 		this.number2NameMap.put(111, "CommonDate");
@@ -283,14 +287,14 @@ public class Cache {
 		this.number2NameMap.put(177, "Debit");
 		this.number2NameMap.put(191, "DebitGrant");
 		this.number2NameMap.put(202, "DebitGrantListe");
+		this.number2NameMap.put(211, "DebitTransferListe");
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(208, "DebitTransferTemplate");
 		this.number2NameMap.put(126, "Dollar");
 		this.number2NameMap.put(-135, "ErrorDisplay");
 		this.number2NameMap.put(137, "Euro");
-		this.number2NameMap.put(186, "ExecuteCommand");
-		this.number2NameMap.put(184, "ExecuteTransferCommand");
+		this.number2NameMap.put(213, "ExecuteCommand");
 		this.number2NameMap.put(110, "ExecutedState");
 		this.number2NameMap.put(166, "FalseValue");
 		this.number2NameMap.put(108, "FixTransactionFee");
@@ -303,7 +307,7 @@ public class Cache {
 		this.number2NameMap.put(116, "NoLimit");
 		this.number2NameMap.put(104, "NoRequestState");
 		this.number2NameMap.put(144, "NotExecutableState");
-		this.number2NameMap.put(143, "NotExecutetState");
+		this.number2NameMap.put(210, "NotExecutedState");
 		this.number2NameMap.put(142, "NotSuccessfulState");
 		this.number2NameMap.put(134, "NotSuccessfulStornoState");
 		this.number2NameMap.put(112, "Percent");

@@ -10,9 +10,9 @@ import view.visitor.*;
 public class SuccessfulState extends view.objects.DebitTransferState implements SuccessfulStateView{
     
     
-    public SuccessfulState(DebitTransferView debitTransfer,long id, long classId) {
+    public SuccessfulState(DebitTransferTransactionView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitTransferView)debitTransfer,id, classId);        
+        super((DebitTransferTransactionView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -50,7 +50,7 @@ public class SuccessfulState extends view.objects.DebitTransferState implements 
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitTransferView debitTransfer = this.getDebitTransfer();
+        DebitTransferTransactionView debitTransfer = this.getDebitTransfer();
         if (debitTransfer != null) {
             ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }

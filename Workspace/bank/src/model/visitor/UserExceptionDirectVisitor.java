@@ -12,23 +12,26 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handlePasswordException(model.PasswordException passwordException) throws PersistenceException;
     
-    public abstract void handleDebitException(model.DebitException debitException) throws PersistenceException;
-    
-    public void handleLimitViolatedException(model.LimitViolatedException limitViolatedException) throws PersistenceException{
-        this.handleDebitException(limitViolatedException);
-    }
-    public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
-        this.handleDebitException(debitNotGrantedException);
-    }
     public abstract void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
-    
-    public abstract void handleNoPermissionToExecuteDebitTransferException(model.NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws PersistenceException;
-    
-    public abstract void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException;
     
     public abstract void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;
     
-    public abstract void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException;
+    public abstract void handleExecuteException(model.ExecuteException executeException) throws PersistenceException;
     
+    public void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException{
+        this.handleExecuteException(invalidBankNumberException);
+    }
+    public void handleNoPermissionToExecuteDebitTransferException(model.NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws PersistenceException{
+        this.handleExecuteException(noPermissionToExecuteDebitTransferException);
+    }
+    public void handleLimitViolatedException(model.LimitViolatedException limitViolatedException) throws PersistenceException{
+        this.handleExecuteException(limitViolatedException);
+    }
+    public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
+        this.handleExecuteException(invalidAccountNumberException);
+    }
+    public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
+        this.handleExecuteException(debitNotGrantedException);
+    }
     
 }

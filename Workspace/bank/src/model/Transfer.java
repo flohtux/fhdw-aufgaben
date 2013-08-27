@@ -63,14 +63,14 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public Transfer provideCopy() throws PersistenceException{
         Transfer result = this;
         result = new Transfer(this.timestamp, 
+                              this.sender, 
+                              this.state, 
                               this.subService, 
                               this.This, 
                               this.receiverAccountNumber, 
                               this.receiverBankNumber, 
-                              this.sender, 
                               this.money, 
                               this.subject, 
-                              this.state, 
                               this.stornoState, 
                               this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -81,9 +81,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         return false;
     }
     
-    public Transfer(java.sql.Timestamp timestamp,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount sender,PersistentMoney money,String subject,PersistentDebitTransferState state,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public Transfer(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,String subject,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)sender,(PersistentMoney)money,(String)subject,(PersistentDebitTransferState)state,(PersistentStornoState)stornoState,id);        
+        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(String)subject,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {
@@ -216,7 +216,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
         System.err.println("niti 0");
-        getThis().setState(NotExecutetState.getTheNotExecutetState());
+        getThis().setState(NotExecutedState.getTheNotExecutedState());
         getThis().setStornoState(NoRequestState.getTheNoRequestState());
     }
     public void initializeOnInstantiation() 
@@ -228,8 +228,21 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		PersistentTransfer copy = Transfer.createTransfer();
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
+		copy.setMoney(copyMoney);
+		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
+		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
+		copy.setSender(getThis().getSender());
+		copy.setState(getThis().getState());
+		copy.setStornoState(getThis().getStornoState());
+		copy.setTimestamp(getThis().getTimestamp());
+		return copy;
+	}
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
     	if (!getThis().getState().isExecutable().isTrue()) {
     		throw new NoPermissionToExecuteDebitTransferException();
     	}

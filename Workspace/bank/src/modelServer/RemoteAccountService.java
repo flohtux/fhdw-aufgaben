@@ -14,6 +14,17 @@ public  class RemoteAccountService extends RemoteService {
 
 	 
 
+    public synchronized java.util.HashMap<?,?> addToTransaction(String transactionProxiString, String debitTransferProxiString){
+        try {
+            PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
+            PersistentDebitTransfer debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
+            ((PersistentAccountService)this.server).addToTransaction(transaction, debitTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeCurrency(String transProxiString, String currency){
         try {
             PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
@@ -104,9 +115,18 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createTemplate(){
+    public synchronized java.util.HashMap<?,?> createTemplate(String type){
         try {
-            ((PersistentAccountService)this.server).createTemplate();
+            ((PersistentAccountService)this.server).createTemplate(type);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> createTransaction(){
+        try {
+            ((PersistentAccountService)this.server).createTransaction();
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -124,26 +144,22 @@ public  class RemoteAccountService extends RemoteService {
     
     public synchronized java.util.HashMap<?,?> executeTransfer(String debitTransferProxiString){
         try {
-            PersistentDebitTransfer debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
+            PersistentDebitTransferTransaction debitTransfer = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
             ((PersistentAccountService)this.server).executeTransfer(debitTransfer);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
         }catch(model.NoPermissionToExecuteDebitTransferException e0){
             return createExceptionResult(e0, this);
-        }catch(model.InvalidBankNumberException e1){
+        }catch(model.ExecuteException e1){
             return createExceptionResult(e1, this);
-        }catch(model.LimitViolatedException e2){
-            return createExceptionResult(e2, this);
-        }catch(model.InvalidAccountNumberException e3){
-            return createExceptionResult(e3, this);
         }
     }
     
-    public synchronized java.util.HashMap<?,?> useTemplate(String debitTransferProxiString){
+    public synchronized java.util.HashMap<?,?> useTemplate(String debitTransferTransactionProxiString){
         try {
-            PersistentTransfer debitTransfer = (PersistentTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
-            ((PersistentAccountService)this.server).useTemplate(debitTransfer);
+            PersistentDebitTransferTransaction debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferTransactionProxiString));
+            ((PersistentAccountService)this.server).useTemplate(debitTransferTransaction);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

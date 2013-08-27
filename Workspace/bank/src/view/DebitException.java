@@ -8,7 +8,7 @@ import view.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public abstract class DebitException extends view.UserException{
+public abstract class DebitException extends view.ExecuteException{
     
     
     public DebitException(String message) {

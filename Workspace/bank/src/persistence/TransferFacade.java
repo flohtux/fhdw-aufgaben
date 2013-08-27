@@ -28,7 +28,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,null,null,receiverAccountNumber,receiverBankNumber,null,null,subject,null,null,id);
+            Transfer result = new Transfer(timestamp,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,subject,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -44,7 +44,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,null,null,receiverAccountNumber,receiverBankNumber,null,null,subject,null,null,id);
+            Transfer result = new Transfer(timestamp,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,subject,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -65,33 +65,33 @@ public class TransferFacade{
                 callable.close();
                 return null;
             }
-            SubjInterface subService = null;
-            if (obj.getLong(3) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentDebitTransferTransaction This = null;
-            if (obj.getLong(5) != 0)
-                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccount sender = null;
-            if (obj.getLong(9) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            PersistentMoney money = null;
-            if (obj.getLong(11) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            if (obj.getLong(3) != 0)
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             PersistentDebitTransferState state = null;
-            if (obj.getLong(14) != 0)
-                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
+            if (obj.getLong(5) != 0)
+                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            SubjInterface subService = null;
+            if (obj.getLong(7) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentDebitTransferTransaction This = null;
+            if (obj.getLong(9) != 0)
+                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            PersistentMoney money = null;
+            if (obj.getLong(13) != 0)
+                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
             PersistentStornoState stornoState = null;
             if (obj.getLong(16) != 0)
                 stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
             Transfer result = new Transfer(obj.getTimestamp(2),
+                                           sender,
+                                           state,
                                            subService,
                                            This,
-                                           obj.getLong(7),
-                                           obj.getLong(8),
-                                           sender,
+                                           obj.getLong(11),
+                                           obj.getLong(12),
                                            money,
-                                           obj.getString(13) == null ? "" : obj.getString(13) /* In Oracle "" = null !!! */,
-                                           state,
+                                           obj.getString(15) == null ? "" : obj.getString(15) /* In Oracle "" = null !!! */,
                                            stornoState,
                                            TransferId);
             obj.close();

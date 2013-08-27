@@ -37,17 +37,17 @@ public class UseTemplateCommand extends PersistentObject implements PersistentUs
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
-    protected PersistentTransfer debitTransfer;
+    protected PersistentDebitTransferTransaction debitTransferTransaction;
     protected Invoker invoker;
     protected PersistentAccountService commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public UseTemplateCommand(PersistentTransfer debitTransfer,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public UseTemplateCommand(PersistentDebitTransferTransaction debitTransferTransaction,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.debitTransfer = debitTransfer;
+        this.debitTransferTransaction = debitTransferTransaction;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.myCommonDate = myCommonDate;        
@@ -66,9 +66,9 @@ public class UseTemplateCommand extends PersistentObject implements PersistentUs
         if (this.getClassId() == 209) ConnectionHandler.getTheConnectionHandler().theUseTemplateCommandFacade
             .newUseTemplateCommand(this.getId());
         super.store();
-        if(this.getDebitTransfer() != null){
-            this.getDebitTransfer().store();
-            ConnectionHandler.getTheConnectionHandler().theUseTemplateCommandFacade.debitTransferSet(this.getId(), getDebitTransfer());
+        if(this.getDebitTransferTransaction() != null){
+            this.getDebitTransferTransaction().store();
+            ConnectionHandler.getTheConnectionHandler().theUseTemplateCommandFacade.debitTransferTransactionSet(this.getId(), getDebitTransferTransaction());
         }
         if(this.getInvoker() != null){
             this.getInvoker().store();
@@ -85,18 +85,18 @@ public class UseTemplateCommand extends PersistentObject implements PersistentUs
         
     }
     
-    public PersistentTransfer getDebitTransfer() throws PersistenceException {
-        return this.debitTransfer;
+    public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException {
+        return this.debitTransferTransaction;
     }
-    public void setDebitTransfer(PersistentTransfer newValue) throws PersistenceException {
+    public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.debitTransfer)) return;
+        if(newValue.equals(this.debitTransferTransaction)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.debitTransfer = (PersistentTransfer)PersistentProxi.createProxi(objectId, classId);
+        this.debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theUseTemplateCommandFacade.debitTransferSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theUseTemplateCommandFacade.debitTransferTransactionSet(this.getId(), newValue);
         }
     }
     public Invoker getInvoker() throws PersistenceException {
@@ -207,7 +207,7 @@ public class UseTemplateCommand extends PersistentObject implements PersistentUs
          return visitor.handleUseTemplateCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getDebitTransfer() != null) return 1;
+        if (this.getDebitTransferTransaction() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -223,7 +223,7 @@ public class UseTemplateCommand extends PersistentObject implements PersistentUs
     }
     public void execute() 
 				throws PersistenceException{
-        this.getCommandReceiver().useTemplate(this.getDebitTransfer());
+        this.getCommandReceiver().useTemplate(this.getDebitTransferTransaction());
 		
     }
     public Invoker fetchInvoker() 

@@ -22,11 +22,11 @@ public class UseTemplateCommandProxi extends PersistentProxi implements Persiste
         return 209;
     }
     
-    public PersistentTransfer getDebitTransfer() throws PersistenceException {
-        return ((PersistentUseTemplateCommand)this.getTheObject()).getDebitTransfer();
+    public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException {
+        return ((PersistentUseTemplateCommand)this.getTheObject()).getDebitTransferTransaction();
     }
-    public void setDebitTransfer(PersistentTransfer newValue) throws PersistenceException {
-        ((PersistentUseTemplateCommand)this.getTheObject()).setDebitTransfer(newValue);
+    public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
+        ((PersistentUseTemplateCommand)this.getTheObject()).setDebitTransferTransaction(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentUseTemplateCommand)this.getTheObject()).getInvoker();

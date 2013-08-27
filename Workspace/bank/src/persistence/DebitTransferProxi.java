@@ -24,12 +24,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setReceiverBankNumber(long newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setReceiverBankNumber(newValue);
     }
-    public PersistentAccount getSender() throws PersistenceException {
-        return ((PersistentDebitTransfer)this.getTheObject()).getSender();
-    }
-    public void setSender(PersistentAccount newValue) throws PersistenceException {
-        ((PersistentDebitTransfer)this.getTheObject()).setSender(newValue);
-    }
     public PersistentMoney getMoney() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getMoney();
     }
@@ -41,12 +35,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     }
     public void setSubject(String newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setSubject(newValue);
-    }
-    public PersistentDebitTransferState getState() throws PersistenceException {
-        return ((PersistentDebitTransfer)this.getTheObject()).getState();
-    }
-    public void setState(PersistentDebitTransferState newValue) throws PersistenceException {
-        ((PersistentDebitTransfer)this.getTheObject()).setState(newValue);
     }
     public PersistentStornoState getStornoState() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getStornoState();
@@ -63,7 +51,7 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
         ((PersistentDebitTransfer)this.getTheObject()).deregister(observee);
     }
     public void execute() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).execute();
     }
     public void execute(final Invoker invoker) 
@@ -86,8 +74,12 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+        return ((PersistentDebitTransfer)this.getTheObject()).copy();
+    }
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).executeImplementation();
     }
     public PersistentMoney fetchRealMoney() 

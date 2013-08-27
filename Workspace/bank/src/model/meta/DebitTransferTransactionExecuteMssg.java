@@ -36,12 +36,9 @@ public class DebitTransferTransactionExecuteMssg implements DebitTransferTransac
             }
         }
     }
-    public synchronized void getResult() throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException {
+    public synchronized void getResult() throws model.ExecuteException, PersistenceException {
         if(this.excptn != null) {
-            if(this.excptn instanceof model.NoPermissionToExecuteDebitTransferException) throw (model.NoPermissionToExecuteDebitTransferException) this.excptn;
-            if(this.excptn instanceof model.DebitException) throw (model.DebitException) this.excptn;
-            if(this.excptn instanceof model.InvalidBankNumberException) throw (model.InvalidBankNumberException) this.excptn;
-            if(this.excptn instanceof model.InvalidAccountNumberException) throw (model.InvalidAccountNumberException) this.excptn;
+            if(this.excptn instanceof model.ExecuteException) throw (model.ExecuteException) this.excptn;
             if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
             if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;
             throw new Error(this.excptn);

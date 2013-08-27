@@ -120,10 +120,6 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer, invoker);
-    }
     public PersistentServer getAccess() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
@@ -144,9 +140,13 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
-    public void useTemplate(final PersistentTransfer debitTransfer, final Invoker invoker) 
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransfer, invoker);
+        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransferTransaction, invoker);
+    }
+    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
@@ -188,9 +188,13 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createDebit();
     }
-    public void createTemplate() 
+    public void createTemplate(final String type) 
 				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createTemplate();
+        ((PersistentAccountService)this.getTheObject()).createTemplate(type);
+    }
+    public void createTransaction() 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createTransaction();
     }
     public void createTransfer() 
 				throws PersistenceException{
@@ -200,8 +204,8 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
-    public void executeTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.NoPermissionToExecuteDebitTransferException, model.InvalidBankNumberException, model.LimitViolatedException, model.InvalidAccountNumberException, PersistenceException{
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).executeTransfer(debitTransfer);
     }
     public void handleException(final Command command, final PersistenceException exception) 
@@ -224,9 +228,9 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
     }
-    public void useTemplate(final PersistentTransfer debitTransfer) 
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransfer);
+        ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransferTransaction);
     }
 
     

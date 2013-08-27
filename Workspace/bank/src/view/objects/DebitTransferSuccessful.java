@@ -9,9 +9,9 @@ import view.visitor.*;
 
 public class DebitTransferSuccessful extends ViewObject implements DebitTransferSuccessfulView{
     
-    protected java.util.Vector<DebitTransferView> successfuls;
+    protected java.util.Vector<DebitTransferTransactionView> successfuls;
     
-    public DebitTransferSuccessful(java.util.Vector<DebitTransferView> successfuls,long id, long classId) {
+    public DebitTransferSuccessful(java.util.Vector<DebitTransferTransactionView> successfuls,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.successfuls = successfuls;        
@@ -25,10 +25,10 @@ public class DebitTransferSuccessful extends ViewObject implements DebitTransfer
         return getTypeId();
     }
     
-    public java.util.Vector<DebitTransferView> getSuccessfuls()throws ModelException{
+    public java.util.Vector<DebitTransferTransactionView> getSuccessfuls()throws ModelException{
         return this.successfuls;
     }
-    public void setSuccessfuls(java.util.Vector<DebitTransferView> newValue) throws ModelException {
+    public void setSuccessfuls(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         this.successfuls = newValue;
     }
     

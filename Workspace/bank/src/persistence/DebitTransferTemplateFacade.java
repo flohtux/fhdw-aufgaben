@@ -94,7 +94,7 @@ public class DebitTransferTemplateFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public long templatesAdd(long DebitTransferTemplateId, PersistentDebitTransfer templatesVal) throws PersistenceException {
+    public long templatesAdd(long DebitTransferTemplateId, PersistentDebitTransferTransaction templatesVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbTrNtTmplFacade.tmpltsAdd(?, ?, ?); end;");
@@ -121,7 +121,7 @@ public class DebitTransferTemplateFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public DebitTransferList templatesGet(long DebitTransferTemplateId) throws PersistenceException {
+    public DebitTransferTransactionList templatesGet(long DebitTransferTemplateId) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbTrNtTmplFacade.tmpltsGet(?); end;");
@@ -129,9 +129,9 @@ public class DebitTransferTemplateFacade{
             callable.setLong(2, DebitTransferTemplateId);
             callable.execute();
             ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
-            DebitTransferList result = new DebitTransferList();
+            DebitTransferTransactionList result = new DebitTransferTransactionList();
             while (list.next()) {
-                result.add((PersistentDebitTransfer)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
+                result.add((PersistentDebitTransferTransaction)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
             }
             list.close();
             callable.close();

@@ -52,7 +52,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     }
     
     static public long getTypeId() {
-        return 186;
+        return 213;
     }
     
     public long getClassId() {
@@ -61,7 +61,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 186) ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade
+        if (this.getClassId() == 213) ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade
             .newExecuteCommand(this.getId());
         super.store();
         if(this.getInvoker() != null){
@@ -205,16 +205,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
         try{
 			this.getCommandReceiver().execute();
 		}
-		catch(model.NoPermissionToExecuteDebitTransferException e){
-			this.commandException = e;
-		}
-		catch(model.DebitException e){
-			this.commandException = e;
-		}
-		catch(model.InvalidBankNumberException e){
-			this.commandException = e;
-		}
-		catch(model.InvalidAccountNumberException e){
+		catch(model.ExecuteException e){
 			this.commandException = e;
 		}
     }

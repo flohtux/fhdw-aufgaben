@@ -5,4 +5,4 @@ public interface DebitTransferStateMssgs {
 }
 
 interface DebitTransferStateDOWNMssgs extends Mssgs, DebitTransferStateMssgs{}
-interface DebitTransferStateUPMssgs extends ExecutedStateUPMssgs, NotSuccessfulStateUPMssgs, SuccessfulStateUPMssgs, TemplateStateUPMssgs, NotExecutetStateUPMssgs, NotExecutableStateUPMssgs, DebitTransferStateMssgs{}
+interface DebitTransferStateUPMssgs extends ExecutedStateUPMssgs, NotSuccessfulStateUPMssgs, SuccessfulStateUPMssgs, NotExecutedStateUPMssgs, TemplateStateUPMssgs, NotExecutableStateUPMssgs, DebitTransferStateMssgs{}

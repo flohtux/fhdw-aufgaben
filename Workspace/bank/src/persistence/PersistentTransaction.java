@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentTransaction extends PersistentDebitTransferTransaction {
     
+    public PersistentDebitTransferListe getDebitTransfer() throws PersistenceException ;
+    public void setDebitTransfer(PersistentDebitTransferListe newValue) throws PersistenceException ;
     public PersistentTransaction getThis() throws PersistenceException ;
     
     public void accept(DebitTransferTransactionVisitor visitor) throws PersistenceException;
@@ -22,6 +24,8 @@ public interface PersistentTransaction extends PersistentDebitTransferTransactio
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void addToTransaction(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

@@ -81,7 +81,7 @@ public class TransferProxi extends DebitTransferProxi implements PersistentTrans
         ((PersistentTransfer)this.getTheObject()).deregister(observee);
     }
     public void execute() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentTransfer)this.getTheObject()).execute();
     }
     public void execute(final Invoker invoker) 
@@ -104,8 +104,12 @@ public class TransferProxi extends DebitTransferProxi implements PersistentTrans
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+        return ((PersistentTransfer)this.getTheObject()).copy();
+    }
     public void executeImplementation() 
-				throws model.NoPermissionToExecuteDebitTransferException, model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentTransfer)this.getTheObject()).executeImplementation();
     }
     public PersistentMoney fetchRealMoney() 
