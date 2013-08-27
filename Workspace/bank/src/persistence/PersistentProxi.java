@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[119];
+		listProxiFactories = new ListProxiFactory[121];
         listProxiFactories[104] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new AccountReceivedDebitGrantListEntryProxi(objectId, entryId);
@@ -170,6 +170,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[25] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new DollarListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[120] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountServiceSuccessfulListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[79] = new ListProxiFactory(){
@@ -342,7 +347,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [119];
+		proxiFactories = new ProxiFactory [121];
         proxiFactories[104] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new AccountReceivedDebitGrantProxi(objectId);
@@ -496,6 +501,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[25] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new DollarProxi(objectId);
+            }
+        };
+        proxiFactories[120] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountServiceSuccessfulProxi(objectId);
             }
         };
         proxiFactories[79] = new ProxiFactory(){

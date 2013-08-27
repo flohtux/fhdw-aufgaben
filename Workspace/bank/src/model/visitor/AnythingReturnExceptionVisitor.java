@@ -25,6 +25,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException, E;
     public R handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
+    public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException, E;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public R handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException, E;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;

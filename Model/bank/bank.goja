@@ -65,7 +65,7 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
-	DebitTransferSuccessful successful;
+	observe DebitTransferSuccessful successful;
 	DebitTransferNotExecuted notExecuted;
 	DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();

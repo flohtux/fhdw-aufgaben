@@ -142,6 +142,7 @@ public class ConnectionHandler {
     public ExecuteCommandFacade theExecuteCommandFacade;
     public AdministratorBanksFacade theAdministratorBanksFacade;
     public DollarFacade theDollarFacade;
+    public AccountServiceSuccessfulFacade theAccountServiceSuccessfulFacade;
     public FrankenFacade theFrankenFacade;
     public LimitAccountFacade theLimitAccountFacade;
     public LimitFacade theLimitFacade;
@@ -236,6 +237,7 @@ public class ConnectionHandler {
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);
+            this.theAccountServiceSuccessfulFacade= new AccountServiceSuccessfulFacade(this.schemaName, this.con);
             this.theFrankenFacade= new FrankenFacade(this.schemaName, this.con);
             this.theLimitAccountFacade= new LimitAccountFacade(this.schemaName, this.con);
             this.theLimitFacade= new LimitFacade(this.schemaName, this.con);

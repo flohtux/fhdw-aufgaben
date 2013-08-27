@@ -187,5 +187,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     
+    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
+    
     
 }

@@ -189,13 +189,9 @@ public class NotExecutedState extends model.DebitTransferState implements Persis
     
     public void changeState(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
-    	System.out.println("new"+newState);
 		getThis().removeDebitTransferFromList();
 		getThis().addDebitTransferFromList(newState);
-		System.out.println("newSt"+newState);
-		System.out.println("bevor"+getThis().getDebitTransfer().getState());
 		getThis().getDebitTransfer().setState(newState);
-		System.out.println("newStateAfter"+getThis().getDebitTransfer().getState());
 	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{

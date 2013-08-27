@@ -98,11 +98,14 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
     }
+    public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
+        this.standardHandling(limitAccount);
+    }
     public void handleFranken(PersistentFranken franken) throws PersistenceException{
         this.standardHandling(franken);
     }
-    public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
-        this.standardHandling(limitAccount);
+    public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException{
+        this.standardHandling(accountServiceSuccessful);
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.standardHandling(limit);

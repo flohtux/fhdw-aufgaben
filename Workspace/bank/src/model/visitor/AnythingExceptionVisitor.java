@@ -25,6 +25,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException, E;
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
+    public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException, E;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;

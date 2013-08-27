@@ -70,9 +70,9 @@ public class AccountServiceFacade{
             PersistentAccount account = null;
             if (obj.getLong(6) != 0)
                 account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentDebitTransferSuccessful successful = null;
+            PersistentAccountServiceSuccessful successful = null;
             if (obj.getLong(8) != 0)
-                successful = (PersistentDebitTransferSuccessful)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+                successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentDebitTransferNotExecuted notExecuted = null;
             if (obj.getLong(10) != 0)
                 notExecuted = (PersistentDebitTransferNotExecuted)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
@@ -109,7 +109,7 @@ public class AccountServiceFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void successfulSet(long AccountServiceId, PersistentDebitTransferSuccessful successfulVal) throws PersistenceException {
+    public void successfulSet(long AccountServiceId, PersistentAccountServiceSuccessful successfulVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.sccssflSet(?, ?, ?); end;");

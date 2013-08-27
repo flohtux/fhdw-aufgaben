@@ -17,6 +17,7 @@ import model.Money;
 import org.junit.Before;
 import org.junit.Test;
 
+import persistence.ConnectionHandler;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountService;
@@ -40,10 +41,10 @@ public class TestTransaction{
 	public void setUpDatabase() {
 		try {
 			TestSupport.prepareDatabase(); // TODO PREREQUISITES: Test:
-			// substitute by following statement
-			// for database-less test:
-			// ConnectionHandler.getTheConnectionHandler().connect("localhost:1521:xe",
-			// "bank", "bank", "pg".toCharArray(), false);
+//			 substitute by following statement
+//			 for database-less test:
+//			 ConnectionHandler.getTheConnectionHandler().connect("localhost:1521:xe",
+//			 "bank", "bank", "pg".toCharArray(), false);
 			TestSupport.prepareSingletons();
 			persistence.Cache.getTheCache().reset$For$Test();
 		} catch (Exception e) {

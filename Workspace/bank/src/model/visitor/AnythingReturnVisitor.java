@@ -25,6 +25,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException;
     public R handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
+    public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public R handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;

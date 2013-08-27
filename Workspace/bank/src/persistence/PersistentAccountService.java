@@ -8,8 +8,6 @@ public interface PersistentAccountService extends PersistentService {
     
     public PersistentAccount getAccount() throws PersistenceException ;
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
-    public PersistentDebitTransferSuccessful getSuccessful() throws PersistenceException ;
-    public void setSuccessful(PersistentDebitTransferSuccessful newValue) throws PersistenceException ;
     public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException ;
     public void setNotExecuted(PersistentDebitTransferNotExecuted newValue) throws PersistenceException ;
     public PersistentDebitTransferTemplate getTemplate() throws PersistenceException ;
@@ -39,7 +37,11 @@ public interface PersistentAccountService extends PersistentService {
     
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException;
+    public PersistentDebitTransferSuccessful getSuccessful() 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
 				throws PersistenceException;
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException;
@@ -72,6 +74,8 @@ public interface PersistentAccountService extends PersistentService {
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException;
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException;

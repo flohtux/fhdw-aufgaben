@@ -65,11 +65,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
     }
-    public void handleFranken(FrankenView franken) throws ModelException{
-        this.standardHandling(franken);
-    }
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException{
         this.standardHandling(limitAccount);
+    }
+    public void handleFranken(FrankenView franken) throws ModelException{
+        this.standardHandling(franken);
     }
     public void handleLimit(LimitView limit) throws ModelException{
         this.standardHandling(limit);

@@ -453,6 +453,22 @@ create table AdmnstrtrBnks(
     constraint FAdmnstrtrBnksThis foreign key (AdmnstrtrBnksThisCls) references Cls (id)    
 );
 
+create sequence SAccntSrvcSccssfl nocache;
+
+create table AccntSrvcSccssfl(
+    id number primary key,
+    Cls number not null,
+    AccntSrvcSccssflMstr number,
+    AccntSrvcSccssflMstrCls number,
+    constraint FAccntSrvcSccssflMstr foreign key (AccntSrvcSccssflMstrCls) references Cls (id),
+    AccntSrvcSccssflObs number,
+    AccntSrvcSccssflObsCls number,
+    constraint FAccntSrvcSccssflObs foreign key (AccntSrvcSccssflObsCls) references Cls (id),
+    AccntSrvcSccssflThis number,
+    AccntSrvcSccssflThisCls number,
+    constraint FAccntSrvcSccssflThis foreign key (AccntSrvcSccssflThisCls) references Cls (id)    
+);
+
 create sequence SLmtAccnt nocache;
 
 create table LmtAccnt(

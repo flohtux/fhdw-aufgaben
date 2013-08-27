@@ -21,6 +21,7 @@ import model.NoPermissionToExecuteDebitTransferException;
 import model.Percent;
 import model.Pfund;
 import model.ProcentualFee;
+import model.SuccessfulState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -81,6 +82,7 @@ public class TestDebit {
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();
 
+		assertTrue(newDebit.getState()instanceof SuccessfulState);
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
 	}
@@ -106,7 +108,10 @@ public class TestDebit {
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();
-
+		System.out.println("stata"+newDebit.getState());
+		assertTrue(newDebit.getState() instanceof SuccessfulState);
+		System.out.println(acc2.getMoney()+"acc2");
+		System.out.println("acc1"+acc1.getMoney());
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
 	}

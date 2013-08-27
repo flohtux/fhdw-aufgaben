@@ -2,6 +2,8 @@
 package model;
 
 import persistence.*;
+import model.meta.DebitTransferTransactionExecuteMssg;
+import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.visitor.*;
 
 
@@ -220,18 +222,12 @@ public class DebitTransferSuccessful extends PersistentObject implements Persist
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

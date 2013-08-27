@@ -52,6 +52,8 @@ drop sequence SExctCMD;
 drop table ExctCMD cascade constraints;
 drop sequence SAdmnstrtrBnks;
 drop table AdmnstrtrBnks cascade constraints;
+drop sequence SAccntSrvcSccssfl;
+drop table AccntSrvcSccssfl cascade constraints;
 drop sequence SLmtAccnt;
 drop table LmtAccnt cascade constraints;
 drop sequence SChngRcvAccCMD;

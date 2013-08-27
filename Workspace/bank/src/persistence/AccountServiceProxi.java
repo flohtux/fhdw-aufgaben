@@ -28,12 +28,6 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void setAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setAccount(newValue);
     }
-    public PersistentDebitTransferSuccessful getSuccessful() throws PersistenceException {
-        return ((PersistentAccountService)this.getTheObject()).getSuccessful();
-    }
-    public void setSuccessful(PersistentDebitTransferSuccessful newValue) throws PersistenceException {
-        ((PersistentAccountService)this.getTheObject()).setSuccessful(newValue);
-    }
     public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getNotExecuted();
     }
@@ -124,6 +118,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
     }
+    public PersistentDebitTransferSuccessful getSuccessful() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getSuccessful();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initialize(This, final$$Fields);
@@ -131,6 +129,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).register(observee);
+    }
+    public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).setSuccessful(successful);
     }
     public void signalChanged(final boolean signal) 
 				throws PersistenceException{
@@ -227,6 +229,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).successful_update(event);
     }
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
