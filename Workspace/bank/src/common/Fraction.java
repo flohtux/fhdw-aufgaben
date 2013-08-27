@@ -15,6 +15,7 @@ public class Fraction {
 	private static final String FractionStroke = "/";
 	private static final String MinusSign = "-";
 	private static final String DecimalPoint = ",";
+	private static final String ThousandsPoint = ".";
 
 
 
@@ -33,6 +34,28 @@ public class Fraction {
 		}
 		if (denominator.equals(BIZero)) throw new NumberFormatException("Denominator must not be zero!");
 		return new Fraction(enumarator,denominator);
+	}
+	
+	/**
+	 * Parses a decimal number to Fraction.
+	 * 
+	 * @param fraction any String that passes viewConstants.TransferConstants.BalanceRegex
+	 * @return a new Fraction
+	 */
+	public static Fraction parseDec(final String fraction) {
+		String workingCopy = fraction.toString();
+		workingCopy = workingCopy.replaceAll("["+ThousandsPoint+"]", "");
+		BigInteger enumarator;
+		BigInteger denominator;
+		if (workingCopy.contains(DecimalPoint)) {
+			int decimalSeperatorPosition = workingCopy.indexOf(DecimalPoint);
+			int countDecNumbers = workingCopy.substring(decimalSeperatorPosition + DecimalPoint.length()).length();
+			denominator = BigInteger.valueOf(10).pow(countDecNumbers);
+			enumarator = new BigInteger(workingCopy.replaceAll("["+DecimalPoint+"]", ""));
+		} else {
+			return new Fraction(new BigInteger(workingCopy), BIOne);
+		}
+		return new Fraction(enumarator, denominator);
 	}
 
 	private BigInteger enumerator;
@@ -63,7 +86,11 @@ public class Fraction {
 		String result = "";
 		result += (this.isPositive() ? "" : MinusSign);
 		BigInteger[] divAndRemain = this.getEnumerator().abs().divideAndRemainder(this.getDenominator());
-		result += divAndRemain[0] +(decimalPlace.equals(0) ? "" : DecimalPoint);
+		result += divAndRemain[0];
+		
+		result = this.addThousandsSeperator(result);
+		
+		result += (decimalPlace.equals(0) ? "" : DecimalPoint);
 		BigInteger remainPrev = divAndRemain[1];
 		for (int i = 0; i<decimalPlace; i++) {
 			divAndRemain = remainPrev.multiply(BigInteger.valueOf(10)).divideAndRemainder(this.getDenominator());
@@ -72,6 +99,28 @@ public class Fraction {
 		}
 		
 		return result;
+	}
+
+	private String addThousandsSeperator(String result) {
+		String res = "";
+		boolean isNegative =false;
+		if (result.startsWith(MinusSign)) {
+			isNegative = true;
+			result = result.substring(MinusSign.length());
+		}
+		
+		for (int i = result.length(); i >=1; i-=1) {
+			String block = result.substring( i-1, i);
+			res = block + res;
+			if ((result.length() - (i - 1)) %3 == 0) {
+				res = ThousandsPoint + res;
+			}
+		}
+		if (res.startsWith(ThousandsPoint)) {
+			res = res.substring(ThousandsPoint.length());
+		}
+		
+		return isNegative ? MinusSign + res: res;
 	}
 
 	public boolean equals(Object argument){

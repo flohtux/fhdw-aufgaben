@@ -70,15 +70,15 @@ public class AccountServiceFacade{
             PersistentAccount account = null;
             if (obj.getLong(6) != 0)
                 account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentDebitTransferSuccessful successful = null;
+            PersistentAccountServiceSuccessful successful = null;
             if (obj.getLong(8) != 0)
-                successful = (PersistentDebitTransferSuccessful)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            PersistentDebitTransferNotExecuted notExecuted = null;
+                successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentAccountServiceNotExecuted notExecuted = null;
             if (obj.getLong(10) != 0)
-                notExecuted = (PersistentDebitTransferNotExecuted)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            PersistentDebitTransferTemplate template = null;
+                notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            PersistentAccountServiceTemplate template = null;
             if (obj.getLong(12) != 0)
-                template = (PersistentDebitTransferTemplate)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
+                template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
             AccountService result = new AccountService(subService,
                                                        This,
                                                        account,
@@ -109,7 +109,7 @@ public class AccountServiceFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void successfulSet(long AccountServiceId, PersistentDebitTransferSuccessful successfulVal) throws PersistenceException {
+    public void successfulSet(long AccountServiceId, PersistentAccountServiceSuccessful successfulVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.sccssflSet(?, ?, ?); end;");
@@ -122,7 +122,7 @@ public class AccountServiceFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void notExecutedSet(long AccountServiceId, PersistentDebitTransferNotExecuted notExecutedVal) throws PersistenceException {
+    public void notExecutedSet(long AccountServiceId, PersistentAccountServiceNotExecuted notExecutedVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.ntExctdSet(?, ?, ?); end;");
@@ -135,7 +135,7 @@ public class AccountServiceFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void templateSet(long AccountServiceId, PersistentDebitTransferTemplate templateVal) throws PersistenceException {
+    public void templateSet(long AccountServiceId, PersistentAccountServiceTemplate templateVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.tmpltSet(?, ?, ?); end;");

@@ -65,16 +65,17 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
-	DebitTransferSuccessful successful;
-	DebitTransferNotExecuted notExecuted;
-	DebitTransferTemplate template;
+	observe DebitTransferSuccessful successful;
+	observe DebitTransferNotExecuted notExecuted;
+	observe DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
 
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type);
 	void createTransaction@@Neue_Transaktion();
-	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
-	active void useTemplate@@Vorlage_verwenden(Transfer transfer);
+
+	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
+	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
 	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);
@@ -87,14 +88,20 @@ server AccountService extends Service {
 
 class DebitTransferSuccessful##DbtTrnSucc {
 	DebitTransferTransaction ** successfuls;
+	event void add(DebitTransferTransaction debitTransferTransaction);
+	event void remove (DebitTransferTransaction debitTransferTransaction);
 }
 
 class DebitTransferNotExecuted##DbTrNtExec {
 	DebitTransferTransaction ** notExecuteds;	
+	event void add(DebitTransferTransaction debitTransferTransaction);
+	event void remove (DebitTransferTransaction debitTransferTransaction);
 }
 
 class DebitTransferTemplate##DbTrNtTmpl {
 	DebitTransferTransaction ** templates;	
+	event void add(DebitTransferTransaction debitTransferTransaction);
+	event void remove (DebitTransferTransaction debitTransferTransaction);
 }
 
 class Account {
@@ -106,10 +113,10 @@ class Account {
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
  
 	Transfer createTransfer();
-	void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
-	void changeReceiverAccount(DebitTransfer trans, Integer receiverAccountNumber);
-	void changeMoney(DebitTransfer trans, Fraction newAmount);
-	void changeCurrency(DebitTransfer trans, Currency currency);
+	active void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
+	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
+	active void changeMoney(DebitTransfer trans, Fraction newAmount);
+	active void changeCurrency(DebitTransfer trans, Currency currency);
 
 	Debit createDebit();
 	event void createDebitGrant(Account receiver, LimitType limit);
@@ -189,6 +196,7 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	Timestamp timestamp@@Zeitstempel;
 	no-view	Account sender;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
+	DebitTransferTransaction copy();
 }
 
 abstract class DebitTransfer extends DebitTransferTransaction{
@@ -201,7 +209,7 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 }
 
 class Transfer extends DebitTransfer {
-	Transfer copy();
+
 }
 class Debit extends DebitTransfer {}
 

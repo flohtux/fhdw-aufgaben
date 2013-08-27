@@ -22,11 +22,11 @@ public class UseTemplateCommandICProxi extends PersistentInCacheProxi implements
         return 209;
     }
     
-    public PersistentTransfer getTransfer() throws PersistenceException {
-        return ((PersistentUseTemplateCommand)this.getTheObject()).getTransfer();
+    public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException {
+        return ((PersistentUseTemplateCommand)this.getTheObject()).getDebitTransferTransaction();
     }
-    public void setTransfer(PersistentTransfer newValue) throws PersistenceException {
-        ((PersistentUseTemplateCommand)this.getTheObject()).setTransfer(newValue);
+    public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
+        ((PersistentUseTemplateCommand)this.getTheObject()).setDebitTransferTransaction(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentUseTemplateCommand)this.getTheObject()).getInvoker();

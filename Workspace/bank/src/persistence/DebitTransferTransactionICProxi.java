@@ -68,6 +68,10 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
 				throws PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).copy();
+    }
     public void executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).executeImplementation();

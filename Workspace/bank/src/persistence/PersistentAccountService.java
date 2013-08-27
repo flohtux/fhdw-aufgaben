@@ -8,12 +8,6 @@ public interface PersistentAccountService extends PersistentService {
     
     public PersistentAccount getAccount() throws PersistenceException ;
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
-    public PersistentDebitTransferSuccessful getSuccessful() throws PersistenceException ;
-    public void setSuccessful(PersistentDebitTransferSuccessful newValue) throws PersistenceException ;
-    public PersistentDebitTransferNotExecuted getNotExecuted() throws PersistenceException ;
-    public void setNotExecuted(PersistentDebitTransferNotExecuted newValue) throws PersistenceException ;
-    public PersistentDebitTransferTemplate getTemplate() throws PersistenceException ;
-    public void setTemplate(PersistentDebitTransferTemplate newValue) throws PersistenceException ;
     public PersistentAccountService getThis() throws PersistenceException ;
     
     public void accept(ServiceVisitor visitor) throws PersistenceException;
@@ -39,9 +33,21 @@ public interface PersistentAccountService extends PersistentService {
     
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException;
+    public PersistentDebitTransferNotExecuted getNotExecuted() 
+				throws PersistenceException;
+    public PersistentDebitTransferSuccessful getSuccessful() 
+				throws PersistenceException;
+    public PersistentDebitTransferTemplate getTemplate() 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void useTemplate(final PersistentTransfer transfer, final Invoker invoker) 
+    public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
+				throws PersistenceException;
+    public void setSuccessful(final PersistentDebitTransferSuccessful successful) 
+				throws PersistenceException;
+    public void setTemplate(final PersistentDebitTransferTemplate template) 
+				throws PersistenceException;
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
@@ -73,7 +79,13 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void useTemplate(final PersistentTransfer transfer) 
+    public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
+				throws PersistenceException;
+    public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
+				throws PersistenceException;
+    public void template_update(final model.meta.DebitTransferTemplateMssgs event) 
+				throws PersistenceException;
+    public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException;
 
 }

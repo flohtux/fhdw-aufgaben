@@ -22,6 +22,7 @@ import model.NoPermissionToExecuteDebitTransferException;
 import model.Percent;
 import model.Pfund;
 import model.ProcentualFee;
+import model.SuccessfulState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -83,6 +84,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
+		assertEquals(SuccessfulState.getTheSuccessfulState(), newTrans.getState());
 
 	}
 
@@ -105,6 +107,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
+		assertEquals(SuccessfulState.getTheSuccessfulState(), newTrans.getState());
 
 	}
 
@@ -140,6 +143,7 @@ public class TestTransfer {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		System.out.println("last bank" + BankCreator.getTheBankCreator().getLastBankNumber());
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 

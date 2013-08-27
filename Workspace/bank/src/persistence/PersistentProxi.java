@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[114];
+		listProxiFactories = new ListProxiFactory[122];
         listProxiFactories[104] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new AccountReceivedDebitGrantListEntryProxi(objectId, entryId);
@@ -87,6 +87,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new TrueValueListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[114] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new ChangeReceiverBankCommandListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[11] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new PercentListEntryProxi(objectId, entryId);
@@ -100,6 +105,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[74] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new SuccessfulStateListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[121] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountServiceTemplateListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[14] = new ListProxiFactory(){
@@ -167,6 +177,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new DollarListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[119] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountServiceSuccessfulListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[79] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new FrankenListEntryProxi(objectId, entryId);
@@ -185,6 +200,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[76] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new DebitListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[116] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new ChangeReceiverAccountCommandListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[28] = new ListProxiFactory(){
@@ -257,6 +277,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new DebitTransferNotExecutedListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[118] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new ChangeCurrencyCommandListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[38] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new CommandCoordinatorListEntryProxi(objectId, entryId);
@@ -265,6 +290,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[43] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new NotExecutableStateListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[117] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new ChangeMoneyCommandListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[44] = new ListProxiFactory(){
@@ -290,6 +320,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[96] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new DebitTransferSuccessfulListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[120] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountServiceNotExecutedListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[81] = new ListProxiFactory(){
@@ -322,7 +357,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [114];
+		proxiFactories = new ProxiFactory [122];
         proxiFactories[104] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new AccountReceivedDebitGrantProxi(objectId);
@@ -393,6 +428,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new TrueValueProxi(objectId);
             }
         };
+        proxiFactories[114] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new ChangeReceiverBankCommandProxi(objectId);
+            }
+        };
         proxiFactories[11] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new PercentProxi(objectId);
@@ -406,6 +446,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[74] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new SuccessfulStateProxi(objectId);
+            }
+        };
+        proxiFactories[121] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountServiceTemplateProxi(objectId);
             }
         };
         proxiFactories[14] = new ProxiFactory(){
@@ -473,6 +518,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new DollarProxi(objectId);
             }
         };
+        proxiFactories[119] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountServiceSuccessfulProxi(objectId);
+            }
+        };
         proxiFactories[79] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new FrankenProxi(objectId);
@@ -491,6 +541,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[76] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new DebitProxi(objectId);
+            }
+        };
+        proxiFactories[116] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new ChangeReceiverAccountCommandProxi(objectId);
             }
         };
         proxiFactories[28] = new ProxiFactory(){
@@ -563,6 +618,11 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new DebitTransferNotExecutedProxi(objectId);
             }
         };
+        proxiFactories[118] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new ChangeCurrencyCommandProxi(objectId);
+            }
+        };
         proxiFactories[38] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new CommandCoordinatorProxi(objectId);
@@ -571,6 +631,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[43] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new NotExecutableStateProxi(objectId);
+            }
+        };
+        proxiFactories[117] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new ChangeMoneyCommandProxi(objectId);
             }
         };
         proxiFactories[44] = new ProxiFactory(){
@@ -596,6 +661,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[96] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new DebitTransferSuccessfulProxi(objectId);
+            }
+        };
+        proxiFactories[120] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountServiceNotExecutedProxi(objectId);
             }
         };
         proxiFactories[81] = new ProxiFactory(){

@@ -35,8 +35,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
-    
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
@@ -48,6 +46,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    
     public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     
     public abstract void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
@@ -119,11 +119,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.handleCommonDate(createAccountCommand);
     }
+    public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException{
+        this.handleCommonDate(changeCurrencyCommand);
+    }
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException{
         this.handleCommonDate(createBankCommand);
     }
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
         this.handleCommonDate(executeCommand);
+    }
+    public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException{
+        this.handleCommonDate(changeReceiverBankCommand);
     }
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.handleCommonDate(useTemplateCommand);
@@ -131,10 +137,18 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException{
         this.handleCommonDate(changeNameCommand);
     }
+    public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
+        this.handleCommonDate(changeMoneyCommand);
+    }
+    public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
+        this.handleCommonDate(changeReceiverAccountCommand);
+    }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.handleCommonDate(createDebitGrantCommand);
     }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
+    
+    public abstract void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
     
@@ -163,6 +177,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
+    public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
+    
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
@@ -174,6 +190,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
+    
+    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     
     
 }

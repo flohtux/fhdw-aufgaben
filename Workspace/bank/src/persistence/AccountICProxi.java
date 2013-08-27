@@ -79,6 +79,22 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     }
     
     
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeCurrency(trans, currency, invoker);
+    }
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeMoney(trans, newAmount, invoker);
+    }
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeReceiverAccount(trans, receiverAccountNumber, invoker);
+    }
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber, invoker);
+    }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit);

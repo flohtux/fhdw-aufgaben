@@ -4,7 +4,9 @@ import view.*;
 import view.objects.ViewRoot;
 import view.visitor.DebitTransferReturnVisitor;
 import view.visitor.DebitTransferStateExceptionVisitor;
+import view.visitor.DebitTransferStateReturnExceptionVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -27,7 +29,7 @@ import persistence.PersistentNotSuccessfulState;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransfer;
-
+import rGType.CharacterValue;
 import model.BooleanValue;
 import model.Debit;
 import model.FalseValue;
@@ -36,8 +38,8 @@ import model.Transfer;
 import model.TrueValue;
 import model.meta.StringFACTORY;
 import model.visitor.DebitTransferStateVisitor;
-
 import common.Fraction;
+import expressions.RegularExpressionHandler;
 
 
 @SuppressWarnings("serial")
@@ -227,378 +229,158 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			@Override
 			 public void handleDebit(final DebitView debit) throws ModelException{
 				final CustomDebitDetailPanel panel = new CustomDebitDetailPanel(AccountServiceClientView.this, debit);
-				debit.getState().accept(new view.visitor.DebitTransferStateVisitor() {
-					@Override
-					public void handleTemplateState(TemplateStateView templateState)
-							throws ModelException {
-						// TODO Auto-generated method stub
-						
-					}
-					@Override
-					public void handleSuccessfulState(SuccessfulStateView successfulState)
-							throws ModelException {
-					}
-					@Override
-					public void handleNotSuccessfulState(
-							NotSuccessfulStateView notSuccessfulState) throws ModelException {
-						// TODO Auto-generated method stub
-						
-					}
-					@Override
-					public void handleNotExecutedState(NotExecutedStateView notExecutedState)
-							throws ModelException {
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeSubject(debit, text);
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								return true;
-							}
-						});
-						
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeReceiverBank(debit, Integer.parseInt(text));
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-						        try{
-						        	Integer.parseInt(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return true;
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeReceiverAccount(debit, Integer.parseInt(text));
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-						        try{
-						        	Integer.parseInt(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return true;
-							}
-						}); 
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeMoney(debit, Fraction.parse(text));
-							}
-							@Override
-							public String format(String text) {
-								try{
-						        	Fraction frac = Fraction.parse(text);
-						        	return frac.formatDec(2);
-						        } catch(NumberFormatException nfe) {
-						        	return text;
-						        }
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								try{
-						        	Fraction.parse(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return Fraction.parse(text).isPositive();
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeCurrency(debit, text);
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								try {
-									StringFACTORY.createObjectBySubTypeNameForCurrency(text);
-									return true;
-								} catch (PersistenceException e) {
-									return false;
+				debit.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
+					
+						protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
+							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$subject, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(debit, text);}
+								public String format(String text) { return text;	}
+								public boolean check(String text) throws ModelException { return true;	}
+							});
+							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+								public void update(String text) throws ModelException {
+									AccountServiceClientView.this.getConnection().changeReceiverBank(debit, Integer.parseInt(text)); }
+								public String format(String text) { return text; }
+								public boolean check(String text) throws ModelException {
+							        try{
+							        	Integer.parseInt(text);
+							        } catch(NumberFormatException nfe) {
+							        	return false;
+							        }
+							        return true;
+
 								}
-							}
-						});
+							});
+							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeReceiverAccount(debit, Integer.parseInt(text));	}
+								public String format(String text) { return text; }
+								public boolean check(String text) throws ModelException {
+							        try{
+							        	Integer.parseInt(text);
+							        } catch(NumberFormatException nfe) {
+							        	return false;
+							        }
+							        return true;
+								}
+							}); 
+							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeMoney(debit, Fraction.parseDec(text));}
+								public String format(String text) {
+									try{
+							        	Fraction frac = Fraction.parseDec(text);
+							        	return frac.formatDec(2);
+							        } catch(NumberFormatException nfe) {
+							        	return text;
+							        }
+								}
+								public boolean check(String text) throws ModelException {
+									return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
+								}
+							});
+							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeCurrency(debit, text); }
+								public String format(String text) { return text; }
+								public boolean check(String text) throws ModelException {
+									try {
+										StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+										return true;
+									} catch (PersistenceException e) {
+										return false;
+									}
+								}
+							});
+							result = panel;
+						};
 						
-					}
-					@Override
-					public void handleNotExecutableState(
-							NotExecutableStateView notExecutableState) throws ModelException {
-						// TODO Auto-generated method stub
+						@Override
+						public void handleExecutedState(ExecutedStateView executedState) throws ModelException {
+							// no edit possible
+						}
 						
-					}
-					@Override
-					public void handleExecutedState(ExecutedStateView executedState)
-							throws ModelException {
-						// TODO Auto-generated method stub
+						@Override
+						public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
+							// no edit possible
+						}
 						
-					}
-				});
-				
-		    	result = panel;
+					});
+
 			}
 			
 			@Override
 			public void handleTransfer(final TransferView transfer)
 					throws ModelException {
 				final CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, transfer);
-				transfer.getState().accept(new view.visitor.DebitTransferStateVisitor() {
+				transfer.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
 					
-					@Override
-					public void handleTemplateState(TemplateStateView templateState)
-							throws ModelException {
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeSubject(transfer, text);
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								return true;
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text));
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-						        try{
-						        	Integer.parseInt(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return true;
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-						        try{
-						        	Integer.parseInt(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return true;
-							}
-						}); 
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parse(text));
-							}
-							@Override
-							public String format(String text) {
-								try{
-						        	Fraction frac = Fraction.parse(text);
-						        	return frac.formatDec(2);
-						        } catch(NumberFormatException nfe) {
-						        	return text;
-						        }
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								try{
-						        	Fraction.parse(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return Fraction.parse(text).isPositive();
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeCurrency(transfer, text);
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								try {
-									StringFACTORY.createObjectBySubTypeNameForCurrency(text);
-									return true;
-								} catch (PersistenceException e) {
-									return false;
+						protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
+							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(transfer, text);}
+								public String format(String text) { return text;	}
+								public boolean check(String text) throws ModelException { return true;	}
+							});
+							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+								public void update(String text) throws ModelException {
+									AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text)); }
+								public String format(String text) { return text; }
+								public boolean check(String text) throws ModelException {
+							        try{
+							        	Integer.parseInt(text);
+							        } catch(NumberFormatException nfe) {
+							        	return false;
+							        }
+							        return true;
 								}
-							}
-						});
-						
-					}
-					
-					@Override
-					public void handleSuccessfulState(SuccessfulStateView successfulState)
-							throws ModelException {
-					}
-					
-					@Override
-					public void handleNotSuccessfulState(
-							NotSuccessfulStateView notSuccessfulState) throws ModelException {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void handleNotExecutedState(NotExecutedStateView notExecutedState)
-							throws ModelException {
-						
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeSubject(transfer, text);
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								return true;
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text));
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-						        try{
-						        	Integer.parseInt(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return true;
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-						        try{
-						        	Integer.parseInt(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return true;
-							}
-						}); 
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parse(text));
-							}
-							@Override
-							public String format(String text) {
-								try{
-						        	Fraction frac = Fraction.parse(text);
-						        	return frac.formatDec(2);
-						        } catch(NumberFormatException nfe) {
-						        	return text;
-						        }
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								try{
-						        	Fraction.parse(text);
-						        } catch(NumberFormatException nfe) {
-						        	return false;
-						        }
-						        return Fraction.parse(text).isPositive();
-							}
-						});
-						panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
-							@Override
-							public void update(String text) throws ModelException {
-								AccountServiceClientView.this.getConnection().changeCurrency(transfer, text);
-							}
-							@Override
-							public String format(String text) {
-								return text;
-							}
-							@Override
-							public boolean check(String text) throws ModelException {
-								try {
-									StringFACTORY.createObjectBySubTypeNameForCurrency(text);
-									return true;
-								} catch (PersistenceException e) {
-									return false;
+							});
+							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));	}
+								public String format(String text) { return text; }
+								public boolean check(String text) throws ModelException {
+							        try{
+							        	Integer.parseInt(text);
+							        } catch(NumberFormatException nfe) {
+							        	return false;
+							        }
+							        return true;
 								}
-							}
-						});
+							}); 
+							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parseDec(text));}
+								public String format(String text) {
+									try{
+							        	Fraction frac = Fraction.parseDec(text);
+							        	return frac.formatDec(2);
+							        } catch(NumberFormatException nfe) {
+							        	return text;
+							        }
+								}
+								public boolean check(String text) throws ModelException {
+									return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
+								}
+							});
+							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeCurrency(transfer, text); }
+								public String format(String text) { return text; }
+								public boolean check(String text) throws ModelException {
+									try {
+										StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+										return true;
+									} catch (PersistenceException e) {
+										return false;
+									}
+								}
+							});
+							result = panel;
+						};
 						
-					}
-					
-					@Override
-					public void handleNotExecutableState(
-							NotExecutableStateView notExecutableState) throws ModelException {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void handleExecutedState(ExecutedStateView executedState)
-							throws ModelException {
-						// TODO Auto-generated method stub
-						
-					}
-				});
+						public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException {
+							// no edit possible
+						}
+						public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
+							// no edit possible
+						}
+					});
 				
-		    	result = panel;
+					
 			}
 			
 			//TODO Overwrite all handle methods for the types for which you intend to provide a special panel!
@@ -854,34 +636,54 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof DebitTransferTransactionView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Überweisung abschicken");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().executeTransfer((DebitTransferTransactionView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }catch (NoPermissionToExecuteDebitTransferException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
-                            }catch (ExecuteException userException){
-                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                view.setLocationRelativeTo(getNavigationPanel());
-                                view.setVisible(true);
-                                view.repaint();
-                                getConnection().setEagerRefresh();
+                if (this.filterUseTemplate((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Vorlage verwenden");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Vorlage verwenden" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().useTemplate((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterExecuteTransfer((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Überweisung abschicken");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().executeTransfer((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }catch (NoPermissionToExecuteDebitTransferException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }catch (ExecuteException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
             }
             if (selected instanceof DebitGrantListeView){
                 item = new javax.swing.JMenuItem();
@@ -973,24 +775,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                         wizard.pack();
                         wizard.setLocationRelativeTo(getNavigationPanel());
                         wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-            }
-            if (selected instanceof TransferView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Vorlage verwenden");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Vorlage verwenden" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().useTemplate((TransferView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
                     }
                     
                 });
@@ -1466,7 +1250,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		protected void addFields() {
 			super.addFields();
 	        try{
-	            BaseTypePanel panel = new FractionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance());
+	            BaseTypePanel panel = new RegularExpressionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance().formatDec(2), new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex));
 	            this.getScrollablePane().add(panel);
 	            this.panels.put(DebitTransfer$$money$$balance, panel);
 	        }catch(view.ModelException e){
@@ -1513,5 +1297,104 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 	}
 	
+	private boolean filterExecuteTransfer(DebitTransferTransactionView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleExecutedState(
+						ExecutedStateView executedState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState)
+						throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleTemplateState(
+						TemplateStateView templateState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	private boolean filterUseTemplate(DebitTransferTransactionView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState) throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState)
+						throws ModelException {
+					return true;
+				}
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
+<<<<<<< HEAD
+=======
+	
+>>>>>>> refs/heads/kralle
 }

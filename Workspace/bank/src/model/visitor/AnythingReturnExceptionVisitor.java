@@ -16,7 +16,9 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException, E;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public R handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;
+    public R handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException, E;
     public R handlePercent(PersistentPercent percent) throws PersistenceException, E;
+    public R handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException, E;
     public R handleAmount(PersistentAmount amount) throws PersistenceException, E;
     public R handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;
@@ -24,7 +26,9 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException, E;
     public R handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
+    public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException, E;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
+    public R handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException, E;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public R handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;
     public R handleAccount(PersistentAccount account) throws PersistenceException, E;
@@ -32,9 +36,12 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException, E;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
+    public R handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException, E;
+    public R handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException, E;
     public R handleMoney(PersistentMoney money) throws PersistenceException, E;
     public R handleBank(PersistentBank bank) throws PersistenceException, E;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
+    public R handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException, E;
     public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException, E;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException, E;
     

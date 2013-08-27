@@ -31,8 +31,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
     
-    public abstract void handleAccount(AccountView account) throws ModelException;
-    
     public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
     
     public void handleMixedFee(MixedFeeView mixedFee) throws ModelException{
@@ -44,6 +42,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(AccountView account) throws ModelException;
+    
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{

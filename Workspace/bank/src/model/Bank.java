@@ -490,9 +490,9 @@ public class Bank extends PersistentObject implements PersistentBank{
         	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
 				public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {}
 				public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
-					PersistentDebitGrant grant = acc.getGrantedDebitGrant().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
+					PersistentDebitGrant grant = acc.getReceivedDebitGrant().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
 						public boolean test(PersistentDebitGrant argument) throws PersistenceException {
-							return argument.getPermittedAccount().getAccount().equals(debit.getSender());
+							return argument.getPermittedAccount().getAccount().equals(debitTransfer.getSender());
 						}
 					});
 					if (grant == null) {
@@ -504,8 +504,12 @@ public class Bank extends PersistentObject implements PersistentBank{
 			});
         	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
         	 debitTransfer.getState().changeState(SuccessfulState.getTheSuccessfulState());
+        	 
+//        	debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
         	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
             acc.getDebitTransferTransactions().add(debitTransfer);
+            System.out.println("newState"+debitTransfer.getState());
+            acc.getAccountService().getSuccessful().getSuccessfuls().add(debitTransfer);
         }
         
         

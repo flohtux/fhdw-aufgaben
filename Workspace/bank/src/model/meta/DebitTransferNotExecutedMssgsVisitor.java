@@ -5,11 +5,15 @@ public interface DebitTransferNotExecutedMssgsVisitor extends DebitTransferNotEx
 
 interface DebitTransferNotExecutedDOWNMssgsVisitor  {
 
+    public void handleDebitTransferNotExecutedAddDebitTransferTransactionMssg(DebitTransferNotExecutedAddDebitTransferTransactionMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferNotExecutedRemoveDebitTransferTransactionMssg(DebitTransferNotExecutedRemoveDebitTransferTransactionMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface DebitTransferNotExecutedUPMssgsVisitor  {
 
+    public void handleDebitTransferNotExecutedAddDebitTransferTransactionMssg(DebitTransferNotExecutedAddDebitTransferTransactionMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferNotExecutedRemoveDebitTransferTransactionMssg(DebitTransferNotExecutedRemoveDebitTransferTransactionMssg event) throws persistence.PersistenceException;
     
 }
