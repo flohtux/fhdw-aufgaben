@@ -9,45 +9,43 @@ import model.visitor.*;
 
 public class ExecutedState extends model.DebitTransferState implements PersistentExecutedState{
     
-    private static PersistentExecutedState theExecutedState = null;
-    public static boolean reset$For$Test = false;
-    private static final Object $$lock = new Object();
-    public static PersistentExecutedState getTheExecutedState() throws PersistenceException{
-        if (theExecutedState == null || reset$For$Test){
-            class Initializer implements Runnable {
-                PersistenceException exception = null;
-                public void run(){
-                    try {
-                        ExecutedStateProxi proxi = null;
-                        synchronized ($$lock){
-                            proxi = ConnectionHandler.getTheConnectionHandler().theExecutedStateFacade.getTheExecutedState();
-                            theExecutedState = proxi;
-                        }
-                        if(proxi.getId() < 0) {
-                            proxi.setId(proxi.getId() * -1);
-                            proxi.initialize(proxi, new java.util.HashMap<String,Object>());
-                            proxi.initializeOnCreation();
-                        }
-                    } catch (PersistenceException e){
-                        exception = e;
-                    }
-                    synchronized ($$lock){$$lock.notify();}
-                }
-                PersistentExecutedState getResult() throws PersistenceException{
-                    if(exception != null) throw exception;
-                    return theExecutedState;
-                }
-            }
-            synchronized ($$lock) {
-                reset$For$Test = false;
-                Initializer initializer = new Initializer();
-                new Thread(initializer).start();
-                try {$$lock.wait();}catch (InterruptedException e) {} //Need not to be interrupted
-                return initializer.getResult();
-            }
-        }
-        return theExecutedState;
+    
+    public static PersistentExecutedState createExecutedState() throws PersistenceException{
+        return createExecutedState(false);
     }
+    
+    public static PersistentExecutedState createExecutedState(boolean delayed$Persistence) throws PersistenceException {
+        PersistentExecutedState result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theExecutedStateFacade
+                .newDelayedExecutedState();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theExecutedStateFacade
+                .newExecutedState(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(result, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
+    public static PersistentExecutedState createExecutedState(boolean delayed$Persistence,PersistentExecutedState This) throws PersistenceException {
+        PersistentExecutedState result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theExecutedStateFacade
+                .newDelayedExecutedState();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theExecutedStateFacade
+                .newExecutedState(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(This, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
@@ -85,7 +83,11 @@ public class ExecutedState extends model.DebitTransferState implements Persisten
     }
     
     public void store() throws PersistenceException {
-        // Singletons cannot be delayed!
+        if(!this.isDelayed$Persistence()) return;
+        if (this.getClassId() == 110) ConnectionHandler.getTheConnectionHandler().theExecutedStateFacade
+            .newExecutedState(this.getId());
+        super.store();
+        
     }
     
     public PersistentExecutedState getThis() throws PersistenceException {

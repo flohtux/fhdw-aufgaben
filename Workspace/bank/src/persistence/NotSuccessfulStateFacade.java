@@ -15,14 +15,33 @@ public class NotSuccessfulStateFacade{
 		this.con = con;
 	}
 
-    public NotSuccessfulStateProxi getTheNotSuccessfulState() throws PersistenceException {
-        CallableStatement callable;
+    public NotSuccessfulStateProxi newNotSuccessfulState(long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".NotSucStateFacade.getTheNotSucState; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".NotSucStateFacade.newNotSucState(?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            NotSuccessfulState result = new NotSuccessfulState(null,null,id);
+            Cache.getTheCache().put(result);
+            return (NotSuccessfulStateProxi)PersistentProxi.createProxi(id, 142);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public NotSuccessfulStateProxi newDelayedNotSuccessfulState() throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".NotSucStateFacade.newDelayedNotSucState(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
+            NotSuccessfulState result = new NotSuccessfulState(null,null,id);
+            Cache.getTheCache().put(result);
             return (NotSuccessfulStateProxi)PersistentProxi.createProxi(id, 142);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());

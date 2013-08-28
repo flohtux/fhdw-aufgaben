@@ -221,7 +221,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setDebitTransfer(DebitTransferListe.createDebitTransferListe());
-    	getThis().setState(NotExecutedState.getTheNotExecutedState());
+    	getThis().setState(NotExecutedState.createNotExecutedState());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

@@ -15,14 +15,33 @@ public class TemplateStateFacade{
 		this.con = con;
 	}
 
-    public TemplateStateProxi getTheTemplateState() throws PersistenceException {
-        CallableStatement callable;
+    public TemplateStateProxi newTemplateState(long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TmpltSttFacade.getTheTmpltStt; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".TmpltSttFacade.newTmpltStt(?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            TemplateState result = new TemplateState(null,null,id);
+            Cache.getTheCache().put(result);
+            return (TemplateStateProxi)PersistentProxi.createProxi(id, 138);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public TemplateStateProxi newDelayedTemplateState() throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".TmpltSttFacade.newDelayedTmpltStt(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
+            TemplateState result = new TemplateState(null,null,id);
+            Cache.getTheCache().put(result);
             return (TemplateStateProxi)PersistentProxi.createProxi(id, 138);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());

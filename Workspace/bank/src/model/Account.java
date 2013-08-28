@@ -496,21 +496,21 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public PersistentTransfer handleTransfer() throws PersistenceException {
 		    	PersistentTransfer template = Transfer.createTransfer();
 		    	template.setSender(getThis());
-		    	template.setState(TemplateState.getTheTemplateState());
+		    	template.setState(TemplateState.createTemplateState());
 		    	getThis().getDebitTransferTransactions().add(template);
 		    	return template;
 			}
 			public PersistentTransaction handleTransaction() throws PersistenceException {
 		    	PersistentTransaction template = Transaction.createTransaction();
 		    	template.setSender(getThis());
-		    	template.setState(TemplateState.getTheTemplateState());
+		    	template.setState(TemplateState.createTemplateState());
 		    	getThis().getDebitTransferTransactions().add(template);
 		    	return template;
 			}
 			public PersistentDebit handleDebit() throws PersistenceException {
 		    	PersistentDebit template = Debit.createDebit();
 		    	template.setSender(getThis());
-		    	template.setState(TemplateState.getTheTemplateState());
+		    	template.setState(TemplateState.createTemplateState());
 		    	getThis().getDebitTransferTransactions().add(template);
 		    	return template;
 			}

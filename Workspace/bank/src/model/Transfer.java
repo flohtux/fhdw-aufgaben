@@ -216,7 +216,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
         System.err.println("niti 0");
-        getThis().setState(NotExecutedState.getTheNotExecutedState());
+        getThis().setState(NotExecutedState.createNotExecutedState());
         getThis().setStornoState(NoRequestState.getTheNoRequestState());
     }
     public void initializeOnInstantiation() 

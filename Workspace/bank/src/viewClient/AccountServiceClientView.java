@@ -816,7 +816,19 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new ObjectSelectionPanel("debitTransfer", "view.DebitTransferView", (ViewRoot) getConnection().getAccountServiceView(), this));		
+			try{
+				getParametersPanel().add(new ObjectSelectionPanel("debitTransfer", "view.DebitTransferView", new ListRoot(getConnection().debitTransfer_Path_In_AddToTransaction()), this));
+			}catch(ModelException me){;
+				 handleException(me);
+				 setVisible(false);
+				 dispose();
+				 return;
+			 }catch(UserException ue){;
+				 handleUserException(ue);
+				 setVisible(false);
+				 dispose();
+				 return;
+			 }		
 		}	
 		protected void handleDependencies(int i) {
 		}

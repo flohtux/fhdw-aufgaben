@@ -15,14 +15,33 @@ public class NotExecutedStateFacade{
 		this.con = con;
 	}
 
-    public NotExecutedStateProxi getTheNotExecutedState() throws PersistenceException {
-        CallableStatement callable;
+    public NotExecutedStateProxi newNotExecutedState(long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExctdSttFacade.getTheNtExctdStt; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExctdSttFacade.newNtExctdStt(?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            NotExecutedState result = new NotExecutedState(null,null,id);
+            Cache.getTheCache().put(result);
+            return (NotExecutedStateProxi)PersistentProxi.createProxi(id, 210);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public NotExecutedStateProxi newDelayedNotExecutedState() throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".NtExctdSttFacade.newDelayedNtExctdStt(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
+            NotExecutedState result = new NotExecutedState(null,null,id);
+            Cache.getTheCache().put(result);
             return (NotExecutedStateProxi)PersistentProxi.createProxi(id, 210);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());

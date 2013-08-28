@@ -503,7 +503,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 				}
 			});
         	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
-        	 debitTransfer.getState().changeState(SuccessfulState.getTheSuccessfulState());
+        	 debitTransfer.getState().changeState(SuccessfulState.createSuccessfulState());
         	 
 //        	debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
         	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
@@ -535,15 +535,21 @@ public class Bank extends PersistentObject implements PersistentBank{
 				return argument.getBankNumber() == debitTransfer.getReceiverBankNumber();
 			}
 		});
-    	if (result == null) {
-    		throw new InvalidBankNumberException(debitTransfer.getReceiverBankNumber());
-    	} else {
-    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
-    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
-    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
-    		debitTransfer.getSender().setMoney(newAccountMoney);
-			getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
-			result.receiveTransfer(debitTransfer);
+    	try {
+	    	if (result == null) {
+	    		throw new InvalidBankNumberException(debitTransfer.getReceiverBankNumber());
+	    	} else {
+	    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
+	    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
+	    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
+	    		debitTransfer.getSender().setMoney(newAccountMoney);
+				getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
+				result.receiveTransfer(debitTransfer);
+	    	}
+    	} catch (ExecuteException e) {
+    		debitTransfer.getState().changeState(NotExecutedState.createNotExecutedState());
+//    		throw e; TODO muss wieder rein!
+    		throw new InvalidBankNumberException("TODO!!!");
     	}
     }
     

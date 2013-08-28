@@ -15,14 +15,33 @@ public class SuccessfulStateFacade{
 		this.con = con;
 	}
 
-    public SuccessfulStateProxi getTheSuccessfulState() throws PersistenceException {
-        CallableStatement callable;
+    public SuccessfulStateProxi newSuccessfulState(long createMinusStorePlus) throws PersistenceException {
+        OracleCallableStatement callable;
         try{
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".SccssflSttFacade.getTheSccssflStt; end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".SccssflSttFacade.newSccssflStt(?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, createMinusStorePlus);
+            callable.execute();
+            long id = callable.getLong(1);
+            callable.close();
+            SuccessfulState result = new SuccessfulState(null,null,id);
+            Cache.getTheCache().put(result);
+            return (SuccessfulStateProxi)PersistentProxi.createProxi(id, 175);
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    
+    public SuccessfulStateProxi newDelayedSuccessfulState() throws PersistenceException {
+        OracleCallableStatement callable;
+        try{
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".SccssflSttFacade.newDelayedSccssflStt(); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
+            SuccessfulState result = new SuccessfulState(null,null,id);
+            Cache.getTheCache().put(result);
             return (SuccessfulStateProxi)PersistentProxi.createProxi(id, 175);
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());

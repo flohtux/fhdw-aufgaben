@@ -98,6 +98,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur, invoker);
     }
+    public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransaction();
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);

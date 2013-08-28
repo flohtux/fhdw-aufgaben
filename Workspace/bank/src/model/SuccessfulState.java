@@ -9,45 +9,43 @@ import model.visitor.*;
 
 public class SuccessfulState extends model.DebitTransferState implements PersistentSuccessfulState{
     
-    private static PersistentSuccessfulState theSuccessfulState = null;
-    public static boolean reset$For$Test = false;
-    private static final Object $$lock = new Object();
-    public static PersistentSuccessfulState getTheSuccessfulState() throws PersistenceException{
-        if (theSuccessfulState == null || reset$For$Test){
-            class Initializer implements Runnable {
-                PersistenceException exception = null;
-                public void run(){
-                    try {
-                        SuccessfulStateProxi proxi = null;
-                        synchronized ($$lock){
-                            proxi = ConnectionHandler.getTheConnectionHandler().theSuccessfulStateFacade.getTheSuccessfulState();
-                            theSuccessfulState = proxi;
-                        }
-                        if(proxi.getId() < 0) {
-                            proxi.setId(proxi.getId() * -1);
-                            proxi.initialize(proxi, new java.util.HashMap<String,Object>());
-                            proxi.initializeOnCreation();
-                        }
-                    } catch (PersistenceException e){
-                        exception = e;
-                    }
-                    synchronized ($$lock){$$lock.notify();}
-                }
-                PersistentSuccessfulState getResult() throws PersistenceException{
-                    if(exception != null) throw exception;
-                    return theSuccessfulState;
-                }
-            }
-            synchronized ($$lock) {
-                reset$For$Test = false;
-                Initializer initializer = new Initializer();
-                new Thread(initializer).start();
-                try {$$lock.wait();}catch (InterruptedException e) {} //Need not to be interrupted
-                return initializer.getResult();
-            }
-        }
-        return theSuccessfulState;
+    
+    public static PersistentSuccessfulState createSuccessfulState() throws PersistenceException{
+        return createSuccessfulState(false);
     }
+    
+    public static PersistentSuccessfulState createSuccessfulState(boolean delayed$Persistence) throws PersistenceException {
+        PersistentSuccessfulState result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theSuccessfulStateFacade
+                .newDelayedSuccessfulState();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theSuccessfulStateFacade
+                .newSuccessfulState(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(result, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
+    public static PersistentSuccessfulState createSuccessfulState(boolean delayed$Persistence,PersistentSuccessfulState This) throws PersistenceException {
+        PersistentSuccessfulState result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theSuccessfulStateFacade
+                .newDelayedSuccessfulState();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theSuccessfulStateFacade
+                .newSuccessfulState(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(This, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
@@ -85,7 +83,11 @@ public class SuccessfulState extends model.DebitTransferState implements Persist
     }
     
     public void store() throws PersistenceException {
-        // Singletons cannot be delayed!
+        if(!this.isDelayed$Persistence()) return;
+        if (this.getClassId() == 175) ConnectionHandler.getTheConnectionHandler().theSuccessfulStateFacade
+            .newSuccessfulState(this.getId());
+        super.store();
+        
     }
     
     public PersistentSuccessfulState getThis() throws PersistenceException {

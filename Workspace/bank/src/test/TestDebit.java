@@ -37,6 +37,7 @@ import persistence.PersistentFixTransactionFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
 import persistence.PersistentProcentualFee;
+import persistence.PersistentSuccessfulState;
 import persistence.PersistentTransfer;
 import common.Fraction;
 
@@ -108,7 +109,7 @@ public class TestDebit {
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();
 //		System.out.println("stata"+newDebit.getState());
-		assertTrue(newDebit.getState().equals(SuccessfulState.getTheSuccessfulState()));
+		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
 //		System.out.println(acc2.getMoney()+"acc2");
 //		System.out.println("acc1"+acc1.getMoney());
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
@@ -133,7 +134,7 @@ public class TestDebit {
 		newDebit.setReceiverAccountNumber(FirstAccountNumber);
 		newDebit.setReceiverBankNumber(bank2.getBankNumber());
 		newDebit.execute();
-		assertTrue(newDebit.getState().equals(SuccessfulState.getTheSuccessfulState()));
+		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
 //		System.out.println(acc2.getMoney()+"acc2");
 //		System.out.println("acc1"+acc1.getMoney());
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());

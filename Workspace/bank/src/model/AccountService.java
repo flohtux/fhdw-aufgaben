@@ -300,6 +300,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
+				throws model.UserException, PersistenceException{
+        	return new DebitTransferTransactionSearchList(getThis().getNotExecuted().
+                getNotExecuteds().getList());
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -523,12 +528,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
 					@Override
 					public void doItTo(PersistentDebitTransfer argument)
 							throws PersistenceException {
-						argument.setState(NotExecutedState.getTheNotExecutedState());
+						argument.setState(NotExecutedState.createNotExecutedState());
 					}
 				});
 			}
 		});
-    	debitTransferTransactionCopy.setState(NotExecutedState.getTheNotExecutedState());
+    	debitTransferTransactionCopy.setState(NotExecutedState.createNotExecutedState());
     	getThis().getNotExecuted().getNotExecuteds().add(debitTransferTransactionCopy);
     	getThis().signalChanged(true);
     }

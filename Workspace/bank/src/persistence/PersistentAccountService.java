@@ -33,6 +33,8 @@ public interface PersistentAccountService extends PersistentService {
     
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
 				throws PersistenceException;
+    public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
+				throws model.UserException, PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException;
     public PersistentDebitTransferSuccessful getSuccessful() 
