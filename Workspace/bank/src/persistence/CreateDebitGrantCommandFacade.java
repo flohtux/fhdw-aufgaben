@@ -15,21 +15,16 @@ public class CreateDebitGrantCommandFacade{
 		this.con = con;
 	}
 
-    public CreateDebitGrantCommandProxi newCreateDebitGrantCommand(long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur,long createMinusStorePlus) throws PersistenceException {
+    public CreateDebitGrantCommandProxi newCreateDebitGrantCommand(long createMinusStorePlus) throws PersistenceException {
         OracleCallableStatement callable;
         try{
-            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".CrtDbtGrntCMDFacade.newCrtDbtGrntCMD(?,?,?,?,?,?); end;");
+            callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".CrtDbtGrntCMDFacade.newCrtDbtGrntCMD(?); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
-            callable.setLong(2, receiverBankNumber);
-            callable.setLong(3, receiverAccNumber);
-            callable.setString(4, limitType);
-            callable.setString(5, amount.toString());
-            callable.setString(6, cur);
-            callable.setLong(7, createMinusStorePlus);
+            callable.setLong(2, createMinusStorePlus);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            CreateDebitGrantCommand result = new CreateDebitGrantCommand(null,receiverBankNumber,receiverAccNumber,limitType,amount,cur,null,null,null,id);
+            CreateDebitGrantCommand result = new CreateDebitGrantCommand(null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (CreateDebitGrantCommandProxi)PersistentProxi.createProxi(id, 198);
         }catch(SQLException se) {
@@ -37,7 +32,7 @@ public class CreateDebitGrantCommandFacade{
         }
     }
     
-    public CreateDebitGrantCommandProxi newDelayedCreateDebitGrantCommand(long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur) throws PersistenceException {
+    public CreateDebitGrantCommandProxi newDelayedCreateDebitGrantCommand() throws PersistenceException {
         OracleCallableStatement callable;
         try{
             callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".CrtDbtGrntCMDFacade.newDelayedCrtDbtGrntCMD(); end;");
@@ -45,7 +40,7 @@ public class CreateDebitGrantCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            CreateDebitGrantCommand result = new CreateDebitGrantCommand(null,receiverBankNumber,receiverAccNumber,limitType,amount,cur,null,null,null,id);
+            CreateDebitGrantCommand result = new CreateDebitGrantCommand(null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (CreateDebitGrantCommandProxi)PersistentProxi.createProxi(id, 198);
         }catch(SQLException se) {
@@ -66,24 +61,23 @@ public class CreateDebitGrantCommandFacade{
                 callable.close();
                 return null;
             }
-            PersistentDebitGrantListe debitGrantList = null;
+            PersistentAccount receiver = null;
             if (obj.getLong(2) != 0)
-                debitGrantList = (PersistentDebitGrantListe)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+                receiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentLimitType limit = null;
+            if (obj.getLong(4) != 0)
+                limit = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             Invoker invoker = null;
-            if (obj.getLong(9) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            PersistentAccountService commandReceiver = null;
-            if (obj.getLong(11) != 0)
-                commandReceiver = (PersistentAccountService)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            if (obj.getLong(6) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentAccount commandReceiver = null;
+            if (obj.getLong(8) != 0)
+                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(13) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
-            CreateDebitGrantCommand result = new CreateDebitGrantCommand(debitGrantList,
-                                                                         obj.getLong(4),
-                                                                         obj.getLong(5),
-                                                                         obj.getString(6) == null ? "" : obj.getString(6) /* In Oracle "" = null !!! */,
-                                                                         common.Fraction.parse(obj.getString(7)),
-                                                                         obj.getString(8) == null ? "" : obj.getString(8) /* In Oracle "" = null !!! */,
+            if (obj.getLong(10) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            CreateDebitGrantCommand result = new CreateDebitGrantCommand(receiver,
+                                                                         limit,
                                                                          invoker,
                                                                          commandReceiver,
                                                                          myCommonDate,
@@ -111,73 +105,26 @@ public class CreateDebitGrantCommandFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void debitGrantListSet(long CreateDebitGrantCommandId, PersistentDebitGrantListe debitGrantListVal) throws PersistenceException {
+    public void receiverSet(long CreateDebitGrantCommandId, PersistentAccount receiverVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.dbtGrntLstSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.rcvrSet(?, ?, ?); end;");
             callable.setLong(1, CreateDebitGrantCommandId);
-            callable.setLong(2, debitGrantListVal.getId());
-            callable.setLong(3, debitGrantListVal.getClassId());
+            callable.setLong(2, receiverVal.getId());
+            callable.setLong(3, receiverVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void receiverBankNumberSet(long CreateDebitGrantCommandId, long receiverBankNumberVal) throws PersistenceException {
+    public void limitSet(long CreateDebitGrantCommandId, PersistentLimitType limitVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.rcvrBnkNmbrSet(?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.lmtSet(?, ?, ?); end;");
             callable.setLong(1, CreateDebitGrantCommandId);
-            callable.setLong(2, receiverBankNumberVal);
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void receiverAccNumberSet(long CreateDebitGrantCommandId, long receiverAccNumberVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.rcvrAccNmbrSet(?, ?); end;");
-            callable.setLong(1, CreateDebitGrantCommandId);
-            callable.setLong(2, receiverAccNumberVal);
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void limitTypeSet(long CreateDebitGrantCommandId, String limitTypeVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.lmtTpSet(?, ?); end;");
-            callable.setLong(1, CreateDebitGrantCommandId);
-            callable.setString(2, limitTypeVal);
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void amountSet(long CreateDebitGrantCommandId, common.Fraction amountVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.amntSet(?, ?); end;");
-            callable.setLong(1, CreateDebitGrantCommandId);
-            callable.setString(2, amountVal.toString());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void curSet(long CreateDebitGrantCommandId, String curVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.crSet(?, ?); end;");
-            callable.setLong(1, CreateDebitGrantCommandId);
-            callable.setString(2, curVal);
+            callable.setLong(2, limitVal.getId());
+            callable.setLong(3, limitVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
@@ -197,7 +144,7 @@ public class CreateDebitGrantCommandFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void commandReceiverSet(long CreateDebitGrantCommandId, PersistentAccountService commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long CreateDebitGrantCommandId, PersistentAccount commandReceiverVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".CrtDbtGrntCMDFacade.cReceiverSet(?, ?, ?); end;");

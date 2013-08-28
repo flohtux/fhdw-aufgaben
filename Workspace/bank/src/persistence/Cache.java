@@ -262,6 +262,7 @@ public class Cache {
 		this.number2NameMap = new Hashtable<Integer,String>();
 		this.number2NameMap.put(133, "Account");
 		this.number2NameMap.put(206, "AccountGrantedDebitGrant");
+		this.number2NameMap.put(224, "AccountMoney2");
 		this.number2NameMap.put(203, "AccountPx");
 		this.number2NameMap.put(205, "AccountReceivedDebitGrant");
 		this.number2NameMap.put(-130, "AccountService");

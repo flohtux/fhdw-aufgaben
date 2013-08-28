@@ -6,6 +6,7 @@ public interface AccountMssgsVisitor extends AccountDOWNMssgsVisitor, AccountUPM
 interface AccountDOWNMssgsVisitor  {
 
     public void handleAccountCreateDebitGrantAccountLimitTypeMssg(AccountCreateDebitGrantAccountLimitTypeMssg event) throws persistence.PersistenceException;
+    public void handleAccountRemoveAccountPxDebitGrantListeMssg(AccountRemoveAccountPxDebitGrantListeMssg event) throws persistence.PersistenceException;
     
 }
 
@@ -13,5 +14,6 @@ interface AccountDOWNMssgsVisitor  {
 interface AccountUPMssgsVisitor  {
 
     public void handleAccountCreateDebitGrantAccountLimitTypeMssg(AccountCreateDebitGrantAccountLimitTypeMssg event) throws persistence.PersistenceException;
+    public void handleAccountRemoveAccountPxDebitGrantListeMssg(AccountRemoveAccountPxDebitGrantListeMssg event) throws persistence.PersistenceException;
     
 }

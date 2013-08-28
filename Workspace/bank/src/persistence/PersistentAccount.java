@@ -35,6 +35,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber, final Invoker invoker) 
 				throws PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws model.GrantAlreadyGivenException, PersistenceException;
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit, final Invoker invoker) 
 				throws PersistenceException;
     public PersistentAccountService getAccountService() 
 				throws PersistenceException;
@@ -42,11 +44,17 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException;
+    public PersistentMoney getMoney2() 
+				throws PersistenceException;
     public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
+				throws PersistenceException;
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
+				throws PersistenceException;
+    public void setMoney2(final PersistentMoney money2) 
 				throws PersistenceException;
     public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
 				throws PersistenceException;
@@ -61,7 +69,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
-				throws PersistenceException;
+				throws model.GrantAlreadyGivenException, PersistenceException;
     public PersistentDebit createDebit() 
 				throws PersistenceException;
     public PersistentDebitTransferTransaction createTemplate(final String type) 
@@ -76,7 +84,11 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void money2_update(final model.meta.MoneyMssgs event) 
+				throws PersistenceException;
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
+				throws PersistenceException;
+    public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException;
 
 }

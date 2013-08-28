@@ -31,8 +31,6 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
-				throws PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
@@ -66,7 +64,7 @@ public interface PersistentAccountService extends PersistentService {
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
+				throws model.GrantAlreadyGivenException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
     public void createDebit() 
 				throws PersistenceException;
     public void createTemplate(final String type) 
@@ -82,6 +80,8 @@ public interface PersistentAccountService extends PersistentService {
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
+				throws PersistenceException;
+    public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException;
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException;

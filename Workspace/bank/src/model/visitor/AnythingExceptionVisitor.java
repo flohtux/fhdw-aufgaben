@@ -20,6 +20,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handlePercent(PersistentPercent percent) throws PersistenceException, E;
     public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException, E;
     public void handleAmount(PersistentAmount amount) throws PersistenceException, E;
+    public void handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException, E;
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException, E;

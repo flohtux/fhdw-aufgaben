@@ -32,6 +32,8 @@ public class BankServiceConnection extends ServiceConnection {
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
+                    throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
                     throw RestrictionException.fromHashtableToRestrictionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)
@@ -245,6 +247,8 @@ public class BankServiceConnection extends ServiceConnection {
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
+                    throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
                     throw RestrictionException.fromHashtableToRestrictionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)

@@ -619,21 +619,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         if (withStaticOperations) result.add(item);
         if (selected != null){
             if (selected instanceof TransactionView){
-                item = new javax.swing.JMenuItem();
-                item.setText("addToTransaction ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceAddToTransactionTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTransactionDebitTransferMssgWizard("addToTransaction");
-                        wizard.setFirstArgument((TransactionView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
+                if (this.filterAddToTransaction((TransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Buchung zu Transaktion hinzufuegen ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceAddToTransactionTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTransactionDebitTransferMssgWizard("Buchung zu Transaktion hinzufuegen");
+                            wizard.setFirstArgument((TransactionView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
             }
             if (selected instanceof DebitTransferTransactionView){
                 if (this.filterUseTemplate((DebitTransferTransactionView) selected)) {
@@ -703,77 +705,105 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof DebitTransferView){
+                if (this.filterChangeSubject((DebitTransferView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Betreff ändern ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceChangeSubjectDebitTransferStringMssgWizard wizard = new AccountServiceChangeSubjectDebitTransferStringMssgWizard("Betreff ändern");
+                            wizard.setFirstArgument((DebitTransferView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterChangeReceiverBank((DebitTransferView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Empfänger Bank ändern ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard("Empfänger Bank ändern");
+                            wizard.setFirstArgument((DebitTransferView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterChangeReceiverAccount((DebitTransferView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Empfänger Konto ändern ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard("Empfänger Konto ändern");
+                            wizard.setFirstArgument((DebitTransferView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterChangeCurrency((DebitTransferView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Währung ändern ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard wizard = new AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard("Währung ändern");
+                            wizard.setFirstArgument((DebitTransferView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterChangeMoney((DebitTransferView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Überweisungsbetrag ändern ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceChangeMoneyDebitTransferFractionMssgWizard wizard = new AccountServiceChangeMoneyDebitTransferFractionMssgWizard("Überweisungsbetrag ändern");
+                            wizard.setFirstArgument((DebitTransferView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+            }
+            if (selected instanceof DebitGrantView){
                 item = new javax.swing.JMenuItem();
-                item.setText("Betreff ändern ... ");
+                item.setText("Erlaubnis entziehen");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeSubjectDebitTransferStringMssgWizard wizard = new AccountServiceChangeSubjectDebitTransferStringMssgWizard("Betreff ändern");
-                        wizard.setFirstArgument((DebitTransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Empfänger Bank ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverBankDebitTransferIntegerMssgWizard("Empfänger Bank ändern");
-                        wizard.setFirstArgument((DebitTransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Empfänger Konto ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard wizard = new AccountServiceChangeReceiverAccountDebitTransferIntegerMssgWizard("Empfänger Konto ändern");
-                        wizard.setFirstArgument((DebitTransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Währung ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard wizard = new AccountServiceChangeCurrencyDebitTransferCurrencySUBTYPENameMssgWizard("Währung ändern");
-                        wizard.setFirstArgument((DebitTransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Überweisungsbetrag ändern ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceChangeMoneyDebitTransferFractionMssgWizard wizard = new AccountServiceChangeMoneyDebitTransferFractionMssgWizard("Überweisungsbetrag ändern");
-                        wizard.setFirstArgument((DebitTransferView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Erlaubnis entziehen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().remove((DebitGrantView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
                     }
                     
                 });
@@ -786,6 +816,11 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         return result;
     }
     
+	private boolean filterAddToTransaction(TransactionView selected) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	class AccountServiceAddToTransactionTransactionDebitTransferMssgWizard extends Wizard {
 
 		protected AccountServiceAddToTransactionTransactionDebitTransferMssgWizard(String operationName){
@@ -1168,6 +1203,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				setVisible(false);
 				dispose();
 			}
+			catch(GrantAlreadyGivenException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			catch(InvalidBankNumberException e) {
 				getStatusBar().setText(e.getMessage());
 			}
@@ -1404,5 +1442,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		return result;
 	}
 	
+	private boolean filterChangeSubject(DebitTransferView selected) {
+		return false;
+	}
 	
+	private boolean filterChangeReceiverBank(DebitTransferView selected) {
+		return false;
+	}
+	
+	private boolean filterChangeReceiverAccount(DebitTransferView selected) {
+		return false;
+	}
+	
+	private boolean filterChangeCurrency(DebitTransferView selected) {
+		return false;
+	}
+	
+	private boolean filterChangeMoney(DebitTransferView selected) {
+		return false;
+	}
 }

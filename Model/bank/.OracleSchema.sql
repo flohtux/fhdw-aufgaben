@@ -357,6 +357,22 @@ create table Amnt(
     constraint FAmntThis foreign key (AmntThisCls) references Cls (id)    
 );
 
+create sequence SAccntMn2 nocache;
+
+create table AccntMn2(
+    id number primary key,
+    Cls number not null,
+    AccntMn2Mstr number,
+    AccntMn2MstrCls number,
+    constraint FAccntMn2Mstr foreign key (AccntMn2MstrCls) references Cls (id),
+    AccntMn2Obs number,
+    AccntMn2ObsCls number,
+    constraint FAccntMn2Obs foreign key (AccntMn2ObsCls) references Cls (id),
+    AccntMn2This number,
+    AccntMn2ThisCls number,
+    constraint FAccntMn2This foreign key (AccntMn2ThisCls) references Cls (id)    
+);
+
 create sequence SCrtBnkCMD nocache;
 
 create table CrtBnkCMD(
@@ -421,14 +437,12 @@ create sequence SCrtDbtGrntCMD nocache;
 create table CrtDbtGrntCMD(
     id number primary key,
     Cls number not null,
-    CrtDbtGrntCMDDbtGrntLst number,
-    CrtDbtGrntCMDDbtGrntLstCls number,
-    constraint FCrtDbtGrntCMDDbtGrntLst foreign key (CrtDbtGrntCMDDbtGrntLstCls) references Cls (id),
-    CrtDbtGrntCMDRcvrBnkNmbr number,
-    CrtDbtGrntCMDRcvrAccNmbr number,
-    CrtDbtGrntCMDLmtTp varchar2(2000),
-    CrtDbtGrntCMDAmnt varchar2(2000),
-    CrtDbtGrntCMDCr varchar2(2000),
+    CrtDbtGrntCMDRcvr number,
+    CrtDbtGrntCMDRcvrCls number,
+    constraint FCrtDbtGrntCMDRcvr foreign key (CrtDbtGrntCMDRcvrCls) references Cls (id),
+    CrtDbtGrntCMDLmt number,
+    CrtDbtGrntCMDLmtCls number,
+    constraint FCrtDbtGrntCMDLmt foreign key (CrtDbtGrntCMDLmtCls) references Cls (id),
     CrtDbtGrntCMDInvoker number,
     CrtDbtGrntCMDInvokerCls number,
     constraint FCrtDbtGrntCMDInvoker foreign key (CrtDbtGrntCMDInvokerCls) references Cls (id),
@@ -590,6 +604,9 @@ create table Accnt(
     AccntMn number,
     AccntMnCls number,
     constraint FAccntMn foreign key (AccntMnCls) references Cls (id),
+    AccntMn2 number,
+    AccntMn2Cls number,
+    constraint FAccntMn2 foreign key (AccntMn2Cls) references Cls (id),
     AccntLmt number,
     AccntLmtCls number,
     constraint FAccntLmt foreign key (AccntLmtCls) references Cls (id),

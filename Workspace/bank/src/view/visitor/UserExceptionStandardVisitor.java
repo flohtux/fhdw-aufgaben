@@ -26,6 +26,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleLimitViolatedException(LimitViolatedException limitViolatedException) throws ModelException{
         this.standardHandling(limitViolatedException);
     }
+    public void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException{
+        this.standardHandling(grantAlreadyGivenException);
+    }
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException{
         this.standardHandling(restrictionException);
     }

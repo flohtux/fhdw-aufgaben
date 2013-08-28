@@ -68,6 +68,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
         this.standardHandling(noLimit);
     }
+    public void handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException{
+        this.standardHandling(accountMoney2);
+    }
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
     }
@@ -92,11 +95,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
     }
-    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
-        this.standardHandling(executeCommand);
-    }
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException{
         this.standardHandling(administratorBanks);
+    }
+    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
+        this.standardHandling(executeCommand);
     }
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);

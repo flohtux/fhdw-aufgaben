@@ -20,6 +20,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handlePercent(PersistentPercent percent) throws PersistenceException;
     public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     public void handleAmount(PersistentAmount amount) throws PersistenceException;
+    public void handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException;
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;

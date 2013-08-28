@@ -94,10 +94,6 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     }
     
     
-    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur, invoker);
-    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransaction();
@@ -191,7 +187,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.GrantAlreadyGivenException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur);
     }
     public void createDebit() 
@@ -241,6 +237,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).notExecuted_update(event);
+    }
+    public void remove(final PersistentDebitGrant grant) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).remove(grant);
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{

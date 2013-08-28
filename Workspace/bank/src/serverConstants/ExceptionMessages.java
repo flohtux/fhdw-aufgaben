@@ -9,6 +9,7 @@ public class ExceptionMessages {
 	public static final String DebitNotGrantedMessage = "Einzugsermächtigung reicht nicht aus!!";
 	public static final String InvalidBankMessage = "Die Bankleitzahl %s ist ungültig!";
 	public static final String InvalidAccountNumberMessage = "Die Kontonummer %s ist ungültig!";
+	public static final String GrantAlreadyGivenMessage = "Der Account hat bereits eine Erlaubnis!";
 	
 
 	private ExceptionMessages(){}

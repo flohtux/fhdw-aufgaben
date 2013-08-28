@@ -8,6 +8,7 @@ public interface ObsInterfaceReturnVisitor<R> {
     public R handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
     public R handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
     public R handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
+    public R handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     public R handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;

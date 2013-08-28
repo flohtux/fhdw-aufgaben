@@ -110,10 +110,12 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
-        }catch(model.InvalidBankNumberException e0){
+        }catch(model.GrantAlreadyGivenException e0){
             return createExceptionResult(e0, this);
-        }catch(model.InvalidAccountNumberException e1){
+        }catch(model.InvalidBankNumberException e1){
             return createExceptionResult(e1, this);
+        }catch(model.InvalidAccountNumberException e2){
+            return createExceptionResult(e2, this);
         }
     }
     
@@ -164,6 +166,16 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(e0, this);
         }catch(model.ExecuteException e1){
             return createExceptionResult(e1, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> remove(String grantProxiString){
+        try {
+            PersistentDebitGrant grant = (PersistentDebitGrant)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(grantProxiString));
+            ((PersistentAccountService)this.server).remove(grant);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
         }
     }
     

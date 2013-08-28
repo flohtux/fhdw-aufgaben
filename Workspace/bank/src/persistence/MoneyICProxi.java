@@ -70,6 +70,10 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
     }
     
     
+    public PersistentMoney add(final PersistentMoney money) 
+				throws PersistenceException{
+        return ((PersistentMoney)this.getTheObject()).add(money);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).deregister(observee);
@@ -90,9 +94,9 @@ public class MoneyICProxi extends PersistentInCacheProxiOptimistic implements Pe
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).updateObservers(event);
     }
-    public PersistentMoney add(final PersistentMoney money) 
+    public PersistentMoney addImplementation(final PersistentMoney money) 
 				throws PersistenceException{
-        return ((PersistentMoney)this.getTheObject()).add(money);
+        return ((PersistentMoney)this.getTheObject()).addImplementation(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

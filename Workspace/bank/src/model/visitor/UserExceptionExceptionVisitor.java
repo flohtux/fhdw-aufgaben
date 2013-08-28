@@ -9,6 +9,7 @@ public interface UserExceptionExceptionVisitor<E extends UserException> extends 
     public void handleCycleException(model.CycleException cycleException) throws PersistenceException, E;
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException, E;
     public void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException, E;
+    public void handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException, E;
     public void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException, E;
     
 }

@@ -9,6 +9,7 @@ public interface UserExceptionReturnExceptionVisitor<R, E extends UserException>
     public R handleCycleException(CycleException cycleException) throws ModelException, E;
     public R handlePasswordException(PasswordException passwordException) throws ModelException, E;
     public R handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException, E;
+    public R handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException, E;
     public R handleRestrictionException(RestrictionException restrictionException) throws ModelException, E;
     
 }

@@ -62,7 +62,7 @@ public class DebitGrantListeProxi extends PersistentProxi implements PersistentD
     
     
     public void createDebitGrant(final PersistentAccountPx receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
+				throws model.GrantAlreadyGivenException, PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).createDebitGrant(receiver, limit);
     }
     public void deregister(final ObsInterface observee) 
@@ -77,16 +77,24 @@ public class DebitGrantListeProxi extends PersistentProxi implements PersistentD
 				throws PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).register(observee);
     }
+    public void remove(final PersistentAccountPx acc) 
+				throws PersistenceException{
+        ((PersistentDebitGrantListe)this.getTheObject()).remove(acc);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).updateObservers(event);
+    }
+    public void checkGrantGiven(final PersistentAccountPx acc) 
+				throws model.GrantAlreadyGivenException, PersistenceException{
+        ((PersistentDebitGrantListe)this.getTheObject()).checkGrantGiven(acc);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void createDebitGrantImplementation(final PersistentAccountPx receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
+				throws model.GrantAlreadyGivenException, PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).createDebitGrantImplementation(receiver, limit);
     }
     public void initializeOnCreation() 
@@ -96,6 +104,10 @@ public class DebitGrantListeProxi extends PersistentProxi implements PersistentD
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void removeImplementation(final PersistentAccountPx acc) 
+				throws PersistenceException{
+        ((PersistentDebitGrantListe)this.getTheObject()).removeImplementation(acc);
     }
 
     

@@ -3,10 +3,15 @@ package model;
 
 import persistence.*;
 import model.meta.DebitTransferMssgsVisitor;
+import model.meta.DebitTransferNotExecutedAddDebitTransferTransactionMssg;
 import model.meta.DebitTransferNotExecutedMssgsVisitor;
+import model.meta.DebitTransferNotExecutedRemoveDebitTransferTransactionMssg;
 import model.meta.DebitTransferSuccessfulAddDebitTransferTransactionMssg;
 import model.meta.DebitTransferSuccessfulMssgsVisitor;
 import model.meta.DebitTransferSuccessfulRemoveDebitTransferTransactionMssg;
+import model.meta.DebitTransferTemplateAddDebitTransferTransactionMssg;
+import model.meta.DebitTransferTemplateMssgsVisitor;
+import model.meta.DebitTransferTemplateRemoveDebitTransferTransactionMssg;
 import model.meta.DebitTransferTransactionExecuteMssg;
 import model.meta.LimitTypeSwitchPARAMETER;
 import model.meta.StringFACTORY;
@@ -291,15 +296,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
-    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentCreateDebitGrantCommand command = model.meta.CreateDebitGrantCommand.createCreateDebitGrantCommand(receiverBankNumber, receiverAccNumber, limitType, amount, cur, now, now);
-		command.setDebitGrantList(debitGrantList);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException{
         	return new DebitTransferTransactionSearchList(getThis().getNotExecuted().
@@ -429,7 +425,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     }
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
-				throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.GrantAlreadyGivenException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
     	PersistentBank b = getThis().getAccount().getBank().getAdministrator().searchBankByBankNumber(receiverBankNumber);
     	PersistentAccount a = b.searchAccountByAccNumber(receiverAccNumber);
     	
@@ -439,7 +435,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 			}
 		});
     	
-    	getThis().getAccount().createDebitGrant(a, limit);
+    	getThis().getAccount().createDebitGrant(a, limit,getThis());
     	getThis().signalChanged(true);
     }
     public void createDebit() 
@@ -486,8 +482,26 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: notExecuted_update
-        
+        event.accept(new DebitTransferNotExecutedMssgsVisitor() {
+			@Override
+			public void handleDebitTransferNotExecutedRemoveDebitTransferTransactionMssg(
+					DebitTransferNotExecutedRemoveDebitTransferTransactionMssg event)
+					throws PersistenceException {
+				getThis().signalChanged(true);
+			}
+			@Override
+			public void handleDebitTransferNotExecutedAddDebitTransferTransactionMssg(
+					DebitTransferNotExecutedAddDebitTransferTransactionMssg event)
+					throws PersistenceException {
+				getThis().signalChanged(true);
+			}
+		});
+    }
+    public void remove(final PersistentDebitGrant grant) 
+				throws PersistenceException{
+    	getThis().getAccount().getGrantedDebitGrant().remove(grant.getPermittedAccount());
+    	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
+    	getThis().signalChanged(true);
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{
@@ -509,8 +523,20 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void template_update(final model.meta.DebitTransferTemplateMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: template_update
-        
+        event.accept(new DebitTransferTemplateMssgsVisitor() {
+			@Override
+			public void handleDebitTransferTemplateRemoveDebitTransferTransactionMssg(
+					DebitTransferTemplateRemoveDebitTransferTransactionMssg event)
+					throws PersistenceException {
+				getThis().signalChanged(true);
+			}
+			@Override
+			public void handleDebitTransferTemplateAddDebitTransferTransactionMssg(
+					DebitTransferTemplateAddDebitTransferTransactionMssg event)
+					throws PersistenceException {
+				getThis().signalChanged(true);
+			}
+		});
     }
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{

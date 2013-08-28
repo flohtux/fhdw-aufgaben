@@ -42,6 +42,8 @@ drop sequence SCrrnc;
 drop table Crrnc cascade constraints;
 drop sequence SAmnt;
 drop table Amnt cascade constraints;
+drop sequence SAccntMn2;
+drop table AccntMn2 cascade constraints;
 drop sequence SCrtBnkCMD;
 drop table CrtBnkCMD cascade constraints;
 drop sequence SSrvr;

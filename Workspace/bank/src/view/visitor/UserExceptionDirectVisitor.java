@@ -13,6 +13,8 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     
+    public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
+    
     public abstract void handleRestrictionException(RestrictionException restrictionException) throws ModelException;
     
     public abstract void handleExecuteException(ExecuteException executeException) throws ModelException;

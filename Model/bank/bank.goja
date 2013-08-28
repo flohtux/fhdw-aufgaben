@@ -74,13 +74,14 @@ server AccountService extends Service {
 	void createTransaction@@Neue_Transaktion();
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
-	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
-	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);
-	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans, Fraction newAmount);
-	void changeSubject@@Betreff_ändern(DebitTransfer trans, String subject);
-	void changeCurrency@@Währung_ändern(DebitTransfer trans, CurrencySUBTYPEName currency);
-	active void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException;
-	void addToTransaction(Transaction transaction,DebitTransfer debitTransfer {notExecuted;notExecuteds});
+	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
+	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans checked, Integer receiverAccNumber);
+	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans checked, Fraction newAmount);
+	void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
+	void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
+	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
+	void addToTransaction@@Buchung_zu_Transaktion_hinzufuegen(Transaction transaction checked,DebitTransfer debitTransfer {notExecuted;notExecuteds});
+	void remove@@Erlaubnis_entziehen(DebitGrant grant);
 }
 
 class DebitTransferSuccessful##DbtTrnSucc {
@@ -104,11 +105,13 @@ class DebitTransferTemplate##DbTrNtTmpl {
 class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
+	observe Money money2;
 	one-to-one (no-view account) LimitAccount limit;
 	no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
- 
+	event void remove(AccountPx acc, DebitGrantListe list);
+
 	Transfer createTransfer();
 	active void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
 	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
@@ -116,7 +119,7 @@ class Account {
 	active void changeCurrency(DebitTransfer trans, Currency currency);
 
 	Debit createDebit();
-	event void createDebitGrant(Account receiver, LimitType limit);
+	active event void createDebitGrant(Account receiver, LimitType limit) throws GrantAlreadyGivenException; 
 
 	DebitTransferTransaction createTemplate(DebitTransferTransactionSUBTYPEName type);
 	Transaction createTransaction();
@@ -128,13 +131,15 @@ class AccountPx {
 
 class DebitGrantListe {
 	DebitGrant ** debitGrants;
-	event void createDebitGrant(AccountPx receiver, LimitType limit);
+	event void createDebitGrant(AccountPx receiver, LimitType limit) throws GrantAlreadyGivenException;
+	void checkGrantGiven(AccountPx acc) throws GrantAlreadyGivenException;
+	event void remove(AccountPx acc);
 }
 
 class Money {
 	skip-view prior Amount amount;
 	skip-view prior Currency currency;
-	Money add(Money money);
+	event Money add(Money money);
 	Money subtract(Money money) throws LimitViolatedException;
 	Money multiply (Fraction factor);
 	BooleanValue greater(Money money);
@@ -247,6 +252,7 @@ exception LimitViolatedException extends DebitException{}
 exception NoPermissionToExecuteDebitTransferException extends ExecuteException{}
 exception CloseAccountNoPossibleException{}
 exception NoAccountsFound{}
+exception GrantAlreadyGivenException{}
 exception DebitNotGrantedException extends DebitException{}
 
 abstract exception DebitException extends ExecuteException{}

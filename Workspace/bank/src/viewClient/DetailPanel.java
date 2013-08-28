@@ -1369,6 +1369,7 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
+    protected static final String Account$$money2 = "Account$$money2";
     protected static final String Account$$limit = "Account$$limit";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";

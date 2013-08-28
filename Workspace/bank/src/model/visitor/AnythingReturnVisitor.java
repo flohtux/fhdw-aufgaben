@@ -20,6 +20,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
     public R handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
+    public R handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException;
     public R handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException;
     public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
