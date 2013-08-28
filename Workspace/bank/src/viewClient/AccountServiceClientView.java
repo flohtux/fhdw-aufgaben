@@ -2,11 +2,7 @@ package viewClient;
 
 import view.*;
 import view.objects.ViewRoot;
-import view.visitor.DebitTransferReturnVisitor;
-import view.visitor.DebitTransferStateExceptionVisitor;
-import view.visitor.DebitTransferStateReturnExceptionVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
-import view.visitor.DebitTransferTransactionReturnVisitor;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -20,24 +16,8 @@ import javax.swing.tree.TreeSelectionModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 
 import persistence.PersistenceException;
-import persistence.PersistentBooleanValue;
-import persistence.PersistentDebit;
-import persistence.PersistentExecutedState;
-import persistence.PersistentNotExecutableState;
-import persistence.PersistentNotExecutedState;
-import persistence.PersistentNotSuccessfulState;
-import persistence.PersistentSuccessfulState;
-import persistence.PersistentTemplateState;
-import persistence.PersistentTransfer;
 import rGType.CharacterValue;
-import model.BooleanValue;
-import model.Debit;
-import model.FalseValue;
-import model.TemplateState;
-import model.Transfer;
-import model.TrueValue;
 import model.meta.StringFACTORY;
-import model.visitor.DebitTransferStateVisitor;
 import common.Fraction;
 import expressions.RegularExpressionHandler;
 
@@ -621,10 +601,27 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
             if (selected instanceof TransactionView){
                 if (this.filterAddToTransaction((TransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
-                    item.setText("Buchung zu Transaktion hinzufuegen ... ");
+                    item.setText("Buchung zu Transaktion hinzufügen ... ");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            AccountServiceAddToTransactionTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTransactionDebitTransferMssgWizard("Buchung zu Transaktion hinzufuegen");
+                            AccountServiceAddToTransactionTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTransactionDebitTransferMssgWizard("Buchung zu Transaktion hinzufügen");
+                            wizard.setFirstArgument((TransactionView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterAddToTransactionTemplate((TransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Vorlagebuchung zu Transaktion hinzufügen ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard("Vorlagebuchung zu Transaktion hinzufügen");
                             wizard.setFirstArgument((TransactionView)selected);
                             wizard.pack();
                             wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -816,9 +813,63 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         return result;
     }
     
-	private boolean filterAddToTransaction(TransactionView selected) {
-		// TODO Auto-generated method stub
-		return false;
+	class AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard extends Wizard {
+
+		protected AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().addToTransactionTemplate(firstArgument, (DebitTransferView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			try{
+				getParametersPanel().add(new ObjectSelectionPanel("debitTransfer", "view.DebitTransferView", new ListRoot(getConnection().debitTransfer_Path_In_AddToTransactionTemplate()), this));
+			}catch(ModelException me){;
+				 handleException(me);
+				 setVisible(false);
+				 dispose();
+				 return;
+			 }catch(UserException ue){;
+				 handleUserException(ue);
+				 setVisible(false);
+				 dispose();
+				 return;
+			 }		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TransactionView firstArgument; 
+	
+		public void setFirstArgument(TransactionView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
 	}
 
 	class AccountServiceAddToTransactionTransactionDebitTransferMssgWizard extends Wizard {
@@ -1460,5 +1511,102 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 	
 	private boolean filterChangeMoney(DebitTransferView selected) {
 		return false;
+	}
+	private boolean filterAddToTransaction(TransactionView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState)
+						throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private boolean filterAddToTransactionTemplate(TransactionView selected) {
+		boolean result  = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState)
+						throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

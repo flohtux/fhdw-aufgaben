@@ -296,6 +296,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
+    public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
+				throws model.UserException, PersistenceException{
+        	return new DebitTransferTransactionSearchList(getThis().getTemplate().
+                getTemplates().getList());
+    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException{
         	return new DebitTransferTransactionSearchList(getThis().getNotExecuted().
@@ -387,9 +392,16 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+				throws PersistenceException{
+        transaction.addToTransaction(debitTransfer);
+        debitTransfer.getState().changeState(NotSuccessfulState.createNotSuccessfulState());
+        getThis().signalChanged(true);
+    }
     public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
         transaction.addToTransaction(debitTransfer);
+        debitTransfer.getState().changeState(NotSuccessfulState.createNotSuccessfulState());
         getThis().signalChanged(true);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
@@ -500,7 +512,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException{
     	getThis().getAccount().getGrantedDebitGrant().remove(grant.getPermittedAccount());
-    	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
+    	grant.getPermittedAccount().getAccount().getReceivedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
     	getThis().signalChanged(true);
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 

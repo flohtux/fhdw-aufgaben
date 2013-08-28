@@ -240,9 +240,11 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 	}
     public void executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
-		if (!getThis().getState().isExecutable().isTrue()) {
+		System.out.println("exe debit");
+    	if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}
+    	System.out.println("exe debit  erfolg");
 		getThis().getSender().getBank().sendTransfer(getThis());
 	}
 

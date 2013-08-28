@@ -94,6 +94,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     }
     
     
+    public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransactionTemplate();
+    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransaction();
@@ -149,6 +153,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransferTransaction, invoker);
+    }
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).addToTransactionTemplate(transaction, debitTransfer);
     }
     public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{

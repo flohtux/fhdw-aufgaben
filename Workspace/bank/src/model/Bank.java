@@ -505,11 +505,9 @@ public class Bank extends PersistentObject implements PersistentBank{
         	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
         	 debitTransfer.getState().changeState(SuccessfulState.createSuccessfulState());
         	 
-//        	debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
         	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
-            acc.getDebitTransferTransactions().add(debitTransfer);
-            System.out.println("newState"+debitTransfer.getState());
-            acc.getAccountService().getSuccessful().getSuccessfuls().add(debitTransfer);
+//        	acc.getDebitTransferTransactions().add(debitTransfer);
+//            acc.getAccountService().getSuccessful().getSuccessfuls().add(debitTransfer);
         }
         
         
@@ -528,7 +526,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	}
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
     	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
@@ -548,8 +546,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 	    	}
     	} catch (ExecuteException e) {
     		debitTransfer.getState().changeState(NotExecutedState.createNotExecutedState());
-//    		throw e; TODO muss wieder rein!
-    		throw new InvalidBankNumberException("TODO!!!");
+    		throw e;
     	}
     }
     

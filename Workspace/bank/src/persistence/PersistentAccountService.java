@@ -31,6 +31,8 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
+				throws model.UserException, PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
@@ -48,6 +50,8 @@ public interface PersistentAccountService extends PersistentService {
     public void setTemplate(final PersistentDebitTransferTemplate template) 
 				throws PersistenceException;
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
+				throws PersistenceException;
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;

@@ -14,6 +14,17 @@ public  class RemoteAccountService extends RemoteService {
 
 	 
 
+    public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_AddToTransactionTemplate(){
+        try {
+            DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_AddToTransactionTemplate();
+            return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_AddToTransaction(){
         try {
             DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_AddToTransaction();
@@ -22,6 +33,17 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(pe);
         }catch(model.UserException e0){
             return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> addToTransactionTemplate(String transactionProxiString, String debitTransferProxiString){
+        try {
+            PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
+            PersistentDebitTransfer debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
+            ((PersistentAccountService)this.server).addToTransactionTemplate(transaction, debitTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
         }
     }
     

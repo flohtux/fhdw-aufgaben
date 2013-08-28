@@ -309,7 +309,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 			   @Override
 			   public void handleLimit(PersistentLimit limit) throws PersistenceException, LimitViolatedException {
 				   if(newAmount.greater(limit.getMoney()).isTrue()) {
-				   throw new LimitViolatedException("Oberes Limit überschritten!");
+					   throw new LimitViolatedException("Oberes Limit überschritten!");
 				   }
 			   }
 	        });

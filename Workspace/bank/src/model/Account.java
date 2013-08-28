@@ -582,6 +582,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public PersistentTransaction createTransaction() 
 				throws PersistenceException{
         PersistentTransaction transaction = Transaction.createTransaction();
+        transaction.setSender(getThis());
         return transaction;
     }
     public PersistentTransfer createTransfer() 

@@ -240,13 +240,9 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 				copy.getDebitTransfer().getDebitTransfers().add((PersistentDebitTransfer) argument.copy());
 			}
 		});
-		System.out.println("start0");
 		copy.setSender(getThis().getSender());
-		System.out.println("start12");
 		copy.setState(getThis().getState());
-		System.out.println("start1");
 		copy.setTimestamp(getThis().getTimestamp());
-		System.out.println("fertig");
 		return copy;
 	}
     public void executeImplementation() 
@@ -258,6 +254,8 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 				argument.execute();
 			}
 		});
+		getThis().getState().changeState(SuccessfulState.createSuccessfulState());
+//		getThis().setState(SuccessfulState.createSuccessfulState());
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

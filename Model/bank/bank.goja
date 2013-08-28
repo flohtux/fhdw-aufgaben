@@ -56,7 +56,7 @@ class Bank {
 	transient Account ** currentAccounts;
 	active event void changeName(String name);
 	active void createAccount(CurrencySUBTYPEName currencyType);
-	void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, DebitException;
+	void sendTransfer(DebitTransfer debitTransfer) throws ExecuteException;
 	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
 	void changeTransactionFeeToFix(Money fix);
 	void changeTransactionFeeToProcentual(Percent procentual);
@@ -80,7 +80,8 @@ server AccountService extends Service {
 	void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
 	void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
 	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
-	void addToTransaction@@Buchung_zu_Transaktion_hinzufuegen(Transaction transaction checked,DebitTransfer debitTransfer {notExecuted;notExecuteds});
+	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer debitTransfer {notExecuted;notExecuteds});
+	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer debitTransfer {template;templates});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
 }
 
@@ -231,6 +232,7 @@ class DebitGrant {
 
 abstract class DebitTransferState##DebiTraStat{
 	BooleanValue isExecutable();
+	BooleanValue isTransaction();
 	void changeState(DebitTransferState newState);
 	void removeDebitTransferFromList();
 	void addDebitTransferFromList(DebitTransferState state);

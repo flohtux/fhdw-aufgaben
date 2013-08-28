@@ -31,6 +31,8 @@ public interface PersistentDebitTransferState extends SubjInterface, Anything, A
 				throws PersistenceException;
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException;
+    public PersistentBooleanValue isTransaction() 
+				throws PersistenceException;
     public void removeDebitTransferFromList() 
 				throws PersistenceException;
 
