@@ -599,12 +599,27 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         if (withStaticOperations) result.add(item);
         if (selected != null){
             if (selected instanceof TransactionView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Buchung aus Transaktion entfernen ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard wizard = new AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard("Buchung aus Transaktion entfernen");
+                        wizard.setFirstArgument((TransactionView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
                 if (this.filterAddToTransaction((TransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Buchung zu Transaktion hinzufügen ... ");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            AccountServiceAddToTransactionTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTransactionDebitTransferMssgWizard("Buchung zu Transaktion hinzufügen");
+                            AccountServiceAddToTransactionTransactionDebitTransferLSTMssgWizard wizard = new AccountServiceAddToTransactionTransactionDebitTransferLSTMssgWizard("Buchung zu Transaktion hinzufügen");
                             wizard.setFirstArgument((TransactionView)selected);
                             wizard.pack();
                             wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -621,7 +636,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     item.setText("Vorlagebuchung zu Transaktion hinzufügen ... ");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard wizard = new AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard("Vorlagebuchung zu Transaktion hinzufügen");
+                            AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard wizard = new AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard("Vorlagebuchung zu Transaktion hinzufügen");
                             wizard.setFirstArgument((TransactionView)selected);
                             wizard.pack();
                             wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -813,20 +828,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         return result;
     }
     
-	class AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard extends Wizard {
+	class AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard extends Wizard {
 
-		protected AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard(String operationName){
+		protected AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceAddToTransactionTemplateTransactionDebitTransferMssgWizard.help";
+			this.helpFileName = "AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().addToTransactionTemplate(firstArgument, (DebitTransferView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().addToTransactionTemplate(firstArgument, (java.util.Vector<DebitTransferView>)((ObjectCollectionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -844,7 +859,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 		protected void addParameters(){
 			try{
-				getParametersPanel().add(new ObjectSelectionPanel("debitTransfer", "view.DebitTransferView", new ListRoot(getConnection().debitTransfer_Path_In_AddToTransactionTemplate()), this));
+				getParametersPanel().add(new ObjectCollectionSelectionPanel("debitTransfer", "view.DebitTransferView", new ListRoot(getConnection().debitTransfer_Path_In_AddToTransactionTemplate()), this));
 			}catch(ModelException me){;
 				 handleException(me);
 				 setVisible(false);
@@ -872,20 +887,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-	class AccountServiceAddToTransactionTransactionDebitTransferMssgWizard extends Wizard {
+	class AccountServiceAddToTransactionTransactionDebitTransferLSTMssgWizard extends Wizard {
 
-		protected AccountServiceAddToTransactionTransactionDebitTransferMssgWizard(String operationName){
+		protected AccountServiceAddToTransactionTransactionDebitTransferLSTMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceAddToTransactionTransactionDebitTransferMssgWizard.help";
+			this.helpFileName = "AccountServiceAddToTransactionTransactionDebitTransferLSTMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().addToTransaction(firstArgument, (DebitTransferView)((ObjectSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().addToTransaction(firstArgument, (java.util.Vector<DebitTransferView>)((ObjectCollectionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -903,7 +918,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 		protected void addParameters(){
 			try{
-				getParametersPanel().add(new ObjectSelectionPanel("debitTransfer", "view.DebitTransferView", new ListRoot(getConnection().debitTransfer_Path_In_AddToTransaction()), this));
+				getParametersPanel().add(new ObjectCollectionSelectionPanel("debitTransfer", "view.DebitTransferView", new ListRoot(getConnection().debitTransfer_Path_In_AddToTransaction()), this));
 			}catch(ModelException me){;
 				 handleException(me);
 				 setVisible(false);
@@ -1324,6 +1339,64 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard extends Wizard {
+
+		protected AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().removeFromTransaction(firstArgument, (java.util.Vector<DebitTransferView>)((ObjectCollectionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new ObjectCollectionSelectionPanel("debitTransfer", "view.DebitTransferView", null, this)
+											{protected ViewRoot getBrowserRoot(){
+												{try{
+													return new ListRoot(getConnection().debitTransfer_Path_In_RemoveFromTransaction((TransactionView)this.navigationRoot));
+												}catch(ModelException me){
+													return (ViewRoot) this.navigationRoot;
+												}catch(UserException ue){
+													return (ViewRoot) this.navigationRoot;
+											}}}});		
+		}	
+		protected void handleDependencies(int i) {
+			if(i == 0){
+				((ObjectCollectionSelectionPanel)getParametersPanel().getComponent(i)).setBrowserRoot((ViewRoot)firstArgument);
+			}
+		}
+		
+		
+		private TransactionView firstArgument; 
+	
+		public void setFirstArgument(TransactionView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
 		}
 		
 		

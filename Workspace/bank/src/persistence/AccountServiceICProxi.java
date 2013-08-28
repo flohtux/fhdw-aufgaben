@@ -102,6 +102,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws model.UserException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransaction();
     }
+    public DebitTransferSearchList debitTransfer_Path_In_RemoveFromTransaction(final PersistentTransaction transaction) 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_RemoveFromTransaction(transaction);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
@@ -154,11 +158,11 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).useTemplate(debitTransferTransaction, invoker);
     }
-    public void addToTransactionTemplate(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransactionTemplate(transaction, debitTransfer);
     }
-    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+    public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
@@ -245,6 +249,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).notExecuted_update(event);
+    }
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
     }
     public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException{

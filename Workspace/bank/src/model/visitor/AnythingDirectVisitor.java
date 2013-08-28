@@ -146,6 +146,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.handleCommonDate(createDebitGrantCommand);
     }
+    public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
+    
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
     public abstract void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;

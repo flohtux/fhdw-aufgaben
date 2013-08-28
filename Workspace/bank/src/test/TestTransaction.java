@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountService;
@@ -73,8 +74,10 @@ public class TestTransaction{
 		newTrans2.setReceiverBankNumber(bank.getBankNumber());
 		
 		PersistentTransaction newTrans = acc1.createTransaction();
-		newTrans.addToTransaction(newTrans1);
-		newTrans.addToTransaction(newTrans2);
+		DebitTransferSearchList trans = new DebitTransferSearchList();
+		trans.add(newTrans1);
+		trans.add(newTrans2);
+		newTrans.addToTransaction(trans);
 		newTrans.execute();
 
 		assertEquals(new Fraction(20, 1), acc2.getMoney().getAmount().getBalance());
@@ -116,7 +119,10 @@ public class TestTransaction{
 //		newTrans2.setReceiverBankNumber(42);
 		
 		PersistentTransaction newTrans = acc1.createTransaction();
-		newTrans.addToTransaction(newTrans1);
+		DebitTransferSearchList trans = new DebitTransferSearchList();
+		trans.add(newTrans1);
+		newTrans.addToTransaction(trans);
+//		newTrans.addToTransaction(newTrans1);
 //		newTrans.addToTransaction(newTrans2);
 		
 		acc1.getAccountService().executeTransfer(newTrans);

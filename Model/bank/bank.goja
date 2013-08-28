@@ -80,8 +80,9 @@ server AccountService extends Service {
 	void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
 	void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
 	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
-	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer debitTransfer {notExecuted;notExecuteds});
-	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer debitTransfer {template;templates});
+	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
+	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
+	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
 }
 
@@ -108,7 +109,7 @@ class Account {
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	observe Money money2;
 	one-to-one (no-view account) LimitAccount limit;
-	no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	event void remove(AccountPx acc, DebitGrantListe list);
@@ -118,7 +119,7 @@ class Account {
 	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
 	active void changeMoney(DebitTransfer trans, Fraction newAmount);
 	active void changeCurrency(DebitTransfer trans, Currency currency);
-
+	
 	Debit createDebit();
 	active event void createDebitGrant(Account receiver, LimitType limit) throws GrantAlreadyGivenException; 
 
@@ -200,6 +201,7 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	no-view	Account sender;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
 	DebitTransferTransaction copy();
+	event void changeState(DebitTransferState newState);
 }
 
 abstract class DebitTransfer extends DebitTransferTransaction{
@@ -209,6 +211,10 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 	String subject@@Betreff;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
+  event void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
+	void changeReceiverAccount(DebitTransfer trans, Integer receiverAccountNumber);
+	void changeMoney(DebitTransfer trans, Fraction newAmount);
+	void changeCurrency(DebitTransfer trans, Currency currency);
 }
 
 class Transfer extends DebitTransfer {
@@ -218,7 +224,8 @@ class Debit extends DebitTransfer {}
 
 class Transaction extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
-	void addToTransaction(DebitTransfer debitTransfer);
+	void addToTransaction(DebitTransfer ** debitTransfer);
+	void removeFromTransaction(DebitTransfer ** debitTransfer);
 }
 
 class DebitTransferListe##DebTransLst {

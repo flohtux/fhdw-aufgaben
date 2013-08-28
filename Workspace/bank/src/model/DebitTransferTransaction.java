@@ -162,6 +162,13 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     
     
     
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg event = new model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg(newState, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void execute() 
 				throws model.ExecuteException, PersistenceException{
         model.meta.DebitTransferTransactionExecuteMssg event = new model.meta.DebitTransferTransactionExecuteMssg(getThis());
@@ -199,6 +206,7 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
 				throws PersistenceException{
         
     }
+    
     
     
     // Start of section that contains overridden operations only.

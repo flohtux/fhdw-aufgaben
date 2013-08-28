@@ -21,11 +21,15 @@ public interface PersistentDebitTransferTransaction extends SubjInterface, Anyth
     public <E extends UserException>  void accept(DebitTransferTransactionExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(DebitTransferTransactionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException;
     public void execute() 
 				throws model.ExecuteException, PersistenceException;
     public void execute(final Invoker invoker) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeStateImplementation(final PersistentDebitTransferState newState) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

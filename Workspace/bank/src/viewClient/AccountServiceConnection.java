@@ -99,7 +99,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void addToTransactionTemplate(TransactionView transaction, DebitTransferView debitTransfer) throws ModelException{
+    public synchronized java.util.Vector<?> debitTransfer_Path_In_RemoveFromTransaction(TransactionView transaction) throws ModelException, UserException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (transaction == null){
@@ -107,11 +107,59 @@ public class AccountServiceConnection extends ServiceConnection {
             } else {
                 parameters.add(((view.objects.ViewProxi)transaction).createProxiInformation());
             }
-            if (debitTransfer == null){
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "debitTransfer_Path_In_RemoveFromTransaction", parameters);
+            if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
+                if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
+                    throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -188)
+                    throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -162)
+                    throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
+                    throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
+                    throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
+                    throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
+                    throw RestrictionException.fromHashtableToRestrictionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -171)
+                    throw LimitViolatedException.fromHashtableToLimitViolatedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -192)
+                    throw DebitNotGrantedException.fromHashtableToDebitNotGrantedException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -178)
+                    throw NoPermissionToExecuteDebitTransferException.fromHashtableToNoPermissionToExecuteDebitTransferException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -169)
+                    throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
+                    throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
+            }else{
+                return view.objects.ViewProxi.getProxiVector((Vector<String>)success.get(common.RPCConstantsAndServices.ResultListFieldName),getHandler());
+            }
+        }catch(IOException ioe){
+            throw new ModelException(ioe.getMessage(),0);
+        }catch(XmlRpcException xre){
+            throw new ModelException(xre.getMessage(),0);
+        }
+        
+    }
+    
+    public synchronized void addToTransactionTemplate(TransactionView transaction, java.util.Vector<DebitTransferView> debitTransfer) throws ModelException{
+        try {
+            Vector<Object> parameters = new Vector<Object>();
+            if (transaction == null){
                 parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
             } else {
-                parameters.add(((view.objects.ViewProxi)debitTransfer).createProxiInformation());
+                parameters.add(((view.objects.ViewProxi)transaction).createProxiInformation());
             }
+            java.util.Vector<String> debitTransferTrnsprt = new java.util.Vector<String>();
+            java.util.Iterator<DebitTransferView> debitTransferItrtr = debitTransfer.iterator();
+            while (debitTransferItrtr.hasNext()){ 
+                DebitTransferView current = debitTransferItrtr.next();
+                debitTransferTrnsprt.add(((view.objects.ViewProxi)current).createProxiInformation());
+            }
+            parameters.add(debitTransferTrnsprt);
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "addToTransactionTemplate", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
@@ -126,7 +174,7 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void addToTransaction(TransactionView transaction, DebitTransferView debitTransfer) throws ModelException{
+    public synchronized void addToTransaction(TransactionView transaction, java.util.Vector<DebitTransferView> debitTransfer) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (transaction == null){
@@ -134,11 +182,13 @@ public class AccountServiceConnection extends ServiceConnection {
             } else {
                 parameters.add(((view.objects.ViewProxi)transaction).createProxiInformation());
             }
-            if (debitTransfer == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)debitTransfer).createProxiInformation());
+            java.util.Vector<String> debitTransferTrnsprt = new java.util.Vector<String>();
+            java.util.Iterator<DebitTransferView> debitTransferItrtr = debitTransfer.iterator();
+            while (debitTransferItrtr.hasNext()){ 
+                DebitTransferView current = debitTransferItrtr.next();
+                debitTransferTrnsprt.add(((view.objects.ViewProxi)current).createProxiInformation());
             }
+            parameters.add(debitTransferTrnsprt);
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "addToTransaction", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
@@ -417,6 +467,35 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw InvalidBankNumberException.fromHashtableToInvalidBankNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -170)
                     throw InvalidAccountNumberException.fromHashtableToInvalidAccountNumberException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
+            }
+        }catch(IOException ioe){
+            throw new ModelException(ioe.getMessage(),0);
+        }catch(XmlRpcException xre){
+            throw new ModelException(xre.getMessage(),0);
+        }
+        
+    }
+    
+    public synchronized void removeFromTransaction(TransactionView transaction, java.util.Vector<DebitTransferView> debitTransfer) throws ModelException{
+        try {
+            Vector<Object> parameters = new Vector<Object>();
+            if (transaction == null){
+                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
+            } else {
+                parameters.add(((view.objects.ViewProxi)transaction).createProxiInformation());
+            }
+            java.util.Vector<String> debitTransferTrnsprt = new java.util.Vector<String>();
+            java.util.Iterator<DebitTransferView> debitTransferItrtr = debitTransfer.iterator();
+            while (debitTransferItrtr.hasNext()){ 
+                DebitTransferView current = debitTransferItrtr.next();
+                debitTransferTrnsprt.add(((view.objects.ViewProxi)current).createProxiInformation());
+            }
+            parameters.add(debitTransferTrnsprt);
+            java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "removeFromTransaction", parameters);
+            if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
+                if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
+                    throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){

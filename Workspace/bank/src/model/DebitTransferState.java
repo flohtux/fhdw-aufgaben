@@ -178,6 +178,27 @@ public abstract class DebitTransferState extends PersistentObject implements Per
     	}
 		
 	}
+    public PersistentBooleanValue isTransaction() 
+				throws PersistenceException{
+    	return getThis().getDebitTransfer().accept(new DebitTransferTransactionReturnVisitor<PersistentBooleanValue>() {
+			@Override
+			public PersistentBooleanValue handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				return FalseValue.getTheFalseValue();
+			}
+			@Override
+			public PersistentBooleanValue handleDebit(PersistentDebit debit)
+					throws PersistenceException {
+				return FalseValue.getTheFalseValue();
+			}
+			@Override
+			public PersistentBooleanValue handleTransaction(
+					PersistentTransaction transaction)
+					throws PersistenceException {
+				return TrueValue.getTheTrueValue();
+			}
+		});
+    }
     public void removeDebitTransferFromList() 
 				throws PersistenceException{
 	    	getThis().accept(new DebitTransferStateVisitor() {
@@ -212,27 +233,6 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 	    	});
     }
     
-    public PersistentBooleanValue isTransaction() 
-			throws PersistenceException {
-    	return getThis().getDebitTransfer().accept(new DebitTransferTransactionReturnVisitor<PersistentBooleanValue>() {
-			@Override
-			public PersistentBooleanValue handleTransfer(PersistentTransfer transfer)
-					throws PersistenceException {
-				return FalseValue.getTheFalseValue();
-			}
-			@Override
-			public PersistentBooleanValue handleDebit(PersistentDebit debit)
-					throws PersistenceException {
-				return FalseValue.getTheFalseValue();
-			}
-			@Override
-			public PersistentBooleanValue handleTransaction(
-					PersistentTransaction transaction)
-					throws PersistenceException {
-				return TrueValue.getTheTrueValue();
-			}
-		});
-    }
 
     /* Start of protected part that is not overridden by persistence generator */
        

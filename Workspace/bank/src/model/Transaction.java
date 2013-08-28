@@ -211,9 +211,16 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToTransaction(final PersistentDebitTransfer debitTransfer) 
+    public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
-        getThis().getDebitTransfer().getDebitTransfers().add(debitTransfer);
+    	debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getDebitTransfers().add(argument);
+				argument.getState().changeState(NotSuccessfulState.createNotSuccessfulState());
+			}
+		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -225,6 +232,23 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(final PersistentDebitTransfer argument)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getDebitTransfers().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+					@Override
+					public boolean test(PersistentDebitTransfer argument2)
+							throws PersistenceException {
+						return argument.equals(argument2);
+					}
+				});
+			}
+		});
+        
     }
     
     

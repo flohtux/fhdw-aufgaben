@@ -25,13 +25,15 @@ public interface PersistentTransaction extends PersistentDebitTransferTransactio
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void addToTransaction(final PersistentDebitTransfer debitTransfer) 
+    public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
 
 }

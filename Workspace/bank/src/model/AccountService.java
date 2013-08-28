@@ -306,6 +306,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
         	return new DebitTransferTransactionSearchList(getThis().getNotExecuted().
                 getNotExecuteds().getList());
     }
+    public DebitTransferSearchList debitTransfer_Path_In_RemoveFromTransaction(final PersistentTransaction transaction) 
+				throws model.UserException, PersistenceException{
+        	return new DebitTransferSearchList(transaction.
+                getDebitTransfer().
+                getDebitTransfers().getList());
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -392,16 +398,14 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToTransactionTemplate(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         transaction.addToTransaction(debitTransfer);
-        debitTransfer.getState().changeState(NotSuccessfulState.createNotSuccessfulState());
         getThis().signalChanged(true);
     }
-    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+    public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         transaction.addToTransaction(debitTransfer);
-        debitTransfer.getState().changeState(NotSuccessfulState.createNotSuccessfulState());
         getThis().signalChanged(true);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
@@ -508,6 +512,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				getThis().signalChanged(true);
 			}
 		});
+    }
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        transaction.removeFromTransaction(debitTransfer);
+        getThis().signalChanged(true);
     }
     public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException{

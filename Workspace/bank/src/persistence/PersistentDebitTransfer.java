@@ -23,7 +23,17 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
+				throws PersistenceException;
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
+				throws PersistenceException;
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
+				throws PersistenceException;
+    public void changeReceiverBankImplementation(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

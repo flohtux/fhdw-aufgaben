@@ -76,6 +76,14 @@ public class DebitICProxi extends DebitTransferICProxi implements PersistentDebi
     }
     
     
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
+    }
+    public void changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeState(newState);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebit)this.getTheObject()).deregister(observee);
@@ -99,6 +107,26 @@ public class DebitICProxi extends DebitTransferICProxi implements PersistentDebi
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentDebit)this.getTheObject()).updateObservers(event);
+    }
+    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeCurrency(trans, currency);
+    }
+    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeMoney(trans, newAmount);
+    }
+    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeReceiverAccount(trans, receiverAccountNumber);
+    }
+    public void changeReceiverBankImplementation(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeReceiverBankImplementation(trans, receiverBankNumber);
+    }
+    public void changeStateImplementation(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        ((PersistentDebit)this.getTheObject()).changeStateImplementation(newState);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

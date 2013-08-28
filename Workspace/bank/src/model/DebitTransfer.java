@@ -141,6 +141,13 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     
     
+    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeReceiverBankDebitTransferIntegerMssg event = new model.meta.DebitTransferChangeReceiverBankDebitTransferIntegerMssg(trans, receiverBankNumber, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitTransfer)This);

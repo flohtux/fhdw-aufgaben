@@ -168,6 +168,7 @@ public class ConnectionHandler {
     public ChangeCurrencyCommandFacade theChangeCurrencyCommandFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public LimitTypeFacade theLimitTypeFacade;
+    public AccountDebitTransferTransactionsFacade theAccountDebitTransferTransactionsFacade;
     public NotExecutableStateFacade theNotExecutableStateFacade;
     public ChangeMoneyCommandFacade theChangeMoneyCommandFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
@@ -266,6 +267,7 @@ public class ConnectionHandler {
             this.theChangeCurrencyCommandFacade= new ChangeCurrencyCommandFacade(this.schemaName, this.con);
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade(this.schemaName, this.con);
             this.theLimitTypeFacade= new LimitTypeFacade(this.schemaName, this.con);
+            this.theAccountDebitTransferTransactionsFacade= new AccountDebitTransferTransactionsFacade(this.schemaName, this.con);
             this.theNotExecutableStateFacade= new NotExecutableStateFacade(this.schemaName, this.con);
             this.theChangeMoneyCommandFacade= new ChangeMoneyCommandFacade(this.schemaName, this.con);
             this.theCommandExecuterFacade= new CommandExecuterFacade(this.schemaName, this.con);

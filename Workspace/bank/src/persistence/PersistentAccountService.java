@@ -35,6 +35,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws model.UserException, PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
 				throws model.UserException, PersistenceException;
+    public DebitTransferSearchList debitTransfer_Path_In_RemoveFromTransaction(final PersistentTransaction transaction) 
+				throws model.UserException, PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException;
     public PersistentDebitTransferSuccessful getSuccessful() 
@@ -51,9 +53,9 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction, final Invoker invoker) 
 				throws PersistenceException;
-    public void addToTransactionTemplate(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
-    public void addToTransaction(final PersistentTransaction transaction, final PersistentDebitTransfer debitTransfer) 
+    public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException;
@@ -84,6 +86,8 @@ public interface PersistentAccountService extends PersistentService {
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void notExecuted_update(final model.meta.DebitTransferNotExecutedMssgs event) 
+				throws PersistenceException;
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException;
