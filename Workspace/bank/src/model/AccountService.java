@@ -511,8 +511,8 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException{
-    	getThis().getAccount().getGrantedDebitGrant().remove(grant.getPermittedAccount());
-    	grant.getPermittedAccount().getAccount().getReceivedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
+    	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
+    	grant.getPermittedAccount().getAccount().getGrantedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
     	getThis().signalChanged(true);
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
