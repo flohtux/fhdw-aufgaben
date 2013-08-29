@@ -5,13 +5,11 @@ public interface MoneyMssgsVisitor extends MoneyDOWNMssgsVisitor, MoneyUPMssgsVi
 
 interface MoneyDOWNMssgsVisitor  {
 
-    public void handleMoneyAddMoneyMssg(MoneyAddMoneyMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface MoneyUPMssgsVisitor  {
 
-    public void handleMoneyAddMoneyMssg(MoneyAddMoneyMssg event) throws persistence.PersistenceException;
     
 }

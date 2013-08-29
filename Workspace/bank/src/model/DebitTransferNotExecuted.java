@@ -234,7 +234,15 @@ public class DebitTransferNotExecuted extends PersistentObject implements Persis
     
     public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-        getThis().getNotExecuteds().add(debitTransferTransaction);
+    	PersistentDebitTransferTransaction result = getThis().getNotExecuteds().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getNotExecuteds().add(debitTransferTransaction);
+    	}
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

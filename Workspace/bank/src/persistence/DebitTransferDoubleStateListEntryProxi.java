@@ -1,10 +1,10 @@
 package persistence;
 
-public class AccountMoney2ListEntryProxi extends AccountMoney2Proxi implements PersistentAccountMoney2ListEntryProxi {
+public class DebitTransferDoubleStateListEntryProxi extends DebitTransferDoubleStateProxi implements PersistentDebitTransferDoubleStateListEntryProxi {
 
   long entryId;
 
-  public AccountMoney2ListEntryProxi(long objectId, long entryId) {
+  public DebitTransferDoubleStateListEntryProxi(long objectId, long entryId) {
     super(objectId);
     this.entryId = entryId;
   }

@@ -5,68 +5,32 @@ import persistence.*;
 
 public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisitor {
     
-    public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
-        this.standardHandling(mixedFee);
-    }
-    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException{
-        this.standardHandling(debitGrantListe);
-    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
-    }
-    public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
-        this.standardHandling(accountService);
-    }
-    public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
-        this.standardHandling(requestState);
-    }
-    public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
-        this.standardHandling(accountPx);
     }
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
         this.standardHandling(falseValue);
     }
-    public void handleAccount(PersistentAccount account) throws PersistenceException{
-        this.standardHandling(account);
-    }
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.standardHandling(noRequestState);
-    }
-    public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException{
-        this.standardHandling(errorDisplay);
-    }
-    public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
-        this.standardHandling(notExecutedState);
-    }
-    public void handleEuro(PersistentEuro euro) throws PersistenceException{
-        this.standardHandling(euro);
-    }
-    public void handleYen(PersistentYen yen) throws PersistenceException{
-        this.standardHandling(yen);
-    }
-    public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
-        this.standardHandling(templateState);
-    }
-    public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException{
-        this.standardHandling(currencyManager);
     }
     public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException{
         this.standardHandling(debitTransferListe);
     }
+    public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException{
+        this.standardHandling(currencyManager);
+    }
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
-    }
-    public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException{
-        this.standardHandling(debitTransferNotExecuted);
     }
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
     }
+    public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException{
+        this.standardHandling(debitTransferDoubleState);
+    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.standardHandling(executedState);
-    }
-    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
-        this.standardHandling(notExecutableState);
     }
     public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
         this.standardHandling(trueValue);
@@ -86,29 +50,17 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
         this.standardHandling(noLimit);
     }
-    public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
-        this.standardHandling(transaction);
-    }
-    public void handleMoney(PersistentMoney money) throws PersistenceException{
-        this.standardHandling(money);
-    }
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
-    }
-    public void handleBank(PersistentBank bank) throws PersistenceException{
-        this.standardHandling(bank);
     }
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.standardHandling(bankService);
     }
-    public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException{
-        this.standardHandling(debitTransferSuccessful);
-    }
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.standardHandling(procentualFee);
     }
-    public void handlePfund(PersistentPfund pfund) throws PersistenceException{
-        this.standardHandling(pfund);
+    public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
+        this.standardHandling(transfer);
     }
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
         this.standardHandling(debitTransferTemplate);
@@ -116,8 +68,77 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
     }
-    public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
-        this.standardHandling(transfer);
+    public void handleDollar(PersistentDollar dollar) throws PersistenceException{
+        this.standardHandling(dollar);
+    }
+    public void handleFranken(PersistentFranken franken) throws PersistenceException{
+        this.standardHandling(franken);
+    }
+    public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
+        this.standardHandling(limitAccount);
+    }
+    public void handleDebit(PersistentDebit debit) throws PersistenceException{
+        this.standardHandling(debit);
+    }
+    public void handleLimit(PersistentLimit limit) throws PersistenceException{
+        this.standardHandling(limit);
+    }
+    public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
+        this.standardHandling(mixedFee);
+    }
+    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException{
+        this.standardHandling(debitGrantListe);
+    }
+    public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
+        this.standardHandling(requestState);
+    }
+    public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
+        this.standardHandling(accountService);
+    }
+    public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
+        this.standardHandling(accountPx);
+    }
+    public void handleAccount(PersistentAccount account) throws PersistenceException{
+        this.standardHandling(account);
+    }
+    public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
+        this.standardHandling(notExecutedState);
+    }
+    public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException{
+        this.standardHandling(errorDisplay);
+    }
+    public void handleEuro(PersistentEuro euro) throws PersistenceException{
+        this.standardHandling(euro);
+    }
+    public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
+        this.standardHandling(templateState);
+    }
+    public void handleYen(PersistentYen yen) throws PersistenceException{
+        this.standardHandling(yen);
+    }
+    public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException{
+        this.standardHandling(debitTransferNotExecuted);
+    }
+    public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
+        this.standardHandling(notExecutableState);
+    }
+    public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
+        this.standardHandling(transaction);
+    }
+    public void handleMoney(PersistentMoney money) throws PersistenceException{
+        this.standardHandling(money);
+    }
+    public void handleBank(PersistentBank bank) throws PersistenceException{
+        this.standardHandling(bank);
+    }
+    public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException{
+        this.standardHandling(debitTransferSuccessful);
+    }
+    public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException{
+        this.standardHandling(eventWrapper);
+    }
+    public void handlePfund(PersistentPfund pfund) throws PersistenceException{
+        this.standardHandling(pfund);
     }
     public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
         this.standardHandling(notSuccessfulStornoState);
@@ -130,21 +151,6 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);
-    }
-    public void handleDollar(PersistentDollar dollar) throws PersistenceException{
-        this.standardHandling(dollar);
-    }
-    public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
-        this.standardHandling(limitAccount);
-    }
-    public void handleFranken(PersistentFranken franken) throws PersistenceException{
-        this.standardHandling(franken);
-    }
-    public void handleLimit(PersistentLimit limit) throws PersistenceException{
-        this.standardHandling(limit);
-    }
-    public void handleDebit(PersistentDebit debit) throws PersistenceException{
-        this.standardHandling(debit);
     }
     protected abstract void standardHandling(SubjInterface subjInterface) throws PersistenceException;
 }

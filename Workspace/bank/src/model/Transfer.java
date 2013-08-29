@@ -241,7 +241,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 		copy.setTimestamp(getThis().getTimestamp());
 		return copy;
 	}
-    public void executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
     	if (!getThis().getState().isExecutable().isTrue()) {
     		throw new NoPermissionToExecuteDebitTransferException();
@@ -249,7 +249,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     	Timestamp tstamp = new Timestamp(new Date().getTime());
     	getThis().setTimestamp(tstamp);
     	getThis().getSender().getBank().sendTransfer(getThis());
-		
+		return getThis();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

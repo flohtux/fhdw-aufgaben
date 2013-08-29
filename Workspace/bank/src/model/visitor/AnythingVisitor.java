@@ -15,15 +15,15 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException;
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
+    public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;
     public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException;
     public void handlePercent(PersistentPercent percent) throws PersistenceException;
     public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     public void handleAmount(PersistentAmount amount) throws PersistenceException;
-    public void handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException;
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException;
-    public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException;
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
@@ -43,6 +43,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleMoney(PersistentMoney money) throws PersistenceException;
     public void handleBank(PersistentBank bank) throws PersistenceException;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
+    public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;

@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import common.Fraction;
-
 import persistence.*;
 import model.visitor.*;
 
@@ -238,7 +237,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		copy.setTimestamp(getThis().getTimestamp());
 		return copy;
 	}
-    public void executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		System.out.println("exe debit");
     	if (!getThis().getState().isExecutable().isTrue()) {
@@ -246,39 +245,8 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		}
     	System.out.println("exe debit  erfolg");
 		getThis().getSender().getBank().sendTransfer(getThis());
+		return getThis();
 	}
-
-	@Override
-	public void changeCurrency(PersistentDebitTransfer trans,
-			PersistentCurrency currency) throws PersistenceException {
-		getThis().getMoney().setCurrency(currency);
-	}
-
-	@Override
-	public void changeMoney(PersistentDebitTransfer trans, Fraction newAmount)
-			throws PersistenceException {
-		getThis().getMoney().getAmount().setBalance(newAmount);
-	}
-
-	@Override
-	public void changeReceiverAccount(PersistentDebitTransfer trans,
-			long receiverAccountNumber) throws PersistenceException {
-		getThis().setReceiverAccountNumber(receiverAccountNumber);
-	}
-
-	@Override
-	public void changeReceiverBankImplementation(PersistentDebitTransfer trans,
-			long receiverBankNumber) throws PersistenceException {
-		getThis().setReceiverBankNumber(receiverBankNumber);
-	}
-
-	@Override
-	public void changeStateImplementation(PersistentDebitTransferState newState)
-			throws PersistenceException {
-		getThis().setState(newState);		
-	}
-
-
 
     /* Start of protected part that is not overridden by persistence generator */
     

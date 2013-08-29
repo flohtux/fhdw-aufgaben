@@ -23,17 +23,23 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+    public void changeCurrency(final PersistentCurrency currency) 
+				throws PersistenceException;
+    public void changeMoney(final common.Fraction newAmount) 
+				throws PersistenceException;
+    public void changeReceiverAccount(final long receiverAccountNumber) 
+				throws PersistenceException;
+    public void changeReceiverBank(final long receiverBankNumber) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
+    public void changeCurrencyImplementation(final PersistentCurrency currency) 
 				throws PersistenceException;
-    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
+    public void changeMoneyImplementation(final common.Fraction newAmount) 
 				throws PersistenceException;
-    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
+    public void changeReceiverAccountImplementation(final long receiverAccountNumber) 
 				throws PersistenceException;
-    public void changeReceiverBankImplementation(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBankImplementation(final long receiverBankNumber) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

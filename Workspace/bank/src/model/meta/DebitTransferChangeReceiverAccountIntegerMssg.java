@@ -2,38 +2,35 @@ package model.meta;
 
 import persistence.PersistenceException;
 
-public class DebitTransferChangeReceiverBankDebitTransferIntegerMssg implements DebitTransferDOWNMssgs,DebitTransferUPMssgs{
+public class DebitTransferChangeReceiverAccountIntegerMssg implements DebitTransferDOWNMssgs,DebitTransferUPMssgs{
     
     private java.util.Date exctDte = null;
     private Exception excptn;
     public final persistence.PersistentDebitTransfer rcvr;
-    public final persistence.PersistentDebitTransfer trans;
-    public final long receiverBankNumber;
+    public final long receiverAccountNumber;
     
-    public DebitTransferChangeReceiverBankDebitTransferIntegerMssg(persistence.PersistentDebitTransfer trans,
-                                                                   long receiverBankNumber,
-                                                                   persistence.PersistentDebitTransfer rcvr){
-        this.trans = trans;
-        this.receiverBankNumber = receiverBankNumber;
+    public DebitTransferChangeReceiverAccountIntegerMssg(long receiverAccountNumber,
+                                                         persistence.PersistentDebitTransfer rcvr){
+        this.receiverAccountNumber = receiverAccountNumber;
         this.rcvr = rcvr;
     }
     public void accept(DebitTransferMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferChangeReceiverBankDebitTransferIntegerMssg(this);
+        visitor.handleDebitTransferChangeReceiverAccountIntegerMssg(this);
     }
     public void accept(DebitTransferTransactionMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferChangeReceiverBankDebitTransferIntegerMssg(this);
+        visitor.handleDebitTransferChangeReceiverAccountIntegerMssg(this);
     }
     public void accept(TransferMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferChangeReceiverBankDebitTransferIntegerMssg(this);
+        visitor.handleDebitTransferChangeReceiverAccountIntegerMssg(this);
     }
     public void accept(DebitMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferChangeReceiverBankDebitTransferIntegerMssg(this);
+        visitor.handleDebitTransferChangeReceiverAccountIntegerMssg(this);
     }
     public synchronized void execute() {
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();
             try{
-                this.rcvr.changeReceiverBankImplementation(this.trans, this.receiverBankNumber);
+                this.rcvr.changeReceiverAccountImplementation(this.receiverAccountNumber);
             }catch(Exception exception){
                 this.excptn = exception;
             }

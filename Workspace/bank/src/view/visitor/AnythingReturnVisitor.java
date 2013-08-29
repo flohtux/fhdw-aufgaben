@@ -8,10 +8,11 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     public R handleInternalFee(InternalFeeView internalFee) throws ModelException;
+    public R handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     public R handlePercent(PercentView percent) throws ModelException;
     public R handleAmount(AmountView amount) throws ModelException;
-    public R handleServer(ServerView server) throws ModelException;
     public R handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    public R handleServer(ServerView server) throws ModelException;
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
     public R handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException;
@@ -21,6 +22,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleMoney(MoneyView money) throws ModelException;
     public R handleBank(BankView bank) throws ModelException;
     public R handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
+    public R handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException;
     

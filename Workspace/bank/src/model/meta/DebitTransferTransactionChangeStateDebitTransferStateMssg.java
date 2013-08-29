@@ -5,6 +5,7 @@ import persistence.PersistenceException;
 public class DebitTransferTransactionChangeStateDebitTransferStateMssg implements DebitTransferTransactionDOWNMssgs,DebitTransferTransactionUPMssgs{
     
     private java.util.Date exctDte = null;
+    private persistence.PersistentDebitTransferDoubleState rslt;
     private Exception excptn;
     public final persistence.PersistentDebitTransferTransaction rcvr;
     public final persistence.PersistentDebitTransferState newState;
@@ -33,19 +34,20 @@ public class DebitTransferTransactionChangeStateDebitTransferStateMssg implement
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();
             try{
-                this.rcvr.changeStateImplementation(this.newState);
+                rslt = this.rcvr.changeStateImplementation(this.newState);
             }catch(Exception exception){
                 this.excptn = exception;
             }
         }
     }
-    public synchronized void getResult() throws PersistenceException {
+    public synchronized persistence.PersistentDebitTransferDoubleState getResult() throws PersistenceException {
         if(this.excptn != null) {
             if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
             if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;
             throw new Error(this.excptn);
             
         }
+        return this.rslt;
     }
     
 }

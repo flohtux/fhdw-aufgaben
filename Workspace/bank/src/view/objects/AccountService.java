@@ -11,14 +11,16 @@ import view.visitor.*;
 public class AccountService extends view.objects.Service implements AccountServiceView{
     
     protected AccountView account;
+    protected EventWrapperView eventhandle;
     protected DebitTransferSuccessfulView successful;
     protected DebitTransferNotExecutedView notExecuted;
     protected DebitTransferTemplateView template;
     
-    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,DebitTransferSuccessfulView successful,DebitTransferNotExecutedView notExecuted,DebitTransferTemplateView template,long id, long classId) {
+    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,EventWrapperView eventhandle,DebitTransferSuccessfulView successful,DebitTransferNotExecutedView notExecuted,DebitTransferTemplateView template,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
         this.account = account;
+        this.eventhandle = eventhandle;
         this.successful = successful;
         this.notExecuted = notExecuted;
         this.template = template;        
@@ -37,6 +39,12 @@ public class AccountService extends view.objects.Service implements AccountServi
     }
     public void setAccount(AccountView newValue) throws ModelException {
         this.account = newValue;
+    }
+    public EventWrapperView getEventhandle()throws ModelException{
+        return this.eventhandle;
+    }
+    public void setEventhandle(EventWrapperView newValue) throws ModelException {
+        this.eventhandle = newValue;
     }
     public DebitTransferSuccessfulView getSuccessful()throws ModelException{
         return this.successful;
@@ -102,6 +110,10 @@ public class AccountService extends view.objects.Service implements AccountServi
         AccountView account = this.getAccount();
         if (account != null) {
             ((ViewProxi)account).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(account.getClassId(), account.getId())));
+        }
+        EventWrapperView eventhandle = this.getEventhandle();
+        if (eventhandle != null) {
+            ((ViewProxi)eventhandle).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(eventhandle.getClassId(), eventhandle.getId())));
         }
         DebitTransferSuccessfulView successful = this.getSuccessful();
         if (successful != null) {

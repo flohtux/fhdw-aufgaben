@@ -90,6 +90,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
+    public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
+    
     public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
     
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
@@ -133,9 +135,11 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
-    public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    
+    public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

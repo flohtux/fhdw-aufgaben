@@ -712,6 +712,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleInternalFee(view.InternalFeeView object){
         result = new InternalFeeDefaultDetailPanel(handler, object);
     }
+    public void handleDebitTransferDoubleState(view.DebitTransferDoubleStateView object){
+        result = new DebitTransferDoubleStateDefaultDetailPanel(handler, object);
+    }
     public void handleExecutedState(view.ExecutedStateView object){
         result = new ExecutedStateDefaultDetailPanel(handler, object);
     }
@@ -742,11 +745,11 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleProcentualFee(view.ProcentualFeeView object){
         result = new ProcentualFeeDefaultDetailPanel(handler, object);
     }
-    public void handleServer(view.ServerView object){
-        result = new ServerDefaultDetailPanel(handler, object);
-    }
     public void handleDebitTransferTemplate(view.DebitTransferTemplateView object){
         result = new DebitTransferTemplateDefaultDetailPanel(handler, object);
+    }
+    public void handleServer(view.ServerView object){
+        result = new ServerDefaultDetailPanel(handler, object);
     }
     public void handleTransfer(view.TransferView object){
         result = new TransferDefaultDetailPanel(handler, object);
@@ -816,6 +819,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleDebitTransferSuccessful(view.DebitTransferSuccessfulView object){
         result = new DebitTransferSuccessfulDefaultDetailPanel(handler, object);
+    }
+    public void handleEventWrapper(view.EventWrapperView object){
+        result = new EventWrapperDefaultDetailPanel(handler, object);
     }
     public void handlePfund(view.PfundView object){
         result = new PfundDefaultDetailPanel(handler, object);
@@ -923,6 +929,23 @@ class InternalFeeDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.InternalFeeView getAnything(){
         return (view.InternalFeeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitTransferDoubleStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferDoubleState$$debitTransferStateOld = "DebitTransferDoubleState$$debitTransferStateOld";
+    protected static final String DebitTransferDoubleState$$debitTransferStateNew = "DebitTransferDoubleState$$debitTransferStateNew";
+    
+    protected DebitTransferDoubleStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferDoubleStateView getAnything(){
+        return (view.DebitTransferDoubleStateView)this.anything;
     }
 }
 
@@ -1090,6 +1113,22 @@ class ProcentualFeeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferTemplate$$templates = "DebitTransferTemplate$$templates";
+    
+    protected DebitTransferTemplateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferTemplateView getAnything(){
+        return (view.DebitTransferTemplateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class ServerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Server$$service = "Server$$service";
@@ -1110,22 +1149,6 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.ServerView getAnything(){
         return (view.ServerView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitTransferTemplate$$templates = "DebitTransferTemplate$$templates";
-    
-    protected DebitTransferTemplateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.DebitTransferTemplateView getAnything(){
-        return (view.DebitTransferTemplateView)this.anything;
     }
 }
 
@@ -1369,7 +1392,6 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
-    protected static final String Account$$money2 = "Account$$money2";
     protected static final String Account$$limit = "Account$$limit";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
@@ -1591,6 +1613,20 @@ class DebitTransferSuccessfulDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DebitTransferSuccessfulView getAnything(){
         return (view.DebitTransferSuccessfulView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class EventWrapperDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected EventWrapperDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.EventWrapperView getAnything(){
+        return (view.EventWrapperView)this.anything;
     }
 }
 

@@ -236,7 +236,15 @@ public class DebitTransferSuccessful extends PersistentObject implements Persist
     
     public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-        getThis().getSuccessfuls().add(debitTransferTransaction);
+    	PersistentDebitTransferTransaction result = getThis().getSuccessfuls().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getSuccessfuls().add(debitTransferTransaction);
+    	}
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

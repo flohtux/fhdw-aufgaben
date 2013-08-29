@@ -232,7 +232,6 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 	    				throws PersistenceException {}
 	    	});
     }
-    
 
     /* Start of protected part that is not overridden by persistence generator */
        

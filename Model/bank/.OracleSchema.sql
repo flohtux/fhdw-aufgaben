@@ -65,6 +65,9 @@ create table Srvc(
     AccntSrvcAccnt number,
     AccntSrvcAccntCls number,
     constraint FAccntSrvcAccnt foreign key (AccntSrvcAccntCls) references Cls (id),
+    AccntSrvcEvnthndl number,
+    AccntSrvcEvnthndlCls number,
+    constraint FAccntSrvcEvnthndl foreign key (AccntSrvcEvnthndlCls) references Cls (id),
     AccntSrvcSccssfl number,
     AccntSrvcSccssflCls number,
     constraint FAccntSrvcSccssfl foreign key (AccntSrvcSccssflCls) references Cls (id),
@@ -77,6 +80,7 @@ create table Srvc(
 );
 create index IBnkBnkSrvc on Srvc (BnkSrvcBnk, BnkSrvcBnkCls);
 create index IAccntAccntSrvc on Srvc (AccntSrvcAccnt, AccntSrvcAccntCls);
+create index IEvnthndlAccntSrvc on Srvc (AccntSrvcEvnthndl, AccntSrvcEvnthndlCls);
 
 
 create sequence SAccntRcvdGrnt nocache;
@@ -258,6 +262,25 @@ create table IntrnlF(
     constraint FIntrnlFThis foreign key (IntrnlFThisCls) references Cls (id)    
 );
 
+create sequence SDebTraStaDo nocache;
+
+create table DebTraStaDo(
+    id number primary key,
+    Cls number not null,
+    DebTraStaDoDbtrstold number,
+    DebTraStaDoDbtrstoldCls number,
+    constraint FDebTraStaDoDbtrstold foreign key (DebTraStaDoDbtrstoldCls) references Cls (id),
+    DebTraStaDoDbtrstNew number,
+    DebTraStaDoDbtrstNewCls number,
+    constraint FDebTraStaDoDbtrstNew foreign key (DebTraStaDoDbtrstNewCls) references Cls (id),
+    DebTraStaDoSbSrvc number,
+    DebTraStaDoSbSrvcCls number,
+    constraint FDebTraStaDoSbSrvc foreign key (DebTraStaDoSbSrvcCls) references Cls (id),
+    DebTraStaDoThis number,
+    DebTraStaDoThisCls number,
+    constraint FDebTraStaDoThis foreign key (DebTraStaDoThisCls) references Cls (id)    
+);
+
 create sequence SBlnVl nocache;
 
 create table BlnVl(
@@ -357,22 +380,6 @@ create table Amnt(
     constraint FAmntThis foreign key (AmntThisCls) references Cls (id)    
 );
 
-create sequence SAccntMn2 nocache;
-
-create table AccntMn2(
-    id number primary key,
-    Cls number not null,
-    AccntMn2Mstr number,
-    AccntMn2MstrCls number,
-    constraint FAccntMn2Mstr foreign key (AccntMn2MstrCls) references Cls (id),
-    AccntMn2Obs number,
-    AccntMn2ObsCls number,
-    constraint FAccntMn2Obs foreign key (AccntMn2ObsCls) references Cls (id),
-    AccntMn2This number,
-    AccntMn2ThisCls number,
-    constraint FAccntMn2This foreign key (AccntMn2ThisCls) references Cls (id)    
-);
-
 create sequence SCrtBnkCMD nocache;
 
 create table CrtBnkCMD(
@@ -394,6 +401,19 @@ create table CrtBnkCMD(
     CrtBnkCMDMyCmmnDt number,
     CrtBnkCMDMyCmmnDtCls number,
     constraint FCrtBnkCMDMyCmmnDt foreign key (CrtBnkCMDMyCmmnDtCls) references Cls (id)    
+);
+
+create sequence SDbTrNtTmpl nocache;
+
+create table DbTrNtTmpl(
+    id number primary key,
+    Cls number not null,
+    DbTrNtTmplSbSrvc number,
+    DbTrNtTmplSbSrvcCls number,
+    constraint FDbTrNtTmplSbSrvc foreign key (DbTrNtTmplSbSrvcCls) references Cls (id),
+    DbTrNtTmplThis number,
+    DbTrNtTmplThisCls number,
+    constraint FDbTrNtTmplThis foreign key (DbTrNtTmplThisCls) references Cls (id)    
 );
 
 create sequence SSrvr nocache;
@@ -418,19 +438,6 @@ create table Srvr(
 create index ISrvcSrvr on Srvr (SrvrSrvc, SrvrSrvcCls);
 create index IUserSrvr on Srvr (SrvrUser);
 
-
-create sequence SDbTrNtTmpl nocache;
-
-create table DbTrNtTmpl(
-    id number primary key,
-    Cls number not null,
-    DbTrNtTmplSbSrvc number,
-    DbTrNtTmplSbSrvcCls number,
-    constraint FDbTrNtTmplSbSrvc foreign key (DbTrNtTmplSbSrvcCls) references Cls (id),
-    DbTrNtTmplThis number,
-    DbTrNtTmplThisCls number,
-    constraint FDbTrNtTmplThis foreign key (DbTrNtTmplThisCls) references Cls (id)    
-);
 
 create sequence SCrtDbtGrntCMD nocache;
 
@@ -465,6 +472,9 @@ create table ExctCMD(
     ExctCMDCReceiver number,
     ExctCMDCReceiverCls number,
     constraint FExctCMDCReceiver foreign key (ExctCMDCReceiverCls) references Cls (id),
+    ExctCMDCResult number,
+    ExctCMDCResultCls number,
+    constraint FExctCMDCResult foreign key (ExctCMDCResultCls) references Cls (id),
     ExctCMDMyCmmnDt number,
     ExctCMDMyCmmnDtCls number,
     constraint FExctCMDMyCmmnDt foreign key (ExctCMDMyCmmnDtCls) references Cls (id)    
@@ -604,9 +614,6 @@ create table Accnt(
     AccntMn number,
     AccntMnCls number,
     constraint FAccntMn foreign key (AccntMnCls) references Cls (id),
-    AccntMn2 number,
-    AccntMn2Cls number,
-    constraint FAccntMn2 foreign key (AccntMn2Cls) references Cls (id),
     AccntLmt number,
     AccntLmtCls number,
     constraint FAccntLmt foreign key (AccntLmtCls) references Cls (id),
@@ -826,6 +833,19 @@ create table DbtTrnSucc(
     DbtTrnSuccThis number,
     DbtTrnSuccThisCls number,
     constraint FDbtTrnSuccThis foreign key (DbtTrnSuccThisCls) references Cls (id)    
+);
+
+create sequence SEvntWrppr nocache;
+
+create table EvntWrppr(
+    id number primary key,
+    Cls number not null,
+    EvntWrpprSbSrvc number,
+    EvntWrpprSbSrvcCls number,
+    constraint FEvntWrpprSbSrvc foreign key (EvntWrpprSbSrvcCls) references Cls (id),
+    EvntWrpprThis number,
+    EvntWrpprThisCls number,
+    constraint FEvntWrpprThis foreign key (EvntWrpprThisCls) references Cls (id)    
 );
 
 create sequence SAccntSrvcNtExctd nocache;

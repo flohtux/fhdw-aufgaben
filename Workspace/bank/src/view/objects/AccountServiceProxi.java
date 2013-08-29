@@ -22,6 +22,13 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             account = view.objects.ViewProxi.createProxi(account$Info,connectionKey);
             account.setToString(account$Info.getToString());
         }
+        ViewProxi eventhandle = null;
+        String eventhandle$String = (String)resultTable.get("eventhandle");
+        if (eventhandle$String != null) {
+            common.ProxiInformation eventhandle$Info = common.RPCConstantsAndServices.createProxiInformation(eventhandle$String);
+            eventhandle = view.objects.ViewProxi.createProxi(eventhandle$Info,connectionKey);
+            eventhandle.setToString(eventhandle$Info.getToString());
+        }
         ViewProxi successful = null;
         String successful$String = (String)resultTable.get("successful");
         if (successful$String != null) {
@@ -43,7 +50,7 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             template = view.objects.ViewProxi.createProxi(template$Info,connectionKey);
             template.setToString(template$Info.getToString());
         }
-        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted,(DebitTransferTemplateView)template, this.getId(), this.getClassId());
+        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(EventWrapperView)eventhandle,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted,(DebitTransferTemplateView)template, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -97,6 +104,12 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
     }
     public void setAccount(AccountView newValue) throws ModelException {
         ((AccountService)this.getTheObject()).setAccount(newValue);
+    }
+    public EventWrapperView getEventhandle()throws ModelException{
+        return ((AccountService)this.getTheObject()).getEventhandle();
+    }
+    public void setEventhandle(EventWrapperView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setEventhandle(newValue);
     }
     public DebitTransferSuccessfulView getSuccessful()throws ModelException{
         return ((AccountService)this.getTheObject()).getSuccessful();

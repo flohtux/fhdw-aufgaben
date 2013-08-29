@@ -46,21 +46,33 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     
     
     
-    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+    public void changeCurrency(final PersistentCurrency currency) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
+        ((PersistentDebitTransfer)this.getTheObject()).changeCurrency(currency);
     }
-    public void changeState(final PersistentDebitTransferState newState) 
+    public void changeMoney(final common.Fraction newAmount) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeState(newState);
+        ((PersistentDebitTransfer)this.getTheObject()).changeMoney(newAmount);
+    }
+    public void changeReceiverAccount(final long receiverAccountNumber) 
+				throws PersistenceException{
+        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverAccount(receiverAccountNumber);
+    }
+    public void changeReceiverBank(final long receiverBankNumber) 
+				throws PersistenceException{
+        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverBank(receiverBankNumber);
+    }
+    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        return ((PersistentDebitTransfer)this.getTheObject()).changeState(newState);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).deregister(observee);
     }
-    public void execute() 
+    public PersistentDebitTransferTransaction execute() 
 				throws model.ExecuteException, PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).execute();
+        return ((PersistentDebitTransfer)this.getTheObject()).execute();
     }
     public void execute(final Invoker invoker) 
 				throws PersistenceException{
@@ -78,25 +90,25 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).updateObservers(event);
     }
-    public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
+    public void changeCurrencyImplementation(final PersistentCurrency currency) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeCurrency(trans, currency);
+        ((PersistentDebitTransfer)this.getTheObject()).changeCurrencyImplementation(currency);
     }
-    public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
+    public void changeMoneyImplementation(final common.Fraction newAmount) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeMoney(trans, newAmount);
+        ((PersistentDebitTransfer)this.getTheObject()).changeMoneyImplementation(newAmount);
     }
-    public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
+    public void changeReceiverAccountImplementation(final long receiverAccountNumber) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverAccount(trans, receiverAccountNumber);
+        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverAccountImplementation(receiverAccountNumber);
     }
-    public void changeReceiverBankImplementation(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+    public void changeReceiverBankImplementation(final long receiverBankNumber) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverBankImplementation(trans, receiverBankNumber);
+        ((PersistentDebitTransfer)this.getTheObject()).changeReceiverBankImplementation(receiverBankNumber);
     }
-    public void changeStateImplementation(final PersistentDebitTransferState newState) 
+    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).changeStateImplementation(newState);
+        return ((PersistentDebitTransfer)this.getTheObject()).changeStateImplementation(newState);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -106,9 +118,9 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         return ((PersistentDebitTransfer)this.getTheObject()).copy();
     }
-    public void executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
-        ((PersistentDebitTransfer)this.getTheObject()).executeImplementation();
+        return ((PersistentDebitTransfer)this.getTheObject()).executeImplementation();
     }
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException{

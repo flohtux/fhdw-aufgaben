@@ -269,7 +269,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 		copy.setTimestamp(getThis().getTimestamp());
 		return copy;
 	}
-    public void executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {
 			@Override
@@ -279,6 +279,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 			}
 		});
 		getThis().getState().changeState(SuccessfulState.createSuccessfulState());
+		return getThis();
 //		getThis().setState(SuccessfulState.createSuccessfulState());
 	}
 

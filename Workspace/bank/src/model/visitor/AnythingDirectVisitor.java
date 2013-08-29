@@ -96,6 +96,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     
+    public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
+    
     public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
@@ -175,17 +177,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
     
-    public abstract void handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException;
-    
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
+    public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
+    
     public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     
-    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
-    
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    
+    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

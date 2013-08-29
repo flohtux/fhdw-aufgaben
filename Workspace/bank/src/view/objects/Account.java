@@ -12,18 +12,16 @@ public class Account extends ViewObject implements AccountView{
     
     protected long accountNumber;
     protected MoneyView money;
-    protected MoneyView money2;
     protected LimitAccountView limit;
     protected java.util.Vector<DebitTransferTransactionView> debitTransferTransactions;
     protected DebitGrantListeView grantedDebitGrant;
     protected DebitGrantListeView receivedDebitGrant;
     
-    public Account(long accountNumber,MoneyView money,MoneyView money2,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListeView receivedDebitGrant,long id, long classId) {
+    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListeView receivedDebitGrant,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.accountNumber = accountNumber;
         this.money = money;
-        this.money2 = money2;
         this.limit = limit;
         this.debitTransferTransactions = debitTransferTransactions;
         this.grantedDebitGrant = grantedDebitGrant;
@@ -49,12 +47,6 @@ public class Account extends ViewObject implements AccountView{
     }
     public void setMoney(MoneyView newValue) throws ModelException {
         this.money = newValue;
-    }
-    public MoneyView getMoney2()throws ModelException{
-        return this.money2;
-    }
-    public void setMoney2(MoneyView newValue) throws ModelException {
-        this.money2 = newValue;
     }
     public LimitAccountView getLimit()throws ModelException{
         return this.limit;
@@ -99,10 +91,6 @@ public class Account extends ViewObject implements AccountView{
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
-        MoneyView money2 = this.getMoney2();
-        if (money2 != null) {
-            ((ViewProxi)money2).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money2.getClassId(), money2.getId())));
-        }
         LimitAccountView limit = this.getLimit();
         if (limit != null) {
             ((ViewProxi)limit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limit.getClassId(), limit.getId())));
@@ -128,8 +116,6 @@ public class Account extends ViewObject implements AccountView{
         int index = originalIndex;
         if(index == 0 && this.getMoney() != null) return new MoneyAccountWrapper(this, originalIndex, (ViewRoot)this.getMoney());
         if(this.getMoney() != null) index = index - 1;
-        if(index == 0 && this.getMoney2() != null) return new Money2AccountWrapper(this, originalIndex, (ViewRoot)this.getMoney2());
-        if(this.getMoney2() != null) index = index - 1;
         if(index == 0 && this.getLimit() != null) return new LimitAccountWrapper(this, originalIndex, (ViewRoot)this.getLimit());
         if(this.getLimit() != null) index = index - 1;
         if(index == 0 && this.getGrantedDebitGrant() != null) return new GrantedDebitGrantAccountWrapper(this, originalIndex, (ViewRoot)this.getGrantedDebitGrant());
@@ -141,7 +127,6 @@ public class Account extends ViewObject implements AccountView{
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getMoney() == null ? 0 : 1)
-            + (this.getMoney2() == null ? 0 : 1)
             + (this.getLimit() == null ? 0 : 1)
             + (this.getGrantedDebitGrant() == null ? 0 : 1)
             + (this.getReceivedDebitGrant() == null ? 0 : 1);
@@ -149,7 +134,6 @@ public class Account extends ViewObject implements AccountView{
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getMoney() == null ? true : false)
-            && (this.getMoney2() == null ? true : false)
             && (this.getLimit() == null ? true : false)
             && (this.getGrantedDebitGrant() == null ? true : false)
             && (this.getReceivedDebitGrant() == null ? true : false);
@@ -158,8 +142,6 @@ public class Account extends ViewObject implements AccountView{
         int result = 0;
         if(this.getMoney() != null && this.getMoney().equals(child)) return result;
         if(this.getMoney() != null) result = result + 1;
-        if(this.getMoney2() != null && this.getMoney2().equals(child)) return result;
-        if(this.getMoney2() != null) result = result + 1;
         if(this.getLimit() != null && this.getLimit().equals(child)) return result;
         if(this.getLimit() != null) result = result + 1;
         if(this.getGrantedDebitGrant() != null && this.getGrantedDebitGrant().equals(child)) return result;

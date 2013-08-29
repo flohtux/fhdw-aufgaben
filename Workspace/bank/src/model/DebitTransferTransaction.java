@@ -162,19 +162,19 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     
     
     
-    public void changeState(final PersistentDebitTransferState newState) 
+    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
         model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg event = new model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg(newState, getThis());
 		event.execute();
 		getThis().updateObservers(event);
-		event.getResult();
+		return event.getResult();
     }
-    public void execute() 
+    public PersistentDebitTransferTransaction execute() 
 				throws model.ExecuteException, PersistenceException{
         model.meta.DebitTransferTransactionExecuteMssg event = new model.meta.DebitTransferTransactionExecuteMssg(getThis());
 		event.execute();
 		getThis().updateObservers(event);
-		event.getResult();
+		return event.getResult();
     }
     public void execute(final Invoker invoker) 
 				throws PersistenceException{
@@ -208,9 +208,14 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     }
     
     
-    
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+    	PersistentDebitTransferDoubleState result = DebitTransferDoubleState.createDebitTransferDoubleState(getThis().getState(), newState);
+		getThis().setState(newState);	
+		return result;
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

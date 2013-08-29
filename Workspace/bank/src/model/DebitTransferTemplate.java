@@ -234,7 +234,15 @@ public class DebitTransferTemplate extends PersistentObject implements Persisten
     
     public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-    	getThis().getTemplates().add(debitTransferTransaction);
+    	PersistentDebitTransferTransaction result = getThis().getTemplates().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getTemplates().add(debitTransferTransaction);
+    	}
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

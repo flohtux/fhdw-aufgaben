@@ -24,7 +24,7 @@ public class ExecuteCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            ExecuteCommand result = new ExecuteCommand(null,null,null,id);
+            ExecuteCommand result = new ExecuteCommand(null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 213);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class ExecuteCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            ExecuteCommand result = new ExecuteCommand(null,null,null,id);
+            ExecuteCommand result = new ExecuteCommand(null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 213);
         }catch(SQLException se) {
@@ -67,11 +67,15 @@ public class ExecuteCommandFacade{
             PersistentDebitTransferTransaction commandReceiver = null;
             if (obj.getLong(4) != 0)
                 commandReceiver = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            PersistentCommonDate myCommonDate = null;
+            PersistentDebitTransferTransaction commandResult = null;
             if (obj.getLong(6) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+                commandResult = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(8) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             ExecuteCommand result = new ExecuteCommand(invoker,
                                                        commandReceiver,
+                                                       commandResult,
                                                        myCommonDate,
                                                        ExecuteCommandId);
             obj.close();
@@ -117,6 +121,19 @@ public class ExecuteCommandFacade{
             callable.setLong(1, ExecuteCommandId);
             callable.setLong(2, commandReceiverVal.getId());
             callable.setLong(3, commandReceiverVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void commandResultSet(long ExecuteCommandId, PersistentDebitTransferTransaction commandResultVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".ExctCMDFacade.cResultSet(?, ?, ?); end;");
+            callable.setLong(1, ExecuteCommandId);
+            callable.setLong(2, commandResultVal.getId());
+            callable.setLong(3, commandResultVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

@@ -120,10 +120,6 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrant();
     }
-    public PersistentMoney getMoney2() 
-				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).getMoney2();
-    }
     public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrant();
@@ -143,10 +139,6 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).setGrantedDebitGrant(grantedDebitGrant);
-    }
-    public void setMoney2(final PersistentMoney money2) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).setMoney2(money2);
     }
     public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
 				throws PersistenceException{
@@ -211,10 +203,6 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void money2_update(final model.meta.MoneyMssgs event) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).money2_update(event);
     }
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{

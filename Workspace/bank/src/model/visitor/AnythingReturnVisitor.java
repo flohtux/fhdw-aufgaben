@@ -15,15 +15,15 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public R handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
+    public R handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public R handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;
     public R handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException;
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
     public R handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
-    public R handleAccountMoney2(PersistentAccountMoney2 accountMoney2) throws PersistenceException;
     public R handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException;
-    public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException;
     public R handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
@@ -43,6 +43,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleMoney(PersistentMoney money) throws PersistenceException;
     public R handleBank(PersistentBank bank) throws PersistenceException;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
+    public R handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public R handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;

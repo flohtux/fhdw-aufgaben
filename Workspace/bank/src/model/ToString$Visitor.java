@@ -268,6 +268,14 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		this.result = "";		
 	}
+	@Override
+	public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException {
+		this.result = "No View";
+	}
+	@Override
+	public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException {
+		this.result = "No View";
+	}
 	
 	
 

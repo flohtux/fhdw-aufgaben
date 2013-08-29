@@ -28,6 +28,12 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void setAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setAccount(newValue);
     }
+    public PersistentEventWrapper getEventhandle() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getEventhandle();
+    }
+    public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setEventhandle(newValue);
+    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }

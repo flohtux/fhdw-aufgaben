@@ -42,6 +42,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         if(result.getThis().getAccount() == null)throw new PersistenceException("Field account in type AccountService has not been initialized!",0);
+        if(result.getThis().getEventhandle() == null)throw new PersistenceException("Field eventhandle in type AccountService has not been initialized!",0);
         return result;
     }
     
@@ -73,6 +74,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
                     account.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
                     if(forGUI && account.hasEssentialFields())account.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot eventhandle = (AbstractPersistentRoot)this.getEventhandle();
+            if (eventhandle != null) {
+                result.put("eventhandle", eventhandle.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    eventhandle.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && eventhandle.hasEssentialFields())eventhandle.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             AbstractPersistentRoot successful = (AbstractPersistentRoot)this.getSuccessful();
@@ -113,6 +123,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         result = new AccountService(this.subService, 
                                     this.This, 
                                     this.account, 
+                                    this.eventhandle, 
                                     this.successful, 
                                     this.notExecuted, 
                                     this.template, 
@@ -126,14 +137,16 @@ public class AccountService extends model.Service implements PersistentAccountSe
         return false;
     }
     protected PersistentAccount account;
+    protected PersistentEventWrapper eventhandle;
     protected PersistentAccountServiceSuccessful successful;
     protected PersistentAccountServiceNotExecuted notExecuted;
     protected PersistentAccountServiceTemplate template;
     
-    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,PersistentAccountServiceTemplate template,long id) throws persistence.PersistenceException {
+    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentEventWrapper eventhandle,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,PersistentAccountServiceTemplate template,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentService)This,id);
         this.account = account;
+        this.eventhandle = eventhandle;
         this.successful = successful;
         this.notExecuted = notExecuted;
         this.template = template;        
@@ -155,6 +168,10 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if(this.getAccount() != null){
             this.getAccount().store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.accountSet(this.getId(), getAccount());
+        }
+        if(this.getEventhandle() != null){
+            this.getEventhandle().store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.eventhandleSet(this.getId(), getEventhandle());
         }
         if(this.successful != null){
             this.successful.store();
@@ -184,6 +201,21 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.accountSet(this.getId(), newValue);
+        }
+    }
+    public PersistentEventWrapper getEventhandle() throws PersistenceException {
+        return this.eventhandle;
+    }
+    public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.eventhandle)) return;
+        if(getThis().getEventhandle() != null)throw new PersistenceException("Final field eventhandle in type AccountService has been set already!",0);
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.eventhandle = (PersistentEventWrapper)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.eventhandleSet(this.getId(), newValue);
         }
     }
     protected void setSuccessful(PersistentAccountServiceSuccessful newValue) throws PersistenceException {
@@ -492,6 +524,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().setSuccessful(DebitTransferSuccessful.createDebitTransferSuccessful());
     	getThis().setNotExecuted(DebitTransferNotExecuted.createDebitTransferNotExecuted());
     	getThis().setTemplate(DebitTransferTemplate.createDebitTransferTemplate());
+    	getThis().setEventhandle(EventWrapper.createEventWrapper());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -590,7 +623,6 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    
     
     
     

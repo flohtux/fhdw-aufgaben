@@ -70,10 +70,6 @@ public class MoneyProxi extends PersistentProxi implements PersistentMoney{
     }
     
     
-    public PersistentMoney add(final PersistentMoney money) 
-				throws PersistenceException{
-        return ((PersistentMoney)this.getTheObject()).add(money);
-    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).deregister(observee);
@@ -94,9 +90,9 @@ public class MoneyProxi extends PersistentProxi implements PersistentMoney{
 				throws PersistenceException{
         ((PersistentMoney)this.getTheObject()).updateObservers(event);
     }
-    public PersistentMoney addImplementation(final PersistentMoney money) 
+    public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
-        return ((PersistentMoney)this.getTheObject()).addImplementation(money);
+        return ((PersistentMoney)this.getTheObject()).add(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

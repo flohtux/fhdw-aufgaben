@@ -9,10 +9,11 @@ public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,
     public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public R handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
+    public R handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
-    public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public R handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
@@ -22,6 +23,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,
     public R handleMoney(PersistentMoney money) throws PersistenceException;
     public R handleBank(PersistentBank bank) throws PersistenceException;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
+    public R handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     

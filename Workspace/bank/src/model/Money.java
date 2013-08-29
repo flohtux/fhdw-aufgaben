@@ -249,13 +249,6 @@ public class Money extends PersistentObject implements PersistentMoney{
     }
     
     
-    public PersistentMoney add(final PersistentMoney money) 
-				throws PersistenceException{
-        model.meta.MoneyAddMoneyMssg event = new model.meta.MoneyAddMoneyMssg(money, getThis());
-		event.execute();
-		getThis().updateObservers(event);
-		return event.getResult();
-    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -304,7 +297,7 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     // Start of section that contains operations that must be implemented.
     
-    public PersistentMoney addImplementation(final PersistentMoney money) 
+    public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
     	System.out.println(money.toString() + getThis());
     	if(getThis().getCurrency().equals(money.getCurrency())) {

@@ -1454,7 +1454,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		protected void addFields() {
 			super.addFields();
 	        try{
-	            BaseTypePanel panel = new FractionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance());
+	        	BaseTypePanel panel = new RegularExpressionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance().formatDec(2), new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex));
 	            this.getScrollablePane().add(panel);
 	            this.panels.put(DebitTransfer$$money$$balance, panel);
 	        }catch(view.ModelException e){

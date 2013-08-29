@@ -4,6 +4,7 @@ package model;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import common.Fraction;
 import model.visitor.DebitTransferStateExceptionVisitor;
 import persistence.*;
 
@@ -141,9 +142,30 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     
     
-    public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+    public void changeCurrency(final PersistentCurrency currency) 
 				throws PersistenceException{
-        model.meta.DebitTransferChangeReceiverBankDebitTransferIntegerMssg event = new model.meta.DebitTransferChangeReceiverBankDebitTransferIntegerMssg(trans, receiverBankNumber, getThis());
+        model.meta.DebitTransferChangeCurrencyCurrencyMssg event = new model.meta.DebitTransferChangeCurrencyCurrencyMssg(currency, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeMoney(final common.Fraction newAmount) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeMoneyFractionMssg event = new model.meta.DebitTransferChangeMoneyFractionMssg(newAmount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeReceiverAccount(final long receiverAccountNumber) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeReceiverAccountIntegerMssg event = new model.meta.DebitTransferChangeReceiverAccountIntegerMssg(receiverAccountNumber, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeReceiverBank(final long receiverBankNumber) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeReceiverBankIntegerMssg event = new model.meta.DebitTransferChangeReceiverBankIntegerMssg(receiverBankNumber, getThis());
 		event.execute();
 		getThis().updateObservers(event);
 		event.getResult();
@@ -177,9 +199,23 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     // Start of section that contains overridden operations only.
     
-
     /* Start of protected part that is not overridden by persistence generator */
-
+    
+    public void changeCurrencyImplementation(final PersistentCurrency currency) 
+				throws PersistenceException{
+		getThis().getMoney().setCurrency(currency);
+	}
+    public void changeReceiverAccountImplementation(final long receiverAccountNumber) 
+				throws PersistenceException{
+		getThis().setReceiverAccountNumber(receiverAccountNumber);
+	}
+    public void changeReceiverBankImplementation(final long receiverBankNumber) 
+				throws PersistenceException{
+		getThis().setReceiverBankNumber(receiverBankNumber);
+	}
+    public void changeMoneyImplementation(Fraction newAmount) throws PersistenceException {
+    	getThis().getMoney().getAmount().setBalance(newAmount);
+}
     /* End of protected part that is not overridden by persistence generator */
     
 }

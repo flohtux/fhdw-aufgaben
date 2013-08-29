@@ -45,8 +45,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException;
-    public PersistentMoney getMoney2() 
-				throws PersistenceException;
     public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
@@ -54,8 +52,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException;
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
-				throws PersistenceException;
-    public void setMoney2(final PersistentMoney money2) 
 				throws PersistenceException;
     public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
 				throws PersistenceException;
@@ -86,8 +82,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
-				throws PersistenceException;
-    public void money2_update(final model.meta.MoneyMssgs event) 
 				throws PersistenceException;
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;

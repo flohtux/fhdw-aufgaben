@@ -263,7 +263,6 @@ public class Cache {
 		this.number2NameMap.put(133, "Account");
 		this.number2NameMap.put(226, "AccountDebitTransferTransactions");
 		this.number2NameMap.put(206, "AccountGrantedDebitGrant");
-		this.number2NameMap.put(224, "AccountMoney2");
 		this.number2NameMap.put(203, "AccountPx");
 		this.number2NameMap.put(205, "AccountReceivedDebitGrant");
 		this.number2NameMap.put(-130, "AccountService");
@@ -292,6 +291,7 @@ public class Cache {
 		this.number2NameMap.put(177, "Debit");
 		this.number2NameMap.put(191, "DebitGrant");
 		this.number2NameMap.put(202, "DebitGrantListe");
+		this.number2NameMap.put(228, "DebitTransferDoubleState");
 		this.number2NameMap.put(211, "DebitTransferListe");
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
@@ -299,6 +299,7 @@ public class Cache {
 		this.number2NameMap.put(126, "Dollar");
 		this.number2NameMap.put(-135, "ErrorDisplay");
 		this.number2NameMap.put(137, "Euro");
+		this.number2NameMap.put(227, "EventWrapper");
 		this.number2NameMap.put(213, "ExecuteCommand");
 		this.number2NameMap.put(110, "ExecutedState");
 		this.number2NameMap.put(166, "FalseValue");

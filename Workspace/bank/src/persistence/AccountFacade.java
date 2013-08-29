@@ -25,7 +25,7 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
@@ -41,7 +41,7 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
@@ -65,30 +65,26 @@ public class AccountFacade{
             PersistentMoney money = null;
             if (obj.getLong(3) != 0)
                 money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentAccountMoney2 money2 = null;
-            if (obj.getLong(5) != 0)
-                money2 = (PersistentAccountMoney2)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentLimitAccount limit = null;
-            if (obj.getLong(7) != 0)
-                limit = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            if (obj.getLong(5) != 0)
+                limit = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccountDebitTransferTransactions debitTransferTransactions = null;
-            if (obj.getLong(9) != 0)
-                debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            if (obj.getLong(7) != 0)
+                debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentAccountGrantedDebitGrant grantedDebitGrant = null;
-            if (obj.getLong(11) != 0)
-                grantedDebitGrant = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            if (obj.getLong(9) != 0)
+                grantedDebitGrant = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             PersistentAccountReceivedDebitGrant receivedDebitGrant = null;
-            if (obj.getLong(13) != 0)
-                receivedDebitGrant = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+            if (obj.getLong(11) != 0)
+                receivedDebitGrant = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             SubjInterface subService = null;
-            if (obj.getLong(15) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
+            if (obj.getLong(13) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
             PersistentAccount This = null;
-            if (obj.getLong(17) != 0)
-                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(17), obj.getLong(18));
+            if (obj.getLong(15) != 0)
+                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
             Account result = new Account(obj.getLong(2),
                                          money,
-                                         money2,
                                          limit,
                                          debitTransferTransactions,
                                          grantedDebitGrant,
@@ -161,19 +157,6 @@ public class AccountFacade{
             callable.setLong(1, AccountId);
             callable.setLong(2, moneyVal.getId());
             callable.setLong(3, moneyVal.getClassId());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void money2Set(long AccountId, PersistentAccountMoney2 money2Val) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.mn2Set(?, ?, ?); end;");
-            callable.setLong(1, AccountId);
-            callable.setLong(2, money2Val.getId());
-            callable.setLong(3, money2Val.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

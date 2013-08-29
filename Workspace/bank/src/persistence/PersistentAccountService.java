@@ -8,6 +8,8 @@ public interface PersistentAccountService extends PersistentService {
     
     public PersistentAccount getAccount() throws PersistenceException ;
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
+    public PersistentEventWrapper getEventhandle() throws PersistenceException ;
+    public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException ;
     public PersistentAccountService getThis() throws PersistenceException ;
     
     public void accept(ServiceVisitor visitor) throws PersistenceException;

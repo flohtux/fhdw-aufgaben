@@ -5,13 +5,19 @@ public interface DebitTransferMssgsVisitor extends DebitTransferDOWNMssgsVisitor
 
 interface DebitTransferDOWNMssgsVisitor extends TransferDOWNMssgsVisitor, DebitDOWNMssgsVisitor {
 
-    public void handleDebitTransferChangeReceiverBankDebitTransferIntegerMssg(DebitTransferChangeReceiverBankDebitTransferIntegerMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeMoneyFractionMssg(DebitTransferChangeMoneyFractionMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeReceiverAccountIntegerMssg(DebitTransferChangeReceiverAccountIntegerMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeReceiverBankIntegerMssg(DebitTransferChangeReceiverBankIntegerMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface DebitTransferUPMssgsVisitor extends DebitTransferTransactionUPMssgsVisitor {
 
-    public void handleDebitTransferChangeReceiverBankDebitTransferIntegerMssg(DebitTransferChangeReceiverBankDebitTransferIntegerMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeMoneyFractionMssg(DebitTransferChangeMoneyFractionMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeReceiverAccountIntegerMssg(DebitTransferChangeReceiverAccountIntegerMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferChangeReceiverBankIntegerMssg(DebitTransferChangeReceiverBankIntegerMssg event) throws persistence.PersistenceException;
     
 }

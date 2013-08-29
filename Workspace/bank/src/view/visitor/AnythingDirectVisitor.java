@@ -88,6 +88,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     
+    public abstract void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
+    
     public abstract void handleLimitType(LimitTypeView limitType) throws ModelException;
     
     public void handleNoLimit(NoLimitView noLimit) throws ModelException{
@@ -131,9 +133,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     
-    public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    public abstract void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     
     public abstract void handleServer(ServerView server) throws ModelException;
+    
+    public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     
     public abstract void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     

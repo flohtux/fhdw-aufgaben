@@ -23,6 +23,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException{
         this.standardHandling(internalFee);
     }
+    public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException{
+        this.standardHandling(debitTransferDoubleState);
+    }
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.standardHandling(executedState);
     }
@@ -56,11 +59,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTransfer(TransferView transfer) throws ModelException{
         this.standardHandling(transfer);
     }
-    public void handleServer(ServerView server) throws ModelException{
-        this.standardHandling(server);
-    }
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleServer(ServerView server) throws ModelException{
+        this.standardHandling(server);
     }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
@@ -127,6 +130,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException{
         this.standardHandling(debitTransferSuccessful);
+    }
+    public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException{
+        this.standardHandling(eventWrapper);
     }
     public void handlePfund(PfundView pfund) throws ModelException{
         this.standardHandling(pfund);

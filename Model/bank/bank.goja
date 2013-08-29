@@ -65,6 +65,7 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
+	final one-to-one(server-only accountService) no-view EventWrapper eventhandle;
 	observe DebitTransferSuccessful successful;
 	observe DebitTransferNotExecuted notExecuted;
 	observe DebitTransferTemplate template;
@@ -84,6 +85,10 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
+}
+
+class EventWrapper {
+	void reactOnEvent(extern model.meta.DebitTransferTransactionMssgs ev);
 }
 
 class DebitTransferSuccessful##DbtTrnSucc {
@@ -107,7 +112,6 @@ class DebitTransferTemplate##DbTrNtTmpl {
 class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
-	observe Money money2;
 	one-to-one (no-view account) LimitAccount limit;
 	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
@@ -141,7 +145,7 @@ class DebitGrantListe {
 class Money {
 	skip-view prior Amount amount;
 	skip-view prior Currency currency;
-	event Money add(Money money);
+	Money add(Money money);
 	Money subtract(Money money) throws LimitViolatedException;
 	Money multiply (Fraction factor);
 	BooleanValue greater(Money money);
@@ -196,12 +200,12 @@ class Percent {
 string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 
 string-factory abstract class DebitTransferTransaction##DebiTrfTran {
-	active event void execute()  throws ExecuteException;
+	active event DebitTransferTransaction execute()  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
 	no-view	Account sender;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
 	DebitTransferTransaction copy();
-	event void changeState(DebitTransferState newState);
+	event DebitTransferDoubleState changeState(DebitTransferState newState);
 }
 
 abstract class DebitTransfer extends DebitTransferTransaction{
@@ -211,10 +215,10 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 	String subject@@Betreff;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
-  event void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
-	void changeReceiverAccount(DebitTransfer trans, Integer receiverAccountNumber);
-	void changeMoney(DebitTransfer trans, Fraction newAmount);
-	void changeCurrency(DebitTransfer trans, Currency currency);
+  event void changeReceiverBank(Integer receiverBankNumber);
+	event void changeReceiverAccount(Integer receiverAccountNumber);
+	event void changeMoney(Fraction newAmount);
+	event void changeCurrency(Currency currency);
 }
 
 class Transfer extends DebitTransfer {
@@ -235,6 +239,12 @@ class DebitTransferListe##DebTransLst {
 class DebitGrant {
 	prior AccountPx permittedAccount;
 	prior LimitType limits;
+}
+
+
+class DebitTransferDoubleState##DebTraStaDo {
+	prior DebitTransferState debitTransferStateOld##dbtrstold;
+	prior DebitTransferState debitTransferStateNew##dbtrstNew;
 }
 
 abstract class DebitTransferState##DebiTraStat{

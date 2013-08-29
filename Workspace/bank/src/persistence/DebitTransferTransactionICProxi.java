@@ -40,17 +40,17 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
     
     
     
-    public void changeState(final PersistentDebitTransferState newState) 
+    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
-        ((PersistentDebitTransferTransaction)this.getTheObject()).changeState(newState);
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).changeState(newState);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).deregister(observee);
     }
-    public void execute() 
+    public PersistentDebitTransferTransaction execute() 
 				throws model.ExecuteException, PersistenceException{
-        ((PersistentDebitTransferTransaction)this.getTheObject()).execute();
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).execute();
     }
     public void execute(final Invoker invoker) 
 				throws PersistenceException{
@@ -68,9 +68,9 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
 				throws PersistenceException{
         ((PersistentDebitTransferTransaction)this.getTheObject()).updateObservers(event);
     }
-    public void changeStateImplementation(final PersistentDebitTransferState newState) 
+    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
-        ((PersistentDebitTransferTransaction)this.getTheObject()).changeStateImplementation(newState);
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).changeStateImplementation(newState);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -80,9 +80,9 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
 				throws PersistenceException{
         return ((PersistentDebitTransferTransaction)this.getTheObject()).copy();
     }
-    public void executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
-        ((PersistentDebitTransferTransaction)this.getTheObject()).executeImplementation();
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).executeImplementation();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
