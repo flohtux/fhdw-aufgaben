@@ -599,21 +599,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         if (withStaticOperations) result.add(item);
         if (selected != null){
             if (selected instanceof TransactionView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Buchung aus Transaktion entfernen ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard wizard = new AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard("Buchung aus Transaktion entfernen");
-                        wizard.setFirstArgument((TransactionView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
+                if (this.filterRemoveFromTransaction((TransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Buchung aus Transaktion entfernen ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard wizard = new AccountServiceRemoveFromTransactionTransactionDebitTransferLSTMssgWizard("Buchung aus Transaktion entfernen");
+                            wizard.setFirstArgument((TransactionView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
                 if (this.filterAddToTransaction((TransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Buchung zu Transaktion hinzufügen ... ");
@@ -827,7 +829,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         this.addNotGeneratedItems(result,selected);
         return result;
     }
-    
+
 	class AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard extends Wizard {
 
 		protected AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard(String operationName){
@@ -1669,6 +1671,52 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 					return true;
 				}
 
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+    
+	private boolean filterRemoveFromTransaction(TransactionView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return true;
+				}
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState) throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return true;
+				}
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState)
+						throws ModelException {
+					return true;
+				}
 				@Override
 				public Boolean handleNotExecutableState(
 						NotExecutableStateView notExecutableState)

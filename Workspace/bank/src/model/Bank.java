@@ -545,7 +545,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 				result.receiveTransfer(debitTransfer);
 	    	}
     	} catch (ExecuteException e) {
-    		debitTransfer.getState().changeState(NotExecutedState.createNotExecutedState());
+    		debitTransfer.changeState(NotExecutedState.createNotExecutedState());
     		throw e;
     	}
     }

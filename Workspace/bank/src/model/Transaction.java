@@ -218,7 +218,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 			public void doItTo(PersistentDebitTransfer argument)
 					throws PersistenceException {
 				getThis().getDebitTransfer().getDebitTransfers().add(argument);
-				argument.getState().changeState(NotSuccessfulState.createNotSuccessfulState());
+				argument.changeState(NotSuccessfulState.createNotSuccessfulState());
 			}
 		});
     }
@@ -278,9 +278,8 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 				argument.execute();
 			}
 		});
-		getThis().getState().changeState(SuccessfulState.createSuccessfulState());
+		getThis().changeState(SuccessfulState.createSuccessfulState());
 		return getThis();
-//		getThis().setState(SuccessfulState.createSuccessfulState());
 	}
 
     /* Start of protected part that is not overridden by persistence generator */
