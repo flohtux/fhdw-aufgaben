@@ -24,6 +24,7 @@ import persistence.AccountSearchList;
 import persistence.Anything;
 import persistence.Command;
 import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
 import persistence.Invoker;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
@@ -51,6 +52,7 @@ import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
+import persistence.Predcate;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -532,6 +534,48 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+    	 transaction.addToTransaction(debitTransfer);
+         getThis().getDebitTransferTransactions().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+ 			@Override
+ 			public boolean test(final PersistentDebitTransferTransaction argument)
+ 					throws PersistenceException {
+ 				PersistentDebitTransfer result = debitTransfer.findFirst(new Predcate<PersistentDebitTransfer>() {
+ 					@Override
+ 					public boolean test(PersistentDebitTransfer argument2)
+ 							throws PersistenceException {
+ 						return argument.equals(argument2);
+ 					}
+ 				});
+ 				if(result == null) {
+ 					return false;
+ 				}
+ 				return true;
+ 			}
+ 		});
+    }
+    public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+    	transaction.addToTransaction(debitTransfer);
+    	 getThis().getDebitTransferTransactions().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+ 			@Override
+ 			public boolean test(final PersistentDebitTransferTransaction argument)
+ 					throws PersistenceException {
+ 				PersistentDebitTransfer result = debitTransfer.findFirst(new Predcate<PersistentDebitTransfer>() {
+ 					@Override
+ 					public boolean test(PersistentDebitTransfer argument2)
+ 							throws PersistenceException {
+ 						return argument.equals(argument2);
+ 					}
+ 				});
+ 				if(result == null) {
+ 					return false;
+ 				}
+ 				return true;
+ 			}
+ 		});
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
         trans.changeCurrency(currency);
@@ -669,6 +713,8 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         list.remove(acc);
     }
+
+	}
     
     
     // Start of section that contains overridden operations only.
@@ -686,4 +732,4 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     /* End of protected part that is not overridden by persistence generator */
     
-}
+

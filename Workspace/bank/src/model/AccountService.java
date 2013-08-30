@@ -432,28 +432,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
     
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
-        transaction.addToTransaction(debitTransfer);
-        getThis().getAccount().getDebitTransferTransactions().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
-			@Override
-			public boolean test(PersistentDebitTransferTransaction argument)
-					throws PersistenceException {
-				System.out.println(argument.equals(debitTransfer)+"eq verg");
-				return argument.equals(debitTransfer);
-			}
-		});
+    	getThis().getAccount().addToTransactionTemplate(transaction, debitTransfer);
         getThis().signalChanged(true);
     }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
-        transaction.addToTransaction(debitTransfer);
-        getThis().getAccount().getDebitTransferTransactions().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
-			@Override
-			public boolean test(PersistentDebitTransferTransaction argument)
-					throws PersistenceException {
-				System.out.println(argument.equals(debitTransfer)+"eq verg");
-				return argument.equals(debitTransfer);
-			}
-		});
+	    getThis().getAccount().addToTransaction(transaction, debitTransfer);
         getThis().signalChanged(true);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 

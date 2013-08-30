@@ -113,7 +113,7 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	observe no-view  DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	event void remove(AccountPx acc, DebitGrantListe list);
@@ -129,6 +129,9 @@ class Account {
 
 	DebitTransferTransaction createTemplate(DebitTransferTransactionSUBTYPEName type);
 	Transaction createTransaction();
+
+	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
+	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
 }
 
 class AccountPx {
