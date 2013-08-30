@@ -4,20 +4,16 @@ package model;
 import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
 import model.meta.DebitGrantListeRemoveAccountPxMssg;
-import model.meta.DebitTransferChangeCurrencyCurrencyMssg;
-import model.meta.DebitTransferChangeMoneyFractionMssg;
-import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
-import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
-import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
-import model.meta.DebitTransferTransactionExecuteMssg;
-import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.meta.DebitTransferTransactionSwitchPARAMETER;
-import model.meta.MoneyMssgsVisitor;
 import model.meta.StringFACTORY;
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.InvokerExceptionVisitor;
+import model.visitor.InvokerReturnExceptionVisitor;
+import model.visitor.InvokerReturnVisitor;
+import model.visitor.InvokerVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -26,6 +22,7 @@ import persistence.AbstractPersistentRoot;
 import persistence.AccountProxi;
 import persistence.AccountSearchList;
 import persistence.Anything;
+import persistence.Command;
 import persistence.ConnectionHandler;
 import persistence.Invoker;
 import persistence.ObsInterface;
@@ -377,6 +374,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
         if (this.getLimit() != null) return 1;
+        if (this.getDebitTransferTransactions().getObservee().getLength() > 0) return 1;
         if (this.getGrantedDebitGrant() != null) return 1;
         if (this.getReceivedDebitGrant() != null) return 1;
         return 0;
@@ -598,7 +596,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 		    	return template;
 			}
 		});
-
     	return result;
     }
     public PersistentTransaction createTransaction() 

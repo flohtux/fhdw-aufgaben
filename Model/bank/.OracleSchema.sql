@@ -403,19 +403,6 @@ create table CrtBnkCMD(
     constraint FCrtBnkCMDMyCmmnDt foreign key (CrtBnkCMDMyCmmnDtCls) references Cls (id)    
 );
 
-create sequence SDbTrNtTmpl nocache;
-
-create table DbTrNtTmpl(
-    id number primary key,
-    Cls number not null,
-    DbTrNtTmplSbSrvc number,
-    DbTrNtTmplSbSrvcCls number,
-    constraint FDbTrNtTmplSbSrvc foreign key (DbTrNtTmplSbSrvcCls) references Cls (id),
-    DbTrNtTmplThis number,
-    DbTrNtTmplThisCls number,
-    constraint FDbTrNtTmplThis foreign key (DbTrNtTmplThisCls) references Cls (id)    
-);
-
 create sequence SSrvr nocache;
 
 create table Srvr(
@@ -438,6 +425,19 @@ create table Srvr(
 create index ISrvcSrvr on Srvr (SrvrSrvc, SrvrSrvcCls);
 create index IUserSrvr on Srvr (SrvrUser);
 
+
+create sequence SDbTrNtTmpl nocache;
+
+create table DbTrNtTmpl(
+    id number primary key,
+    Cls number not null,
+    DbTrNtTmplSbSrvc number,
+    DbTrNtTmplSbSrvcCls number,
+    constraint FDbTrNtTmplSbSrvc foreign key (DbTrNtTmplSbSrvcCls) references Cls (id),
+    DbTrNtTmplThis number,
+    DbTrNtTmplThisCls number,
+    constraint FDbTrNtTmplThis foreign key (DbTrNtTmplThisCls) references Cls (id)    
+);
 
 create sequence SCrtDbtGrntCMD nocache;
 

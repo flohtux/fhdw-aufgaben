@@ -745,11 +745,11 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleProcentualFee(view.ProcentualFeeView object){
         result = new ProcentualFeeDefaultDetailPanel(handler, object);
     }
-    public void handleDebitTransferTemplate(view.DebitTransferTemplateView object){
-        result = new DebitTransferTemplateDefaultDetailPanel(handler, object);
-    }
     public void handleServer(view.ServerView object){
         result = new ServerDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitTransferTemplate(view.DebitTransferTemplateView object){
+        result = new DebitTransferTemplateDefaultDetailPanel(handler, object);
     }
     public void handleTransfer(view.TransferView object){
         result = new TransferDefaultDetailPanel(handler, object);
@@ -1113,22 +1113,6 @@ class ProcentualFeeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String DebitTransferTemplate$$templates = "DebitTransferTemplate$$templates";
-    
-    protected DebitTransferTemplateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.DebitTransferTemplateView getAnything(){
-        return (view.DebitTransferTemplateView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class ServerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Server$$service = "Server$$service";
@@ -1149,6 +1133,22 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.ServerView getAnything(){
         return (view.ServerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitTransferTemplate$$templates = "DebitTransferTemplate$$templates";
+    
+    protected DebitTransferTemplateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferTemplateView getAnything(){
+        return (view.DebitTransferTemplateView)this.anything;
     }
 }
 
@@ -1393,6 +1393,7 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
+    protected static final String Account$$debitTransferTransactions = "Account$$debitTransferTransactions";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
     

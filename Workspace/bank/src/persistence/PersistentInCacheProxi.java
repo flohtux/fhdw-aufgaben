@@ -143,14 +143,14 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new ProcentualFeeICProxi(objectId);
             }
         };
-        iCProxiFactories[107] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new DebitTransferTemplateICProxi(objectId);
-            }
-        };
         iCProxiFactories[20] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ServerICProxi(objectId);
+            }
+        };
+        iCProxiFactories[107] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new DebitTransferTemplateICProxi(objectId);
             }
         };
         iCProxiFactories[21] = new ICProxiFactory(){

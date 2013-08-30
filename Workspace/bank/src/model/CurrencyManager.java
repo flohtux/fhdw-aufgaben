@@ -7,12 +7,17 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.InvokerExceptionVisitor;
+import model.visitor.InvokerReturnExceptionVisitor;
+import model.visitor.InvokerReturnVisitor;
+import model.visitor.InvokerVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
 import persistence.Aggregtion;
 import persistence.Anything;
+import persistence.Command;
 import persistence.ConnectionHandler;
 import persistence.CurrencyManagerProxi;
 import persistence.CurrencyManager_CurrencyStockProxi;
@@ -27,6 +32,7 @@ import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.SubjInterface;
 import persistence.TDObserver;
+
 import common.Fraction;
 
 

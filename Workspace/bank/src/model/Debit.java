@@ -1,12 +1,41 @@
 
 package model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferExceptionVisitor;
+import model.visitor.DebitTransferReturnExceptionVisitor;
+import model.visitor.DebitTransferReturnVisitor;
+import model.visitor.DebitTransferTransactionExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnVisitor;
+import model.visitor.DebitTransferTransactionVisitor;
+import model.visitor.DebitTransferVisitor;
+import model.visitor.InvokerExceptionVisitor;
+import model.visitor.InvokerReturnExceptionVisitor;
+import model.visitor.InvokerReturnVisitor;
+import model.visitor.InvokerVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentMoney;
+import persistence.PersistentStornoState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 import common.Fraction;
-import persistence.*;
-import model.visitor.*;
 
 
 /* Additional import section end */

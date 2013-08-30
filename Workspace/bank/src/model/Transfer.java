@@ -236,7 +236,51 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
 		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
 		copy.setSender(getThis().getSender());
-		copy.setState(getThis().getState());
+		PersistentDebitTransferState copyState = 
+		getThis().getState().accept(new DebitTransferStateReturnVisitor<PersistentDebitTransferState>() {
+			@Override
+			public PersistentDebitTransferState handleExecutedState(
+					PersistentExecutedState executedState)
+					throws PersistenceException {
+				return ExecutedState.createExecutedState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleNotSuccessfulState(
+					PersistentNotSuccessfulState notSuccessfulState)
+					throws PersistenceException {
+				return NotSuccessfulState.createNotSuccessfulState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleSuccessfulState(
+					PersistentSuccessfulState successfulState)
+					throws PersistenceException {
+				return SuccessfulState.createSuccessfulState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleNotExecutedState(
+					PersistentNotExecutedState notExecutedState)
+					throws PersistenceException {
+				return NotExecutedState.createNotExecutedState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleTemplateState(
+					PersistentTemplateState templateState)
+					throws PersistenceException {
+				return TemplateState.createTemplateState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleNotExecutableState(
+					PersistentNotExecutableState notExecutableState)
+					throws PersistenceException {
+				return NotExecutableState.createNotExecutableState();
+			}
+		});
+		copy.setState(copyState);
 		copy.setStornoState(getThis().getStornoState());
 		copy.setTimestamp(getThis().getTimestamp());
 		return copy;

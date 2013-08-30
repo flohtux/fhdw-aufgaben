@@ -147,14 +147,14 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new ProcentualFeeListEntryProxi(objectId, entryId);
             }
         };
-        listProxiFactories[107] = new ListProxiFactory(){
-            PersistentListEntryProxi create(long objectId, long entryId){
-                return new DebitTransferTemplateListEntryProxi(objectId, entryId);
-            }
-        };
         listProxiFactories[20] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new ServerListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[107] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new DebitTransferTemplateListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[21] = new ListProxiFactory(){
@@ -503,14 +503,14 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new ProcentualFeeProxi(objectId);
             }
         };
-        proxiFactories[107] = new ProxiFactory(){
-            PersistentProxi create(long objectId){
-                return new DebitTransferTemplateProxi(objectId);
-            }
-        };
         proxiFactories[20] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new ServerProxi(objectId);
+            }
+        };
+        proxiFactories[107] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new DebitTransferTemplateProxi(objectId);
             }
         };
         proxiFactories[21] = new ProxiFactory(){

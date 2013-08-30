@@ -829,7 +829,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         this.addNotGeneratedItems(result,selected);
         return result;
     }
-
+    
 	class AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard extends Wizard {
 
 		protected AccountServiceAddToTransactionTemplateTransactionDebitTransferLSTMssgWizard(String operationName){

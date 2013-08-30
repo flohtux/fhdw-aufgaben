@@ -433,11 +433,27 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         transaction.addToTransaction(debitTransfer);
+        getThis().getAccount().getDebitTransferTransactions().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument)
+					throws PersistenceException {
+				System.out.println(argument.equals(debitTransfer)+"eq verg");
+				return argument.equals(debitTransfer);
+			}
+		});
         getThis().signalChanged(true);
     }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         transaction.addToTransaction(debitTransfer);
+        getThis().getAccount().getDebitTransferTransactions().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument)
+					throws PersistenceException {
+				System.out.println(argument.equals(debitTransfer)+"eq verg");
+				return argument.equals(debitTransfer);
+			}
+		});
         getThis().signalChanged(true);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
@@ -594,26 +610,43 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void useTemplate(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-    	PersistentDebitTransferTransaction debitTransferTransactionCopy = debitTransferTransaction.copy();
-    	debitTransferTransactionCopy.accept(new DebitTransferTransactionVisitor() {
+    	final PersistentDebitTransferTransaction debitTransferTransactionCopy = debitTransferTransaction.copy();
+    	debitTransferTransactionCopy.getState().accept(new DebitTransferStateVisitor() {
 			@Override
-			public void handleTransfer(PersistentTransfer transfer)
-					throws PersistenceException {}
-			@Override
-			public void handleDebit(PersistentDebit debit) throws PersistenceException {}
-			@Override
-			public void handleTransaction(PersistentTransaction transaction)
+			public void handleTemplateState(PersistentTemplateState templateState)
 					throws PersistenceException {
-				transaction.getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
-					@Override
-					public void doItTo(PersistentDebitTransfer argument)
-							throws PersistenceException {
-						argument.setState(NotExecutedState.createNotExecutedState());
-					}
-				});
+				debitTransferTransactionCopy.changeState(NotExecutedState.createNotExecutedState());
+			}
+			@Override
+			public void handleSuccessfulState(PersistentSuccessfulState successfulState)
+					throws PersistenceException {
+			}
+			
+			@Override
+			public void handleNotSuccessfulState(
+					PersistentNotSuccessfulState notSuccessfulState)
+					throws PersistenceException {
+			}
+			
+			@Override
+			public void handleNotExecutedState(
+					PersistentNotExecutedState notExecutedState)
+					throws PersistenceException {
+				
+			}
+			
+			@Override
+			public void handleNotExecutableState(
+					PersistentNotExecutableState notExecutableState)
+					throws PersistenceException {
+			}
+			
+			@Override
+			public void handleExecutedState(PersistentExecutedState executedState)
+					throws PersistenceException {
+				
 			}
 		});
-    	debitTransferTransactionCopy.setState(NotExecutedState.createNotExecutedState());
     	getThis().getNotExecuted().getNotExecuteds().add(debitTransferTransactionCopy);
     	getThis().signalChanged(true);
     }
