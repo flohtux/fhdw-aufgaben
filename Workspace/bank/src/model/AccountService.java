@@ -648,6 +648,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 			}
 		});
     	getThis().getNotExecuted().getNotExecuteds().add(debitTransferTransactionCopy);
+    	getThis().getAccount().getDebitTransferTransactions().add(debitTransferTransactionCopy);
     	getThis().signalChanged(true);
     }
     

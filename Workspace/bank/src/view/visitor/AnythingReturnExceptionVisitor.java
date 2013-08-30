@@ -11,8 +11,8 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException, E;
     public R handlePercent(PercentView percent) throws ModelException, E;
     public R handleAmount(AmountView amount) throws ModelException, E;
-    public R handleServer(ServerView server) throws ModelException, E;
     public R handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException, E;
+    public R handleServer(ServerView server) throws ModelException, E;
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public R handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException, E;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException, E;

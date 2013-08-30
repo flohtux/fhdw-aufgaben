@@ -111,8 +111,8 @@ public class ConnectionHandler {
     public FalseValueFacade theFalseValueFacade;
     public AccountGrantedDebitGrantFacade theAccountGrantedDebitGrantFacade;
     public ChangeNameCommandFacade theChangeNameCommandFacade;
-    public DebitTransferStateFacade theDebitTransferStateFacade;
     public NoRequestStateFacade theNoRequestStateFacade;
+    public DebitTransferStateFacade theDebitTransferStateFacade;
     public StornoStateFacade theStornoStateFacade;
     public CurrencyManagerFacade theCurrencyManagerFacade;
     public DebitTransferListeFacade theDebitTransferListeFacade;
@@ -137,8 +137,8 @@ public class ConnectionHandler {
     public DebitTransferFacade theDebitTransferFacade;
     public BankServiceFacade theBankServiceFacade;
     public ProcentualFeeFacade theProcentualFeeFacade;
-    public ServerFacade theServerFacade;
     public DebitTransferTemplateFacade theDebitTransferTemplateFacade;
+    public ServerFacade theServerFacade;
     public TransferFacade theTransferFacade;
     public CreateDebitGrantCommandFacade theCreateDebitGrantCommandFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
@@ -211,8 +211,8 @@ public class ConnectionHandler {
             this.theFalseValueFacade= new FalseValueFacade(this.schemaName, this.con);
             this.theAccountGrantedDebitGrantFacade= new AccountGrantedDebitGrantFacade(this.schemaName, this.con);
             this.theChangeNameCommandFacade= new ChangeNameCommandFacade(this.schemaName, this.con);
-            this.theDebitTransferStateFacade= new DebitTransferStateFacade(this.schemaName, this.con);
             this.theNoRequestStateFacade= new NoRequestStateFacade(this.schemaName, this.con);
+            this.theDebitTransferStateFacade= new DebitTransferStateFacade(this.schemaName, this.con);
             this.theStornoStateFacade= new StornoStateFacade(this.schemaName, this.con);
             this.theCurrencyManagerFacade= new CurrencyManagerFacade(this.schemaName, this.con);
             this.theDebitTransferListeFacade= new DebitTransferListeFacade(this.schemaName, this.con);
@@ -237,8 +237,8 @@ public class ConnectionHandler {
             this.theDebitTransferFacade= new DebitTransferFacade(this.schemaName, this.con);
             this.theBankServiceFacade= new BankServiceFacade(this.schemaName, this.con);
             this.theProcentualFeeFacade= new ProcentualFeeFacade(this.schemaName, this.con);
-            this.theServerFacade= new ServerFacade(this.schemaName, this.con);
             this.theDebitTransferTemplateFacade= new DebitTransferTemplateFacade(this.schemaName, this.con);
+            this.theServerFacade= new ServerFacade(this.schemaName, this.con);
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);
             this.theCreateDebitGrantCommandFacade= new CreateDebitGrantCommandFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);

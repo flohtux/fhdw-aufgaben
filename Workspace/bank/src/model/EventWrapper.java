@@ -253,20 +253,16 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 				
 				try {
 					result = event.getResult();
-					System.out.println("eventres "+event.getResult());
 					
 				} catch (ExecuteException e) {
-					System.out.println("exception");
 					return;
 				}
-				System.out.println();
 				getThis().getAccountService().getSuccessful().add(result);
 			}
 			@Override
 			public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event)
 					throws PersistenceException {
 				final PersistentDebitTransferTransaction object = event.getResult().getDebitTransferStateNew().getDebitTransfer();
-				System.out.println("obj"+event.getResult().getDebitTransferStateOld());
 				event.getResult().getDebitTransferStateOld().accept(new DebitTransferStateVisitor() {
 					@Override
 					public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
@@ -290,7 +286,6 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 					public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
 					}
 				});
-				System.out.println("newState"+event.getResult().getDebitTransferStateNew());
 				event.getResult().getDebitTransferStateNew().accept(new DebitTransferStateVisitor() {
 					@Override
 					public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {

@@ -137,9 +137,9 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     
-    public abstract void handleServer(PersistentServer server) throws PersistenceException;
-    
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    
+    public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

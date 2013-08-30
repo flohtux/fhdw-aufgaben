@@ -14,14 +14,14 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handlePasswordException(PasswordException passwordException) throws ModelException{
         this.standardHandling(passwordException);
     }
-    public void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException{
-        this.standardHandling(closeAccountNoPossibleException);
-    }
     public void handleNoPermissionToExecuteDebitTransferException(NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws ModelException{
         this.standardHandling(noPermissionToExecuteDebitTransferException);
     }
     public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{
         this.standardHandling(invalidBankNumberException);
+    }
+    public void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException{
+        this.standardHandling(closeAccountNoPossibleException);
     }
     public void handleLimitViolatedException(LimitViolatedException limitViolatedException) throws ModelException{
         this.standardHandling(limitViolatedException);

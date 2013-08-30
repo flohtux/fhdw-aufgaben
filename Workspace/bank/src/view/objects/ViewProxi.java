@@ -134,14 +134,14 @@ public abstract class ViewProxi extends ViewRoot {
                 return new ProcentualFeeProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[20] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new ServerProxi(objectId, classId, connectionKey);
-            }
-        };
         proxiFactories[107] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new DebitTransferTemplateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[20] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new ServerProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[21] = new ProxiFactory(){

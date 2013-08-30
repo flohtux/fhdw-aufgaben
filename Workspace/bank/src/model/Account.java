@@ -374,7 +374,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
         if (this.getLimit() != null) return 1;
-        if (this.getDebitTransferTransactions().getObservee().getLength() > 0) return 1;
         if (this.getGrantedDebitGrant() != null) return 1;
         if (this.getReceivedDebitGrant() != null) return 1;
         return 0;

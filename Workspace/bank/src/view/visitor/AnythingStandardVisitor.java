@@ -59,11 +59,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTransfer(TransferView transfer) throws ModelException{
         this.standardHandling(transfer);
     }
-    public void handleServer(ServerView server) throws ModelException{
-        this.standardHandling(server);
-    }
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleServer(ServerView server) throws ModelException{
+        this.standardHandling(server);
     }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
