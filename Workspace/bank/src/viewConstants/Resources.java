@@ -10,8 +10,10 @@ public class Resources {
 	private static final String Resources = "viewResources";
 
 	private static final String BankIcon = Resources + "/bank.gif";
+	private static final String KontostandIcon = Resources + "/money.png";
 
 	private static ImageIcon bankIcon;
+	private static ImageIcon kontostandIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getBankIcon() {
@@ -19,6 +21,12 @@ public class Resources {
 			bankIcon = new ImageIcon(getURL(BankIcon));
 		return bankIcon;
 	}
+	
+	public static Icon getKontostandIcon() {
+		if (kontostandIcon == null)
+			kontostandIcon = new ImageIcon(getURL(KontostandIcon));
+		return kontostandIcon;
+		}
 	private static URL getURL(String path) {
 		return Resources.class.getClassLoader().getResource(path);
 	}

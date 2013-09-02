@@ -11,6 +11,8 @@ public class IconManager {
 		switch (iconInfo) {
 		case common.IconInfoConstants.BankIconNumber:
 			return viewConstants.Resources.getBankIcon();
+		case common.IconInfoConstants.MoneyIconNumber:
+			return viewConstants.Resources.getKontostandIcon();
 		default:
 			return null;
 		}
