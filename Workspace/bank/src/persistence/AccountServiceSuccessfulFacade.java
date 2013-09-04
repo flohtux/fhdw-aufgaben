@@ -55,26 +55,32 @@ public class AccountServiceSuccessfulFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountServiceSuccessfulId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccountService observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAccountService)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitTransferSuccessful observee = null;
-            if (obj.getLong(4) != 0)
-                observee = (PersistentDebitTransferSuccessful)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountServiceSuccessful This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AccountServiceSuccessful result = new AccountServiceSuccessful(observer,
-                                                                           observee,
-                                                                           This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10267: {
+                        observer = (PersistentAccountService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10268: {
+                        observee = (PersistentDebitTransferSuccessful)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10269: {
+                        This = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AccountServiceSuccessful result = new AccountServiceSuccessful(observer, 
+                                                                           observee, 
+                                                                           This, 
                                                                            AccountServiceSuccessfulId);
-            obj.close();
+            links.close();
             callable.close();
             AccountServiceSuccessfulICProxi inCache = (AccountServiceSuccessfulICProxi)Cache.getTheCache().put(result);
             AccountServiceSuccessful objectInCache = (AccountServiceSuccessful)inCache.getTheObject();

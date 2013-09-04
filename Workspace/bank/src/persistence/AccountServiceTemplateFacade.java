@@ -55,26 +55,32 @@ public class AccountServiceTemplateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountServiceTemplateId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccountService observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAccountService)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitTransferTemplate observee = null;
-            if (obj.getLong(4) != 0)
-                observee = (PersistentDebitTransferTemplate)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountServiceTemplate This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AccountServiceTemplate result = new AccountServiceTemplate(observer,
-                                                                       observee,
-                                                                       This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10273: {
+                        observer = (PersistentAccountService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10274: {
+                        observee = (PersistentDebitTransferTemplate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10275: {
+                        This = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AccountServiceTemplate result = new AccountServiceTemplate(observer, 
+                                                                       observee, 
+                                                                       This, 
                                                                        AccountServiceTemplateId);
-            obj.close();
+            links.close();
             callable.close();
             AccountServiceTemplateICProxi inCache = (AccountServiceTemplateICProxi)Cache.getTheCache().put(result);
             AccountServiceTemplate objectInCache = (AccountServiceTemplate)inCache.getTheObject();

@@ -56,43 +56,62 @@ public class AccountFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            long accountNumber = 0;
             PersistentMoney money = null;
-            if (obj.getLong(3) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             PersistentLimitAccount limit = null;
-            if (obj.getLong(5) != 0)
-                limit = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccountDebitTransferTransactions debitTransferTransactions = null;
-            if (obj.getLong(7) != 0)
-                debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentAccountGrantedDebitGrant grantedDebitGrant = null;
-            if (obj.getLong(9) != 0)
-                grantedDebitGrant = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             PersistentAccountReceivedDebitGrant receivedDebitGrant = null;
-            if (obj.getLong(11) != 0)
-                receivedDebitGrant = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             SubjInterface subService = null;
-            if (obj.getLong(13) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
             PersistentAccount This = null;
-            if (obj.getLong(15) != 0)
-                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
-            Account result = new Account(obj.getLong(2),
-                                         money,
-                                         limit,
-                                         debitTransferTransactions,
-                                         grantedDebitGrant,
-                                         receivedDebitGrant,
-                                         subService,
-                                         This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10061: {
+                        accountNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10062: {
+                        money = (PersistentMoney)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10063: {
+                        limit = (PersistentLimitAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10109: {
+                        debitTransferTransactions = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10213: {
+                        grantedDebitGrant = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10208: {
+                        receivedDebitGrant = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10064: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10065: {
+                        This = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Account result = new Account(accountNumber, 
+                                         money, 
+                                         limit, 
+                                         debitTransferTransactions, 
+                                         grantedDebitGrant, 
+                                         receivedDebitGrant, 
+                                         subService, 
+                                         This, 
                                          AccountId);
-            obj.close();
+            links.close();
             callable.close();
             AccountICProxi inCache = (AccountICProxi)Cache.getTheCache().put(result);
             Account objectInCache = (Account)inCache.getTheObject();

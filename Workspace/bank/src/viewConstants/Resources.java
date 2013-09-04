@@ -15,6 +15,7 @@ public class Resources {
 	private static final String LimitsIcon = Resources +"/configure-2.png";
 	private static final String VorlagenIcon = Resources + "/archive.gif";
 	private static final String AccountIcon = Resources + "/user.png";
+	private static final String NochNichtErledigteAuftraegeIcon = Resources + "wait.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -22,6 +23,7 @@ public class Resources {
 	private static ImageIcon limitsIcon;
 	private static ImageIcon vorlagenIcon;
 	private static ImageIcon accountIcon;
+	private static ImageIcon nochNichtErledigteAuftraegeIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -53,6 +55,12 @@ public class Resources {
 			limitsIcon = new ImageIcon(getURL(LimitsIcon));
 		return limitsIcon;
 		}
+	
+	public static Icon getNochNichtErledigteAuftraegeIcon() {
+		if (nochNichtErledigteAuftraegeIcon == null)
+			nochNichtErledigteAuftraegeIcon = new ImageIcon(getURL(NochNichtErledigteAuftraegeIcon));
+		return nochNichtErledigteAuftraegeIcon;
+	}
 	
 	public static Icon getVorlagenIcon() {
 		if (vorlagenIcon == null)

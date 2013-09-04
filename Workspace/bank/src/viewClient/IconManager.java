@@ -24,6 +24,9 @@ public class IconManager {
 		case common.IconInfoConstants.LimitsIconNumber:
 			return viewConstants.Resources.getLimitsIcon();
 			
+		case common.IconInfoConstants.NochNichtErledigteAuftraegeIconNumber:
+			return viewConstants.Resources.getNochNichtErledigteAuftraegeIcon();
+			
 		case common.IconInfoConstants.VorlagenIconNumber:
 			return viewConstants.Resources.getVorlagenIcon();
 			

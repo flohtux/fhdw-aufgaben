@@ -36,22 +36,26 @@ public class NotSuccessfulStornoStateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, NotSuccessfulStornoStateId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentStornoState This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            NotSuccessfulStornoState result = new NotSuccessfulStornoState(subService,
-                                                                           This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10010: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10011: {
+                        This = (PersistentStornoState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            NotSuccessfulStornoState result = new NotSuccessfulStornoState(subService, 
+                                                                           This, 
                                                                            NotSuccessfulStornoStateId);
-            obj.close();
+            links.close();
             callable.close();
             NotSuccessfulStornoStateICProxi inCache = (NotSuccessfulStornoStateICProxi)Cache.getTheCache().put(result);
             NotSuccessfulStornoState objectInCache = (NotSuccessfulStornoState)inCache.getTheObject();

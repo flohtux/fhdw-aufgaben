@@ -8,6 +8,7 @@ public class IconInfoConstants {
 	public static final int HistorieIconNumber = 4;
 	public static final int VorlagenIconNumber = 5;
 	public static final int AccountIconNumber = 6;
+	public static final int NochNichtErledigteAuftraegeIconNumber = 7;
 
 	private IconInfoConstants(){}
 }

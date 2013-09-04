@@ -228,8 +228,12 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			getThis().getLimitType().checkLimit(debitTransfer.getMoney());
+		} catch (LimitViolatedException e) {
+			return FalseValue.getTheFalseValue();
+		}
+		return TrueValue.getTheTrueValue();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

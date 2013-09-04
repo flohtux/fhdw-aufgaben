@@ -1,14 +1,34 @@
-drop sequence SSpecialization;
-create sequence SSpecialization nocache;
+--DROPSTART
+ALTER TABLE Specialization DROP CONSTRAINT FSpecializationAncestor;
+ALTER TABLE Specialization DROP CONSTRAINT FSpecializationDescendant;
+ALTER TABLE Association DROP CONSTRAINT FAssociationOwner;
+ALTER TABLE Association DROP CONSTRAINT FAssociationTarget;
+ALTER TABLE Association3 DROP CONSTRAINT FAssociation3Owner;
+ALTER TABLE Association3 DROP CONSTRAINT FAssociation3Key;
+ALTER TABLE Association3 DROP CONSTRAINT FAssociation3Target;
+ALTER TABLE Obj DROP CONSTRAINT FObjCls;
+ALTER TABLE DeletedObject DROP CONSTRAINT FDltdObjCls;
+ALTER TABLE DeletedObject DROP CONSTRAINT FDltdObjObj;
+ALTER TABLE Lnk DROP CONSTRAINT FLnkOwner;
+ALTER TABLE Lnk DROP CONSTRAINT FLnkAssociation;
+ALTER TABLE Lnk3 DROP CONSTRAINT FLnk3Owner;
+ALTER TABLE Lnk3 DROP CONSTRAINT FLnk3Association3;
 
-drop table Specialization cascade constraints;
-create table Specialization (
-    id number primary key,
-    ancestor number,
-    constraint FSpecializationAncestor foreign key (ancestor) references Cls(id),
-    descendant number,
-    constraint FSpecializationDescendant foreign key (descendant) references Cls(id)
-);
-
-alter table DebiTrfTran  drop (DebiTrfTranSbjct) cascade constraints;
-delete from Association where id = 10309;
+DROP TABLE Cls;
+DROP SEQUENCE SSpecialization;
+DROP TABLE Specialization;
+DROP TABLE Association;
+DROP TABLE Association3;
+DROP SEQUENCE SObj;
+DROP TABLE Obj;
+DROP TABLE DltdObj;
+DROP SEQUENCE SLnk;
+DROP TABLE Lnk;
+DROP SEQUENCE SLnk3;
+DROP TABLE Lnk3;
+DROP TABLE IntegerValue;
+DROP TABLE StringValue;
+DROP TABLE DateValue;
+DROP TABLE TimestampValue;
+DROP TABLE TextValue;
+DROP TABLE FractionValue;
