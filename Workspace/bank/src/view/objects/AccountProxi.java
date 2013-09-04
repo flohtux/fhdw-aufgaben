@@ -44,7 +44,14 @@ public class AccountProxi extends ViewProxi implements AccountView{
             receivedDebitGrant = view.objects.ViewProxi.createProxi(receivedDebitGrant$Info,connectionKey);
             receivedDebitGrant.setToString(receivedDebitGrant$Info.getToString());
         }
-        AccountView result$$ = new Account((long)accountNumber,(MoneyView)money,(LimitAccountView)limit,debitTransferTransactions,(DebitGrantListeView)grantedDebitGrant,(DebitGrantListeView)receivedDebitGrant, this.getId(), this.getClassId());
+        ViewProxi triggerListe = null;
+        String triggerListe$String = (String)resultTable.get("triggerListe");
+        if (triggerListe$String != null) {
+            common.ProxiInformation triggerListe$Info = common.RPCConstantsAndServices.createProxiInformation(triggerListe$String);
+            triggerListe = view.objects.ViewProxi.createProxi(triggerListe$Info,connectionKey);
+            triggerListe.setToString(triggerListe$Info.getToString());
+        }
+        AccountView result$$ = new Account((long)accountNumber,(MoneyView)money,(LimitAccountView)limit,debitTransferTransactions,(DebitGrantListeView)grantedDebitGrant,(DebitGrantListeView)receivedDebitGrant,(TriggerListeView)triggerListe, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -62,6 +69,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
         if(this.getGrantedDebitGrant() != null) index = index - 1;
         if(index == 0 && this.getReceivedDebitGrant() != null) return new ReceivedDebitGrantAccountWrapper(this, originalIndex, (ViewRoot)this.getReceivedDebitGrant());
         if(this.getReceivedDebitGrant() != null) index = index - 1;
+        if(index == 0 && this.getTriggerListe() != null) return new TriggerListeAccountWrapper(this, originalIndex, (ViewRoot)this.getTriggerListe());
+        if(this.getTriggerListe() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
@@ -69,7 +78,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
             + (this.getMoney() == null ? 0 : 1)
             + (this.getLimit() == null ? 0 : 1)
             + (this.getGrantedDebitGrant() == null ? 0 : 1)
-            + (this.getReceivedDebitGrant() == null ? 0 : 1);
+            + (this.getReceivedDebitGrant() == null ? 0 : 1)
+            + (this.getTriggerListe() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
@@ -77,7 +87,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
             && (this.getMoney() == null ? true : false)
             && (this.getLimit() == null ? true : false)
             && (this.getGrantedDebitGrant() == null ? true : false)
-            && (this.getReceivedDebitGrant() == null ? true : false);
+            && (this.getReceivedDebitGrant() == null ? true : false)
+            && (this.getTriggerListe() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -89,6 +100,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
         if(this.getGrantedDebitGrant() != null) result = result + 1;
         if(this.getReceivedDebitGrant() != null && this.getReceivedDebitGrant().equals(child)) return result;
         if(this.getReceivedDebitGrant() != null) result = result + 1;
+        if(this.getTriggerListe() != null && this.getTriggerListe().equals(child)) return result;
+        if(this.getTriggerListe() != null) result = result + 1;
         return -1;
     }
     
@@ -127,6 +140,12 @@ public class AccountProxi extends ViewProxi implements AccountView{
     }
     public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException {
         ((Account)this.getTheObject()).setReceivedDebitGrant(newValue);
+    }
+    public TriggerListeView getTriggerListe()throws ModelException{
+        return ((Account)this.getTheObject()).getTriggerListe();
+    }
+    public void setTriggerListe(TriggerListeView newValue) throws ModelException {
+        ((Account)this.getTheObject()).setTriggerListe(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

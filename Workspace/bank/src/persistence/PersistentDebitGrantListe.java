@@ -21,16 +21,22 @@ public interface PersistentDebitGrantListe extends SubjInterface, Anything, Abst
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
     public void createDebitGrant(final PersistentAccountPx receiver, final PersistentLimitType limit) 
-				throws PersistenceException;
+				throws model.GrantAlreadyGivenException, PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void remove(final PersistentAccountPx acc) 
+				throws PersistenceException;
+    public void checkGrantGiven(final PersistentAccountPx acc) 
+				throws model.GrantAlreadyGivenException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrantImplementation(final PersistentAccountPx receiver, final PersistentLimitType limit) 
-				throws PersistenceException;
+				throws model.GrantAlreadyGivenException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void removeImplementation(final PersistentAccountPx acc) 
 				throws PersistenceException;
 
 }

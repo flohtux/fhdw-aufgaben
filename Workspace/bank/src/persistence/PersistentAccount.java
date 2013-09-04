@@ -12,7 +12,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
-    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;
@@ -35,20 +34,34 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber, final Invoker invoker) 
 				throws PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
+				throws model.GrantAlreadyGivenException, PersistenceException;
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit, final Invoker invoker) 
 				throws PersistenceException;
     public PersistentAccountService getAccountService() 
 				throws PersistenceException;
     public PersistentBank getBank() 
 				throws PersistenceException;
+    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
+				throws PersistenceException;
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException;
     public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException;
+    public PersistentTriggerListe getTriggerListe() 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException;
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException;
     public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
+				throws PersistenceException;
+    public void setTriggerListe(final PersistentTriggerListe triggerListe) 
+				throws PersistenceException;
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException;
+    public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException;
@@ -61,7 +74,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
-				throws PersistenceException;
+				throws model.GrantAlreadyGivenException, PersistenceException;
     public PersistentDebit createDebit() 
 				throws PersistenceException;
     public PersistentDebitTransferTransaction createTemplate(final String type) 
@@ -70,6 +83,10 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
+    public PersistentTrigger createTrigger(final String name) 
+				throws PersistenceException;
+    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
+				throws PersistenceException;
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
     public void initializeOnCreation() 
@@ -77,6 +94,10 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
+				throws PersistenceException;
+    public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
+				throws PersistenceException;
+    public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException;
 
 }

@@ -29,11 +29,11 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
         this.standardHandling(changeMoneyCommand);
     }
-    public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
-        this.standardHandling(changeReceiverAccountCommand);
-    }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
+    }
+    public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
+        this.standardHandling(changeReceiverAccountCommand);
     }
     protected abstract void standardHandling(Command command) throws PersistenceException;
 }

@@ -22,41 +22,17 @@ public class CreateDebitGrantCommandProxi extends PersistentProxi implements Per
         return 198;
     }
     
-    public PersistentDebitGrantListe getDebitGrantList() throws PersistenceException {
-        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getDebitGrantList();
+    public PersistentAccount getReceiver() throws PersistenceException {
+        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getReceiver();
     }
-    public void setDebitGrantList(PersistentDebitGrantListe newValue) throws PersistenceException {
-        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setDebitGrantList(newValue);
+    public void setReceiver(PersistentAccount newValue) throws PersistenceException {
+        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setReceiver(newValue);
     }
-    public long getReceiverBankNumber() throws PersistenceException {
-        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getReceiverBankNumber();
+    public PersistentLimitType getLimit() throws PersistenceException {
+        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getLimit();
     }
-    public void setReceiverBankNumber(long newValue) throws PersistenceException {
-        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setReceiverBankNumber(newValue);
-    }
-    public long getReceiverAccNumber() throws PersistenceException {
-        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getReceiverAccNumber();
-    }
-    public void setReceiverAccNumber(long newValue) throws PersistenceException {
-        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setReceiverAccNumber(newValue);
-    }
-    public String getLimitType() throws PersistenceException {
-        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getLimitType();
-    }
-    public void setLimitType(String newValue) throws PersistenceException {
-        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setLimitType(newValue);
-    }
-    public common.Fraction getAmount() throws PersistenceException {
-        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getAmount();
-    }
-    public void setAmount(common.Fraction newValue) throws PersistenceException {
-        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setAmount(newValue);
-    }
-    public String getCur() throws PersistenceException {
-        return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getCur();
-    }
-    public void setCur(String newValue) throws PersistenceException {
-        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setCur(newValue);
+    public void setLimit(PersistentLimitType newValue) throws PersistenceException {
+        ((PersistentCreateDebitGrantCommand)this.getTheObject()).setLimit(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getInvoker();
@@ -64,10 +40,10 @@ public class CreateDebitGrantCommandProxi extends PersistentProxi implements Per
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentCreateDebitGrantCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentAccountService getCommandReceiver() throws PersistenceException {
+    public PersistentAccount getCommandReceiver() throws PersistenceException {
         return ((PersistentCreateDebitGrantCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentAccountService newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentAccount newValue) throws PersistenceException {
         ((PersistentCreateDebitGrantCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -125,16 +101,16 @@ public class CreateDebitGrantCommandProxi extends PersistentProxi implements Per
     public <R, E extends UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCreateDebitGrantCommand(this);
     }
-    public void accept(AccountServiceCommandVisitor visitor) throws PersistenceException {
+    public void accept(AccountCommandVisitor visitor) throws PersistenceException {
         visitor.handleCreateDebitGrantCommand(this);
     }
-    public <R> R accept(AccountServiceCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(AccountCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleCreateDebitGrantCommand(this);
     }
-    public <E extends UserException>  void accept(AccountServiceCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(AccountCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleCreateDebitGrantCommand(this);
     }
-    public <R, E extends UserException> R accept(AccountServiceCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(AccountCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCreateDebitGrantCommand(this);
     }
     

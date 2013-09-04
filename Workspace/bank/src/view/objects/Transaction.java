@@ -1,8 +1,20 @@
 
 package view.objects;
 
-import view.*;
-import view.visitor.*;
+import view.AccountView;
+import view.DebitTransferListeView;
+import view.DebitTransferStateView;
+import view.ModelException;
+import view.TransactionView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.DebitTransferTransactionExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
+import view.visitor.DebitTransferTransactionVisitor;
 
 
 /* Additional import section end */
@@ -11,9 +23,9 @@ public class Transaction extends view.objects.DebitTransferTransaction implement
     
     protected DebitTransferListeView debitTransfer;
     
-    public Transaction(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,DebitTransferListeView debitTransfer,long id, long classId) {
+    public Transaction(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,DebitTransferListeView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,id, classId);
+        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.debitTransfer = debitTransfer;        
     }
     
@@ -105,8 +117,12 @@ public class Transaction extends view.objects.DebitTransferTransaction implement
     public int getTimestampIndex() throws ModelException {
         return 0;
     }
+    public int getSubjectIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
@@ -114,8 +130,12 @@ public class Transaction extends view.objects.DebitTransferTransaction implement
             if(columnIndex == 0){
                 if(rowIndex == 0) return "Zeitstempel";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "Betreff";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -130,6 +150,11 @@ public class Transaction extends view.objects.DebitTransferTransaction implement
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
             this.setTimestamp(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setSubject(newValue);
             return;
         }
         rowIndex = rowIndex - 1;

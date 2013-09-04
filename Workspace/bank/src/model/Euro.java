@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.CurrencyExceptionVisitor;
+import model.visitor.CurrencyReturnExceptionVisitor;
+import model.visitor.CurrencyReturnVisitor;
+import model.visitor.CurrencyVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.EuroProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentCurrency;
+import persistence.PersistentEuro;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

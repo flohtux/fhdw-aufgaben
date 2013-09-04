@@ -17,5 +17,8 @@ public abstract class AccountCommandStandardVisitor implements AccountCommandVis
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
         this.standardHandling(changeReceiverAccountCommand);
     }
+    public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
+        this.standardHandling(createDebitGrantCommand);
+    }
     protected abstract void standardHandling(AccountCommand accountCommand) throws PersistenceException;
 }

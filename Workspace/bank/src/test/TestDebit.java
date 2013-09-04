@@ -18,9 +18,12 @@ import model.MixedFee;
 import model.Money;
 import model.NoLimit;
 import model.NoPermissionToExecuteDebitTransferException;
+import model.NotExecutedState;
+import model.NotSuccessfulState;
 import model.Percent;
 import model.Pfund;
 import model.ProcentualFee;
+import model.SuccessfulState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +37,7 @@ import persistence.PersistentFixTransactionFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
 import persistence.PersistentProcentualFee;
+import persistence.PersistentSuccessfulState;
 import persistence.PersistentTransfer;
 import common.Fraction;
 
@@ -81,8 +85,6 @@ public class TestDebit {
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();
 
-		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
-		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
 	}
 	
 	@Test
@@ -106,7 +108,35 @@ public class TestDebit {
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();
+//		System.out.println("stata"+newDebit.getState());
+		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
+//		System.out.println(acc2.getMoney()+"acc2");
+//		System.out.println("acc1"+acc1.getMoney());
+		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
+	}
+	
+	@Test
+	public void testDebit3() throws Exception {
+		PersistentAdministrator admin = Administrator.createAdministrator();
 
+		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, admin);
+		bank.createAccount("Euro");
+		bank2.createAccount("Euro");
+
+		PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+		PersistentAccount acc2 = bank2.getAccounts().get(FirstAccountNumber);
+
+		acc2.createDebitGrant(acc1, NoLimit.getTheNoLimit());
+		PersistentDebit newDebit = acc1.createDebit();
+		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
+		newDebit.setReceiverAccountNumber(FirstAccountNumber);
+		newDebit.setReceiverBankNumber(bank2.getBankNumber());
+		newDebit.execute();
+		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
+//		System.out.println(acc2.getMoney()+"acc2");
+//		System.out.println("acc1"+acc1.getMoney());
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
 	}

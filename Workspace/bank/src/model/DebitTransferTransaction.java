@@ -1,7 +1,20 @@
 
 package model;
 
-import persistence.*;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.Invoker;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentDebitTransferDoubleState;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentExecuteCommand;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -19,6 +32,7 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("timestamp", this.getTimestamp());
+            result.put("subject", this.getSubject());
             AbstractPersistentRoot sender = (AbstractPersistentRoot)this.getSender();
             if (sender != null) {
                 result.put("sender", sender.createProxiInformation(false, essentialLevel == 0));
@@ -49,15 +63,17 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
         return false;
     }
     protected java.sql.Timestamp timestamp;
+    protected String subject;
     protected PersistentAccount sender;
     protected PersistentDebitTransferState state;
     protected SubjInterface subService;
     protected PersistentDebitTransferTransaction This;
     
-    public DebitTransferTransaction(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long id) throws persistence.PersistenceException {
+    public DebitTransferTransaction(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.timestamp = timestamp;
+        this.subject = subject;
         this.sender = sender;
         this.state = state;
         this.subService = subService;
@@ -100,6 +116,14 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.timestampSet(this.getId(), newValue);
         this.timestamp = newValue;
+    }
+    public String getSubject() throws PersistenceException {
+        return this.subject;
+    }
+    public void setSubject(String newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferTransactionFacade.subjectSet(this.getId(), newValue);
+        this.subject = newValue;
     }
     public PersistentAccount getSender() throws PersistenceException {
         return this.sender;
@@ -162,12 +186,19 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     
     
     
-    public void execute() 
+    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg event = new model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg(newState, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		return event.getResult();
+    }
+    public PersistentDebitTransferTransaction execute() 
 				throws model.ExecuteException, PersistenceException{
         model.meta.DebitTransferTransactionExecuteMssg event = new model.meta.DebitTransferTransactionExecuteMssg(getThis());
 		event.execute();
 		getThis().updateObservers(event);
-		event.getResult();
+		return event.getResult();
     }
     public void execute(final Invoker invoker) 
 				throws PersistenceException{
@@ -203,6 +234,12 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+    	PersistentDebitTransferDoubleState result = DebitTransferDoubleState.createDebitTransferDoubleState(getThis().getState(), newState);
+		getThis().setState(newState);	
+		return result;
+	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

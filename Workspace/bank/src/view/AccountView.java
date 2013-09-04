@@ -18,6 +18,8 @@ public interface AccountView extends Anything, AbstractViewRoot {
     public void setGrantedDebitGrant(DebitGrantListeView newValue) throws ModelException ;
     public DebitGrantListeView getReceivedDebitGrant()throws ModelException;
     public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException ;
+    public TriggerListeView getTriggerListe()throws ModelException;
+    public void setTriggerListe(TriggerListeView newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

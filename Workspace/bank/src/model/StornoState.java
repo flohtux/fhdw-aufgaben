@@ -1,7 +1,16 @@
 
 package model;
 
-import persistence.*;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.PersistentStornoState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

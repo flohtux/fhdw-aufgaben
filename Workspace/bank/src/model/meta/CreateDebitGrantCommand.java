@@ -16,21 +16,19 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
         return (PersistentCreateDebitGrantCommand)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentCreateDebitGrantCommand createCreateDebitGrantCommand(long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur,java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException{
-        return createCreateDebitGrantCommand(receiverBankNumber,receiverAccNumber,limitType,amount,cur,createDate,commitDate,false);
+    public static PersistentCreateDebitGrantCommand createCreateDebitGrantCommand(java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException{
+        return createCreateDebitGrantCommand(createDate,commitDate,false);
     }
     
-    public static PersistentCreateDebitGrantCommand createCreateDebitGrantCommand(long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur,java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence) throws PersistenceException {
-        if (limitType == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
-        if (cur == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
+    public static PersistentCreateDebitGrantCommand createCreateDebitGrantCommand(java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence) throws PersistenceException {
         PersistentCreateDebitGrantCommand result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade
-                .newDelayedCreateDebitGrantCommand(receiverBankNumber,receiverAccNumber,limitType,amount,cur);
+                .newDelayedCreateDebitGrantCommand();
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade
-                .newCreateDebitGrantCommand(receiverBankNumber,receiverAccNumber,limitType,amount,cur,-1);
+                .newCreateDebitGrantCommand(-1);
         }
         result.setMyCommonDate(CommonDate.createCommonDate(createDate, createDate));
         return result;
@@ -39,27 +37,19 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
-    protected PersistentDebitGrantListe debitGrantList;
-    protected long receiverBankNumber;
-    protected long receiverAccNumber;
-    protected String limitType;
-    protected common.Fraction amount;
-    protected String cur;
+    protected PersistentAccount receiver;
+    protected PersistentLimitType limit;
     protected Invoker invoker;
-    protected PersistentAccountService commandReceiver;
+    protected PersistentAccount commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public CreateDebitGrantCommand(PersistentDebitGrantListe debitGrantList,long receiverBankNumber,long receiverAccNumber,String limitType,common.Fraction amount,String cur,Invoker invoker,PersistentAccountService commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public CreateDebitGrantCommand(PersistentAccount receiver,PersistentLimitType limit,Invoker invoker,PersistentAccount commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.debitGrantList = debitGrantList;
-        this.receiverBankNumber = receiverBankNumber;
-        this.receiverAccNumber = receiverAccNumber;
-        this.limitType = limitType;
-        this.amount = amount;
-        this.cur = cur;
+        this.receiver = receiver;
+        this.limit = limit;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.myCommonDate = myCommonDate;        
@@ -76,11 +66,15 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 198) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade
-            .newCreateDebitGrantCommand(receiverBankNumber,receiverAccNumber,limitType,amount,cur,this.getId());
+            .newCreateDebitGrantCommand(this.getId());
         super.store();
-        if(this.getDebitGrantList() != null){
-            this.getDebitGrantList().store();
-            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.debitGrantListSet(this.getId(), getDebitGrantList());
+        if(this.getReceiver() != null){
+            this.getReceiver().store();
+            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.receiverSet(this.getId(), getReceiver());
+        }
+        if(this.getLimit() != null){
+            this.getLimit().store();
+            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.limitSet(this.getId(), getLimit());
         }
         if(this.getInvoker() != null){
             this.getInvoker().store();
@@ -97,56 +91,33 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
         
     }
     
-    public PersistentDebitGrantListe getDebitGrantList() throws PersistenceException {
-        return this.debitGrantList;
+    public PersistentAccount getReceiver() throws PersistenceException {
+        return this.receiver;
     }
-    public void setDebitGrantList(PersistentDebitGrantListe newValue) throws PersistenceException {
+    public void setReceiver(PersistentAccount newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.debitGrantList)) return;
+        if(newValue.equals(this.receiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.debitGrantList = (PersistentDebitGrantListe)PersistentProxi.createProxi(objectId, classId);
+        this.receiver = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.debitGrantListSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.receiverSet(this.getId(), newValue);
         }
     }
-    public long getReceiverBankNumber() throws PersistenceException {
-        return this.receiverBankNumber;
+    public PersistentLimitType getLimit() throws PersistenceException {
+        return this.limit;
     }
-    public void setReceiverBankNumber(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.receiverBankNumberSet(this.getId(), newValue);
-        this.receiverBankNumber = newValue;
-    }
-    public long getReceiverAccNumber() throws PersistenceException {
-        return this.receiverAccNumber;
-    }
-    public void setReceiverAccNumber(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.receiverAccNumberSet(this.getId(), newValue);
-        this.receiverAccNumber = newValue;
-    }
-    public String getLimitType() throws PersistenceException {
-        return this.limitType;
-    }
-    public void setLimitType(String newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.limitTypeSet(this.getId(), newValue);
-        this.limitType = newValue;
-    }
-    public common.Fraction getAmount() throws PersistenceException {
-        return this.amount;
-    }
-    public void setAmount(common.Fraction newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.amountSet(this.getId(), newValue);
-        this.amount = newValue;
-    }
-    public String getCur() throws PersistenceException {
-        return this.cur;
-    }
-    public void setCur(String newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.curSet(this.getId(), newValue);
-        this.cur = newValue;
+    public void setLimit(PersistentLimitType newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.limit)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.limit = (PersistentLimitType)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.limitSet(this.getId(), newValue);
+        }
     }
     public Invoker getInvoker() throws PersistenceException {
         return this.invoker;
@@ -162,15 +133,15 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
             ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentAccountService getCommandReceiver() throws PersistenceException {
+    public PersistentAccount getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentAccountService newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentAccount newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentAccountService)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCreateDebitGrantCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -243,20 +214,21 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     public <R, E extends UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCreateDebitGrantCommand(this);
     }
-    public void accept(AccountServiceCommandVisitor visitor) throws PersistenceException {
+    public void accept(AccountCommandVisitor visitor) throws PersistenceException {
         visitor.handleCreateDebitGrantCommand(this);
     }
-    public <R> R accept(AccountServiceCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(AccountCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleCreateDebitGrantCommand(this);
     }
-    public <E extends UserException>  void accept(AccountServiceCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends UserException>  void accept(AccountCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleCreateDebitGrantCommand(this);
     }
-    public <R, E extends UserException> R accept(AccountServiceCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends UserException> R accept(AccountCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCreateDebitGrantCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getDebitGrantList() != null) return 1;
+        if (this.getReceiver() != null) return 1;
+        if (this.getLimit() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -273,12 +245,9 @@ public class CreateDebitGrantCommand extends PersistentObject implements Persist
     public void execute() 
 				throws PersistenceException{
         try{
-			this.getCommandReceiver().createDebitGrant(this.getDebitGrantList(), this.getReceiverBankNumber(), this.getReceiverAccNumber(), this.getLimitType(), this.getAmount(), this.getCur());
+			this.getCommandReceiver().createDebitGrant(this.getReceiver(), this.getLimit());
 		}
-		catch(model.InvalidBankNumberException e){
-			this.commandException = e;
-		}
-		catch(model.InvalidAccountNumberException e){
+		catch(model.GrantAlreadyGivenException e){
 			this.commandException = e;
 		}
     }

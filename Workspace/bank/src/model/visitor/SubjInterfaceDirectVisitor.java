@@ -82,6 +82,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     
+    public abstract void handleTrigger(PersistentTrigger trigger) throws PersistenceException;
+    
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     
     public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
@@ -90,14 +92,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
-    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
+    public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     
-    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
-        this.handleBooleanValue(falseValue);
-    }
-    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
-        this.handleBooleanValue(trueValue);
-    }
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
     
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
@@ -105,6 +101,14 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
+    }
+    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
+    
+    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
+        this.handleBooleanValue(falseValue);
+    }
+    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
+        this.handleBooleanValue(trueValue);
     }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
@@ -133,9 +137,24 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
-    public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    public abstract void handleRule(PersistentRule rule) throws PersistenceException;
+    
+    public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
+        this.handleRule(subjectRule);
+    }
+    public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
+        this.handleRule(moneyRule);
+    }
+    public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
+        this.handleRule(incomingAccountRule);
+    }
+    public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    
+    public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    
+    public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

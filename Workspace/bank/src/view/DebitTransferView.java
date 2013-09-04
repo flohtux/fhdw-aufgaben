@@ -10,8 +10,6 @@ public interface DebitTransferView extends DebitTransferTransactionView {
     public void setReceiverBankNumber(long newValue) throws ModelException ;
     public MoneyView getMoney()throws ModelException;
     public void setMoney(MoneyView newValue) throws ModelException ;
-    public String getSubject()throws ModelException;
-    public void setSubject(String newValue) throws ModelException ;
     public StornoStateView getStornoState()throws ModelException;
     public void setStornoState(StornoStateView newValue) throws ModelException ;
     

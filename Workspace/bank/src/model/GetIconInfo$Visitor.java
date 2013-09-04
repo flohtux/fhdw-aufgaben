@@ -3,8 +3,15 @@ package model;
 import model.visitor.DebitTransferStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
+import persistence.PersistentAccountPx;
 import persistence.PersistentBank;
+import persistence.PersistentCurrencyManager;
+import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferSuccessful;
+import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentExecutedState;
+import persistence.PersistentLimitAccount;
+import persistence.PersistentMoney;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
@@ -26,10 +33,43 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 		return result;
 	}
 	//TODO PREREQUISITES: Icon: how to assign icon information
+	public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
+        result = common.IconInfoConstants.AccountIconNumber;
+	}
+	
+	
 	public void handleBank(PersistentBank bank) throws PersistenceException{
         result = common.IconInfoConstants.BankIconNumber;
 	}
 
+	@Override
+	public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException {
+		result = common.IconInfoConstants.KontostandIconNumber;
+	}
+
+	@Override
+	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted)	throws PersistenceException {
+		result = common.IconInfoConstants.NochNichtErledigteAuftraegeIconNumber;
+	}
+	
+	@Override
+	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful)
+			throws PersistenceException {
+		result = common.IconInfoConstants.HistorieIconNumber;
+	}
+	
+	public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
+		result = common.IconInfoConstants.VorlagenIconNumber;
+	}
+	
+	public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
+		result = common.IconInfoConstants.LimitsIconNumber;
+	}
+	
+	public void handleMoney(PersistentMoney money) throws PersistenceException{
+		result = common.IconInfoConstants.KontostandIconNumber;
+	}
+	
 	@Override
 	public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
 		transfer.getState().accept(new DebitTransferStateVisitor() {

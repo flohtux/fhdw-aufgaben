@@ -31,8 +31,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
     
-    public abstract void handleAccount(AccountView account) throws ModelException;
-    
     public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
     
     public void handleMixedFee(MixedFeeView mixedFee) throws ModelException{
@@ -44,6 +42,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(AccountView account) throws ModelException;
+    
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
@@ -80,6 +80,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
         this.handleStornoState(noRequestState);
     }
+    public abstract void handleTrigger(TriggerView trigger) throws ModelException;
+    
     public abstract void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
@@ -87,6 +89,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;
     
     public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
+    
+    public abstract void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     
     public abstract void handleLimitType(LimitTypeView limitType) throws ModelException;
     
@@ -131,9 +135,24 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     
-    public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    public abstract void handleRule(RuleView rule) throws ModelException;
+    
+    public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
+        this.handleRule(subjectRule);
+    }
+    public void handleMoneyRule(MoneyRuleView moneyRule) throws ModelException{
+        this.handleRule(moneyRule);
+    }
+    public void handleIncomingAccountRule(IncomingAccountRuleView incomingAccountRule) throws ModelException{
+        this.handleRule(incomingAccountRule);
+    }
+    public abstract void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     
     public abstract void handleServer(ServerView server) throws ModelException;
+    
+    public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    
+    public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
     
     public abstract void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     

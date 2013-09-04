@@ -16,6 +16,12 @@ public abstract class DebitTransferTransactionProxi extends ViewProxi implements
     public void setTimestamp(java.util.Date newValue) throws ModelException {
         ((DebitTransferTransaction)this.getTheObject()).setTimestamp(newValue);
     }
+    public String getSubject()throws ModelException{
+        return ((DebitTransferTransaction)this.getTheObject()).getSubject();
+    }
+    public void setSubject(String newValue) throws ModelException {
+        ((DebitTransferTransaction)this.getTheObject()).setSubject(newValue);
+    }
     public AccountView getSender()throws ModelException{
         return ((DebitTransferTransaction)this.getTheObject()).getSender();
     }

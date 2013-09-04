@@ -15,20 +15,20 @@ public class TransferFacade{
 		this.con = con;
 	}
 
-    public TransferProxi newTransfer(java.sql.Timestamp timestamp,long receiverAccountNumber,long receiverBankNumber,String subject,long createMinusStorePlus) throws PersistenceException {
+    public TransferProxi newTransfer(java.sql.Timestamp timestamp,String subject,long receiverAccountNumber,long receiverBankNumber,long createMinusStorePlus) throws PersistenceException {
         OracleCallableStatement callable;
         try{
             callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".TrnsfrFacade.newTrnsfr(?,?,?,?,?); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.setTimestamp(2, timestamp);
-            callable.setLong(3, receiverAccountNumber);
-            callable.setLong(4, receiverBankNumber);
-            callable.setString(5, subject);
+            callable.setString(3, subject);
+            callable.setLong(4, receiverAccountNumber);
+            callable.setLong(5, receiverBankNumber);
             callable.setLong(6, createMinusStorePlus);
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,subject,null,id);
+            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -36,7 +36,7 @@ public class TransferFacade{
         }
     }
     
-    public TransferProxi newDelayedTransfer(java.sql.Timestamp timestamp,long receiverAccountNumber,long receiverBankNumber,String subject) throws PersistenceException {
+    public TransferProxi newDelayedTransfer(java.sql.Timestamp timestamp,String subject,long receiverAccountNumber,long receiverBankNumber) throws PersistenceException {
         OracleCallableStatement callable;
         try{
             callable = (OracleCallableStatement)this.con.prepareCall("Begin ? := " + this.schemaName + ".TrnsfrFacade.newDelayedTrnsfr(); end;");
@@ -44,7 +44,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,subject,null,id);
+            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -66,32 +66,32 @@ public class TransferFacade{
                 return null;
             }
             PersistentAccount sender = null;
-            if (obj.getLong(3) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
+            if (obj.getLong(4) != 0)
+                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentDebitTransferState state = null;
-            if (obj.getLong(5) != 0)
-                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            if (obj.getLong(6) != 0)
+                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             SubjInterface subService = null;
-            if (obj.getLong(7) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            if (obj.getLong(8) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentDebitTransferTransaction This = null;
-            if (obj.getLong(9) != 0)
-                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            if (obj.getLong(10) != 0)
+                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             PersistentMoney money = null;
-            if (obj.getLong(13) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+            if (obj.getLong(14) != 0)
+                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
             PersistentStornoState stornoState = null;
             if (obj.getLong(16) != 0)
                 stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
             Transfer result = new Transfer(obj.getTimestamp(2),
+                                           obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                            sender,
                                            state,
                                            subService,
                                            This,
-                                           obj.getLong(11),
                                            obj.getLong(12),
+                                           obj.getLong(13),
                                            money,
-                                           obj.getString(15) == null ? "" : obj.getString(15) /* In Oracle "" = null !!! */,
                                            stornoState,
                                            TransferId);
             obj.close();

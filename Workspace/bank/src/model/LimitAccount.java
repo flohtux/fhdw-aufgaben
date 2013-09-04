@@ -1,12 +1,31 @@
 
 package model;
 
-import java.math.BigInteger;
-
-import common.Fraction;
-
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.LimitTypeExceptionVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.LimitAccountProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentLimit;
+import persistence.PersistentLimitAccount;
+import persistence.PersistentLimitType;
+import persistence.PersistentMoney;
+import persistence.PersistentNoLimit;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -309,7 +328,7 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 			   @Override
 			   public void handleLimit(PersistentLimit limit) throws PersistenceException, LimitViolatedException {
 				   if(newAmount.greater(limit.getMoney()).isTrue()) {
-				   throw new LimitViolatedException("Oberes Limit überschritten!");
+					   throw new LimitViolatedException("Oberes Limit überschritten!");
 				   }
 			   }
 	        });

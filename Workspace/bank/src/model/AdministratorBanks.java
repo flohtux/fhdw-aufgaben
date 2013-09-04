@@ -1,8 +1,24 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.ObsInterfaceExceptionVisitor;
+import model.visitor.ObsInterfaceReturnExceptionVisitor;
+import model.visitor.ObsInterfaceReturnVisitor;
+import model.visitor.ObsInterfaceVisitor;
+import persistence.AdministratorBanksProxi;
+import persistence.AdministratorBanks_ObserveeProxi;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentAdministrator;
+import persistence.PersistentAdministratorBanks;
+import persistence.PersistentBank;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.SearchListRoot;
 
 
 /* Additional import section end */

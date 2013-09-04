@@ -179,7 +179,7 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
         return ((PersistentBank)this.getTheObject()).searchAccountByAccNumber(accNum);
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentBank)this.getTheObject()).sendTransfer(debitTransfer);
     }
 

@@ -34,6 +34,12 @@ public class ExecuteCommandICProxi extends PersistentInCacheProxi implements Per
     public void setCommandReceiver(PersistentDebitTransferTransaction newValue) throws PersistenceException {
         ((PersistentExecuteCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
+    public PersistentDebitTransferTransaction getCommandResult() throws PersistenceException {
+        return ((PersistentExecuteCommand)this.getTheObject()).getCommandResult();
+    }
+    public void setCommandResult(PersistentDebitTransferTransaction newValue) throws PersistenceException {
+        ((PersistentExecuteCommand)this.getTheObject()).setCommandResult(newValue);
+    }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
         return ((PersistentExecuteCommand)this.getTheObject()).getMyCommonDate();
     }

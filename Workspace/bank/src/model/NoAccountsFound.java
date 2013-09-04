@@ -1,9 +1,13 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
 import static serverConstants.ExceptionMessages.NoAccountsFoundMessage;
+import model.visitor.UserExceptionExceptionVisitor;
+import model.visitor.UserExceptionReturnExceptionVisitor;
+import model.visitor.UserExceptionReturnVisitor;
+import model.visitor.UserExceptionVisitor;
+import persistence.PersistenceException;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

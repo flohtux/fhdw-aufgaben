@@ -108,6 +108,10 @@ public class ExecutedStateProxi extends DebitTransferStateProxi implements Persi
 				throws PersistenceException{
         return ((PersistentExecutedState)this.getTheObject()).isExecutable();
     }
+    public PersistentBooleanValue isTransaction() 
+				throws PersistenceException{
+        return ((PersistentExecutedState)this.getTheObject()).isTransaction();
+    }
     public void removeDebitTransferFromList() 
 				throws PersistenceException{
         ((PersistentExecutedState)this.getTheObject()).removeDebitTransferFromList();

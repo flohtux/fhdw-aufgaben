@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferNotExecutedProxi;
+import persistence.DebitTransferNotExecuted_NotExecutedsProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -181,6 +200,13 @@ public class DebitTransferNotExecuted extends PersistentObject implements Persis
     }
     
     
+    public void add(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        model.meta.DebitTransferNotExecutedAddDebitTransferTransactionMssg event = new model.meta.DebitTransferNotExecutedAddDebitTransferTransactionMssg(debitTransferTransaction, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -205,6 +231,13 @@ public class DebitTransferNotExecuted extends PersistentObject implements Persis
 		}
 		subService.register(observee);
     }
+    public void remove(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        model.meta.DebitTransferNotExecutedRemoveDebitTransferTransactionMssg event = new model.meta.DebitTransferNotExecutedRemoveDebitTransferTransactionMssg(debitTransferTransaction, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -218,20 +251,39 @@ public class DebitTransferNotExecuted extends PersistentObject implements Persis
     
     // Start of section that contains operations that must be implemented.
     
+    public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+    	PersistentDebitTransferTransaction result = getThis().getNotExecuteds().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getNotExecuteds().add(debitTransferTransaction);
+    	}
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
         
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
         
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
         
+    }
+    public void removeImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+    	getThis().getNotExecuteds().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument)
+					throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
     }
     
     

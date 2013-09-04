@@ -1,7 +1,8 @@
 
 package view.objects;
 
-import view.*;
+import view.CurrencyView;
+import view.ModelException;
 
 
 /* Additional import section end */

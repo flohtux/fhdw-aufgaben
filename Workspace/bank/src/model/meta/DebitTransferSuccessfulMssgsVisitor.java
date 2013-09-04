@@ -5,11 +5,15 @@ public interface DebitTransferSuccessfulMssgsVisitor extends DebitTransferSucces
 
 interface DebitTransferSuccessfulDOWNMssgsVisitor  {
 
+    public void handleDebitTransferSuccessfulAddDebitTransferTransactionMssg(DebitTransferSuccessfulAddDebitTransferTransactionMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferSuccessfulRemoveDebitTransferTransactionMssg(DebitTransferSuccessfulRemoveDebitTransferTransactionMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface DebitTransferSuccessfulUPMssgsVisitor  {
 
+    public void handleDebitTransferSuccessfulAddDebitTransferTransactionMssg(DebitTransferSuccessfulAddDebitTransferTransactionMssg event) throws persistence.PersistenceException;
+    public void handleDebitTransferSuccessfulRemoveDebitTransferTransactionMssg(DebitTransferSuccessfulRemoveDebitTransferTransactionMssg event) throws persistence.PersistenceException;
     
 }

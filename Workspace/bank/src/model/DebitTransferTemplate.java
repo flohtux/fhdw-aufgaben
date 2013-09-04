@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferTemplateProxi;
+import persistence.DebitTransferTemplate_TemplatesProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -181,6 +200,13 @@ public class DebitTransferTemplate extends PersistentObject implements Persisten
     }
     
     
+    public void add(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        model.meta.DebitTransferTemplateAddDebitTransferTransactionMssg event = new model.meta.DebitTransferTemplateAddDebitTransferTransactionMssg(debitTransferTransaction, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -205,6 +231,13 @@ public class DebitTransferTemplate extends PersistentObject implements Persisten
 		}
 		subService.register(observee);
     }
+    public void remove(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        model.meta.DebitTransferTemplateRemoveDebitTransferTransactionMssg event = new model.meta.DebitTransferTemplateRemoveDebitTransferTransactionMssg(debitTransferTransaction, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -218,20 +251,36 @@ public class DebitTransferTemplate extends PersistentObject implements Persisten
     
     // Start of section that contains operations that must be implemented.
     
+    public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+    	PersistentDebitTransferTransaction result = getThis().getTemplates().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getTemplates().add(debitTransferTransaction);
+    	}
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+    }
+    public void removeImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        getThis().getTemplates().removeFirstSuccess(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument)
+					throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
     }
     
     

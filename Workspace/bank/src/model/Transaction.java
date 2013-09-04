@@ -1,8 +1,44 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateReturnVisitor;
+import model.visitor.DebitTransferTransactionExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnVisitor;
+import model.visitor.DebitTransferTransactionVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferListe;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentExecutedState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentProxi;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
+import persistence.Predcate;
+import persistence.Procdure;
+import persistence.ProcdureException;
+import persistence.SubjInterface;
+import persistence.TDObserver;
+import persistence.TransactionProxi;
 
 
 /* Additional import section end */
@@ -18,11 +54,11 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
         PersistentTransaction result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()));
+                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"");
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),-1);
+                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"",-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -34,11 +70,11 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
         PersistentTransaction result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()));
+                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"");
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),-1);
+                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"",-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -68,6 +104,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public Transaction provideCopy() throws PersistenceException{
         Transaction result = this;
         result = new Transaction(this.timestamp, 
+                                 this.subject, 
                                  this.sender, 
                                  this.state, 
                                  this.subService, 
@@ -83,9 +120,9 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     }
     protected PersistentDebitTransferListe debitTransfer;
     
-    public Transaction(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,PersistentDebitTransferListe debitTransfer,long id) throws persistence.PersistenceException {
+    public Transaction(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,PersistentDebitTransferListe debitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
         this.debitTransfer = debitTransfer;        
     }
     
@@ -100,7 +137,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 146) ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-            .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),this.getId());
+            .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"",this.getId());
         super.store();
         if(this.getDebitTransfer() != null){
             this.getDebitTransfer().store();
@@ -211,9 +248,16 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToTransaction(final PersistentDebitTransfer debitTransfer) 
+    public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
-        getThis().getDebitTransfer().getDebitTransfers().add(debitTransfer);
+    	debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getDebitTransfers().add(argument);
+				argument.changeState(NotSuccessfulState.createNotSuccessfulState());
+			}
+		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -221,10 +265,27 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setDebitTransfer(DebitTransferListe.createDebitTransferListe());
-    	getThis().setState(NotExecutedState.getTheNotExecutedState());
+    	getThis().setState(NotExecutedState.createNotExecutedState());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(final PersistentDebitTransfer argument)
+					throws PersistenceException {
+				getThis().getDebitTransfer().getDebitTransfers().removeFirstSuccess(new Predcate<PersistentDebitTransfer>() {
+					@Override
+					public boolean test(PersistentDebitTransfer argument2)
+							throws PersistenceException {
+						return argument.equals(argument2);
+					}
+				});
+			}
+		});
+        
     }
     
     
@@ -240,16 +301,55 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 				copy.getDebitTransfer().getDebitTransfers().add((PersistentDebitTransfer) argument.copy());
 			}
 		});
-		System.out.println("start0");
 		copy.setSender(getThis().getSender());
-		System.out.println("start12");
-		copy.setState(getThis().getState());
-		System.out.println("start1");
+		PersistentDebitTransferState copyState = getThis().getState().accept(new DebitTransferStateReturnVisitor<PersistentDebitTransferState>() {
+			@Override
+			public PersistentDebitTransferState handleExecutedState(
+					PersistentExecutedState executedState)
+					throws PersistenceException {
+				return ExecutedState.createExecutedState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleNotSuccessfulState(
+					PersistentNotSuccessfulState notSuccessfulState)
+					throws PersistenceException {
+				return NotSuccessfulState.createNotSuccessfulState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleSuccessfulState(
+					PersistentSuccessfulState successfulState)
+					throws PersistenceException {
+				return SuccessfulState.createSuccessfulState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleNotExecutedState(
+					PersistentNotExecutedState notExecutedState)
+					throws PersistenceException {
+				return NotExecutedState.createNotExecutedState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleTemplateState(
+					PersistentTemplateState templateState)
+					throws PersistenceException {
+				return TemplateState.createTemplateState();
+			}
+
+			@Override
+			public PersistentDebitTransferState handleNotExecutableState(
+					PersistentNotExecutableState notExecutableState)
+					throws PersistenceException {
+				return NotExecutableState.createNotExecutableState();
+			}
+		});
+		copy.setState(copyState);
 		copy.setTimestamp(getThis().getTimestamp());
-		System.out.println("fertig");
 		return copy;
 	}
-    public void executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {
 			@Override
@@ -258,6 +358,8 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 				argument.execute();
 			}
 		});
+		getThis().changeState(SuccessfulState.createSuccessfulState());
+		return getThis();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

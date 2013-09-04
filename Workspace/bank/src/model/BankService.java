@@ -1,11 +1,51 @@
 
 package model;
 
-import common.Fraction;
-import persistence.*;
 import model.meta.StringFACTORY;
 import model.meta.TransactionFeeSwitchPARAMETER;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.InvokerExceptionVisitor;
+import model.visitor.InvokerReturnExceptionVisitor;
+import model.visitor.InvokerReturnVisitor;
+import model.visitor.InvokerVisitor;
+import model.visitor.RemoteExceptionVisitor;
+import model.visitor.RemoteReturnExceptionVisitor;
+import model.visitor.RemoteReturnVisitor;
+import model.visitor.RemoteVisitor;
+import model.visitor.ServiceExceptionVisitor;
+import model.visitor.ServiceReturnExceptionVisitor;
+import model.visitor.ServiceReturnVisitor;
+import model.visitor.ServiceVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.AccountSearchList;
+import persistence.Anything;
+import persistence.BankServiceProxi;
+import persistence.ConnectionHandler;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentBank;
+import persistence.PersistentBankService;
+import persistence.PersistentFixTransactionFee;
+import persistence.PersistentLimit;
+import persistence.PersistentLimitAccount;
+import persistence.PersistentMixedFee;
+import persistence.PersistentProcentualFee;
+import persistence.PersistentProxi;
+import persistence.PersistentService;
+import persistence.PersistentTransfer;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
+
+import common.Fraction;
 
 
 /* Additional import section end */
@@ -308,7 +348,7 @@ public class BankService extends model.Service implements PersistentBankService{
         transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
-        transfer.execute();
+        transfer.execute(getThis());
         getThis().closeAccount(acc);
     }
     public void connected(final String user) 

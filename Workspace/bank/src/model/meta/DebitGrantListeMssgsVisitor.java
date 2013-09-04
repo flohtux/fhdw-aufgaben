@@ -6,6 +6,7 @@ public interface DebitGrantListeMssgsVisitor extends DebitGrantListeDOWNMssgsVis
 interface DebitGrantListeDOWNMssgsVisitor  {
 
     public void handleDebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event) throws persistence.PersistenceException;
+    public void handleDebitGrantListeRemoveAccountPxMssg(DebitGrantListeRemoveAccountPxMssg event) throws persistence.PersistenceException;
     
 }
 
@@ -13,5 +14,6 @@ interface DebitGrantListeDOWNMssgsVisitor  {
 interface DebitGrantListeUPMssgsVisitor  {
 
     public void handleDebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event) throws persistence.PersistenceException;
+    public void handleDebitGrantListeRemoveAccountPxMssg(DebitGrantListeRemoveAccountPxMssg event) throws persistence.PersistenceException;
     
 }

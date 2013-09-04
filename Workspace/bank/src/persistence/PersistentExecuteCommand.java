@@ -10,6 +10,8 @@ public interface PersistentExecuteCommand extends DebitTransferTransactionComman
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentDebitTransferTransaction getCommandReceiver() throws PersistenceException ;
     public void setCommandReceiver(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
+    public PersistentDebitTransferTransaction getCommandResult() throws PersistenceException ;
+    public void setCommandResult(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
     public PersistentCommonDate getMyCommonDate() throws PersistenceException ;
     public void setMyCommonDate(PersistentCommonDate newValue) throws PersistenceException ;
     

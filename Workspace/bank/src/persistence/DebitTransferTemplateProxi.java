@@ -61,6 +61,10 @@ public class DebitTransferTemplateProxi extends PersistentProxi implements Persi
     }
     
     
+    public void add(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferTemplate)this.getTheObject()).add(debitTransferTransaction);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitTransferTemplate)this.getTheObject()).deregister(observee);
@@ -73,9 +77,17 @@ public class DebitTransferTemplateProxi extends PersistentProxi implements Persi
 				throws PersistenceException{
         ((PersistentDebitTransferTemplate)this.getTheObject()).register(observee);
     }
+    public void remove(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferTemplate)this.getTheObject()).remove(debitTransferTransaction);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentDebitTransferTemplate)this.getTheObject()).updateObservers(event);
+    }
+    public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferTemplate)this.getTheObject()).addImplementation(debitTransferTransaction);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -88,6 +100,10 @@ public class DebitTransferTemplateProxi extends PersistentProxi implements Persi
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentDebitTransferTemplate)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void removeImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentDebitTransferTemplate)this.getTheObject()).removeImplementation(debitTransferTransaction);
     }
 
     
