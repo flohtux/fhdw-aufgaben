@@ -9,19 +9,27 @@ public class Resources {
 
 	private static final String Resources = "viewResources";
 
-	private static final String VorlagenIcon = Resources + "/archive.gif";
 	private static final String BankIcon = Resources + "/bank.gif";
 	private static final String HistorieIcon = Resources + "/exam.gif";
 	private static final String KontostandIcon = Resources + "/money.png";
 	private static final String LimitsIcon = Resources +"/configure-2.png";
+	private static final String VorlagenIcon = Resources + "/archive.gif";
+	private static final String AccountIcon = Resources + "/user.png";
 
-	private static ImageIcon vorlagenIcon;
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
 	private static ImageIcon kontostandIcon;
 	private static ImageIcon limitsIcon;
+	private static ImageIcon vorlagenIcon;
+	private static ImageIcon accountIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
+	public static Icon getAccountIcon() {
+		if (accountIcon == null)
+			accountIcon = new ImageIcon(getURL(AccountIcon));
+		return accountIcon;
+	}
+	
 	public static Icon getBankIcon() {
 		if (bankIcon == null)
 			bankIcon = new ImageIcon(getURL(BankIcon));

@@ -11,6 +11,9 @@ import persistence.PersistentAccountService;
 import persistence.PersistentAccountServiceListEntryProxi;
 import persistence.PersistentAccountServiceSuccessful;
 import persistence.PersistentAccountServiceTemplate;
+import persistence.PersistentAdministrator;
+import persistence.PersistentAdministratorBanks;
+import persistence.PersistentAdministratorBanksListEntryProxi;
 import persistence.PersistentAmount;
 import persistence.PersistentBank;
 import persistence.PersistentCommonDate;
@@ -20,6 +23,7 @@ import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentEventWrapper;
@@ -54,14 +58,19 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 		return result;
 	}
 	//TODO PREREQUISITES: Icon: how to assign icon information
+	public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
+        result = common.IconInfoConstants.AccountIconNumber;
+	}
+	
+	@Override
+	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful)
+			throws PersistenceException {
+		result = common.IconInfoConstants.HistorieIconNumber;
+	}
+	
 	public void handleBank(PersistentBank bank) throws PersistenceException{
         result = common.IconInfoConstants.BankIconNumber;
 	}
-	
-	//TODO Historie !!!
-//	public void handle...(Persistent... ...) throws PersistenceException{
-//		result = common.IconInfoConstants.HistorieIconNumber;
-//	}
 
 	public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
 		result = common.IconInfoConstants.VorlagenIconNumber;
