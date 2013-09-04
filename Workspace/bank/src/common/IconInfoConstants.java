@@ -9,6 +9,9 @@ public class IconInfoConstants {
 	public static final int VorlagenIconNumber = 5;
 	public static final int AccountIconNumber = 6;
 	public static final int NochNichtErledigteAuftraegeIconNumber = 7;
+	public static final int BankAccountIconNumber = 8;
+	public static final int RabattIconNumber = 9;
+	public static final int FixeKostenIconNumber = 10;
 
 	private IconInfoConstants(){}
 }

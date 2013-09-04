@@ -16,6 +16,9 @@ public class Resources {
 	private static final String VorlagenIcon = Resources + "/archive.gif";
 	private static final String AccountIcon = Resources + "/user.png";
 	private static final String NochNichtErledigteAuftraegeIcon = Resources + "/wait.png";
+	private static final String BankAccountIcon = Resources + "/bankAccount.png";
+	private static final String RabattIcon = Resources + "/rabatt.png";
+	private static final String FixeKostenIcon = Resources + "/fixeKosten.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -24,6 +27,9 @@ public class Resources {
 	private static ImageIcon vorlagenIcon;
 	private static ImageIcon accountIcon;
 	private static ImageIcon nochNichtErledigteAuftraegeIcon;
+	private static ImageIcon bankAccountIcon;
+	private static ImageIcon rabattIcon;
+	private static ImageIcon fixeKostenIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -32,10 +38,22 @@ public class Resources {
 		return accountIcon;
 	}
 	
+	public static Icon getBankAccountIcon() {
+		if (bankAccountIcon == null)
+			bankAccountIcon = new ImageIcon(getURL(BankAccountIcon));
+		return bankAccountIcon;
+	}
+	
 	public static Icon getBankIcon() {
 		if (bankIcon == null)
 			bankIcon = new ImageIcon(getURL(BankIcon));
 		return bankIcon;
+	}
+	
+	public static Icon getFixeKostenIcon() {
+		if (fixeKostenIcon == null)
+			fixeKostenIcon = new ImageIcon(getURL(FixeKostenIcon));
+		return fixeKostenIcon;
 	}
 	
 	public static Icon getHistorieIcon() {
@@ -60,6 +78,12 @@ public class Resources {
 		if (nochNichtErledigteAuftraegeIcon == null)
 			nochNichtErledigteAuftraegeIcon = new ImageIcon(getURL(NochNichtErledigteAuftraegeIcon));
 		return nochNichtErledigteAuftraegeIcon;
+	}
+	
+	public static Icon getRabattIcon() {
+		if (rabattIcon == null)
+			rabattIcon = new ImageIcon(getURL(RabattIcon));
+		return rabattIcon;
 	}
 	
 	public static Icon getVorlagenIcon() {

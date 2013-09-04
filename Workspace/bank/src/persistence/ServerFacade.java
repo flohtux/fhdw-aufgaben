@@ -59,30 +59,58 @@ public class ServerFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ServerId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentService service = null;
-            if (obj.getLong(2) != 0)
-                service = (PersistentService)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             SubjInterface subService = null;
-            if (obj.getLong(4) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentServer This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentServer)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            Server result = new Server(service,
-                                       subService,
-                                       This,
-                                       obj.getString(8) == null ? "" : obj.getString(8) /* In Oracle "" = null !!! */,
-                                       obj.getString(9) == null ? "" : obj.getString(9) /* In Oracle "" = null !!! */,
-                                       obj.getLong(10),
-                                       obj.getTimestamp(11),
+            String password = "";
+            String user = "";
+            long hackCount = 0;
+            java.sql.Timestamp hackDelay = new java.sql.Timestamp(System.currentTimeMillis());
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10038: {
+                        service = (PersistentService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10039: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10040: {
+                        This = (PersistentServer)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10042: {
+                        password = links.getString(6);
+                        if(password == null)password = "";
+                        break;
+                    }
+                    case 10043: {
+                        user = links.getString(6);
+                        if(user == null)user = "";
+                        break;
+                    }
+                    case 10044: {
+                        hackCount = links.getLong(5);
+                        break;
+                    }
+                    case 10045: {
+                        hackDelay = links.getTimestamp(9);
+                        break;
+                    }
+                }
+            }
+            Server result = new Server(service, 
+                                       subService, 
+                                       This, 
+                                       password, 
+                                       user, 
+                                       hackCount, 
+                                       hackDelay, 
                                        ServerId);
-            obj.close();
+            links.close();
             callable.close();
             ServerICProxi inCache = (ServerICProxi)Cache.getTheCache().put(result);
             Server objectInCache = (Server)inCache.getTheObject();

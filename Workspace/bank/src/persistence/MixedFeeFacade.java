@@ -55,34 +55,44 @@ public class MixedFeeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, MixedFeeId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentTransactionFee This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentFixTransactionFee fix = null;
-            if (obj.getLong(6) != 0)
-                fix = (PersistentFixTransactionFee)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentProcentualFee procentual = null;
-            if (obj.getLong(8) != 0)
-                procentual = (PersistentProcentualFee)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentMoney limit = null;
-            if (obj.getLong(10) != 0)
-                limit = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            MixedFee result = new MixedFee(subService,
-                                           This,
-                                           fix,
-                                           procentual,
-                                           limit,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10059: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10060: {
+                        This = (PersistentTransactionFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10055: {
+                        fix = (PersistentFixTransactionFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10056: {
+                        procentual = (PersistentProcentualFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10057: {
+                        limit = (PersistentMoney)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            MixedFee result = new MixedFee(subService, 
+                                           This, 
+                                           fix, 
+                                           procentual, 
+                                           limit, 
                                            MixedFeeId);
-            obj.close();
+            links.close();
             callable.close();
             MixedFeeICProxi inCache = (MixedFeeICProxi)Cache.getTheCache().put(result);
             MixedFee objectInCache = (MixedFee)inCache.getTheObject();

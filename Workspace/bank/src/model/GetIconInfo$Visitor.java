@@ -3,6 +3,7 @@ package model;
 import model.visitor.DebitTransferStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
+import persistence.PersistentAccount;
 import persistence.PersistentAccountPx;
 import persistence.PersistentBank;
 import persistence.PersistentCurrencyManager;
@@ -10,6 +11,8 @@ import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentExecutedState;
+import persistence.PersistentFixTransactionFee;
+import persistence.PersistentInternalFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
 import persistence.PersistentNotExecutableState;
@@ -33,8 +36,18 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 		return result;
 	}
 	//TODO PREREQUISITES: Icon: how to assign icon information
+	@Override
+	public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException {
+		result = common.IconInfoConstants.FixeKostenIconNumber;
+	}
+	
 	public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
         result = common.IconInfoConstants.AccountIconNumber;
+	}
+	
+	@Override
+	public void handleAccount(PersistentAccount account) throws PersistenceException {
+		result = common.IconInfoConstants.BankAccountIconNumber;
 	}
 	
 	
@@ -60,6 +73,11 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	
 	public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
 		result = common.IconInfoConstants.VorlagenIconNumber;
+	}
+	
+	@Override
+	public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException {
+		result = common.IconInfoConstants.RabattIconNumber;
 	}
 	
 	public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{

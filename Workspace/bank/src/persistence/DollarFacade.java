@@ -36,22 +36,26 @@ public class DollarFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DollarId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCurrency This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            Dollar result = new Dollar(subService,
-                                       This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10025: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10026: {
+                        This = (PersistentCurrency)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Dollar result = new Dollar(subService, 
+                                       This, 
                                        DollarId);
-            obj.close();
+            links.close();
             callable.close();
             DollarICProxi inCache = (DollarICProxi)Cache.getTheCache().put(result);
             Dollar objectInCache = (Dollar)inCache.getTheObject();

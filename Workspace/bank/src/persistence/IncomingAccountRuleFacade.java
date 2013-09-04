@@ -57,24 +57,38 @@ public class IncomingAccountRuleFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, IncomingAccountRuleId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentRule This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentRule)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            IncomingAccountRule result = new IncomingAccountRule(subService,
-                                                                 This,
-                                                                 obj.getLong(6),
-                                                                 obj.getLong(7),
+            long accountNumber = 0;
+            long bankNumber = 0;
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10307: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10308: {
+                        This = (PersistentRule)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10298: {
+                        accountNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10299: {
+                        bankNumber = links.getLong(5);
+                        break;
+                    }
+                }
+            }
+            IncomingAccountRule result = new IncomingAccountRule(subService, 
+                                                                 This, 
+                                                                 accountNumber, 
+                                                                 bankNumber, 
                                                                  IncomingAccountRuleId);
-            obj.close();
+            links.close();
             callable.close();
             IncomingAccountRuleICProxi inCache = (IncomingAccountRuleICProxi)Cache.getTheCache().put(result);
             IncomingAccountRule objectInCache = (IncomingAccountRule)inCache.getTheObject();

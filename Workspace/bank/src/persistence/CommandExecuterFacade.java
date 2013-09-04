@@ -55,14 +55,14 @@ public class CommandExecuterFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CommandExecuterId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                }
             }
             CommandExecuter result = new CommandExecuter(CommandExecuterId);
-            obj.close();
+            links.close();
             callable.close();
             CommandExecuterICProxi inCache = (CommandExecuterICProxi)Cache.getTheCache().put(result);
             CommandExecuter objectInCache = (CommandExecuter)inCache.getTheObject();
