@@ -1,8 +1,65 @@
 package model;
 
+import static serverConstants.ToStringConstants.MaxLimitPrefix;
+import static serverConstants.ToStringConstants.MinLimitPrefix;
+import static serverConstants.ToStringConstants.MinMaxLimitDelimiter;
+import static serverConstants.ToStringConstants.NoLimitType;
+import static serverConstants.ToStringConstants.PercentSign;
+import persistence.Anything;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAccountPx;
+import persistence.PersistentAccountService;
+import persistence.PersistentAdministrator;
+import persistence.PersistentAmount;
+import persistence.PersistentBank;
+import persistence.PersistentBankCreator;
+import persistence.PersistentBankService;
+import persistence.PersistentCurrencyManager;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitGrant;
+import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitTransferDoubleState;
+import persistence.PersistentDebitTransferListe;
+import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferSuccessful;
+import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDollar;
+import persistence.PersistentEuro;
+import persistence.PersistentEventWrapper;
+import persistence.PersistentExecutedState;
+import persistence.PersistentFalseValue;
+import persistence.PersistentFixTransactionFee;
+import persistence.PersistentFranken;
+import persistence.PersistentIncomingAccountRule;
+import persistence.PersistentInternalFee;
+import persistence.PersistentLimit;
+import persistence.PersistentLimitAccount;
+import persistence.PersistentMixedFee;
+import persistence.PersistentMoney;
+import persistence.PersistentMoneyRule;
+import persistence.PersistentNoLimit;
+import persistence.PersistentNoRequestState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentNotSuccessfulStornoState;
+import persistence.PersistentPercent;
+import persistence.PersistentPfund;
+import persistence.PersistentProcentualFee;
+import persistence.PersistentRequestState;
+import persistence.PersistentServer;
+import persistence.PersistentSubjectRule;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentSuccessfulStornoState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
+import persistence.PersistentTrigger;
+import persistence.PersistentTriggerListe;
+import persistence.PersistentTrueValue;
+import persistence.PersistentYen;
 import common.Fraction;
-import static serverConstants.ToStringConstants.*;
-import persistence.*;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
 
@@ -299,6 +356,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleMoneyRule(PersistentMoneyRule moneyRule)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {
+		result = "Folgebuchungen";
 		
 	}
 	

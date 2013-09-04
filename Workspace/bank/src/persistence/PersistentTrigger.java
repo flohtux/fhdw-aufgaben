@@ -10,7 +10,7 @@ public interface PersistentTrigger extends SubjInterface, Anything, AbstractPers
     public void setName(String newValue) throws PersistenceException ;
     public PersistentDebitTransferTransaction getAction() throws PersistenceException ;
     public void setAction(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
-    public Trigger_RuleProxi getRule() throws PersistenceException ;
+    public Trigger_RulesProxi getRules() throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentTrigger getThis() throws PersistenceException ;

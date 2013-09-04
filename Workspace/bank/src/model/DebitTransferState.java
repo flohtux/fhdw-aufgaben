@@ -1,12 +1,28 @@
 
 package model;
 
-import model.visitor.AnythingReturnVisitor;
-import model.visitor.DebitTransferReturnVisitor;
-import model.visitor.DebitTransferStateReturnVisitor;
 import model.visitor.DebitTransferStateVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
-import persistence.*;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentExecutedState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

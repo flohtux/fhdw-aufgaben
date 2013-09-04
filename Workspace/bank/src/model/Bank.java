@@ -1,10 +1,54 @@
 
 package model;
 
-import common.Fraction;
-import persistence.*;
 import model.meta.StringFACTORY;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferExceptionVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import model.visitor.TransactionFeeReturnExceptionVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.BankProxi;
+import persistence.BankSearchList;
+import persistence.Bank_AccountsProxi;
+import persistence.Bank_CurrentAccountsProxi;
+import persistence.ConnectionHandler;
+import persistence.Invoker;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAccountService;
+import persistence.PersistentAdministrator;
+import persistence.PersistentBank;
+import persistence.PersistentBankService;
+import persistence.PersistentChangeNameCommand;
+import persistence.PersistentCreateAccountCommand;
+import persistence.PersistentCurrency;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitGrant;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentFixTransactionFee;
+import persistence.PersistentInternalFee;
+import persistence.PersistentMixedFee;
+import persistence.PersistentMoney;
+import persistence.PersistentObject;
+import persistence.PersistentPercent;
+import persistence.PersistentProcentualFee;
+import persistence.PersistentProxi;
+import persistence.PersistentServer;
+import persistence.PersistentTransactionFee;
+import persistence.PersistentTransfer;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
+
+import common.Fraction;
 
 
 /* Additional import section end */

@@ -71,6 +71,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
         this.standardHandling(subjectRule);
     }
+    public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
+        this.standardHandling(triggerListe);
+    }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
     }

@@ -1,8 +1,6 @@
 
 package model;
 
-import persistence.*;
-import model.meta.DebitTransferMssgsVisitor;
 import model.meta.DebitTransferNotExecutedAddDebitTransferTransactionMssg;
 import model.meta.DebitTransferNotExecutedMssgsVisitor;
 import model.meta.DebitTransferNotExecutedRemoveDebitTransferTransactionMssg;
@@ -12,10 +10,69 @@ import model.meta.DebitTransferSuccessfulRemoveDebitTransferTransactionMssg;
 import model.meta.DebitTransferTemplateAddDebitTransferTransactionMssg;
 import model.meta.DebitTransferTemplateMssgsVisitor;
 import model.meta.DebitTransferTemplateRemoveDebitTransferTransactionMssg;
-import model.meta.DebitTransferTransactionExecuteMssg;
 import model.meta.LimitTypeSwitchPARAMETER;
 import model.meta.StringFACTORY;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateVisitor;
+import model.visitor.InvokerExceptionVisitor;
+import model.visitor.InvokerReturnExceptionVisitor;
+import model.visitor.InvokerReturnVisitor;
+import model.visitor.InvokerVisitor;
+import model.visitor.RemoteExceptionVisitor;
+import model.visitor.RemoteReturnExceptionVisitor;
+import model.visitor.RemoteReturnVisitor;
+import model.visitor.RemoteVisitor;
+import model.visitor.ServiceExceptionVisitor;
+import model.visitor.ServiceReturnExceptionVisitor;
+import model.visitor.ServiceReturnVisitor;
+import model.visitor.ServiceVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.AccountServiceProxi;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
+import persistence.DebitTransferTransactionSearchList;
+import persistence.Invoker;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAccountService;
+import persistence.PersistentAccountServiceNotExecuted;
+import persistence.PersistentAccountServiceSuccessful;
+import persistence.PersistentAccountServiceTemplate;
+import persistence.PersistentBank;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitGrant;
+import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferSuccessful;
+import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentEventWrapper;
+import persistence.PersistentExecutedState;
+import persistence.PersistentLimit;
+import persistence.PersistentLimitType;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentProxi;
+import persistence.PersistentService;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
+import persistence.PersistentTriggerListe;
+import persistence.PersistentUseTemplateCommand;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -509,6 +566,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     	PersistentTransfer transfer = getThis().getAccount().createTransfer();
     	getThis().getNotExecuted().getNotExecuteds().add(transfer);
+        getThis().signalChanged(true);
+    }
+    public void createTrigger(final PersistentTriggerListe unimportant, final String name) 
+				throws PersistenceException{
+        getThis().getAccount().createTrigger(name);
         getThis().signalChanged(true);
     }
     public void disconnected() 

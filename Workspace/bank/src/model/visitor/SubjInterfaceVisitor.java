@@ -14,6 +14,7 @@ public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransa
     public void handleAmount(PersistentAmount amount) throws PersistenceException;
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
+    public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;

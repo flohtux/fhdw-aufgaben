@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class RuleTriggerWrapper extends AssociationInTreeWrapper {
+public class TriggerListeAccountWrapper extends AssociationInTreeWrapper {
 
-	public RuleTriggerWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public TriggerListeAccountWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class RuleTriggerWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association rule in class Trigger
+    	//TODO: Implement toString in wrapper class for association triggerListe in class Account
     	return this.getWrappedObject().toString();
     }
 

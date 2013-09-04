@@ -4,12 +4,12 @@ import model.*;
 
 import java.util.Iterator;
 
-public class Trigger_RuleProxi extends PersistentListProxi<PersistentRule> {
+public class Trigger_RulesProxi extends PersistentListProxi<PersistentRule> {
 
   	private RuleList list;
   	private Trigger owner;
 
-  	public Trigger_RuleProxi(Trigger owner) {
+  	public Trigger_RulesProxi(Trigger owner) {
     	this.owner = owner;
   	}
   	public RuleList getList() throws PersistenceException{
@@ -19,7 +19,7 @@ public class Trigger_RuleProxi extends PersistentListProxi<PersistentRule> {
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
-                      		.theTriggerFacade.ruleGet(this.owner.getId());
+                      		.theTriggerFacade.rulesGet(this.owner.getId());
       		}
     	}
     	return this.list;
@@ -37,7 +37,7 @@ public class Trigger_RuleProxi extends PersistentListProxi<PersistentRule> {
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
         		entryId = ConnectionHandler.getTheConnectionHandler().theTriggerFacade
-        	               	.ruleAdd(owner.getId(), entry);
+        	               	.rulesAdd(owner.getId(), entry);
       		}
       		list.add((PersistentRule)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
@@ -47,12 +47,12 @@ public class Trigger_RuleProxi extends PersistentListProxi<PersistentRule> {
   	}
   	protected void remove(PersistentListEntryProxi entry) throws PersistenceException {
     	if (!this.owner.isDelayed$Persistence()) {
-      		ConnectionHandler.getTheConnectionHandler().theTriggerFacade.ruleRem(entry.getListEntryId());
+      		ConnectionHandler.getTheConnectionHandler().theTriggerFacade.rulesRem(entry.getListEntryId());
     	}
     	
   	}
-  	public Trigger_RuleProxi copy(Trigger owner) throws PersistenceException {
-  		Trigger_RuleProxi result = new Trigger_RuleProxi(owner);
+  	public Trigger_RulesProxi copy(Trigger owner) throws PersistenceException {
+  		Trigger_RulesProxi result = new Trigger_RulesProxi(owner);
   		result.list = this.getList().copy();
   		return result;
   	}	 
@@ -62,7 +62,7 @@ public class Trigger_RuleProxi extends PersistentListProxi<PersistentRule> {
   			PersistentRule current = entries.next();
   			current.store();
       		long entryId = ConnectionHandler.getTheConnectionHandler().theTriggerFacade
-            	           .ruleAdd(owner.getId(), current);
+            	           .rulesAdd(owner.getId(), current);
         	((PersistentListEntryProxi)current).setListEntryId(entryId);
 		}
 	}

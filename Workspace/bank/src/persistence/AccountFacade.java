@@ -25,7 +25,7 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
@@ -41,7 +41,7 @@ public class AccountFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Account result = new Account(accountNumber,null,null,null,null,null,null,null,id);
+            Account result = new Account(accountNumber,null,null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountProxi)PersistentProxi.createProxi(id, 133);
         }catch(SQLException se) {
@@ -77,18 +77,22 @@ public class AccountFacade{
             PersistentAccountReceivedDebitGrant receivedDebitGrant = null;
             if (obj.getLong(11) != 0)
                 receivedDebitGrant = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
-            SubjInterface subService = null;
+            PersistentAccountTriggerListe triggerListe = null;
             if (obj.getLong(13) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
-            PersistentAccount This = null;
+                triggerListe = (PersistentAccountTriggerListe)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+            SubjInterface subService = null;
             if (obj.getLong(15) != 0)
-                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
+            PersistentAccount This = null;
+            if (obj.getLong(17) != 0)
+                This = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(17), obj.getLong(18));
             Account result = new Account(obj.getLong(2),
                                          money,
                                          limit,
                                          debitTransferTransactions,
                                          grantedDebitGrant,
                                          receivedDebitGrant,
+                                         triggerListe,
                                          subService,
                                          This,
                                          AccountId);
@@ -209,6 +213,19 @@ public class AccountFacade{
             callable.setLong(1, AccountId);
             callable.setLong(2, receivedDebitGrantVal.getId());
             callable.setLong(3, receivedDebitGrantVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void triggerListeSet(long AccountId, PersistentAccountTriggerListe triggerListeVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.trggrLstSet(?, ?, ?); end;");
+            callable.setLong(1, AccountId);
+            callable.setLong(2, triggerListeVal.getId());
+            callable.setLong(3, triggerListeVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

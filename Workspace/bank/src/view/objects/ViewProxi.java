@@ -48,7 +48,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [133];
+		proxiFactories = new ProxiFactory [136];
         proxiFactories[65] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new FalseValueProxi(objectId, classId, connectionKey);
@@ -159,6 +159,11 @@ public abstract class ViewProxi extends ViewRoot {
                 return new SubjectRuleProxi(objectId, classId, connectionKey);
             }
         };
+        proxiFactories[133] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new TriggerListeProxi(objectId, classId, connectionKey);
+            }
+        };
         proxiFactories[25] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new DollarProxi(objectId, classId, connectionKey);
@@ -214,14 +219,14 @@ public abstract class ViewProxi extends ViewRoot {
                 return new AccountProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[34] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new ErrorDisplayProxi(objectId, classId, connectionKey);
-            }
-        };
         proxiFactories[109] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new NotExecutedStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[34] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new ErrorDisplayProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[36] = new ProxiFactory(){

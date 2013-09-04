@@ -18,6 +18,8 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;
     
+    public abstract void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException;
+    
     public abstract void handleExecuteException(model.ExecuteException executeException) throws PersistenceException;
     
     public void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException{

@@ -1,8 +1,30 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import model.visitor.TransactionFeeExceptionVisitor;
+import model.visitor.TransactionFeeReturnExceptionVisitor;
+import model.visitor.TransactionFeeReturnVisitor;
+import model.visitor.TransactionFeeVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentPercent;
+import persistence.PersistentProcentualFee;
+import persistence.PersistentProxi;
+import persistence.PersistentTransactionFee;
+import persistence.ProcentualFeeProxi;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

@@ -143,6 +143,7 @@ public class ConnectionHandler {
     public TransferFacade theTransferFacade;
     public CreateDebitGrantCommandFacade theCreateDebitGrantCommandFacade;
     public SubjectRuleFacade theSubjectRuleFacade;
+    public TriggerListeFacade theTriggerListeFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
     public AdministratorBanksFacade theAdministratorBanksFacade;
     public DollarFacade theDollarFacade;
@@ -153,6 +154,7 @@ public class ConnectionHandler {
     public DebitFacade theDebitFacade;
     public ChangeReceiverAccountCommandFacade theChangeReceiverAccountCommandFacade;
     public MixedFeeFacade theMixedFeeFacade;
+    public AccountTriggerListeFacade theAccountTriggerListeFacade;
     public DebitGrantListeFacade theDebitGrantListeFacade;
     public RequestStateFacade theRequestStateFacade;
     public AccountServiceFacade theAccountServiceFacade;
@@ -161,8 +163,8 @@ public class ConnectionHandler {
     public AccountFacade theAccountFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public UseTemplateCommandFacade theUseTemplateCommandFacade;
-    public ErrorDisplayFacade theErrorDisplayFacade;
     public NotExecutedStateFacade theNotExecutedStateFacade;
+    public ErrorDisplayFacade theErrorDisplayFacade;
     public EuroFacade theEuroFacade;
     public TriggerFacade theTriggerFacade;
     public YenFacade theYenFacade;
@@ -248,6 +250,7 @@ public class ConnectionHandler {
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);
             this.theCreateDebitGrantCommandFacade= new CreateDebitGrantCommandFacade(this.schemaName, this.con);
             this.theSubjectRuleFacade= new SubjectRuleFacade(this.schemaName, this.con);
+            this.theTriggerListeFacade= new TriggerListeFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);
@@ -258,6 +261,7 @@ public class ConnectionHandler {
             this.theDebitFacade= new DebitFacade(this.schemaName, this.con);
             this.theChangeReceiverAccountCommandFacade= new ChangeReceiverAccountCommandFacade(this.schemaName, this.con);
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
+            this.theAccountTriggerListeFacade= new AccountTriggerListeFacade(this.schemaName, this.con);
             this.theDebitGrantListeFacade= new DebitGrantListeFacade(this.schemaName, this.con);
             this.theRequestStateFacade= new RequestStateFacade(this.schemaName, this.con);
             this.theAccountServiceFacade= new AccountServiceFacade(this.schemaName, this.con);
@@ -266,8 +270,8 @@ public class ConnectionHandler {
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
-            this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theNotExecutedStateFacade= new NotExecutedStateFacade(this.schemaName, this.con);
+            this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theEuroFacade= new EuroFacade(this.schemaName, this.con);
             this.theTriggerFacade= new TriggerFacade(this.schemaName, this.con);
             this.theYenFacade= new YenFacade(this.schemaName, this.con);

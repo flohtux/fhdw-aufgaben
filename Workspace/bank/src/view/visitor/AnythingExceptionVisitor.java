@@ -13,6 +13,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleAmount(AmountView amount) throws ModelException, E;
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException, E;
     public void handleServer(ServerView server) throws ModelException, E;
+    public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException, E;
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException, E;
     public void handleAccountPx(AccountPxView accountPx) throws ModelException, E;

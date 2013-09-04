@@ -760,6 +760,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleSubjectRule(view.SubjectRuleView object){
         result = new SubjectRuleDefaultDetailPanel(handler, object);
     }
+    public void handleTriggerListe(view.TriggerListeView object){
+        result = new TriggerListeDefaultDetailPanel(handler, object);
+    }
     public void handleDollar(view.DollarView object){
         result = new DollarDefaultDetailPanel(handler, object);
     }
@@ -793,11 +796,11 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleAccount(view.AccountView object){
         result = new AccountDefaultDetailPanel(handler, object);
     }
-    public void handleErrorDisplay(view.ErrorDisplayView object){
-        result = new ErrorDisplayDefaultDetailPanel(handler, object);
-    }
     public void handleNotExecutedState(view.NotExecutedStateView object){
         result = new NotExecutedStateDefaultDetailPanel(handler, object);
+    }
+    public void handleErrorDisplay(view.ErrorDisplayView object){
+        result = new ErrorDisplayDefaultDetailPanel(handler, object);
     }
     public void handleEuro(view.EuroView object){
         result = new EuroDefaultDetailPanel(handler, object);
@@ -1267,6 +1270,22 @@ class SubjectRuleDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String TriggerListe$$triggers = "TriggerListe$$triggers";
+    
+    protected TriggerListeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.TriggerListeView getAnything(){
+        return (view.TriggerListeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class DollarDefaultDetailPanel extends DefaultDetailPanel{
     
     protected DollarDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1461,6 +1480,7 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Account$$limit = "Account$$limit";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
+    protected static final String Account$$triggerListe = "Account$$triggerListe";
     
     protected AccountDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1477,6 +1497,20 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.AccountView getAnything(){
         return (view.AccountView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NotExecutedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NotExecutedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NotExecutedStateView getAnything(){
+        return (view.NotExecutedStateView)this.anything;
     }
 }
 
@@ -1504,20 +1538,6 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class NotExecutedStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected NotExecutedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.NotExecutedStateView getAnything(){
-        return (view.NotExecutedStateView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class EuroDefaultDetailPanel extends DefaultDetailPanel{
     
     protected EuroDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1536,7 +1556,7 @@ class TriggerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Trigger$$name = "Trigger$$name";
     protected static final String Trigger$$action = "Trigger$$action";
-    protected static final String Trigger$$rule = "Trigger$$rule";
+    protected static final String Trigger$$rules = "Trigger$$rules";
     
     protected TriggerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

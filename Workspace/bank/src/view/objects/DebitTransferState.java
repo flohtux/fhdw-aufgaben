@@ -1,7 +1,9 @@
 
 package view.objects;
 
-import view.*;
+import view.DebitTransferStateView;
+import view.DebitTransferTransactionView;
+import view.ModelException;
 
 
 /* Additional import section end */

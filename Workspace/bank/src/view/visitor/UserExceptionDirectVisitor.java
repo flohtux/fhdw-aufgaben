@@ -17,6 +17,8 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleRestrictionException(RestrictionException restrictionException) throws ModelException;
     
+    public abstract void handleRuleNotMatchedException(RuleNotMatchedException ruleNotMatchedException) throws ModelException;
+    
     public abstract void handleExecuteException(ExecuteException executeException) throws ModelException;
     
     public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{

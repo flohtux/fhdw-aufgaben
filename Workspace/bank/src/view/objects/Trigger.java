@@ -1,8 +1,15 @@
 
 package view.objects;
 
-import view.*;
-import view.visitor.*;
+import view.DebitTransferTransactionView;
+import view.ModelException;
+import view.RuleView;
+import view.TriggerView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
 
 
 /* Additional import section end */
@@ -11,14 +18,14 @@ public class Trigger extends ViewObject implements TriggerView{
     
     protected String name;
     protected DebitTransferTransactionView action;
-    protected java.util.Vector<RuleView> rule;
+    protected java.util.Vector<RuleView> rules;
     
-    public Trigger(String name,DebitTransferTransactionView action,java.util.Vector<RuleView> rule,long id, long classId) {
+    public Trigger(String name,DebitTransferTransactionView action,java.util.Vector<RuleView> rules,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.name = name;
         this.action = action;
-        this.rule = rule;        
+        this.rules = rules;        
     }
     
     static public long getTypeId() {
@@ -41,11 +48,11 @@ public class Trigger extends ViewObject implements TriggerView{
     public void setAction(DebitTransferTransactionView newValue) throws ModelException {
         this.action = newValue;
     }
-    public java.util.Vector<RuleView> getRule()throws ModelException{
-        return this.rule;
+    public java.util.Vector<RuleView> getRules()throws ModelException{
+        return this.rules;
     }
-    public void setRule(java.util.Vector<RuleView> newValue) throws ModelException {
-        this.rule = newValue;
+    public void setRules(java.util.Vector<RuleView> newValue) throws ModelException {
+        this.rules = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -66,9 +73,9 @@ public class Trigger extends ViewObject implements TriggerView{
         if (action != null) {
             ((ViewProxi)action).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(action.getClassId(), action.getId())));
         }
-        java.util.Vector<?> rule = this.getRule();
-        if (rule != null) {
-            ViewObject.resolveVectorProxies(rule, resultTable);
+        java.util.Vector<?> rules = this.getRules();
+        if (rules != null) {
+            ViewObject.resolveVectorProxies(rules, resultTable);
         }
         
     }
@@ -79,27 +86,27 @@ public class Trigger extends ViewObject implements TriggerView{
         int index = originalIndex;
         if(index == 0 && this.getAction() != null) return new ActionTriggerWrapper(this, originalIndex, (ViewRoot)this.getAction());
         if(this.getAction() != null) index = index - 1;
-        if(index < this.getRule().size()) return new RuleTriggerWrapper(this, originalIndex, (ViewRoot)this.getRule().get(index));
-        index = index - this.getRule().size();
+        if(index < this.getRules().size()) return new RulesTriggerWrapper(this, originalIndex, (ViewRoot)this.getRules().get(index));
+        index = index - this.getRules().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getAction() == null ? 0 : 1)
-            + (this.getRule().size());
+            + (this.getRules().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getAction() == null ? true : false)
-            && (this.getRule().size() == 0);
+            && (this.getRules().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getAction() != null && this.getAction().equals(child)) return result;
         if(this.getAction() != null) result = result + 1;
-        java.util.Iterator<?> getRuleIterator = this.getRule().iterator();
-        while(getRuleIterator.hasNext()){
-            if(getRuleIterator.next().equals(child)) return result;
+        java.util.Iterator<?> getRulesIterator = this.getRules().iterator();
+        while(getRulesIterator.hasNext()){
+            if(getRulesIterator.next().equals(child)) return result;
             result = result + 1;
         }
         return -1;

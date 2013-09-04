@@ -1,8 +1,28 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateExceptionVisitor;
+import model.visitor.DebitTransferStateReturnExceptionVisitor;
+import model.visitor.DebitTransferStateReturnVisitor;
+import model.visitor.DebitTransferStateVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.NotSuccessfulStateProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

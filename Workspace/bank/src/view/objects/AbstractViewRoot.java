@@ -1,6 +1,6 @@
 package view.objects;
 
-import view.*;
+import view.ModelException;
 
 public interface AbstractViewRoot {
 

@@ -199,6 +199,16 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> createTrigger(String unimportantProxiString, String name){
+        try {
+            PersistentTriggerListe unimportant = (PersistentTriggerListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(unimportantProxiString));
+            ((PersistentAccountService)this.server).createTrigger(unimportant, name);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> executeTransfer(String debitTransferProxiString){
         try {
             PersistentDebitTransferTransaction debitTransfer = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));

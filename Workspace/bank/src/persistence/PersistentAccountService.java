@@ -81,6 +81,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
+    public void createTrigger(final PersistentTriggerListe unimportant, final String name) 
+				throws PersistenceException;
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException;
     public void initializeOnCreation() 

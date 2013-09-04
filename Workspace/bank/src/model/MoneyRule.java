@@ -1,8 +1,32 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.RuleExceptionVisitor;
+import model.visitor.RuleReturnExceptionVisitor;
+import model.visitor.RuleReturnVisitor;
+import model.visitor.RuleVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.MoneyRuleProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentLimitType;
+import persistence.PersistentMoneyRule;
+import persistence.PersistentProxi;
+import persistence.PersistentRule;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -228,8 +252,12 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			getThis().getLimitType().checkLimit(debitTransfer.getMoney());
+		} catch (LimitViolatedException e) {
+			return FalseValue.getTheFalseValue();
+		}
+		return TrueValue.getTheTrueValue();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

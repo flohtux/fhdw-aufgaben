@@ -1,8 +1,17 @@
 
 package view.objects;
 
-import view.*;
-import view.visitor.*;
+import view.ModelException;
+import view.SubjectRuleView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.RuleExceptionVisitor;
+import view.visitor.RuleReturnExceptionVisitor;
+import view.visitor.RuleReturnVisitor;
+import view.visitor.RuleVisitor;
 
 
 /* Additional import section end */

@@ -4,7 +4,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import view.*;
+import view.ModelException;
 
 public abstract class ViewObject extends ViewRoot {
 

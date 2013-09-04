@@ -34,8 +34,8 @@ public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements 
     public void setAction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
         ((PersistentTrigger)this.getTheObject()).setAction(newValue);
     }
-    public Trigger_RuleProxi getRule() throws PersistenceException {
-        return ((PersistentTrigger)this.getTheObject()).getRule();
+    public Trigger_RulesProxi getRules() throws PersistenceException {
+        return ((PersistentTrigger)this.getTheObject()).getRules();
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentTrigger)this.getTheObject()).getSubService();

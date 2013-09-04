@@ -94,14 +94,6 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     
-    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
-    
-    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
-        this.handleBooleanValue(falseValue);
-    }
-    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
-        this.handleBooleanValue(trueValue);
-    }
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
     
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
@@ -109,6 +101,14 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
+    }
+    public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
+    
+    public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
+        this.handleBooleanValue(falseValue);
+    }
+    public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
+        this.handleBooleanValue(trueValue);
     }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
@@ -153,6 +153,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    
+    public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

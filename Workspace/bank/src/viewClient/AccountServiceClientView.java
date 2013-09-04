@@ -718,6 +718,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 });
                 result.add(item);
             }
+            if (selected instanceof TriggerListeView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Neue Folgebuchung ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCreateTriggerTriggerListeStringMssgWizard wizard = new AccountServiceCreateTriggerTriggerListeStringMssgWizard("Neue Folgebuchung");
+                        wizard.setFirstArgument((TriggerListeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             if (selected instanceof DebitTransferView){
                 if (this.filterChangeSubject((DebitTransferView) selected)) {
                     item = new javax.swing.JMenuItem();
@@ -1341,6 +1358,53 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class AccountServiceCreateTriggerTriggerListeStringMssgWizard extends Wizard {
+
+		protected AccountServiceCreateTriggerTriggerListeStringMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceCreateTriggerTriggerListeStringMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().createTrigger(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new StringSelectionPanel("name", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TriggerListeView firstArgument; 
+	
+		public void setFirstArgument(TriggerListeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
 		}
 		
 		

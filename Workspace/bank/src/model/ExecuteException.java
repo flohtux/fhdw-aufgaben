@@ -1,8 +1,12 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.ExecuteExceptionExceptionVisitor;
+import model.visitor.ExecuteExceptionReturnExceptionVisitor;
+import model.visitor.ExecuteExceptionReturnVisitor;
+import model.visitor.ExecuteExceptionVisitor;
+import persistence.PersistenceException;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

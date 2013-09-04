@@ -224,6 +224,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer();
     }
+    public void createTrigger(final PersistentTriggerListe unimportant, final String name) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createTrigger(unimportant, name);
+    }
     public void disconnected() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();

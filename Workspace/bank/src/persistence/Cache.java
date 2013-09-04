@@ -269,6 +269,7 @@ public class Cache {
 		this.number2NameMap.put(221, "AccountServiceNotExecuted");
 		this.number2NameMap.put(220, "AccountServiceSuccessful");
 		this.number2NameMap.put(222, "AccountServiceTemplate");
+		this.number2NameMap.put(235, "AccountTriggerListe");
 		this.number2NameMap.put(-117, "Administrator");
 		this.number2NameMap.put(125, "AdministratorBanks");
 		this.number2NameMap.put(183, "AdministratorCurrencyManager");
@@ -331,6 +332,7 @@ public class Cache {
 		this.number2NameMap.put(146, "Transaction");
 		this.number2NameMap.put(122, "Transfer");
 		this.number2NameMap.put(231, "Trigger");
+		this.number2NameMap.put(234, "TriggerListe");
 		this.number2NameMap.put(168, "TrueValue");
 		this.number2NameMap.put(209, "UseTemplateCommand");
 		this.number2NameMap.put(181, "Yen");	

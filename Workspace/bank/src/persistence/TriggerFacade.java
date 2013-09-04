@@ -125,14 +125,14 @@ public class TriggerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public long ruleAdd(long TriggerId, PersistentRule ruleVal) throws PersistenceException {
+    public long rulesAdd(long TriggerId, PersistentRule rulesVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrggrFacade.rlAdd(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrggrFacade.rlsAdd(?, ?, ?); end;");
             callable.registerOutParameter(1, OracleTypes.NUMBER);
             callable.setLong(2, TriggerId);
-            callable.setLong(3, ruleVal.getId());
-            callable.setLong(4, ruleVal.getClassId());
+            callable.setLong(3, rulesVal.getId());
+            callable.setLong(4, rulesVal.getClassId());
             callable.execute();
             long result = callable.getLong(1);
             callable.close();
@@ -141,21 +141,21 @@ public class TriggerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void ruleRem(long ruleId) throws PersistenceException {
+    public void rulesRem(long rulesId) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".TrggrFacade.rlRem(?); end;");
-            callable.setLong(1, ruleId);
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".TrggrFacade.rlsRem(?); end;");
+            callable.setLong(1, rulesId);
             callable.execute();
             callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public RuleList ruleGet(long TriggerId) throws PersistenceException {
+    public RuleList rulesGet(long TriggerId) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrggrFacade.rlGet(?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrggrFacade.rlsGet(?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, TriggerId);
             callable.execute();

@@ -1,8 +1,17 @@
 
 package model;
 
-import persistence.*;
-import serverConstants.ServerConstants;
+import persistence.Anything;
+import persistence.Command;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.PersistentServer;
+import persistence.PersistentService;
+import persistence.Service_ErrorsProxi;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

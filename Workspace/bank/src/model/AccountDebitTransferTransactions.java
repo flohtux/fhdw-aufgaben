@@ -1,8 +1,24 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.ObsInterfaceExceptionVisitor;
+import model.visitor.ObsInterfaceReturnExceptionVisitor;
+import model.visitor.ObsInterfaceReturnVisitor;
+import model.visitor.ObsInterfaceVisitor;
+import persistence.AccountDebitTransferTransactionsProxi;
+import persistence.AccountDebitTransferTransactions_ObserveeProxi;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAccountDebitTransferTransactions;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.SearchListRoot;
 
 
 /* Additional import section end */

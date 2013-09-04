@@ -1,14 +1,46 @@
 
 package model;
 
-import java.util.Iterator;
-
-import common.Fraction;
-import persistence.*;
-import model.meta.BankChangeNameStringMssg;
-import model.meta.BankMssgsVisitor;
 import model.meta.StringFACTORY;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.CommandStandardVisitor;
+import model.visitor.InvokerExceptionVisitor;
+import model.visitor.InvokerReturnExceptionVisitor;
+import model.visitor.InvokerReturnVisitor;
+import model.visitor.InvokerVisitor;
+import model.visitor.RemoteExceptionVisitor;
+import model.visitor.RemoteReturnExceptionVisitor;
+import model.visitor.RemoteReturnVisitor;
+import model.visitor.RemoteVisitor;
+import model.visitor.ServiceExceptionVisitor;
+import model.visitor.ServiceReturnExceptionVisitor;
+import model.visitor.ServiceReturnVisitor;
+import model.visitor.ServiceVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.AdministratorProxi;
+import persistence.Anything;
+import persistence.Command;
+import persistence.ConnectionHandler;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAdministrator;
+import persistence.PersistentAdministratorBanks;
+import persistence.PersistentAdministratorCurrencyManager;
+import persistence.PersistentBank;
+import persistence.PersistentCreateBankCommand;
+import persistence.PersistentCurrencyManager;
+import persistence.PersistentProxi;
+import persistence.PersistentService;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

@@ -1,12 +1,22 @@
 
 package model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentCurrency;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentMoney;
+import persistence.PersistentProxi;
+import persistence.PersistentStornoState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 import common.Fraction;
-import model.visitor.DebitTransferStateExceptionVisitor;
-import persistence.*;
 
 
 /* Additional import section end */

@@ -21,9 +21,9 @@ public class TriggerProxi extends ViewProxi implements TriggerView{
             action = view.objects.ViewProxi.createProxi(action$Info,connectionKey);
             action.setToString(action$Info.getToString());
         }
-        java.util.Vector<String> rule_string = (java.util.Vector<String>)resultTable.get("rule");
-        java.util.Vector<RuleView> rule = ViewProxi.getProxiVector(rule_string, connectionKey);
-        TriggerView result$$ = new Trigger((String)name,(DebitTransferTransactionView)action,rule, this.getId(), this.getClassId());
+        java.util.Vector<String> rules_string = (java.util.Vector<String>)resultTable.get("rules");
+        java.util.Vector<RuleView> rules = ViewProxi.getProxiVector(rules_string, connectionKey);
+        TriggerView result$$ = new Trigger((String)name,(DebitTransferTransactionView)action,rules, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -35,28 +35,28 @@ public class TriggerProxi extends ViewProxi implements TriggerView{
         int index = originalIndex;
         if(index == 0 && this.getAction() != null) return new ActionTriggerWrapper(this, originalIndex, (ViewRoot)this.getAction());
         if(this.getAction() != null) index = index - 1;
-        if(index < this.getRule().size()) return new RuleTriggerWrapper(this, originalIndex, (ViewRoot)this.getRule().get(index));
-        index = index - this.getRule().size();
+        if(index < this.getRules().size()) return new RulesTriggerWrapper(this, originalIndex, (ViewRoot)this.getRules().get(index));
+        index = index - this.getRules().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getAction() == null ? 0 : 1)
-            + (this.getRule().size());
+            + (this.getRules().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getAction() == null ? true : false)
-            && (this.getRule().size() == 0);
+            && (this.getRules().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getAction() != null && this.getAction().equals(child)) return result;
         if(this.getAction() != null) result = result + 1;
-        java.util.Iterator<?> getRuleIterator = this.getRule().iterator();
-        while(getRuleIterator.hasNext()){
-            if(getRuleIterator.next().equals(child)) return result;
+        java.util.Iterator<?> getRulesIterator = this.getRules().iterator();
+        while(getRulesIterator.hasNext()){
+            if(getRulesIterator.next().equals(child)) return result;
             result = result + 1;
         }
         return -1;
@@ -74,11 +74,11 @@ public class TriggerProxi extends ViewProxi implements TriggerView{
     public void setAction(DebitTransferTransactionView newValue) throws ModelException {
         ((Trigger)this.getTheObject()).setAction(newValue);
     }
-    public java.util.Vector<RuleView> getRule()throws ModelException{
-        return ((Trigger)this.getTheObject()).getRule();
+    public java.util.Vector<RuleView> getRules()throws ModelException{
+        return ((Trigger)this.getTheObject()).getRules();
     }
-    public void setRule(java.util.Vector<RuleView> newValue) throws ModelException {
-        ((Trigger)this.getTheObject()).setRule(newValue);
+    public void setRules(java.util.Vector<RuleView> newValue) throws ModelException {
+        ((Trigger)this.getTheObject()).setRules(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

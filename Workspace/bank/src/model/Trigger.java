@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.PersistentTrigger;
+import persistence.SubjInterface;
+import persistence.TDObserver;
+import persistence.TriggerProxi;
+import persistence.Trigger_RulesProxi;
 
 
 /* Additional import section end */
@@ -69,7 +88,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
                     if(forGUI && action.hasEssentialFields())action.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            result.put("rule", this.getRule().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
+            result.put("rules", this.getRules().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -92,7 +111,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     }
     protected String name;
     protected PersistentDebitTransferTransaction action;
-    protected Trigger_RuleProxi rule;
+    protected Trigger_RulesProxi rules;
     protected SubjInterface subService;
     protected PersistentTrigger This;
     
@@ -101,7 +120,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
         super(id);
         this.name = name;
         this.action = action;
-        this.rule = new Trigger_RuleProxi(this);
+        this.rules = new Trigger_RulesProxi(this);
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -123,7 +142,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
             this.getAction().store();
             ConnectionHandler.getTheConnectionHandler().theTriggerFacade.actionSet(this.getId(), getAction());
         }
-        this.getRule().store();
+        this.getRules().store();
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theTriggerFacade.subServiceSet(this.getId(), getSubService());
@@ -157,8 +176,8 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
             ConnectionHandler.getTheConnectionHandler().theTriggerFacade.actionSet(this.getId(), newValue);
         }
     }
-    public Trigger_RuleProxi getRule() throws PersistenceException {
-        return this.rule;
+    public Trigger_RulesProxi getRules() throws PersistenceException {
+        return this.rules;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -223,7 +242,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getAction() != null) return 1;
-        if (this.getRule().getLength() > 0) return 1;
+        if (this.getRules().getLength() > 0) return 1;
         return 0;
     }
     

@@ -73,6 +73,7 @@ server AccountService extends Service {
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type);
 	void createTransaction@@Neue_Transaktion();
+	void createTrigger@@Neue_Folgebuchung(TriggerListe unimportant, String name);
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
@@ -116,9 +117,11 @@ class Account {
 	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
+	observe TriggerListe triggerListe;
 	event void remove(AccountPx acc, DebitGrantListe list);
 
 	Transfer createTransfer();
+	Trigger createTrigger(String name);
 	active void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
 	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
 	active void changeMoney(DebitTransfer trans, Fraction newAmount);
@@ -136,6 +139,12 @@ class Account {
 
 class AccountPx {
 	server-only prior Account account;
+}
+
+class TriggerListe {
+	Trigger ** triggers;
+	event void remove(Trigger t);
+	event void add(Trigger t);
 }
 
 class DebitGrantListe {
@@ -247,7 +256,7 @@ class DebitGrant {
 class Trigger{
 	prior String name;
 	DebitTransferTransaction action;
-	Rule ** rule;
+	Rule ** rules;
 }
 
 abstract class Rule{
@@ -298,9 +307,11 @@ exception CloseAccountNoPossibleException{}
 exception NoAccountsFound{}
 exception GrantAlreadyGivenException{}
 exception DebitNotGrantedException extends DebitException{}
+exception RuleNotMatchedException {}
 
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
+
 }
 
 

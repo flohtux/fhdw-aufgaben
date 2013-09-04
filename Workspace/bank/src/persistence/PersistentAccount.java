@@ -47,6 +47,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException;
+    public PersistentTriggerListe getTriggerListe() 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
@@ -54,6 +56,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException;
     public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
+				throws PersistenceException;
+    public void setTriggerListe(final PersistentTriggerListe triggerListe) 
 				throws PersistenceException;
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
@@ -79,6 +83,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
+    public PersistentTrigger createTrigger(final String name) 
+				throws PersistenceException;
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException;
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
@@ -90,6 +96,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
+				throws PersistenceException;
+    public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException;
 
 }

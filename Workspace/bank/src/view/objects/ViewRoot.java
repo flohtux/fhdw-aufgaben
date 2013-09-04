@@ -3,7 +3,7 @@ package view.objects;
 import javax.swing.table.TableModel;
 import javax.swing.tree.TreeModel;
 
-import view.*;
+import view.ModelException;
 
 public abstract class ViewRoot extends ViewObjectInTree implements TableModel, TreeModel {
 

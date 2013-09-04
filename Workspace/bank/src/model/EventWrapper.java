@@ -1,7 +1,6 @@
 
 package model;
 
-import persistence.*;
 import model.meta.DebitTransferChangeCurrencyCurrencyMssg;
 import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
@@ -9,7 +8,33 @@ import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
 import model.meta.DebitTransferTransactionExecuteMssg;
 import model.meta.DebitTransferTransactionMssgsVisitor;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.EventWrapperProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccountService;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentEventWrapper;
+import persistence.PersistentExecutedState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

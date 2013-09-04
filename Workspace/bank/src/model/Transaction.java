@@ -1,8 +1,44 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateReturnVisitor;
+import model.visitor.DebitTransferTransactionExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnVisitor;
+import model.visitor.DebitTransferTransactionVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferListe;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentExecutedState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentProxi;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
+import persistence.Predcate;
+import persistence.Procdure;
+import persistence.ProcdureException;
+import persistence.SubjInterface;
+import persistence.TDObserver;
+import persistence.TransactionProxi;
 
 
 /* Additional import section end */

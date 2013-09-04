@@ -74,6 +74,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
         this.standardHandling(subjectRule);
     }
+    public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException{
+        this.standardHandling(triggerListe);
+    }
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
     }
