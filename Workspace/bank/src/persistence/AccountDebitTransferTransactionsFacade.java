@@ -55,26 +55,22 @@ public class AccountDebitTransferTransactionsFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountDebitTransferTransactionsId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAccount observer = null;
-            PersistentAccountDebitTransferTransactions This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10285: {
-                        observer = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10287: {
-                        This = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            AccountDebitTransferTransactions result = new AccountDebitTransferTransactions(observer, 
-                                                                                           This, 
+            PersistentAccount observer = null;
+            if (obj.getLong(2) != 0)
+                observer = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentAccountDebitTransferTransactions This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentAccountDebitTransferTransactions)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            AccountDebitTransferTransactions result = new AccountDebitTransferTransactions(observer,
+                                                                                           This,
                                                                                            AccountDebitTransferTransactionsId);
-            links.close();
+            obj.close();
             callable.close();
             AccountDebitTransferTransactionsICProxi inCache = (AccountDebitTransferTransactionsICProxi)Cache.getTheCache().put(result);
             AccountDebitTransferTransactions objectInCache = (AccountDebitTransferTransactions)inCache.getTheObject();

@@ -55,32 +55,26 @@ public class LimitFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, LimitId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentLimitType This = null;
-            PersistentMoney money = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10070: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10071: {
-                        This = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10054: {
-                        money = (PersistentMoney)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            Limit result = new Limit(subService, 
-                                     This, 
-                                     money, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentLimitType This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentMoney money = null;
+            if (obj.getLong(6) != 0)
+                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            Limit result = new Limit(subService,
+                                     This,
+                                     money,
                                      LimitId);
-            links.close();
+            obj.close();
             callable.close();
             LimitICProxi inCache = (LimitICProxi)Cache.getTheCache().put(result);
             Limit objectInCache = (Limit)inCache.getTheObject();

@@ -15,7 +15,7 @@ public class Resources {
 	private static final String LimitsIcon = Resources +"/configure-2.png";
 	private static final String VorlagenIcon = Resources + "/archive.gif";
 	private static final String AccountIcon = Resources + "/user.png";
-	private static final String NochNichtErledigteAuftraegeIcon = Resources + "wait.png";
+	private static final String NochNichtErledigteAuftraegeIcon = Resources + "/wait.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;

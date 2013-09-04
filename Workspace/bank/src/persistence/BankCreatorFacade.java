@@ -36,32 +36,23 @@ public class BankCreatorFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, BankCreatorId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            long lastBankNumber = 0;
-            SubjInterface subService = null;
-            PersistentBankCreator This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10096: {
-                        lastBankNumber = links.getLong(5);
-                        break;
-                    }
-                    case 10097: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10098: {
-                        This = (PersistentBankCreator)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            BankCreator result = new BankCreator(lastBankNumber, 
-                                                 subService, 
-                                                 This, 
+            SubjInterface subService = null;
+            if (obj.getLong(3) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
+            PersistentBankCreator This = null;
+            if (obj.getLong(5) != 0)
+                This = (PersistentBankCreator)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            BankCreator result = new BankCreator(obj.getLong(2),
+                                                 subService,
+                                                 This,
                                                  BankCreatorId);
-            links.close();
+            obj.close();
             callable.close();
             BankCreatorICProxi inCache = (BankCreatorICProxi)Cache.getTheCache().put(result);
             BankCreator objectInCache = (BankCreator)inCache.getTheObject();

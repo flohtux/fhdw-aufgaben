@@ -36,26 +36,22 @@ public class FalseValueFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, FalseValueId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentBooleanValue This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10103: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10104: {
-                        This = (PersistentBooleanValue)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            FalseValue result = new FalseValue(subService, 
-                                               This, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentBooleanValue This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentBooleanValue)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            FalseValue result = new FalseValue(subService,
+                                               This,
                                                FalseValueId);
-            links.close();
+            obj.close();
             callable.close();
             FalseValueICProxi inCache = (FalseValueICProxi)Cache.getTheCache().put(result);
             FalseValue objectInCache = (FalseValue)inCache.getTheObject();

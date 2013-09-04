@@ -55,32 +55,26 @@ public class FixTransactionFeeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, FixTransactionFeeId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentTransactionFee This = null;
-            PersistentMoney value = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10059: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10060: {
-                        This = (PersistentTransactionFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10016: {
-                        value = (PersistentMoney)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            FixTransactionFee result = new FixTransactionFee(subService, 
-                                                             This, 
-                                                             value, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTransactionFee This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentMoney value = null;
+            if (obj.getLong(6) != 0)
+                value = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            FixTransactionFee result = new FixTransactionFee(subService,
+                                                             This,
+                                                             value,
                                                              FixTransactionFeeId);
-            links.close();
+            obj.close();
             callable.close();
             FixTransactionFeeICProxi inCache = (FixTransactionFeeICProxi)Cache.getTheCache().put(result);
             FixTransactionFee objectInCache = (FixTransactionFee)inCache.getTheObject();

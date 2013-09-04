@@ -55,32 +55,26 @@ public class MoneyRuleFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, MoneyRuleId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentRule This = null;
-            PersistentLimitType limitType = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10307: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10308: {
-                        This = (PersistentRule)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10306: {
-                        limitType = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            MoneyRule result = new MoneyRule(subService, 
-                                             This, 
-                                             limitType, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentRule This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentRule)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentLimitType limitType = null;
+            if (obj.getLong(6) != 0)
+                limitType = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            MoneyRule result = new MoneyRule(subService,
+                                             This,
+                                             limitType,
                                              MoneyRuleId);
-            links.close();
+            obj.close();
             callable.close();
             MoneyRuleICProxi inCache = (MoneyRuleICProxi)Cache.getTheCache().put(result);
             MoneyRule objectInCache = (MoneyRule)inCache.getTheObject();

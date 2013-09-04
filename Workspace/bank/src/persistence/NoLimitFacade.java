@@ -36,26 +36,22 @@ public class NoLimitFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, NoLimitId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentLimitType This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10070: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10071: {
-                        This = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            NoLimit result = new NoLimit(subService, 
-                                         This, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentLimitType This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            NoLimit result = new NoLimit(subService,
+                                         This,
                                          NoLimitId);
-            links.close();
+            obj.close();
             callable.close();
             NoLimitICProxi inCache = (NoLimitICProxi)Cache.getTheCache().put(result);
             NoLimit objectInCache = (NoLimit)inCache.getTheObject();
