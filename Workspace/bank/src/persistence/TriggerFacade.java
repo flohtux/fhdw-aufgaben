@@ -56,27 +56,39 @@ public class TriggerFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, TriggerId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            String name = "";
             PersistentDebitTransferTransaction action = null;
-            if (obj.getLong(3) != 0)
-                action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             SubjInterface subService = null;
-            if (obj.getLong(5) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentTrigger This = null;
-            if (obj.getLong(7) != 0)
-                This = (PersistentTrigger)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            Trigger result = new Trigger(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
-                                         action,
-                                         subService,
-                                         This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10301: {
+                        name = links.getString(6);
+                        if(name == null)name = "";
+                        break;
+                    }
+                    case 10302: {
+                        action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10304: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10305: {
+                        This = (PersistentTrigger)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Trigger result = new Trigger(name, 
+                                         action, 
+                                         subService, 
+                                         This, 
                                          TriggerId);
-            obj.close();
+            links.close();
             callable.close();
             TriggerICProxi inCache = (TriggerICProxi)Cache.getTheCache().put(result);
             Trigger objectInCache = (Trigger)inCache.getTheObject();

@@ -55,26 +55,32 @@ public class AdministratorCurrencyManagerFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AdministratorCurrencyManagerId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAdministrator observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCurrencyManager observee = null;
-            if (obj.getLong(4) != 0)
-                observee = (PersistentCurrencyManager)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAdministratorCurrencyManager This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAdministratorCurrencyManager)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AdministratorCurrencyManager result = new AdministratorCurrencyManager(observer,
-                                                                                   observee,
-                                                                                   This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10145: {
+                        observer = (PersistentAdministrator)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10146: {
+                        observee = (PersistentCurrencyManager)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10147: {
+                        This = (PersistentAdministratorCurrencyManager)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AdministratorCurrencyManager result = new AdministratorCurrencyManager(observer, 
+                                                                                   observee, 
+                                                                                   This, 
                                                                                    AdministratorCurrencyManagerId);
-            obj.close();
+            links.close();
             callable.close();
             AdministratorCurrencyManagerICProxi inCache = (AdministratorCurrencyManagerICProxi)Cache.getTheCache().put(result);
             AdministratorCurrencyManager objectInCache = (AdministratorCurrencyManager)inCache.getTheObject();

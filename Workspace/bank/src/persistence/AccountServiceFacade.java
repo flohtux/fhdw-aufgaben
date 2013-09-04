@@ -55,42 +55,56 @@ public class AccountServiceFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountServiceId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentService This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentService)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccount account = null;
-            if (obj.getLong(6) != 0)
-                account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentEventWrapper eventhandle = null;
-            if (obj.getLong(8) != 0)
-                eventhandle = (PersistentEventWrapper)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentAccountServiceSuccessful successful = null;
-            if (obj.getLong(10) != 0)
-                successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             PersistentAccountServiceNotExecuted notExecuted = null;
-            if (obj.getLong(12) != 0)
-                notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
             PersistentAccountServiceTemplate template = null;
-            if (obj.getLong(14) != 0)
-                template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
-            AccountService result = new AccountService(subService,
-                                                       This,
-                                                       account,
-                                                       eventhandle,
-                                                       successful,
-                                                       notExecuted,
-                                                       template,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10001: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10002: {
+                        This = (PersistentService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10058: {
+                        account = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10288: {
+                        eventhandle = (PersistentEventWrapper)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10192: {
+                        successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10193: {
+                        notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10230: {
+                        template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AccountService result = new AccountService(subService, 
+                                                       This, 
+                                                       account, 
+                                                       eventhandle, 
+                                                       successful, 
+                                                       notExecuted, 
+                                                       template, 
                                                        AccountServiceId);
-            obj.close();
+            links.close();
             callable.close();
             AccountServiceICProxi inCache = (AccountServiceICProxi)Cache.getTheCache().put(result);
             AccountService objectInCache = (AccountService)inCache.getTheObject();

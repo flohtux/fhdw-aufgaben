@@ -55,30 +55,38 @@ public class UseTemplateCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, UseTemplateCommandId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentDebitTransferTransaction debitTransferTransaction = null;
-            if (obj.getLong(2) != 0)
-                debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             Invoker invoker = null;
-            if (obj.getLong(4) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountService commandReceiver = null;
-            if (obj.getLong(6) != 0)
-                commandReceiver = (PersistentAccountService)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(8) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            UseTemplateCommand result = new UseTemplateCommand(debitTransferTransaction,
-                                                               invoker,
-                                                               commandReceiver,
-                                                               myCommonDate,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10246: {
+                        debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10232: {
+                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10233: {
+                        commandReceiver = (PersistentAccountService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10234: {
+                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            UseTemplateCommand result = new UseTemplateCommand(debitTransferTransaction, 
+                                                               invoker, 
+                                                               commandReceiver, 
+                                                               myCommonDate, 
                                                                UseTemplateCommandId);
-            obj.close();
+            links.close();
             callable.close();
             UseTemplateCommandICProxi inCache = (UseTemplateCommandICProxi)Cache.getTheCache().put(result);
             UseTemplateCommand objectInCache = (UseTemplateCommand)inCache.getTheObject();

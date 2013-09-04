@@ -5,6 +5,8 @@ import persistence.Anything;
 import persistence.PersistenceException;
 import persistence.PersistentAccountPx;
 import persistence.PersistentBank;
+import persistence.PersistentCurrencyManager;
+import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentExecutedState;
@@ -35,16 +37,27 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
         result = common.IconInfoConstants.AccountIconNumber;
 	}
 	
+	
+	public void handleBank(PersistentBank bank) throws PersistenceException{
+        result = common.IconInfoConstants.BankIconNumber;
+	}
+
+	@Override
+	public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException {
+		result = common.IconInfoConstants.KontostandIconNumber;
+	}
+
+	@Override
+	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted)	throws PersistenceException {
+		result = common.IconInfoConstants.NochNichtErledigteAuftraegeIconNumber;
+	}
+	
 	@Override
 	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful)
 			throws PersistenceException {
 		result = common.IconInfoConstants.HistorieIconNumber;
 	}
 	
-	public void handleBank(PersistentBank bank) throws PersistenceException{
-        result = common.IconInfoConstants.BankIconNumber;
-	}
-
 	public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
 		result = common.IconInfoConstants.VorlagenIconNumber;
 	}
