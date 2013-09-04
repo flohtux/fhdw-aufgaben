@@ -205,6 +205,7 @@ string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	active event DebitTransferTransaction execute()  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
+	String subject@@Betreff;
 	no-view	Account sender;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
 	DebitTransferTransaction copy();
@@ -215,7 +216,6 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Money money@@Betrag;
-	String subject@@Betreff;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
   event void changeReceiverBank(Integer receiverBankNumber);
@@ -244,6 +244,28 @@ class DebitGrant {
 	prior LimitType limits;
 }
 
+class Trigger{
+	prior String name;
+	DebitTransferTransaction action;
+	Rule ** rule;
+}
+
+abstract class Rule{
+	BooleanValue check(DebitTransfer debitTransfer);
+}
+
+class MoneyRule extends Rule{
+	LimitType limitType;
+}
+
+class SubjectRule extends Rule{
+	String subject;
+}
+
+class IncomingAccountRule##IncAccRule extends Rule{
+	Integer accountNumber;
+	Integer bankNumber;
+}
 
 class DebitTransferDoubleState##DebTraStaDo {
 	prior DebitTransferState debitTransferStateOld##dbtrstold;

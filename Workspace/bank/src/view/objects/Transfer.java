@@ -10,9 +10,9 @@ import view.visitor.*;
 public class Transfer extends view.objects.DebitTransfer implements TransferView{
     
     
-    public Transfer(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,String subject,StornoStateView stornoState,long id, long classId) {
+    public Transfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(String)subject,(StornoStateView)stornoState,id, classId);        
+        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -106,14 +106,14 @@ public class Transfer extends view.objects.DebitTransfer implements TransferView
     public int getTimestampIndex() throws ModelException {
         return 0;
     }
+    public int getSubjectIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getReceiverAccountNumberIndex() throws ModelException {
-        return 0 + 1 + (this.getState() == null ? 0 : 1);
+        return 0 + 1 + 1 + (this.getState() == null ? 0 : 1);
     }
     public int getReceiverBankNumberIndex() throws ModelException {
-        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1;
-    }
-    public int getSubjectIndex() throws ModelException {
-        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1 + 1;
+        return 0 + 1 + 1 + (this.getState() == null ? 0 : 1) + 1;
     }
     public int getRowCount(){
         return 0 
@@ -127,20 +127,20 @@ public class Transfer extends view.objects.DebitTransfer implements TransferView
             if(columnIndex == 0){
                 if(rowIndex == 0) return "Zeitstempel";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "Betreff";
+                rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "Empfänger Konto";
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "Empfänger Bank";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "Betreff";
-                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverAccountNumber());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverBankNumber());
-                rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -159,17 +159,17 @@ public class Transfer extends view.objects.DebitTransfer implements TransferView
         }
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
+            this.setSubject(newValue);
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
             this.setReceiverAccountNumber(Long.parseLong(newValue));
             return;
         }
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setReceiverBankNumber(Long.parseLong(newValue));
-            return;
-        }
-        rowIndex = rowIndex - 1;
-        if(rowIndex == 0){
-            this.setSubject(newValue);
             return;
         }
         rowIndex = rowIndex - 1;

@@ -30,12 +30,6 @@ public abstract class DebitTransferICProxi extends DebitTransferTransactionICPro
     public void setMoney(PersistentMoney newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setMoney(newValue);
     }
-    public String getSubject() throws PersistenceException {
-        return ((PersistentDebitTransfer)this.getTheObject()).getSubject();
-    }
-    public void setSubject(String newValue) throws PersistenceException {
-        ((PersistentDebitTransfer)this.getTheObject()).setSubject(newValue);
-    }
     public PersistentStornoState getStornoState() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getStornoState();
     }

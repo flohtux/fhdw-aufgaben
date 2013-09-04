@@ -41,6 +41,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
         this.standardHandling(successfulState);
     }
+    public void handleIncomingAccountRule(IncomingAccountRuleView incomingAccountRule) throws ModelException{
+        this.standardHandling(incomingAccountRule);
+    }
     public void handleAmount(AmountView amount) throws ModelException{
         this.standardHandling(amount);
     }
@@ -64,6 +67,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleServer(ServerView server) throws ModelException{
         this.standardHandling(server);
+    }
+    public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
+        this.standardHandling(subjectRule);
     }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
@@ -104,6 +110,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException{
         this.standardHandling(notExecutedState);
     }
+    public void handleTrigger(TriggerView trigger) throws ModelException{
+        this.standardHandling(trigger);
+    }
     public void handleEuro(EuroView euro) throws ModelException{
         this.standardHandling(euro);
     }
@@ -118,6 +127,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleMoneyRule(MoneyRuleView moneyRule) throws ModelException{
+        this.standardHandling(moneyRule);
     }
     public void handleTransaction(TransactionView transaction) throws ModelException{
         this.standardHandling(transaction);

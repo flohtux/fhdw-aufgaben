@@ -18,6 +18,12 @@ public abstract class DebitTransferTransactionICProxi extends PersistentInCacheP
     public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException {
         ((PersistentDebitTransferTransaction)this.getTheObject()).setTimestamp(newValue);
     }
+    public String getSubject() throws PersistenceException {
+        return ((PersistentDebitTransferTransaction)this.getTheObject()).getSubject();
+    }
+    public void setSubject(String newValue) throws PersistenceException {
+        ((PersistentDebitTransferTransaction)this.getTheObject()).setSubject(newValue);
+    }
     public PersistentAccount getSender() throws PersistenceException {
         return ((PersistentDebitTransferTransaction)this.getTheObject()).getSender();
     }

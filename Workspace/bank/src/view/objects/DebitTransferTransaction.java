@@ -9,13 +9,15 @@ import view.*;
 public abstract class DebitTransferTransaction extends ViewObject implements DebitTransferTransactionView{
     
     protected java.util.Date timestamp;
+    protected String subject;
     protected AccountView sender;
     protected DebitTransferStateView state;
     
-    public DebitTransferTransaction(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,long id, long classId) {
+    public DebitTransferTransaction(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.timestamp = timestamp;
+        this.subject = subject;
         this.sender = sender;
         this.state = state;        
     }
@@ -25,6 +27,12 @@ public abstract class DebitTransferTransaction extends ViewObject implements Deb
     }
     public void setTimestamp(java.util.Date newValue) throws ModelException {
         this.timestamp = newValue;
+    }
+    public String getSubject()throws ModelException{
+        return this.subject;
+    }
+    public void setSubject(String newValue) throws ModelException {
+        this.subject = newValue;
     }
     public AccountView getSender()throws ModelException{
         return this.sender;
@@ -77,8 +85,12 @@ public abstract class DebitTransferTransaction extends ViewObject implements Deb
     public int getTimestampIndex() throws ModelException {
         return 0;
     }
+    public int getSubjectIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
@@ -86,8 +98,12 @@ public abstract class DebitTransferTransaction extends ViewObject implements Deb
             if(columnIndex == 0){
                 if(rowIndex == 0) return "Zeitstempel";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "Betreff";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -102,6 +118,11 @@ public abstract class DebitTransferTransaction extends ViewObject implements Deb
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
             this.setTimestamp(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setSubject(newValue);
             return;
         }
         rowIndex = rowIndex - 1;

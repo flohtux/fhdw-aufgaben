@@ -22,11 +22,11 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         PersistentTransfer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newDelayedTransfer(new java.sql.Timestamp(System.currentTimeMillis()),0,0,"");
+                .newDelayedTransfer(new java.sql.Timestamp(System.currentTimeMillis()),"",0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newTransfer(new java.sql.Timestamp(System.currentTimeMillis()),0,0,"",-1);
+                .newTransfer(new java.sql.Timestamp(System.currentTimeMillis()),"",0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -38,11 +38,11 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         PersistentTransfer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newDelayedTransfer(new java.sql.Timestamp(System.currentTimeMillis()),0,0,"");
+                .newDelayedTransfer(new java.sql.Timestamp(System.currentTimeMillis()),"",0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransferFacade
-                .newTransfer(new java.sql.Timestamp(System.currentTimeMillis()),0,0,"",-1);
+                .newTransfer(new java.sql.Timestamp(System.currentTimeMillis()),"",0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -63,6 +63,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public Transfer provideCopy() throws PersistenceException{
         Transfer result = this;
         result = new Transfer(this.timestamp, 
+                              this.subject, 
                               this.sender, 
                               this.state, 
                               this.subService, 
@@ -70,7 +71,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
                               this.receiverAccountNumber, 
                               this.receiverBankNumber, 
                               this.money, 
-                              this.subject, 
                               this.stornoState, 
                               this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -81,9 +81,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         return false;
     }
     
-    public Transfer(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,String subject,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public Transfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(String)subject,(PersistentStornoState)stornoState,id);        
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(PersistentStornoState)stornoState,id);        
     }
     
     static public long getTypeId() {
@@ -97,7 +97,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 122) ConnectionHandler.getTheConnectionHandler().theTransferFacade
-            .newTransfer(new java.sql.Timestamp(System.currentTimeMillis()),0,0,"",this.getId());
+            .newTransfer(new java.sql.Timestamp(System.currentTimeMillis()),"",0,0,this.getId());
         super.store();
         
     }

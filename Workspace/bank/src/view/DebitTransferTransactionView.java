@@ -8,6 +8,8 @@ public interface DebitTransferTransactionView extends Anything, AbstractViewRoot
     
     public java.util.Date getTimestamp()throws ModelException;
     public void setTimestamp(java.util.Date newValue) throws ModelException ;
+    public String getSubject()throws ModelException;
+    public void setSubject(String newValue) throws ModelException ;
     public AccountView getSender()throws ModelException;
     public void setSender(AccountView newValue) throws ModelException ;
     public DebitTransferStateView getState()throws ModelException;

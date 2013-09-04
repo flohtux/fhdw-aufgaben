@@ -44,6 +44,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
         this.standardHandling(successfulState);
     }
+    public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
+        this.standardHandling(incomingAccountRule);
+    }
     public void handleAmount(PersistentAmount amount) throws PersistenceException{
         this.standardHandling(amount);
     }
@@ -67,6 +70,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
+    }
+    public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
+        this.standardHandling(subjectRule);
     }
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
@@ -110,6 +116,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
+    public void handleTrigger(PersistentTrigger trigger) throws PersistenceException{
+        this.standardHandling(trigger);
+    }
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.standardHandling(templateState);
     }
@@ -121,6 +130,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
+        this.standardHandling(moneyRule);
     }
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
         this.standardHandling(transaction);

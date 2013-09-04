@@ -212,7 +212,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				debit.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
 					
 						protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
-							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$subject, new Updater() {
+							panel.registerUpdater(CustomDebitDetailPanel.DebitTransferTransaction$$subject, new Updater() {
 								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(debit, text);}
 								public String format(String text) { return text;	}
 								public boolean check(String text) throws ModelException { return true;	}
@@ -293,7 +293,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				transfer.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
 					
 						protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
-							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$subject, new Updater() {
+							panel.registerUpdater(CustomTransferDetailPanel.DebitTransferTransaction$$subject, new Updater() {
 								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(transfer, text);}
 								public String format(String text) { return text;	}
 								public boolean check(String text) throws ModelException { return true;	}

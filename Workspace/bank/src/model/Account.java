@@ -713,8 +713,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         list.remove(acc);
     }
-
-	}
     
     
     // Start of section that contains overridden operations only.
@@ -732,4 +730,4 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     /* End of protected part that is not overridden by persistence generator */
     
-
+}

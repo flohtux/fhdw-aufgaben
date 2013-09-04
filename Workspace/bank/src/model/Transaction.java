@@ -18,11 +18,11 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
         PersistentTransaction result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()));
+                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"");
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),-1);
+                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"",-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -34,11 +34,11 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
         PersistentTransaction result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()));
+                .newDelayedTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"");
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),-1);
+                .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"",-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -68,6 +68,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public Transaction provideCopy() throws PersistenceException{
         Transaction result = this;
         result = new Transaction(this.timestamp, 
+                                 this.subject, 
                                  this.sender, 
                                  this.state, 
                                  this.subService, 
@@ -83,9 +84,9 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     }
     protected PersistentDebitTransferListe debitTransfer;
     
-    public Transaction(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,PersistentDebitTransferListe debitTransfer,long id) throws persistence.PersistenceException {
+    public Transaction(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,PersistentDebitTransferListe debitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
         this.debitTransfer = debitTransfer;        
     }
     
@@ -100,7 +101,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 146) ConnectionHandler.getTheConnectionHandler().theTransactionFacade
-            .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),this.getId());
+            .newTransaction(new java.sql.Timestamp(System.currentTimeMillis()),"",this.getId());
         super.store();
         if(this.getDebitTransfer() != null){
             this.getDebitTransfer().store();

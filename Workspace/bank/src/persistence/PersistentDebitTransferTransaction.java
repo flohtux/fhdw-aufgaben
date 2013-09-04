@@ -8,6 +8,8 @@ public interface PersistentDebitTransferTransaction extends SubjInterface, Anyth
     
     public java.sql.Timestamp getTimestamp() throws PersistenceException ;
     public void setTimestamp(java.sql.Timestamp newValue) throws PersistenceException ;
+    public String getSubject() throws PersistenceException ;
+    public void setSubject(String newValue) throws PersistenceException ;
     public PersistentAccount getSender() throws PersistenceException ;
     public void setSender(PersistentAccount newValue) throws PersistenceException ;
     public PersistentDebitTransferState getState() throws PersistenceException ;

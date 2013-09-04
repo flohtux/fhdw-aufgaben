@@ -276,6 +276,31 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException {
 		this.result = "No View";
 	}
+	@Override
+	public void handleIncomingAccountRule(
+			PersistentIncomingAccountRule incomingAccountRule)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleSubjectRule(PersistentSubjectRule subjectRule)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTrigger(PersistentTrigger trigger)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleMoneyRule(PersistentMoneyRule moneyRule)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

@@ -305,11 +305,13 @@ public class Cache {
 		this.number2NameMap.put(166, "FalseValue");
 		this.number2NameMap.put(108, "FixTransactionFee");
 		this.number2NameMap.put(180, "Franken");
+		this.number2NameMap.put(229, "IncomingAccountRule");
 		this.number2NameMap.put(109, "InternalFee");
 		this.number2NameMap.put(128, "Limit");
 		this.number2NameMap.put(127, "LimitAccount");
 		this.number2NameMap.put(129, "MixedFee");
 		this.number2NameMap.put(148, "Money");
+		this.number2NameMap.put(232, "MoneyRule");
 		this.number2NameMap.put(116, "NoLimit");
 		this.number2NameMap.put(104, "NoRequestState");
 		this.number2NameMap.put(144, "NotExecutableState");
@@ -322,11 +324,13 @@ public class Cache {
 		this.number2NameMap.put(131, "RequestState");
 		this.number2NameMap.put(-121, "Server");
 		this.number2NameMap.put(102, "Subj");
+		this.number2NameMap.put(230, "SubjectRule");
 		this.number2NameMap.put(175, "SuccessfulState");
 		this.number2NameMap.put(123, "SuccessfulStornoState");
 		this.number2NameMap.put(138, "TemplateState");
 		this.number2NameMap.put(146, "Transaction");
 		this.number2NameMap.put(122, "Transfer");
+		this.number2NameMap.put(231, "Trigger");
 		this.number2NameMap.put(168, "TrueValue");
 		this.number2NameMap.put(209, "UseTemplateCommand");
 		this.number2NameMap.put(181, "Yen");	

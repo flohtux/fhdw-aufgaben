@@ -80,6 +80,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
         this.handleStornoState(noRequestState);
     }
+    public abstract void handleTrigger(TriggerView trigger) throws ModelException;
+    
     public abstract void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
@@ -133,6 +135,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     
+    public abstract void handleRule(RuleView rule) throws ModelException;
+    
+    public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
+        this.handleRule(subjectRule);
+    }
+    public void handleMoneyRule(MoneyRuleView moneyRule) throws ModelException{
+        this.handleRule(moneyRule);
+    }
+    public void handleIncomingAccountRule(IncomingAccountRuleView incomingAccountRule) throws ModelException{
+        this.handleRule(incomingAccountRule);
+    }
     public abstract void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     
     public abstract void handleServer(ServerView server) throws ModelException;

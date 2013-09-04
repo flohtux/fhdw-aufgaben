@@ -65,6 +65,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException{
         this.standardHandling(accountServiceTemplate);
     }
+    public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
+        this.standardHandling(incomingAccountRule);
+    }
     public void handleAmount(PersistentAmount amount) throws PersistenceException{
         this.standardHandling(amount);
     }
@@ -94,6 +97,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
+    }
+    public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
+        this.standardHandling(subjectRule);
     }
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException{
         this.standardHandling(administratorBanks);
@@ -152,6 +158,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
         this.standardHandling(notExecutedState);
     }
+    public void handleTrigger(PersistentTrigger trigger) throws PersistenceException{
+        this.standardHandling(trigger);
+    }
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
@@ -178,6 +187,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
         this.standardHandling(changeMoneyCommand);
+    }
+    public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
+        this.standardHandling(moneyRule);
     }
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException{
         this.standardHandling(commandExecuter);

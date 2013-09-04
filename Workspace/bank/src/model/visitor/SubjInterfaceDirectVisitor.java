@@ -82,6 +82,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     
+    public abstract void handleTrigger(PersistentTrigger trigger) throws PersistenceException;
+    
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     
     public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
@@ -135,6 +137,17 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
+    public abstract void handleRule(PersistentRule rule) throws PersistenceException;
+    
+    public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
+        this.handleRule(subjectRule);
+    }
+    public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
+        this.handleRule(moneyRule);
+    }
+    public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
+        this.handleRule(incomingAccountRule);
+    }
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;

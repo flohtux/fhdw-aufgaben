@@ -11,16 +11,14 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
     protected MoneyView money;
-    protected String subject;
     protected StornoStateView stornoState;
     
-    public DebitTransfer(java.util.Date timestamp,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,String subject,StornoStateView stornoState,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,id, classId);
+        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.money = money;
-        this.subject = subject;
         this.stornoState = stornoState;        
     }
     
@@ -41,12 +39,6 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     }
     public void setMoney(MoneyView newValue) throws ModelException {
         this.money = newValue;
-    }
-    public String getSubject()throws ModelException{
-        return this.subject;
-    }
-    public void setSubject(String newValue) throws ModelException {
-        this.subject = newValue;
     }
     public StornoStateView getStornoState()throws ModelException{
         return this.stornoState;
@@ -101,14 +93,14 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     public int getTimestampIndex() throws ModelException {
         return 0;
     }
+    public int getSubjectIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getReceiverAccountNumberIndex() throws ModelException {
-        return 0 + 1 + (this.getState() == null ? 0 : 1);
+        return 0 + 1 + 1 + (this.getState() == null ? 0 : 1);
     }
     public int getReceiverBankNumberIndex() throws ModelException {
-        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1;
-    }
-    public int getSubjectIndex() throws ModelException {
-        return 0 + 1 + (this.getState() == null ? 0 : 1) + 1 + 1;
+        return 0 + 1 + 1 + (this.getState() == null ? 0 : 1) + 1;
     }
     public int getRowCount(){
         return 0 
@@ -122,20 +114,20 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
             if(columnIndex == 0){
                 if(rowIndex == 0) return "Zeitstempel";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "Betreff";
+                rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "Empfänger Konto";
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "Empfänger Bank";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "Betreff";
-                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return ViewRoot.toString(getTimestamp(), true );
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverAccountNumber());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getReceiverBankNumber());
-                rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return this.getSubject();
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -154,17 +146,17 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         }
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
+            this.setSubject(newValue);
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
             this.setReceiverAccountNumber(Long.parseLong(newValue));
             return;
         }
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setReceiverBankNumber(Long.parseLong(newValue));
-            return;
-        }
-        rowIndex = rowIndex - 1;
-        if(rowIndex == 0){
-            this.setSubject(newValue);
             return;
         }
         rowIndex = rowIndex - 1;
