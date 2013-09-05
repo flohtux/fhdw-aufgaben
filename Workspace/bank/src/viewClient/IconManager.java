@@ -30,9 +30,15 @@ public class IconManager {
 		case common.IconInfoConstants.LimitsIconNumber:
 			return viewConstants.Resources.getLimitsIcon();
 			
+		case common.IconInfoConstants.MixKostenIconNumber:
+			return viewConstants.Resources.getMixKostenIcon();
+			
 		case common.IconInfoConstants.NochNichtErledigteAuftraegeIconNumber:
 			return viewConstants.Resources.getNochNichtErledigteAuftraegeIcon();
 			
+		case common.IconInfoConstants.ProzentualeKostenIconNumber:
+			return viewConstants.Resources.getProzentualeKostenIcon();
+		
 		case common.IconInfoConstants.RabattIconNumber:
 			return viewConstants.Resources.getRabattIcon();
 			

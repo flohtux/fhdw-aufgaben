@@ -19,6 +19,8 @@ public class Resources {
 	private static final String BankAccountIcon = Resources + "/bankAccount.png";
 	private static final String RabattIcon = Resources + "/rabatt.png";
 	private static final String FixeKostenIcon = Resources + "/fixeKosten.png";
+	private static final String ProzentualeKostenIcon = Resources + "/prozent.png";
+	private static final String MixKostenIcon = Resources + "/mixKosten.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -30,6 +32,8 @@ public class Resources {
 	private static ImageIcon bankAccountIcon;
 	private static ImageIcon rabattIcon;
 	private static ImageIcon fixeKostenIcon;
+	private static ImageIcon prozentualeKostenIcon;
+	private static ImageIcon mixKostenIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -74,10 +78,22 @@ public class Resources {
 		return limitsIcon;
 		}
 	
+	public static Icon getMixKostenIcon() {
+		if (mixKostenIcon == null)
+			mixKostenIcon = new ImageIcon(getURL(MixKostenIcon));
+		return mixKostenIcon;
+		}
+	
 	public static Icon getNochNichtErledigteAuftraegeIcon() {
 		if (nochNichtErledigteAuftraegeIcon == null)
 			nochNichtErledigteAuftraegeIcon = new ImageIcon(getURL(NochNichtErledigteAuftraegeIcon));
 		return nochNichtErledigteAuftraegeIcon;
+	}
+	
+	public static Icon getProzentualeKostenIcon() {
+		if (prozentualeKostenIcon == null)
+			prozentualeKostenIcon = new ImageIcon(getURL(ProzentualeKostenIcon));
+		return prozentualeKostenIcon;
 	}
 	
 	public static Icon getRabattIcon() {

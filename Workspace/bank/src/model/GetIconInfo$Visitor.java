@@ -7,6 +7,7 @@ import persistence.PersistentAccount;
 import persistence.PersistentAccountPx;
 import persistence.PersistentBank;
 import persistence.PersistentCurrencyManager;
+import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
@@ -14,10 +15,12 @@ import persistence.PersistentExecutedState;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentInternalFee;
 import persistence.PersistentLimitAccount;
+import persistence.PersistentMixedFee;
 import persistence.PersistentMoney;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentProcentualFee;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransfer;
@@ -36,20 +39,17 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 		return result;
 	}
 	//TODO PREREQUISITES: Icon: how to assign icon information
-	@Override
-	public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException {
-		result = common.IconInfoConstants.FixeKostenIconNumber;
-	}
 	
-	public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
-        result = common.IconInfoConstants.AccountIconNumber;
-	}
+	
 	
 	@Override
 	public void handleAccount(PersistentAccount account) throws PersistenceException {
 		result = common.IconInfoConstants.BankAccountIconNumber;
 	}
 	
+	public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
+        result = common.IconInfoConstants.AccountIconNumber;
+	}
 	
 	public void handleBank(PersistentBank bank) throws PersistenceException{
         result = common.IconInfoConstants.BankIconNumber;
@@ -58,6 +58,11 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	@Override
 	public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException {
 		result = common.IconInfoConstants.KontostandIconNumber;
+	}
+	
+	@Override
+	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
+		// TODO Einzugsermächtigung für ...
 	}
 
 	@Override
@@ -76,6 +81,11 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	}
 	
 	@Override
+	public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException {
+		result = common.IconInfoConstants.FixeKostenIconNumber;
+	}
+	
+	@Override
 	public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException {
 		result = common.IconInfoConstants.RabattIconNumber;
 	}
@@ -84,8 +94,18 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 		result = common.IconInfoConstants.LimitsIconNumber;
 	}
 	
+	@Override
+	public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException {
+		result = common.IconInfoConstants.MixKostenIconNumber;
+	}
+	
 	public void handleMoney(PersistentMoney money) throws PersistenceException{
 		result = common.IconInfoConstants.KontostandIconNumber;
+	}
+	
+	@Override
+	public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException {
+		result = common.IconInfoConstants.ProzentualeKostenIconNumber;
 	}
 	
 	@Override

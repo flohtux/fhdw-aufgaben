@@ -12,6 +12,8 @@ public class IconInfoConstants {
 	public static final int BankAccountIconNumber = 8;
 	public static final int RabattIconNumber = 9;
 	public static final int FixeKostenIconNumber = 10;
+	public static final int ProzentualeKostenIconNumber = 11;
+	public static final int MixKostenIconNumber = 12;
 
 	private IconInfoConstants(){}
 }
