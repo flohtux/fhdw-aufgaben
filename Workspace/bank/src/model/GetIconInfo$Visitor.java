@@ -60,10 +60,10 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 		result = common.IconInfoConstants.KontostandIconNumber;
 	}
 	
-	@Override
-	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
-		// TODO Einzugsermächtigung für ...
-	}
+//	TODO Einzugsermächtigung für ...
+//	@Override
+//	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
+//	}
 
 	@Override
 	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted)	throws PersistenceException {
@@ -109,38 +109,40 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	}
 	
 	@Override
+	public void handleNotExecutedState(PersistentNotExecutedState notExecutedState)	throws PersistenceException {
+		result = common.IconInfoConstants.NeutralIconNumber;
+	}
+	
+	@Override
 	public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
 		transfer.getState().accept(new DebitTransferStateVisitor() {
 			
 			@Override
 			public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
 				//result = 
-				// TODO Torben
-				
+				// TODO Torben				
 			}
 			
 			@Override
 			public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
-				// TODO Auto-generated method stub
-				
+				result = common.IconInfoConstants.PositiveIconNumber;
 			}
 			
 			@Override
 			public void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
 				// TODO Auto-generated method stub
-				
+				result = common.IconInfoConstants.WarningIconNumber;
 			}
 			
 			@Override
 			public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
-				// TODO Auto-generated method stub
-				
+//				result = common.IconInfoConstants.NeutralIconNumber;
+				// TODO "Noch nicht ausgeführt", Icon wird nicht angezeigt.
 			}
 			
 			@Override
 			public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override

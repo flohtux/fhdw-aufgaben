@@ -33,9 +33,18 @@ public class IconManager {
 		case common.IconInfoConstants.MixKostenIconNumber:
 			return viewConstants.Resources.getMixKostenIcon();
 			
+		case common.IconInfoConstants.NeutralIconNumber:
+			return viewConstants.Resources.getNeutralIcon();
+			
+		case common.IconInfoConstants.NegativeIconNumber:
+			return viewConstants.Resources.getNegativeIcon();
+			
 		case common.IconInfoConstants.NochNichtErledigteAuftraegeIconNumber:
 			return viewConstants.Resources.getNochNichtErledigteAuftraegeIcon();
 			
+		case common.IconInfoConstants.PositiveIconNumber:
+			return viewConstants.Resources.getPositiveIcon();
+		
 		case common.IconInfoConstants.ProzentualeKostenIconNumber:
 			return viewConstants.Resources.getProzentualeKostenIcon();
 		
@@ -44,6 +53,9 @@ public class IconManager {
 			
 		case common.IconInfoConstants.VorlagenIconNumber:
 			return viewConstants.Resources.getVorlagenIcon();
+			
+		case common.IconInfoConstants.WarningIconNumber:
+			return viewConstants.Resources.getWarningIcon();
 			
 		default:
 			return null;

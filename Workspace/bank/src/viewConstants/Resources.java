@@ -21,6 +21,10 @@ public class Resources {
 	private static final String FixeKostenIcon = Resources + "/fixeKosten.png";
 	private static final String ProzentualeKostenIcon = Resources + "/prozent.png";
 	private static final String MixKostenIcon = Resources + "/mixKosten.png";
+	private static final String PositiveIcon = Resources + "/positive.gif";
+	private static final String NeutralIcon = Resources + "/neutral.gif";
+	private static final String NegativeIcon = Resources + "/negative.gif";
+	private static final String WarningIcon = Resources + "/warning.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -34,6 +38,10 @@ public class Resources {
 	private static ImageIcon fixeKostenIcon;
 	private static ImageIcon prozentualeKostenIcon;
 	private static ImageIcon mixKostenIcon;
+	private static ImageIcon positiveIcon;
+	private static ImageIcon neutralIcon;
+	private static ImageIcon negativeIcon;
+	private static ImageIcon warningIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -76,13 +84,25 @@ public class Resources {
 		if (limitsIcon == null)
 			limitsIcon = new ImageIcon(getURL(LimitsIcon));
 		return limitsIcon;
-		}
+	}
 	
 	public static Icon getMixKostenIcon() {
 		if (mixKostenIcon == null)
 			mixKostenIcon = new ImageIcon(getURL(MixKostenIcon));
 		return mixKostenIcon;
-		}
+	}
+	
+	public static Icon getNegativeIcon() {
+		if (negativeIcon == null)
+			negativeIcon = new ImageIcon(getURL(NegativeIcon));
+		return negativeIcon;
+	}
+	
+	public static Icon getNeutralIcon() {
+		if (neutralIcon == null)
+			neutralIcon = new ImageIcon(getURL(NeutralIcon));
+		return neutralIcon;
+	}
 	
 	public static Icon getNochNichtErledigteAuftraegeIcon() {
 		if (nochNichtErledigteAuftraegeIcon == null)
@@ -96,6 +116,12 @@ public class Resources {
 		return prozentualeKostenIcon;
 	}
 	
+	public static Icon getPositiveIcon() {
+		if (positiveIcon == null)
+			positiveIcon = new ImageIcon(getURL(PositiveIcon));
+		return positiveIcon;
+	}
+	
 	public static Icon getRabattIcon() {
 		if (rabattIcon == null)
 			rabattIcon = new ImageIcon(getURL(RabattIcon));
@@ -106,7 +132,13 @@ public class Resources {
 		if (vorlagenIcon == null)
 			vorlagenIcon = new ImageIcon(getURL(VorlagenIcon));
 		return vorlagenIcon;
-		}
+	}
+	
+	public static Icon getWarningIcon() {
+		if (warningIcon == null)
+			warningIcon = new ImageIcon(getURL(WarningIcon));
+		return warningIcon;
+	}
 	
 	private static URL getURL(String path) {
 		return Resources.class.getClassLoader().getResource(path);
