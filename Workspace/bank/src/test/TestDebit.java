@@ -16,6 +16,7 @@ import model.InvalidBankNumberException;
 import model.Limit;
 import model.LimitAccount;
 import model.DebitException;
+import model.LimitViolatedException;
 import model.MixedFee;
 import model.Money;
 import model.NoLimit;
@@ -106,6 +107,72 @@ public class TestDebit {
 
 		PersistentDebit newDebit = acc1.createDebit();
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(-10, 1)), Euro.getTheEuro()));
+		newDebit.setReceiverAccountNumber(SecondAccountNumber);
+		newDebit.setReceiverBankNumber(bank.getBankNumber());
+		newDebit.execute();
+
+	}
+	
+	@Test
+	public void testBankinternGrantExceptionOneLower() throws Exception {
+		PersistentAdministrator admin = Administrator.createAdministrator();
+
+		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		bank.createAccount("Euro");
+		bank.createAccount("Euro");
+
+		PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+		PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
+		acc2.createDebitGrant(acc1, Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(25, 1)), acc2.getMoney().getCurrency())));
+		
+		PersistentDebit newDebit = acc1.createDebit();
+		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(24, 1)), Euro.getTheEuro()));
+		newDebit.setReceiverAccountNumber(SecondAccountNumber);
+		newDebit.setReceiverBankNumber(bank.getBankNumber());
+		newDebit.execute();
+
+		assertEquals(new Fraction(-24, 1), acc2.getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(24, 1), acc1.getMoney().getAmount().getBalance());
+		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
+	}
+	
+	@Test
+	public void testBankinternGrantExceptionLimitEquals() throws Exception {
+		PersistentAdministrator admin = Administrator.createAdministrator();
+
+		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		bank.createAccount("Euro");
+		bank.createAccount("Euro");
+
+		PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+		PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
+		acc2.createDebitGrant(acc1, Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(25, 1)), acc2.getMoney().getCurrency())));
+		
+		PersistentDebit newDebit = acc1.createDebit();
+		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(25, 1)), Euro.getTheEuro()));
+		newDebit.setReceiverAccountNumber(SecondAccountNumber);
+		newDebit.setReceiverBankNumber(bank.getBankNumber());
+		newDebit.execute();
+
+		assertEquals(new Fraction(-25, 1), acc2.getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(25, 1), acc1.getMoney().getAmount().getBalance());
+		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
+	}
+	
+	@Test(expected=LimitViolatedException.class)
+	public void testBankinternGrantExceptionOneMore() throws Exception {
+		PersistentAdministrator admin = Administrator.createAdministrator();
+
+		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		bank.createAccount("Euro");
+		bank.createAccount("Euro");
+
+		PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
+		PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
+		acc2.createDebitGrant(acc1, Limit.createLimit(Money.createMoney(Amount.createAmount(new Fraction(25, 1)), acc2.getMoney().getCurrency())));
+		
+		PersistentDebit newDebit = acc1.createDebit();
+		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(26, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
 		newDebit.execute();
