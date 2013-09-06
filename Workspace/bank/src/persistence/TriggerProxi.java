@@ -28,6 +28,12 @@ public class TriggerProxi extends PersistentProxi implements PersistentTrigger{
     public void setName(String newValue) throws PersistenceException {
         ((PersistentTrigger)this.getTheObject()).setName(newValue);
     }
+    public PersistentTriggerState getState() throws PersistenceException {
+        return ((PersistentTrigger)this.getTheObject()).getState();
+    }
+    public void setState(PersistentTriggerState newValue) throws PersistenceException {
+        ((PersistentTrigger)this.getTheObject()).setState(newValue);
+    }
     public PersistentDebitTransferTransaction getAction() throws PersistenceException {
         return ((PersistentTrigger)this.getTheObject()).getAction();
     }
@@ -89,9 +95,21 @@ public class TriggerProxi extends PersistentProxi implements PersistentTrigger{
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).updateObservers(event);
     }
+    public void addRule(final PersistentRule rule) 
+				throws model.DoubleRuleDefinitionException, PersistenceException{
+        ((PersistentTrigger)this.getTheObject()).addRule(rule);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public void disable() 
+				throws PersistenceException{
+        ((PersistentTrigger)this.getTheObject()).disable();
+    }
+    public void enable() 
+				throws PersistenceException{
+        ((PersistentTrigger)this.getTheObject()).enable();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

@@ -5,6 +5,9 @@ import view.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException{
+        this.standardHandling(doubleRuleDefinitionException);
+    }
     public void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException{
         this.standardHandling(noAccountsFound);
     }

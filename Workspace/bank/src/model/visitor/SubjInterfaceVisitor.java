@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,RuleVisitor{
+public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
     
     public void handleSubj(PersistentSubj subj) throws PersistenceException;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;

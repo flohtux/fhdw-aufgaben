@@ -83,7 +83,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentTransfer createTransfer() 
 				throws PersistenceException;
-    public PersistentTrigger createTrigger(final String name) 
+    public PersistentTrigger createTrigger(final String name, final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException;
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException;

@@ -10,7 +10,9 @@ import model.meta.DebitTransferSuccessfulRemoveDebitTransferTransactionMssg;
 import model.meta.DebitTransferTemplateAddDebitTransferTransactionMssg;
 import model.meta.DebitTransferTemplateMssgsVisitor;
 import model.meta.DebitTransferTemplateRemoveDebitTransferTransactionMssg;
+import model.meta.DebitTransferTransactionSwitchPARAMETER;
 import model.meta.LimitTypeSwitchPARAMETER;
+import model.meta.RuleSwitchPARAMETER;
 import model.meta.StringFACTORY;
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
@@ -58,17 +60,22 @@ import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
+import persistence.PersistentIncomingAccountRule;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitType;
+import persistence.PersistentMoneyRule;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
 import persistence.PersistentProxi;
+import persistence.PersistentRule;
 import persistence.PersistentService;
+import persistence.PersistentSubjectRule;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
+import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.PersistentUseTemplateCommand;
 import persistence.SubjInterface;
@@ -549,6 +556,27 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().getNotExecuted().getNotExecuteds().add(debit);
         signalChanged(true);
     }
+    public void createNewRule(final PersistentTrigger t, final String type) 
+				throws model.DoubleRuleDefinitionException, PersistenceException{
+    	PersistentRule newRule = StringFACTORY.createObjectBySubTypeNameForRule(type, new RuleSwitchPARAMETER() {
+			@Override
+			public PersistentSubjectRule handleSubjectRule() throws PersistenceException {
+				return SubjectRule.createSubjectRule();
+			}
+			
+			@Override
+			public PersistentMoneyRule handleMoneyRule() throws PersistenceException {
+				return MoneyRule.createMoneyRule(getThis().getAccount().getMoney().getCurrency());
+			}
+			
+			@Override
+			public PersistentIncomingAccountRule handleIncomingAccountRule() throws PersistenceException {
+				return IncomingAccountRule.createIncomingAccountRule();
+			}
+		});
+    	t.addRule(newRule);
+    	getThis().signalChanged(true);
+    }
     public void createTemplate(final String type) 
 				throws PersistenceException{
     	PersistentDebitTransferTransaction template = getThis().getAccount().createTemplate(type);
@@ -568,13 +596,41 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().getNotExecuted().getNotExecuteds().add(transfer);
         getThis().signalChanged(true);
     }
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name) 
+    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
 				throws PersistenceException{
-        getThis().getAccount().createTrigger(name);
+    	PersistentDebitTransferTransaction newDTT = StringFACTORY.createObjectBySubTypeNameForDebitTransferTransaction(type, new DebitTransferTransactionSwitchPARAMETER() {
+			
+			@Override
+			public PersistentTransfer handleTransfer() throws PersistenceException {
+				return getThis().getAccount().createTransfer();
+			}
+			
+			@Override
+			public PersistentTransaction handleTransaction() throws PersistenceException {
+				return getThis().getAccount().createTransaction();
+			}
+			
+			@Override
+			public PersistentDebit handleDebit() throws PersistenceException {
+				return getThis().getAccount().createDebit();
+			}
+		});
+        getThis().getAccount().createTrigger(name, newDTT);
         getThis().signalChanged(true);
+    }
+    public void disable(final PersistentTrigger t) 
+				throws PersistenceException{
+        t.disable();
+        getThis().signalChanged(true);
+        
     }
     public void disconnected() 
 				throws PersistenceException{
+    }
+    public void enable(final PersistentTrigger t) 
+				throws PersistenceException{
+        t.enable();
+        getThis().signalChanged(true);
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{

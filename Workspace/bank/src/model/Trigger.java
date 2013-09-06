@@ -17,7 +17,11 @@ import persistence.PersistenceException;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
+import persistence.PersistentRule;
 import persistence.PersistentTrigger;
+import persistence.PersistentTriggerState;
+import persistence.Predcate;
+import persistence.PredcateException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 import persistence.TriggerProxi;
@@ -79,6 +83,15 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("name", this.getName());
+            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
+            if (state != null) {
+                result.put("state", state.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             AbstractPersistentRoot action = (AbstractPersistentRoot)this.getAction();
             if (action != null) {
                 result.put("action", action.createProxiInformation(false, essentialLevel == 0));
@@ -98,6 +111,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     public Trigger provideCopy() throws PersistenceException{
         Trigger result = this;
         result = new Trigger(this.name, 
+                             this.state, 
                              this.action, 
                              this.subService, 
                              this.This, 
@@ -110,15 +124,17 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
         return false;
     }
     protected String name;
+    protected PersistentTriggerState state;
     protected PersistentDebitTransferTransaction action;
     protected Trigger_RulesProxi rules;
     protected SubjInterface subService;
     protected PersistentTrigger This;
     
-    public Trigger(String name,PersistentDebitTransferTransaction action,SubjInterface subService,PersistentTrigger This,long id) throws persistence.PersistenceException {
+    public Trigger(String name,PersistentTriggerState state,PersistentDebitTransferTransaction action,SubjInterface subService,PersistentTrigger This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.name = name;
+        this.state = state;
         this.action = action;
         this.rules = new Trigger_RulesProxi(this);
         this.subService = subService;
@@ -138,6 +154,10 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
         if (this.getClassId() == 231) ConnectionHandler.getTheConnectionHandler().theTriggerFacade
             .newTrigger(name,this.getId());
         super.store();
+        if(this.getState() != null){
+            this.getState().store();
+            ConnectionHandler.getTheConnectionHandler().theTriggerFacade.stateSet(this.getId(), getState());
+        }
         if(this.getAction() != null){
             this.getAction().store();
             ConnectionHandler.getTheConnectionHandler().theTriggerFacade.actionSet(this.getId(), getAction());
@@ -161,6 +181,20 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
         if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theTriggerFacade.nameSet(this.getId(), newValue);
         this.name = newValue;
+    }
+    public PersistentTriggerState getState() throws PersistenceException {
+        return this.state;
+    }
+    public void setState(PersistentTriggerState newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.state)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.state = (PersistentTriggerState)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theTriggerFacade.stateSet(this.getId(), newValue);
+        }
     }
     public PersistentDebitTransferTransaction getAction() throws PersistenceException {
         return this.action;
@@ -241,6 +275,7 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
          return visitor.handleTrigger(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getState() != null) return 1;
         if (this.getAction() != null) return 1;
         if (this.getRules().getLength() > 0) return 1;
         return 0;
@@ -285,19 +320,39 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     
     // Start of section that contains operations that must be implemented.
     
+    public void addRule(final PersistentRule rule) 
+				throws model.DoubleRuleDefinitionException, PersistenceException{
+    	PersistentRule result = getThis().getRules().findFirst(new Predcate<PersistentRule>() {
+			public boolean test(PersistentRule argument) throws PersistenceException {
+				return rule.getClassId() == argument.getClassId();
+			}
+		});
+    	if (result != null) {
+    		throw new DoubleRuleDefinitionException();
+    	}
+    	
+        getThis().getRules().add(rule);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         
     }
+    public void disable() 
+				throws PersistenceException{
+    	getThis().setState(DisabledState.getTheDisabledState());
+    }
+    public void enable() 
+				throws PersistenceException{
+        getThis().setState(EnabledState.getTheEnabledState());
+        
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+    	 getThis().setState(DisabledState.getTheDisabledState());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
         
     }
     

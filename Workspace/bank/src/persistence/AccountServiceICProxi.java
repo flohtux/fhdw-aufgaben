@@ -212,6 +212,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createDebit();
     }
+    public void createNewRule(final PersistentTrigger t, final String type) 
+				throws model.DoubleRuleDefinitionException, PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).createNewRule(t, type);
+    }
     public void createTemplate(final String type) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTemplate(type);
@@ -224,13 +228,21 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer();
     }
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name) 
+    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
 				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createTrigger(unimportant, name);
+        ((PersistentAccountService)this.getTheObject()).createTrigger(unimportant, name, type);
+    }
+    public void disable(final PersistentTrigger t) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).disable(t);
     }
     public void disconnected() 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).disconnected();
+    }
+    public void enable(final PersistentTrigger t) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).enable(t);
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{

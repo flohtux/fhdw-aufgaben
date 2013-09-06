@@ -71,9 +71,12 @@ server AccountService extends Service {
 	observe DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
 	void createDebit@@Neue_Lastschrift();
-	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type);
+	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
-	void createTrigger@@Neue_Folgebuchung(TriggerListe unimportant, String name);
+	void createTrigger@@Neue_Folgebuchung(TriggerListe unimportant, String name, DebitTransferTransactionSUBTYPEName type);
+	void enable(Trigger t checked);
+	void disable(Trigger t checked);
+	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
@@ -121,7 +124,7 @@ class Account {
 	event void remove(AccountPx acc, DebitGrantListe list);
 
 	Transfer createTransfer();
-	Trigger createTrigger(String name);
+	Trigger createTrigger(String name, DebitTransferTransaction dtt);
 	active void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
 	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
 	active void changeMoney(DebitTransfer trans, Fraction newAmount);
@@ -135,6 +138,9 @@ class Account {
 
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
+
+	//Trigger
+
 }
 
 class AccountPx {
@@ -255,16 +261,23 @@ class DebitGrant {
 
 class Trigger{
 	prior String name;
+	one-to-one (no-view master) TriggerState state;
 	DebitTransferTransaction action;
 	Rule ** rules;
+	void enable();
+	void disable();
+	void addRule(Rule rule) throws DoubleRuleDefinitionException;
 }
 
-abstract class Rule{
+abstract class TriggerState (EnabledState, DisabledState) {}
+
+string-factory abstract class Rule{
 	BooleanValue check(DebitTransfer debitTransfer);
 }
 
 class MoneyRule extends Rule{
-	LimitType limitType;
+	no-view prior Currency currency;
+	LimitAccount limitAccount;
 }
 
 class SubjectRule extends Rule{
@@ -308,6 +321,7 @@ exception NoAccountsFound{}
 exception GrantAlreadyGivenException{}
 exception DebitNotGrantedException extends DebitException{}
 exception RuleNotMatchedException {}
+exception DoubleRuleDefinitionException {}
 
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}

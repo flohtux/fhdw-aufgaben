@@ -75,13 +75,19 @@ public interface PersistentAccountService extends PersistentService {
 				throws model.GrantAlreadyGivenException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
     public void createDebit() 
 				throws PersistenceException;
+    public void createNewRule(final PersistentTrigger t, final String type) 
+				throws model.DoubleRuleDefinitionException, PersistenceException;
     public void createTemplate(final String type) 
 				throws PersistenceException;
     public void createTransaction() 
 				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name) 
+    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
+				throws PersistenceException;
+    public void disable(final PersistentTrigger t) 
+				throws PersistenceException;
+    public void enable(final PersistentTrigger t) 
 				throws PersistenceException;
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException;

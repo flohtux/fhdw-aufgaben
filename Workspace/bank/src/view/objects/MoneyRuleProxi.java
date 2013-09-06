@@ -12,14 +12,21 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     
     public MoneyRuleView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi limitType = null;
-        String limitType$String = (String)resultTable.get("limitType");
-        if (limitType$String != null) {
-            common.ProxiInformation limitType$Info = common.RPCConstantsAndServices.createProxiInformation(limitType$String);
-            limitType = view.objects.ViewProxi.createProxi(limitType$Info,connectionKey);
-            limitType.setToString(limitType$Info.getToString());
+        ViewProxi currency = null;
+        String currency$String = (String)resultTable.get("currency");
+        if (currency$String != null) {
+            common.ProxiInformation currency$Info = common.RPCConstantsAndServices.createProxiInformation(currency$String);
+            currency = view.objects.ViewProxi.createProxi(currency$Info,connectionKey);
+            currency.setToString(currency$Info.getToString());
         }
-        MoneyRuleView result$$ = new MoneyRule((LimitTypeView)limitType, this.getId(), this.getClassId());
+        ViewProxi limitAccount = null;
+        String limitAccount$String = (String)resultTable.get("limitAccount");
+        if (limitAccount$String != null) {
+            common.ProxiInformation limitAccount$Info = common.RPCConstantsAndServices.createProxiInformation(limitAccount$String);
+            limitAccount = view.objects.ViewProxi.createProxi(limitAccount$Info,connectionKey);
+            limitAccount.setToString(limitAccount$Info.getToString());
+        }
+        MoneyRuleView result$$ = new MoneyRule((CurrencyView)currency,(LimitAccountView)limitAccount, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -29,31 +36,37 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getLimitType() != null) return new LimitTypeMoneyRuleWrapper(this, originalIndex, (ViewRoot)this.getLimitType());
-        if(this.getLimitType() != null) index = index - 1;
+        if(index == 0 && this.getLimitAccount() != null) return new LimitAccountMoneyRuleWrapper(this, originalIndex, (ViewRoot)this.getLimitAccount());
+        if(this.getLimitAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getLimitType() == null ? 0 : 1);
+            + (this.getLimitAccount() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getLimitType() == null ? true : false);
+            && (this.getLimitAccount() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getLimitType() != null && this.getLimitType().equals(child)) return result;
-        if(this.getLimitType() != null) result = result + 1;
+        if(this.getLimitAccount() != null && this.getLimitAccount().equals(child)) return result;
+        if(this.getLimitAccount() != null) result = result + 1;
         return -1;
     }
     
-    public LimitTypeView getLimitType()throws ModelException{
-        return ((MoneyRule)this.getTheObject()).getLimitType();
+    public CurrencyView getCurrency()throws ModelException{
+        return ((MoneyRule)this.getTheObject()).getCurrency();
     }
-    public void setLimitType(LimitTypeView newValue) throws ModelException {
-        ((MoneyRule)this.getTheObject()).setLimitType(newValue);
+    public void setCurrency(CurrencyView newValue) throws ModelException {
+        ((MoneyRule)this.getTheObject()).setCurrency(newValue);
+    }
+    public LimitAccountView getLimitAccount()throws ModelException{
+        return ((MoneyRule)this.getTheObject()).getLimitAccount();
+    }
+    public void setLimitAccount(LimitAccountView newValue) throws ModelException {
+        ((MoneyRule)this.getTheObject()).setLimitAccount(newValue);
     }
     
     public void accept(RuleVisitor visitor) throws ModelException {

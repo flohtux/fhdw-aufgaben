@@ -154,6 +154,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
     
+    public abstract void handleTriggerState(PersistentTriggerState triggerState) throws PersistenceException;
+    
+    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
+        this.handleTriggerState(disabledState);
+    }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.handleTriggerState(enabledState);
+    }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
     public abstract void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;

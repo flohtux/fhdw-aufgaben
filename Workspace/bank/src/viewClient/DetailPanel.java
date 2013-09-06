@@ -763,8 +763,14 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTriggerListe(view.TriggerListeView object){
         result = new TriggerListeDefaultDetailPanel(handler, object);
     }
+    public void handleDisabledState(view.DisabledStateView object){
+        result = new DisabledStateDefaultDetailPanel(handler, object);
+    }
     public void handleDollar(view.DollarView object){
         result = new DollarDefaultDetailPanel(handler, object);
+    }
+    public void handleEnabledState(view.EnabledStateView object){
+        result = new EnabledStateDefaultDetailPanel(handler, object);
     }
     public void handleFranken(view.FrankenView object){
         result = new FrankenDefaultDetailPanel(handler, object);
@@ -1286,6 +1292,20 @@ class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DisabledStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected DisabledStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DisabledStateView getAnything(){
+        return (view.DisabledStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class DollarDefaultDetailPanel extends DefaultDetailPanel{
     
     protected DollarDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1296,6 +1316,20 @@ class DollarDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DollarView getAnything(){
         return (view.DollarView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class EnabledStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected EnabledStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.EnabledStateView getAnything(){
+        return (view.EnabledStateView)this.anything;
     }
 }
 
@@ -1555,6 +1589,7 @@ class EuroDefaultDetailPanel extends DefaultDetailPanel{
 class TriggerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Trigger$$name = "Trigger$$name";
+    protected static final String Trigger$$state = "Trigger$$state";
     protected static final String Trigger$$action = "Trigger$$action";
     protected static final String Trigger$$rules = "Trigger$$rules";
     
@@ -1637,7 +1672,7 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String MoneyRule$$limitType = "MoneyRule$$limitType";
+    protected static final String MoneyRule$$limitAccount = "MoneyRule$$limitAccount";
     
     protected MoneyRuleDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

@@ -37,7 +37,9 @@ public class TestSupport {
         model.CurrencyManager.reset$For$Test = true;
         model.TrueValue.reset$For$Test = true;
         model.NoLimit.reset$For$Test = true;
+        model.DisabledState.reset$For$Test = true;
         model.Dollar.reset$For$Test = true;
+        model.EnabledState.reset$For$Test = true;
         model.Franken.reset$For$Test = true;
         model.RequestState.reset$For$Test = true;
         model.Euro.reset$For$Test = true;

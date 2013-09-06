@@ -6,6 +6,8 @@ import persistence.*;
 
 public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor {
     
+    public abstract void handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException;
+    
     public abstract void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException;
     
     public abstract void handleCycleException(model.CycleException cycleException) throws PersistenceException;

@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class LimitTypeMoneyRuleWrapper extends AssociationInTreeWrapper {
+public class StateTriggerWrapper extends AssociationInTreeWrapper {
 
-	public LimitTypeMoneyRuleWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public StateTriggerWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class LimitTypeMoneyRuleWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association limitType in class MoneyRule
+    	//TODO: Implement toString in wrapper class for association state in class Trigger
     	return this.getWrappedObject().toString();
     }
 

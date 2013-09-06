@@ -711,6 +711,7 @@ create table Trggr(
     id number primary key,
     Cls number not null,
     TrggrNm varchar2(2000),
+<<<<<<< HEAD
     TrggrActn number,
     TrggrActnCls number,
     constraint FTrggrActn foreign key (TrggrActnCls) references Cls (id),
@@ -901,6 +902,219 @@ create table Rl(
     MnRlLmtTp number,
     MnRlLmtTpCls number,
     constraint FMnRlLmtTp foreign key (MnRlLmtTpCls) references Cls (id)    
+=======
+    TrggrStt number,
+    TrggrSttCls number,
+    constraint FTrggrStt foreign key (TrggrSttCls) references Cls (id),
+    TrggrActn number,
+    TrggrActnCls number,
+    constraint FTrggrActn foreign key (TrggrActnCls) references Cls (id),
+    TrggrSbSrvc number,
+    TrggrSbSrvcCls number,
+    constraint FTrggrSbSrvc foreign key (TrggrSbSrvcCls) references Cls (id),
+    TrggrThis number,
+    TrggrThisCls number,
+    constraint FTrggrThis foreign key (TrggrThisCls) references Cls (id)    
+);
+create index ISttTrggr on Trggr (TrggrStt, TrggrSttCls);
+
+
+create sequence SDbTrNtExec nocache;
+
+create table DbTrNtExec(
+    id number primary key,
+    Cls number not null,
+    DbTrNtExecSbSrvc number,
+    DbTrNtExecSbSrvcCls number,
+    constraint FDbTrNtExecSbSrvc foreign key (DbTrNtExecSbSrvcCls) references Cls (id),
+    DbTrNtExecThis number,
+    DbTrNtExecThisCls number,
+    constraint FDbTrNtExecThis foreign key (DbTrNtExecThisCls) references Cls (id)    
+);
+
+create sequence SChngCrrncCMD nocache;
+
+create table ChngCrrncCMD(
+    id number primary key,
+    Cls number not null,
+    ChngCrrncCMDTrns number,
+    ChngCrrncCMDTrnsCls number,
+    constraint FChngCrrncCMDTrns foreign key (ChngCrrncCMDTrnsCls) references Cls (id),
+    ChngCrrncCMDCrrnc number,
+    ChngCrrncCMDCrrncCls number,
+    constraint FChngCrrncCMDCrrnc foreign key (ChngCrrncCMDCrrncCls) references Cls (id),
+    ChngCrrncCMDInvoker number,
+    ChngCrrncCMDInvokerCls number,
+    constraint FChngCrrncCMDInvoker foreign key (ChngCrrncCMDInvokerCls) references Cls (id),
+    ChngCrrncCMDCReceiver number,
+    ChngCrrncCMDCReceiverCls number,
+    constraint FChngCrrncCMDCReceiver foreign key (ChngCrrncCMDCReceiverCls) references Cls (id),
+    ChngCrrncCMDMyCmmnDt number,
+    ChngCrrncCMDMyCmmnDtCls number,
+    constraint FChngCrrncCMDMyCmmnDt foreign key (ChngCrrncCMDMyCmmnDtCls) references Cls (id)    
+);
+
+create sequence SCmmndCrdntr nocache;
+
+create table CmmndCrdntr(
+    id number primary key,
+    Cls number not null    
+);
+
+create sequence SLmtTp nocache;
+
+create table LmtTp(
+    id number primary key,
+    Cls number not null,
+    LmtTpSbSrvc number,
+    LmtTpSbSrvcCls number,
+    constraint FLmtTpSbSrvc foreign key (LmtTpSbSrvcCls) references Cls (id),
+    LmtTpThis number,
+    LmtTpThisCls number,
+    constraint FLmtTpThis foreign key (LmtTpThisCls) references Cls (id),
+    LmtMn number,
+    LmtMnCls number,
+    constraint FLmtMn foreign key (LmtMnCls) references Cls (id)    
+);
+
+create sequence SAccntDebTrfTrans nocache;
+
+create table AccntDebTrfTrans(
+    id number primary key,
+    Cls number not null,
+    AccntDebTrfTransMstr number,
+    AccntDebTrfTransMstrCls number,
+    constraint FAccntDebTrfTransMstr foreign key (AccntDebTrfTransMstrCls) references Cls (id),
+    AccntDebTrfTransThis number,
+    AccntDebTrfTransThisCls number,
+    constraint FAccntDebTrfTransThis foreign key (AccntDebTrfTransThisCls) references Cls (id)    
+);
+
+create sequence STrggrStt nocache;
+
+create table TrggrStt(
+    id number primary key,
+    Cls number not null,
+    TrggrSttSbSrvc number,
+    TrggrSttSbSrvcCls number,
+    constraint FTrggrSttSbSrvc foreign key (TrggrSttSbSrvcCls) references Cls (id),
+    TrggrSttThis number,
+    TrggrSttThisCls number,
+    constraint FTrggrSttThis foreign key (TrggrSttThisCls) references Cls (id)    
+);
+
+create sequence SChngMnCMD nocache;
+
+create table ChngMnCMD(
+    id number primary key,
+    Cls number not null,
+    ChngMnCMDTrns number,
+    ChngMnCMDTrnsCls number,
+    constraint FChngMnCMDTrns foreign key (ChngMnCMDTrnsCls) references Cls (id),
+    ChngMnCMDNwAmnt varchar2(2000),
+    ChngMnCMDInvoker number,
+    ChngMnCMDInvokerCls number,
+    constraint FChngMnCMDInvoker foreign key (ChngMnCMDInvokerCls) references Cls (id),
+    ChngMnCMDCReceiver number,
+    ChngMnCMDCReceiverCls number,
+    constraint FChngMnCMDCReceiver foreign key (ChngMnCMDCReceiverCls) references Cls (id),
+    ChngMnCMDMyCmmnDt number,
+    ChngMnCMDMyCmmnDtCls number,
+    constraint FChngMnCMDMyCmmnDt foreign key (ChngMnCMDMyCmmnDtCls) references Cls (id)    
+);
+
+create sequence SCmmndExctr nocache;
+
+create table CmmndExctr(
+    id number primary key,
+    Cls number not null    
+);
+
+create sequence SMn nocache;
+
+create table Mn(
+    id number primary key,
+    Cls number not null,
+    MnAmnt number,
+    MnAmntCls number,
+    constraint FMnAmnt foreign key (MnAmntCls) references Cls (id),
+    MnCrrnc number,
+    MnCrrncCls number,
+    constraint FMnCrrnc foreign key (MnCrrncCls) references Cls (id),
+    MnSbSrvc number,
+    MnSbSrvcCls number,
+    constraint FMnSbSrvc foreign key (MnSbSrvcCls) references Cls (id),
+    MnThis number,
+    MnThisCls number,
+    constraint FMnThis foreign key (MnThisCls) references Cls (id)    
+);
+
+create sequence SBnk nocache;
+
+create table Bnk(
+    id number primary key,
+    Cls number not null,
+    BnkBnkNmbr number,
+    BnkNm varchar2(2000),
+    BnkLstAccNo number,
+    BnkFee number,
+    BnkFeeCls number,
+    constraint FBnkFee foreign key (BnkFeeCls) references Cls (id),
+    BnkIntrnlF number,
+    BnkIntrnlFCls number,
+    constraint FBnkIntrnlF foreign key (BnkIntrnlFCls) references Cls (id),
+    BnkOwnAccnt number,
+    BnkOwnAccntCls number,
+    constraint FBnkOwnAccnt foreign key (BnkOwnAccntCls) references Cls (id),
+    BnkAdmnstrtr number,
+    BnkAdmnstrtrCls number,
+    constraint FBnkAdmnstrtr foreign key (BnkAdmnstrtrCls) references Cls (id),
+    BnkSbSrvc number,
+    BnkSbSrvcCls number,
+    constraint FBnkSbSrvc foreign key (BnkSbSrvcCls) references Cls (id),
+    BnkThis number,
+    BnkThisCls number,
+    constraint FBnkThis foreign key (BnkThisCls) references Cls (id)    
+);
+create index IBnkNmbrBnk on Bnk (BnkBnkNmbr);
+create index INmBnk on Bnk (BnkNm);
+create index IAdmnstrtrBnk on Bnk (BnkAdmnstrtr, BnkAdmnstrtrCls);
+
+
+create sequence SDbtTrnSucc nocache;
+
+create table DbtTrnSucc(
+    id number primary key,
+    Cls number not null,
+    DbtTrnSuccSbSrvc number,
+    DbtTrnSuccSbSrvcCls number,
+    constraint FDbtTrnSuccSbSrvc foreign key (DbtTrnSuccSbSrvcCls) references Cls (id),
+    DbtTrnSuccThis number,
+    DbtTrnSuccThisCls number,
+    constraint FDbtTrnSuccThis foreign key (DbtTrnSuccThisCls) references Cls (id)    
+);
+
+create sequence SRl nocache;
+
+create table Rl(
+    id number primary key,
+    Cls number not null,
+    RlSbSrvc number,
+    RlSbSrvcCls number,
+    constraint FRlSbSrvc foreign key (RlSbSrvcCls) references Cls (id),
+    RlThis number,
+    RlThisCls number,
+    constraint FRlThis foreign key (RlThisCls) references Cls (id),
+    IncAccRuleAccntNmbr number,
+    IncAccRuleBnkNmbr number,
+    SbjctRlSbjct varchar2(2000),
+    MnRlCrrnc number,
+    MnRlCrrncCls number,
+    constraint FMnRlCrrnc foreign key (MnRlCrrncCls) references Cls (id),
+    MnRlLmtAccnt number,
+    MnRlLmtAccntCls number,
+    constraint FMnRlLmtAccnt foreign key (MnRlLmtAccntCls) references Cls (id)    
+>>>>>>> refs/remotes/origin/totobaa
 );
 
 create sequence SEvntWrppr nocache;
