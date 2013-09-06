@@ -542,6 +542,8 @@ public class Bank extends PersistentObject implements PersistentBank{
 					if (grant == null) {
 						throw new DebitNotGrantedException();
 					} else {
+//						System.out.println("liimts grant"+((Limit) grant.getLimits()).getMoney());
+						System.out.println("limits grant"+grant.getLimits());
 						grant.getLimits().checkLimit(debit.getMoney());
 					}
 				}

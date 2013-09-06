@@ -56,39 +56,27 @@ public class CreateAccountCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CreateAccountCommandId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            String currencyType = "";
-            Invoker invoker = null;
-            PersistentBank commandReceiver = null;
-            PersistentCommonDate myCommonDate = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10012: {
-                        currencyType = links.getString(6);
-                        if(currencyType == null)currencyType = "";
-                        break;
-                    }
-                    case 10013: {
-                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10014: {
-                        commandReceiver = (PersistentBank)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10015: {
-                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            CreateAccountCommand result = new CreateAccountCommand(currencyType, 
-                                                                   invoker, 
-                                                                   commandReceiver, 
-                                                                   myCommonDate, 
+            Invoker invoker = null;
+            if (obj.getLong(3) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
+            PersistentBank commandReceiver = null;
+            if (obj.getLong(5) != 0)
+                commandReceiver = (PersistentBank)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(7) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            CreateAccountCommand result = new CreateAccountCommand(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
+                                                                   invoker,
+                                                                   commandReceiver,
+                                                                   myCommonDate,
                                                                    CreateAccountCommandId);
-            links.close();
+            obj.close();
             callable.close();
             CreateAccountCommandICProxi inCache = (CreateAccountCommandICProxi)Cache.getTheCache().put(result);
             CreateAccountCommand objectInCache = (CreateAccountCommand)inCache.getTheObject();

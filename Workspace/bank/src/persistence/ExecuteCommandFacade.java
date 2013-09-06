@@ -55,38 +55,30 @@ public class ExecuteCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ExecuteCommandId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            Invoker invoker = null;
-            PersistentDebitTransferTransaction commandReceiver = null;
-            PersistentDebitTransferTransaction commandResult = null;
-            PersistentCommonDate myCommonDate = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10243: {
-                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10244: {
-                        commandReceiver = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10297: {
-                        commandResult = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10245: {
-                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            ExecuteCommand result = new ExecuteCommand(invoker, 
-                                                       commandReceiver, 
-                                                       commandResult, 
-                                                       myCommonDate, 
+            Invoker invoker = null;
+            if (obj.getLong(2) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentDebitTransferTransaction commandReceiver = null;
+            if (obj.getLong(4) != 0)
+                commandReceiver = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentDebitTransferTransaction commandResult = null;
+            if (obj.getLong(6) != 0)
+                commandResult = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(8) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            ExecuteCommand result = new ExecuteCommand(invoker,
+                                                       commandReceiver,
+                                                       commandResult,
+                                                       myCommonDate,
                                                        ExecuteCommandId);
-            links.close();
+            obj.close();
             callable.close();
             ExecuteCommandICProxi inCache = (ExecuteCommandICProxi)Cache.getTheCache().put(result);
             ExecuteCommand objectInCache = (ExecuteCommand)inCache.getTheObject();

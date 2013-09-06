@@ -56,33 +56,23 @@ public class SubjectRuleFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, SubjectRuleId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentRule This = null;
-            String subject = "";
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10307: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10308: {
-                        This = (PersistentRule)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10300: {
-                        subject = links.getString(6);
-                        if(subject == null)subject = "";
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            SubjectRule result = new SubjectRule(subService, 
-                                                 This, 
-                                                 subject, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentRule This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentRule)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            SubjectRule result = new SubjectRule(subService,
+                                                 This,
+                                                 obj.getString(6) == null ? "" : obj.getString(6) /* In Oracle "" = null !!! */,
                                                  SubjectRuleId);
-            links.close();
+            obj.close();
             callable.close();
             SubjectRuleICProxi inCache = (SubjectRuleICProxi)Cache.getTheCache().put(result);
             SubjectRule objectInCache = (SubjectRule)inCache.getTheObject();

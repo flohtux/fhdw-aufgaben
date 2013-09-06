@@ -253,7 +253,8 @@ public class Limit extends model.LimitType implements PersistentLimit{
     
     public void checkLimit(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
-		if (money.greaterOrEqual(getThis().getMoney()).isTrue()) {
+    	System.out.println("this money "+getThis().getMoney()+ " money "+money);
+		if (getThis().getMoney().greaterOrEqual(money).isTrue()) {
 			return;
 		} else {
 			throw new LimitViolatedException();
