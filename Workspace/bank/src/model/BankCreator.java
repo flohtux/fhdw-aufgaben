@@ -1,10 +1,33 @@
 
 package model;
 
-import common.Fraction;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.BankCreatorProxi;
+import persistence.ConnectionHandler;
+import persistence.Invoker;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAdministrator;
+import persistence.PersistentBank;
+import persistence.PersistentBankCreator;
+import persistence.PersistentBankService;
+import persistence.PersistentCreateBankCommand;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.PersistentServer;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
-import persistence.*;
-import model.visitor.*;
+import common.Fraction;
 
 
 /* Additional import section end */

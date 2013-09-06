@@ -1,10 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.meta.DebitTransferTransactionExecuteMssg;
-import model.meta.DebitTransferTransactionMssgsVisitor;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferSuccessfulProxi;
+import persistence.DebitTransferSuccessful_SuccessfulsProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransferSuccessful;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -236,7 +253,15 @@ public class DebitTransferSuccessful extends PersistentObject implements Persist
     
     public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-        getThis().getSuccessfuls().add(debitTransferTransaction);
+    	PersistentDebitTransferTransaction result = getThis().getSuccessfuls().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getSuccessfuls().add(debitTransferTransaction);
+    	}
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

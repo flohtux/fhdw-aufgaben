@@ -40,9 +40,6 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
-    public Account_DebitTransferTransactionsProxi getDebitTransferTransactions() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getDebitTransferTransactions();
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -96,8 +93,12 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber, invoker);
     }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
+				throws model.GrantAlreadyGivenException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit);
+    }
+    public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit, invoker);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
@@ -111,6 +112,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getBank();
     }
+    public PersistentAccountDebitTransferTransactions getDebitTransferTransactions() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).getDebitTransferTransactions();
+    }
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrant();
@@ -118,6 +123,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public PersistentDebitGrantListe getReceivedDebitGrant() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrant();
+    }
+    public PersistentTriggerListe getTriggerListe() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).getTriggerListe();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -127,6 +136,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).register(observee);
     }
+    public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).remove(acc, list);
+    }
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).setGrantedDebitGrant(grantedDebitGrant);
@@ -135,9 +148,21 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).setReceivedDebitGrant(receivedDebitGrant);
     }
+    public void setTriggerListe(final PersistentTriggerListe triggerListe) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).setTriggerListe(triggerListe);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
+    }
+    public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).addToTransactionTemplate(transaction, debitTransfer);
+    }
+    public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
@@ -160,7 +185,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
+				throws model.GrantAlreadyGivenException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).createDebitGrantImplementation(receiver, limit);
     }
     public PersistentDebit createDebit() 
@@ -179,6 +204,14 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();
     }
+    public PersistentTrigger createTrigger(final String name, final PersistentDebitTransferTransaction dtt) 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).createTrigger(name, dtt);
+    }
+    public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).debitTransferTransactions_update(event);
+    }
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).grantedDebitGrant_update(event);
@@ -194,6 +227,14 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).receivedDebitGrant_update(event);
+    }
+    public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);
+    }
+    public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).triggerListe_update(event);
     }
 
     

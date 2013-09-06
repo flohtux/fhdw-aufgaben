@@ -38,6 +38,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
     }
+    public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException{
+        this.standardHandling(debitTransferDoubleState);
+    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.standardHandling(executedState);
     }
@@ -62,6 +65,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException{
         this.standardHandling(accountServiceTemplate);
     }
+    public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
+        this.standardHandling(incomingAccountRule);
+    }
     public void handleAmount(PersistentAmount amount) throws PersistenceException{
         this.standardHandling(amount);
     }
@@ -83,23 +89,35 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
         this.standardHandling(transfer);
     }
-    public void handleServer(PersistentServer server) throws PersistenceException{
-        this.standardHandling(server);
-    }
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleServer(PersistentServer server) throws PersistenceException{
+        this.standardHandling(server);
     }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
     }
-    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
-        this.standardHandling(executeCommand);
+    public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
+        this.standardHandling(subjectRule);
+    }
+    public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException{
+        this.standardHandling(triggerListe);
+    }
+    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
+        this.standardHandling(disabledState);
     }
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException{
         this.standardHandling(administratorBanks);
     }
+    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
+        this.standardHandling(executeCommand);
+    }
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
+    }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.standardHandling(enabledState);
     }
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
@@ -125,6 +143,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException{
         this.standardHandling(debitGrantListe);
     }
+    public void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException{
+        this.standardHandling(accountTriggerListe);
+    }
     public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
         this.standardHandling(requestState);
     }
@@ -149,6 +170,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException{
         this.standardHandling(notExecutedState);
     }
+    public void handleTrigger(PersistentTrigger trigger) throws PersistenceException{
+        this.standardHandling(trigger);
+    }
     public void handleEuro(PersistentEuro euro) throws PersistenceException{
         this.standardHandling(euro);
     }
@@ -167,11 +191,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException{
         this.standardHandling(commandCoordinator);
     }
+    public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
+        this.standardHandling(accountDebitTransferTransactions);
+    }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
     }
     public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
         this.standardHandling(changeMoneyCommand);
+    }
+    public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
+        this.standardHandling(moneyRule);
     }
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException{
         this.standardHandling(commandExecuter);
@@ -187,6 +217,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException{
         this.standardHandling(debitTransferSuccessful);
+    }
+    public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException{
+        this.standardHandling(eventWrapper);
     }
     public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException{
         this.standardHandling(accountServiceNotExecuted);

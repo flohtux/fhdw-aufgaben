@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferTemplateProxi;
+import persistence.DebitTransferTemplate_TemplatesProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -234,7 +253,15 @@ public class DebitTransferTemplate extends PersistentObject implements Persisten
     
     public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-    	getThis().getTemplates().add(debitTransferTransaction);
+    	PersistentDebitTransferTransaction result = getThis().getTemplates().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getTemplates().add(debitTransferTransaction);
+    	}
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

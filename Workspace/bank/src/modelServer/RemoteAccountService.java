@@ -14,10 +14,65 @@ public  class RemoteAccountService extends RemoteService {
 
 	 
 
-    public synchronized java.util.HashMap<?,?> addToTransaction(String transactionProxiString, String debitTransferProxiString){
+    public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_AddToTransactionTemplate(){
+        try {
+            DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_AddToTransactionTemplate();
+            return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_AddToTransaction(){
+        try {
+            DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_AddToTransaction();
+            return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_RemoveFromTransaction(String transactionProxiString){
         try {
             PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
-            PersistentDebitTransfer debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
+            DebitTransferSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_RemoveFromTransaction(transaction);
+            return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> addToTransactionTemplate(String transactionProxiString, java.util.Vector<String> debitTransferTrnsprt){
+        try {
+            PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
+            DebitTransferSearchList debitTransfer = new DebitTransferSearchList();
+			java.util.Iterator<String> debitTransferItrtr = debitTransferTrnsprt.iterator();
+			while (debitTransferItrtr.hasNext()){
+				PersistentDebitTransfer currentProxi = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferItrtr.next()));
+				debitTransfer.add(currentProxi);
+			}
+            ((PersistentAccountService)this.server).addToTransactionTemplate(transaction, debitTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> addToTransaction(String transactionProxiString, java.util.Vector<String> debitTransferTrnsprt){
+        try {
+            PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
+            DebitTransferSearchList debitTransfer = new DebitTransferSearchList();
+			java.util.Iterator<String> debitTransferItrtr = debitTransferTrnsprt.iterator();
+			while (debitTransferItrtr.hasNext()){
+				PersistentDebitTransfer currentProxi = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferItrtr.next()));
+				debitTransfer.add(currentProxi);
+			}
             ((PersistentAccountService)this.server).addToTransaction(transaction, debitTransfer);
             return createOKResult();
         }catch(PersistenceException pe){
@@ -99,10 +154,12 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
-        }catch(model.InvalidBankNumberException e0){
+        }catch(model.GrantAlreadyGivenException e0){
             return createExceptionResult(e0, this);
-        }catch(model.InvalidAccountNumberException e1){
+        }catch(model.InvalidBankNumberException e1){
             return createExceptionResult(e1, this);
+        }catch(model.InvalidAccountNumberException e2){
+            return createExceptionResult(e2, this);
         }
     }
     
@@ -112,6 +169,18 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> createNewRule(String tProxiString, String type){
+        try {
+            PersistentTrigger t = (PersistentTrigger)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(tProxiString));
+            ((PersistentAccountService)this.server).createNewRule(t, type);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.DoubleRuleDefinitionException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -142,6 +211,36 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> createTrigger(String unimportantProxiString, String name, String type){
+        try {
+            PersistentTriggerListe unimportant = (PersistentTriggerListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(unimportantProxiString));
+            ((PersistentAccountService)this.server).createTrigger(unimportant, name, type);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> disable(String tProxiString){
+        try {
+            PersistentTrigger t = (PersistentTrigger)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(tProxiString));
+            ((PersistentAccountService)this.server).disable(t);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> enable(String tProxiString){
+        try {
+            PersistentTrigger t = (PersistentTrigger)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(tProxiString));
+            ((PersistentAccountService)this.server).enable(t);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> executeTransfer(String debitTransferProxiString){
         try {
             PersistentDebitTransferTransaction debitTransfer = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferProxiString));
@@ -153,6 +252,32 @@ public  class RemoteAccountService extends RemoteService {
             return createExceptionResult(e0, this);
         }catch(model.ExecuteException e1){
             return createExceptionResult(e1, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> removeFromTransaction(String transactionProxiString, java.util.Vector<String> debitTransferTrnsprt){
+        try {
+            PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
+            DebitTransferSearchList debitTransfer = new DebitTransferSearchList();
+			java.util.Iterator<String> debitTransferItrtr = debitTransferTrnsprt.iterator();
+			while (debitTransferItrtr.hasNext()){
+				PersistentDebitTransfer currentProxi = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitTransferItrtr.next()));
+				debitTransfer.add(currentProxi);
+			}
+            ((PersistentAccountService)this.server).removeFromTransaction(transaction, debitTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> remove(String grantProxiString){
+        try {
+            PersistentDebitGrant grant = (PersistentDebitGrant)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(grantProxiString));
+            ((PersistentAccountService)this.server).remove(grant);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
         }
     }
     

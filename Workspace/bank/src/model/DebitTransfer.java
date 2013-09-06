@@ -1,11 +1,22 @@
 
 package model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentCurrency;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentMoney;
+import persistence.PersistentProxi;
+import persistence.PersistentStornoState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
-import model.visitor.DebitTransferStateExceptionVisitor;
-import persistence.*;
+import common.Fraction;
 
 
 /* Additional import section end */
@@ -28,7 +39,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
                     if(forGUI && money.hasEssentialFields())money.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            result.put("subject", this.getSubject());
             AbstractPersistentRoot stornoState = (AbstractPersistentRoot)this.getStornoState();
             if (stornoState != null) {
                 result.put("stornoState", stornoState.createProxiInformation(false, essentialLevel == 0));
@@ -52,16 +62,14 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
     protected PersistentMoney money;
-    protected String subject;
     protected PersistentStornoState stornoState;
     
-    public DebitTransfer(java.sql.Timestamp timestamp,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,String subject,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public DebitTransfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.money = money;
-        this.subject = subject;
         this.stornoState = stornoState;        
     }
     
@@ -115,14 +123,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.moneySet(this.getId(), newValue);
         }
     }
-    public String getSubject() throws PersistenceException {
-        return this.subject;
-    }
-    public void setSubject(String newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.subjectSet(this.getId(), newValue);
-        this.subject = newValue;
-    }
     public PersistentStornoState getStornoState() throws PersistenceException {
         return this.stornoState;
     }
@@ -141,6 +141,34 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     
     
+    public void changeCurrency(final PersistentCurrency currency) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeCurrencyCurrencyMssg event = new model.meta.DebitTransferChangeCurrencyCurrencyMssg(currency, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeMoney(final common.Fraction newAmount) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeMoneyFractionMssg event = new model.meta.DebitTransferChangeMoneyFractionMssg(newAmount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeReceiverAccount(final long receiverAccountNumber) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeReceiverAccountIntegerMssg event = new model.meta.DebitTransferChangeReceiverAccountIntegerMssg(receiverAccountNumber, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeReceiverBank(final long receiverBankNumber) 
+				throws PersistenceException{
+        model.meta.DebitTransferChangeReceiverBankIntegerMssg event = new model.meta.DebitTransferChangeReceiverBankIntegerMssg(receiverBankNumber, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentDebitTransfer)This);
@@ -170,9 +198,23 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     // Start of section that contains overridden operations only.
     
-
     /* Start of protected part that is not overridden by persistence generator */
-
+    
+    public void changeCurrencyImplementation(final PersistentCurrency currency) 
+				throws PersistenceException{
+		getThis().getMoney().setCurrency(currency);
+	}
+    public void changeReceiverAccountImplementation(final long receiverAccountNumber) 
+				throws PersistenceException{
+		getThis().setReceiverAccountNumber(receiverAccountNumber);
+	}
+    public void changeReceiverBankImplementation(final long receiverBankNumber) 
+				throws PersistenceException{
+		getThis().setReceiverBankNumber(receiverBankNumber);
+	}
+    public void changeMoneyImplementation(Fraction newAmount) throws PersistenceException {
+    	getThis().getMoney().getAmount().setBalance(newAmount);
+}
     /* End of protected part that is not overridden by persistence generator */
     
 }

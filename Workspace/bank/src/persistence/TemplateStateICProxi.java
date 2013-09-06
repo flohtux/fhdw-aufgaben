@@ -108,6 +108,10 @@ public class TemplateStateICProxi extends DebitTransferStateICProxi implements P
 				throws PersistenceException{
         return ((PersistentTemplateState)this.getTheObject()).isExecutable();
     }
+    public PersistentBooleanValue isTransaction() 
+				throws PersistenceException{
+        return ((PersistentTemplateState)this.getTheObject()).isTransaction();
+    }
     public void removeDebitTransferFromList() 
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).removeDebitTransferFromList();

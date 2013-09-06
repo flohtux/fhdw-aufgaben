@@ -13,6 +13,7 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements T
     
     public TransactionView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
+        String subject = (String)resultTable.get("subject");
         ViewProxi sender = null;
         String sender$String = (String)resultTable.get("sender");
         if (sender$String != null) {
@@ -34,7 +35,7 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements T
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        TransactionView result$$ = new Transaction((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,(DebitTransferListeView)debitTransfer, this.getId(), this.getClassId());
+        TransactionView result$$ = new Transaction((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(DebitTransferListeView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

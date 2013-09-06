@@ -24,7 +24,7 @@ public class AccountServiceFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            AccountService result = new AccountService(null,null,null,null,null,null,id);
+            AccountService result = new AccountService(null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountServiceProxi)PersistentProxi.createProxi(id, -130);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class AccountServiceFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            AccountService result = new AccountService(null,null,null,null,null,null,id);
+            AccountService result = new AccountService(null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountServiceProxi)PersistentProxi.createProxi(id, -130);
         }catch(SQLException se) {
@@ -70,18 +70,22 @@ public class AccountServiceFacade{
             PersistentAccount account = null;
             if (obj.getLong(6) != 0)
                 account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentAccountServiceSuccessful successful = null;
+            PersistentEventWrapper eventhandle = null;
             if (obj.getLong(8) != 0)
-                successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            PersistentAccountServiceNotExecuted notExecuted = null;
+                eventhandle = (PersistentEventWrapper)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentAccountServiceSuccessful successful = null;
             if (obj.getLong(10) != 0)
-                notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            PersistentAccountServiceTemplate template = null;
+                successful = (PersistentAccountServiceSuccessful)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            PersistentAccountServiceNotExecuted notExecuted = null;
             if (obj.getLong(12) != 0)
-                template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
+                notExecuted = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
+            PersistentAccountServiceTemplate template = null;
+            if (obj.getLong(14) != 0)
+                template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
             AccountService result = new AccountService(subService,
                                                        This,
                                                        account,
+                                                       eventhandle,
                                                        successful,
                                                        notExecuted,
                                                        template,
@@ -103,6 +107,19 @@ public class AccountServiceFacade{
             callable.setLong(1, AccountServiceId);
             callable.setLong(2, accountVal.getId());
             callable.setLong(3, accountVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void eventhandleSet(long AccountServiceId, PersistentEventWrapper eventhandleVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.evnthndlSet(?, ?, ?); end;");
+            callable.setLong(1, AccountServiceId);
+            callable.setLong(2, eventhandleVal.getId());
+            callable.setLong(3, eventhandleVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
@@ -152,6 +169,27 @@ public class AccountServiceFacade{
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntSrvcFacade.iGetAccnt(?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, objectId);
+            callable.setLong(3, classId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            AccountServiceSearchList result = new AccountServiceSearchList();
+            while (list.next()) {
+                if (list.getLong(3) != 0) result.add((PersistentAccountService)PersistentProxi.createProxi(list.getLong(3), list.getLong(4)));
+                else result.add((PersistentAccountService)PersistentProxi.createProxi(list.getLong(1), list.getLong(2)));
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public AccountServiceSearchList inverseGetEventhandle(long objectId, long classId)throws PersistenceException{
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AccntSrvcFacade.iGetEvnthndl(?, ?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, objectId);
             callable.setLong(3, classId);

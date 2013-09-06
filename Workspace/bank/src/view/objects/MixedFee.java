@@ -1,8 +1,20 @@
 
 package view.objects;
 
-import view.*;
-import view.visitor.*;
+import view.FixTransactionFeeView;
+import view.MixedFeeView;
+import view.ModelException;
+import view.MoneyView;
+import view.ProcentualFeeView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.TransactionFeeExceptionVisitor;
+import view.visitor.TransactionFeeReturnExceptionVisitor;
+import view.visitor.TransactionFeeReturnVisitor;
+import view.visitor.TransactionFeeVisitor;
 
 
 /* Additional import section end */

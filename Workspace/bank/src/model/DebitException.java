@@ -1,8 +1,12 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.DebitExceptionExceptionVisitor;
+import model.visitor.DebitExceptionReturnExceptionVisitor;
+import model.visitor.DebitExceptionReturnVisitor;
+import model.visitor.DebitExceptionVisitor;
+import persistence.PersistenceException;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

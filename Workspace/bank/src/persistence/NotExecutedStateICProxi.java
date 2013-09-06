@@ -108,6 +108,10 @@ public class NotExecutedStateICProxi extends DebitTransferStateICProxi implement
 				throws PersistenceException{
         return ((PersistentNotExecutedState)this.getTheObject()).isExecutable();
     }
+    public PersistentBooleanValue isTransaction() 
+				throws PersistenceException{
+        return ((PersistentNotExecutedState)this.getTheObject()).isTransaction();
+    }
     public void removeDebitTransferFromList() 
 				throws PersistenceException{
         ((PersistentNotExecutedState)this.getTheObject()).removeDebitTransferFromList();

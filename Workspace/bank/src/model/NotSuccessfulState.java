@@ -1,53 +1,71 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateExceptionVisitor;
+import model.visitor.DebitTransferStateReturnExceptionVisitor;
+import model.visitor.DebitTransferStateReturnVisitor;
+import model.visitor.DebitTransferStateVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.NotSuccessfulStateProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebitTransferState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
 
 public class NotSuccessfulState extends model.DebitTransferState implements PersistentNotSuccessfulState{
     
-    private static PersistentNotSuccessfulState theNotSuccessfulState = null;
-    public static boolean reset$For$Test = false;
-    private static final Object $$lock = new Object();
-    public static PersistentNotSuccessfulState getTheNotSuccessfulState() throws PersistenceException{
-        if (theNotSuccessfulState == null || reset$For$Test){
-            class Initializer implements Runnable {
-                PersistenceException exception = null;
-                public void run(){
-                    try {
-                        NotSuccessfulStateProxi proxi = null;
-                        synchronized ($$lock){
-                            proxi = ConnectionHandler.getTheConnectionHandler().theNotSuccessfulStateFacade.getTheNotSuccessfulState();
-                            theNotSuccessfulState = proxi;
-                        }
-                        if(proxi.getId() < 0) {
-                            proxi.setId(proxi.getId() * -1);
-                            proxi.initialize(proxi, new java.util.HashMap<String,Object>());
-                            proxi.initializeOnCreation();
-                        }
-                    } catch (PersistenceException e){
-                        exception = e;
-                    }
-                    synchronized ($$lock){$$lock.notify();}
-                }
-                PersistentNotSuccessfulState getResult() throws PersistenceException{
-                    if(exception != null) throw exception;
-                    return theNotSuccessfulState;
-                }
-            }
-            synchronized ($$lock) {
-                reset$For$Test = false;
-                Initializer initializer = new Initializer();
-                new Thread(initializer).start();
-                try {$$lock.wait();}catch (InterruptedException e) {} //Need not to be interrupted
-                return initializer.getResult();
-            }
-        }
-        return theNotSuccessfulState;
+    
+    public static PersistentNotSuccessfulState createNotSuccessfulState() throws PersistenceException{
+        return createNotSuccessfulState(false);
     }
+    
+    public static PersistentNotSuccessfulState createNotSuccessfulState(boolean delayed$Persistence) throws PersistenceException {
+        PersistentNotSuccessfulState result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theNotSuccessfulStateFacade
+                .newDelayedNotSuccessfulState();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theNotSuccessfulStateFacade
+                .newNotSuccessfulState(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(result, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
+    public static PersistentNotSuccessfulState createNotSuccessfulState(boolean delayed$Persistence,PersistentNotSuccessfulState This) throws PersistenceException {
+        PersistentNotSuccessfulState result = null;
+        if(delayed$Persistence){
+            result = ConnectionHandler.getTheConnectionHandler().theNotSuccessfulStateFacade
+                .newDelayedNotSuccessfulState();
+            result.setDelayed$Persistence(true);
+        }else{
+            result = ConnectionHandler.getTheConnectionHandler().theNotSuccessfulStateFacade
+                .newNotSuccessfulState(-1);
+        }
+        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        result.initialize(This, final$$Fields);
+        result.initializeOnCreation();
+        return result;
+    }
+    
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
@@ -85,7 +103,11 @@ public class NotSuccessfulState extends model.DebitTransferState implements Pers
     }
     
     public void store() throws PersistenceException {
-        // Singletons cannot be delayed!
+        if(!this.isDelayed$Persistence()) return;
+        if (this.getClassId() == 142) ConnectionHandler.getTheConnectionHandler().theNotSuccessfulStateFacade
+            .newNotSuccessfulState(this.getId());
+        super.store();
+        
     }
     
     public PersistentNotSuccessfulState getThis() throws PersistenceException {

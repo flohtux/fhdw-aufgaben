@@ -1,8 +1,67 @@
 package model;
 
+import static serverConstants.ToStringConstants.MaxLimitPrefix;
+import static serverConstants.ToStringConstants.MinLimitPrefix;
+import static serverConstants.ToStringConstants.MinMaxLimitDelimiter;
+import static serverConstants.ToStringConstants.NoLimitType;
+import static serverConstants.ToStringConstants.PercentSign;
+import persistence.Anything;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAccountPx;
+import persistence.PersistentAccountService;
+import persistence.PersistentAdministrator;
+import persistence.PersistentAmount;
+import persistence.PersistentBank;
+import persistence.PersistentBankCreator;
+import persistence.PersistentBankService;
+import persistence.PersistentCurrencyManager;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitGrant;
+import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitTransferDoubleState;
+import persistence.PersistentDebitTransferListe;
+import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferSuccessful;
+import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDisabledState;
+import persistence.PersistentDollar;
+import persistence.PersistentEnabledState;
+import persistence.PersistentEuro;
+import persistence.PersistentEventWrapper;
+import persistence.PersistentExecutedState;
+import persistence.PersistentFalseValue;
+import persistence.PersistentFixTransactionFee;
+import persistence.PersistentFranken;
+import persistence.PersistentIncomingAccountRule;
+import persistence.PersistentInternalFee;
+import persistence.PersistentLimit;
+import persistence.PersistentLimitAccount;
+import persistence.PersistentMixedFee;
+import persistence.PersistentMoney;
+import persistence.PersistentMoneyRule;
+import persistence.PersistentNoLimit;
+import persistence.PersistentNoRequestState;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
+import persistence.PersistentNotSuccessfulStornoState;
+import persistence.PersistentPercent;
+import persistence.PersistentPfund;
+import persistence.PersistentProcentualFee;
+import persistence.PersistentRequestState;
+import persistence.PersistentServer;
+import persistence.PersistentSubjectRule;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentSuccessfulStornoState;
+import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
+import persistence.PersistentTrigger;
+import persistence.PersistentTriggerListe;
+import persistence.PersistentTrueValue;
+import persistence.PersistentYen;
 import common.Fraction;
-import static serverConstants.ToStringConstants.*;
-import persistence.*;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
 
@@ -179,7 +238,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+		this.result = "Überweisung: "+transfer.getSubject()+" ("+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber()+")";
 	}
 	@Override
 	public void handleSuccessfulStornoState(
@@ -267,6 +326,54 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			PersistentDebitTransferListe debitTransferListe)
 			throws PersistenceException {
 		this.result = "";		
+	}
+	@Override
+	public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException {
+		this.result = "No View";
+	}
+	@Override
+	public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException {
+		this.result = "No View";
+	}
+	@Override
+	public void handleIncomingAccountRule(
+			PersistentIncomingAccountRule incomingAccountRule)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleSubjectRule(PersistentSubjectRule subjectRule)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTrigger(PersistentTrigger trigger)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleMoneyRule(PersistentMoneyRule moneyRule)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {
+		result = "Folgebuchungen";
+		
+	}
+	@Override
+	public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -1,10 +1,54 @@
 
 package model;
 
-import common.Fraction;
-import persistence.*;
 import model.meta.StringFACTORY;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferExceptionVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import model.visitor.TransactionFeeReturnExceptionVisitor;
+import persistence.AbstractPersistentRoot;
+import persistence.Anything;
+import persistence.BankProxi;
+import persistence.BankSearchList;
+import persistence.Bank_AccountsProxi;
+import persistence.Bank_CurrentAccountsProxi;
+import persistence.ConnectionHandler;
+import persistence.Invoker;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccount;
+import persistence.PersistentAccountService;
+import persistence.PersistentAdministrator;
+import persistence.PersistentBank;
+import persistence.PersistentBankService;
+import persistence.PersistentChangeNameCommand;
+import persistence.PersistentCreateAccountCommand;
+import persistence.PersistentCurrency;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitGrant;
+import persistence.PersistentDebitTransfer;
+import persistence.PersistentFixTransactionFee;
+import persistence.PersistentInternalFee;
+import persistence.PersistentMixedFee;
+import persistence.PersistentMoney;
+import persistence.PersistentObject;
+import persistence.PersistentPercent;
+import persistence.PersistentProcentualFee;
+import persistence.PersistentProxi;
+import persistence.PersistentServer;
+import persistence.PersistentTransactionFee;
+import persistence.PersistentTransfer;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
+
+import common.Fraction;
 
 
 /* Additional import section end */
@@ -498,18 +542,18 @@ public class Bank extends PersistentObject implements PersistentBank{
 					if (grant == null) {
 						throw new DebitNotGrantedException();
 					} else {
+//						System.out.println("liimts grant"+((Limit) grant.getLimits()).getMoney());
+						System.out.println("limits grant"+grant.getLimits());
 						grant.getLimits().checkLimit(debit.getMoney());
 					}
 				}
 			});
         	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
-        	 debitTransfer.getState().changeState(SuccessfulState.getTheSuccessfulState());
+        	 debitTransfer.changeState(SuccessfulState.createSuccessfulState());
         	 
-//        	debitTransfer.setState(SuccessfulState.getTheSuccessfulState());
         	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
-            acc.getDebitTransferTransactions().add(debitTransfer);
-            System.out.println("newState"+debitTransfer.getState());
-            acc.getAccountService().getSuccessful().getSuccessfuls().add(debitTransfer);
+        	acc.getDebitTransferTransactions().add(debitTransfer);
+//            acc.getAccountService().getSuccessful().getSuccessfuls().add(debitTransfer);
         }
         
         
@@ -528,22 +572,27 @@ public class Bank extends PersistentObject implements PersistentBank{
     	}
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws model.DebitException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
+				throws model.ExecuteException, PersistenceException{
     	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
 			@Override
 			public boolean test(PersistentBank argument) throws PersistenceException {
 				return argument.getBankNumber() == debitTransfer.getReceiverBankNumber();
 			}
 		});
-    	if (result == null) {
-    		throw new InvalidBankNumberException(debitTransfer.getReceiverBankNumber());
-    	} else {
-    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
-    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
-    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
-    		debitTransfer.getSender().setMoney(newAccountMoney);
-			getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
-			result.receiveTransfer(debitTransfer);
+    	try {
+	    	if (result == null) {
+	    		throw new InvalidBankNumberException(debitTransfer.getReceiverBankNumber());
+	    	} else {
+	    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
+	    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
+	    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
+	    		debitTransfer.getSender().setMoney(newAccountMoney);
+				getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
+				result.receiveTransfer(debitTransfer);
+	    	}
+    	} catch (ExecuteException e) {
+    		debitTransfer.changeState(NotExecutedState.createNotExecutedState());
+    		throw e;
     	}
     }
     

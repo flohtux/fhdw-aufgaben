@@ -1,3 +1,7 @@
+/**
+ * TODOS unter https://notes.selent.me/p/TODO_IIS
+ */
+
 package test;
 
 import static org.junit.Assert.assertEquals;
@@ -35,6 +39,7 @@ import persistence.PersistentFixTransactionFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
 import persistence.PersistentProcentualFee;
+import persistence.PersistentSuccessfulState;
 import persistence.PersistentTransfer;
 import common.Fraction;
 
@@ -84,7 +89,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
-		assertEquals(SuccessfulState.getTheSuccessfulState(), newTrans.getState());
+		assertEquals(SuccessfulState.createSuccessfulState(), newTrans.getState());
 
 	}
 
@@ -107,7 +112,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
-		assertEquals(SuccessfulState.getTheSuccessfulState(), newTrans.getState());
+		assertTrue(newTrans.getState() instanceof PersistentSuccessfulState);
 
 	}
 

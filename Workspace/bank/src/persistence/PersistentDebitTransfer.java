@@ -12,8 +12,6 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public void setReceiverBankNumber(long newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
-    public String getSubject() throws PersistenceException ;
-    public void setSubject(String newValue) throws PersistenceException ;
     public PersistentStornoState getStornoState() throws PersistenceException ;
     public void setStornoState(PersistentStornoState newValue) throws PersistenceException ;
     public abstract PersistentDebitTransfer getThis() throws PersistenceException ;
@@ -23,7 +21,23 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public <E extends UserException>  void accept(DebitTransferExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(DebitTransferReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeCurrency(final PersistentCurrency currency) 
+				throws PersistenceException;
+    public void changeMoney(final common.Fraction newAmount) 
+				throws PersistenceException;
+    public void changeReceiverAccount(final long receiverAccountNumber) 
+				throws PersistenceException;
+    public void changeReceiverBank(final long receiverBankNumber) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeCurrencyImplementation(final PersistentCurrency currency) 
+				throws PersistenceException;
+    public void changeMoneyImplementation(final common.Fraction newAmount) 
+				throws PersistenceException;
+    public void changeReceiverAccountImplementation(final long receiverAccountNumber) 
+				throws PersistenceException;
+    public void changeReceiverBankImplementation(final long receiverBankNumber) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

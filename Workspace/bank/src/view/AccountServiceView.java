@@ -8,6 +8,8 @@ public interface AccountServiceView extends ServiceView {
     
     public AccountView getAccount()throws ModelException;
     public void setAccount(AccountView newValue) throws ModelException ;
+    public EventWrapperView getEventhandle()throws ModelException;
+    public void setEventhandle(EventWrapperView newValue) throws ModelException ;
     public DebitTransferSuccessfulView getSuccessful()throws ModelException;
     public void setSuccessful(DebitTransferSuccessfulView newValue) throws ModelException ;
     public DebitTransferNotExecutedView getNotExecuted()throws ModelException;

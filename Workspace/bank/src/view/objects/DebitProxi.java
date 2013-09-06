@@ -13,6 +13,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
     
     public DebitView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
+        String subject = (String)resultTable.get("subject");
         ViewProxi sender = null;
         String sender$String = (String)resultTable.get("sender");
         if (sender$String != null) {
@@ -36,7 +37,6 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             money = view.objects.ViewProxi.createProxi(money$Info,connectionKey);
             money.setToString(money$Info.getToString());
         }
-        String subject = (String)resultTable.get("subject");
         ViewProxi stornoState = null;
         String stornoState$String = (String)resultTable.get("stornoState");
         if (stornoState$String != null) {
@@ -44,7 +44,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        DebitView result$$ = new Debit((java.util.Date)timestamp,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(String)subject,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

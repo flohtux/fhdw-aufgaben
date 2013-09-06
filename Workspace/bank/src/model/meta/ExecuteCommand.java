@@ -39,15 +39,17 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     }
     protected Invoker invoker;
     protected PersistentDebitTransferTransaction commandReceiver;
+    protected PersistentDebitTransferTransaction commandResult;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public ExecuteCommand(Invoker invoker,PersistentDebitTransferTransaction commandReceiver,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public ExecuteCommand(Invoker invoker,PersistentDebitTransferTransaction commandReceiver,PersistentDebitTransferTransaction commandResult,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
+        this.commandResult = commandResult;
         this.myCommonDate = myCommonDate;        
     }
     
@@ -71,6 +73,10 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
         if(this.getCommandReceiver() != null){
             this.getCommandReceiver().store();
             ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.commandReceiverSet(this.getId(), getCommandReceiver());
+        }
+        if(this.getCommandResult() != null){
+            this.getCommandResult().store();
+            ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.commandResultSet(this.getId(), getCommandResult());
         }
         if(this.getMyCommonDate() != null){
             this.getMyCommonDate().store();
@@ -105,6 +111,20 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.commandReceiverSet(this.getId(), newValue);
+        }
+    }
+    public PersistentDebitTransferTransaction getCommandResult() throws PersistenceException {
+        return this.commandResult;
+    }
+    public void setCommandResult(PersistentDebitTransferTransaction newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.commandResult)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.commandResult = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.commandResultSet(this.getId(), newValue);
         }
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -188,6 +208,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getCommandReceiver() != null) return 1;
+        if (this.getCommandResult() != null) return 1;
         return 0;
     }
     
@@ -203,7 +224,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     public void execute() 
 				throws PersistenceException{
         try{
-			this.getCommandReceiver().execute();
+			this.setCommandResult(this.getCommandReceiver().execute());
 		}
 		catch(model.ExecuteException e){
 			this.commandException = e;

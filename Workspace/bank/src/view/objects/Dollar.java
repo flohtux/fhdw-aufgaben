@@ -1,8 +1,17 @@
 
 package view.objects;
 
-import view.*;
-import view.visitor.*;
+import view.DollarView;
+import view.ModelException;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.CurrencyExceptionVisitor;
+import view.visitor.CurrencyReturnExceptionVisitor;
+import view.visitor.CurrencyReturnVisitor;
+import view.visitor.CurrencyVisitor;
 
 
 /* Additional import section end */

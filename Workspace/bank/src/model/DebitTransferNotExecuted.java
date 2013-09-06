@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitTransferNotExecutedProxi;
+import persistence.DebitTransferNotExecuted_NotExecutedsProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -234,7 +253,15 @@ public class DebitTransferNotExecuted extends PersistentObject implements Persis
     
     public void addImplementation(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-        getThis().getNotExecuteds().add(debitTransferTransaction);
+    	PersistentDebitTransferTransaction result = getThis().getNotExecuteds().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+    	if(result == null) {
+    		getThis().getNotExecuteds().add(debitTransferTransaction);
+    	}
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

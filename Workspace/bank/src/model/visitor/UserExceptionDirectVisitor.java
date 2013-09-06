@@ -6,6 +6,8 @@ import persistence.*;
 
 public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor {
     
+    public abstract void handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException;
+    
     public abstract void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException;
     
     public abstract void handleCycleException(model.CycleException cycleException) throws PersistenceException;
@@ -14,7 +16,11 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
     
+    public abstract void handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException;
+    
     public abstract void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;
+    
+    public abstract void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException;
     
     public abstract void handleExecuteException(model.ExecuteException executeException) throws PersistenceException;
     

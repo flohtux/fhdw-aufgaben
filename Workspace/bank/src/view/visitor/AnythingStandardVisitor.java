@@ -23,6 +23,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException{
         this.standardHandling(internalFee);
     }
+    public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException{
+        this.standardHandling(debitTransferDoubleState);
+    }
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.standardHandling(executedState);
     }
@@ -37,6 +40,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
         this.standardHandling(successfulState);
+    }
+    public void handleIncomingAccountRule(IncomingAccountRuleView incomingAccountRule) throws ModelException{
+        this.standardHandling(incomingAccountRule);
     }
     public void handleAmount(AmountView amount) throws ModelException{
         this.standardHandling(amount);
@@ -56,14 +62,26 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTransfer(TransferView transfer) throws ModelException{
         this.standardHandling(transfer);
     }
-    public void handleServer(ServerView server) throws ModelException{
-        this.standardHandling(server);
-    }
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException{
         this.standardHandling(debitTransferTemplate);
     }
+    public void handleServer(ServerView server) throws ModelException{
+        this.standardHandling(server);
+    }
+    public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
+        this.standardHandling(subjectRule);
+    }
+    public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
+        this.standardHandling(triggerListe);
+    }
+    public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
+        this.standardHandling(disabledState);
+    }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
+    }
+    public void handleEnabledState(EnabledStateView enabledState) throws ModelException{
+        this.standardHandling(enabledState);
     }
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException{
         this.standardHandling(limitAccount);
@@ -101,6 +119,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException{
         this.standardHandling(notExecutedState);
     }
+    public void handleTrigger(TriggerView trigger) throws ModelException{
+        this.standardHandling(trigger);
+    }
     public void handleEuro(EuroView euro) throws ModelException{
         this.standardHandling(euro);
     }
@@ -116,6 +137,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);
     }
+    public void handleMoneyRule(MoneyRuleView moneyRule) throws ModelException{
+        this.standardHandling(moneyRule);
+    }
     public void handleTransaction(TransactionView transaction) throws ModelException{
         this.standardHandling(transaction);
     }
@@ -127,6 +151,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException{
         this.standardHandling(debitTransferSuccessful);
+    }
+    public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException{
+        this.standardHandling(eventWrapper);
     }
     public void handlePfund(PfundView pfund) throws ModelException{
         this.standardHandling(pfund);

@@ -52,18 +52,6 @@ public class DebitTransferFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void subjectSet(long DebitTransferId, String subjectVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtTrnsfrFacade.sbjctSet(?, ?); end;");
-            callable.setLong(1, DebitTransferId);
-            callable.setString(2, subjectVal);
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
     public void stornoStateSet(long DebitTransferId, PersistentStornoState stornoStateVal) throws PersistenceException {
         try{
             CallableStatement callable;

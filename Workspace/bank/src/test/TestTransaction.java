@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountService;
@@ -73,8 +74,10 @@ public class TestTransaction{
 		newTrans2.setReceiverBankNumber(bank.getBankNumber());
 		
 		PersistentTransaction newTrans = acc1.createTransaction();
-		newTrans.addToTransaction(newTrans1);
-		newTrans.addToTransaction(newTrans2);
+		DebitTransferSearchList trans = new DebitTransferSearchList();
+		trans.add(newTrans1);
+		trans.add(newTrans2);
+		newTrans.addToTransaction(trans);
 		newTrans.execute();
 
 		assertEquals(new Fraction(20, 1), acc2.getMoney().getAmount().getBalance());
@@ -95,33 +98,28 @@ public class TestTransaction{
 
 		PersistentAccount acc1 = bank.getAccounts().get(FirstAccountNumber);
 		PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
-//		PersistentAccountService accServ1 = AccountService.createAccountService(acc1);
-//		PersistentAccountService accServ2 = AccountService.createAccountService(acc2);
 		
-		acc1.getAccountService().createTransfer();
-		PersistentTransfer newTrans1 = (PersistentTransfer) acc1.getDebitTransferTransactions().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
-
-			@Override
-			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
-				// TODO Auto-generated method stub
-				return true;
-			}
-		});
+		
+		PersistentTransfer newTrans1 = acc1.createTransfer();
 		newTrans1.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans1.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans1.setReceiverBankNumber(bank.getBankNumber());
-//		PersistentTransfer newTrans2 = acc1.createTransfer();
-//		newTrans2.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
-//		newTrans2.setReceiverAccountNumber(SecondAccountNumber);
-//		newTrans2.setReceiverBankNumber(42);
-		
+		PersistentTransfer newTrans2 = acc1.createTransfer();
+		newTrans2.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
+		newTrans2.setReceiverAccountNumber(SecondAccountNumber);
+		newTrans2.setReceiverBankNumber(42);
+		 
 		PersistentTransaction newTrans = acc1.createTransaction();
-		newTrans.addToTransaction(newTrans1);
-//		newTrans.addToTransaction(newTrans2);
+		DebitTransferSearchList transList = new DebitTransferSearchList();
+		transList.add(newTrans1);
+		transList.add(newTrans2);
+		newTrans.addToTransaction(transList);
+		try {
+		newTrans.execute();
+		}catch(InvalidBankNumberException e) {
+			assertTrue(true);
+		}
 		
-		acc1.getAccountService().executeTransfer(newTrans);
-		
-
 		assertEquals(new Fraction(0, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(0, 1), acc1.getMoney().getAmount().getBalance());
 		System.out.println(acc1.getAccountService().getErrors());

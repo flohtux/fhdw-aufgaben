@@ -1,9 +1,29 @@
 
 package model;
 
-import persistence.*;
-import model.meta.DebitGrantMssgsVisitor;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.DebitGrantListeProxi;
+import persistence.DebitGrantListe_DebitGrantsProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentAccountPx;
+import persistence.PersistentDebitGrant;
+import persistence.PersistentDebitGrantListe;
+import persistence.PersistentLimitType;
+import persistence.PersistentObject;
+import persistence.PersistentProxi;
+import persistence.Predcate;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */
@@ -183,7 +203,7 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
     
     
     public void createDebitGrant(final PersistentAccountPx receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
+				throws model.GrantAlreadyGivenException, PersistenceException{
         model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event = new model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(receiver, limit, getThis());
 		event.execute();
 		getThis().updateObservers(event);
@@ -213,6 +233,13 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
 		}
 		subService.register(observee);
     }
+    public void remove(final PersistentAccountPx acc) 
+				throws PersistenceException{
+        model.meta.DebitGrantListeRemoveAccountPxMssg event = new model.meta.DebitGrantListeRemoveAccountPxMssg(acc, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -226,13 +253,27 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
     
     // Start of section that contains operations that must be implemented.
     
+    public void checkGrantGiven(final PersistentAccountPx acc) 
+				throws model.GrantAlreadyGivenException, PersistenceException{
+    	PersistentDebitGrant result = getThis().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
+			@Override
+			public boolean test(PersistentDebitGrant argument)
+					throws PersistenceException {
+				return argument.getPermittedAccount().getAccount().equals(acc.getAccount());
+			}
+		});
+    	if(result != null) {
+    		throw new GrantAlreadyGivenException();
+    	}
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         
     }
     public void createDebitGrantImplementation(final PersistentAccountPx receiver, final PersistentLimitType limit) 
-				throws PersistenceException{
-        PersistentDebitGrant debitGrant = DebitGrant.createDebitGrant(receiver, limit);
+				throws model.GrantAlreadyGivenException, PersistenceException{
+        getThis().checkGrantGiven(receiver);
+    	PersistentDebitGrant debitGrant = DebitGrant.createDebitGrant(receiver, limit);
         getThis().getDebitGrants().add(debitGrant);
     }
     public void initializeOnCreation() 
@@ -240,6 +281,16 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public void removeImplementation(final PersistentAccountPx acc) 
+				throws PersistenceException{
+        getThis().getDebitGrants().removeFirstSuccess(new Predcate<PersistentDebitGrant>() {
+			@Override
+			public boolean test(PersistentDebitGrant argument)
+					throws PersistenceException {
+				return argument.getPermittedAccount().getAccount().equals(acc.getAccount());
+			}
+		});
     }
     
     

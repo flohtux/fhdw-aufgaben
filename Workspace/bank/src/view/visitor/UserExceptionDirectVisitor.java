@@ -5,6 +5,8 @@ import view.*;
 
 public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor {
     
+    public abstract void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException;
+    
     public abstract void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException;
     
     public abstract void handleCycleException(CycleException cycleException) throws ModelException;
@@ -13,7 +15,11 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     
+    public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
+    
     public abstract void handleRestrictionException(RestrictionException restrictionException) throws ModelException;
+    
+    public abstract void handleRuleNotMatchedException(RuleNotMatchedException ruleNotMatchedException) throws ModelException;
     
     public abstract void handleExecuteException(ExecuteException executeException) throws ModelException;
     

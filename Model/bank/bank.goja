@@ -56,7 +56,7 @@ class Bank {
 	transient Account ** currentAccounts;
 	active event void changeName(String name);
 	active void createAccount(CurrencySUBTYPEName currencyType);
-	void sendTransfer(DebitTransfer debitTransfer) throws InvalidBankNumberException, InvalidAccountNumberException, DebitException;
+	void sendTransfer(DebitTransfer debitTransfer) throws ExecuteException;
 	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
 	void changeTransactionFeeToFix(Money fix);
 	void changeTransactionFeeToProcentual(Percent procentual);
@@ -65,25 +65,38 @@ class Bank {
 }
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
+	final one-to-one(server-only accountService) no-view EventWrapper eventhandle;
 	observe DebitTransferSuccessful successful;
 	observe DebitTransferNotExecuted notExecuted;
 	observe DebitTransferTemplate template;
 	void createTransfer@@Neue_Überweisung();
 
 	void createDebit@@Neue_Lastschrift();
-	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type);
+	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
+
+	void createTrigger@@Neue_Folgebuchung(TriggerListe unimportant, String name, DebitTransferTransactionSUBTYPEName type);
+	void enable(Trigger t checked);
+	void disable(Trigger t checked);
+	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 
-	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans, Integer receiverBankNumber);
-	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans, Integer receiverAccNumber);
-	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans, Fraction newAmount);
-	void changeSubject@@Betreff_ändern(DebitTransfer trans, String subject);
-	void changeCurrency@@Währung_ändern(DebitTransfer trans, CurrencySUBTYPEName currency);
-	active void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException;
-	void addToTransaction(Transaction transaction,DebitTransfer debitTransfer);
+	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
+	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans checked, Integer receiverAccNumber);
+	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans checked, Fraction newAmount);
+	void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
+	void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
+	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
+	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
+	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
+	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
+	void remove@@Erlaubnis_entziehen(DebitGrant grant);
+}
+
+class EventWrapper {
+	void reactOnEvent(extern model.meta.DebitTransferTransactionMssgs ev);
 }
 
 class DebitTransferSuccessful##DbtTrnSucc {
@@ -108,30 +121,47 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
- 
+	observe TriggerListe triggerListe;
+	event void remove(AccountPx acc, DebitGrantListe list);
+
 	Transfer createTransfer();
+	Trigger createTrigger(String name, DebitTransferTransaction dtt);
 	active void changeReceiverBank(DebitTransfer trans, Integer receiverBankNumber);
 	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
 	active void changeMoney(DebitTransfer trans, Fraction newAmount);
 	active void changeCurrency(DebitTransfer trans, Currency currency);
-
+	
 	Debit createDebit();
-	event void createDebitGrant(Account receiver, LimitType limit);
+	active event void createDebitGrant(Account receiver, LimitType limit) throws GrantAlreadyGivenException; 
 
 	DebitTransferTransaction createTemplate(DebitTransferTransactionSUBTYPEName type);
 	Transaction createTransaction();
+
+	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
+	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
+
+	//Trigger
+
 }
 
 class AccountPx {
 	server-only prior Account account;
 }
 
+class TriggerListe {
+	Trigger ** triggers;
+	event void remove(Trigger t);
+	event void add(Trigger t);
+}
+
 class DebitGrantListe {
 	DebitGrant ** debitGrants;
-	event void createDebitGrant(AccountPx receiver, LimitType limit);
+	event void createDebitGrant(AccountPx receiver, LimitType limit) throws GrantAlreadyGivenException;
+	void checkGrantGiven(AccountPx acc) throws GrantAlreadyGivenException;
+	event void remove(AccountPx acc);
 }
 
 class Money {
@@ -192,20 +222,25 @@ class Percent {
 string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 
 string-factory abstract class DebitTransferTransaction##DebiTrfTran {
-	active event void execute()  throws ExecuteException;
+	active event DebitTransferTransaction execute()  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
+	String subject@@Betreff;
 	no-view	Account sender;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
 	DebitTransferTransaction copy();
+	event DebitTransferDoubleState changeState(DebitTransferState newState);
 }
 
 abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Money money@@Betrag;
-	String subject@@Betreff;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
+  event void changeReceiverBank(Integer receiverBankNumber);
+	event void changeReceiverAccount(Integer receiverAccountNumber);
+	event void changeMoney(Fraction newAmount);
+	event void changeCurrency(Currency currency);
 }
 
 class Transfer extends DebitTransfer {
@@ -215,7 +250,8 @@ class Debit extends DebitTransfer {}
 
 class Transaction extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
-	void addToTransaction(DebitTransfer debitTransfer);
+	void addToTransaction(DebitTransfer ** debitTransfer);
+	void removeFromTransaction(DebitTransfer ** debitTransfer);
 }
 
 class DebitTransferListe##DebTransLst {
@@ -227,12 +263,55 @@ class DebitGrant {
 	prior LimitType limits;
 }
 
-abstract class DebitTransferState##DebiTraStat(SuccessfulState,NotSuccessfulState##NotSucState,TemplateState,ExecutedState,NotExecutedState,NotExecutableState){
+class Trigger{
+	prior String name;
+	one-to-one (no-view master) TriggerState state;
+	DebitTransferTransaction action;
+	Rule ** rules;
+	void enable();
+	void disable();
+	void addRule(Rule rule) throws DoubleRuleDefinitionException;
+}
+
+abstract class TriggerState (EnabledState, DisabledState) {}
+
+string-factory abstract class Rule{
+	BooleanValue check(DebitTransfer debitTransfer);
+}
+
+class MoneyRule extends Rule{
+	no-view prior Currency currency;
+	LimitAccount limitAccount;
+}
+
+class SubjectRule extends Rule{
+	String subject;
+}
+
+class IncomingAccountRule##IncAccRule extends Rule{
+	Integer accountNumber;
+	Integer bankNumber;
+}
+
+class DebitTransferDoubleState##DebTraStaDo {
+	prior DebitTransferState debitTransferStateOld##dbtrstold;
+	prior DebitTransferState debitTransferStateNew##dbtrstNew;
+}
+
+abstract class DebitTransferState##DebiTraStat{
 	BooleanValue isExecutable();
+	BooleanValue isTransaction();
 	void changeState(DebitTransferState newState);
 	void removeDebitTransferFromList();
 	void addDebitTransferFromList(DebitTransferState state);
 }
+
+class SuccessfulState extends DebitTransferState {}
+class NotSuccessfulState##NotSucState extends DebitTransferState {}
+class TemplateState extends DebitTransferState {}
+class ExecutedState extends DebitTransferState {}
+class NotExecutedState extends DebitTransferState {}
+class NotExecutableState extends DebitTransferState {}
 
 abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
 
@@ -243,10 +322,14 @@ exception LimitViolatedException extends DebitException{}
 exception NoPermissionToExecuteDebitTransferException extends ExecuteException{}
 exception CloseAccountNoPossibleException{}
 exception NoAccountsFound{}
+exception GrantAlreadyGivenException{}
 exception DebitNotGrantedException extends DebitException{}
+exception RuleNotMatchedException {}
+exception DoubleRuleDefinitionException {}
 
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
+
 }
 
 
