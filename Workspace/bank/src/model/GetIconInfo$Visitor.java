@@ -4,7 +4,9 @@ import model.visitor.DebitTransferStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
+import persistence.PersistentAccountGrantedDebitGrant;
 import persistence.PersistentAccountPx;
+import persistence.PersistentAccountReceivedDebitGrant;
 import persistence.PersistentBank;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebitGrant;
@@ -40,7 +42,15 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	}
 	//TODO PREREQUISITES: Icon: how to assign icon information
 	
+	@Override
+	public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException {
+		//TODO ausgehende Grants
+	}
 	
+	@Override
+	public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException {
+		// TODO eingehender Grant
+	}
 	
 	@Override
 	public void handleAccount(PersistentAccount account) throws PersistenceException {
@@ -109,11 +119,6 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	}
 	
 	@Override
-	public void handleNotExecutedState(PersistentNotExecutedState notExecutedState)	throws PersistenceException {
-		result = common.IconInfoConstants.NeutralIconNumber;
-	}
-	
-	@Override
 	public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
 		transfer.getState().accept(new DebitTransferStateVisitor() {
 			
@@ -136,7 +141,7 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			
 			@Override
 			public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
-//				result = common.IconInfoConstants.NeutralIconNumber;
+				result = common.IconInfoConstants.NeutralIconNumber;
 				// TODO "Noch nicht ausgeführt", Icon wird nicht angezeigt.
 			}
 			

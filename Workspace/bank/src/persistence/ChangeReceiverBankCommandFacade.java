@@ -56,44 +56,31 @@ public class ChangeReceiverBankCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ChangeReceiverBankCommandId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentDebitTransfer trans = null;
-            long receiverBankNumber = 0;
-            Invoker invoker = null;
-            PersistentAccount commandReceiver = null;
-            PersistentCommonDate myCommonDate = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10247: {
-                        trans = (PersistentDebitTransfer)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10248: {
-                        receiverBankNumber = links.getLong(5);
-                        break;
-                    }
-                    case 10249: {
-                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10250: {
-                        commandReceiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10251: {
-                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            ChangeReceiverBankCommand result = new ChangeReceiverBankCommand(trans, 
-                                                                             receiverBankNumber, 
-                                                                             invoker, 
-                                                                             commandReceiver, 
-                                                                             myCommonDate, 
+            PersistentDebitTransfer trans = null;
+            if (obj.getLong(2) != 0)
+                trans = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            Invoker invoker = null;
+            if (obj.getLong(5) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            PersistentAccount commandReceiver = null;
+            if (obj.getLong(7) != 0)
+                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(9) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            ChangeReceiverBankCommand result = new ChangeReceiverBankCommand(trans,
+                                                                             obj.getLong(4),
+                                                                             invoker,
+                                                                             commandReceiver,
+                                                                             myCommonDate,
                                                                              ChangeReceiverBankCommandId);
-            links.close();
+            obj.close();
             callable.close();
             ChangeReceiverBankCommandICProxi inCache = (ChangeReceiverBankCommandICProxi)Cache.getTheCache().put(result);
             ChangeReceiverBankCommand objectInCache = (ChangeReceiverBankCommand)inCache.getTheObject();

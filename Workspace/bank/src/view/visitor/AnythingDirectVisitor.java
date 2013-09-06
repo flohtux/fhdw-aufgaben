@@ -108,6 +108,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTrueValue(TrueValueView trueValue) throws ModelException{
         this.handleBooleanValue(trueValue);
     }
+    public abstract void handleTriggerState(TriggerStateView triggerState) throws ModelException;
+    
+    public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
+        this.handleTriggerState(disabledState);
+    }
+    public void handleEnabledState(EnabledStateView enabledState) throws ModelException{
+        this.handleTriggerState(enabledState);
+    }
     public abstract void handlePercent(PercentView percent) throws ModelException;
     
     public abstract void handleCurrency(CurrencyView currency) throws ModelException;

@@ -4,6 +4,7 @@ package view.objects;
 import view.DebitTransferTransactionView;
 import view.ModelException;
 import view.RuleView;
+import view.TriggerStateView;
 import view.TriggerView;
 import view.UserException;
 import view.visitor.AnythingExceptionVisitor;
@@ -17,13 +18,15 @@ import view.visitor.AnythingVisitor;
 public class Trigger extends ViewObject implements TriggerView{
     
     protected String name;
+    protected TriggerStateView state;
     protected DebitTransferTransactionView action;
     protected java.util.Vector<RuleView> rules;
     
-    public Trigger(String name,DebitTransferTransactionView action,java.util.Vector<RuleView> rules,long id, long classId) {
+    public Trigger(String name,TriggerStateView state,DebitTransferTransactionView action,java.util.Vector<RuleView> rules,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.name = name;
+        this.state = state;
         this.action = action;
         this.rules = rules;        
     }
@@ -41,6 +44,12 @@ public class Trigger extends ViewObject implements TriggerView{
     }
     public void setName(String newValue) throws ModelException {
         this.name = newValue;
+    }
+    public TriggerStateView getState()throws ModelException{
+        return this.state;
+    }
+    public void setState(TriggerStateView newValue) throws ModelException {
+        this.state = newValue;
     }
     public DebitTransferTransactionView getAction()throws ModelException{
         return this.action;
@@ -69,6 +78,10 @@ public class Trigger extends ViewObject implements TriggerView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        TriggerStateView state = this.getState();
+        if (state != null) {
+            ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
         DebitTransferTransactionView action = this.getAction();
         if (action != null) {
             ((ViewProxi)action).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(action.getClassId(), action.getId())));
@@ -84,6 +97,8 @@ public class Trigger extends ViewObject implements TriggerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
+        if(index == 0 && this.getState() != null) return new StateTriggerWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(this.getState() != null) index = index - 1;
         if(index == 0 && this.getAction() != null) return new ActionTriggerWrapper(this, originalIndex, (ViewRoot)this.getAction());
         if(this.getAction() != null) index = index - 1;
         if(index < this.getRules().size()) return new RulesTriggerWrapper(this, originalIndex, (ViewRoot)this.getRules().get(index));
@@ -92,16 +107,20 @@ public class Trigger extends ViewObject implements TriggerView{
     }
     public int getChildCount() throws ModelException {
         return 0 
+            + (this.getState() == null ? 0 : 1)
             + (this.getAction() == null ? 0 : 1)
             + (this.getRules().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
+            && (this.getState() == null ? true : false)
             && (this.getAction() == null ? true : false)
             && (this.getRules().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         if(this.getAction() != null && this.getAction().equals(child)) return result;
         if(this.getAction() != null) result = result + 1;
         java.util.Iterator<?> getRulesIterator = this.getRules().iterator();

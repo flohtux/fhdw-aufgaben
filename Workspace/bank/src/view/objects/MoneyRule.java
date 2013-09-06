@@ -1,7 +1,8 @@
 
 package view.objects;
 
-import view.LimitTypeView;
+import view.CurrencyView;
+import view.LimitAccountView;
 import view.ModelException;
 import view.MoneyRuleView;
 import view.UserException;
@@ -19,12 +20,14 @@ import view.visitor.RuleVisitor;
 
 public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
     
-    protected LimitTypeView limitType;
+    protected CurrencyView currency;
+    protected LimitAccountView limitAccount;
     
-    public MoneyRule(LimitTypeView limitType,long id, long classId) {
+    public MoneyRule(CurrencyView currency,LimitAccountView limitAccount,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.limitType = limitType;        
+        this.currency = currency;
+        this.limitAccount = limitAccount;        
     }
     
     static public long getTypeId() {
@@ -35,11 +38,17 @@ public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
         return getTypeId();
     }
     
-    public LimitTypeView getLimitType()throws ModelException{
-        return this.limitType;
+    public CurrencyView getCurrency()throws ModelException{
+        return this.currency;
     }
-    public void setLimitType(LimitTypeView newValue) throws ModelException {
-        this.limitType = newValue;
+    public void setCurrency(CurrencyView newValue) throws ModelException {
+        this.currency = newValue;
+    }
+    public LimitAccountView getLimitAccount()throws ModelException{
+        return this.limitAccount;
+    }
+    public void setLimitAccount(LimitAccountView newValue) throws ModelException {
+        this.limitAccount = newValue;
     }
     
     public void accept(RuleVisitor visitor) throws ModelException {
@@ -68,9 +77,13 @@ public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        LimitTypeView limitType = this.getLimitType();
-        if (limitType != null) {
-            ((ViewProxi)limitType).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limitType.getClassId(), limitType.getId())));
+        CurrencyView currency = this.getCurrency();
+        if (currency != null) {
+            ((ViewProxi)currency).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(currency.getClassId(), currency.getId())));
+        }
+        LimitAccountView limitAccount = this.getLimitAccount();
+        if (limitAccount != null) {
+            ((ViewProxi)limitAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limitAccount.getClassId(), limitAccount.getId())));
         }
         
     }
@@ -79,22 +92,22 @@ public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getLimitType() != null) return new LimitTypeMoneyRuleWrapper(this, originalIndex, (ViewRoot)this.getLimitType());
-        if(this.getLimitType() != null) index = index - 1;
+        if(index == 0 && this.getLimitAccount() != null) return new LimitAccountMoneyRuleWrapper(this, originalIndex, (ViewRoot)this.getLimitAccount());
+        if(this.getLimitAccount() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getLimitType() == null ? 0 : 1);
+            + (this.getLimitAccount() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getLimitType() == null ? true : false);
+            && (this.getLimitAccount() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getLimitType() != null && this.getLimitType().equals(child)) return result;
-        if(this.getLimitType() != null) result = result + 1;
+        if(this.getLimitAccount() != null && this.getLimitAccount().equals(child)) return result;
+        if(this.getLimitAccount() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

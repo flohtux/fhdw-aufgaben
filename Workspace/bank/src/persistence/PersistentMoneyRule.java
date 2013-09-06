@@ -6,8 +6,10 @@ import model.visitor.*;
 
 public interface PersistentMoneyRule extends PersistentRule {
     
-    public PersistentLimitType getLimitType() throws PersistenceException ;
-    public void setLimitType(PersistentLimitType newValue) throws PersistenceException ;
+    public PersistentCurrency getCurrency() throws PersistenceException ;
+    public void setCurrency(PersistentCurrency newValue) throws PersistenceException ;
+    public PersistentLimitAccount getLimitAccount() throws PersistenceException ;
+    public void setLimitAccount(PersistentLimitAccount newValue) throws PersistenceException ;
     public PersistentMoneyRule getThis() throws PersistenceException ;
     
     public void accept(RuleVisitor visitor) throws PersistenceException;

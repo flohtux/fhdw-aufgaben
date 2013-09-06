@@ -297,7 +297,9 @@ public class Cache {
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(208, "DebitTransferTemplate");
+		this.number2NameMap.put(237, "DisabledState");
 		this.number2NameMap.put(126, "Dollar");
+		this.number2NameMap.put(238, "EnabledState");
 		this.number2NameMap.put(-135, "ErrorDisplay");
 		this.number2NameMap.put(137, "Euro");
 		this.number2NameMap.put(227, "EventWrapper");

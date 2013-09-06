@@ -5,6 +5,7 @@ import persistence.*;
 
 public interface UserExceptionReturnVisitor<R> extends ExecuteExceptionReturnVisitor<R> {
     
+    public R handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException;
     public R handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException;
     public R handlePasswordException(model.PasswordException passwordException) throws PersistenceException;
     public R handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;

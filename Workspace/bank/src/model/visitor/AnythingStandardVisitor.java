@@ -104,6 +104,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException{
         this.standardHandling(triggerListe);
     }
+    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
+        this.standardHandling(disabledState);
+    }
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException{
         this.standardHandling(administratorBanks);
     }
@@ -112,6 +115,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
+    }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.standardHandling(enabledState);
     }
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);

@@ -77,6 +77,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException{
         this.standardHandling(triggerListe);
     }
+    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
+        this.standardHandling(disabledState);
+    }
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
     }
@@ -85,6 +88,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
+    }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.standardHandling(enabledState);
     }
     public void handleDebit(PersistentDebit debit) throws PersistenceException{
         this.standardHandling(debit);

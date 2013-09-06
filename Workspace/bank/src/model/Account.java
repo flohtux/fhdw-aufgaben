@@ -706,11 +706,12 @@ public class Account extends PersistentObject implements PersistentAccount{
 		getThis().getDebitTransferTransactions().add(transfer);
 		return transfer;
     }
-    public PersistentTrigger createTrigger(final String name) 
+    public PersistentTrigger createTrigger(final String name, final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
     	PersistentTrigger trigger = Trigger.createTrigger(name);
+    	dtt.changeState(NotExecutableState.createNotExecutableState());
+    	trigger.setAction(dtt);
     	getThis().getTriggerListe().add(trigger);
-    	System.out.println("neuerTriggerhier" + getThis());
     	return trigger;
     }
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 

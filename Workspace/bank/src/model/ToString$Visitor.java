@@ -24,7 +24,9 @@ import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDisabledState;
 import persistence.PersistentDollar;
+import persistence.PersistentEnabledState;
 import persistence.PersistentEuro;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
@@ -236,7 +238,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber();
+		this.result = "Überweisung: "+transfer.getSubject()+" ("+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber()+")";
 	}
 	@Override
 	public void handleSuccessfulStornoState(
@@ -361,6 +363,16 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {
 		result = "Folgebuchungen";
+		
+	}
+	@Override
+	public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException {
+		// TODO Auto-generated method stub
 		
 	}
 	

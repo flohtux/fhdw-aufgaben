@@ -5,6 +5,7 @@ import persistence.*;
 
 public interface UserExceptionVisitor extends ExecuteExceptionVisitor{
     
+    public void handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException;
     public void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException;
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException;
     public void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;

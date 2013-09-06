@@ -5,6 +5,8 @@ import view.*;
 
 public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor {
     
+    public abstract void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException;
+    
     public abstract void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException;
     
     public abstract void handleCycleException(CycleException cycleException) throws ModelException;
