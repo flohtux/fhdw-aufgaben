@@ -108,7 +108,7 @@ public class TestTransaction{
 		newTrans2.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans2.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans2.setReceiverBankNumber(42);
-		
+		 
 		PersistentTransaction newTrans = acc1.createTransaction();
 		DebitTransferSearchList transList = new DebitTransferSearchList();
 		transList.add(newTrans1);
