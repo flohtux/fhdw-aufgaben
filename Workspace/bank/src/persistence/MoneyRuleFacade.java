@@ -67,14 +67,6 @@ public class MoneyRuleFacade{
             PersistentRule This = null;
             if (obj.getLong(4) != 0)
                 This = (PersistentRule)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-<<<<<<< HEAD
-            PersistentLimitType limitType = null;
-            if (obj.getLong(6) != 0)
-                limitType = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            MoneyRule result = new MoneyRule(subService,
-                                             This,
-                                             limitType,
-=======
             PersistentCurrency currency = null;
             if (obj.getLong(6) != 0)
                 currency = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
@@ -85,7 +77,6 @@ public class MoneyRuleFacade{
                                              This,
                                              currency,
                                              limitAccount,
->>>>>>> refs/remotes/origin/totobaa
                                              MoneyRuleId);
             obj.close();
             callable.close();

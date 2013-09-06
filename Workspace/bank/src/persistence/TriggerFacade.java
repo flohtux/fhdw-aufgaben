@@ -62,18 +62,6 @@ public class TriggerFacade{
                 callable.close();
                 return null;
             }
-<<<<<<< HEAD
-            PersistentDebitTransferTransaction action = null;
-            if (obj.getLong(3) != 0)
-                action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            SubjInterface subService = null;
-            if (obj.getLong(5) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentTrigger This = null;
-            if (obj.getLong(7) != 0)
-                This = (PersistentTrigger)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            Trigger result = new Trigger(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
-=======
             PersistentTriggerState state = null;
             if (obj.getLong(3) != 0)
                 state = (PersistentTriggerState)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
@@ -88,7 +76,6 @@ public class TriggerFacade{
                 This = (PersistentTrigger)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             Trigger result = new Trigger(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
                                          state,
->>>>>>> refs/remotes/origin/totobaa
                                          action,
                                          subService,
                                          This,

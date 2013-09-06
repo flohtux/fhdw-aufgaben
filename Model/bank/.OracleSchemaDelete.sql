@@ -90,11 +90,8 @@ drop sequence SLmtTp;
 drop table LmtTp cascade constraints;
 drop sequence SAccntDebTrfTrans;
 drop table AccntDebTrfTrans cascade constraints;
-<<<<<<< HEAD
-=======
 drop sequence STrggrStt;
 drop table TrggrStt cascade constraints;
->>>>>>> refs/remotes/origin/totobaa
 drop sequence SChngMnCMD;
 drop table ChngMnCMD cascade constraints;
 drop sequence SCmmndExctr;
