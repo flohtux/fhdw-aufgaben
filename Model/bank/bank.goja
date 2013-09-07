@@ -97,6 +97,13 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
+
+	//Rule
+	void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
+	void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
+	void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
+	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
+	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 }
 
 class FeeWrapper {
