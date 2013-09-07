@@ -19,14 +19,21 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
             currency = view.objects.ViewProxi.createProxi(currency$Info,connectionKey);
             currency.setToString(currency$Info.getToString());
         }
-        ViewProxi limitAccount = null;
-        String limitAccount$String = (String)resultTable.get("limitAccount");
-        if (limitAccount$String != null) {
-            common.ProxiInformation limitAccount$Info = common.RPCConstantsAndServices.createProxiInformation(limitAccount$String);
-            limitAccount = view.objects.ViewProxi.createProxi(limitAccount$Info,connectionKey);
-            limitAccount.setToString(limitAccount$Info.getToString());
+        ViewProxi minLimit = null;
+        String minLimit$String = (String)resultTable.get("minLimit");
+        if (minLimit$String != null) {
+            common.ProxiInformation minLimit$Info = common.RPCConstantsAndServices.createProxiInformation(minLimit$String);
+            minLimit = view.objects.ViewProxi.createProxi(minLimit$Info,connectionKey);
+            minLimit.setToString(minLimit$Info.getToString());
         }
-        MoneyRuleView result$$ = new MoneyRule((CurrencyView)currency,(LimitAccountView)limitAccount, this.getId(), this.getClassId());
+        ViewProxi maxLimit = null;
+        String maxLimit$String = (String)resultTable.get("maxLimit");
+        if (maxLimit$String != null) {
+            common.ProxiInformation maxLimit$Info = common.RPCConstantsAndServices.createProxiInformation(maxLimit$String);
+            maxLimit = view.objects.ViewProxi.createProxi(maxLimit$Info,connectionKey);
+            maxLimit.setToString(maxLimit$Info.getToString());
+        }
+        MoneyRuleView result$$ = new MoneyRule((CurrencyView)currency,(AmountView)minLimit,(AmountView)maxLimit, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -36,23 +43,31 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getLimitAccount() != null) return new LimitAccountMoneyRuleWrapper(this, originalIndex, (ViewRoot)this.getLimitAccount());
-        if(this.getLimitAccount() != null) index = index - 1;
+        if(this.getMinLimit() != null && index < this.getMinLimit().getTheObject().getChildCount())
+            return this.getMinLimit().getTheObject().getChild(index);
+        if(this.getMinLimit() != null) index = index - this.getMinLimit().getTheObject().getChildCount();
+        if(this.getMaxLimit() != null && index < this.getMaxLimit().getTheObject().getChildCount())
+            return this.getMaxLimit().getTheObject().getChild(index);
+        if(this.getMaxLimit() != null) index = index - this.getMaxLimit().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getLimitAccount() == null ? 0 : 1);
+            + (this.getMinLimit() == null ? 0 : this.getMinLimit().getTheObject().getChildCount())
+            + (this.getMaxLimit() == null ? 0 : this.getMaxLimit().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getLimitAccount() == null ? true : false);
+            && (this.getMinLimit() == null ? true : this.getMinLimit().getTheObject().isLeaf())
+            && (this.getMaxLimit() == null ? true : this.getMaxLimit().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getLimitAccount() != null && this.getLimitAccount().equals(child)) return result;
-        if(this.getLimitAccount() != null) result = result + 1;
+        if(this.getMinLimit() != null && this.getMinLimit().equals(child)) return result;
+        if(this.getMinLimit() != null) result = result + 1;
+        if(this.getMaxLimit() != null && this.getMaxLimit().equals(child)) return result;
+        if(this.getMaxLimit() != null) result = result + 1;
         return -1;
     }
     
@@ -62,11 +77,17 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     public void setCurrency(CurrencyView newValue) throws ModelException {
         ((MoneyRule)this.getTheObject()).setCurrency(newValue);
     }
-    public LimitAccountView getLimitAccount()throws ModelException{
-        return ((MoneyRule)this.getTheObject()).getLimitAccount();
+    public AmountView getMinLimit()throws ModelException{
+        return ((MoneyRule)this.getTheObject()).getMinLimit();
     }
-    public void setLimitAccount(LimitAccountView newValue) throws ModelException {
-        ((MoneyRule)this.getTheObject()).setLimitAccount(newValue);
+    public void setMinLimit(AmountView newValue) throws ModelException {
+        ((MoneyRule)this.getTheObject()).setMinLimit(newValue);
+    }
+    public AmountView getMaxLimit()throws ModelException{
+        return ((MoneyRule)this.getTheObject()).getMaxLimit();
+    }
+    public void setMaxLimit(AmountView newValue) throws ModelException {
+        ((MoneyRule)this.getTheObject()).setMaxLimit(newValue);
     }
     
     public void accept(RuleVisitor visitor) throws ModelException {

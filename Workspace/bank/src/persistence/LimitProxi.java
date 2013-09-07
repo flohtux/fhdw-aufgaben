@@ -86,9 +86,9 @@ public class LimitProxi extends LimitTypeProxi implements PersistentLimit{
 				throws PersistenceException{
         ((PersistentLimit)this.getTheObject()).updateObservers(event);
     }
-    public void checkLimit(final PersistentMoney money) 
+    public void checkMaxLimit(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
-        ((PersistentLimit)this.getTheObject()).checkLimit(money);
+        ((PersistentLimit)this.getTheObject()).checkMaxLimit(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

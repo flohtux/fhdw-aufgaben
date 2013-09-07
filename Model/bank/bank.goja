@@ -94,6 +94,12 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
+	//Rules
+	void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
+	void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
+	void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
+	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
+	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 }
 
 class EventWrapper {
@@ -144,8 +150,6 @@ class Account {
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
 
-	//Trigger
-
 }
 
 class AccountPx {
@@ -193,7 +197,7 @@ abstract class BooleanValue(TrueValue,FalseValue){
 }
 
 abstract string-factory class LimitType(NoLimit) {
-	void checkLimit(Money money) throws LimitViolatedException;
+	void checkMaxLimit(Money money) throws LimitViolatedException;
 }
 class Limit extends LimitType{
 	prior skip-view Money money;
@@ -282,16 +286,22 @@ string-factory abstract class Rule{
 
 class MoneyRule extends Rule{
 	no-view prior Currency currency;
-	LimitAccount limitAccount;
+	skip-view Amount minLimit;
+	skip-view Amount maxLimit;
+	void changeMin(Fraction minValue);
+	void changeMax(Fraction maxValue);
 }
 
 class SubjectRule extends Rule{
 	String subject;
+	void changeSubject(String subject);
 }
 
 class IncomingAccountRule##IncAccRule extends Rule{
 	Integer accountNumber;
 	Integer bankNumber;
+	void changeAccountNumber(Integer accNum);
+	void changeBankNumber(Integer bankNum);
 }
 
 class DebitTransferDoubleState##DebTraStaDo {

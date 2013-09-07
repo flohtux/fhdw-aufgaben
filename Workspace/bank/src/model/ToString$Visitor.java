@@ -347,14 +347,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleIncomingAccountRule(
 			PersistentIncomingAccountRule incomingAccountRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = String.format(serverConstants.ToStringConstants.IncomingAccountRuleFormatAccountBank, incomingAccountRule.getAccountNumber(), incomingAccountRule.getBankNumber());
 	}
 	@Override
 	public void handleSubjectRule(PersistentSubjectRule subjectRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = String.format(serverConstants.ToStringConstants.SubjectRuleFormat, subjectRule.getSubject());
 	}
 	@Override
 	public void handleTrigger(PersistentTrigger trigger)
@@ -364,8 +362,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleMoneyRule(PersistentMoneyRule moneyRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = String.format(serverConstants.ToStringConstants.MoneyRuleFormatMinMax, moneyRule.getMinLimit().toString(true), moneyRule.getMaxLimit().toString(true));
 	}
 	@Override
 	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {

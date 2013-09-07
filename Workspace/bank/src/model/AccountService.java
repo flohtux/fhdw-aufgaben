@@ -510,6 +510,27 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().signalChanged(true);
         
     }
+    public void changeIncomingAccountRuleAccountNumber(final PersistentIncomingAccountRule rule, final long newAccNum) 
+				throws PersistenceException{
+        rule.changeAccountNumber(newAccNum);
+        getThis().signalChanged(true);
+    }
+    public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
+				throws PersistenceException{
+        rule.changeBankNumber(newBankNum);
+        getThis().signalChanged(true);
+        
+    }
+    public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+    	rule.changeMax(maxValue);
+    	getThis().signalChanged(true);
+    }
+    public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+    	rule.changeMin(minValue);
+    	getThis().signalChanged(true);
+    }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         getThis().getAccount().changeMoney(trans, newAmount,getThis());
@@ -523,6 +544,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         getThis().getAccount().changeReceiverBank(trans, receiverBankNumber,getThis());
+        getThis().signalChanged(true);
+    }
+    public void changeSubjectRuleSubject(final PersistentSubjectRule rule, final String newSubject) 
+				throws PersistenceException{
+        rule.changeSubject(newSubject);
         getThis().signalChanged(true);
     }
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
