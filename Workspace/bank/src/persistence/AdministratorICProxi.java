@@ -128,9 +128,9 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).banks_update(event);
     }
-    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
+    public void changeCurrencyRateGUI(final String currencyType, final common.Fraction rate) 
 				throws PersistenceException{
-        ((PersistentAdministrator)this.getTheObject()).changeCurrencyRateGUI(currency, rate);
+        ((PersistentAdministrator)this.getTheObject()).changeCurrencyRateGUI(currencyType, rate);
     }
     public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException{

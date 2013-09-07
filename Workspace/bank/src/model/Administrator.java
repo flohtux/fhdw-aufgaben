@@ -314,9 +314,9 @@ public class Administrator extends model.Service implements PersistentAdministra
         //TODO: implement method: banks_update
         
     }
-    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
+    public void changeCurrencyRateGUI(final String currencyType, final common.Fraction rate) 
 				throws PersistenceException{
-        CurrencyManager.getTheCurrencyManager().changeExchangeRate(StringFACTORY.createObjectBySubTypeNameForCurrency(currency), Amount.createAmount(rate));
+        CurrencyManager.getTheCurrencyManager().changeExchangeRate(StringFACTORY.createObjectBySubTypeNameForCurrency(currencyType), Amount.createAmount(rate));
         
     }
     public void changeName(final PersistentBank bank, final String name) 

@@ -467,7 +467,7 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new RegExprSelectionPanel("currency", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new RegExprSelectionPanel("currencyType", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("rate", this));		
 		}	
 		protected void handleDependencies(int i) {

@@ -504,39 +504,27 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void receiveTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.DebitException, model.InvalidAccountNumberException, PersistenceException{
-        final PersistentAccount acc = getThis().getAccounts().getValues().findFirst(new Predcate<PersistentAccount>() {
-			@Override
-			public boolean test(PersistentAccount argument) throws PersistenceException {
-				return argument.getAccountNumber() == debitTransfer.getReceiverAccountNumber();
+        final PersistentAccount acc = getThis().searchAccountByAccNumber(debitTransfer.getReceiverAccountNumber());
+    	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
+			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {}
+			public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
+				PersistentDebitGrant grant = acc.getReceivedDebitGrant().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
+					public boolean test(PersistentDebitGrant argument) throws PersistenceException {
+						return argument.getPermittedAccount().getAccount().equals(debitTransfer.getSender());
+					}
+				});
+				if (grant == null) {
+					throw new DebitNotGrantedException();
+				} else {
+					grant.getLimits().checkMaxLimit(debit.getMoney());
+				}
 			}
 		});
-        if (acc == null) {
-        	throw new InvalidAccountNumberException(viewConstants.ExceptionConstants.InvalidAccountNumberMessage);
-        }else {
-        	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
-				public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {}
-				public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
-					PersistentDebitGrant grant = acc.getReceivedDebitGrant().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
-						public boolean test(PersistentDebitGrant argument) throws PersistenceException {
-							return argument.getPermittedAccount().getAccount().equals(debitTransfer.getSender());
-						}
-					});
-					if (grant == null) {
-						throw new DebitNotGrantedException();
-					} else {
-//						System.out.println("liimts grant"+((Limit) grant.getLimits()).getMoney());
-						System.out.println("limits grant"+grant.getLimits());
-						grant.getLimits().checkMaxLimit(debit.getMoney());
-					}
-				}
-			});
-        	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
-        	 debitTransfer.changeState(SuccessfulState.createSuccessfulState());
-        	 
-        	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
-        	acc.getDebitTransferTransactions().add(debitTransfer);
-//            acc.getAccountService().getSuccessful().getSuccessfuls().add(debitTransfer);
-        }
+    	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
+    	debitTransfer.changeState(SuccessfulState.createSuccessfulState());
+    	 
+    	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
+    	acc.getDebitTransferTransactions().add(debitTransfer);
         
         
     }
@@ -555,23 +543,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.ExecuteException, PersistenceException{
-    	PersistentBankPx result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBankPx>() {
-			@Override
-			public boolean test(PersistentBankPx argument) throws PersistenceException {
-				return argument.getBank().getBankNumber() == debitTransfer.getReceiverBankNumber();
-			}
-		});
     	try {
-	    	if (result == null) {
-	    		throw new InvalidBankNumberException(debitTransfer.getReceiverBankNumber());
-	    	} else {
-	    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
-	    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
-	    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
-	    		debitTransfer.getSender().setMoney(newAccountMoney);
-				getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
-				result.getBank().receiveTransfer(debitTransfer);
-	    	}
+        	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
+    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
+    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
+    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
+    		debitTransfer.getSender().setMoney(newAccountMoney);
+    		getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
+			result.receiveTransfer(debitTransfer);
     	} catch (ExecuteException e) {
     		debitTransfer.changeState(NotExecutedState.createNotExecutedState());
     		throw e;

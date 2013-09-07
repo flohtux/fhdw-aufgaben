@@ -29,12 +29,42 @@ public interface PersistentMoneyRule extends PersistentRule {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    /**
+     * Changes the maximum limit of this rule without checking borders.
+     * ALWAYS check value with checkMax() before!
+     * 
+     * @param maxValue the new maximum value
+     * @throws PersistenceException
+     */
     public void changeMax(final common.Fraction maxValue) 
 				throws PersistenceException;
+    /**
+     * Changes the minimum limit of this rule without checking borders.
+     * ALWAYS check value with checkMin() before!
+     * 
+     * @param minValue the new minimum value
+     * @throws PersistenceException
+     */
     public void changeMin(final common.Fraction minValue) 
 				throws PersistenceException;
+    /**
+     * Returns whether the max value can be changed to the new value.
+     * Ensures max > min!
+     * 
+     * @param maxValue
+     * @return
+     * @throws PersistenceException
+     */
     public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
 				throws PersistenceException;
+    /**
+     * Returns whether the min value can be changed to the new value.
+     * Ensures max > min!
+     * 
+     * @param minValue
+     * @return
+     * @throws PersistenceException
+     */
     public PersistentBooleanValue checkMin(final common.Fraction minValue) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

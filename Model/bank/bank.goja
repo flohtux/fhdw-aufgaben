@@ -11,7 +11,7 @@ server Administrator extends Service {
 	observe BankPx ** banks;
 	void createBank@@Bank_erstellen(String name);
 	void changeName@@Namen_ändern(Bank bank, String name@@Name);
-	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currency, Fraction rate);
+	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currencyType, Fraction rate);
 	Bank searchBankByBankNumber(Integer bankNum) throws InvalidBankNumberException;
 }
 
@@ -86,25 +86,25 @@ server AccountService extends Service {
 	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
-	void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
-	void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans checked, Integer receiverAccNumber);
-	void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans checked, Fraction newAmount);
-	void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
-	void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
+	no-view void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
+	no-view void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans checked, Integer receiverAccNumber);
+	no-view void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans checked, Fraction newAmount);
+	no-view void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
+	no-view void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
 	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
 	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
 
-	//Rule
-	void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
-	void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
-	void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
-	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
-	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
-	BooleanValue checkMoneyRuleMin(MoneyRule rule, Fraction minValue); //no-view!
-	BooleanValue checkMoneyRuleMax(MoneyRule rule, Fraction maxValue); //no-view!
+	//Rules
+	no-view void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
+	no-view void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
+	no-view void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
+	no-view BooleanValue checkMoneyRuleMin(MoneyRule rule, Fraction minValue);
+	no-view BooleanValue checkMoneyRuleMax(MoneyRule rule, Fraction maxValue);
+	no-view void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
+	no-view void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 }
 
 class BankFees {
