@@ -34,6 +34,7 @@ import persistence.PersistentAdministrator;
 import persistence.PersistentAdministratorBanks;
 import persistence.PersistentAdministratorCurrencyManager;
 import persistence.PersistentBank;
+import persistence.PersistentBankPx;
 import persistence.PersistentCreateBankCommand;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentProxi;
@@ -308,10 +309,10 @@ public class Administrator extends model.Service implements PersistentAdministra
     
     // Start of section that contains operations that must be implemented.
     
-    public void banks_update(final model.meta.BankMssgs event) 
+    public void banks_update(final model.meta.BankPxMssgs event) 
 				throws PersistenceException{
-        //TODO !PREREQUISITES: implement method: banks_update
-        getThis().signalChanged(true);
+        //TODO: implement method: banks_update
+        
     }
     public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
 				throws PersistenceException{
@@ -353,15 +354,17 @@ public class Administrator extends model.Service implements PersistentAdministra
     }
     public PersistentBank searchBankByBankNumber(final long bankNum) 
 				throws model.InvalidBankNumberException, PersistenceException{
-        PersistentBank b = getThis().getBanks().findFirst(new Predcate<PersistentBank>() {
-			public boolean test(PersistentBank argument) throws PersistenceException {
-				return argument.getBankNumber() == bankNum;
+        PersistentBankPx b = getThis().getBanks().findFirst(new Predcate<PersistentBankPx>() {
+			@Override
+			public boolean test(PersistentBankPx argument)
+					throws PersistenceException {
+				return argument.getBank().getBankNumber() == bankNum;
 			}
 		});
         if (b == null) {
         	throw new InvalidBankNumberException(bankNum);
         } else {
-        	return b;
+        	return b.getBank();
         }
     }
     
@@ -387,7 +390,7 @@ public class Administrator extends model.Service implements PersistentAdministra
 							//TODO !PREREQUISITES manage created banks
 							public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException {
 								PersistentBank newBank = createBankCommand.getCommandResult();
-								getThis().getBanks().add(newBank);
+								getThis().getBanks().add(BankPx.createBankPx(newBank));
 							}
 							protected void standardHandling(Command command)
 									throws PersistenceException {

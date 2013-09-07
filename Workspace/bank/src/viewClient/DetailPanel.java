@@ -763,6 +763,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTriggerListe(view.TriggerListeView object){
         result = new TriggerListeDefaultDetailPanel(handler, object);
     }
+    public void handleBankPx(view.BankPxView object){
+        result = new BankPxDefaultDetailPanel(handler, object);
+    }
     public void handleDisabledState(view.DisabledStateView object){
         result = new DisabledStateDefaultDetailPanel(handler, object);
     }
@@ -1288,6 +1291,20 @@ class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.TriggerListeView getAnything(){
         return (view.TriggerListeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class BankPxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected BankPxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankPxView getAnything(){
+        return (view.BankPxView)this.anything;
     }
 }
 

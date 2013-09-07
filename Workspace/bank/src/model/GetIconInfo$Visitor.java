@@ -8,6 +8,7 @@ import persistence.PersistentAccountGrantedDebitGrant;
 import persistence.PersistentAccountPx;
 import persistence.PersistentAccountReceivedDebitGrant;
 import persistence.PersistentBank;
+import persistence.PersistentBankPx;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitTransferNotExecuted;
@@ -61,7 +62,7 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
         result = common.IconInfoConstants.AccountIconNumber;
 	}
 	
-	public void handleBank(PersistentBank bank) throws PersistenceException{
+	public void handleBankPx(PersistentBankPx bank) throws PersistenceException{
         result = common.IconInfoConstants.BankIconNumber;
 	}
 

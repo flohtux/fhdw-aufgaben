@@ -61,67 +61,67 @@ public class AdministratorBanksProxi extends PersistentProxi implements Persiste
     }
     
     
-    public void add(final PersistentBank observee) 
+    public void add(final PersistentBankPx observee) 
 				throws PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).add(observee);
     }
-    public <E extends UserException,R> R aggregateException(final persistence.AggregtionException<PersistentBank,R,E> aggregtion) 
+    public <E extends UserException,R> R aggregateException(final persistence.AggregtionException<PersistentBankPx,R,E> aggregtion) 
 				throws E, PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).aggregateException(aggregtion);
     }
-    public <R> R aggregate(final persistence.Aggregtion<PersistentBank,R> aggregtion) 
+    public <R> R aggregate(final persistence.Aggregtion<PersistentBankPx,R> aggregtion) 
 				throws PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).aggregate(aggregtion);
     }
-    public <E extends UserException> void applyToAllException(final persistence.ProcdureException<PersistentBank,E> procdure) 
+    public <E extends UserException> void applyToAllException(final persistence.ProcdureException<PersistentBankPx,E> procdure) 
 				throws E, PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).applyToAllException(procdure);
     }
-    public void applyToAll(final persistence.Procdure<PersistentBank> procdure) 
+    public void applyToAll(final persistence.Procdure<PersistentBankPx> procdure) 
 				throws PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).applyToAll(procdure);
     }
-    public <E extends UserException> void filterException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> void filterException(final persistence.PredcateException<PersistentBankPx,E> predcate) 
 				throws E, PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).filterException(predcate);
     }
-    public void filter(final persistence.Predcate<PersistentBank> predcate) 
+    public void filter(final persistence.Predcate<PersistentBankPx> predcate) 
 				throws PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).filter(predcate);
     }
-    public <E extends UserException> SearchListRoot<PersistentBank> findAllException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> SearchListRoot<PersistentBankPx> findAllException(final persistence.PredcateException<PersistentBankPx,E> predcate) 
 				throws E, PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).findAllException(predcate);
     }
-    public SearchListRoot<PersistentBank> findAll(final persistence.Predcate<PersistentBank> predcate) 
+    public SearchListRoot<PersistentBankPx> findAll(final persistence.Predcate<PersistentBankPx> predcate) 
 				throws PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).findAll(predcate);
     }
-    public <E extends UserException> PersistentBank findFirstException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> PersistentBankPx findFirstException(final persistence.PredcateException<PersistentBankPx,E> predcate) 
 				throws E, PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).findFirstException(predcate);
     }
-    public PersistentBank findFirst(final persistence.Predcate<PersistentBank> predcate) 
+    public PersistentBankPx findFirst(final persistence.Predcate<PersistentBankPx> predcate) 
 				throws PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).findFirst(predcate);
     }
-    public java.util.Iterator<PersistentBank> iterator() 
+    public java.util.Iterator<PersistentBankPx> iterator() 
 				throws PersistenceException{
         return ((PersistentAdministratorBanks)this.getTheObject()).iterator();
     }
-    public <E extends UserException> void removeFirstFailureException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> void removeFirstFailureException(final persistence.PredcateException<PersistentBankPx,E> predcate) 
 				throws E, PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).removeFirstFailureException(predcate);
     }
-    public void removeFirstFailure(final persistence.Predcate<PersistentBank> predcate) 
+    public void removeFirstFailure(final persistence.Predcate<PersistentBankPx> predcate) 
 				throws PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).removeFirstFailure(predcate);
     }
-    public <E extends UserException> void removeFirstSuccessException(final persistence.PredcateException<PersistentBank,E> predcate) 
+    public <E extends UserException> void removeFirstSuccessException(final persistence.PredcateException<PersistentBankPx,E> predcate) 
 				throws E, PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).removeFirstSuccessException(predcate);
     }
-    public void removeFirstSuccess(final persistence.Predcate<PersistentBank> predcate) 
+    public void removeFirstSuccess(final persistence.Predcate<PersistentBankPx> predcate) 
 				throws PersistenceException{
         ((PersistentAdministratorBanks)this.getTheObject()).removeFirstSuccess(predcate);
     }

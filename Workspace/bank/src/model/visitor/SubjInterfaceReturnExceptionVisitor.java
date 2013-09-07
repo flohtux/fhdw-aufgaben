@@ -15,6 +15,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;
     public R handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException, E;
+    public R handleBankPx(PersistentBankPx bankPx) throws PersistenceException, E;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public R handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;

@@ -26,6 +26,7 @@ import persistence.PersistentAccount;
 import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
+import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentChangeNameCommand;
 import persistence.PersistentCreateAccountCommand;
@@ -515,7 +516,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
     			getThis().getOwnAccount().getMoney().getCurrency())));
     	getThis().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.parse("1/1"))));
-    	getThis().getAdministrator().getBanks().add(getThis());
+    	getThis().getAdministrator().getBanks().add(BankPx.createBankPx(getThis()));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -573,10 +574,10 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.ExecuteException, PersistenceException{
-    	PersistentBank result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBank>() {
+    	PersistentBankPx result = getThis().getAdministrator().getBanks().findFirst(new Predcate<PersistentBankPx>() {
 			@Override
-			public boolean test(PersistentBank argument) throws PersistenceException {
-				return argument.getBankNumber() == debitTransfer.getReceiverBankNumber();
+			public boolean test(PersistentBankPx argument) throws PersistenceException {
+				return argument.getBank().getBankNumber() == debitTransfer.getReceiverBankNumber();
 			}
 		});
     	try {
@@ -588,7 +589,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 	    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
 	    		debitTransfer.getSender().setMoney(newAccountMoney);
 				getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
-				result.receiveTransfer(debitTransfer);
+				result.getBank().receiveTransfer(debitTransfer);
 	    	}
     	} catch (ExecuteException e) {
     		debitTransfer.changeState(NotExecutedState.createNotExecutedState());

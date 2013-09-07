@@ -8,7 +8,7 @@ abstract server Service{
 }
 server Administrator extends Service {
 	observe CurrencyManager currencyManager;
-	observe Bank ** banks;
+	observe BankPx ** banks;
 	void createBank@@Bank_erstellen(String name);
 	void changeName@@Namen_ändern(Bank bank, String name@@Name);
 	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currency, Fraction rate);
@@ -63,6 +63,11 @@ class Bank {
 	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
 	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
 }
+
+class BankPx {
+	server-only prior Bank bank;
+}
+
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
 	final one-to-one(server-only accountService) no-view EventWrapper eventhandle;

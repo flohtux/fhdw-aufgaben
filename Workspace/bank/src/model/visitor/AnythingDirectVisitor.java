@@ -20,6 +20,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException;
     
+    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
+    
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
@@ -33,9 +35,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
-    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
-    
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
+    
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
@@ -48,8 +50,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
-    
     public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     
     public abstract void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
@@ -213,6 +213,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    
+    public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     

@@ -276,6 +276,7 @@ public class Cache {
 		this.number2NameMap.put(115, "Amount");
 		this.number2NameMap.put(-149, "Bank");
 		this.number2NameMap.put(152, "BankCreator");
+		this.number2NameMap.put(241, "BankPx");
 		this.number2NameMap.put(-119, "BankService");
 		this.number2NameMap.put(219, "ChangeCurrencyCommand");
 		this.number2NameMap.put(218, "ChangeMoneyCommand");

@@ -23,7 +23,7 @@ public class AdministratorProxi extends ServiceProxi implements AdministratorVie
             currencyManager.setToString(currencyManager$Info.getToString());
         }
         java.util.Vector<String> banks_string = (java.util.Vector<String>)resultTable.get("banks");
-        java.util.Vector<BankView> banks = ViewProxi.getProxiVector(banks_string, connectionKey);
+        java.util.Vector<BankPxView> banks = ViewProxi.getProxiVector(banks_string, connectionKey);
         AdministratorView result$$ = new Administrator(errors,(CurrencyManagerView)currencyManager,banks, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
@@ -69,10 +69,10 @@ public class AdministratorProxi extends ServiceProxi implements AdministratorVie
     public void setCurrencyManager(CurrencyManagerView newValue) throws ModelException {
         ((Administrator)this.getTheObject()).setCurrencyManager(newValue);
     }
-    public java.util.Vector<BankView> getBanks()throws ModelException{
+    public java.util.Vector<BankPxView> getBanks()throws ModelException{
         return ((Administrator)this.getTheObject()).getBanks();
     }
-    public void setBanks(java.util.Vector<BankView> newValue) throws ModelException {
+    public void setBanks(java.util.Vector<BankPxView> newValue) throws ModelException {
         ((Administrator)this.getTheObject()).setBanks(newValue);
     }
     

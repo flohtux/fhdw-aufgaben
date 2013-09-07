@@ -124,7 +124,7 @@ public class AdministratorICProxi extends ServiceICProxi implements PersistentAd
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).updateObservers(event);
     }
-    public void banks_update(final model.meta.BankMssgs event) 
+    public void banks_update(final model.meta.BankPxMssgs event) 
 				throws PersistenceException{
         ((PersistentAdministrator)this.getTheObject()).banks_update(event);
     }

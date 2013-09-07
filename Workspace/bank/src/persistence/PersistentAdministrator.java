@@ -37,7 +37,7 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void setCurrencyManager(final PersistentCurrencyManager currencyManager) 
 				throws PersistenceException;
-    public void banks_update(final model.meta.BankMssgs event) 
+    public void banks_update(final model.meta.BankPxMssgs event) 
 				throws PersistenceException;
     public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
 				throws PersistenceException;

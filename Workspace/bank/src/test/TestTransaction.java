@@ -87,12 +87,7 @@ public class TestTransaction{
 	@Test
 	public void test2() throws ExecuteException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
-		admin.createBank(BankName1);
-		PersistentBank bank = admin.getBanks().findFirst(new Predcate<PersistentBank>() {
-			public boolean test(PersistentBank argument) throws PersistenceException {
-				return true;
-			}
-		});
+		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 

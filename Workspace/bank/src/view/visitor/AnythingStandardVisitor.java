@@ -74,6 +74,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
         this.standardHandling(triggerListe);
     }
+    public void handleBankPx(BankPxView bankPx) throws ModelException{
+        this.standardHandling(bankPx);
+    }
     public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
         this.standardHandling(disabledState);
     }
