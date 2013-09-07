@@ -44,7 +44,7 @@ public class ToStringConstants {
 	public static final String BracketOpen = " (";
 	public static final String BracketClose = ")";
 	public static final String SenderPrefix = " Absender: ";
-	public static final String MixedFeePrefix = "Gemischte Überweisungskosten=";
+	public static final String MixedFeePrefix = "Gemischte Überweisungskosten";
 	public static final String To = " bis ";
 	public static final String After = " danach ";
 	public static final String Semicolon = ";";

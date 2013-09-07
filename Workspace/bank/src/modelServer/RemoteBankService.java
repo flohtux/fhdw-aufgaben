@@ -69,12 +69,13 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> changeTransactionFee(String newFee, String fixAsString, String fixCurrency, String limitAsString, String limitCurrency, String procentualAsString){
+    public synchronized java.util.HashMap<?,?> changeTransactionFee(String dummyProxiString, String newFee, String fixAsString, String fixCurrency, String limitAsString, String limitCurrency, String procentualAsString){
         try {
+            PersistentTransactionFee dummy = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(dummyProxiString));
             common.Fraction fix = common.Fraction.parse(fixAsString);
             common.Fraction limit = common.Fraction.parse(limitAsString);
             common.Fraction procentual = common.Fraction.parse(procentualAsString);
-            ((PersistentBankService)this.server).changeTransactionFee(newFee, fix, fixCurrency, limit, limitCurrency, procentual);
+            ((PersistentBankService)this.server).changeTransactionFee(dummy, newFee, fix, fixCurrency, limit, limitCurrency, procentual);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

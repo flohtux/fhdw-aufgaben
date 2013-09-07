@@ -41,6 +41,7 @@ import persistence.PersistentMixedFee;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentProxi;
 import persistence.PersistentService;
+import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
 import persistence.SubjInterface;
@@ -303,7 +304,7 @@ public class BankService extends model.Service implements PersistentBankService{
         limit.setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
-    public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
+    public void changeTransactionFee(final PersistentTransactionFee dummy, final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
        	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
 			

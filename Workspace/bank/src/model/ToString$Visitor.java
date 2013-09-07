@@ -133,7 +133,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleMixedFee(PersistentMixedFee mixedFee)
 			throws PersistenceException {
-		result = serverConstants.ToStringConstants.MixedFeePrefix + mixedFee.getFix() + serverConstants.ToStringConstants.To + mixedFee.getLimit() + serverConstants.ToStringConstants.After + mixedFee.getProcentual().toString(true);
+		result = serverConstants.ToStringConstants.MixedFeePrefix;
 		
 	}
 

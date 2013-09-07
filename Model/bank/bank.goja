@@ -42,7 +42,7 @@ server BankService extends Service {
 	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit);
 	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
 	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
-	void changeTransactionFee@@Gebühren_ändern(TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
+	void changeTransactionFee@@Gebühren_ändern(TransactionFee dummy, TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
 	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent);
 }
 class Bank {
@@ -86,11 +86,11 @@ server AccountService extends Service {
 	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
-	no-view void changeReceiverBank@@Empfänger_Bank_ändern(DebitTransfer trans checked, Integer receiverBankNumber);
-	no-view void changeReceiverAccount@@Empfänger_Konto_ändern(DebitTransfer trans checked, Integer receiverAccNumber);
-	no-view void changeMoney@@Überweisungsbetrag_ändern(DebitTransfer trans checked, Fraction newAmount);
-	no-view void changeSubject@@Betreff_ändern(DebitTransfer trans checked, String subject);
-	no-view void changeCurrency@@Währung_ändern(DebitTransfer trans checked, CurrencySUBTYPEName currency);
+	no-view void changeReceiverBank(DebitTransfer trans checked, Integer receiverBankNumber);
+	no-view void changeReceiverAccount(DebitTransfer trans checked, Integer receiverAccNumber);
+	no-view void changeMoney(DebitTransfer trans checked, Fraction newAmount);
+	no-view void changeSubject(DebitTransfer trans checked, String subject);
+	no-view void changeCurrency(DebitTransfer trans checked, CurrencySUBTYPEName currency);
 	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
 	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
