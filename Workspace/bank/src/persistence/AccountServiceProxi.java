@@ -191,11 +191,11 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
         ((PersistentAccountService)this.getTheObject()).changeIncomingAccountRuleBankNumber(rule, newBankNum);
     }
     public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
-				throws model.MaximumIsLowerThenMinimumException, PersistenceException{
+				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMax(rule, maxValue);
     }
     public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
-				throws model.MinimumIsHigherThenMaximumException, PersistenceException{
+				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMin(rule, minValue);
     }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
@@ -221,6 +221,14 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeSubject(trans, subject);
+    }
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).checkMoneyRuleMax(rule, maxValue);
+    }
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).checkMoneyRuleMin(rule, minValue);
     }
     public void connected(final String user) 
 				throws PersistenceException{

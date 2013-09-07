@@ -30,9 +30,13 @@ public interface PersistentMoneyRule extends PersistentRule {
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void changeMax(final common.Fraction maxValue) 
-				throws model.MaximumIsLowerThenMinimumException, PersistenceException;
+				throws PersistenceException;
     public void changeMin(final common.Fraction minValue) 
-				throws model.MinimumIsHigherThenMaximumException, PersistenceException;
+				throws PersistenceException;
+    public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMin(final common.Fraction minValue) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

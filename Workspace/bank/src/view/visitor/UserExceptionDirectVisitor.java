@@ -15,11 +15,7 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     
-    public abstract void handleMaximumIsLowerThenMinimumException(MaximumIsLowerThenMinimumException maximumIsLowerThenMinimumException) throws ModelException;
-    
     public abstract void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException;
-    
-    public abstract void handleMinimumIsHigherThenMaximumException(MinimumIsHigherThenMaximumException minimumIsHigherThenMaximumException) throws ModelException;
     
     public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
     

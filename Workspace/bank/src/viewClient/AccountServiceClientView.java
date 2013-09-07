@@ -2,6 +2,7 @@ package viewClient;
 
 import view.*;
 import view.objects.ViewRoot;
+import view.visitor.BooleanValueReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
 
@@ -367,21 +368,44 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				final CustomMoneyRuleDetailPanel panel = new CustomMoneyRuleDetailPanel(AccountServiceClientView.this, moneyRule);
 				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$minLimit, new DecimalFractionUpdater() {
 					public void update(String text) throws ModelException {
-						try {
 							AccountServiceClientView.this.getConnection().changeMoneyRuleMin(moneyRule, Fraction.parseDec(text));
-						} catch (MinimumIsHigherThenMaximumException e) {
-							e.printStackTrace();
-						}
-					}});
+					}
+					@Override
+					public boolean check(String text) throws ModelException {
+						return super.check(text) && AccountServiceClientView.this.getConnection().checkMoneyRuleMin(moneyRule, Fraction.parseDec(text)).accept(new BooleanValueReturnVisitor<Boolean>() {
+
+							@Override
+							public Boolean handleFalseValue(FalseValueView falseValue) throws ModelException {
+								return false;
+							}
+
+							@Override
+							public Boolean handleTrueValue(TrueValueView trueValue) throws ModelException {
+								return true;
+							}
+						});
+					}
+					});
 				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$maxLimit, new DecimalFractionUpdater() {
 					public void update(String text) throws ModelException {
-						try {
 							AccountServiceClientView.this.getConnection().changeMoneyRuleMax(moneyRule, Fraction.parseDec(text));
-						} catch (MaximumIsLowerThenMinimumException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}});
+					}
+					@Override
+					public boolean check(String text) throws ModelException {
+						return super.check(text)  && AccountServiceClientView.this.getConnection().checkMoneyRuleMax(moneyRule, Fraction.parseDec(text)).accept(new BooleanValueReturnVisitor<Boolean>() {
+
+							@Override
+							public Boolean handleFalseValue(FalseValueView falseValue) throws ModelException {
+								return false;
+							}
+
+							@Override
+							public Boolean handleTrueValue(TrueValueView trueValue) throws ModelException {
+								return true;
+							}
+						});
+					}
+				});
 				
 				result = panel;
 			}
@@ -1004,6 +1028,36 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     
                 });
                 result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("checkMoneyRuleMax ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard wizard = new AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard("checkMoneyRuleMax");
+                        wizard.setFirstArgument((MoneyRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("checkMoneyRuleMin ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCheckMoneyRuleMinMoneyRuleFractionMssgWizard wizard = new AccountServiceCheckMoneyRuleMinMoneyRuleFractionMssgWizard("checkMoneyRuleMin");
+                        wizard.setFirstArgument((MoneyRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
             }
             if (selected instanceof IncomingAccountRuleView){
                 item = new javax.swing.JMenuItem();
@@ -1326,9 +1380,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				setVisible(false);
 				dispose();
 			}
-			catch(MaximumIsLowerThenMinimumException e) {
-				getStatusBar().setText(e.getMessage());
-			}
 			
 		}
 		protected String checkCompleteParameterSet(){
@@ -1375,9 +1426,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				handleException(me);
 				setVisible(false);
 				dispose();
-			}
-			catch(MinimumIsHigherThenMaximumException e) {
-				getStatusBar().setText(e.getMessage());
 			}
 			
 		}
@@ -1693,6 +1741,108 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			}catch(ModelException me){
 				 handleException(me);
 			}
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard extends Wizard {
+
+		protected AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				ViewRoot result = (ViewRoot) getConnection().checkMoneyRuleMax(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				ReturnValueView view = new ReturnValueView(result, new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+				view.setLocationRelativeTo(getNavigationScrollPane());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();
+				view.setVisible(true);
+				view.repaint();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("maxValue", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private MoneyRuleView firstArgument; 
+	
+		public void setFirstArgument(MoneyRuleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceCheckMoneyRuleMinMoneyRuleFractionMssgWizard extends Wizard {
+
+		protected AccountServiceCheckMoneyRuleMinMoneyRuleFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceCheckMoneyRuleMinMoneyRuleFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				ViewRoot result = (ViewRoot) getConnection().checkMoneyRuleMin(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				ReturnValueView view = new ReturnValueView(result, new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+				view.setLocationRelativeTo(getNavigationScrollPane());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();
+				view.setVisible(true);
+				view.repaint();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("minValue", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private MoneyRuleView firstArgument; 
+	
+		public void setFirstArgument(MoneyRuleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
 			this.check();
 		}
 		

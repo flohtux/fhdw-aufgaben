@@ -50,6 +50,7 @@ import persistence.PersistentAccountServiceNotExecuted;
 import persistence.PersistentAccountServiceSuccessful;
 import persistence.PersistentAccountServiceTemplate;
 import persistence.PersistentBank;
+import persistence.PersistentBooleanValue;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
@@ -553,12 +554,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
         
     }
     public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
-				throws model.MaximumIsLowerThenMinimumException, PersistenceException{
+				throws PersistenceException{
     	rule.changeMax(maxValue);
     	getThis().signalChanged(true);
     }
     public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
-				throws model.MinimumIsHigherThenMaximumException, PersistenceException{
+				throws PersistenceException{
     	rule.changeMin(minValue);
     	getThis().signalChanged(true);
     }
@@ -586,6 +587,14 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
        trans.setSubject(subject);
        getThis().signalChanged(true);
+    }
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        return rule.checkMax(maxValue);
+    }
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+    	return rule.checkMin(minValue);
     }
     public void connected(final String user) 
 				throws PersistenceException{

@@ -99,12 +99,20 @@ public class MoneyRuleProxi extends RuleProxi implements PersistentMoneyRule{
         ((PersistentMoneyRule)this.getTheObject()).updateObservers(event);
     }
     public void changeMax(final common.Fraction maxValue) 
-				throws model.MaximumIsLowerThenMinimumException, PersistenceException{
+				throws PersistenceException{
         ((PersistentMoneyRule)this.getTheObject()).changeMax(maxValue);
     }
     public void changeMin(final common.Fraction minValue) 
-				throws model.MinimumIsHigherThenMaximumException, PersistenceException{
+				throws PersistenceException{
         ((PersistentMoneyRule)this.getTheObject()).changeMin(minValue);
+    }
+    public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).checkMax(maxValue);
+    }
+    public PersistentBooleanValue checkMin(final common.Fraction minValue) 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).checkMin(minValue);
     }
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{

@@ -68,9 +68,9 @@ public interface PersistentAccountService extends PersistentService {
     public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
 				throws PersistenceException;
     public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
-				throws model.MaximumIsLowerThenMinimumException, PersistenceException;
+				throws PersistenceException;
     public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
-				throws model.MinimumIsHigherThenMaximumException, PersistenceException;
+				throws PersistenceException;
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
     public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 
@@ -80,6 +80,10 @@ public interface PersistentAccountService extends PersistentService {
     public void changeSubjectRuleSubject(final PersistentSubjectRule rule, final String newSubject) 
 				throws PersistenceException;
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
