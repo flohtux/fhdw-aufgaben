@@ -217,6 +217,16 @@ public class IncomingAccountRule extends model.Rule implements PersistentIncomin
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeAccountNumber(final long accNum) 
+				throws PersistenceException{
+        getThis().setAccountNumber(accNum);
+        
+    }
+    public void changeBankNumber(final long bankNum) 
+				throws PersistenceException{
+        getThis().setBankNumber(bankNum);
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
 		// TODO: implement method: copyingPrivateUserAttributes

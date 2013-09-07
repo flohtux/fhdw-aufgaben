@@ -86,6 +86,10 @@ public class SubjectRuleProxi extends RuleProxi implements PersistentSubjectRule
 				throws PersistenceException{
         ((PersistentSubjectRule)this.getTheObject()).updateObservers(event);
     }
+    public void changeSubject(final String subject) 
+				throws PersistenceException{
+        ((PersistentSubjectRule)this.getTheObject()).changeSubject(subject);
+    }
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
         return ((PersistentSubjectRule)this.getTheObject()).check(debitTransfer);

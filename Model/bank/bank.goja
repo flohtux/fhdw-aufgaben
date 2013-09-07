@@ -8,7 +8,7 @@ abstract server Service{
 }
 server Administrator extends Service {
 	observe CurrencyManager currencyManager;
-	observe Bank ** banks;
+	observe BankPx ** banks;
 	void createBank@@Bank_erstellen(String name);
 	void changeName@@Namen_ändern(Bank bank, String name@@Name);
 	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currency, Fraction rate);
@@ -63,6 +63,11 @@ class Bank {
 	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
 	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
 }
+
+class BankPx {
+	server-only prior Bank bank;
+}
+
 server AccountService extends Service {
 	prior final one-to-one (server-only  accountService) skip-view Account account;
 	final one-to-one(server-only accountService) no-view EventWrapper eventhandle;
@@ -73,7 +78,7 @@ server AccountService extends Service {
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
-	void createTrigger@@Neue_Folgebuchung(TriggerListe unimportant, String name, DebitTransferTransactionSUBTYPEName type);
+	void createTrigger@@Neue_Folgebuchung(String name, DebitTransferTransactionSUBTYPEName type);
 	void enable(Trigger t checked);
 	void disable(Trigger t checked);
 	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
@@ -89,6 +94,12 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
+	//Rules
+	void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
+	void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
+	void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
+	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
+	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 }
 
 class EventWrapper {
@@ -139,8 +150,6 @@ class Account {
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
 
-	//Trigger
-
 }
 
 class AccountPx {
@@ -188,7 +197,7 @@ abstract class BooleanValue(TrueValue,FalseValue){
 }
 
 abstract string-factory class LimitType(NoLimit) {
-	void checkLimit(Money money) throws LimitViolatedException;
+	void checkMaxLimit(Money money) throws LimitViolatedException;
 }
 class Limit extends LimitType{
 	prior skip-view Money money;
@@ -277,16 +286,22 @@ string-factory abstract class Rule{
 
 class MoneyRule extends Rule{
 	no-view prior Currency currency;
-	LimitAccount limitAccount;
+	skip-view Amount minLimit;
+	skip-view Amount maxLimit;
+	void changeMin(Fraction minValue);
+	void changeMax(Fraction maxValue);
 }
 
 class SubjectRule extends Rule{
 	String subject;
+	void changeSubject(String subject);
 }
 
 class IncomingAccountRule##IncAccRule extends Rule{
 	Integer accountNumber;
 	Integer bankNumber;
+	void changeAccountNumber(Integer accNum);
+	void changeBankNumber(Integer bankNum);
 }
 
 class DebitTransferDoubleState##DebTraStaDo {

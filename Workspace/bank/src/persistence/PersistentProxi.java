@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[140];
+		listProxiFactories = new ListProxiFactory[141];
         listProxiFactories[104] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new AccountReceivedDebitGrantListEntryProxi(objectId, entryId);
@@ -180,6 +180,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[133] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new TriggerListeListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[140] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new BankPxListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[136] = new ListProxiFactory(){
@@ -412,7 +417,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [140];
+		proxiFactories = new ProxiFactory [141];
         proxiFactories[104] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new AccountReceivedDebitGrantProxi(objectId);
@@ -576,6 +581,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[133] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new TriggerListeProxi(objectId);
+            }
+        };
+        proxiFactories[140] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new BankPxProxi(objectId);
             }
         };
         proxiFactories[136] = new ProxiFactory(){

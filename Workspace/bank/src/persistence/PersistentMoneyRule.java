@@ -8,8 +8,10 @@ public interface PersistentMoneyRule extends PersistentRule {
     
     public PersistentCurrency getCurrency() throws PersistenceException ;
     public void setCurrency(PersistentCurrency newValue) throws PersistenceException ;
-    public PersistentLimitAccount getLimitAccount() throws PersistenceException ;
-    public void setLimitAccount(PersistentLimitAccount newValue) throws PersistenceException ;
+    public PersistentAmount getMinLimit() throws PersistenceException ;
+    public void setMinLimit(PersistentAmount newValue) throws PersistenceException ;
+    public PersistentAmount getMaxLimit() throws PersistenceException ;
+    public void setMaxLimit(PersistentAmount newValue) throws PersistenceException ;
     public PersistentMoneyRule getThis() throws PersistenceException ;
     
     public void accept(RuleVisitor visitor) throws PersistenceException;
@@ -26,6 +28,10 @@ public interface PersistentMoneyRule extends PersistentRule {
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeMax(final common.Fraction maxValue) 
+				throws PersistenceException;
+    public void changeMin(final common.Fraction minValue) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

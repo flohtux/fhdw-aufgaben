@@ -106,7 +106,7 @@ public class AdministratorBanksFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public long observeeAdd(long AdministratorBanksId, PersistentBank observeeVal) throws PersistenceException {
+    public long observeeAdd(long AdministratorBanksId, PersistentBankPx observeeVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AdmnstrtrBnksFacade.obsAdd(?, ?, ?); end;");
@@ -133,7 +133,7 @@ public class AdministratorBanksFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public BankList observeeGet(long AdministratorBanksId) throws PersistenceException {
+    public BankPxList observeeGet(long AdministratorBanksId) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".AdmnstrtrBnksFacade.obsGet(?); end;");
@@ -141,9 +141,9 @@ public class AdministratorBanksFacade{
             callable.setLong(2, AdministratorBanksId);
             callable.execute();
             ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
-            BankList result = new BankList();
+            BankPxList result = new BankPxList();
             while (list.next()) {
-                result.add((PersistentBank)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
+                result.add((PersistentBankPx)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
             }
             list.close();
             callable.close();

@@ -87,12 +87,7 @@ public class TestTransaction{
 	@Test
 	public void test2() throws ExecuteException, PersistenceException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
-		admin.createBank(BankName1);
-		PersistentBank bank = admin.getBanks().findFirst(new Predcate<PersistentBank>() {
-			public boolean test(PersistentBank argument) throws PersistenceException {
-				return true;
-			}
-		});
+		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -108,7 +103,7 @@ public class TestTransaction{
 		newTrans2.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans2.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans2.setReceiverBankNumber(42);
-		
+		 
 		PersistentTransaction newTrans = acc1.createTransaction();
 		DebitTransferSearchList transList = new DebitTransferSearchList();
 		transList.add(newTrans1);

@@ -14,6 +14,7 @@ import persistence.PersistentAdministrator;
 import persistence.PersistentAmount;
 import persistence.PersistentBank;
 import persistence.PersistentBankCreator;
+import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
@@ -78,7 +79,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		return result;
 	}
 	protected void standardHandling(Anything anything) {
-		result = anything.getClassId() + ";" + anything.getId();
+		result = anything.getClassId() + serverConstants.ToStringConstants.Semicolon + anything.getId();
 	}
 	@Override
 	public void handleServer(PersistentServer server)
@@ -99,7 +100,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAccount(PersistentAccount account)
 			throws PersistenceException {
-		this.result = "Account:" + new Long(account.getAccountNumber()).toString();
+		this.result = serverConstants.ToStringConstants.AccountPrefix + new Long(account.getAccountNumber()).toString();
 	}
 	@Override
 	public void handleBankCreator(PersistentBankCreator bankCreator)
@@ -130,7 +131,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleMixedFee(PersistentMixedFee mixedFee)
 			throws PersistenceException {
-		result = "gemischte Überweisungskosten=" + mixedFee.getFix() + " bis " + mixedFee.getLimit() + " danach " + mixedFee.getProcentual().toString(true);
+		result = serverConstants.ToStringConstants.MixedFeePrefix + mixedFee.getFix() + serverConstants.ToStringConstants.To + mixedFee.getLimit() + serverConstants.ToStringConstants.After + mixedFee.getProcentual().toString(true);
 		
 	}
 
@@ -138,7 +139,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleFixTransactionFee(
 			PersistentFixTransactionFee fixTransactionFee)
 			throws PersistenceException {
-		result = "fixe Überweisungskosten=" + fixTransactionFee.getValue();
+		result = serverConstants.ToStringConstants.FixTransactionFeePrefix + fixTransactionFee.getValue();
 		
 	}
 	@Override
@@ -148,18 +149,20 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleMoney(PersistentMoney money) throws PersistenceException {
-		this.result = money.getAmount().toString(true)+ " "+money.getCurrency().toString(true);
+		this.result = money.getAmount().toString(true)+ serverConstants.ToStringConstants.Space +money.getCurrency().toString(true);
 	}
 	@Override
 	public void handleProcentualFee(PersistentProcentualFee procentualFee)
 			throws PersistenceException {
-		result = "prozentuale Überweisungskosten=" + procentualFee.getPercent().toString(true);
+		result = serverConstants.ToStringConstants.ProcentualFeePrefix + procentualFee.getPercent().toString(true);
 		
 	}
 	@Override
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
-		this.result = "Lastschrift";
+		this.result = serverConstants.ToStringConstants.DebitPrefix + Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
+				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().getAccountNumber() + 
+				serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleRequestState(PersistentRequestState requestState)
@@ -183,42 +186,42 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTemplateState(PersistentTemplateState templateState)
 			throws PersistenceException {
-		this.result = "Vorlage";
+		this.result = serverConstants.ToStringConstants.TemplatePrefix;
 	}
 	@Override
 	public void handleInternalFee(PersistentInternalFee internalFee)
 			throws PersistenceException {
-		result = "Rabatt auf interne Überweisungen=" + internalFee.getPercent().toString();
+		result = serverConstants.ToStringConstants.InternalFeePrefix + internalFee.getPercent().toString();
 		
 	}
 	@Override
 	public void handleNotExecutedState(
 			PersistentNotExecutedState notExecutedState)
 			throws PersistenceException {
-		result = "Noch nicht versendet...";
+		result = serverConstants.ToStringConstants.NotExecutedState;
 	}
 	@Override
 	public void handleExecutedState(PersistentExecutedState executedState)
 			throws PersistenceException {
-		result = "abgesendet...";
+		result = serverConstants.ToStringConstants.ExecutedState;
 	}
 	@Override
 	public void handleNotSuccessfulState(
 			PersistentNotSuccessfulState notSuccessfulState)
 			throws PersistenceException {
-		result = "nich vollständig ausgefüllt...";
+		result = serverConstants.ToStringConstants.NotSuccessfulState;
 	}
 	@Override
 	public void handleNotExecutableState(
 			PersistentNotExecutableState notExecutableState)
 			throws PersistenceException {
-		result = "Fehler...";
+		result = serverConstants.ToStringConstants.NotExecutableState;
 	}
 	@Override
 	public void handleSuccessfulState(
 			PersistentSuccessfulState SuccessfulState)
 			throws PersistenceException {
-		result = "Erfolgreich";
+		result = serverConstants.ToStringConstants.SuccessfulState;
 	}
 	@Override
 	public void handlePercent(PersistentPercent percent)
@@ -228,7 +231,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransaction(PersistentTransaction transaction)
 			throws PersistenceException {
-		this.result = "Transaktion";
+		this.result = serverConstants.ToStringConstants.Transaction + transaction.getSubject();
 	}
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
@@ -238,7 +241,9 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
-		this.result = "Überweisung: "+transfer.getSubject()+" ("+transfer.getMoney().toString(true) + " Absender: " + transfer.getSender().getAccountNumber()+")";
+		this.result = serverConstants.ToStringConstants.TransferPrefix +transfer.getSubject()+serverConstants.ToStringConstants.BracketOpen+
+				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().getAccountNumber()+
+				serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleSuccessfulStornoState(
@@ -250,7 +255,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
 			throws PersistenceException {
-		this.result = MaxLimitPrefix + limitAccount.getMaxLimit().toString(true) + MinMaxLimitDelimiter + MinLimitPrefix + limitAccount.getMinLimit().toString(true);
+		this.result = MaxLimitPrefix + limitAccount.getMaxLimit().toString(true) + MinMaxLimitDelimiter + MinLimitPrefix + 
+				limitAccount.getMinLimit().toString(true);
 	}
 	@Override
 	public void handleLimit(PersistentLimit limit) throws PersistenceException {
@@ -271,7 +277,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCurrencyManager(PersistentCurrencyManager currencyManager)
 			throws PersistenceException {
-		result = "EZB - Kontostand: " + currencyManager.calculateExchangeRateCompensationReferenceAmount();
+		result = serverConstants.ToStringConstants.CurrencyManagerPrefix + 
+				currencyManager.calculateExchangeRateCompensationReferenceAmount();
 		
 	}
 	@Override
@@ -292,17 +299,17 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
-		this.result = "Einzugsermächtigung für " + debitGrant.getPermittedAccount();
+		this.result = serverConstants.ToStringConstants.DebitGrantPrefix + debitGrant.getPermittedAccount();
 		
 	}
 	@Override
 	public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException {
-		this.result = "Historie";
+		this.result = serverConstants.ToStringConstants.DebitTransferSuccessful;
 		
 	}
 	@Override
 	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException {
-		this.result = "Noch nicht erledigte Aufträge";
+		this.result = serverConstants.ToStringConstants.DebitTransferNotExecuted;
 		
 	}
 	@Override
@@ -313,7 +320,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAccountPx(PersistentAccountPx accountPx)
 			throws PersistenceException {
-		this.result = "Account: " + new Long(accountPx.getAccount().getAccountNumber()).toString();
+//		this.result = "Account: " + new Long(accountPx.getAccount().getAccountNumber()).toString();
+		this.result = accountPx.getAccount().toString(true);
 	}
 	@Override
 	public void handleDebitTransferTemplate(
@@ -339,40 +347,40 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleIncomingAccountRule(
 			PersistentIncomingAccountRule incomingAccountRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = String.format(serverConstants.ToStringConstants.IncomingAccountRuleFormatAccountBank, incomingAccountRule.getAccountNumber(), incomingAccountRule.getBankNumber());
 	}
 	@Override
 	public void handleSubjectRule(PersistentSubjectRule subjectRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = String.format(serverConstants.ToStringConstants.SubjectRuleFormat, subjectRule.getSubject());
 	}
 	@Override
 	public void handleTrigger(PersistentTrigger trigger)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = trigger.getName();
 	}
 	@Override
 	public void handleMoneyRule(PersistentMoneyRule moneyRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = String.format(serverConstants.ToStringConstants.MoneyRuleFormatMinMax, moneyRule.getMinLimit().toString(true), moneyRule.getMaxLimit().toString(true));
 	}
 	@Override
 	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {
-		result = "Folgebuchungen";
+		result = serverConstants.ToStringConstants.TriggerListe;
 		
 	}
 	@Override
 	public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = serverConstants.ToStringConstants.DisableState;
 	}
 	@Override
 	public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException {
-		// TODO Auto-generated method stub
+		this.result = serverConstants.ToStringConstants.EnableState;
+	}
+	@Override
+	public void handleBankPx(PersistentBankPx bankPx)
+			throws PersistenceException {
+		this.result = bankPx.getBank().toString(true);
 		
 	}
 	

@@ -26,6 +26,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleServer(PersistentServer server) throws PersistenceException, E;
     public R handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException, E;
     public R handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException, E;
+    public R handleBankPx(PersistentBankPx bankPx) throws PersistenceException, E;
     public R handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException, E;
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException, E;

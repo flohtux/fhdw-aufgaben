@@ -26,6 +26,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException;
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;

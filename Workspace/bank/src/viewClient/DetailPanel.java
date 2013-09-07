@@ -763,6 +763,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTriggerListe(view.TriggerListeView object){
         result = new TriggerListeDefaultDetailPanel(handler, object);
     }
+    public void handleBankPx(view.BankPxView object){
+        result = new BankPxDefaultDetailPanel(handler, object);
+    }
     public void handleDisabledState(view.DisabledStateView object){
         result = new DisabledStateDefaultDetailPanel(handler, object);
     }
@@ -1292,6 +1295,20 @@ class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class BankPxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected BankPxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankPxView getAnything(){
+        return (view.BankPxView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class DisabledStateDefaultDetailPanel extends DefaultDetailPanel{
     
     protected DisabledStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1672,7 +1689,8 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String MoneyRule$$limitAccount = "MoneyRule$$limitAccount";
+    protected static final String MoneyRule$$minLimit = "MoneyRule$$minLimit";
+    protected static final String MoneyRule$$maxLimit = "MoneyRule$$maxLimit";
     
     protected MoneyRuleDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

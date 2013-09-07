@@ -1,10 +1,14 @@
 
 package model;
 
+import model.visitor.LimitTypeExceptionVisitor;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.PersistenceException;
+import persistence.PersistentLimit;
 import persistence.PersistentLimitType;
+import persistence.PersistentMoney;
+import persistence.PersistentNoLimit;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.SubjInterface;
@@ -130,6 +134,26 @@ public abstract class LimitType extends PersistentObject implements PersistentLi
     
     // Start of section that contains overridden operations only.
     
+    public void checkMaxLimit(final PersistentMoney money) 
+				throws model.LimitViolatedException, PersistenceException{
+    	getThis().accept(new LimitTypeExceptionVisitor<LimitViolatedException>() {
+
+			@Override
+			public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException, LimitViolatedException {
+				return;
+			}
+
+			@Override
+			public void handleLimit(PersistentLimit limit) throws PersistenceException, LimitViolatedException {
+				if (limit.getMoney().greaterOrEqual(money).isTrue()) {
+					return;
+				} else {
+					throw new LimitViolatedException();
+				}
+			}
+		});
+    	
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

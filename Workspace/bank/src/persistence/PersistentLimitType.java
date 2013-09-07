@@ -17,7 +17,7 @@ public interface PersistentLimitType extends SubjInterface, Anything, AbstractPe
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void checkLimit(final PersistentMoney money) 
+    public void checkMaxLimit(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

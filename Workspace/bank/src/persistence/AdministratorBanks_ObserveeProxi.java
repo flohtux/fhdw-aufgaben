@@ -4,18 +4,18 @@ import model.*;
 
 import java.util.Iterator;
 
-public class AdministratorBanks_ObserveeProxi extends PersistentListProxi<PersistentBank> {
+public class AdministratorBanks_ObserveeProxi extends PersistentListProxi<PersistentBankPx> {
 
-  	private BankList list;
+  	private BankPxList list;
   	private AdministratorBanks owner;
 
   	public AdministratorBanks_ObserveeProxi(AdministratorBanks owner) {
     	this.owner = owner;
   	}
-  	public BankList getList() throws PersistenceException{
+  	public BankPxList getList() throws PersistenceException{
     	if (this.list == null) {
       		if (this.owner.isDelayed$Persistence()) {
-        		this.list = new BankList();
+        		this.list = new BankPxList();
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
@@ -24,22 +24,22 @@ public class AdministratorBanks_ObserveeProxi extends PersistentListProxi<Persis
     	}
     	return this.list;
   	}
-  	public Iterator<PersistentBank> iterator() throws PersistenceException{
+  	public Iterator<PersistentBankPx> iterator() throws PersistenceException{
     	return this.getList().iterator(this);
   	}
   	public long getLength() throws PersistenceException{
 	  	return this.getList().getLength();
   	}
-  	public void add(PersistentBank entry) throws PersistenceException {
+  	public void add(PersistentBankPx entry) throws PersistenceException {
     	if (entry != null) {
-      		BankList list = this.getList();
+      		BankPxList list = this.getList();
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
         		entryId = ConnectionHandler.getTheConnectionHandler().theAdministratorBanksFacade
         	               	.observeeAdd(owner.getId(), entry);
       		}
-      		list.add((PersistentBank)PersistentProxi.createListEntryProxi(entry.getId(),
+      		list.add((PersistentBankPx)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
         	    	                   entryId));
       		entry.register(this.owner);
@@ -49,7 +49,7 @@ public class AdministratorBanks_ObserveeProxi extends PersistentListProxi<Persis
     	if (!this.owner.isDelayed$Persistence()) {
       		ConnectionHandler.getTheConnectionHandler().theAdministratorBanksFacade.observeeRem(entry.getListEntryId());
     	}
-    	((PersistentBank)entry).deregister(this.owner);
+    	((PersistentBankPx)entry).deregister(this.owner);
   	}
   	public AdministratorBanks_ObserveeProxi copy(AdministratorBanks owner) throws PersistenceException {
   		AdministratorBanks_ObserveeProxi result = new AdministratorBanks_ObserveeProxi(owner);
@@ -57,9 +57,9 @@ public class AdministratorBanks_ObserveeProxi extends PersistentListProxi<Persis
   		return result;
   	}	 
   	public void store() throws PersistenceException {
-  		java.util.Iterator<PersistentBank> entries = (this.list == null ? new java.util.Vector<PersistentBank>().iterator() : this.list.iterator(this));
+  		java.util.Iterator<PersistentBankPx> entries = (this.list == null ? new java.util.Vector<PersistentBankPx>().iterator() : this.list.iterator(this));
   		while (entries.hasNext()){
-  			PersistentBank current = entries.next();
+  			PersistentBankPx current = entries.next();
   			current.store();
       		long entryId = ConnectionHandler.getTheConnectionHandler().theAdministratorBanksFacade
             	           .observeeAdd(owner.getId(), current);

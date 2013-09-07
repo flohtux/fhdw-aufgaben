@@ -17,7 +17,7 @@ public class LimitAccountWrapper extends AssociationInTreeWrapper {
 	
 	public String toString(){
     	//TODO: Implement toString in wrapper class for association limit in class Account
-    	return "Limits: "+this.getWrappedObject().toString();
+    	return viewConstants.WrapperConstants.LimitAccount+this.getWrappedObject().toString();
     }
 
     /*End of protected part that is not overridden by persistence generator*/

@@ -27,6 +27,10 @@ public interface PersistentIncomingAccountRule extends PersistentRule {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void changeAccountNumber(final long accNum) 
+				throws PersistenceException;
+    public void changeBankNumber(final long bankNum) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

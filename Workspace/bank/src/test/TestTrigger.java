@@ -60,10 +60,10 @@ public class TestTrigger {
 		PersistentAccount acc2 = bank.getAccounts().get(SecondAccountNumber);
 		
 		acc1.getAccountService().changePassword("test", "test");
-		
-		PersistentTrigger tr = acc2.createTrigger("Überweis Janik 5 Euro");
-		
 		PersistentTransfer action = acc2.createTransfer();
+		PersistentTrigger tr = acc2.createTrigger("Überweis Janik 5 Euro",action);
+		
+	
 		action.setMoney(Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro()));
 		action.setReceiverAccountNumber(FirstAccountNumber);
 		action.setReceiverBankNumber(bank.getBankNumber());
