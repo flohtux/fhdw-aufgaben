@@ -211,10 +211,9 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createTrigger(String unimportantProxiString, String name, String type){
+    public synchronized java.util.HashMap<?,?> createTrigger(String name, String type){
         try {
-            PersistentTriggerListe unimportant = (PersistentTriggerListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(unimportantProxiString));
-            ((PersistentAccountService)this.server).createTrigger(unimportant, name, type);
+            ((PersistentAccountService)this.server).createTrigger(name, type);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

@@ -596,7 +596,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().getNotExecuted().getNotExecuteds().add(transfer);
         getThis().signalChanged(true);
     }
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
+    public void createTrigger(final String name, final String type) 
 				throws PersistenceException{
     	PersistentDebitTransferTransaction newDTT = StringFACTORY.createObjectBySubTypeNameForDebitTransferTransaction(type, new DebitTransferTransactionSwitchPARAMETER() {
 			

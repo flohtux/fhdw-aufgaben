@@ -83,7 +83,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
+    public void createTrigger(final String name, final String type) 
 				throws PersistenceException;
     public void disable(final PersistentTrigger t) 
 				throws PersistenceException;

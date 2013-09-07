@@ -160,7 +160,9 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.DebitPrefix;
+		this.result = serverConstants.ToStringConstants.DebitPrefix + Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
+				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().getAccountNumber() + 
+				serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleRequestState(PersistentRequestState requestState)
@@ -229,7 +231,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTransaction(PersistentTransaction transaction)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.Transaction;
+		this.result = serverConstants.ToStringConstants.Transaction + transaction.getSubject();
 	}
 	@Override
 	public void handleNoLimit(PersistentNoLimit noLimit)
@@ -357,8 +359,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleTrigger(PersistentTrigger trigger)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = trigger.getName();
 	}
 	@Override
 	public void handleMoneyRule(PersistentMoneyRule moneyRule)
@@ -373,13 +374,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = serverConstants.ToStringConstants.DisableState;
 	}
 	@Override
 	public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = serverConstants.ToStringConstants.EnableState;
 	}
 	@Override
 	public void handleBankPx(PersistentBankPx bankPx)

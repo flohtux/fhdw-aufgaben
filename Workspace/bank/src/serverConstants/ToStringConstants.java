@@ -26,7 +26,7 @@ public class ToStringConstants {
 	public static final String FixTransactionFeePrefix = "Fixe Überweisungskosten= ";
 	public static final String Space = " ";
 	public static final String ProcentualFeePrefix = "Prozentuale Überweisungskosten= ";
-	public static final String DebitPrefix = "Lastschrift";
+	public static final String DebitPrefix = "Lastschrift ";
 	public static final String TemplatePrefix = "Vorlage";
 	public static final String InternalFeePrefix = "Rabatt auf interne Überweisungen=";
 	public static final String NotExecutedState = "Noch nicht versendet...";
@@ -48,7 +48,8 @@ public class ToStringConstants {
 	public static final String To = " bis ";
 	public static final String After = " danach ";
 	public static final String Semicolon = ";";
-	
+	public static final String DisableState = "Nicht aktiv";
+	public static final String EnableState = "Aktiv";
 
 	
 	

@@ -480,14 +480,9 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void createTrigger(TriggerListeView unimportant, String name, String type) throws ModelException{
+    public synchronized void createTrigger(String name, String type) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (unimportant == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)unimportant).createProxiInformation());
-            }
             parameters.add(name);
             parameters.add(type);
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "createTrigger", parameters);

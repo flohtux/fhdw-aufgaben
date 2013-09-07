@@ -448,6 +448,18 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private java.util.Vector<javax.swing.JButton> getToolButtonsForStaticOperations() {
         java.util.Vector<javax.swing.JButton> result = new java.util.Vector<javax.swing.JButton>();
         javax.swing.JButton currentButton = null;
+        currentButton = new javax.swing.JButton("Neue Folgebuchung ... ");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard wizard = new AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard("Neue Folgebuchung");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });result.add(currentButton);
         currentButton = new javax.swing.JButton("Neue Lastschrift");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -519,6 +531,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
     private JPopupMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations) {
         JPopupMenu result = new JPopupMenu();
         javax.swing.JMenuItem item = null;
+        item = new javax.swing.JMenuItem();
+        item.setText("(S) Neue Folgebuchung ... ");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard wizard = new AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard("Neue Folgebuchung");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
         item.setText("(S) Neue Lastschrift");
         item.addActionListener(new java.awt.event.ActionListener() {
@@ -706,23 +732,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     public void actionPerformed(java.awt.event.ActionEvent e) {
                         AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard wizard = new AccountServiceCreateDebitGrantDebitGrantListeIntegerIntegerLimitTypeSUBTYPENameFractionCurrencySUBTYPENameMssgWizard("Neue Erlaubnis erteilen");
                         wizard.setFirstArgument((DebitGrantListeView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-            }
-            if (selected instanceof TriggerListeView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Neue Folgebuchung ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceCreateTriggerTriggerListeStringDebitTransferTransactionSUBTYPENameMssgWizard wizard = new AccountServiceCreateTriggerTriggerListeStringDebitTransferTransactionSUBTYPENameMssgWizard("Neue Folgebuchung");
-                        wizard.setFirstArgument((TriggerListeView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                         wizard.pack();
@@ -1464,20 +1473,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-	class AccountServiceCreateTriggerTriggerListeStringDebitTransferTransactionSUBTYPENameMssgWizard extends Wizard {
+	class AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard extends Wizard {
 
-		protected AccountServiceCreateTriggerTriggerListeStringDebitTransferTransactionSUBTYPENameMssgWizard(String operationName){
+		protected AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "AccountServiceCreateTriggerTriggerListeStringDebitTransferTransactionSUBTYPENameMssgWizard.help";
+			this.helpFileName = "AccountServiceCreateTriggerStringDebitTransferTransactionSUBTYPENameMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().createTrigger(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
+				getConnection().createTrigger(((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
 									((StringSelectionPanel)getParametersPanel().getComponent(1)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
@@ -1499,15 +1508,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
-		}
-		
-		
-		private TriggerListeView firstArgument; 
-	
-		public void setFirstArgument(TriggerListeView firstArgument){
-			this.firstArgument = firstArgument;
-			this.setTitle(this.firstArgument.toString());
-			this.check();
 		}
 		
 		

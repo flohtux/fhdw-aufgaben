@@ -78,7 +78,7 @@ server AccountService extends Service {
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
-	void createTrigger@@Neue_Folgebuchung(TriggerListe unimportant, String name, DebitTransferTransactionSUBTYPEName type);
+	void createTrigger@@Neue_Folgebuchung(String name, DebitTransferTransactionSUBTYPEName type);
 	void enable(Trigger t checked);
 	void disable(Trigger t checked);
 	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
