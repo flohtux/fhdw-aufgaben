@@ -5,6 +5,7 @@ import view.*;
 
 public interface UserExceptionReturnVisitor<R> extends ExecuteExceptionReturnVisitor<R> {
     
+    public R handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException;
     public R handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException;
     public R handlePasswordException(PasswordException passwordException) throws ModelException;
     public R handleRestrictionException(RestrictionException restrictionException) throws ModelException;

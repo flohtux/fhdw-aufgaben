@@ -24,7 +24,7 @@ public class MoneyRuleFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            MoneyRule result = new MoneyRule(null,null,null,id);
+            MoneyRule result = new MoneyRule(null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (MoneyRuleProxi)PersistentProxi.createProxi(id, 232);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class MoneyRuleFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            MoneyRule result = new MoneyRule(null,null,null,id);
+            MoneyRule result = new MoneyRule(null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (MoneyRuleProxi)PersistentProxi.createProxi(id, 232);
         }catch(SQLException se) {
@@ -67,12 +67,16 @@ public class MoneyRuleFacade{
             PersistentRule This = null;
             if (obj.getLong(4) != 0)
                 This = (PersistentRule)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            PersistentLimitType limitType = null;
+            PersistentCurrency currency = null;
             if (obj.getLong(6) != 0)
-                limitType = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+                currency = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentLimitAccount limitAccount = null;
+            if (obj.getLong(8) != 0)
+                limitAccount = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             MoneyRule result = new MoneyRule(subService,
                                              This,
-                                             limitType,
+                                             currency,
+                                             limitAccount,
                                              MoneyRuleId);
             obj.close();
             callable.close();
@@ -84,13 +88,26 @@ public class MoneyRuleFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void limitTypeSet(long MoneyRuleId, PersistentLimitType limitTypeVal) throws PersistenceException {
+    public void currencySet(long MoneyRuleId, PersistentCurrency currencyVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".MnRlFacade.lmtTpSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".MnRlFacade.crrncSet(?, ?, ?); end;");
             callable.setLong(1, MoneyRuleId);
-            callable.setLong(2, limitTypeVal.getId());
-            callable.setLong(3, limitTypeVal.getClassId());
+            callable.setLong(2, currencyVal.getId());
+            callable.setLong(3, currencyVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void limitAccountSet(long MoneyRuleId, PersistentLimitAccount limitAccountVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".MnRlFacade.lmtAccntSet(?, ?, ?); end;");
+            callable.setLong(1, MoneyRuleId);
+            callable.setLong(2, limitAccountVal.getId());
+            callable.setLong(3, limitAccountVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

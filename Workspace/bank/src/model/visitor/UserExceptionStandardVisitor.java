@@ -5,6 +5,9 @@ import persistence.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException{
+        this.standardHandling(doubleRuleDefinitionException);
+    }
     public void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException{
         this.standardHandling(noAccountsFound);
     }

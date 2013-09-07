@@ -48,7 +48,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [136];
+		proxiFactories = new ProxiFactory [140];
         proxiFactories[65] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new FalseValueProxi(objectId, classId, connectionKey);
@@ -164,9 +164,19 @@ public abstract class ViewProxi extends ViewRoot {
                 return new TriggerListeProxi(objectId, classId, connectionKey);
             }
         };
+        proxiFactories[136] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new DisabledStateProxi(objectId, classId, connectionKey);
+            }
+        };
         proxiFactories[25] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new DollarProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[137] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new EnabledStateProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[79] = new ProxiFactory(){

@@ -110,6 +110,14 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException{
         this.handleBooleanValue(trueValue);
     }
+    public abstract void handleTriggerState(PersistentTriggerState triggerState) throws PersistenceException;
+    
+    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
+        this.handleTriggerState(disabledState);
+    }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.handleTriggerState(enabledState);
+    }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;

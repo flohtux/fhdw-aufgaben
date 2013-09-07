@@ -204,9 +204,9 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).createTransfer();
     }
-    public PersistentTrigger createTrigger(final String name) 
+    public PersistentTrigger createTrigger(final String name, final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).createTrigger(name);
+        return ((PersistentAccount)this.getTheObject()).createTrigger(name, dtt);
     }
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException{

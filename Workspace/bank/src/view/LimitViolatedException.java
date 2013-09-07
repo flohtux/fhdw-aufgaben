@@ -3,7 +3,6 @@ package view;
 
 
 import viewClient.*;
-import view.objects.ViewProxi;
 import view.visitor.*;
 
 

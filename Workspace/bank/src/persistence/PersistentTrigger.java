@@ -8,6 +8,8 @@ public interface PersistentTrigger extends SubjInterface, Anything, AbstractPers
     
     public String getName() throws PersistenceException ;
     public void setName(String newValue) throws PersistenceException ;
+    public PersistentTriggerState getState() throws PersistenceException ;
+    public void setState(PersistentTriggerState newValue) throws PersistenceException ;
     public PersistentDebitTransferTransaction getAction() throws PersistenceException ;
     public void setAction(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
     public Trigger_RulesProxi getRules() throws PersistenceException ;
@@ -26,7 +28,13 @@ public interface PersistentTrigger extends SubjInterface, Anything, AbstractPers
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void addRule(final PersistentRule rule) 
+				throws model.DoubleRuleDefinitionException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
+				throws PersistenceException;
+    public void disable() 
+				throws PersistenceException;
+    public void enable() 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

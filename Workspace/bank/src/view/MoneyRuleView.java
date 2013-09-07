@@ -4,8 +4,10 @@ import view.visitor.*;
 
 public interface MoneyRuleView extends RuleView {
     
-    public LimitTypeView getLimitType()throws ModelException;
-    public void setLimitType(LimitTypeView newValue) throws ModelException ;
+    public CurrencyView getCurrency()throws ModelException;
+    public void setCurrency(CurrencyView newValue) throws ModelException ;
+    public LimitAccountView getLimitAccount()throws ModelException;
+    public void setLimitAccount(LimitAccountView newValue) throws ModelException ;
     
     public void accept(RuleVisitor visitor) throws ModelException;
     public <R> R accept(RuleReturnVisitor<R>  visitor) throws ModelException;

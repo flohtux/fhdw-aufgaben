@@ -5,6 +5,7 @@ import view.*;
 
 public interface UserExceptionVisitor extends ExecuteExceptionVisitor{
     
+    public void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException;
     public void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException;
     public void handlePasswordException(PasswordException passwordException) throws ModelException;
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException;

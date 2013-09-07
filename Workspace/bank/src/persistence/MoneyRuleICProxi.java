@@ -22,11 +22,17 @@ public class MoneyRuleICProxi extends RuleICProxi implements PersistentMoneyRule
         return 232;
     }
     
-    public PersistentLimitType getLimitType() throws PersistenceException {
-        return ((PersistentMoneyRule)this.getTheObject()).getLimitType();
+    public PersistentCurrency getCurrency() throws PersistenceException {
+        return ((PersistentMoneyRule)this.getTheObject()).getCurrency();
     }
-    public void setLimitType(PersistentLimitType newValue) throws PersistenceException {
-        ((PersistentMoneyRule)this.getTheObject()).setLimitType(newValue);
+    public void setCurrency(PersistentCurrency newValue) throws PersistenceException {
+        ((PersistentMoneyRule)this.getTheObject()).setCurrency(newValue);
+    }
+    public PersistentLimitAccount getLimitAccount() throws PersistenceException {
+        return ((PersistentMoneyRule)this.getTheObject()).getLimitAccount();
+    }
+    public void setLimitAccount(PersistentLimitAccount newValue) throws PersistenceException {
+        ((PersistentMoneyRule)this.getTheObject()).setLimitAccount(newValue);
     }
     public PersistentMoneyRule getThis() throws PersistenceException {
         return ((PersistentMoneyRule)this.getTheObject()).getThis();

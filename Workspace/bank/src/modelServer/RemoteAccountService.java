@@ -172,6 +172,18 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> createNewRule(String tProxiString, String type){
+        try {
+            PersistentTrigger t = (PersistentTrigger)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(tProxiString));
+            ((PersistentAccountService)this.server).createNewRule(t, type);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.DoubleRuleDefinitionException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> createTemplate(String type){
         try {
             ((PersistentAccountService)this.server).createTemplate(type);
@@ -199,10 +211,30 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createTrigger(String unimportantProxiString, String name){
+    public synchronized java.util.HashMap<?,?> createTrigger(String unimportantProxiString, String name, String type){
         try {
             PersistentTriggerListe unimportant = (PersistentTriggerListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(unimportantProxiString));
-            ((PersistentAccountService)this.server).createTrigger(unimportant, name);
+            ((PersistentAccountService)this.server).createTrigger(unimportant, name, type);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> disable(String tProxiString){
+        try {
+            PersistentTrigger t = (PersistentTrigger)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(tProxiString));
+            ((PersistentAccountService)this.server).disable(t);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> enable(String tProxiString){
+        try {
+            PersistentTrigger t = (PersistentTrigger)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(tProxiString));
+            ((PersistentAccountService)this.server).enable(t);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

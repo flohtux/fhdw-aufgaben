@@ -74,8 +74,14 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
         this.standardHandling(triggerListe);
     }
+    public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
+        this.standardHandling(disabledState);
+    }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
+    }
+    public void handleEnabledState(EnabledStateView enabledState) throws ModelException{
+        this.standardHandling(enabledState);
     }
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException{
         this.standardHandling(limitAccount);

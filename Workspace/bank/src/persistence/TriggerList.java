@@ -2,11 +2,10 @@ package persistence;
 
 import java.util.*;
 
-public class TriggerList {
+public class TriggerList  extends TriggerSearchList{
 
-	protected Vector<PersistentTrigger> data; //List of proxies
 	protected TriggerList() {
-		this.data = new Vector<PersistentTrigger>();
+		super();
 	}
 	public Iterator<PersistentTrigger> iterator(PersistentListProxi<PersistentTrigger> listProxi) {
 		return new PersistentListIterator<PersistentTrigger>(listProxi, this.data);

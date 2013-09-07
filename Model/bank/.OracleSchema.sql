@@ -711,6 +711,9 @@ create table Trggr(
     id number primary key,
     Cls number not null,
     TrggrNm varchar2(2000),
+    TrggrStt number,
+    TrggrSttCls number,
+    constraint FTrggrStt foreign key (TrggrSttCls) references Cls (id),
     TrggrActn number,
     TrggrActnCls number,
     constraint FTrggrActn foreign key (TrggrActnCls) references Cls (id),
@@ -721,6 +724,8 @@ create table Trggr(
     TrggrThisCls number,
     constraint FTrggrThis foreign key (TrggrThisCls) references Cls (id)    
 );
+create index ISttTrggr on Trggr (TrggrStt, TrggrSttCls);
+
 
 create sequence SDbTrNtExec nocache;
 
@@ -791,6 +796,19 @@ create table AccntDebTrfTrans(
     AccntDebTrfTransThis number,
     AccntDebTrfTransThisCls number,
     constraint FAccntDebTrfTransThis foreign key (AccntDebTrfTransThisCls) references Cls (id)    
+);
+
+create sequence STrggrStt nocache;
+
+create table TrggrStt(
+    id number primary key,
+    Cls number not null,
+    TrggrSttSbSrvc number,
+    TrggrSttSbSrvcCls number,
+    constraint FTrggrSttSbSrvc foreign key (TrggrSttSbSrvcCls) references Cls (id),
+    TrggrSttThis number,
+    TrggrSttThisCls number,
+    constraint FTrggrSttThis foreign key (TrggrSttThisCls) references Cls (id)    
 );
 
 create sequence SChngMnCMD nocache;
@@ -898,9 +916,12 @@ create table Rl(
     IncAccRuleAccntNmbr number,
     IncAccRuleBnkNmbr number,
     SbjctRlSbjct varchar2(2000),
-    MnRlLmtTp number,
-    MnRlLmtTpCls number,
-    constraint FMnRlLmtTp foreign key (MnRlLmtTpCls) references Cls (id)    
+    MnRlCrrnc number,
+    MnRlCrrncCls number,
+    constraint FMnRlCrrnc foreign key (MnRlCrrncCls) references Cls (id),
+    MnRlLmtAccnt number,
+    MnRlLmtAccntCls number,
+    constraint FMnRlLmtAccnt foreign key (MnRlLmtAccntCls) references Cls (id)    
 );
 
 create sequence SEvntWrppr nocache;

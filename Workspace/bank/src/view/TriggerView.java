@@ -8,6 +8,8 @@ public interface TriggerView extends Anything, AbstractViewRoot {
     
     public String getName()throws ModelException;
     public void setName(String newValue) throws ModelException ;
+    public TriggerStateView getState()throws ModelException;
+    public void setState(TriggerStateView newValue) throws ModelException ;
     public DebitTransferTransactionView getAction()throws ModelException;
     public void setAction(DebitTransferTransactionView newValue) throws ModelException ;
     public java.util.Vector<RuleView> getRules()throws ModelException;
