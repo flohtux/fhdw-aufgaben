@@ -11,6 +11,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException, E;
     public void handlePercent(PercentView percent) throws ModelException, E;
     public void handleAmount(AmountView amount) throws ModelException, E;
+    public void handleFeeWrapper(FeeWrapperView feeWrapper) throws ModelException, E;
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException, E;
     public void handleServer(ServerView server) throws ModelException, E;
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException, E;

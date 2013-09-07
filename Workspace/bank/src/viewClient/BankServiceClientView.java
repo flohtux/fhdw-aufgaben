@@ -403,6 +403,23 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
+            if (selected instanceof InternalFeeView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Interne Gebühren ändern ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        BankServiceChangeInteralFeeInternalFeeFractionMssgWizard wizard = new BankServiceChangeInteralFeeInternalFeeFractionMssgWizard("Interne Gebühren ändern");
+                        wizard.setFirstArgument((InternalFeeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             if (selected instanceof AccountView){
                 item = new javax.swing.JMenuItem();
                 item.setText("Konto schließen");
@@ -513,6 +530,53 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         return result;
     }
     
+	class BankServiceChangeInteralFeeInternalFeeFractionMssgWizard extends Wizard {
+
+		protected BankServiceChangeInteralFeeInternalFeeFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "BankServiceChangeInteralFeeInternalFeeFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeInteralFee(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("Prozent", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private InternalFeeView firstArgument; 
+	
+		public void setFirstArgument(InternalFeeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
 	class BankServiceChangeMaxLimitLimitAccountFractionMssgWizard extends Wizard {
 
 		protected BankServiceChangeMaxLimitLimitAccountFractionMssgWizard(String operationName){

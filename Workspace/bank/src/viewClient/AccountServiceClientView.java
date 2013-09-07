@@ -892,6 +892,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
+                                }catch (NoRuleDefinitionException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }

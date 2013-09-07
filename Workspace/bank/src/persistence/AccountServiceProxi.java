@@ -34,6 +34,12 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setEventhandle(newValue);
     }
+    public PersistentFeeWrapper getFeeWrapper() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getFeeWrapper();
+    }
+    public void setFeeWrapper(PersistentFeeWrapper newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setFeeWrapper(newValue);
+    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }
@@ -241,7 +247,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).enable(t);
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 

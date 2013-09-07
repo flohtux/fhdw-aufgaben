@@ -34,9 +34,11 @@ import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
 import persistence.PersistentFixTransactionFee;
+import persistence.PersistentInternalFee;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMixedFee;
+import persistence.PersistentPercent;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentProxi;
 import persistence.PersistentService;
@@ -285,6 +287,11 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
+				throws PersistenceException{
+        getThis().getBank().changeInternalFee(Percent.createPercent(procentual));
+        getThis().signalChanged(true);
+    }
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
         PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));

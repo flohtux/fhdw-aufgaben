@@ -45,6 +45,8 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void changeInternalFee(final PersistentPercent procentual) 
+				throws PersistenceException;
     public void changeNameImplementation(final String name) 
 				throws PersistenceException;
     public void changeTransactionFeeToFix(final PersistentMoney fix) 

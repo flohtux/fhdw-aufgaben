@@ -35,6 +35,8 @@ public interface PersistentBankService extends PersistentService {
 				throws PersistenceException;
     public AccountSearchList transAcc_Path_In_CloseAccount() 
 				throws model.UserException, PersistenceException;
+    public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
+				throws PersistenceException;
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException;
     public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 

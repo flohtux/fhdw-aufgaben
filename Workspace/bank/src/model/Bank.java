@@ -46,6 +46,7 @@ import persistence.PersistentServer;
 import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
+import persistence.Procdure;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -471,24 +472,55 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeInternalFee(final PersistentPercent procentual) 
+				throws PersistenceException{
+        getThis().getInternalFee().setPercent(procentual);
+        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
+			@Override
+			public void doItTo(PersistentAccount argument) throws PersistenceException {
+				argument.getAccountService().signalChanged(true);
+			}
+		});
+    }
     public void changeNameImplementation(final String name) 
 				throws PersistenceException{
         getThis().setName(name);
     }
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException{
-        getThis().setFee(FixTransactionFee.createFixTransactionFee(fix));
-        
+    	final PersistentFixTransactionFee newFee = FixTransactionFee.createFixTransactionFee(fix);
+        getThis().setFee(newFee);
+        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
+			@Override
+			public void doItTo(PersistentAccount argument) throws PersistenceException {
+				argument.getAccountService().setFeeWrapper(FeeWrapper.createFeeWrapper(newFee, getThis().getInternalFee()));
+				argument.getAccountService().signalChanged(true);
+			}
+		});
     }
     public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
 				throws PersistenceException{
-        getThis().setFee(MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(procentual), limit));
-        
+    	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(procentual), limit);
+        getThis().setFee(newFee);
+        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
+			@Override
+			public void doItTo(PersistentAccount argument) throws PersistenceException {
+				argument.getAccountService().setFeeWrapper(FeeWrapper.createFeeWrapper(newFee, getThis().getInternalFee()));
+				argument.getAccountService().signalChanged(true);
+			}
+		});
     }
     public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
 				throws PersistenceException{
-        getThis().setFee(ProcentualFee.createProcentualFee(procentual));
-        
+    	final PersistentProcentualFee newFee = ProcentualFee.createProcentualFee(procentual); 
+        getThis().setFee(newFee);
+        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
+			@Override
+			public void doItTo(PersistentAccount argument) throws PersistenceException {
+				argument.getAccountService().setFeeWrapper(FeeWrapper.createFeeWrapper(newFee, getThis().getInternalFee()));
+				argument.getAccountService().signalChanged(true);
+			}
+		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

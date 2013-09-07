@@ -8,6 +8,7 @@ public interface UserExceptionExceptionVisitor<E extends UserException> extends 
     public void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException, E;
     public void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException, E;
     public void handlePasswordException(PasswordException passwordException) throws ModelException, E;
+    public void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException, E;
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException, E;
     public void handleRuleNotMatchedException(RuleNotMatchedException ruleNotMatchedException) throws ModelException, E;
     public void handleCycleException(CycleException cycleException) throws ModelException, E;

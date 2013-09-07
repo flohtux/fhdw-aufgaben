@@ -11,6 +11,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     public R handlePercent(PercentView percent) throws ModelException;
     public R handleAmount(AmountView amount) throws ModelException;
+    public R handleFeeWrapper(FeeWrapperView feeWrapper) throws ModelException;
     public R handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     public R handleServer(ServerView server) throws ModelException;
     public R handleTriggerListe(TriggerListeView triggerListe) throws ModelException;

@@ -8,6 +8,7 @@ import view.DebitTransferSuccessfulView;
 import view.DebitTransferTemplateView;
 import view.ErrorDisplayView;
 import view.EventWrapperView;
+import view.FeeWrapperView;
 import view.ModelException;
 import view.UserException;
 import view.visitor.AnythingExceptionVisitor;
@@ -37,15 +38,17 @@ public class AccountService extends view.objects.Service implements AccountServi
     protected DebitTransferSuccessfulView successful;
     protected DebitTransferNotExecutedView notExecuted;
     protected DebitTransferTemplateView template;
+    protected FeeWrapperView feeWrapper;
     
-    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,EventWrapperView eventhandle,DebitTransferSuccessfulView successful,DebitTransferNotExecutedView notExecuted,DebitTransferTemplateView template,long id, long classId) {
+    public AccountService(java.util.Vector<ErrorDisplayView> errors,AccountView account,EventWrapperView eventhandle,DebitTransferSuccessfulView successful,DebitTransferNotExecutedView notExecuted,DebitTransferTemplateView template,FeeWrapperView feeWrapper,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
         this.account = account;
         this.eventhandle = eventhandle;
         this.successful = successful;
         this.notExecuted = notExecuted;
-        this.template = template;        
+        this.template = template;
+        this.feeWrapper = feeWrapper;        
     }
     
     static public long getTypeId() {
@@ -85,6 +88,12 @@ public class AccountService extends view.objects.Service implements AccountServi
     }
     public void setTemplate(DebitTransferTemplateView newValue) throws ModelException {
         this.template = newValue;
+    }
+    public FeeWrapperView getFeeWrapper()throws ModelException{
+        return this.feeWrapper;
+    }
+    public void setFeeWrapper(FeeWrapperView newValue) throws ModelException {
+        this.feeWrapper = newValue;
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {
@@ -149,6 +158,10 @@ public class AccountService extends view.objects.Service implements AccountServi
         if (template != null) {
             ((ViewProxi)template).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(template.getClassId(), template.getId())));
         }
+        FeeWrapperView feeWrapper = this.getFeeWrapper();
+        if (feeWrapper != null) {
+            ((ViewProxi)feeWrapper).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(feeWrapper.getClassId(), feeWrapper.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -165,6 +178,8 @@ public class AccountService extends view.objects.Service implements AccountServi
         if(this.getNotExecuted() != null) index = index - 1;
         if(index == 0 && this.getTemplate() != null) return new TemplateAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getTemplate());
         if(this.getTemplate() != null) index = index - 1;
+        if(index == 0 && this.getFeeWrapper() != null) return new FeeWrapperAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getFeeWrapper());
+        if(this.getFeeWrapper() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
@@ -172,14 +187,16 @@ public class AccountService extends view.objects.Service implements AccountServi
             + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
             + (this.getSuccessful() == null ? 0 : 1)
             + (this.getNotExecuted() == null ? 0 : 1)
-            + (this.getTemplate() == null ? 0 : 1);
+            + (this.getTemplate() == null ? 0 : 1)
+            + (this.getFeeWrapper() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
             && (this.getSuccessful() == null ? true : false)
             && (this.getNotExecuted() == null ? true : false)
-            && (this.getTemplate() == null ? true : false);
+            && (this.getTemplate() == null ? true : false)
+            && (this.getFeeWrapper() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -191,6 +208,8 @@ public class AccountService extends view.objects.Service implements AccountServi
         if(this.getNotExecuted() != null) result = result + 1;
         if(this.getTemplate() != null && this.getTemplate().equals(child)) return result;
         if(this.getTemplate() != null) result = result + 1;
+        if(this.getFeeWrapper() != null && this.getFeeWrapper().equals(child)) return result;
+        if(this.getFeeWrapper() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

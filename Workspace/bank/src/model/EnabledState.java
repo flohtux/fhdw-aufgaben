@@ -1,8 +1,27 @@
 
 package model;
 
-import persistence.*;
-import model.visitor.*;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import model.visitor.SubjInterfaceExceptionVisitor;
+import model.visitor.SubjInterfaceReturnExceptionVisitor;
+import model.visitor.SubjInterfaceReturnVisitor;
+import model.visitor.SubjInterfaceVisitor;
+import model.visitor.TriggerStateExceptionVisitor;
+import model.visitor.TriggerStateReturnExceptionVisitor;
+import model.visitor.TriggerStateReturnVisitor;
+import model.visitor.TriggerStateVisitor;
+import persistence.Anything;
+import persistence.ConnectionHandler;
+import persistence.EnabledStateProxi;
+import persistence.ObsInterface;
+import persistence.PersistenceException;
+import persistence.PersistentEnabledState;
+import persistence.PersistentTriggerState;
+import persistence.SubjInterface;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

@@ -21,7 +21,6 @@ import persistence.PersistentRule;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerState;
 import persistence.Predcate;
-import persistence.PredcateException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 import persistence.TriggerProxi;
@@ -335,16 +334,17 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void disable() 
 				throws PersistenceException{
     	getThis().setState(DisabledState.getTheDisabledState());
     }
     public void enable() 
-				throws PersistenceException{
-        getThis().setState(EnabledState.getTheEnabledState());
+				throws model.NoRuleDefinitionException, PersistenceException{
+        if(getThis().getRules().getLength() == 0) {
+        	throw new NoRuleDefinitionException();
+        }
+    	getThis().setState(EnabledState.getTheEnabledState());
         
     }
     public void initializeOnCreation() 

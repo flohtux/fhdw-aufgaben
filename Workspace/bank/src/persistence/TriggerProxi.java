@@ -108,7 +108,7 @@ public class TriggerProxi extends PersistentProxi implements PersistentTrigger{
         ((PersistentTrigger)this.getTheObject()).disable();
     }
     public void enable() 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentTrigger)this.getTheObject()).enable();
     }
     public void initializeOnCreation() 

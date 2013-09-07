@@ -237,6 +237,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoRuleDefinitionException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

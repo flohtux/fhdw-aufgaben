@@ -133,6 +133,7 @@ public class ConnectionHandler {
     public IncomingAccountRuleFacade theIncomingAccountRuleFacade;
     public AmountFacade theAmountFacade;
     public NoLimitFacade theNoLimitFacade;
+    public FeeWrapperFacade theFeeWrapperFacade;
     public AdministratorFacade theAdministratorFacade;
     public CreateBankCommandFacade theCreateBankCommandFacade;
     public DebitTransferFacade theDebitTransferFacade;
@@ -244,6 +245,7 @@ public class ConnectionHandler {
             this.theIncomingAccountRuleFacade= new IncomingAccountRuleFacade(this.schemaName, this.con);
             this.theAmountFacade= new AmountFacade(this.schemaName, this.con);
             this.theNoLimitFacade= new NoLimitFacade(this.schemaName, this.con);
+            this.theFeeWrapperFacade= new FeeWrapperFacade(this.schemaName, this.con);
             this.theAdministratorFacade= new AdministratorFacade(this.schemaName, this.con);
             this.theCreateBankCommandFacade= new CreateBankCommandFacade(this.schemaName, this.con);
             this.theDebitTransferFacade= new DebitTransferFacade(this.schemaName, this.con);

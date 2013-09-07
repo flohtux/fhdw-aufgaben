@@ -32,6 +32,7 @@ import persistence.PersistentEuro;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
 import persistence.PersistentFalseValue;
+import persistence.PersistentFeeWrapper;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentFranken;
 import persistence.PersistentIncomingAccountRule;
@@ -62,6 +63,7 @@ import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.PersistentTrueValue;
 import persistence.PersistentYen;
+
 import common.Fraction;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -347,14 +349,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleIncomingAccountRule(
 			PersistentIncomingAccountRule incomingAccountRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = serverConstants.ToStringConstants.IncomingAccountRulePrefix;
 	}
 	@Override
 	public void handleSubjectRule(PersistentSubjectRule subjectRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		this.result = serverConstants.ToStringConstants.SubjectRulePrefix;
 	}
 	@Override
 	public void handleTrigger(PersistentTrigger trigger)
@@ -364,7 +364,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleMoneyRule(PersistentMoneyRule moneyRule)
 			throws PersistenceException {
-		// TODO Auto-generated method stub
+		this.result = serverConstants.ToStringConstants.MoneyRulePrefix;
 		
 	}
 	@Override
@@ -385,6 +385,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		this.result = bankPx.getBank().toString(true);
 		
+	}
+	@Override
+	public void handleFeeWrapper(PersistentFeeWrapper feeWrapper)
+			throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.FeeWrapper;
 	}
 	
 	

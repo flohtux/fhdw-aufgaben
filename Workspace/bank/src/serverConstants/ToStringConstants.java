@@ -50,6 +50,10 @@ public class ToStringConstants {
 	public static final String Semicolon = ";";
 	public static final String DisableState = "Nicht aktiv";
 	public static final String EnableState = "Aktiv";
+	public static final String FeeWrapper = "Gebühren";
+	public static final String MoneyRulePrefix = "Geldregel ";
+	public static final String SubjectRulePrefix = "Betreffregel" ;
+	public static final String IncomingAccountRulePrefix = "Senderregel ";
 
 	
 	

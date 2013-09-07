@@ -138,6 +138,10 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).updateObservers(event);
     }
+    public void changeInternalFee(final PersistentPercent procentual) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeInternalFee(procentual);
+    }
     public void changeNameImplementation(final String name) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
