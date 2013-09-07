@@ -1747,7 +1747,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 	}
 
-
 	class AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard extends Wizard {
 
 		protected AccountServiceCheckMoneyRuleMaxMoneyRuleFractionMssgWizard(String operationName){

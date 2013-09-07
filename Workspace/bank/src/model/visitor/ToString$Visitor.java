@@ -20,13 +20,12 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException;
     public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
     public abstract void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException;
-    public abstract void handleFeeWrapper(PersistentFeeWrapper feeWrapper) throws PersistenceException;
     public abstract void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException;
     public abstract void handleBankService(PersistentBankService bankService) throws PersistenceException;
     public abstract void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException;
-    public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleTransfer(PersistentTransfer transfer) throws PersistenceException;
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException;
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
@@ -57,6 +56,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public abstract void handlePfund(PersistentPfund pfund) throws PersistenceException;
+    public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
     public abstract void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException;
     public abstract void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException;
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;

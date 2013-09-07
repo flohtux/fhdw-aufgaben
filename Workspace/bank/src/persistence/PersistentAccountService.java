@@ -10,8 +10,6 @@ public interface PersistentAccountService extends PersistentService {
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
     public PersistentEventWrapper getEventhandle() throws PersistenceException ;
     public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException ;
-    public PersistentFeeWrapper getFeeWrapper() throws PersistenceException ;
-    public void setFeeWrapper(PersistentFeeWrapper newValue) throws PersistenceException ;
     public PersistentAccountService getThis() throws PersistenceException ;
     
     public void accept(ServiceVisitor visitor) throws PersistenceException;
@@ -41,6 +39,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws model.UserException, PersistenceException;
     public DebitTransferSearchList debitTransfer_Path_In_RemoveFromTransaction(final PersistentTransaction transaction) 
 				throws model.UserException, PersistenceException;
+    public PersistentBankFees getBankFees() 
+				throws PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException;
     public PersistentDebitTransferSuccessful getSuccessful() 
@@ -48,6 +48,8 @@ public interface PersistentAccountService extends PersistentService {
     public PersistentDebitTransferTemplate getTemplate() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void setBankFees(final PersistentBankFees bankFees) 
 				throws PersistenceException;
     public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
 				throws PersistenceException;
@@ -60,6 +62,8 @@ public interface PersistentAccountService extends PersistentService {
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException;
+    public void bankFees_update(final model.meta.BankFeesMssgs event) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException;

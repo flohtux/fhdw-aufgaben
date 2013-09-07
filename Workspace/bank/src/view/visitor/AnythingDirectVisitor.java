@@ -139,8 +139,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleMoney(MoneyView money) throws ModelException;
     
-    public abstract void handleFeeWrapper(FeeWrapperView feeWrapper) throws ModelException;
-    
     public abstract void handleBank(BankView bank) throws ModelException;
     
     public abstract void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
@@ -161,6 +159,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleServer(ServerView server) throws ModelException;
     
     public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    
+    public abstract void handleBankFees(BankFeesView bankFees) throws ModelException;
     
     public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
     

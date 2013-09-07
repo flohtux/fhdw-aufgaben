@@ -21,7 +21,6 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
     public R handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
-    public R handleFeeWrapper(PersistentFeeWrapper feeWrapper) throws PersistenceException;
     public R handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException;
     public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     public R handleServer(PersistentServer server) throws PersistenceException;
@@ -50,6 +49,8 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public R handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public R handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
+    public R handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
+    public R handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException;
     public R handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public R handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     

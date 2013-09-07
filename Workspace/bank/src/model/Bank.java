@@ -26,6 +26,7 @@ import persistence.PersistentAccount;
 import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
+import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentChangeNameCommand;
@@ -84,6 +85,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         final$$Fields.put("administrator", administrator);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
+        if(result.getThis().getBankFees() == null)throw new PersistenceException("Field bankFees in type Bank has not been initialized!",0);
         return result;
     }
     
@@ -113,22 +115,13 @@ public class Bank extends PersistentObject implements PersistentBank{
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("bankNumber", new Long(this.getBankNumber()).toString());
             result.put("name", this.getName());
-            AbstractPersistentRoot fee = (AbstractPersistentRoot)this.getFee();
-            if (fee != null) {
-                result.put("fee", fee.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot bankFees = (AbstractPersistentRoot)this.getBankFees();
+            if (bankFees != null) {
+                result.put("bankFees", bankFees.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    fee.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    bankFees.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && fee.hasEssentialFields())fee.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
-            AbstractPersistentRoot internalFee = (AbstractPersistentRoot)this.getInternalFee();
-            if (internalFee != null) {
-                result.put("internalFee", internalFee.createProxiInformation(false, essentialLevel == 0));
-                if(depth > 1) {
-                    internalFee.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && internalFee.hasEssentialFields())internalFee.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && bankFees.hasEssentialFields())bankFees.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             AbstractPersistentRoot ownAccount = (AbstractPersistentRoot)this.getOwnAccount();
@@ -162,8 +155,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         result = new Bank(this.bankNumber, 
                           this.name, 
                           this.lastAccountNumber, 
-                          this.fee, 
-                          this.internalFee, 
+                          this.bankFees, 
                           this.ownAccount, 
                           this.administrator, 
                           this.subService, 
@@ -180,8 +172,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     protected long bankNumber;
     protected String name;
     protected long lastAccountNumber;
-    protected PersistentTransactionFee fee;
-    protected PersistentInternalFee internalFee;
+    protected PersistentBankFees bankFees;
     protected PersistentAccount ownAccount;
     protected Bank_AccountsProxi accounts;
     protected PersistentAdministrator administrator;
@@ -189,14 +180,13 @@ public class Bank extends PersistentObject implements PersistentBank{
     protected SubjInterface subService;
     protected PersistentBank This;
     
-    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentTransactionFee fee,PersistentInternalFee internalFee,PersistentAccount ownAccount,PersistentAdministrator administrator,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
+    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentBankFees bankFees,PersistentAccount ownAccount,PersistentAdministrator administrator,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.bankNumber = bankNumber;
         this.name = name;
         this.lastAccountNumber = lastAccountNumber;
-        this.fee = fee;
-        this.internalFee = internalFee;
+        this.bankFees = bankFees;
         this.ownAccount = ownAccount;
         this.accounts = new Bank_AccountsProxi(this);
         this.administrator = administrator;
@@ -218,13 +208,9 @@ public class Bank extends PersistentObject implements PersistentBank{
         if (this.getClassId() == -149) ConnectionHandler.getTheConnectionHandler().theBankFacade
             .newBank(0,name,0,this.getId());
         super.store();
-        if(this.getFee() != null){
-            this.getFee().store();
-            ConnectionHandler.getTheConnectionHandler().theBankFacade.feeSet(this.getId(), getFee());
-        }
-        if(this.getInternalFee() != null){
-            this.getInternalFee().store();
-            ConnectionHandler.getTheConnectionHandler().theBankFacade.internalFeeSet(this.getId(), getInternalFee());
+        if(this.getBankFees() != null){
+            this.getBankFees().store();
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.bankFeesSet(this.getId(), getBankFees());
         }
         if(this.getOwnAccount() != null){
             this.getOwnAccount().store();
@@ -268,32 +254,19 @@ public class Bank extends PersistentObject implements PersistentBank{
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theBankFacade.lastAccountNumberSet(this.getId(), newValue);
         this.lastAccountNumber = newValue;
     }
-    public PersistentTransactionFee getFee() throws PersistenceException {
-        return this.fee;
+    public PersistentBankFees getBankFees() throws PersistenceException {
+        return this.bankFees;
     }
-    public void setFee(PersistentTransactionFee newValue) throws PersistenceException {
+    public void setBankFees(PersistentBankFees newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.fee)) return;
+        if(newValue.equals(this.bankFees)) return;
+        if(getThis().getBankFees() != null)throw new PersistenceException("Final field bankFees in type Bank has been set already!",0);
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.fee = (PersistentTransactionFee)PersistentProxi.createProxi(objectId, classId);
+        this.bankFees = (PersistentBankFees)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theBankFacade.feeSet(this.getId(), newValue);
-        }
-    }
-    public PersistentInternalFee getInternalFee() throws PersistenceException {
-        return this.internalFee;
-    }
-    public void setInternalFee(PersistentInternalFee newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.internalFee)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.internalFee = (PersistentInternalFee)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theBankFacade.internalFeeSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theBankFacade.bankFeesSet(this.getId(), newValue);
         }
     }
     public PersistentAccount getOwnAccount() throws PersistenceException {
@@ -392,9 +365,8 @@ public class Bank extends PersistentObject implements PersistentBank{
          return visitor.handleBank(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getFee() != null) return 1;
-        if (this.getInternalFee() != null) return 1;
         if (this.getOwnAccount() != null) return 1;
+        if (this.getBankFees() != null && this.getBankFees().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getCurrentAccounts().getLength() > 0) return 1;
         return 0;
     }
@@ -474,13 +446,8 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     public void changeInternalFee(final PersistentPercent procentual) 
 				throws PersistenceException{
-        getThis().getInternalFee().setPercent(procentual);
-        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
-			@Override
-			public void doItTo(PersistentAccount argument) throws PersistenceException {
-				argument.getAccountService().signalChanged(true);
-			}
-		});
+    	final PersistentInternalFee newFee = InternalFee.createInternalFee(procentual);
+    	getThis().getBankFees().changeInternalFee(newFee);
     }
     public void changeNameImplementation(final String name) 
 				throws PersistenceException{
@@ -489,38 +456,17 @@ public class Bank extends PersistentObject implements PersistentBank{
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException{
     	final PersistentFixTransactionFee newFee = FixTransactionFee.createFixTransactionFee(fix);
-        getThis().setFee(newFee);
-        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
-			@Override
-			public void doItTo(PersistentAccount argument) throws PersistenceException {
-				argument.getAccountService().setFeeWrapper(FeeWrapper.createFeeWrapper(newFee, getThis().getInternalFee()));
-				argument.getAccountService().signalChanged(true);
-			}
-		});
+        getThis().getBankFees().changeTransactionFee(newFee);
     }
     public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
 				throws PersistenceException{
     	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(procentual), limit);
-        getThis().setFee(newFee);
-        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
-			@Override
-			public void doItTo(PersistentAccount argument) throws PersistenceException {
-				argument.getAccountService().setFeeWrapper(FeeWrapper.createFeeWrapper(newFee, getThis().getInternalFee()));
-				argument.getAccountService().signalChanged(true);
-			}
-		});
+        getThis().getBankFees().changeTransactionFee(newFee);
     }
     public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
 				throws PersistenceException{
     	final PersistentProcentualFee newFee = ProcentualFee.createProcentualFee(procentual); 
-        getThis().setFee(newFee);
-        getThis().getAccounts().getValues().applyToAll(new Procdure<PersistentAccount>() {
-			@Override
-			public void doItTo(PersistentAccount argument) throws PersistenceException {
-				argument.getAccountService().setFeeWrapper(FeeWrapper.createFeeWrapper(newFee, getThis().getInternalFee()));
-				argument.getAccountService().signalChanged(true);
-			}
-		});
+        getThis().getBankFees().changeTransactionFee(newFee);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -535,19 +481,22 @@ public class Bank extends PersistentObject implements PersistentBank{
         PersistentAccount newAccount = Account.createAccount(nextAccountNumber,money);
         getThis().getAccounts().put(nextAccountNumber, newAccount); // must be performed prior to createAccountName(9!
         getThis().getCurrentAccounts().add(newAccount);
-        PersistentAccountService accountService = AccountService.createAccountService(newAccount);
+        PersistentAccountService accountService = AccountService.createAccountService(newAccount, getThis().getBankFees());
         PersistentServer accountServer = Server.createServer(serverConstants.ServerConstants.StandardAccountPassword, 
         													 serverConstants.ServerConstants.createAccountName(newAccount), 
         													 0, 
         													 serverConstants.DateConstants.Now);
         accountServer.setService(accountService);
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setLastAccountNumber(serverConstants.ServerConstants.FirstAccountNumber);
-    	getThis().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
-    			getThis().getOwnAccount().getMoney().getCurrency())));
-    	getThis().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.parse("1/1"))));
+    	PersistentTransactionFee tfee = FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.Null), 
+    			getThis().getOwnAccount().getMoney().getCurrency()));
+    	PersistentInternalFee ifee = InternalFee.createInternalFee(Percent.createPercent(Fraction.One));
+    	getThis().setBankFees(BankFees.createBankFees(tfee, ifee));
+    	
     	getThis().getAdministrator().getBanks().add(BankPx.createBankPx(getThis()));
     }
     public void initializeOnInstantiation() 
@@ -642,7 +591,7 @@ public class Bank extends PersistentObject implements PersistentBank{
      * @throws LimitViolatedException 
      */
     private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException, LimitViolatedException {
-    	return getThis().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
+    	return getThis().getBankFees().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
 			@Override
 			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
 					throws PersistenceException, LimitViolatedException {

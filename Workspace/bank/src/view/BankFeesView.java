@@ -4,7 +4,7 @@ import view.objects.*;
 
 import view.visitor.*;
 
-public interface FeeWrapperView extends Anything, AbstractViewRoot {
+public interface BankFeesView extends Anything, AbstractViewRoot {
     
     public TransactionFeeView getFee()throws ModelException;
     public void setFee(TransactionFeeView newValue) throws ModelException ;

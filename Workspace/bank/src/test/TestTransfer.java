@@ -179,7 +179,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(1, 1)), Euro.getTheEuro())));
+		bank1.getBankFees().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(1, 1)), Euro.getTheEuro())));
 		long bankNumber2 = bank2.getBankNumber();
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
@@ -201,7 +201,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 2))));
+		bank1.getBankFees().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 2))));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 
@@ -225,7 +225,7 @@ public class TestTransfer {
 		PersistentProcentualFee procentualFee = ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 2)));
 		PersistentFixTransactionFee fixFee = FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(3, 1)),
 				Euro.getTheEuro()));
-		bank1.setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
+		bank1.getBankFees().setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
 		long bankNumber2 = bank2.getBankNumber();
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
@@ -251,7 +251,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 2))));
+		bank1.getBankFees().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 2))));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 
@@ -345,7 +345,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
+		bank1.getBankFees().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 
@@ -369,7 +369,7 @@ public class TestTransfer {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
-		bank.setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
+		bank.getBankFees().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -392,7 +392,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
+		bank1.getBankFees().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 
@@ -414,7 +414,7 @@ public class TestTransfer {
 		PersistentAdministrator admin = Administrator.createAdministrator();
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
-		bank.setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
+		bank.getBankFees().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -439,7 +439,7 @@ public class TestTransfer {
 		PersistentProcentualFee procentualFee = ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20)));
 		PersistentFixTransactionFee fixFee = FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)),
 				Euro.getTheEuro()));
-		bank1.setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(50, 1)), Euro.getTheEuro())));
+		bank1.getBankFees().setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(50, 1)), Euro.getTheEuro())));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 
@@ -463,7 +463,7 @@ public class TestTransfer {
 		PersistentProcentualFee procentualFee = ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20)));
 		PersistentFixTransactionFee fixFee = FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)),
 				Euro.getTheEuro()));
-		bank.setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(50, 1)), Euro.getTheEuro())));
+		bank.getBankFees().setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(50, 1)), Euro.getTheEuro())));
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -485,7 +485,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("5")), Euro.getTheEuro())));
+		bank1.getBankFees().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.parse("5")), Euro.getTheEuro())));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 
@@ -538,7 +538,7 @@ public class TestTransfer {
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, adminTestLimits);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, adminTestLimits);
-		bank1.setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
+		bank1.getBankFees().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
 		bank1.createAccount("Euro");
 		bank2.createAccount("Euro");
 

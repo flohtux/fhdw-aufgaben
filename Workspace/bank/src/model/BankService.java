@@ -38,7 +38,6 @@ import persistence.PersistentInternalFee;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMixedFee;
-import persistence.PersistentPercent;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentProxi;
 import persistence.PersistentService;

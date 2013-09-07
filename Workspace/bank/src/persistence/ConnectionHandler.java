@@ -133,7 +133,6 @@ public class ConnectionHandler {
     public IncomingAccountRuleFacade theIncomingAccountRuleFacade;
     public AmountFacade theAmountFacade;
     public NoLimitFacade theNoLimitFacade;
-    public FeeWrapperFacade theFeeWrapperFacade;
     public AdministratorFacade theAdministratorFacade;
     public CreateBankCommandFacade theCreateBankCommandFacade;
     public DebitTransferFacade theDebitTransferFacade;
@@ -192,7 +191,9 @@ public class ConnectionHandler {
     public AccountServiceNotExecutedFacade theAccountServiceNotExecutedFacade;
     public PfundFacade thePfundFacade;
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
+    public BankFeesFacade theBankFeesFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
+    public AccountServiceBankFeesFacade theAccountServiceBankFeesFacade;
     public DebitGrantFacade theDebitGrantFacade;
     public BankCreatorFacade theBankCreatorFacade;
 
@@ -245,7 +246,6 @@ public class ConnectionHandler {
             this.theIncomingAccountRuleFacade= new IncomingAccountRuleFacade(this.schemaName, this.con);
             this.theAmountFacade= new AmountFacade(this.schemaName, this.con);
             this.theNoLimitFacade= new NoLimitFacade(this.schemaName, this.con);
-            this.theFeeWrapperFacade= new FeeWrapperFacade(this.schemaName, this.con);
             this.theAdministratorFacade= new AdministratorFacade(this.schemaName, this.con);
             this.theCreateBankCommandFacade= new CreateBankCommandFacade(this.schemaName, this.con);
             this.theDebitTransferFacade= new DebitTransferFacade(this.schemaName, this.con);
@@ -304,7 +304,9 @@ public class ConnectionHandler {
             this.theAccountServiceNotExecutedFacade= new AccountServiceNotExecutedFacade(this.schemaName, this.con);
             this.thePfundFacade= new PfundFacade(this.schemaName, this.con);
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
+            this.theBankFeesFacade= new BankFeesFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
+            this.theAccountServiceBankFeesFacade= new AccountServiceBankFeesFacade(this.schemaName, this.con);
             this.theDebitGrantFacade= new DebitGrantFacade(this.schemaName, this.con);
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
 		} catch (SQLException sqlExc) {

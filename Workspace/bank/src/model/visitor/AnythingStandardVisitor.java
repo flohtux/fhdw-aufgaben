@@ -74,9 +74,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
         this.standardHandling(noLimit);
     }
-    public void handleFeeWrapper(PersistentFeeWrapper feeWrapper) throws PersistenceException{
-        this.standardHandling(feeWrapper);
-    }
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
     }
@@ -89,14 +86,14 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.standardHandling(procentualFee);
     }
-    public void handleServer(PersistentServer server) throws PersistenceException{
-        this.standardHandling(server);
-    }
     public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
         this.standardHandling(transfer);
     }
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleServer(PersistentServer server) throws PersistenceException{
+        this.standardHandling(server);
     }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
@@ -233,6 +230,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handlePfund(PersistentPfund pfund) throws PersistenceException{
         this.standardHandling(pfund);
     }
+    public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException{
+        this.standardHandling(bankFees);
+    }
     public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
         this.standardHandling(notSuccessfulStornoState);
     }
@@ -241,6 +241,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException{
         this.standardHandling(debitGrant);
+    }
+    public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException{
+        this.standardHandling(accountServiceBankFees);
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);

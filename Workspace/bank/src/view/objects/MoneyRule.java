@@ -3,7 +3,6 @@ package view.objects;
 
 import view.AmountView;
 import view.CurrencyView;
-import view.LimitAccountView;
 import view.ModelException;
 import view.MoneyRuleView;
 import view.UserException;

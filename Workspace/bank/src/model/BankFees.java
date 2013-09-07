@@ -11,11 +11,11 @@ import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
+import persistence.BankFeesProxi;
 import persistence.ConnectionHandler;
-import persistence.FeeWrapperProxi;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
-import persistence.PersistentFeeWrapper;
+import persistence.PersistentBankFees;
 import persistence.PersistentInternalFee;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
@@ -26,27 +26,27 @@ import persistence.TDObserver;
 
 /* Additional import section end */
 
-public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper{
+public class BankFees extends PersistentObject implements PersistentBankFees{
     
     /** Throws persistence exception if the object with the given id does not exist. */
-    public static PersistentFeeWrapper getById(long objectId) throws PersistenceException{
-        long classId = ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.getClass(objectId);
-        return (PersistentFeeWrapper)PersistentProxi.createProxi(objectId, classId);
+    public static PersistentBankFees getById(long objectId) throws PersistenceException{
+        long classId = ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.getClass(objectId);
+        return (PersistentBankFees)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentFeeWrapper createFeeWrapper(PersistentTransactionFee fee,PersistentInternalFee internalFee) throws PersistenceException{
-        return createFeeWrapper(fee,internalFee,false);
+    public static PersistentBankFees createBankFees(PersistentTransactionFee fee,PersistentInternalFee internalFee) throws PersistenceException{
+        return createBankFees(fee,internalFee,false);
     }
     
-    public static PersistentFeeWrapper createFeeWrapper(PersistentTransactionFee fee,PersistentInternalFee internalFee,boolean delayed$Persistence) throws PersistenceException {
-        PersistentFeeWrapper result = null;
+    public static PersistentBankFees createBankFees(PersistentTransactionFee fee,PersistentInternalFee internalFee,boolean delayed$Persistence) throws PersistenceException {
+        PersistentBankFees result = null;
         if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade
-                .newDelayedFeeWrapper();
+            result = ConnectionHandler.getTheConnectionHandler().theBankFeesFacade
+                .newDelayedBankFees();
             result.setDelayed$Persistence(true);
         }else{
-            result = ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade
-                .newFeeWrapper(-1);
+            result = ConnectionHandler.getTheConnectionHandler().theBankFeesFacade
+                .newBankFees(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("fee", fee);
@@ -56,15 +56,15 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
         return result;
     }
     
-    public static PersistentFeeWrapper createFeeWrapper(PersistentTransactionFee fee,PersistentInternalFee internalFee,boolean delayed$Persistence,PersistentFeeWrapper This) throws PersistenceException {
-        PersistentFeeWrapper result = null;
+    public static PersistentBankFees createBankFees(PersistentTransactionFee fee,PersistentInternalFee internalFee,boolean delayed$Persistence,PersistentBankFees This) throws PersistenceException {
+        PersistentBankFees result = null;
         if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade
-                .newDelayedFeeWrapper();
+            result = ConnectionHandler.getTheConnectionHandler().theBankFeesFacade
+                .newDelayedBankFees();
             result.setDelayed$Persistence(true);
         }else{
-            result = ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade
-                .newFeeWrapper(-1);
+            result = ConnectionHandler.getTheConnectionHandler().theBankFeesFacade
+                .newBankFees(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("fee", fee);
@@ -102,13 +102,13 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
         return result;
     }
     
-    public FeeWrapper provideCopy() throws PersistenceException{
-        FeeWrapper result = this;
-        result = new FeeWrapper(this.fee, 
-                                this.internalFee, 
-                                this.subService, 
-                                this.This, 
-                                this.getId());
+    public BankFees provideCopy() throws PersistenceException{
+        BankFees result = this;
+        result = new BankFees(this.fee, 
+                              this.internalFee, 
+                              this.subService, 
+                              this.This, 
+                              this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -119,9 +119,9 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
     protected PersistentTransactionFee fee;
     protected PersistentInternalFee internalFee;
     protected SubjInterface subService;
-    protected PersistentFeeWrapper This;
+    protected PersistentBankFees This;
     
-    public FeeWrapper(PersistentTransactionFee fee,PersistentInternalFee internalFee,SubjInterface subService,PersistentFeeWrapper This,long id) throws persistence.PersistenceException {
+    public BankFees(PersistentTransactionFee fee,PersistentInternalFee internalFee,SubjInterface subService,PersistentBankFees This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.fee = fee;
@@ -131,7 +131,7 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
     }
     
     static public long getTypeId() {
-        return 242;
+        return 244;
     }
     
     public long getClassId() {
@@ -140,24 +140,24 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 242) ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade
-            .newFeeWrapper(this.getId());
+        if (this.getClassId() == 244) ConnectionHandler.getTheConnectionHandler().theBankFeesFacade
+            .newBankFees(this.getId());
         super.store();
         if(this.getFee() != null){
             this.getFee().store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.feeSet(this.getId(), getFee());
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.feeSet(this.getId(), getFee());
         }
         if(this.getInternalFee() != null){
             this.getInternalFee().store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.internalFeeSet(this.getId(), getInternalFee());
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.internalFeeSet(this.getId(), getInternalFee());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.subServiceSet(this.getId(), getSubService());
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.subServiceSet(this.getId(), getSubService());
         }
         if(!this.equals(this.getThis())){
             this.getThis().store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.ThisSet(this.getId(), getThis());
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.ThisSet(this.getId(), getThis());
         }
         
     }
@@ -173,7 +173,7 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
         this.fee = (PersistentTransactionFee)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.feeSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.feeSet(this.getId(), newValue);
         }
     }
     public PersistentInternalFee getInternalFee() throws PersistenceException {
@@ -187,7 +187,7 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
         this.internalFee = (PersistentInternalFee)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.internalFeeSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.internalFeeSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -201,10 +201,10 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
         this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.subServiceSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.subServiceSet(this.getId(), newValue);
         }
     }
-    protected void setThis(PersistentFeeWrapper newValue) throws PersistenceException {
+    protected void setThis(PersistentBankFees newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.equals(this)){
             this.This = null;
@@ -213,43 +213,43 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
         if(newValue.equals(this.This)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.This = (PersistentFeeWrapper)PersistentProxi.createProxi(objectId, classId);
+        this.This = (PersistentBankFees)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theFeeWrapperFacade.ThisSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theBankFeesFacade.ThisSet(this.getId(), newValue);
         }
     }
-    public PersistentFeeWrapper getThis() throws PersistenceException {
+    public PersistentBankFees getThis() throws PersistenceException {
         if(this.This == null){
-            PersistentFeeWrapper result = new FeeWrapperProxi(this.getId());
+            PersistentBankFees result = new BankFeesProxi(this.getId());
             result.getTheObject();
             return result;
-        }return (PersistentFeeWrapper)this.This;
+        }return (PersistentBankFees)this.This;
     }
     
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleFeeWrapper(this);
+        visitor.handleBankFees(this);
     }
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleFeeWrapper(this);
+         visitor.handleBankFees(this);
     }
     public <R, E extends UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     public void accept(AnythingVisitor visitor) throws PersistenceException {
-        visitor.handleFeeWrapper(this);
+        visitor.handleBankFees(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleFeeWrapper(this);
+         visitor.handleBankFees(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getFee() != null) return 1;
@@ -258,6 +258,20 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
     }
     
     
+    public void changeInternalFee(final PersistentInternalFee newInternalFee) 
+				throws PersistenceException{
+        model.meta.BankFeesChangeInternalFeeInternalFeeMssg event = new model.meta.BankFeesChangeInternalFeeInternalFeeMssg(newInternalFee, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeTransactionFee(final PersistentTransactionFee newTransactionFee) 
+				throws PersistenceException{
+        model.meta.BankFeesChangeTransactionFeeTransactionFeeMssg event = new model.meta.BankFeesChangeTransactionFeeTransactionFeeMssg(newTransactionFee, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -269,7 +283,7 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
-        this.setThis((PersistentFeeWrapper)This);
+        this.setThis((PersistentBankFees)This);
 		if(this.equals(This)){
 			this.setFee((PersistentTransactionFee)final$$Fields.get("fee"));
 			this.setInternalFee((PersistentInternalFee)final$$Fields.get("internalFee"));
@@ -297,6 +311,16 @@ public class FeeWrapper extends PersistentObject implements PersistentFeeWrapper
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeInternalFeeImplementation(final PersistentInternalFee newInternalFee) 
+				throws PersistenceException{
+    	getThis().setInternalFee(newInternalFee);
+        
+    }
+    public void changeTransactionFeeImplementation(final PersistentTransactionFee newTransactionFee) 
+				throws PersistenceException{
+        getThis().setFee(newTransactionFee);
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes

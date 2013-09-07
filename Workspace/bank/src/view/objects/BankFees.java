@@ -1,18 +1,25 @@
 
 package view.objects;
 
-import view.*;
-import view.visitor.*;
+import view.BankFeesView;
+import view.InternalFeeView;
+import view.ModelException;
+import view.TransactionFeeView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
 
 
 /* Additional import section end */
 
-public class FeeWrapper extends ViewObject implements FeeWrapperView{
+public class BankFees extends ViewObject implements BankFeesView{
     
     protected TransactionFeeView fee;
     protected InternalFeeView internalFee;
     
-    public FeeWrapper(TransactionFeeView fee,InternalFeeView internalFee,long id, long classId) {
+    public BankFees(TransactionFeeView fee,InternalFeeView internalFee,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.fee = fee;
@@ -20,7 +27,7 @@ public class FeeWrapper extends ViewObject implements FeeWrapperView{
     }
     
     static public long getTypeId() {
-        return 242;
+        return 244;
     }
     
     public long getClassId() {
@@ -41,16 +48,16 @@ public class FeeWrapper extends ViewObject implements FeeWrapperView{
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
-        visitor.handleFeeWrapper(this);
+        visitor.handleBankFees(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleFeeWrapper(this);
+         visitor.handleBankFees(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
@@ -69,9 +76,9 @@ public class FeeWrapper extends ViewObject implements FeeWrapperView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getFee() != null) return new FeeFeeWrapperWrapper(this, originalIndex, (ViewRoot)this.getFee());
+        if(index == 0 && this.getFee() != null) return new FeeBankFeesWrapper(this, originalIndex, (ViewRoot)this.getFee());
         if(this.getFee() != null) index = index - 1;
-        if(index == 0 && this.getInternalFee() != null) return new InternalFeeFeeWrapperWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
+        if(index == 0 && this.getInternalFee() != null) return new InternalFeeBankFeesWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
         if(this.getInternalFee() != null) index = index - 1;
         return null;
     }
