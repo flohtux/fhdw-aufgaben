@@ -80,9 +80,9 @@ public class NoLimitICProxi extends LimitTypeICProxi implements PersistentNoLimi
 				throws PersistenceException{
         ((PersistentNoLimit)this.getTheObject()).updateObservers(event);
     }
-    public void checkLimit(final PersistentMoney money) 
+    public void checkMaxLimit(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
-        ((PersistentNoLimit)this.getTheObject()).checkLimit(money);
+        ((PersistentNoLimit)this.getTheObject()).checkMaxLimit(money);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

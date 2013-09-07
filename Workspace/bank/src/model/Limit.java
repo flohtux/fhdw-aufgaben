@@ -251,16 +251,6 @@ public class Limit extends model.LimitType implements PersistentLimit{
     
     // Start of section that contains overridden operations only.
     
-    public void checkLimit(final PersistentMoney money) 
-				throws model.LimitViolatedException, PersistenceException{
-    	System.out.println("this money "+getThis().getMoney()+ " money "+money);
-		if (getThis().getMoney().greaterOrEqual(money).isTrue()) {
-			return;
-		} else {
-			throw new LimitViolatedException();
-		}
-		
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

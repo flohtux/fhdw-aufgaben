@@ -1710,7 +1710,8 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String MoneyRule$$limitAccount = "MoneyRule$$limitAccount";
+    protected static final String MoneyRule$$minLimit = "MoneyRule$$minLimit";
+    protected static final String MoneyRule$$maxLimit = "MoneyRule$$maxLimit";
     
     protected MoneyRuleDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

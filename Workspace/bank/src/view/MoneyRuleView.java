@@ -6,8 +6,10 @@ public interface MoneyRuleView extends RuleView {
     
     public CurrencyView getCurrency()throws ModelException;
     public void setCurrency(CurrencyView newValue) throws ModelException ;
-    public LimitAccountView getLimitAccount()throws ModelException;
-    public void setLimitAccount(LimitAccountView newValue) throws ModelException ;
+    public AmountView getMinLimit()throws ModelException;
+    public void setMinLimit(AmountView newValue) throws ModelException ;
+    public AmountView getMaxLimit()throws ModelException;
+    public void setMaxLimit(AmountView newValue) throws ModelException ;
     
     public void accept(RuleVisitor visitor) throws ModelException;
     public <R> R accept(RuleReturnVisitor<R>  visitor) throws ModelException;

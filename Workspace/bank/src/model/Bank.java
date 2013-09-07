@@ -577,7 +577,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 					} else {
 //						System.out.println("liimts grant"+((Limit) grant.getLimits()).getMoney());
 						System.out.println("limits grant"+grant.getLimits());
-						grant.getLimits().checkLimit(debit.getMoney());
+						grant.getLimits().checkMaxLimit(debit.getMoney());
 					}
 				}
 			});

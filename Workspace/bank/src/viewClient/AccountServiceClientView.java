@@ -361,6 +361,47 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 					
 			}
 			
+			
+			@Override
+			public void handleMoneyRule(final MoneyRuleView moneyRule) throws ModelException {
+				final CustomMoneyRuleDetailPanel panel = new CustomMoneyRuleDetailPanel(AccountServiceClientView.this, moneyRule);
+				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$minLimit, new DecimalFractionUpdater() {
+					public void update(String text) throws ModelException {
+						AccountServiceClientView.this.getConnection().changeMoneyRuleMin(moneyRule, Fraction.parseDec(text));
+					}});
+				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$maxLimit, new DecimalFractionUpdater() {
+					public void update(String text) throws ModelException {
+						AccountServiceClientView.this.getConnection().changeMoneyRuleMax(moneyRule, Fraction.parseDec(text));
+					}});
+				
+				result = panel;
+			}
+			
+			@Override
+			public void handleIncomingAccountRule(final IncomingAccountRuleView incomingAccountRule) throws ModelException {
+				final IncomingAccountRuleDefaultDetailPanel panel = new IncomingAccountRuleDefaultDetailPanel(AccountServiceClientView.this, incomingAccountRule);
+				panel.registerUpdater(IncomingAccountRuleDefaultDetailPanel.IncomingAccountRule$$accountNumber, new UpdaterForInteger() {
+					public void update(String text) throws ModelException {
+						AccountServiceClientView.this.getConnection().changeIncomingAccountRuleAccountNumber(incomingAccountRule, Long.parseLong(text));
+					}
+				});
+				panel.registerUpdater(IncomingAccountRuleDefaultDetailPanel.IncomingAccountRule$$bankNumber, new UpdaterForInteger() {
+					public void update(String text) throws ModelException {
+						AccountServiceClientView.this.getConnection().changeIncomingAccountRuleBankNumber(incomingAccountRule, Long.parseLong(text));
+					}});
+				result = panel;
+			}
+			
+			@Override
+			public void handleSubjectRule(final SubjectRuleView subjectRule) throws ModelException {
+				final SubjectRuleDefaultDetailPanel panel = new SubjectRuleDefaultDetailPanel(AccountServiceClientView.this, subjectRule);
+				panel.registerUpdater(SubjectRuleDefaultDetailPanel.SubjectRule$$subject, new UpdaterForString() {
+					public void update(String text) throws ModelException {
+						AccountServiceClientView.this.getConnection().changeSubjectRuleSubject(subjectRule, text);
+					}});
+				result = panel;
+			}
+			
 			//TODO Overwrite all handle methods for the types for which you intend to provide a special panel!
 		}
 		PanelDecider decider = new PanelDecider();
@@ -622,6 +663,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
         });
         if (withStaticOperations) result.add(item);
         if (selected != null){
+            if (selected instanceof SubjectRuleView){
+                item = new javax.swing.JMenuItem();
+                item.setText("changeSubjectRuleSubject ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeSubjectRuleSubjectSubjectRuleStringMssgWizard wizard = new AccountServiceChangeSubjectRuleSubjectSubjectRuleStringMssgWizard("changeSubjectRuleSubject");
+                        wizard.setFirstArgument((SubjectRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             if (selected instanceof TransactionView){
                 if (this.filterRemoveFromTransaction((TransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
@@ -906,6 +964,70 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     result.add(item);
                 }
             }
+            if (selected instanceof MoneyRuleView){
+                item = new javax.swing.JMenuItem();
+                item.setText("changeMoneyRuleMax ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeMoneyRuleMaxMoneyRuleFractionMssgWizard wizard = new AccountServiceChangeMoneyRuleMaxMoneyRuleFractionMssgWizard("changeMoneyRuleMax");
+                        wizard.setFirstArgument((MoneyRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("changeMoneyRuleMin ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeMoneyRuleMinMoneyRuleFractionMssgWizard wizard = new AccountServiceChangeMoneyRuleMinMoneyRuleFractionMssgWizard("changeMoneyRuleMin");
+                        wizard.setFirstArgument((MoneyRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
+            if (selected instanceof IncomingAccountRuleView){
+                item = new javax.swing.JMenuItem();
+                item.setText("changeIncomingAccountRuleAccountNumber ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeIncomingAccountRuleAccountNumberIncomingAccountRuleIntegerMssgWizard wizard = new AccountServiceChangeIncomingAccountRuleAccountNumberIncomingAccountRuleIntegerMssgWizard("changeIncomingAccountRuleAccountNumber");
+                        wizard.setFirstArgument((IncomingAccountRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("changeIncomingAccountRuleBankNumber ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceChangeIncomingAccountRuleBankNumberIncomingAccountRuleIntegerMssgWizard wizard = new AccountServiceChangeIncomingAccountRuleBankNumberIncomingAccountRuleIntegerMssgWizard("changeIncomingAccountRuleBankNumber");
+                        wizard.setFirstArgument((IncomingAccountRuleView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
             
         }
         
@@ -1070,6 +1192,194 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		private DebitTransferView firstArgument; 
 	
 		public void setFirstArgument(DebitTransferView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeIncomingAccountRuleAccountNumberIncomingAccountRuleIntegerMssgWizard extends Wizard {
+
+		protected AccountServiceChangeIncomingAccountRuleAccountNumberIncomingAccountRuleIntegerMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeIncomingAccountRuleAccountNumberIncomingAccountRuleIntegerMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeIncomingAccountRuleAccountNumber(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getComponent(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new IntegerSelectionPanel("newAccNum", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private IncomingAccountRuleView firstArgument; 
+	
+		public void setFirstArgument(IncomingAccountRuleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeIncomingAccountRuleBankNumberIncomingAccountRuleIntegerMssgWizard extends Wizard {
+
+		protected AccountServiceChangeIncomingAccountRuleBankNumberIncomingAccountRuleIntegerMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeIncomingAccountRuleBankNumberIncomingAccountRuleIntegerMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeIncomingAccountRuleBankNumber(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getComponent(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new IntegerSelectionPanel("newBankNum", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private IncomingAccountRuleView firstArgument; 
+	
+		public void setFirstArgument(IncomingAccountRuleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeMoneyRuleMaxMoneyRuleFractionMssgWizard extends Wizard {
+
+		protected AccountServiceChangeMoneyRuleMaxMoneyRuleFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeMoneyRuleMaxMoneyRuleFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeMoneyRuleMax(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("maxValue", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private MoneyRuleView firstArgument; 
+	
+		public void setFirstArgument(MoneyRuleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeMoneyRuleMinMoneyRuleFractionMssgWizard extends Wizard {
+
+		protected AccountServiceChangeMoneyRuleMinMoneyRuleFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeMoneyRuleMinMoneyRuleFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeMoneyRuleMin(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("minValue", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private MoneyRuleView firstArgument; 
+	
+		public void setFirstArgument(MoneyRuleView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();
@@ -1267,6 +1577,53 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			}catch(ModelException me){
 				 handleException(me);
 			}
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceChangeSubjectRuleSubjectSubjectRuleStringMssgWizard extends Wizard {
+
+		protected AccountServiceChangeSubjectRuleSubjectSubjectRuleStringMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceChangeSubjectRuleSubjectSubjectRuleStringMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeSubjectRuleSubject(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new StringSelectionPanel("newSubject", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private SubjectRuleView firstArgument; 
+	
+		public void setFirstArgument(SubjectRuleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
 			this.check();
 		}
 		
@@ -1598,7 +1955,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		protected void addFields() {
 			super.addFields();
 	        try{
-	            BaseTypePanel panel = new RegularExpressionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance().formatDec(2), new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex));
+	        	BaseTypePanel panel = new PositiveDecimalFractionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance());
 	            this.getScrollablePane().add(panel);
 	            this.panels.put(DebitTransfer$$money$$balance, panel);
 	        }catch(view.ModelException e){
@@ -1629,7 +1986,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		protected void addFields() {
 			super.addFields();
 	        try{
-	        	BaseTypePanel panel = new RegularExpressionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance().formatDec(2), new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex));
+	        	BaseTypePanel panel = new PositiveDecimalFractionPanel(this, "Betrag", this.getAnything().getMoney().getAmount().getBalance());
 	            this.getScrollablePane().add(panel);
 	            this.panels.put(DebitTransfer$$money$$balance, panel);
 	        }catch(view.ModelException e){
@@ -1642,6 +1999,57 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 	        }catch(view.ModelException e){
 	            this.getExceptionAndEventhandler().handleException(e);
 	        }
+		}
+	}
+	
+	class CustomMoneyRuleDetailPanel extends MoneyRuleDefaultDetailPanel {
+
+		protected CustomMoneyRuleDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+			super(exceptionHandler, anything);
+		}
+		
+		@Override
+		protected void addFields() {
+			super.addFields();
+			try {
+				BaseTypePanel panel = new PositiveDecimalFractionPanel(CustomMoneyRuleDetailPanel.this, "Minimum", this.getAnything().getMinLimit().getBalance());
+				this.getScrollablePane().add(panel);
+				this.panels.put(MoneyRule$$minLimit, panel);
+			} catch (view.ModelException e) {
+				this.getExceptionAndEventhandler().handleException(e);
+			}
+			
+			try {
+				BaseTypePanel panel = new PositiveDecimalFractionPanel(CustomMoneyRuleDetailPanel.this, "Maximum", this.getAnything().getMaxLimit().getBalance());
+				this.getScrollablePane().add(panel);
+				this.panels.put(MoneyRule$$maxLimit, panel);
+			} catch (view.ModelException e) {
+				this.getExceptionAndEventhandler().handleException(e);
+			}
+		}
+		
+	}
+	
+	class PositiveDecimalFractionPanel extends RegularExpressionPanel {
+
+		protected PositiveDecimalFractionPanel(DefaultDetailPanel master, String name, Fraction value) {
+			super(master, name, value.formatDec(2), new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex));
+		}
+
+		
+	}
+	
+	abstract class DecimalFractionUpdater implements Updater {
+		public String format(String text) {
+			try{
+	        	Fraction frac = Fraction.parseDec(text);
+	        	return frac.formatDec(2);
+	        } catch(NumberFormatException nfe) {
+	        	return text;
+	        }
+		}
+		public boolean check(String text) throws ModelException {
+			return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
 		}
 	}
 	

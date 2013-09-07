@@ -182,6 +182,22 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeCurrency(trans, currency);
     }
+    public void changeIncomingAccountRuleAccountNumber(final PersistentIncomingAccountRule rule, final long newAccNum) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeIncomingAccountRuleAccountNumber(rule, newAccNum);
+    }
+    public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeIncomingAccountRuleBankNumber(rule, newBankNum);
+    }
+    public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMax(rule, maxValue);
+    }
+    public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMin(rule, minValue);
+    }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoney(trans, newAmount);
@@ -197,6 +213,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
+    }
+    public void changeSubjectRuleSubject(final PersistentSubjectRule rule, final String newSubject) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeSubjectRuleSubject(rule, newSubject);
     }
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{

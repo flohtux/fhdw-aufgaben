@@ -19,6 +19,7 @@ import persistence.ConnectionHandler;
 import persistence.MoneyRuleProxi;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
+import persistence.PersistentAmount;
 import persistence.PersistentBooleanValue;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebitTransfer;
@@ -88,13 +89,22 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
                     if(forGUI && currency.hasEssentialFields())currency.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
-            AbstractPersistentRoot limitAccount = (AbstractPersistentRoot)this.getLimitAccount();
-            if (limitAccount != null) {
-                result.put("limitAccount", limitAccount.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot minLimit = (AbstractPersistentRoot)this.getMinLimit();
+            if (minLimit != null) {
+                result.put("minLimit", minLimit.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    limitAccount.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    minLimit.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && limitAccount.hasEssentialFields())limitAccount.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && minLimit.hasEssentialFields())minLimit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot maxLimit = (AbstractPersistentRoot)this.getMaxLimit();
+            if (maxLimit != null) {
+                result.put("maxLimit", maxLimit.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    maxLimit.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && maxLimit.hasEssentialFields())maxLimit.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -108,7 +118,8 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
         result = new MoneyRule(this.subService, 
                                this.This, 
                                this.currency, 
-                               this.limitAccount, 
+                               this.minLimit, 
+                               this.maxLimit, 
                                this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -118,13 +129,15 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
         return false;
     }
     protected PersistentCurrency currency;
-    protected PersistentLimitAccount limitAccount;
+    protected PersistentAmount minLimit;
+    protected PersistentAmount maxLimit;
     
-    public MoneyRule(SubjInterface subService,PersistentRule This,PersistentCurrency currency,PersistentLimitAccount limitAccount,long id) throws persistence.PersistenceException {
+    public MoneyRule(SubjInterface subService,PersistentRule This,PersistentCurrency currency,PersistentAmount minLimit,PersistentAmount maxLimit,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentRule)This,id);
         this.currency = currency;
-        this.limitAccount = limitAccount;        
+        this.minLimit = minLimit;
+        this.maxLimit = maxLimit;        
     }
     
     static public long getTypeId() {
@@ -144,9 +157,13 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
             this.getCurrency().store();
             ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.currencySet(this.getId(), getCurrency());
         }
-        if(this.getLimitAccount() != null){
-            this.getLimitAccount().store();
-            ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.limitAccountSet(this.getId(), getLimitAccount());
+        if(this.getMinLimit() != null){
+            this.getMinLimit().store();
+            ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.minLimitSet(this.getId(), getMinLimit());
+        }
+        if(this.getMaxLimit() != null){
+            this.getMaxLimit().store();
+            ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.maxLimitSet(this.getId(), getMaxLimit());
         }
         
     }
@@ -165,18 +182,32 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
             ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.currencySet(this.getId(), newValue);
         }
     }
-    public PersistentLimitAccount getLimitAccount() throws PersistenceException {
-        return this.limitAccount;
+    public PersistentAmount getMinLimit() throws PersistenceException {
+        return this.minLimit;
     }
-    public void setLimitAccount(PersistentLimitAccount newValue) throws PersistenceException {
+    public void setMinLimit(PersistentAmount newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.limitAccount)) return;
+        if(newValue.equals(this.minLimit)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.limitAccount = (PersistentLimitAccount)PersistentProxi.createProxi(objectId, classId);
+        this.minLimit = (PersistentAmount)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.limitAccountSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.minLimitSet(this.getId(), newValue);
+        }
+    }
+    public PersistentAmount getMaxLimit() throws PersistenceException {
+        return this.maxLimit;
+    }
+    public void setMaxLimit(PersistentAmount newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.maxLimit)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.maxLimit = (PersistentAmount)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theMoneyRuleFacade.maxLimitSet(this.getId(), newValue);
         }
     }
     public PersistentMoneyRule getThis() throws PersistenceException {
@@ -224,7 +255,8 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
          return visitor.handleMoneyRule(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getLimitAccount() != null) return 1;
+        if (this.getMinLimit() != null && this.getMinLimit().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getMaxLimit() != null && this.getMaxLimit().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
@@ -267,6 +299,16 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeMax(final common.Fraction maxValue) 
+				throws PersistenceException{
+    	getThis().setMaxLimit(Amount.createAmount(maxValue));
+        
+    }
+    public void changeMin(final common.Fraction minValue) 
+				throws PersistenceException{
+        getThis().setMinLimit(Amount.createAmount(minValue));
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
@@ -274,10 +316,8 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-    	PersistentLimitAccount acc = LimitAccount.createLimitAccount();
-    	acc.setMinLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(Fraction.Null), getThis().getCurrency())));
-    	acc.setMaxLimit(Limit.createLimit(Money.createMoney(Amount.createAmount(Fraction.Null), getThis().getCurrency())));
-	    getThis().setLimitAccount(acc);
+    	getThis().setMinLimit(Amount.createAmount(Fraction.Null));
+    	getThis().setMaxLimit(Amount.createAmount(Fraction.Null));
         
     }
     public void initializeOnInstantiation() 
@@ -291,8 +331,11 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
-		try {
-			getThis().getLimitAccount().checkLimit(debitTransfer.getMoney());
+		PersistentLimitAccount l = LimitAccount.createLimitAccount();
+		l.setMinLimit(Limit.createLimit(Money.createMoney(getThis().getMinLimit(), getThis().getCurrency())));
+		l.setMaxLimit(Limit.createLimit(Money.createMoney(getThis().getMaxLimit(), getThis().getCurrency())));
+    	try {
+			l.checkLimit(debitTransfer.getMoney());
 		} catch (LimitViolatedException e) {
 			return FalseValue.getTheFalseValue();
 		}

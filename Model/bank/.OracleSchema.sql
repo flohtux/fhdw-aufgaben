@@ -957,9 +957,12 @@ create table Rl(
     MnRlCrrnc number,
     MnRlCrrncCls number,
     constraint FMnRlCrrnc foreign key (MnRlCrrncCls) references Cls (id),
-    MnRlLmtAccnt number,
-    MnRlLmtAccntCls number,
-    constraint FMnRlLmtAccnt foreign key (MnRlLmtAccntCls) references Cls (id)    
+    MnRlMnLmt number,
+    MnRlMnLmtCls number,
+    constraint FMnRlMnLmt foreign key (MnRlMnLmtCls) references Cls (id),
+    MnRlMxLmt number,
+    MnRlMxLmtCls number,
+    constraint FMnRlMxLmt foreign key (MnRlMxLmtCls) references Cls (id)    
 );
 
 create sequence SEvntWrppr nocache;
