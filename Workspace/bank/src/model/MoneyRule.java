@@ -311,7 +311,7 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     }
     public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
 				throws PersistenceException{
-    	if(getThis().getMinLimit().getBalance().greaterOrEqual(maxValue)) {
+    	if(getThis().getMinLimit().getBalance().greater(maxValue)) {
     		return FalseValue.getTheFalseValue();
     	} else {
     		return TrueValue.getTheTrueValue();
@@ -319,7 +319,7 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     }
     public PersistentBooleanValue checkMin(final common.Fraction minValue) 
 				throws PersistenceException{
-        if(minValue.greaterOrEqual(getThis().getMaxLimit().getBalance())) {
+        if(minValue.greater(getThis().getMaxLimit().getBalance())) {
         	return FalseValue.getTheFalseValue();
         } else {
         	return TrueValue.getTheTrueValue();
