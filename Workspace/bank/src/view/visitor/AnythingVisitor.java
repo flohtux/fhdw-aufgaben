@@ -11,6 +11,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     public void handlePercent(PercentView percent) throws ModelException;
     public void handleAmount(AmountView amount) throws ModelException;
+    public void handleFeeWrapper(FeeWrapperView feeWrapper) throws ModelException;
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     public void handleServer(ServerView server) throws ModelException;
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;

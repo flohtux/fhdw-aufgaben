@@ -43,6 +43,7 @@ server BankService extends Service {
 	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
 	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
 	void changeTransactionFee@@Gebühren_ändern(TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
+	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent);
 }
 class Bank {
 	indexed Integer bankNumber@@BLZ;
@@ -61,6 +62,7 @@ class Bank {
 	void changeTransactionFeeToFix(Money fix);
 	void changeTransactionFeeToProcentual(Percent procentual);
 	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
+	void changeInternalFee(Percent procentual);
 	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
 }
 
@@ -74,12 +76,13 @@ server AccountService extends Service {
 	observe DebitTransferSuccessful successful;
 	observe DebitTransferNotExecuted notExecuted;
 	observe DebitTransferTemplate template;
+	FeeWrapper feeWrapper;
 	void createTransfer@@Neue_Überweisung();
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
 	void createTrigger@@Neue_Folgebuchung(String name, DebitTransferTransactionSUBTYPEName type);
-	void enable(Trigger t checked);
+	void enable(Trigger t checked) throws NoRuleDefinitionException;
 	void disable(Trigger t checked);
 	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
@@ -94,12 +97,20 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
-	//Rules
+
+	//Rule
 	void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
 	void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
 	void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
 	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
 	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
+	BooleanValue checkMoneyRuleMin(MoneyRule rule, Fraction minValue); //no-view!
+	BooleanValue checkMoneyRuleMax(MoneyRule rule, Fraction maxValue); //no-view!
+}
+
+class FeeWrapper {
+	prior TransactionFee fee;
+	prior InternalFee internalFee;
 }
 
 class EventWrapper {
@@ -273,7 +284,7 @@ class Trigger{
 	one-to-one (no-view master) TriggerState state;
 	DebitTransferTransaction action;
 	Rule ** rules;
-	void enable();
+	void enable() throws NoRuleDefinitionException;
 	void disable();
 	void addRule(Rule rule) throws DoubleRuleDefinitionException;
 }
@@ -290,6 +301,8 @@ class MoneyRule extends Rule{
 	skip-view Amount maxLimit;
 	void changeMin(Fraction minValue);
 	void changeMax(Fraction maxValue);
+	BooleanValue checkMin(Fraction minValue);
+	BooleanValue checkMax(Fraction maxValue);
 }
 
 class SubjectRule extends Rule{
@@ -337,10 +350,11 @@ exception GrantAlreadyGivenException{}
 exception DebitNotGrantedException extends DebitException{}
 exception RuleNotMatchedException {}
 exception DoubleRuleDefinitionException {}
-
+exception NoRuleDefinitionException {}
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
 
 }
+
 
 

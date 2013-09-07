@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[141];
+		listProxiFactories = new ListProxiFactory[143];
         listProxiFactories[104] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new AccountReceivedDebitGrantListEntryProxi(objectId, entryId);
@@ -130,6 +130,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[15] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new NoLimitListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[141] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new FeeWrapperListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[16] = new ListProxiFactory(){
@@ -417,7 +422,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [141];
+		proxiFactories = new ProxiFactory [143];
         proxiFactories[104] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new AccountReceivedDebitGrantProxi(objectId);
@@ -531,6 +536,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[15] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new NoLimitProxi(objectId);
+            }
+        };
+        proxiFactories[141] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new FeeWrapperProxi(objectId);
             }
         };
         proxiFactories[16] = new ProxiFactory(){

@@ -10,6 +10,8 @@ public interface PersistentAccountService extends PersistentService {
     public void setAccount(PersistentAccount newValue) throws PersistenceException ;
     public PersistentEventWrapper getEventhandle() throws PersistenceException ;
     public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException ;
+    public PersistentFeeWrapper getFeeWrapper() throws PersistenceException ;
+    public void setFeeWrapper(PersistentFeeWrapper newValue) throws PersistenceException ;
     public PersistentAccountService getThis() throws PersistenceException ;
     
     public void accept(ServiceVisitor visitor) throws PersistenceException;
@@ -79,6 +81,10 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException;
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
@@ -98,7 +104,7 @@ public interface PersistentAccountService extends PersistentService {
     public void disable(final PersistentTrigger t) 
 				throws PersistenceException;
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException;
+				throws model.NoRuleDefinitionException, PersistenceException;
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException;
     public void initializeOnCreation() 

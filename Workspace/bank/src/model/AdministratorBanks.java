@@ -15,7 +15,6 @@ import persistence.ConnectionHandler;
 import persistence.PersistenceException;
 import persistence.PersistentAdministrator;
 import persistence.PersistentAdministratorBanks;
-import persistence.PersistentBank;
 import persistence.PersistentBankPx;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;

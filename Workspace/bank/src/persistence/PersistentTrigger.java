@@ -35,7 +35,7 @@ public interface PersistentTrigger extends SubjInterface, Anything, AbstractPers
     public void disable() 
 				throws PersistenceException;
     public void enable() 
-				throws PersistenceException;
+				throws model.NoRuleDefinitionException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

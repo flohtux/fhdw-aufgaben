@@ -76,7 +76,10 @@ create table Srvc(
     constraint FAccntSrvcNtExctd foreign key (AccntSrvcNtExctdCls) references Cls (id),
     AccntSrvcTmplt number,
     AccntSrvcTmpltCls number,
-    constraint FAccntSrvcTmplt foreign key (AccntSrvcTmpltCls) references Cls (id)    
+    constraint FAccntSrvcTmplt foreign key (AccntSrvcTmpltCls) references Cls (id),
+    AccntSrvcFWrppr number,
+    AccntSrvcFWrpprCls number,
+    constraint FAccntSrvcFWrppr foreign key (AccntSrvcFWrpprCls) references Cls (id)    
 );
 create index IBnkBnkSrvc on Srvc (BnkSrvcBnk, BnkSrvcBnkCls);
 create index IAccntAccntSrvc on Srvc (AccntSrvcAccnt, AccntSrvcAccntCls);
@@ -378,6 +381,25 @@ create table Amnt(
     AmntThis number,
     AmntThisCls number,
     constraint FAmntThis foreign key (AmntThisCls) references Cls (id)    
+);
+
+create sequence SFWrppr nocache;
+
+create table FWrppr(
+    id number primary key,
+    Cls number not null,
+    FWrpprFee number,
+    FWrpprFeeCls number,
+    constraint FFWrpprFee foreign key (FWrpprFeeCls) references Cls (id),
+    FWrpprIntrnlF number,
+    FWrpprIntrnlFCls number,
+    constraint FFWrpprIntrnlF foreign key (FWrpprIntrnlFCls) references Cls (id),
+    FWrpprSbSrvc number,
+    FWrpprSbSrvcCls number,
+    constraint FFWrpprSbSrvc foreign key (FWrpprSbSrvcCls) references Cls (id),
+    FWrpprThis number,
+    FWrpprThisCls number,
+    constraint FFWrpprThis foreign key (FWrpprThisCls) references Cls (id)    
 );
 
 create sequence SCrtBnkCMD nocache;

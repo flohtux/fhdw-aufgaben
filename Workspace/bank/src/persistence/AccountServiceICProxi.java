@@ -34,6 +34,12 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setEventhandle(newValue);
     }
+    public PersistentFeeWrapper getFeeWrapper() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getFeeWrapper();
+    }
+    public void setFeeWrapper(PersistentFeeWrapper newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setFeeWrapper(newValue);
+    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }
@@ -216,6 +222,14 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeSubject(trans, subject);
     }
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).checkMoneyRuleMax(rule, maxValue);
+    }
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).checkMoneyRuleMin(rule, minValue);
+    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).connected(user);
@@ -261,7 +275,7 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).enable(t);
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 

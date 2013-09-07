@@ -198,6 +198,30 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> checkMoneyRuleMax(String ruleProxiString, String maxValueAsString){
+        try {
+            PersistentMoneyRule rule = (PersistentMoneyRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            common.Fraction maxValue = common.Fraction.parse(maxValueAsString);
+            PersistentBooleanValue result = ((PersistentAccountService)this.server).checkMoneyRuleMax(rule, maxValue);
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> checkMoneyRuleMin(String ruleProxiString, String minValueAsString){
+        try {
+            PersistentMoneyRule rule = (PersistentMoneyRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            common.Fraction minValue = common.Fraction.parse(minValueAsString);
+            PersistentBooleanValue result = ((PersistentAccountService)this.server).checkMoneyRuleMin(rule, minValue);
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> createDebitGrant(String debitGrantListProxiString, String receiverBankNumberAsString, String receiverAccNumberAsString, String limitType, String amountAsString, String cur){
         try {
             PersistentDebitGrantListe debitGrantList = (PersistentDebitGrantListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitGrantListProxiString));
@@ -291,6 +315,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoRuleDefinitionException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

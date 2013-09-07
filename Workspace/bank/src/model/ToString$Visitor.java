@@ -32,6 +32,7 @@ import persistence.PersistentEuro;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
 import persistence.PersistentFalseValue;
+import persistence.PersistentFeeWrapper;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentFranken;
 import persistence.PersistentIncomingAccountRule;
@@ -62,6 +63,7 @@ import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.PersistentTrueValue;
 import persistence.PersistentYen;
+
 import common.Fraction;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -348,11 +350,14 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			PersistentIncomingAccountRule incomingAccountRule)
 			throws PersistenceException {
 		result = String.format(serverConstants.ToStringConstants.IncomingAccountRuleFormatAccountBank, incomingAccountRule.getAccountNumber(), incomingAccountRule.getBankNumber());
+
 	}
 	@Override
 	public void handleSubjectRule(PersistentSubjectRule subjectRule)
 			throws PersistenceException {
+
 		result = String.format(serverConstants.ToStringConstants.SubjectRuleFormat, subjectRule.getSubject());
+
 	}
 	@Override
 	public void handleTrigger(PersistentTrigger trigger)
@@ -363,6 +368,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleMoneyRule(PersistentMoneyRule moneyRule)
 			throws PersistenceException {
 		result = String.format(serverConstants.ToStringConstants.MoneyRuleFormatMinMax, moneyRule.getMinLimit().toString(true), moneyRule.getMaxLimit().toString(true));
+
 	}
 	@Override
 	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {
@@ -382,6 +388,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		this.result = bankPx.getBank().toString(true);
 		
+	}
+	@Override
+	public void handleFeeWrapper(PersistentFeeWrapper feeWrapper)
+			throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.FeeWrapper;
 	}
 	
 	

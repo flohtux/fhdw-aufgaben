@@ -33,8 +33,6 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
-    
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
@@ -46,6 +44,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
@@ -140,6 +140,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
+    
+    public abstract void handleFeeWrapper(PersistentFeeWrapper feeWrapper) throws PersistenceException;
     
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     

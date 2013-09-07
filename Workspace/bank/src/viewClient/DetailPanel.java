@@ -739,6 +739,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoLimit(view.NoLimitView object){
         result = new NoLimitDefaultDetailPanel(handler, object);
     }
+    public void handleFeeWrapper(view.FeeWrapperView object){
+        result = new FeeWrapperDefaultDetailPanel(handler, object);
+    }
     public void handleAdministrator(view.AdministratorView object){
         result = new AdministratorDefaultDetailPanel(handler, object);
     }
@@ -1121,6 +1124,23 @@ class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class FeeWrapperDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String FeeWrapper$$fee = "FeeWrapper$$fee";
+    protected static final String FeeWrapper$$internalFee = "FeeWrapper$$internalFee";
+    
+    protected FeeWrapperDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.FeeWrapperView getAnything(){
+        return (view.FeeWrapperView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class AdministratorDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Administrator$$currencyManager = "Administrator$$currencyManager";
@@ -1497,6 +1517,7 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String AccountService$$successful = "AccountService$$successful";
     protected static final String AccountService$$notExecuted = "AccountService$$notExecuted";
     protected static final String AccountService$$template = "AccountService$$template";
+    protected static final String AccountService$$feeWrapper = "AccountService$$feeWrapper";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

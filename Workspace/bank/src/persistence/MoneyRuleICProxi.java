@@ -106,6 +106,14 @@ public class MoneyRuleICProxi extends RuleICProxi implements PersistentMoneyRule
 				throws PersistenceException{
         ((PersistentMoneyRule)this.getTheObject()).changeMin(minValue);
     }
+    public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).checkMax(maxValue);
+    }
+    public PersistentBooleanValue checkMin(final common.Fraction minValue) 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).checkMin(minValue);
+    }
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
         return ((PersistentMoneyRule)this.getTheObject()).check(debitTransfer);

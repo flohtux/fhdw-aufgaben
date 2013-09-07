@@ -25,6 +25,17 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeInteralFee(String feeProxiString, String procentualAsString){
+        try {
+            PersistentInternalFee fee = (PersistentInternalFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(feeProxiString));
+            common.Fraction procentual = common.Fraction.parse(procentualAsString);
+            ((PersistentBankService)this.server).changeInteralFee(fee, procentual);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeMaxLimit(String limitProxiString, String amountAsString){
         try {
             PersistentLimitAccount limit = (PersistentLimitAccount)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(limitProxiString));

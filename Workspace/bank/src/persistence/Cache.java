@@ -307,6 +307,7 @@ public class Cache {
 		this.number2NameMap.put(213, "ExecuteCommand");
 		this.number2NameMap.put(110, "ExecutedState");
 		this.number2NameMap.put(166, "FalseValue");
+		this.number2NameMap.put(242, "FeeWrapper");
 		this.number2NameMap.put(108, "FixTransactionFee");
 		this.number2NameMap.put(180, "Franken");
 		this.number2NameMap.put(229, "IncomingAccountRule");

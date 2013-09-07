@@ -50,6 +50,7 @@ import persistence.PersistentAccountServiceNotExecuted;
 import persistence.PersistentAccountServiceSuccessful;
 import persistence.PersistentAccountServiceTemplate;
 import persistence.PersistentBank;
+import persistence.PersistentBooleanValue;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
@@ -60,6 +61,7 @@ import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
+import persistence.PersistentFeeWrapper;
 import persistence.PersistentIncomingAccountRule;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitType;
@@ -76,7 +78,6 @@ import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
-import persistence.PersistentTriggerListe;
 import persistence.PersistentUseTemplateCommand;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -176,6 +177,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
                     if(forGUI && template.hasEssentialFields())template.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot feeWrapper = (AbstractPersistentRoot)this.getFeeWrapper();
+            if (feeWrapper != null) {
+                result.put("feeWrapper", feeWrapper.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    feeWrapper.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && feeWrapper.hasEssentialFields())feeWrapper.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -191,6 +201,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
                                     this.successful, 
                                     this.notExecuted, 
                                     this.template, 
+                                    this.feeWrapper, 
                                     this.getId());
         result.errors = this.errors.copy(result);
         this.copyingPrivateUserAttributes(result);
@@ -205,15 +216,17 @@ public class AccountService extends model.Service implements PersistentAccountSe
     protected PersistentAccountServiceSuccessful successful;
     protected PersistentAccountServiceNotExecuted notExecuted;
     protected PersistentAccountServiceTemplate template;
+    protected PersistentFeeWrapper feeWrapper;
     
-    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentEventWrapper eventhandle,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,PersistentAccountServiceTemplate template,long id) throws persistence.PersistenceException {
+    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentEventWrapper eventhandle,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,PersistentAccountServiceTemplate template,PersistentFeeWrapper feeWrapper,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentService)This,id);
         this.account = account;
         this.eventhandle = eventhandle;
         this.successful = successful;
         this.notExecuted = notExecuted;
-        this.template = template;        
+        this.template = template;
+        this.feeWrapper = feeWrapper;        
     }
     
     static public long getTypeId() {
@@ -248,6 +261,10 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if(this.template != null){
             this.template.store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.templateSet(this.getId(), template);
+        }
+        if(this.getFeeWrapper() != null){
+            this.getFeeWrapper().store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.feeWrapperSet(this.getId(), getFeeWrapper());
         }
         
     }
@@ -313,6 +330,20 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.templateSet(this.getId(), newValue);
+        }
+    }
+    public PersistentFeeWrapper getFeeWrapper() throws PersistenceException {
+        return this.feeWrapper;
+    }
+    public void setFeeWrapper(PersistentFeeWrapper newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.feeWrapper)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.feeWrapper = (PersistentFeeWrapper)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.feeWrapperSet(this.getId(), newValue);
         }
     }
     public PersistentAccountService getThis() throws PersistenceException {
@@ -387,6 +418,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if (this.getSuccessful() != null) return 1;
         if (this.getNotExecuted() != null) return 1;
         if (this.getTemplate() != null) return 1;
+        if (this.getFeeWrapper() != null) return 1;
         if (this.getAccount() != null && this.getAccount().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
@@ -556,6 +588,14 @@ public class AccountService extends model.Service implements PersistentAccountSe
        trans.setSubject(subject);
        getThis().signalChanged(true);
     }
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        return rule.checkMax(maxValue);
+    }
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+    	return rule.checkMin(minValue);
+    }
     public void connected(final String user) 
 				throws PersistenceException{
     }
@@ -654,7 +694,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     }
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         t.enable();
         getThis().signalChanged(true);
     }
@@ -669,6 +709,8 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().setNotExecuted(DebitTransferNotExecuted.createDebitTransferNotExecuted());
     	getThis().setTemplate(DebitTransferTemplate.createDebitTransferTemplate());
     	getThis().setEventhandle(EventWrapper.createEventWrapper());
+    	getThis().setFeeWrapper(FeeWrapper.createFeeWrapper(getThis().getAccount().getBank().getFee(),
+    			getThis().getAccount().getBank().getInternalFee()));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

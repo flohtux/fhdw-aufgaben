@@ -24,7 +24,7 @@ public class AccountServiceFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            AccountService result = new AccountService(null,null,null,null,null,null,null,id);
+            AccountService result = new AccountService(null,null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountServiceProxi)PersistentProxi.createProxi(id, -130);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class AccountServiceFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            AccountService result = new AccountService(null,null,null,null,null,null,null,id);
+            AccountService result = new AccountService(null,null,null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (AccountServiceProxi)PersistentProxi.createProxi(id, -130);
         }catch(SQLException se) {
@@ -82,6 +82,9 @@ public class AccountServiceFacade{
             PersistentAccountServiceTemplate template = null;
             if (obj.getLong(14) != 0)
                 template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
+            PersistentFeeWrapper feeWrapper = null;
+            if (obj.getLong(16) != 0)
+                feeWrapper = (PersistentFeeWrapper)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
             AccountService result = new AccountService(subService,
                                                        This,
                                                        account,
@@ -89,6 +92,7 @@ public class AccountServiceFacade{
                                                        successful,
                                                        notExecuted,
                                                        template,
+                                                       feeWrapper,
                                                        AccountServiceId);
             obj.close();
             callable.close();
@@ -159,6 +163,19 @@ public class AccountServiceFacade{
             callable.setLong(1, AccountServiceId);
             callable.setLong(2, templateVal.getId());
             callable.setLong(3, templateVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void feeWrapperSet(long AccountServiceId, PersistentFeeWrapper feeWrapperVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.fWrpprSet(?, ?, ?); end;");
+            callable.setLong(1, AccountServiceId);
+            callable.setLong(2, feeWrapperVal.getId());
+            callable.setLong(3, feeWrapperVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

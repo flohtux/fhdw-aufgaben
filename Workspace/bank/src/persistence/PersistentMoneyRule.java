@@ -33,6 +33,10 @@ public interface PersistentMoneyRule extends PersistentRule {
 				throws PersistenceException;
     public void changeMin(final common.Fraction minValue) 
 				throws PersistenceException;
+    public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMin(final common.Fraction minValue) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

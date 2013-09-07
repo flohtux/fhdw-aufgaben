@@ -306,8 +306,24 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
     }
     public void changeMin(final common.Fraction minValue) 
 				throws PersistenceException{
-        getThis().setMinLimit(Amount.createAmount(minValue));
+    	getThis().setMinLimit(Amount.createAmount(minValue));
         
+    }
+    public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
+				throws PersistenceException{
+    	if(getThis().getMinLimit().getBalance().greater(maxValue)) {
+    		return FalseValue.getTheFalseValue();
+    	} else {
+    		return TrueValue.getTheTrueValue();
+    	}
+    }
+    public PersistentBooleanValue checkMin(final common.Fraction minValue) 
+				throws PersistenceException{
+        if(minValue.greater(getThis().getMaxLimit().getBalance())) {
+        	return FalseValue.getTheFalseValue();
+        } else {
+        	return TrueValue.getTheTrueValue();
+        }
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

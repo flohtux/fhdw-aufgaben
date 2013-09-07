@@ -9,7 +9,7 @@ public abstract class RPCConstantsAndServices {
 
 	public static int EssentialDepth = 3;	
 
-	private static final int RefreshInterval = 64000;
+	private static final int RefreshInterval = 2000;
 
 	public static final int ServerPort = 8089;
 	public static final int ClientRefreshInterval = RefreshInterval;
