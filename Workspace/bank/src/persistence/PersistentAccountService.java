@@ -68,9 +68,9 @@ public interface PersistentAccountService extends PersistentService {
     public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
 				throws PersistenceException;
     public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
-				throws PersistenceException;
+				throws model.MaximumIsLowerThenMinimumException, PersistenceException;
     public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
-				throws PersistenceException;
+				throws model.MinimumIsHigherThenMaximumException, PersistenceException;
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
     public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccNumber) 

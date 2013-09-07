@@ -191,11 +191,11 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
         ((PersistentAccountService)this.getTheObject()).changeIncomingAccountRuleBankNumber(rule, newBankNum);
     }
     public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
-				throws PersistenceException{
+				throws model.MaximumIsLowerThenMinimumException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMax(rule, maxValue);
     }
     public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
-				throws PersistenceException{
+				throws model.MinimumIsHigherThenMaximumException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMin(rule, minValue);
     }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 

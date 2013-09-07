@@ -16,7 +16,11 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
     
+    public abstract void handleMaximumIsLowerThenMinimumException(model.MaximumIsLowerThenMinimumException maximumIsLowerThenMinimumException) throws PersistenceException;
+    
     public abstract void handleNoRuleDefinitionException(model.NoRuleDefinitionException noRuleDefinitionException) throws PersistenceException;
+    
+    public abstract void handleMinimumIsHigherThenMaximumException(model.MinimumIsHigherThenMaximumException minimumIsHigherThenMaximumException) throws PersistenceException;
     
     public abstract void handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException;
     

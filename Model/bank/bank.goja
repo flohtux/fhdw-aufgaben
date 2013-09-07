@@ -102,8 +102,8 @@ server AccountService extends Service {
 	void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
 	void changeIncomingAccountRuleBankNumber(IncomingAccountRule rule, Integer newBankNum);
 	void changeSubjectRuleSubject(SubjectRule rule, String newSubject);
-	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
-	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
+	void changeMoneyRuleMin(MoneyRule rule, Fraction minValue) throws MinimumIsHigherThenMaximumException;
+	void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue) throws MaximumIsLowerThenMinimumException;
 }
 
 class FeeWrapper {
@@ -297,8 +297,8 @@ class MoneyRule extends Rule{
 	no-view prior Currency currency;
 	skip-view Amount minLimit;
 	skip-view Amount maxLimit;
-	void changeMin(Fraction minValue);
-	void changeMax(Fraction maxValue);
+	void changeMin(Fraction minValue) throws MinimumIsHigherThenMaximumException;
+	void changeMax(Fraction maxValue) throws MaximumIsLowerThenMinimumException;
 }
 
 class SubjectRule extends Rule{
@@ -347,7 +347,8 @@ exception DebitNotGrantedException extends DebitException{}
 exception RuleNotMatchedException {}
 exception DoubleRuleDefinitionException {}
 exception NoRuleDefinitionException {}
-
+exception MaximumIsLowerThenMinimumException{}
+exception MinimumIsHigherThenMaximumException{}
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
 

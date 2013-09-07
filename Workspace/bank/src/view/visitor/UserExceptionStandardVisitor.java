@@ -14,6 +14,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handlePasswordException(PasswordException passwordException) throws ModelException{
         this.standardHandling(passwordException);
     }
+    public void handleMaximumIsLowerThenMinimumException(MaximumIsLowerThenMinimumException maximumIsLowerThenMinimumException) throws ModelException{
+        this.standardHandling(maximumIsLowerThenMinimumException);
+    }
     public void handleNoPermissionToExecuteDebitTransferException(NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws ModelException{
         this.standardHandling(noPermissionToExecuteDebitTransferException);
     }
@@ -43,6 +46,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     }
     public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{
         this.standardHandling(invalidBankNumberException);
+    }
+    public void handleMinimumIsHigherThenMaximumException(MinimumIsHigherThenMaximumException minimumIsHigherThenMaximumException) throws ModelException{
+        this.standardHandling(minimumIsHigherThenMaximumException);
     }
     public void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException{
         this.standardHandling(grantAlreadyGivenException);

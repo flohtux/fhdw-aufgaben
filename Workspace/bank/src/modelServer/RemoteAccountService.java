@@ -120,6 +120,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.MaximumIsLowerThenMinimumException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -131,6 +133,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.MinimumIsHigherThenMaximumException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

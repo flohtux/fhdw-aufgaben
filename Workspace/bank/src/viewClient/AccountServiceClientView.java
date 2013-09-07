@@ -367,11 +367,20 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				final CustomMoneyRuleDetailPanel panel = new CustomMoneyRuleDetailPanel(AccountServiceClientView.this, moneyRule);
 				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$minLimit, new DecimalFractionUpdater() {
 					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeMoneyRuleMin(moneyRule, Fraction.parseDec(text));
+						try {
+							AccountServiceClientView.this.getConnection().changeMoneyRuleMin(moneyRule, Fraction.parseDec(text));
+						} catch (MinimumIsHigherThenMaximumException e) {
+							e.printStackTrace();
+						}
 					}});
 				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$maxLimit, new DecimalFractionUpdater() {
 					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeMoneyRuleMax(moneyRule, Fraction.parseDec(text));
+						try {
+							AccountServiceClientView.this.getConnection().changeMoneyRuleMax(moneyRule, Fraction.parseDec(text));
+						} catch (MaximumIsLowerThenMinimumException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}});
 				
 				result = panel;
@@ -1317,6 +1326,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				setVisible(false);
 				dispose();
 			}
+			catch(MaximumIsLowerThenMinimumException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			
 		}
 		protected String checkCompleteParameterSet(){
@@ -1363,6 +1375,9 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				handleException(me);
 				setVisible(false);
 				dispose();
+			}
+			catch(MinimumIsHigherThenMaximumException e) {
+				getStatusBar().setText(e.getMessage());
 			}
 			
 		}

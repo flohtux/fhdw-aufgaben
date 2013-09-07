@@ -553,12 +553,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
         
     }
     public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
-				throws PersistenceException{
+				throws model.MaximumIsLowerThenMinimumException, PersistenceException{
     	rule.changeMax(maxValue);
     	getThis().signalChanged(true);
     }
     public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
-				throws PersistenceException{
+				throws model.MinimumIsHigherThenMaximumException, PersistenceException{
     	rule.changeMin(minValue);
     	getThis().signalChanged(true);
     }
