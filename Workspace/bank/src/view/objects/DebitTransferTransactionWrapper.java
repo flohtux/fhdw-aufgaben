@@ -17,7 +17,7 @@ public class DebitTransferTransactionWrapper extends AssociationInTreeWrapper {
 	
 	public String toString(){
     	//TODO: Implement toString in wrapper class for association debitTransfer in class Transaction
-    	return "Transkation"+this.getWrappedObject().toString();
+    	return viewConstants.WrapperConstants.Transaction+this.getWrappedObject().toString();
     }
 
     /*End of protected part that is not overridden by persistence generator*/
