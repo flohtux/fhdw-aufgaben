@@ -12,10 +12,8 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
     public void setName(String newValue) throws PersistenceException ;
     public long getLastAccountNumber() throws PersistenceException ;
     public void setLastAccountNumber(long newValue) throws PersistenceException ;
-    public PersistentTransactionFee getFee() throws PersistenceException ;
-    public void setFee(PersistentTransactionFee newValue) throws PersistenceException ;
-    public PersistentInternalFee getInternalFee() throws PersistenceException ;
-    public void setInternalFee(PersistentInternalFee newValue) throws PersistenceException ;
+    public PersistentBankFees getBankFees() throws PersistenceException ;
+    public void setBankFees(PersistentBankFees newValue) throws PersistenceException ;
     public PersistentAccount getOwnAccount() throws PersistenceException ;
     public void setOwnAccount(PersistentAccount newValue) throws PersistenceException ;
     public Bank_AccountsProxi getAccounts() throws PersistenceException ;
@@ -44,6 +42,8 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
     public PersistentBankService getBankServices() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeInternalFee(final PersistentPercent procentual) 
 				throws PersistenceException;
     public void changeNameImplementation(final String name) 
 				throws PersistenceException;

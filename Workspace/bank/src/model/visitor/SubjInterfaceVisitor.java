@@ -15,6 +15,7 @@ public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransa
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
@@ -26,6 +27,7 @@ public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransa
     public void handleBank(PersistentBank bank) throws PersistenceException;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
+    public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     

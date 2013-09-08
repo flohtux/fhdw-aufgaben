@@ -144,6 +144,7 @@ public class ConnectionHandler {
     public CreateDebitGrantCommandFacade theCreateDebitGrantCommandFacade;
     public SubjectRuleFacade theSubjectRuleFacade;
     public TriggerListeFacade theTriggerListeFacade;
+    public BankPxFacade theBankPxFacade;
     public DisabledStateFacade theDisabledStateFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
     public AdministratorBanksFacade theAdministratorBanksFacade;
@@ -161,8 +162,8 @@ public class ConnectionHandler {
     public RequestStateFacade theRequestStateFacade;
     public AccountServiceFacade theAccountServiceFacade;
     public AccountPxFacade theAccountPxFacade;
-    public TransactionFeeFacade theTransactionFeeFacade;
     public AccountFacade theAccountFacade;
+    public TransactionFeeFacade theTransactionFeeFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public UseTemplateCommandFacade theUseTemplateCommandFacade;
     public NotExecutedStateFacade theNotExecutedStateFacade;
@@ -190,7 +191,9 @@ public class ConnectionHandler {
     public AccountServiceNotExecutedFacade theAccountServiceNotExecutedFacade;
     public PfundFacade thePfundFacade;
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
+    public BankFeesFacade theBankFeesFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
+    public AccountServiceBankFeesFacade theAccountServiceBankFeesFacade;
     public DebitGrantFacade theDebitGrantFacade;
     public BankCreatorFacade theBankCreatorFacade;
 
@@ -254,6 +257,7 @@ public class ConnectionHandler {
             this.theCreateDebitGrantCommandFacade= new CreateDebitGrantCommandFacade(this.schemaName, this.con);
             this.theSubjectRuleFacade= new SubjectRuleFacade(this.schemaName, this.con);
             this.theTriggerListeFacade= new TriggerListeFacade(this.schemaName, this.con);
+            this.theBankPxFacade= new BankPxFacade(this.schemaName, this.con);
             this.theDisabledStateFacade= new DisabledStateFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
             this.theAdministratorBanksFacade= new AdministratorBanksFacade(this.schemaName, this.con);
@@ -271,8 +275,8 @@ public class ConnectionHandler {
             this.theRequestStateFacade= new RequestStateFacade(this.schemaName, this.con);
             this.theAccountServiceFacade= new AccountServiceFacade(this.schemaName, this.con);
             this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
-            this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
+            this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
             this.theNotExecutedStateFacade= new NotExecutedStateFacade(this.schemaName, this.con);
@@ -300,7 +304,9 @@ public class ConnectionHandler {
             this.theAccountServiceNotExecutedFacade= new AccountServiceNotExecutedFacade(this.schemaName, this.con);
             this.thePfundFacade= new PfundFacade(this.schemaName, this.con);
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
+            this.theBankFeesFacade= new BankFeesFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
+            this.theAccountServiceBankFeesFacade= new AccountServiceBankFeesFacade(this.schemaName, this.con);
             this.theDebitGrantFacade= new DebitGrantFacade(this.schemaName, this.con);
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
 		} catch (SQLException sqlExc) {

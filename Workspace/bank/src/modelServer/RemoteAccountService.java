@@ -90,6 +90,50 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeIncomingAccountRuleAccountNumber(String ruleProxiString, String newAccNumAsString){
+        try {
+            PersistentIncomingAccountRule rule = (PersistentIncomingAccountRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            long newAccNum = new Long(newAccNumAsString).longValue();
+            ((PersistentAccountService)this.server).changeIncomingAccountRuleAccountNumber(rule, newAccNum);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeIncomingAccountRuleBankNumber(String ruleProxiString, String newBankNumAsString){
+        try {
+            PersistentIncomingAccountRule rule = (PersistentIncomingAccountRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            long newBankNum = new Long(newBankNumAsString).longValue();
+            ((PersistentAccountService)this.server).changeIncomingAccountRuleBankNumber(rule, newBankNum);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeMoneyRuleMax(String ruleProxiString, String maxValueAsString){
+        try {
+            PersistentMoneyRule rule = (PersistentMoneyRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            common.Fraction maxValue = common.Fraction.parse(maxValueAsString);
+            ((PersistentAccountService)this.server).changeMoneyRuleMax(rule, maxValue);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeMoneyRuleMin(String ruleProxiString, String minValueAsString){
+        try {
+            PersistentMoneyRule rule = (PersistentMoneyRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            common.Fraction minValue = common.Fraction.parse(minValueAsString);
+            ((PersistentAccountService)this.server).changeMoneyRuleMin(rule, minValue);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeMoney(String transProxiString, String newAmountAsString){
         try {
             PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
@@ -134,11 +178,45 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeSubjectRuleSubject(String ruleProxiString, String newSubject){
+        try {
+            PersistentSubjectRule rule = (PersistentSubjectRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            ((PersistentAccountService)this.server).changeSubjectRuleSubject(rule, newSubject);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeSubject(String transProxiString, String subject){
         try {
             PersistentDebitTransfer trans = (PersistentDebitTransfer)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transProxiString));
             ((PersistentAccountService)this.server).changeSubject(trans, subject);
             return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> checkMoneyRuleMax(String ruleProxiString, String maxValueAsString){
+        try {
+            PersistentMoneyRule rule = (PersistentMoneyRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            common.Fraction maxValue = common.Fraction.parse(maxValueAsString);
+            PersistentBooleanValue result = ((PersistentAccountService)this.server).checkMoneyRuleMax(rule, maxValue);
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> checkMoneyRuleMin(String ruleProxiString, String minValueAsString){
+        try {
+            PersistentMoneyRule rule = (PersistentMoneyRule)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(ruleProxiString));
+            common.Fraction minValue = common.Fraction.parse(minValueAsString);
+            PersistentBooleanValue result = ((PersistentAccountService)this.server).checkMoneyRuleMin(rule, minValue);
+            return createOKResult(result, 1, this);
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
         }
@@ -211,10 +289,9 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createTrigger(String unimportantProxiString, String name, String type){
+    public synchronized java.util.HashMap<?,?> createTrigger(String name, String type){
         try {
-            PersistentTriggerListe unimportant = (PersistentTriggerListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(unimportantProxiString));
-            ((PersistentAccountService)this.server).createTrigger(unimportant, name, type);
+            ((PersistentAccountService)this.server).createTrigger(name, type);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -238,6 +315,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoRuleDefinitionException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

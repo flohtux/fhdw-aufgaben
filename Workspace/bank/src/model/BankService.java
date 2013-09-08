@@ -34,12 +34,14 @@ import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
 import persistence.PersistentFixTransactionFee;
+import persistence.PersistentInternalFee;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMixedFee;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentProxi;
 import persistence.PersistentService;
+import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
 import persistence.SubjInterface;
@@ -285,6 +287,11 @@ public class BankService extends model.Service implements PersistentBankService{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
+				throws PersistenceException{
+        getThis().getBank().changeInternalFee(Percent.createPercent(procentual));
+        getThis().signalChanged(true);
+    }
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
         PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
@@ -297,7 +304,7 @@ public class BankService extends model.Service implements PersistentBankService{
         limit.setMinLimit(newMinLimit);
         getThis().signalChanged(true);
     }
-    public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
+    public void changeTransactionFee(final PersistentTransactionFee dummy, final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
        	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
 			

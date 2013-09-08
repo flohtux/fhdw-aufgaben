@@ -12,6 +12,9 @@ public class ExceptionMessages {
 	public static final String GrantAlreadyGivenMessage = "Der Account hat bereits eine Erlaubnis!";
 	public static final String RuleNotMatchedMessage = "Die Regel trifft nicht zu.";
 	public static final String DoubleRuleDefinitionMessage = "Doppelte Regel vom gleichen Typ.";
+	public static final String NoRouleDefinitionMessage = "Es muss mindestens eine Regel definiert werden!";
+	public static final String MaximumIsLowerThenMinimumMessage = "Das Maximum muss größer oder Gleich dem Minimum sein!!";
+	public static final String MinimumIsHigerThenMaximumMessage = "Das Minimum mus kleiner oder gleich dem Maximum sein!!";
 	
 
 	private ExceptionMessages(){}

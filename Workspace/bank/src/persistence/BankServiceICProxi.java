@@ -122,6 +122,10 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
+    public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
+				throws PersistenceException{
+        ((PersistentBankService)this.getTheObject()).changeInteralFee(fee, procentual);
+    }
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeMaxLimit(limit, amount);
@@ -134,9 +138,9 @@ public class BankServiceICProxi extends ServiceICProxi implements PersistentBank
 				throws model.PasswordException, PersistenceException{
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
-    public void changeTransactionFee(final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
+    public void changeTransactionFee(final PersistentTransactionFee dummy, final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeTransactionFee(newFee, fix, fixCurrency, limit, limitCurrency, procentual);
+        ((PersistentBankService)this.getTheObject()).changeTransactionFee(dummy, newFee, fix, fixCurrency, limit, limitCurrency, procentual);
     }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{

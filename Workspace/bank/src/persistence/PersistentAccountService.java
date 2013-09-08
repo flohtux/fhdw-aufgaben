@@ -39,6 +39,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws model.UserException, PersistenceException;
     public DebitTransferSearchList debitTransfer_Path_In_RemoveFromTransaction(final PersistentTransaction transaction) 
 				throws model.UserException, PersistenceException;
+    public PersistentBankFees getBankFees() 
+				throws PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException;
     public PersistentDebitTransferSuccessful getSuccessful() 
@@ -46,6 +48,8 @@ public interface PersistentAccountService extends PersistentService {
     public PersistentDebitTransferTemplate getTemplate() 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void setBankFees(final PersistentBankFees bankFees) 
 				throws PersistenceException;
     public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
 				throws PersistenceException;
@@ -59,7 +63,17 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
+    public void bankFees_update(final model.meta.BankFeesMssgs event) 
+				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
+				throws PersistenceException;
+    public void changeIncomingAccountRuleAccountNumber(final PersistentIncomingAccountRule rule, final long newAccNum) 
+				throws PersistenceException;
+    public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
+				throws PersistenceException;
+    public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException;
+    public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
 				throws PersistenceException;
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException;
@@ -67,7 +81,13 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException;
+    public void changeSubjectRuleSubject(final PersistentSubjectRule rule, final String newSubject) 
+				throws PersistenceException;
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException;
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
@@ -83,12 +103,12 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void createTransfer() 
 				throws PersistenceException;
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
+    public void createTrigger(final String name, final String type) 
 				throws PersistenceException;
     public void disable(final PersistentTrigger t) 
 				throws PersistenceException;
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException;
+				throws model.NoRuleDefinitionException, PersistenceException;
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException;
     public void initializeOnCreation() 

@@ -19,7 +19,6 @@ import persistence.NoLimitProxi;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentLimitType;
-import persistence.PersistentMoney;
 import persistence.PersistentNoLimit;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -213,11 +212,6 @@ public class NoLimit extends model.LimitType implements PersistentNoLimit{
     
     // Start of section that contains overridden operations only.
     
-    public void checkLimit(final PersistentMoney money) 
-				throws model.LimitViolatedException, PersistenceException{
-		return;
-		
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
     

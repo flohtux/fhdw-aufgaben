@@ -26,6 +26,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException;
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException;
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
@@ -48,6 +49,8 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
+    public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
+    public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     

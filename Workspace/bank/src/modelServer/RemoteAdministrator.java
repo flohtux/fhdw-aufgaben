@@ -14,10 +14,10 @@ public  class RemoteAdministrator extends RemoteService {
 
 	 
 
-    public synchronized java.util.HashMap<?,?> changeCurrencyRateGUI(String currency, String rateAsString){
+    public synchronized java.util.HashMap<?,?> changeCurrencyRateGUI(String currencyType, String rateAsString){
         try {
             common.Fraction rate = common.Fraction.parse(rateAsString);
-            ((PersistentAdministrator)this.server).changeCurrencyRateGUI(currency, rate);
+            ((PersistentAdministrator)this.server).changeCurrencyRateGUI(currencyType, rate);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

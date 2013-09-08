@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class LimitAccountMoneyRuleWrapper extends AssociationInTreeWrapper {
+public class InternalFeeBankFeesWrapper extends AssociationInTreeWrapper {
 
-	public LimitAccountMoneyRuleWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public InternalFeeBankFeesWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class LimitAccountMoneyRuleWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association limitAccount in class MoneyRule
+    	//TODO: Implement toString in wrapper class for association internalFee in class BankFees
     	return this.getWrappedObject().toString();
     }
 

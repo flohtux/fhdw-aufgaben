@@ -15,6 +15,7 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException, E;
+    public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;
@@ -26,6 +27,7 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handleBank(PersistentBank bank) throws PersistenceException, E;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException, E;
+    public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException, E;
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException, E;
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException, E;
     

@@ -50,7 +50,14 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             template = view.objects.ViewProxi.createProxi(template$Info,connectionKey);
             template.setToString(template$Info.getToString());
         }
-        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(EventWrapperView)eventhandle,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted,(DebitTransferTemplateView)template, this.getId(), this.getClassId());
+        ViewProxi bankFees = null;
+        String bankFees$String = (String)resultTable.get("bankFees");
+        if (bankFees$String != null) {
+            common.ProxiInformation bankFees$Info = common.RPCConstantsAndServices.createProxiInformation(bankFees$String);
+            bankFees = view.objects.ViewProxi.createProxi(bankFees$Info,connectionKey);
+            bankFees.setToString(bankFees$Info.getToString());
+        }
+        AccountServiceView result$$ = new AccountService(errors,(AccountView)account,(EventWrapperView)eventhandle,(DebitTransferSuccessfulView)successful,(DebitTransferNotExecutedView)notExecuted,(DebitTransferTemplateView)template,(BankFeesView)bankFees, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -69,6 +76,8 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         if(this.getNotExecuted() != null) index = index - 1;
         if(index == 0 && this.getTemplate() != null) return new TemplateAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getTemplate());
         if(this.getTemplate() != null) index = index - 1;
+        if(index == 0 && this.getBankFees() != null) return new BankFeesAccountServiceWrapper(this, originalIndex, (ViewRoot)this.getBankFees());
+        if(this.getBankFees() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
@@ -76,7 +85,8 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             + (this.getAccount() == null ? 0 : this.getAccount().getTheObject().getChildCount())
             + (this.getSuccessful() == null ? 0 : 1)
             + (this.getNotExecuted() == null ? 0 : 1)
-            + (this.getTemplate() == null ? 0 : 1);
+            + (this.getTemplate() == null ? 0 : 1)
+            + (this.getBankFees() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
@@ -84,7 +94,8 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
             && (this.getAccount() == null ? true : this.getAccount().getTheObject().isLeaf())
             && (this.getSuccessful() == null ? true : false)
             && (this.getNotExecuted() == null ? true : false)
-            && (this.getTemplate() == null ? true : false);
+            && (this.getTemplate() == null ? true : false)
+            && (this.getBankFees() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -96,6 +107,8 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
         if(this.getNotExecuted() != null) result = result + 1;
         if(this.getTemplate() != null && this.getTemplate().equals(child)) return result;
         if(this.getTemplate() != null) result = result + 1;
+        if(this.getBankFees() != null && this.getBankFees().equals(child)) return result;
+        if(this.getBankFees() != null) result = result + 1;
         return -1;
     }
     
@@ -128,6 +141,12 @@ public class AccountServiceProxi extends ServiceProxi implements AccountServiceV
     }
     public void setTemplate(DebitTransferTemplateView newValue) throws ModelException {
         ((AccountService)this.getTheObject()).setTemplate(newValue);
+    }
+    public BankFeesView getBankFees()throws ModelException{
+        return ((AccountService)this.getTheObject()).getBankFees();
+    }
+    public void setBankFees(BankFeesView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setBankFees(newValue);
     }
     
     public void accept(ServiceVisitor visitor) throws ModelException {

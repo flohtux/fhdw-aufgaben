@@ -16,6 +16,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleBankService(BankServiceView bankService) throws ModelException{
         this.handleService(bankService);
     }
+    public abstract void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
+    
     public abstract void handleDebitTransferTransaction(DebitTransferTransactionView debitTransferTransaction) throws ModelException;
     
     public void handleTransaction(TransactionView transaction) throws ModelException{
@@ -27,9 +29,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleDebit(DebitView debit) throws ModelException{
         this.handleDebitTransferTransaction(debit);
     }
-    public abstract void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
-    
     public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
+    
+    public abstract void handleAccount(AccountView account) throws ModelException;
     
     public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
     
@@ -42,8 +44,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.handleTransactionFee(procentualFee);
     }
-    public abstract void handleAccount(AccountView account) throws ModelException;
-    
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
@@ -160,7 +160,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     
+    public abstract void handleBankFees(BankFeesView bankFees) throws ModelException;
+    
     public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
+    
+    public abstract void handleBankPx(BankPxView bankPx) throws ModelException;
     
     public abstract void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     

@@ -40,17 +40,11 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void setLastAccountNumber(long newValue) throws PersistenceException {
         ((PersistentBank)this.getTheObject()).setLastAccountNumber(newValue);
     }
-    public PersistentTransactionFee getFee() throws PersistenceException {
-        return ((PersistentBank)this.getTheObject()).getFee();
+    public PersistentBankFees getBankFees() throws PersistenceException {
+        return ((PersistentBank)this.getTheObject()).getBankFees();
     }
-    public void setFee(PersistentTransactionFee newValue) throws PersistenceException {
-        ((PersistentBank)this.getTheObject()).setFee(newValue);
-    }
-    public PersistentInternalFee getInternalFee() throws PersistenceException {
-        return ((PersistentBank)this.getTheObject()).getInternalFee();
-    }
-    public void setInternalFee(PersistentInternalFee newValue) throws PersistenceException {
-        ((PersistentBank)this.getTheObject()).setInternalFee(newValue);
+    public void setBankFees(PersistentBankFees newValue) throws PersistenceException {
+        ((PersistentBank)this.getTheObject()).setBankFees(newValue);
     }
     public PersistentAccount getOwnAccount() throws PersistenceException {
         return ((PersistentBank)this.getTheObject()).getOwnAccount();
@@ -137,6 +131,10 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).updateObservers(event);
+    }
+    public void changeInternalFee(final PersistentPercent procentual) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).changeInternalFee(procentual);
     }
     public void changeNameImplementation(final String name) 
 				throws PersistenceException{

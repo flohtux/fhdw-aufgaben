@@ -15,11 +15,11 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     
+    public abstract void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException;
+    
     public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
     
     public abstract void handleRestrictionException(RestrictionException restrictionException) throws ModelException;
-    
-    public abstract void handleRuleNotMatchedException(RuleNotMatchedException ruleNotMatchedException) throws ModelException;
     
     public abstract void handleExecuteException(ExecuteException executeException) throws ModelException;
     
@@ -38,5 +38,7 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     public void handleDebitNotGrantedException(DebitNotGrantedException debitNotGrantedException) throws ModelException{
         this.handleExecuteException(debitNotGrantedException);
     }
+    public abstract void handleRuleNotMatchedException(RuleNotMatchedException ruleNotMatchedException) throws ModelException;
+    
     
 }

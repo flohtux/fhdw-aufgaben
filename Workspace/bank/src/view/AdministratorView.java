@@ -8,8 +8,8 @@ public interface AdministratorView extends ServiceView {
     
     public CurrencyManagerView getCurrencyManager()throws ModelException;
     public void setCurrencyManager(CurrencyManagerView newValue) throws ModelException ;
-    public java.util.Vector<BankView> getBanks()throws ModelException;
-    public void setBanks(java.util.Vector<BankView> newValue) throws ModelException ;
+    public java.util.Vector<BankPxView> getBanks()throws ModelException;
+    public void setBanks(java.util.Vector<BankPxView> newValue) throws ModelException ;
     
     public void accept(ServiceVisitor visitor) throws ModelException;
     public <R> R accept(ServiceReturnVisitor<R>  visitor) throws ModelException;

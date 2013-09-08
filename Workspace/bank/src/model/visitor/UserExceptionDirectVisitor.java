@@ -16,11 +16,11 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
     
+    public abstract void handleNoRuleDefinitionException(model.NoRuleDefinitionException noRuleDefinitionException) throws PersistenceException;
+    
     public abstract void handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException;
     
     public abstract void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;
-    
-    public abstract void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException;
     
     public abstract void handleExecuteException(model.ExecuteException executeException) throws PersistenceException;
     
@@ -39,5 +39,7 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
         this.handleExecuteException(debitNotGrantedException);
     }
+    public abstract void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException;
+    
     
 }

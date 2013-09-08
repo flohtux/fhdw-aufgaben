@@ -108,7 +108,7 @@ public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentTrigger)this.getTheObject()).disable();
     }
     public void enable() 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentTrigger)this.getTheObject()).enable();
     }
     public void initializeOnCreation() 

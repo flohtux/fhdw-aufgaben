@@ -120,6 +120,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
     }
+    public PersistentBankFees getBankFees() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getBankFees();
+    }
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getNotExecuted();
@@ -139,6 +143,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).register(observee);
+    }
+    public void setBankFees(final PersistentBankFees bankFees) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).setBankFees(bankFees);
     }
     public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
 				throws PersistenceException{
@@ -172,9 +180,29 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
+    public void bankFees_update(final model.meta.BankFeesMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).bankFees_update(event);
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeCurrency(trans, currency);
+    }
+    public void changeIncomingAccountRuleAccountNumber(final PersistentIncomingAccountRule rule, final long newAccNum) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeIncomingAccountRuleAccountNumber(rule, newAccNum);
+    }
+    public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeIncomingAccountRuleBankNumber(rule, newBankNum);
+    }
+    public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMax(rule, maxValue);
+    }
+    public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeMoneyRuleMin(rule, minValue);
     }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
@@ -192,9 +220,21 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
+    public void changeSubjectRuleSubject(final PersistentSubjectRule rule, final String newSubject) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).changeSubjectRuleSubject(rule, newSubject);
+    }
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).changeSubject(trans, subject);
+    }
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).checkMoneyRuleMax(rule, maxValue);
+    }
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).checkMoneyRuleMin(rule, minValue);
     }
     public void connected(final String user) 
 				throws PersistenceException{
@@ -228,9 +268,9 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).createTransfer();
     }
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
+    public void createTrigger(final String name, final String type) 
 				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createTrigger(unimportant, name, type);
+        ((PersistentAccountService)this.getTheObject()).createTrigger(name, type);
     }
     public void disable(final PersistentTrigger t) 
 				throws PersistenceException{
@@ -241,7 +281,7 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
         ((PersistentAccountService)this.getTheObject()).disconnected();
     }
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).enable(t);
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 

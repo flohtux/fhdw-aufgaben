@@ -16,6 +16,8 @@ public interface AccountServiceView extends ServiceView {
     public void setNotExecuted(DebitTransferNotExecutedView newValue) throws ModelException ;
     public DebitTransferTemplateView getTemplate()throws ModelException;
     public void setTemplate(DebitTransferTemplateView newValue) throws ModelException ;
+    public BankFeesView getBankFees()throws ModelException;
+    public void setBankFees(BankFeesView newValue) throws ModelException ;
     
     public void accept(ServiceVisitor visitor) throws ModelException;
     public <R> R accept(ServiceReturnVisitor<R>  visitor) throws ModelException;

@@ -1,8 +1,8 @@
 
 package view.objects;
 
+import view.AmountView;
 import view.CurrencyView;
-import view.LimitAccountView;
 import view.ModelException;
 import view.MoneyRuleView;
 import view.UserException;
@@ -21,13 +21,15 @@ import view.visitor.RuleVisitor;
 public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
     
     protected CurrencyView currency;
-    protected LimitAccountView limitAccount;
+    protected AmountView minLimit;
+    protected AmountView maxLimit;
     
-    public MoneyRule(CurrencyView currency,LimitAccountView limitAccount,long id, long classId) {
+    public MoneyRule(CurrencyView currency,AmountView minLimit,AmountView maxLimit,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.currency = currency;
-        this.limitAccount = limitAccount;        
+        this.minLimit = minLimit;
+        this.maxLimit = maxLimit;        
     }
     
     static public long getTypeId() {
@@ -44,11 +46,17 @@ public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
     public void setCurrency(CurrencyView newValue) throws ModelException {
         this.currency = newValue;
     }
-    public LimitAccountView getLimitAccount()throws ModelException{
-        return this.limitAccount;
+    public AmountView getMinLimit()throws ModelException{
+        return this.minLimit;
     }
-    public void setLimitAccount(LimitAccountView newValue) throws ModelException {
-        this.limitAccount = newValue;
+    public void setMinLimit(AmountView newValue) throws ModelException {
+        this.minLimit = newValue;
+    }
+    public AmountView getMaxLimit()throws ModelException{
+        return this.maxLimit;
+    }
+    public void setMaxLimit(AmountView newValue) throws ModelException {
+        this.maxLimit = newValue;
     }
     
     public void accept(RuleVisitor visitor) throws ModelException {
@@ -81,9 +89,13 @@ public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
         if (currency != null) {
             ((ViewProxi)currency).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(currency.getClassId(), currency.getId())));
         }
-        LimitAccountView limitAccount = this.getLimitAccount();
-        if (limitAccount != null) {
-            ((ViewProxi)limitAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(limitAccount.getClassId(), limitAccount.getId())));
+        AmountView minLimit = this.getMinLimit();
+        if (minLimit != null) {
+            ((ViewProxi)minLimit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(minLimit.getClassId(), minLimit.getId())));
+        }
+        AmountView maxLimit = this.getMaxLimit();
+        if (maxLimit != null) {
+            ((ViewProxi)maxLimit).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(maxLimit.getClassId(), maxLimit.getId())));
         }
         
     }
@@ -92,22 +104,30 @@ public class MoneyRule extends view.objects.Rule implements MoneyRuleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getLimitAccount() != null) return new LimitAccountMoneyRuleWrapper(this, originalIndex, (ViewRoot)this.getLimitAccount());
-        if(this.getLimitAccount() != null) index = index - 1;
+        if(this.getMinLimit() != null && index < this.getMinLimit().getTheObject().getChildCount())
+            return this.getMinLimit().getTheObject().getChild(index);
+        if(this.getMinLimit() != null) index = index - this.getMinLimit().getTheObject().getChildCount();
+        if(this.getMaxLimit() != null && index < this.getMaxLimit().getTheObject().getChildCount())
+            return this.getMaxLimit().getTheObject().getChild(index);
+        if(this.getMaxLimit() != null) index = index - this.getMaxLimit().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getLimitAccount() == null ? 0 : 1);
+            + (this.getMinLimit() == null ? 0 : this.getMinLimit().getTheObject().getChildCount())
+            + (this.getMaxLimit() == null ? 0 : this.getMaxLimit().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getLimitAccount() == null ? true : false);
+            && (this.getMinLimit() == null ? true : this.getMinLimit().getTheObject().isLeaf())
+            && (this.getMaxLimit() == null ? true : this.getMaxLimit().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getLimitAccount() != null && this.getLimitAccount().equals(child)) return result;
-        if(this.getLimitAccount() != null) result = result + 1;
+        if(this.getMinLimit() != null && this.getMinLimit().equals(child)) return result;
+        if(this.getMinLimit() != null) result = result + 1;
+        if(this.getMaxLimit() != null && this.getMaxLimit().equals(child)) return result;
+        if(this.getMaxLimit() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

@@ -27,7 +27,7 @@ public class BankFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,null,id);
+            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (BankProxi)PersistentProxi.createProxi(id, -149);
         }catch(SQLException se) {
@@ -43,7 +43,7 @@ public class BankFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,null,id);
+            Bank result = new Bank(bankNumber,name,lastAccountNumber,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (BankProxi)PersistentProxi.createProxi(id, -149);
         }catch(SQLException se) {
@@ -64,29 +64,25 @@ public class BankFacade{
                 callable.close();
                 return null;
             }
-            PersistentTransactionFee fee = null;
+            PersistentBankFees bankFees = null;
             if (obj.getLong(5) != 0)
-                fee = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentInternalFee internalFee = null;
-            if (obj.getLong(7) != 0)
-                internalFee = (PersistentInternalFee)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+                bankFees = (PersistentBankFees)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccount ownAccount = null;
-            if (obj.getLong(9) != 0)
-                ownAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            if (obj.getLong(7) != 0)
+                ownAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentAdministrator administrator = null;
-            if (obj.getLong(11) != 0)
-                administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
+            if (obj.getLong(9) != 0)
+                administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             SubjInterface subService = null;
-            if (obj.getLong(13) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
+            if (obj.getLong(11) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             PersistentBank This = null;
-            if (obj.getLong(15) != 0)
-                This = (PersistentBank)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
+            if (obj.getLong(13) != 0)
+                This = (PersistentBank)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
             Bank result = new Bank(obj.getLong(2),
                                    obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                    obj.getLong(4),
-                                   fee,
-                                   internalFee,
+                                   bankFees,
                                    ownAccount,
                                    administrator,
                                    subService,
@@ -196,26 +192,13 @@ public class BankFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void feeSet(long BankId, PersistentTransactionFee feeVal) throws PersistenceException {
+    public void bankFeesSet(long BankId, PersistentBankFees bankFeesVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".BnkFacade.feeSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".BnkFacade.bnkFsSet(?, ?, ?); end;");
             callable.setLong(1, BankId);
-            callable.setLong(2, feeVal.getId());
-            callable.setLong(3, feeVal.getClassId());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void internalFeeSet(long BankId, PersistentInternalFee internalFeeVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".BnkFacade.intrnlFSet(?, ?, ?); end;");
-            callable.setLong(1, BankId);
-            callable.setLong(2, internalFeeVal.getId());
-            callable.setLong(3, internalFeeVal.getClassId());
+            callable.setLong(2, bankFeesVal.getId());
+            callable.setLong(3, bankFeesVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

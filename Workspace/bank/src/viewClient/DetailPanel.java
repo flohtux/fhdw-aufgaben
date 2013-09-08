@@ -763,6 +763,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTriggerListe(view.TriggerListeView object){
         result = new TriggerListeDefaultDetailPanel(handler, object);
     }
+    public void handleBankPx(view.BankPxView object){
+        result = new BankPxDefaultDetailPanel(handler, object);
+    }
     public void handleDisabledState(view.DisabledStateView object){
         result = new DisabledStateDefaultDetailPanel(handler, object);
     }
@@ -849,6 +852,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleNotSuccessfulStornoState(view.NotSuccessfulStornoStateView object){
         result = new NotSuccessfulStornoStateDefaultDetailPanel(handler, object);
+    }
+    public void handleBankFees(view.BankFeesView object){
+        result = new BankFeesDefaultDetailPanel(handler, object);
     }
     public void handleSuccessfulStornoState(view.SuccessfulStornoStateView object){
         result = new SuccessfulStornoStateDefaultDetailPanel(handler, object);
@@ -1292,6 +1298,20 @@ class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class BankPxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected BankPxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankPxView getAnything(){
+        return (view.BankPxView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class DisabledStateDefaultDetailPanel extends DefaultDetailPanel{
     
     protected DisabledStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1480,6 +1500,7 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String AccountService$$successful = "AccountService$$successful";
     protected static final String AccountService$$notExecuted = "AccountService$$notExecuted";
     protected static final String AccountService$$template = "AccountService$$template";
+    protected static final String AccountService$$bankFees = "AccountService$$bankFees";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1672,7 +1693,8 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String MoneyRule$$limitAccount = "MoneyRule$$limitAccount";
+    protected static final String MoneyRule$$minLimit = "MoneyRule$$minLimit";
+    protected static final String MoneyRule$$maxLimit = "MoneyRule$$maxLimit";
     
     protected MoneyRuleDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1740,8 +1762,7 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Bank$$bankNumber = "Bank$$bankNumber";
     protected static final String Bank$$name = "Bank$$name";
-    protected static final String Bank$$fee = "Bank$$fee";
-    protected static final String Bank$$internalFee = "Bank$$internalFee";
+    protected static final String Bank$$bankFees = "Bank$$bankFees";
     protected static final String Bank$$ownAccount = "Bank$$ownAccount";
     protected static final String Bank$$currentAccounts = "Bank$$currentAccounts";
     
@@ -1825,6 +1846,23 @@ class NotSuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NotSuccessfulStornoStateView getAnything(){
         return (view.NotSuccessfulStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class BankFeesDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String BankFees$$fee = "BankFees$$fee";
+    protected static final String BankFees$$internalFee = "BankFees$$internalFee";
+    
+    protected BankFeesDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankFeesView getAnything(){
+        return (view.BankFeesView)this.anything;
     }
 }
 

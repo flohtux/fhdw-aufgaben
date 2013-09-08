@@ -28,6 +28,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException;
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public abstract void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException;
     public abstract void handleDollar(PersistentDollar dollar) throws PersistenceException;
     public abstract void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException;
@@ -55,6 +56,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public abstract void handlePfund(PersistentPfund pfund) throws PersistenceException;
+    public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
     public abstract void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException;
     public abstract void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException;
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;

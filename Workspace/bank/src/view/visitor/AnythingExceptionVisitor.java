@@ -14,6 +14,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException, E;
     public void handleServer(ServerView server) throws ModelException, E;
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException, E;
+    public void handleBankPx(BankPxView bankPx) throws ModelException, E;
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException, E;
     public void handleAccountPx(AccountPxView accountPx) throws ModelException, E;
@@ -25,6 +26,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleBank(BankView bank) throws ModelException, E;
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException, E;
     public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException, E;
+    public void handleBankFees(BankFeesView bankFees) throws ModelException, E;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;
     

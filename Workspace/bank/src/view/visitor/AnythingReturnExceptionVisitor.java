@@ -14,6 +14,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException, E;
     public R handleServer(ServerView server) throws ModelException, E;
     public R handleTriggerListe(TriggerListeView triggerListe) throws ModelException, E;
+    public R handleBankPx(BankPxView bankPx) throws ModelException, E;
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public R handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException, E;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException, E;
@@ -25,6 +26,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleBank(BankView bank) throws ModelException, E;
     public R handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException, E;
     public R handleEventWrapper(EventWrapperView eventWrapper) throws ModelException, E;
+    public R handleBankFees(BankFeesView bankFees) throws ModelException, E;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;
     

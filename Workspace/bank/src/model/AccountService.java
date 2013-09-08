@@ -46,10 +46,13 @@ import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountService;
+import persistence.PersistentAccountServiceBankFees;
 import persistence.PersistentAccountServiceNotExecuted;
 import persistence.PersistentAccountServiceSuccessful;
 import persistence.PersistentAccountServiceTemplate;
 import persistence.PersistentBank;
+import persistence.PersistentBankFees;
+import persistence.PersistentBooleanValue;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
@@ -76,7 +79,6 @@ import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
-import persistence.PersistentTriggerListe;
 import persistence.PersistentUseTemplateCommand;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -87,11 +89,11 @@ import persistence.TDObserver;
 public class AccountService extends model.Service implements PersistentAccountService{
     
     
-    public static PersistentAccountService createAccountService(PersistentAccount account) throws PersistenceException{
-        return createAccountService(account,false);
+    public static PersistentAccountService createAccountService(PersistentAccount account,PersistentBankFees bankFees) throws PersistenceException{
+        return createAccountService(account,bankFees,false);
     }
     
-    public static PersistentAccountService createAccountService(PersistentAccount account,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentAccountService createAccountService(PersistentAccount account,PersistentBankFees bankFees,boolean delayed$Persistence) throws PersistenceException {
         PersistentAccountService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
@@ -103,14 +105,16 @@ public class AccountService extends model.Service implements PersistentAccountSe
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("account", account);
+        final$$Fields.put("bankFees", bankFees);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         if(result.getThis().getAccount() == null)throw new PersistenceException("Field account in type AccountService has not been initialized!",0);
         if(result.getThis().getEventhandle() == null)throw new PersistenceException("Field eventhandle in type AccountService has not been initialized!",0);
+        if(result.getThis().getBankFees() == null)throw new PersistenceException("Field bankFees in type AccountService has not been initialized!",0);
         return result;
     }
     
-    public static PersistentAccountService createAccountService(PersistentAccount account,boolean delayed$Persistence,PersistentAccountService This) throws PersistenceException {
+    public static PersistentAccountService createAccountService(PersistentAccount account,PersistentBankFees bankFees,boolean delayed$Persistence,PersistentAccountService This) throws PersistenceException {
         PersistentAccountService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
@@ -122,6 +126,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("account", account);
+        final$$Fields.put("bankFees", bankFees);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -176,6 +181,15 @@ public class AccountService extends model.Service implements PersistentAccountSe
                     if(forGUI && template.hasEssentialFields())template.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot bankFees = (AbstractPersistentRoot)this.getBankFees();
+            if (bankFees != null) {
+                result.put("bankFees", bankFees.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    bankFees.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && bankFees.hasEssentialFields())bankFees.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -191,6 +205,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
                                     this.successful, 
                                     this.notExecuted, 
                                     this.template, 
+                                    this.bankFees, 
                                     this.getId());
         result.errors = this.errors.copy(result);
         this.copyingPrivateUserAttributes(result);
@@ -205,15 +220,17 @@ public class AccountService extends model.Service implements PersistentAccountSe
     protected PersistentAccountServiceSuccessful successful;
     protected PersistentAccountServiceNotExecuted notExecuted;
     protected PersistentAccountServiceTemplate template;
+    protected PersistentAccountServiceBankFees bankFees;
     
-    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentEventWrapper eventhandle,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,PersistentAccountServiceTemplate template,long id) throws persistence.PersistenceException {
+    public AccountService(SubjInterface subService,PersistentService This,PersistentAccount account,PersistentEventWrapper eventhandle,PersistentAccountServiceSuccessful successful,PersistentAccountServiceNotExecuted notExecuted,PersistentAccountServiceTemplate template,PersistentAccountServiceBankFees bankFees,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentService)This,id);
         this.account = account;
         this.eventhandle = eventhandle;
         this.successful = successful;
         this.notExecuted = notExecuted;
-        this.template = template;        
+        this.template = template;
+        this.bankFees = bankFees;        
     }
     
     static public long getTypeId() {
@@ -248,6 +265,10 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if(this.template != null){
             this.template.store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.templateSet(this.getId(), template);
+        }
+        if(this.bankFees != null){
+            this.bankFees.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.bankFeesSet(this.getId(), bankFees);
         }
         
     }
@@ -313,6 +334,18 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.templateSet(this.getId(), newValue);
+        }
+    }
+    protected void setBankFees(PersistentAccountServiceBankFees newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.bankFees)) return;
+        if(getThis().getBankFees() != null)throw new PersistenceException("Final field bankFees in type AccountService has been set already!",0);
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.bankFees = (PersistentAccountServiceBankFees)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.bankFeesSet(this.getId(), newValue);
         }
     }
     public PersistentAccountService getThis() throws PersistenceException {
@@ -387,6 +420,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if (this.getSuccessful() != null) return 1;
         if (this.getNotExecuted() != null) return 1;
         if (this.getTemplate() != null) return 1;
+        if (this.getBankFees() != null) return 1;
         if (this.getAccount() != null && this.getAccount().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
@@ -417,6 +451,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.deregister(observee);
     }
+    public PersistentBankFees getBankFees() 
+				throws PersistenceException{
+        if (this.bankFees== null) return null;
+		return this.bankFees.getObservee();
+    }
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException{
         if (this.notExecuted== null) return null;
@@ -437,6 +476,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         this.setThis((PersistentAccountService)This);
 		if(this.equals(This)){
 			this.setAccount((PersistentAccount)final$$Fields.get("account"));
+			this.setBankFees((PersistentBankFees)final$$Fields.get("bankFees"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 
@@ -447,6 +487,16 @@ public class AccountService extends model.Service implements PersistentAccountSe
 			getThis().setSubService(subService);
 		}
 		subService.register(observee);
+    }
+    public void setBankFees(final PersistentBankFees bankFees) 
+				throws PersistenceException{
+        if (this.bankFees == null) {
+			this.setBankFees(model.AccountServiceBankFees.createAccountServiceBankFees(this.isDelayed$Persistence()));
+			this.bankFees.setObserver(getThis());
+		}else{
+			if (!this.getThis().getBankFees().equals(bankFees))throw new PersistenceException("Final field bankFees in type AccountService has been set already!",0);
+		}
+		this.bankFees.setObservee(bankFees);
     }
     public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
 				throws PersistenceException{
@@ -504,11 +554,37 @@ public class AccountService extends model.Service implements PersistentAccountSe
 	    getThis().getAccount().addToTransaction(transaction, debitTransfer);
         getThis().signalChanged(true);
     }
+    public void bankFees_update(final model.meta.BankFeesMssgs event) 
+				throws PersistenceException{
+    	getThis().signalChanged(true);
+        
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{
         getThis().getAccount().changeCurrency(trans, StringFACTORY.createObjectBySubTypeNameForCurrency(currency),getThis());
         getThis().signalChanged(true);
         
+    }
+    public void changeIncomingAccountRuleAccountNumber(final PersistentIncomingAccountRule rule, final long newAccNum) 
+				throws PersistenceException{
+        rule.changeAccountNumber(newAccNum);
+        getThis().signalChanged(true);
+    }
+    public void changeIncomingAccountRuleBankNumber(final PersistentIncomingAccountRule rule, final long newBankNum) 
+				throws PersistenceException{
+        rule.changeBankNumber(newBankNum);
+        getThis().signalChanged(true);
+        
+    }
+    public void changeMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+    	rule.changeMax(maxValue);
+    	getThis().signalChanged(true);
+    }
+    public void changeMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+    	rule.changeMin(minValue);
+    	getThis().signalChanged(true);
     }
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
 				throws PersistenceException{
@@ -525,10 +601,23 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().getAccount().changeReceiverBank(trans, receiverBankNumber,getThis());
         getThis().signalChanged(true);
     }
+    public void changeSubjectRuleSubject(final PersistentSubjectRule rule, final String newSubject) 
+				throws PersistenceException{
+        rule.changeSubject(newSubject);
+        getThis().signalChanged(true);
+    }
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{
        trans.setSubject(subject);
        getThis().signalChanged(true);
+    }
+    public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 
+				throws PersistenceException{
+        return rule.checkMax(maxValue);
+    }
+    public PersistentBooleanValue checkMoneyRuleMin(final PersistentMoneyRule rule, final common.Fraction minValue) 
+				throws PersistenceException{
+    	return rule.checkMin(minValue);
     }
     public void connected(final String user) 
 				throws PersistenceException{
@@ -596,7 +685,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().getNotExecuted().getNotExecuteds().add(transfer);
         getThis().signalChanged(true);
     }
-    public void createTrigger(final PersistentTriggerListe unimportant, final String name, final String type) 
+    public void createTrigger(final String name, final String type) 
 				throws PersistenceException{
     	PersistentDebitTransferTransaction newDTT = StringFACTORY.createObjectBySubTypeNameForDebitTransferTransaction(type, new DebitTransferTransactionSwitchPARAMETER() {
 			
@@ -628,7 +717,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
     }
     public void enable(final PersistentTrigger t) 
-				throws PersistenceException{
+				throws model.NoRuleDefinitionException, PersistenceException{
         t.enable();
         getThis().signalChanged(true);
     }

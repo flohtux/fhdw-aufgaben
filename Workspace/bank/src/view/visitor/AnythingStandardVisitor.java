@@ -74,6 +74,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
         this.standardHandling(triggerListe);
     }
+    public void handleBankPx(BankPxView bankPx) throws ModelException{
+        this.standardHandling(bankPx);
+    }
     public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
         this.standardHandling(disabledState);
     }
@@ -157,6 +160,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handlePfund(PfundView pfund) throws ModelException{
         this.standardHandling(pfund);
+    }
+    public void handleBankFees(BankFeesView bankFees) throws ModelException{
+        this.standardHandling(bankFees);
     }
     public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
         this.standardHandling(notSuccessfulStornoState);

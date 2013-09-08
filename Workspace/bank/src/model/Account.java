@@ -830,10 +830,9 @@ public class Account extends PersistentObject implements PersistentAccount{
 				try {
 					argument.getRules().applyToAllException(new ProcdureException<PersistentRule, RuleNotMatchedException>() {
 						public void doItTo(PersistentRule argument) throws PersistenceException, RuleNotMatchedException {
-//							TODO Trigger matcht auf jede Rule!!
-//							if (!(argument.check(t).isTrue())) {
-//								throw new RuleNotMatchedException();
-//							}
+							if (!(argument.check(t).isTrue())) {
+								throw new RuleNotMatchedException();
+							}
 							System.out.println("matched");
 							
 						}

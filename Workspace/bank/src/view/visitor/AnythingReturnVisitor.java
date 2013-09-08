@@ -14,6 +14,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     public R handleServer(ServerView server) throws ModelException;
     public R handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
+    public R handleBankPx(BankPxView bankPx) throws ModelException;
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
     public R handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException;
@@ -25,6 +26,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleBank(BankView bank) throws ModelException;
     public R handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     public R handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
+    public R handleBankFees(BankFeesView bankFees) throws ModelException;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException;
     

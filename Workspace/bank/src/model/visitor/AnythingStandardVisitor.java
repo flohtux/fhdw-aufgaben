@@ -104,6 +104,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException{
         this.standardHandling(triggerListe);
     }
+    public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException{
+        this.standardHandling(bankPx);
+    }
     public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
         this.standardHandling(disabledState);
     }
@@ -227,6 +230,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handlePfund(PersistentPfund pfund) throws PersistenceException{
         this.standardHandling(pfund);
     }
+    public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException{
+        this.standardHandling(bankFees);
+    }
     public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
         this.standardHandling(notSuccessfulStornoState);
     }
@@ -235,6 +241,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException{
         this.standardHandling(debitGrant);
+    }
+    public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException{
+        this.standardHandling(accountServiceBankFees);
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);

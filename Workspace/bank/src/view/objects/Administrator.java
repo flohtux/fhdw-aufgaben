@@ -2,7 +2,7 @@
 package view.objects;
 
 import view.AdministratorView;
-import view.BankView;
+import view.BankPxView;
 import view.CurrencyManagerView;
 import view.ErrorDisplayView;
 import view.ModelException;
@@ -30,9 +30,9 @@ import viewClient.ExceptionAndEventHandler;
 public class Administrator extends view.objects.Service implements AdministratorView{
     
     protected CurrencyManagerView currencyManager;
-    protected java.util.Vector<BankView> banks;
+    protected java.util.Vector<BankPxView> banks;
     
-    public Administrator(java.util.Vector<ErrorDisplayView> errors,CurrencyManagerView currencyManager,java.util.Vector<BankView> banks,long id, long classId) {
+    public Administrator(java.util.Vector<ErrorDisplayView> errors,CurrencyManagerView currencyManager,java.util.Vector<BankPxView> banks,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
         this.currencyManager = currencyManager;
@@ -53,10 +53,10 @@ public class Administrator extends view.objects.Service implements Administrator
     public void setCurrencyManager(CurrencyManagerView newValue) throws ModelException {
         this.currencyManager = newValue;
     }
-    public java.util.Vector<BankView> getBanks()throws ModelException{
+    public java.util.Vector<BankPxView> getBanks()throws ModelException{
         return this.banks;
     }
-    public void setBanks(java.util.Vector<BankView> newValue) throws ModelException {
+    public void setBanks(java.util.Vector<BankPxView> newValue) throws ModelException {
         this.banks = newValue;
     }
     

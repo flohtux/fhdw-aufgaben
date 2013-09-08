@@ -28,11 +28,17 @@ public class MoneyRuleICProxi extends RuleICProxi implements PersistentMoneyRule
     public void setCurrency(PersistentCurrency newValue) throws PersistenceException {
         ((PersistentMoneyRule)this.getTheObject()).setCurrency(newValue);
     }
-    public PersistentLimitAccount getLimitAccount() throws PersistenceException {
-        return ((PersistentMoneyRule)this.getTheObject()).getLimitAccount();
+    public PersistentAmount getMinLimit() throws PersistenceException {
+        return ((PersistentMoneyRule)this.getTheObject()).getMinLimit();
     }
-    public void setLimitAccount(PersistentLimitAccount newValue) throws PersistenceException {
-        ((PersistentMoneyRule)this.getTheObject()).setLimitAccount(newValue);
+    public void setMinLimit(PersistentAmount newValue) throws PersistenceException {
+        ((PersistentMoneyRule)this.getTheObject()).setMinLimit(newValue);
+    }
+    public PersistentAmount getMaxLimit() throws PersistenceException {
+        return ((PersistentMoneyRule)this.getTheObject()).getMaxLimit();
+    }
+    public void setMaxLimit(PersistentAmount newValue) throws PersistenceException {
+        ((PersistentMoneyRule)this.getTheObject()).setMaxLimit(newValue);
     }
     public PersistentMoneyRule getThis() throws PersistenceException {
         return ((PersistentMoneyRule)this.getTheObject()).getThis();
@@ -91,6 +97,22 @@ public class MoneyRuleICProxi extends RuleICProxi implements PersistentMoneyRule
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentMoneyRule)this.getTheObject()).updateObservers(event);
+    }
+    public void changeMax(final common.Fraction maxValue) 
+				throws PersistenceException{
+        ((PersistentMoneyRule)this.getTheObject()).changeMax(maxValue);
+    }
+    public void changeMin(final common.Fraction minValue) 
+				throws PersistenceException{
+        ((PersistentMoneyRule)this.getTheObject()).changeMin(minValue);
+    }
+    public PersistentBooleanValue checkMax(final common.Fraction maxValue) 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).checkMax(maxValue);
+    }
+    public PersistentBooleanValue checkMin(final common.Fraction minValue) 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).checkMin(minValue);
     }
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{

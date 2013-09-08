@@ -209,6 +209,10 @@ public class SubjectRule extends model.Rule implements PersistentSubjectRule{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeSubject(final String subject) 
+				throws PersistenceException{
+    	getThis().setSubject(subject);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes

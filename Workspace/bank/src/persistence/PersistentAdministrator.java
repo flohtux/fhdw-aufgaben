@@ -37,14 +37,23 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void setCurrencyManager(final PersistentCurrencyManager currencyManager) 
 				throws PersistenceException;
-    public void banks_update(final model.meta.BankMssgs event) 
+    public void banks_update(final model.meta.BankPxMssgs event) 
 				throws PersistenceException;
-    public void changeCurrencyRateGUI(final String currency, final common.Fraction rate) 
+    /**
+     * Updates the currency rate for the given currency to the new value.
+     */
+    public void changeCurrencyRateGUI(final String currencyType, final common.Fraction rate) 
 				throws PersistenceException;
+    /**
+     * Updates the name of the bank.
+     */
     public void changeName(final PersistentBank bank, final String name) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    /**
+     * Opens a new bank with the given name and initializes it in this administration service.
+     */
     public void createBank(final String name) 
 				throws PersistenceException;
     public void currencyManager_update(final model.meta.CurrencyManagerMssgs event) 
@@ -53,6 +62,11 @@ public interface PersistentAdministrator extends PersistentService {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    /**
+     * Finds the given bank in this administration system.
+     * 
+     * @throws model.InvalidBankNumberException if no bank matches
+     */
     public PersistentBank searchBankByBankNumber(final long bankNum) 
 				throws model.InvalidBankNumberException, PersistenceException;
 

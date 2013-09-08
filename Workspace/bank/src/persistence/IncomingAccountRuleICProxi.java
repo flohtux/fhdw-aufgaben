@@ -92,6 +92,14 @@ public class IncomingAccountRuleICProxi extends RuleICProxi implements Persisten
 				throws PersistenceException{
         ((PersistentIncomingAccountRule)this.getTheObject()).updateObservers(event);
     }
+    public void changeAccountNumber(final long accNum) 
+				throws PersistenceException{
+        ((PersistentIncomingAccountRule)this.getTheObject()).changeAccountNumber(accNum);
+    }
+    public void changeBankNumber(final long bankNum) 
+				throws PersistenceException{
+        ((PersistentIncomingAccountRule)this.getTheObject()).changeBankNumber(bankNum);
+    }
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
         return ((PersistentIncomingAccountRule)this.getTheObject()).check(debitTransfer);
