@@ -739,6 +739,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoLimit(view.NoLimitView object){
         result = new NoLimitDefaultDetailPanel(handler, object);
     }
+    public void handleNoTrigger(view.NoTriggerView object){
+        result = new NoTriggerDefaultDetailPanel(handler, object);
+    }
     public void handleAdministrator(view.AdministratorView object){
         result = new AdministratorDefaultDetailPanel(handler, object);
     }
@@ -1124,6 +1127,20 @@ class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class NoTriggerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NoTriggerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NoTriggerView getAnything(){
+        return (view.NoTriggerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class AdministratorDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Administrator$$currencyManager = "Administrator$$currencyManager";
@@ -1218,6 +1235,8 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
+    protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1405,6 +1424,8 @@ class DebitDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
+    protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

@@ -1,5 +1,5 @@
 package persistence;
 
-public interface PersistentTriggerListEntryProxi extends PersistentListEntryProxi {
+public interface PersistentTriggerListEntryProxi extends PersistentTriggerValueListEntryProxi {
 
 }

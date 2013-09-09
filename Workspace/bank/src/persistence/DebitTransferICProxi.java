@@ -30,6 +30,18 @@ public abstract class DebitTransferICProxi extends DebitTransferTransactionICPro
     public void setMoney(PersistentMoney newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setMoney(newValue);
     }
+    public PersistentTriggerValue getInvokerTrigger() throws PersistenceException {
+        return ((PersistentDebitTransfer)this.getTheObject()).getInvokerTrigger();
+    }
+    public void setInvokerTrigger(PersistentTriggerValue newValue) throws PersistenceException {
+        ((PersistentDebitTransfer)this.getTheObject()).setInvokerTrigger(newValue);
+    }
+    public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException {
+        return ((PersistentDebitTransfer)this.getTheObject()).getPreviousDebitTransfer();
+    }
+    public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
+        ((PersistentDebitTransfer)this.getTheObject()).setPreviousDebitTransfer(newValue);
+    }
     public PersistentStornoState getStornoState() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getStornoState();
     }
@@ -103,6 +115,10 @@ public abstract class DebitTransferICProxi extends DebitTransferTransactionICPro
     public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
         return ((PersistentDebitTransfer)this.getTheObject()).changeStateImplementation(newState);
+    }
+    public PersistentBooleanValue contains(final PersistentTrigger trigger) 
+				throws PersistenceException{
+        return ((PersistentDebitTransfer)this.getTheObject()).contains(trigger);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

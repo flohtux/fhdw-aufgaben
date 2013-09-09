@@ -28,7 +28,7 @@ public class DebitFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Debit result = new Debit(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
+            Debit result = new Debit(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (DebitProxi)PersistentProxi.createProxi(id, 177);
         }catch(SQLException se) {
@@ -44,7 +44,7 @@ public class DebitFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Debit result = new Debit(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,id);
+            Debit result = new Debit(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (DebitProxi)PersistentProxi.createProxi(id, 177);
         }catch(SQLException se) {
@@ -80,9 +80,15 @@ public class DebitFacade{
             PersistentMoney money = null;
             if (obj.getLong(14) != 0)
                 money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
-            PersistentStornoState stornoState = null;
+            PersistentTriggerValue invokerTrigger = null;
             if (obj.getLong(16) != 0)
-                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
+                invokerTrigger = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
+            PersistentDebitTransfer previousDebitTransfer = null;
+            if (obj.getLong(18) != 0)
+                previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(18), obj.getLong(19));
+            PersistentStornoState stornoState = null;
+            if (obj.getLong(20) != 0)
+                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(20), obj.getLong(21));
             Debit result = new Debit(obj.getTimestamp(2),
                                      obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                      sender,
@@ -92,6 +98,8 @@ public class DebitFacade{
                                      obj.getLong(12),
                                      obj.getLong(13),
                                      money,
+                                     invokerTrigger,
+                                     previousDebitTransfer,
                                      stornoState,
                                      DebitId);
             obj.close();

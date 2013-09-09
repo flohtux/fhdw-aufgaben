@@ -96,6 +96,10 @@ public class TrueValueICProxi extends BooleanValueICProxi implements PersistentT
 				throws PersistenceException{
         return ((PersistentTrueValue)this.getTheObject()).isTrue();
     }
+    public PersistentBooleanValue or(final PersistentBooleanValue value) 
+				throws PersistenceException{
+        return ((PersistentTrueValue)this.getTheObject()).or(value);
+    }
 
     
 }

@@ -320,6 +320,7 @@ public class Cache {
 		this.number2NameMap.put(232, "MoneyRule");
 		this.number2NameMap.put(116, "NoLimit");
 		this.number2NameMap.put(104, "NoRequestState");
+		this.number2NameMap.put(246, "NoTrigger");
 		this.number2NameMap.put(144, "NotExecutableState");
 		this.number2NameMap.put(210, "NotExecutedState");
 		this.number2NameMap.put(142, "NotSuccessfulState");

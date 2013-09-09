@@ -719,9 +719,24 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public PersistentTrigger createTrigger(final String name, final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
-    	PersistentTrigger trigger = Trigger.createTrigger(name);
+    	final PersistentTrigger trigger = Trigger.createTrigger(name);
     	dtt.changeState(NotExecutableState.createNotExecutableState());
     	trigger.setAction(dtt);
+    	dtt.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				System.out.println("invoker trigger set"+transfer);
+				transfer.setInvokerTrigger(trigger);
+			}
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				debit.setInvokerTrigger(trigger);
+			}
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {}
+		});
     	getThis().getTriggerListe().add(trigger);
     	return trigger;
     }

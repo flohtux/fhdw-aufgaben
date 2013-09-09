@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public interface PersistentTrigger extends SubjInterface, Anything, AbstractPersistentProxi {
+public interface PersistentTrigger extends PersistentTriggerValue {
     
     public String getName() throws PersistenceException ;
     public void setName(String newValue) throws PersistenceException ;
@@ -13,10 +13,12 @@ public interface PersistentTrigger extends SubjInterface, Anything, AbstractPers
     public PersistentDebitTransferTransaction getAction() throws PersistenceException ;
     public void setAction(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
     public Trigger_RulesProxi getRules() throws PersistenceException ;
-    public SubjInterface getSubService() throws PersistenceException ;
-    public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentTrigger getThis() throws PersistenceException ;
     
+    public void accept(TriggerValueVisitor visitor) throws PersistenceException;
+    public <R> R accept(TriggerValueReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends UserException>  void accept(TriggerValueExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends UserException> R accept(TriggerValueReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException;
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;

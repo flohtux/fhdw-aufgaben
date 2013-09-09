@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CommonDateVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
+public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CommonDateVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,TriggerStateVisitor,TriggerValueVisitor,RuleVisitor{
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
@@ -39,7 +39,6 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
-    public void handleTrigger(PersistentTrigger trigger) throws PersistenceException;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException;
     public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;

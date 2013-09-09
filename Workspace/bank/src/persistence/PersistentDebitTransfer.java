@@ -12,6 +12,10 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public void setReceiverBankNumber(long newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
+    public PersistentTriggerValue getInvokerTrigger() throws PersistenceException ;
+    public void setInvokerTrigger(PersistentTriggerValue newValue) throws PersistenceException ;
+    public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException ;
+    public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
     public PersistentStornoState getStornoState() throws PersistenceException ;
     public void setStornoState(PersistentStornoState newValue) throws PersistenceException ;
     public abstract PersistentDebitTransfer getThis() throws PersistenceException ;
@@ -38,6 +42,8 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public void changeReceiverAccountImplementation(final long receiverAccountNumber) 
 				throws PersistenceException;
     public void changeReceiverBankImplementation(final long receiverBankNumber) 
+				throws PersistenceException;
+    public PersistentBooleanValue contains(final PersistentTrigger trigger) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

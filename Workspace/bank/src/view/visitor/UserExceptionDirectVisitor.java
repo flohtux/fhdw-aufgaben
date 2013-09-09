@@ -35,6 +35,9 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     public void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException{
         this.handleExecuteException(invalidAccountNumberException);
     }
+    public void handleTriggerCyclicException(TriggerCyclicException triggerCyclicException) throws ModelException{
+        this.handleExecuteException(triggerCyclicException);
+    }
     public void handleDebitNotGrantedException(DebitNotGrantedException debitNotGrantedException) throws ModelException{
         this.handleExecuteException(debitNotGrantedException);
     }

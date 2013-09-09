@@ -3,7 +3,7 @@ package model.visitor;
 import model.UserException;
 import persistence.*;
 
-public interface SubjInterfaceExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,StornoStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
+public interface SubjInterfaceExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,StornoStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,RuleExceptionVisitor<E>{
     
     public void handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException, E;
@@ -21,7 +21,6 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException, E;
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
-    public void handleTrigger(PersistentTrigger trigger) throws PersistenceException, E;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public void handleMoney(PersistentMoney money) throws PersistenceException, E;
     public void handleBank(PersistentBank bank) throws PersistenceException, E;

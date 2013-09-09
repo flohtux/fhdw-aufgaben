@@ -44,6 +44,7 @@ import persistence.PersistentMoney;
 import persistence.PersistentMoneyRule;
 import persistence.PersistentNoLimit;
 import persistence.PersistentNoRequestState;
+import persistence.PersistentNoTrigger;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
@@ -392,6 +393,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.BankFees;
+	}
+	@Override
+	public void handleNoTrigger(PersistentNoTrigger noTrigger)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -50,6 +50,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoLimit(NoLimitView noLimit) throws ModelException{
         this.standardHandling(noLimit);
     }
+    public void handleNoTrigger(NoTriggerView noTrigger) throws ModelException{
+        this.standardHandling(noTrigger);
+    }
     public void handleAdministrator(AdministratorView administrator) throws ModelException{
         this.standardHandling(administrator);
     }

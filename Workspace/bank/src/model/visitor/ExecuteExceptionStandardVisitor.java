@@ -17,6 +17,9 @@ public abstract class ExecuteExceptionStandardVisitor implements ExecuteExceptio
     public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
         this.standardHandling(invalidAccountNumberException);
     }
+    public void handleTriggerCyclicException(model.TriggerCyclicException triggerCyclicException) throws PersistenceException{
+        this.standardHandling(triggerCyclicException);
+    }
     public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
         this.standardHandling(debitNotGrantedException);
     }

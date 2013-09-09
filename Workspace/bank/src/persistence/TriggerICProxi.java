@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements PersistentTrigger{
+public class TriggerICProxi extends TriggerValueICProxi implements PersistentTrigger{
     
     public TriggerICProxi(long objectId) {
         super(objectId);
@@ -43,16 +43,22 @@ public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements 
     public Trigger_RulesProxi getRules() throws PersistenceException {
         return ((PersistentTrigger)this.getTheObject()).getRules();
     }
-    public SubjInterface getSubService() throws PersistenceException {
-        return ((PersistentTrigger)this.getTheObject()).getSubService();
-    }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
-        ((PersistentTrigger)this.getTheObject()).setSubService(newValue);
-    }
     public PersistentTrigger getThis() throws PersistenceException {
         return ((PersistentTrigger)this.getTheObject()).getThis();
     }
     
+    public void accept(TriggerValueVisitor visitor) throws PersistenceException {
+        visitor.handleTrigger(this);
+    }
+    public <R> R accept(TriggerValueReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleTrigger(this);
+    }
+    public <E extends UserException>  void accept(TriggerValueExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleTrigger(this);
+    }
+    public <R, E extends UserException> R accept(TriggerValueReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleTrigger(this);
+    }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
         visitor.handleTrigger(this);
     }
@@ -102,6 +108,10 @@ public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements 
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public PersistentTriggerValue copy() 
+				throws PersistenceException{
+        return ((PersistentTrigger)this.getTheObject()).copy();
     }
     public void disable() 
 				throws PersistenceException{

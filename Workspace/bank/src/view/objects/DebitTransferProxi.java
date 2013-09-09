@@ -28,6 +28,18 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setMoney(MoneyView newValue) throws ModelException {
         ((DebitTransfer)this.getTheObject()).setMoney(newValue);
     }
+    public TriggerValueView getInvokerTrigger()throws ModelException{
+        return ((DebitTransfer)this.getTheObject()).getInvokerTrigger();
+    }
+    public void setInvokerTrigger(TriggerValueView newValue) throws ModelException {
+        ((DebitTransfer)this.getTheObject()).setInvokerTrigger(newValue);
+    }
+    public DebitTransferView getPreviousDebitTransfer()throws ModelException{
+        return ((DebitTransfer)this.getTheObject()).getPreviousDebitTransfer();
+    }
+    public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException {
+        ((DebitTransfer)this.getTheObject()).setPreviousDebitTransfer(newValue);
+    }
     public StornoStateView getStornoState()throws ModelException{
         return ((DebitTransfer)this.getTheObject()).getStornoState();
     }

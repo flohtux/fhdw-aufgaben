@@ -25,7 +25,7 @@ public class TriggerFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Trigger result = new Trigger(name,null,null,null,null,id);
+            Trigger result = new Trigger(null,null,name,null,null,id);
             Cache.getTheCache().put(result);
             return (TriggerProxi)PersistentProxi.createProxi(id, 231);
         }catch(SQLException se) {
@@ -41,7 +41,7 @@ public class TriggerFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Trigger result = new Trigger(name,null,null,null,null,id);
+            Trigger result = new Trigger(null,null,name,null,null,id);
             Cache.getTheCache().put(result);
             return (TriggerProxi)PersistentProxi.createProxi(id, 231);
         }catch(SQLException se) {
@@ -62,23 +62,23 @@ public class TriggerFacade{
                 callable.close();
                 return null;
             }
-            PersistentTriggerState state = null;
-            if (obj.getLong(3) != 0)
-                state = (PersistentTriggerState)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
-            PersistentDebitTransferTransaction action = null;
-            if (obj.getLong(5) != 0)
-                action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTriggerValue This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentTriggerState state = null;
             if (obj.getLong(7) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            PersistentTrigger This = null;
+                state = (PersistentTriggerState)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentDebitTransferTransaction action = null;
             if (obj.getLong(9) != 0)
-                This = (PersistentTrigger)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            Trigger result = new Trigger(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
+                action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            Trigger result = new Trigger(subService,
+                                         This,
+                                         obj.getString(6) == null ? "" : obj.getString(6) /* In Oracle "" = null !!! */,
                                          state,
                                          action,
-                                         subService,
-                                         This,
                                          TriggerId);
             obj.close();
             callable.close();
@@ -86,20 +86,6 @@ public class TriggerFacade{
             Trigger objectInCache = (Trigger)inCache.getTheObject();
             if (objectInCache == result)result.initializeOnInstantiation();
             return objectInCache;
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public long getClass(long objectId) throws PersistenceException{
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrggrFacade.getClass(?); end;");
-            callable.registerOutParameter(1, OracleTypes.NUMBER);
-            callable.setLong(2, objectId);
-            callable.execute();
-            long result = callable.getLong(1);
-            callable.close();
-            return result;
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
@@ -184,32 +170,6 @@ public class TriggerFacade{
             list.close();
             callable.close();
             return result;
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void subServiceSet(long TriggerId, SubjInterface subServiceVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".TrggrFacade.sbSrvcSet(?, ?, ?); end;");
-            callable.setLong(1, TriggerId);
-            callable.setLong(2, subServiceVal.getId());
-            callable.setLong(3, subServiceVal.getClassId());
-            callable.execute();
-            callable.close();
-        }catch(SQLException se) {
-            throw new PersistenceException(se.getMessage(), se.getErrorCode());
-        }
-    }
-    public void ThisSet(long TriggerId, PersistentTrigger ThisVal) throws PersistenceException {
-        try{
-            CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".TrggrFacade.ThisSet(?, ?, ?); end;");
-            callable.setLong(1, TriggerId);
-            callable.setLong(2, ThisVal.getId());
-            callable.setLong(3, ThisVal.getClassId());
-            callable.execute();
-            callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

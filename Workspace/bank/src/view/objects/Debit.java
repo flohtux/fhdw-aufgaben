@@ -3,10 +3,12 @@ package view.objects;
 
 import view.AccountView;
 import view.DebitTransferStateView;
+import view.DebitTransferView;
 import view.DebitView;
 import view.ModelException;
 import view.MoneyView;
 import view.StornoStateView;
+import view.TriggerValueView;
 import view.UserException;
 import view.visitor.AnythingExceptionVisitor;
 import view.visitor.AnythingReturnExceptionVisitor;
@@ -27,9 +29,9 @@ import view.visitor.DebitTransferVisitor;
 public class Debit extends view.objects.DebitTransfer implements DebitView{
     
     
-    public Debit(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,StornoStateView stornoState,long id, long classId) {
+    public Debit(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,DebitTransferView previousDebitTransfer,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(StornoStateView)stornoState,id, classId);        
+        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,(DebitTransferView)previousDebitTransfer,(StornoStateView)stornoState,id, classId);        
     }
     
     static public long getTypeId() {
@@ -91,6 +93,14 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
+        TriggerValueView invokerTrigger = this.getInvokerTrigger();
+        if (invokerTrigger != null) {
+            ((ViewProxi)invokerTrigger).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(invokerTrigger.getClassId(), invokerTrigger.getId())));
+        }
+        DebitTransferView previousDebitTransfer = this.getPreviousDebitTransfer();
+        if (previousDebitTransfer != null) {
+            ((ViewProxi)previousDebitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(previousDebitTransfer.getClassId(), previousDebitTransfer.getId())));
+        }
         StornoStateView stornoState = this.getStornoState();
         if (stornoState != null) {
             ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
@@ -104,20 +114,32 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
         int index = originalIndex;
         if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
+        if(index == 0 && this.getInvokerTrigger() != null) return new InvokerTriggerDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getInvokerTrigger());
+        if(this.getInvokerTrigger() != null) index = index - 1;
+        if(index == 0 && this.getPreviousDebitTransfer() != null) return new PreviousDebitTransferDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPreviousDebitTransfer());
+        if(this.getPreviousDebitTransfer() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getState() == null ? 0 : 1);
+            + (this.getState() == null ? 0 : 1)
+            + (this.getInvokerTrigger() == null ? 0 : 1)
+            + (this.getPreviousDebitTransfer() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getState() == null ? true : false);
+            && (this.getState() == null ? true : false)
+            && (this.getInvokerTrigger() == null ? true : false)
+            && (this.getPreviousDebitTransfer() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getState() != null && this.getState().equals(child)) return result;
         if(this.getState() != null) result = result + 1;
+        if(this.getInvokerTrigger() != null && this.getInvokerTrigger().equals(child)) return result;
+        if(this.getInvokerTrigger() != null) result = result + 1;
+        if(this.getPreviousDebitTransfer() != null && this.getPreviousDebitTransfer().equals(child)) return result;
+        if(this.getPreviousDebitTransfer() != null) result = result + 1;
         return -1;
     }
     public int getTimestampIndex() throws ModelException {

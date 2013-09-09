@@ -140,6 +140,10 @@ public class DebitICProxi extends DebitTransferICProxi implements PersistentDebi
 				throws PersistenceException{
         return ((PersistentDebit)this.getTheObject()).changeStateImplementation(newState);
     }
+    public PersistentBooleanValue contains(final PersistentTrigger trigger) 
+				throws PersistenceException{
+        return ((PersistentDebit)this.getTheObject()).contains(trigger);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentDebit)this.getTheObject()).copyingPrivateUserAttributes(copy);

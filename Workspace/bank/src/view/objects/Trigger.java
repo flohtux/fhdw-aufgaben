@@ -11,11 +11,15 @@ import view.visitor.AnythingExceptionVisitor;
 import view.visitor.AnythingReturnExceptionVisitor;
 import view.visitor.AnythingReturnVisitor;
 import view.visitor.AnythingVisitor;
+import view.visitor.TriggerValueExceptionVisitor;
+import view.visitor.TriggerValueReturnExceptionVisitor;
+import view.visitor.TriggerValueReturnVisitor;
+import view.visitor.TriggerValueVisitor;
 
 
 /* Additional import section end */
 
-public class Trigger extends ViewObject implements TriggerView{
+public class Trigger extends view.objects.TriggerValue implements TriggerView{
     
     protected String name;
     protected TriggerStateView state;
@@ -64,6 +68,18 @@ public class Trigger extends ViewObject implements TriggerView{
         this.rules = newValue;
     }
     
+    public void accept(TriggerValueVisitor visitor) throws ModelException {
+        visitor.handleTrigger(this);
+    }
+    public <R> R accept(TriggerValueReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleTrigger(this);
+    }
+    public <E extends UserException>  void accept(TriggerValueExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleTrigger(this);
+    }
+    public <R, E extends UserException> R accept(TriggerValueReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleTrigger(this);
+    }
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleTrigger(this);
     }

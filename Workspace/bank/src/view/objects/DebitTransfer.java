@@ -1,12 +1,17 @@
 
 package view.objects;
 
+import model.TriggerCyclicException;
+import persistence.PersistenceException;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentTrigger;
 import view.AccountView;
 import view.DebitTransferStateView;
 import view.DebitTransferView;
 import view.ModelException;
 import view.MoneyView;
 import view.StornoStateView;
+import view.TriggerValueView;
 
 
 /* Additional import section end */
@@ -16,14 +21,18 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
     protected MoneyView money;
+    protected TriggerValueView invokerTrigger;
+    protected DebitTransferView previousDebitTransfer;
     protected StornoStateView stornoState;
     
-    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,StornoStateView stornoState,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,DebitTransferView previousDebitTransfer,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
         this.money = money;
+        this.invokerTrigger = invokerTrigger;
+        this.previousDebitTransfer = previousDebitTransfer;
         this.stornoState = stornoState;        
     }
     
@@ -44,6 +53,18 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     }
     public void setMoney(MoneyView newValue) throws ModelException {
         this.money = newValue;
+    }
+    public TriggerValueView getInvokerTrigger()throws ModelException{
+        return this.invokerTrigger;
+    }
+    public void setInvokerTrigger(TriggerValueView newValue) throws ModelException {
+        this.invokerTrigger = newValue;
+    }
+    public DebitTransferView getPreviousDebitTransfer()throws ModelException{
+        return this.previousDebitTransfer;
+    }
+    public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException {
+        this.previousDebitTransfer = newValue;
     }
     public StornoStateView getStornoState()throws ModelException{
         return this.stornoState;
@@ -66,6 +87,14 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         if (money != null) {
             ((ViewProxi)money).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(money.getClassId(), money.getId())));
         }
+        TriggerValueView invokerTrigger = this.getInvokerTrigger();
+        if (invokerTrigger != null) {
+            ((ViewProxi)invokerTrigger).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(invokerTrigger.getClassId(), invokerTrigger.getId())));
+        }
+        DebitTransferView previousDebitTransfer = this.getPreviousDebitTransfer();
+        if (previousDebitTransfer != null) {
+            ((ViewProxi)previousDebitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(previousDebitTransfer.getClassId(), previousDebitTransfer.getId())));
+        }
         StornoStateView stornoState = this.getStornoState();
         if (stornoState != null) {
             ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
@@ -79,20 +108,32 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         int index = originalIndex;
         if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
+        if(index == 0 && this.getInvokerTrigger() != null) return new InvokerTriggerDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getInvokerTrigger());
+        if(this.getInvokerTrigger() != null) index = index - 1;
+        if(index == 0 && this.getPreviousDebitTransfer() != null) return new PreviousDebitTransferDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPreviousDebitTransfer());
+        if(this.getPreviousDebitTransfer() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getState() == null ? 0 : 1);
+            + (this.getState() == null ? 0 : 1)
+            + (this.getInvokerTrigger() == null ? 0 : 1)
+            + (this.getPreviousDebitTransfer() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getState() == null ? true : false);
+            && (this.getState() == null ? true : false)
+            && (this.getInvokerTrigger() == null ? true : false)
+            && (this.getPreviousDebitTransfer() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getState() != null && this.getState().equals(child)) return result;
         if(this.getState() != null) result = result + 1;
+        if(this.getInvokerTrigger() != null && this.getInvokerTrigger().equals(child)) return result;
+        if(this.getInvokerTrigger() != null) result = result + 1;
+        if(this.getPreviousDebitTransfer() != null && this.getPreviousDebitTransfer().equals(child)) return result;
+        if(this.getPreviousDebitTransfer() != null) result = result + 1;
         return -1;
     }
     public int getTimestampIndex() throws ModelException {
@@ -171,7 +212,8 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     public void setIcon(IconRenderer renderer) {
         super.setIcon(renderer);
     }
-    /* End of protected part that is not overridden by persistence generator */
+    
+      /* End of protected part that is not overridden by persistence generator */
     
     
 }

@@ -90,8 +90,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.handleStornoState(noRequestState);
     }
-    public abstract void handleTrigger(PersistentTrigger trigger) throws PersistenceException;
-    
     public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
@@ -193,6 +191,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     
+    public abstract void handleTriggerValue(PersistentTriggerValue triggerValue) throws PersistenceException;
+    
+    public void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException{
+        this.handleTriggerValue(noTrigger);
+    }
+    public void handleTrigger(PersistentTrigger trigger) throws PersistenceException{
+        this.handleTriggerValue(trigger);
+    }
     public abstract void handleRule(PersistentRule rule) throws PersistenceException;
     
     public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
