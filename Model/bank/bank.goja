@@ -162,6 +162,8 @@ class Account {
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
 
+	void checkAllTriggers(DebitTransfer incomingDebitTransfer);
+
 }
 
 class AccountPx {
@@ -288,6 +290,8 @@ class Trigger{
 	void enable() throws NoRuleDefinitionException;
 	void disable();
 	void addRule(Rule rule) throws DoubleRuleDefinitionException;
+	void executeTrigger(DebitTransfer incomingDebitTransfer, AccountService accService);
+	BooleanValue isEnabled();
 }
 
 abstract class TriggerState (EnabledState, DisabledState) {}

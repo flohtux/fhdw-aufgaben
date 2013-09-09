@@ -525,7 +525,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	 
     	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
     	acc.getDebitTransferTransactions().add(debitTransfer);
-        
+    	System.out.println("receiveFertig"+debitTransfer.getReceiverAccountNumber());
         
     }
     public PersistentAccount searchAccountByAccNumber(final long accNum) 
@@ -543,9 +543,10 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.ExecuteException, PersistenceException{
+    	System.out.println("sendAN"+debitTransfer.getReceiverAccountNumber());
     	try {
         	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
-    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
+    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney(), getThis(), debitTransfer.getReceiverBankNumber());
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
     		debitTransfer.getSender().setMoney(newAccountMoney);
@@ -555,6 +556,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     		debitTransfer.changeState(NotExecutedState.createNotExecutedState());
     		throw e;
     	}
+    	System.out.println("sendFertig"+debitTransfer.getReceiverAccountNumber());
     }
     
     
@@ -565,12 +567,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     /**
      * Calculate the Fee of <money>.
+     * @param m 
+     * @param l 
      * @return
      * @throws PersistenceException 
      * @throws LimitViolatedException 
      */
-    private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException, LimitViolatedException {
-    	return getThis().getBankFees().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
+    private PersistentMoney calculateFee(final PersistentMoney money, PersistentBank senderBank, long receiverBankNumber) throws PersistenceException, LimitViolatedException {
+    	PersistentMoney fee =  getThis().getBankFees().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
 			@Override
 			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
 					throws PersistenceException, LimitViolatedException {
@@ -597,6 +601,10 @@ public class Bank extends PersistentObject implements PersistentBank{
 						procentualFee.getPercent().getValue())), money.getCurrency()); 
 			}
 		});
+    	if (senderBank.getBankNumber() == receiverBankNumber) {
+    		fee = fee.subtract(fee.multiply(senderBank.getBankFees().getInternalFee().getPercent().getValue()))	;
+    	}
+    	return fee;
     }
     
     /* End of protected part that is not overridden by persistence generator */

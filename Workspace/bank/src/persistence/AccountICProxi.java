@@ -180,6 +180,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
     }
+    public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).checkAllTriggers(incomingDebitTransfer);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);

@@ -71,6 +71,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException;
+    public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 

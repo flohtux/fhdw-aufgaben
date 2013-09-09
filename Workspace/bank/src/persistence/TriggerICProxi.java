@@ -111,6 +111,10 @@ public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentTrigger)this.getTheObject()).enable();
     }
+    public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
+				throws PersistenceException{
+        ((PersistentTrigger)this.getTheObject()).executeTrigger(incomingDebitTransfer, accService);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).initializeOnCreation();
@@ -118,6 +122,10 @@ public class TriggerICProxi extends PersistentInCacheProxiOptimistic implements 
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentBooleanValue isEnabled() 
+				throws PersistenceException{
+        return ((PersistentTrigger)this.getTheObject()).isEnabled();
     }
 
     

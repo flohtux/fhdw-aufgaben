@@ -258,6 +258,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
 		copy.setSender(getThis().getSender());
 		copy.setState(getThis().getState());
+		copy.setSubject(getThis().getSubject());
 		copy.setStornoState(getThis().getStornoState());
 		copy.setTimestamp(getThis().getTimestamp());
 		return copy;

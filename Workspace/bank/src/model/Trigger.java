@@ -9,18 +9,25 @@ import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
+import model.visitor.TriggerStateReturnVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
+import persistence.PersistentAccountService;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentDisabledState;
+import persistence.PersistentEnabledState;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.PersistentRule;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerState;
 import persistence.Predcate;
+import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 import persistence.TriggerProxi;
@@ -347,6 +354,33 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     	getThis().setState(EnabledState.getTheEnabledState());
         
     }
+    public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
+				throws PersistenceException{
+    	System.out.println("execTrigger");
+    	
+    	if (!getThis().isEnabled().isTrue()) {
+    		return;
+    	}
+    	try {
+			getThis().getRules().applyToAllException(new ProcdureException<PersistentRule, RuleNotMatchedException>() {
+				public void doItTo(PersistentRule argument) throws PersistenceException, RuleNotMatchedException {
+					if (!(argument.check(incomingDebitTransfer).isTrue())) {
+						throw new RuleNotMatchedException();
+					}
+					System.out.println("matched");
+				}
+			});
+		} catch (RuleNotMatchedException e) {
+			// trigger action will not be executed
+			return;
+		}
+		System.out.println("execute independent");
+		PersistentDebitTransferTransaction copy = getThis().getAction().copy();
+		accService.getAccount().getDebitTransferTransactions().add(copy);
+		copy.changeState(NotExecutedState.createNotExecutedState());
+		copy.execute(accService);
+        
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	 getThis().setState(DisabledState.getTheDisabledState());
@@ -354,6 +388,17 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         
+    }
+    public PersistentBooleanValue isEnabled() 
+				throws PersistenceException{
+        return getThis().getState().accept(new TriggerStateReturnVisitor<PersistentBooleanValue>() {
+			public PersistentBooleanValue handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
+				return FalseValue.getTheFalseValue();
+			}
+			public PersistentBooleanValue handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException {
+				return TrueValue.getTheTrueValue();
+			}
+		});
     }
     
     

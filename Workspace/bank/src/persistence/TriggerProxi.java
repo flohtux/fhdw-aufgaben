@@ -111,6 +111,10 @@ public class TriggerProxi extends PersistentProxi implements PersistentTrigger{
 				throws model.NoRuleDefinitionException, PersistenceException{
         ((PersistentTrigger)this.getTheObject()).enable();
     }
+    public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
+				throws PersistenceException{
+        ((PersistentTrigger)this.getTheObject()).executeTrigger(incomingDebitTransfer, accService);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).initializeOnCreation();
@@ -118,6 +122,10 @@ public class TriggerProxi extends PersistentProxi implements PersistentTrigger{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentTrigger)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentBooleanValue isEnabled() 
+				throws PersistenceException{
+        return ((PersistentTrigger)this.getTheObject()).isEnabled();
     }
 
     
