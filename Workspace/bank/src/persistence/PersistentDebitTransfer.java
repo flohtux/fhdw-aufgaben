@@ -41,6 +41,12 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    /**
+     * Returns the value of this transaction with correct sign (+/-).
+     * E.g. debits will be shown as negative!
+     * @return money that the receiver gets -> with correct sign (+/-)
+     * @throws PersistenceException
+     */
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException;
     public void initializeOnCreation() 

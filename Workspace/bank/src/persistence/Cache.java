@@ -266,6 +266,7 @@ public class Cache {
 		this.number2NameMap.put(203, "AccountPx");
 		this.number2NameMap.put(205, "AccountReceivedDebitGrant");
 		this.number2NameMap.put(-130, "AccountService");
+		this.number2NameMap.put(245, "AccountServiceBankFees");
 		this.number2NameMap.put(221, "AccountServiceNotExecuted");
 		this.number2NameMap.put(220, "AccountServiceSuccessful");
 		this.number2NameMap.put(222, "AccountServiceTemplate");
@@ -276,6 +277,7 @@ public class Cache {
 		this.number2NameMap.put(115, "Amount");
 		this.number2NameMap.put(-149, "Bank");
 		this.number2NameMap.put(152, "BankCreator");
+		this.number2NameMap.put(244, "BankFees");
 		this.number2NameMap.put(241, "BankPx");
 		this.number2NameMap.put(-119, "BankService");
 		this.number2NameMap.put(219, "ChangeCurrencyCommand");
@@ -307,7 +309,6 @@ public class Cache {
 		this.number2NameMap.put(213, "ExecuteCommand");
 		this.number2NameMap.put(110, "ExecutedState");
 		this.number2NameMap.put(166, "FalseValue");
-		this.number2NameMap.put(242, "FeeWrapper");
 		this.number2NameMap.put(108, "FixTransactionFee");
 		this.number2NameMap.put(180, "Franken");
 		this.number2NameMap.put(229, "IncomingAccountRule");

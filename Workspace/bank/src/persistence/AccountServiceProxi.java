@@ -34,12 +34,6 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void setEventhandle(PersistentEventWrapper newValue) throws PersistenceException {
         ((PersistentAccountService)this.getTheObject()).setEventhandle(newValue);
     }
-    public PersistentFeeWrapper getFeeWrapper() throws PersistenceException {
-        return ((PersistentAccountService)this.getTheObject()).getFeeWrapper();
-    }
-    public void setFeeWrapper(PersistentFeeWrapper newValue) throws PersistenceException {
-        ((PersistentAccountService)this.getTheObject()).setFeeWrapper(newValue);
-    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }
@@ -126,6 +120,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
     }
+    public PersistentBankFees getBankFees() 
+				throws PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).getBankFees();
+    }
     public PersistentDebitTransferNotExecuted getNotExecuted() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getNotExecuted();
@@ -145,6 +143,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).register(observee);
+    }
+    public void setBankFees(final PersistentBankFees bankFees) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).setBankFees(bankFees);
     }
     public void setNotExecuted(final PersistentDebitTransferNotExecuted notExecuted) 
 				throws PersistenceException{
@@ -177,6 +179,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
+    }
+    public void bankFees_update(final model.meta.BankFeesMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).bankFees_update(event);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
 				throws PersistenceException{

@@ -739,9 +739,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoLimit(view.NoLimitView object){
         result = new NoLimitDefaultDetailPanel(handler, object);
     }
-    public void handleFeeWrapper(view.FeeWrapperView object){
-        result = new FeeWrapperDefaultDetailPanel(handler, object);
-    }
     public void handleAdministrator(view.AdministratorView object){
         result = new AdministratorDefaultDetailPanel(handler, object);
     }
@@ -855,6 +852,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleNotSuccessfulStornoState(view.NotSuccessfulStornoStateView object){
         result = new NotSuccessfulStornoStateDefaultDetailPanel(handler, object);
+    }
+    public void handleBankFees(view.BankFeesView object){
+        result = new BankFeesDefaultDetailPanel(handler, object);
     }
     public void handleSuccessfulStornoState(view.SuccessfulStornoStateView object){
         result = new SuccessfulStornoStateDefaultDetailPanel(handler, object);
@@ -1120,23 +1120,6 @@ class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NoLimitView getAnything(){
         return (view.NoLimitView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class FeeWrapperDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String FeeWrapper$$fee = "FeeWrapper$$fee";
-    protected static final String FeeWrapper$$internalFee = "FeeWrapper$$internalFee";
-    
-    protected FeeWrapperDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.FeeWrapperView getAnything(){
-        return (view.FeeWrapperView)this.anything;
     }
 }
 
@@ -1517,7 +1500,7 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String AccountService$$successful = "AccountService$$successful";
     protected static final String AccountService$$notExecuted = "AccountService$$notExecuted";
     protected static final String AccountService$$template = "AccountService$$template";
-    protected static final String AccountService$$feeWrapper = "AccountService$$feeWrapper";
+    protected static final String AccountService$$bankFees = "AccountService$$bankFees";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1779,8 +1762,7 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Bank$$bankNumber = "Bank$$bankNumber";
     protected static final String Bank$$name = "Bank$$name";
-    protected static final String Bank$$fee = "Bank$$fee";
-    protected static final String Bank$$internalFee = "Bank$$internalFee";
+    protected static final String Bank$$bankFees = "Bank$$bankFees";
     protected static final String Bank$$ownAccount = "Bank$$ownAccount";
     protected static final String Bank$$currentAccounts = "Bank$$currentAccounts";
     
@@ -1864,6 +1846,23 @@ class NotSuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NotSuccessfulStornoStateView getAnything(){
         return (view.NotSuccessfulStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class BankFeesDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String BankFees$$fee = "BankFees$$fee";
+    protected static final String BankFees$$internalFee = "BankFees$$internalFee";
+    
+    protected BankFeesDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankFeesView getAnything(){
+        return (view.BankFeesView)this.anything;
     }
 }
 

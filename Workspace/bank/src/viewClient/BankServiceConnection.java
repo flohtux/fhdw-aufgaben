@@ -156,9 +156,14 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeTransactionFee(String newFee, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException{
+    public synchronized void changeTransactionFee(TransactionFeeView dummy, String newFee, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
+            if (dummy == null){
+                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
+            } else {
+                parameters.add(((view.objects.ViewProxi)dummy).createProxiInformation());
+            }
             parameters.add(newFee);
             parameters.add(fix.toString());
             parameters.add(fixCurrency);

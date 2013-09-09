@@ -2,10 +2,9 @@
 package view.objects;
 
 import view.AccountView;
+import view.BankFeesView;
 import view.BankView;
-import view.InternalFeeView;
 import view.ModelException;
-import view.TransactionFeeView;
 import view.UserException;
 import view.visitor.AnythingExceptionVisitor;
 import view.visitor.AnythingReturnExceptionVisitor;
@@ -19,18 +18,16 @@ public class Bank extends ViewObject implements BankView{
     
     protected long bankNumber;
     protected String name;
-    protected TransactionFeeView fee;
-    protected InternalFeeView internalFee;
+    protected BankFeesView bankFees;
     protected AccountView ownAccount;
     protected java.util.Vector<AccountView> currentAccounts;
     
-    public Bank(long bankNumber,String name,TransactionFeeView fee,InternalFeeView internalFee,AccountView ownAccount,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
+    public Bank(long bankNumber,String name,BankFeesView bankFees,AccountView ownAccount,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.bankNumber = bankNumber;
         this.name = name;
-        this.fee = fee;
-        this.internalFee = internalFee;
+        this.bankFees = bankFees;
         this.ownAccount = ownAccount;
         this.currentAccounts = currentAccounts;        
     }
@@ -55,17 +52,11 @@ public class Bank extends ViewObject implements BankView{
     public void setName(String newValue) throws ModelException {
         this.name = newValue;
     }
-    public TransactionFeeView getFee()throws ModelException{
-        return this.fee;
+    public BankFeesView getBankFees()throws ModelException{
+        return this.bankFees;
     }
-    public void setFee(TransactionFeeView newValue) throws ModelException {
-        this.fee = newValue;
-    }
-    public InternalFeeView getInternalFee()throws ModelException{
-        return this.internalFee;
-    }
-    public void setInternalFee(InternalFeeView newValue) throws ModelException {
-        this.internalFee = newValue;
+    public void setBankFees(BankFeesView newValue) throws ModelException {
+        this.bankFees = newValue;
     }
     public AccountView getOwnAccount()throws ModelException{
         return this.ownAccount;
@@ -94,13 +85,9 @@ public class Bank extends ViewObject implements BankView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        TransactionFeeView fee = this.getFee();
-        if (fee != null) {
-            ((ViewProxi)fee).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(fee.getClassId(), fee.getId())));
-        }
-        InternalFeeView internalFee = this.getInternalFee();
-        if (internalFee != null) {
-            ((ViewProxi)internalFee).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(internalFee.getClassId(), internalFee.getId())));
+        BankFeesView bankFees = this.getBankFees();
+        if (bankFees != null) {
+            ((ViewProxi)bankFees).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(bankFees.getClassId(), bankFees.getId())));
         }
         AccountView ownAccount = this.getOwnAccount();
         if (ownAccount != null) {
@@ -117,10 +104,9 @@ public class Bank extends ViewObject implements BankView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getFee() != null) return new FeeBankWrapper(this, originalIndex, (ViewRoot)this.getFee());
-        if(this.getFee() != null) index = index - 1;
-        if(index == 0 && this.getInternalFee() != null) return new InternalFeeBankWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
-        if(this.getInternalFee() != null) index = index - 1;
+        if(this.getBankFees() != null && index < this.getBankFees().getTheObject().getChildCount())
+            return this.getBankFees().getTheObject().getChild(index);
+        if(this.getBankFees() != null) index = index - this.getBankFees().getTheObject().getChildCount();
         if(index == 0 && this.getOwnAccount() != null) return new OwnAccountBankWrapper(this, originalIndex, (ViewRoot)this.getOwnAccount());
         if(this.getOwnAccount() != null) index = index - 1;
         if(index < this.getCurrentAccounts().size()) return new CurrentAccountsBankWrapper(this, originalIndex, (ViewRoot)this.getCurrentAccounts().get(index));
@@ -129,24 +115,20 @@ public class Bank extends ViewObject implements BankView{
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getFee() == null ? 0 : 1)
-            + (this.getInternalFee() == null ? 0 : 1)
+            + (this.getBankFees() == null ? 0 : this.getBankFees().getTheObject().getChildCount())
             + (this.getOwnAccount() == null ? 0 : 1)
             + (this.getCurrentAccounts().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getFee() == null ? true : false)
-            && (this.getInternalFee() == null ? true : false)
+            && (this.getBankFees() == null ? true : this.getBankFees().getTheObject().isLeaf())
             && (this.getOwnAccount() == null ? true : false)
             && (this.getCurrentAccounts().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getFee() != null && this.getFee().equals(child)) return result;
-        if(this.getFee() != null) result = result + 1;
-        if(this.getInternalFee() != null && this.getInternalFee().equals(child)) return result;
-        if(this.getInternalFee() != null) result = result + 1;
+        if(this.getBankFees() != null && this.getBankFees().equals(child)) return result;
+        if(this.getBankFees() != null) result = result + 1;
         if(this.getOwnAccount() != null && this.getOwnAccount().equals(child)) return result;
         if(this.getOwnAccount() != null) result = result + 1;
         java.util.Iterator<?> getCurrentAccountsIterator = this.getCurrentAccounts().iterator();

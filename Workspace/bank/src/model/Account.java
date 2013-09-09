@@ -49,6 +49,7 @@ import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrantListe;
 import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferDoubleState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentLimitType;
@@ -643,6 +644,16 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
     	trans.changeReceiverBank(receiverBankNumber);
     }
+    public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
+				throws PersistenceException{
+		System.out.println("exec"+incomingDebitTransfer);
+		System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
+		getThis().getTriggerListe().getTriggers().applyToAll(new Procdure<PersistentTrigger>() {
+			public void doItTo(PersistentTrigger argument) throws PersistenceException {
+				argument.executeTrigger(incomingDebitTransfer, getThis().getAccountService());
+			}});
+		
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -794,17 +805,28 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public void handleDebitTransferChangeReceiverAccountIntegerMssg(DebitTransferChangeReceiverAccountIntegerMssg event) throws PersistenceException {}
 			public void handleDebitTransferChangeMoneyFractionMssg(DebitTransferChangeMoneyFractionMssg event) throws PersistenceException {}
 			public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws PersistenceException {}
-			public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event) throws PersistenceException {}
+			public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event) throws PersistenceException {
+//				final PersistentDebitTransferDoubleState t = event.getResult();
+//				t.getDebitTransferStateNew().getDebitTransfer().accept(new DebitTransferTransactionVisitor() {
+//					public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+//						Account.this.getThis().checkAllTriggers(transfer);
+//					}
+//					public void handleDebit(PersistentDebit debit) throws PersistenceException {
+//						Account.this.getThis().checkAllTriggers(debit);
+//					}
+//					public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {}
+//				});
+			}
 			
 			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
 					t.accept(new DebitTransferTransactionVisitor() {
 						public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
-							Account.this.executeTrigger(transfer);
+							Account.this.checkAllTriggers(transfer);
 						}
 						public void handleDebit(PersistentDebit debit) throws PersistenceException {
-							Account.this.executeTrigger(debit);
+							Account.this.checkAllTriggers(debit);
 						}
 						public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {}
 					});
@@ -814,7 +836,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 					// Execute will be rolled back - no trigger!
 				}
 				
-				
 			}
 
 			
@@ -822,31 +843,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 		
 	}
 
-	private void executeTrigger(final PersistentDebitTransfer t) throws PersistenceException {
-		System.out.println("exec"+t);
-		System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
-		getThis().getTriggerListe().getTriggers().applyToAll(new Procdure<PersistentTrigger>() {
-			public void doItTo(PersistentTrigger argument) throws PersistenceException {
-				try {
-					argument.getRules().applyToAllException(new ProcdureException<PersistentRule, RuleNotMatchedException>() {
-						public void doItTo(PersistentRule argument) throws PersistenceException, RuleNotMatchedException {
-//							TODO Trigger matcht auf jede Rule!!
-//							if (!(argument.check(t).isTrue())) {
-//								throw new RuleNotMatchedException();
-//							}
-							System.out.println("matched");
-							
-						}
-					});
-				} catch (RuleNotMatchedException e) {
-					// trigger action will not be executed
-					return;
-				}
-				System.out.println("execute independent");
-				argument.getAction().execute(getThis().getAccountService());
-			}});
-		
-	}
     
     
     

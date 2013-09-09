@@ -44,14 +44,14 @@ public class ToStringConstants {
 	public static final String BracketOpen = " (";
 	public static final String BracketClose = ")";
 	public static final String SenderPrefix = " Absender: ";
-	public static final String MixedFeePrefix = "Gemischte Überweisungskosten=";
+	public static final String MixedFeePrefix = "Gemischte Überweisungskosten";
 	public static final String To = " bis ";
 	public static final String After = " danach ";
 	public static final String Semicolon = ";";
 	public static final String DisableState = "Nicht aktiv";
 	public static final String EnableState = "Aktiv";
 
-	public static final String FeeWrapper = "Gebühren";
+	public static final String BankFees = "Gebühren";
 	public static final String MoneyRulePrefix = "Geldregel ";
 	public static final String SubjectRulePrefix = "Betreffregel" ;
 	public static final String IncomingAccountRulePrefix = "Senderregel ";

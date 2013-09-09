@@ -17,10 +17,10 @@ public class AdministratorConnection extends ServiceConnection {
 		return (AdministratorView)super.getServer();
 	}
 
-    public synchronized void changeCurrencyRateGUI(String currency, common.Fraction rate) throws ModelException{
+    public synchronized void changeCurrencyRateGUI(String currencyType, common.Fraction rate) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            parameters.add(currency);
+            parameters.add(currencyType);
             parameters.add(rate.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeCurrencyRateGUI", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){

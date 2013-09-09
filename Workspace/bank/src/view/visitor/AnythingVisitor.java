@@ -11,7 +11,6 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     public void handlePercent(PercentView percent) throws ModelException;
     public void handleAmount(AmountView amount) throws ModelException;
-    public void handleFeeWrapper(FeeWrapperView feeWrapper) throws ModelException;
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     public void handleServer(ServerView server) throws ModelException;
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
@@ -27,6 +26,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleBank(BankView bank) throws ModelException;
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
+    public void handleBankFees(BankFeesView bankFees) throws ModelException;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException;
     

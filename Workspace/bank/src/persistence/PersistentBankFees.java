@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public interface PersistentFeeWrapper extends SubjInterface, Anything, AbstractPersistentProxi {
+public interface PersistentBankFees extends SubjInterface, Anything, AbstractPersistentProxi {
     
     public PersistentTransactionFee getFee() throws PersistenceException ;
     public void setFee(PersistentTransactionFee newValue) throws PersistenceException ;
@@ -12,7 +12,7 @@ public interface PersistentFeeWrapper extends SubjInterface, Anything, AbstractP
     public void setInternalFee(PersistentInternalFee newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
-    public PersistentFeeWrapper getThis() throws PersistenceException ;
+    public PersistentBankFees getThis() throws PersistenceException ;
     
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException;
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException;
@@ -23,7 +23,15 @@ public interface PersistentFeeWrapper extends SubjInterface, Anything, AbstractP
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeInternalFee(final PersistentInternalFee newInternalFee) 
+				throws PersistenceException;
+    public void changeTransactionFee(final PersistentTransactionFee newTransactionFee) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeInternalFeeImplementation(final PersistentInternalFee newInternalFee) 
+				throws PersistenceException;
+    public void changeTransactionFeeImplementation(final PersistentTransactionFee newTransactionFee) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

@@ -36,9 +36,13 @@ public interface PersistentTrigger extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void enable() 
 				throws model.NoRuleDefinitionException, PersistenceException;
+    public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
+				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public PersistentBooleanValue isEnabled() 
 				throws PersistenceException;
 
 }

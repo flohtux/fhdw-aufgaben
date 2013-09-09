@@ -271,6 +271,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
 		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
 		copy.setSender(getThis().getSender());
+		copy.setSubject(getThis().getSubject());
 		PersistentDebitTransferState copyState = 
 		getThis().getState().accept(new DebitTransferStateReturnVisitor<PersistentDebitTransferState>() {
 			@Override

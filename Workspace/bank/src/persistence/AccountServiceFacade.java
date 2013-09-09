@@ -82,9 +82,9 @@ public class AccountServiceFacade{
             PersistentAccountServiceTemplate template = null;
             if (obj.getLong(14) != 0)
                 template = (PersistentAccountServiceTemplate)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
-            PersistentFeeWrapper feeWrapper = null;
+            PersistentAccountServiceBankFees bankFees = null;
             if (obj.getLong(16) != 0)
-                feeWrapper = (PersistentFeeWrapper)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
+                bankFees = (PersistentAccountServiceBankFees)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
             AccountService result = new AccountService(subService,
                                                        This,
                                                        account,
@@ -92,7 +92,7 @@ public class AccountServiceFacade{
                                                        successful,
                                                        notExecuted,
                                                        template,
-                                                       feeWrapper,
+                                                       bankFees,
                                                        AccountServiceId);
             obj.close();
             callable.close();
@@ -169,13 +169,13 @@ public class AccountServiceFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void feeWrapperSet(long AccountServiceId, PersistentFeeWrapper feeWrapperVal) throws PersistenceException {
+    public void bankFeesSet(long AccountServiceId, PersistentAccountServiceBankFees bankFeesVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.fWrpprSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntSrvcFacade.bnkFsSet(?, ?, ?); end;");
             callable.setLong(1, AccountServiceId);
-            callable.setLong(2, feeWrapperVal.getId());
-            callable.setLong(3, feeWrapperVal.getClassId());
+            callable.setLong(2, bankFeesVal.getId());
+            callable.setLong(3, bankFeesVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

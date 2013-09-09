@@ -5,13 +5,13 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class FeeWrapperProxi extends ViewProxi implements FeeWrapperView{
+public class BankFeesProxi extends ViewProxi implements BankFeesView{
     
-    public FeeWrapperProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
+    public BankFeesProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
     }
     
-    public FeeWrapperView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
+    public BankFeesView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         ViewProxi fee = null;
         String fee$String = (String)resultTable.get("fee");
         if (fee$String != null) {
@@ -26,7 +26,7 @@ public class FeeWrapperProxi extends ViewProxi implements FeeWrapperView{
             internalFee = view.objects.ViewProxi.createProxi(internalFee$Info,connectionKey);
             internalFee.setToString(internalFee$Info.getToString());
         }
-        FeeWrapperView result$$ = new FeeWrapper((TransactionFeeView)fee,(InternalFeeView)internalFee, this.getId(), this.getClassId());
+        BankFeesView result$$ = new BankFees((TransactionFeeView)fee,(InternalFeeView)internalFee, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -36,9 +36,9 @@ public class FeeWrapperProxi extends ViewProxi implements FeeWrapperView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getFee() != null) return new FeeFeeWrapperWrapper(this, originalIndex, (ViewRoot)this.getFee());
+        if(index == 0 && this.getFee() != null) return new FeeBankFeesWrapper(this, originalIndex, (ViewRoot)this.getFee());
         if(this.getFee() != null) index = index - 1;
-        if(index == 0 && this.getInternalFee() != null) return new InternalFeeFeeWrapperWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
+        if(index == 0 && this.getInternalFee() != null) return new InternalFeeBankFeesWrapper(this, originalIndex, (ViewRoot)this.getInternalFee());
         if(this.getInternalFee() != null) index = index - 1;
         return null;
     }
@@ -63,29 +63,29 @@ public class FeeWrapperProxi extends ViewProxi implements FeeWrapperView{
     }
     
     public TransactionFeeView getFee()throws ModelException{
-        return ((FeeWrapper)this.getTheObject()).getFee();
+        return ((BankFees)this.getTheObject()).getFee();
     }
     public void setFee(TransactionFeeView newValue) throws ModelException {
-        ((FeeWrapper)this.getTheObject()).setFee(newValue);
+        ((BankFees)this.getTheObject()).setFee(newValue);
     }
     public InternalFeeView getInternalFee()throws ModelException{
-        return ((FeeWrapper)this.getTheObject()).getInternalFee();
+        return ((BankFees)this.getTheObject()).getInternalFee();
     }
     public void setInternalFee(InternalFeeView newValue) throws ModelException {
-        ((FeeWrapper)this.getTheObject()).setInternalFee(newValue);
+        ((BankFees)this.getTheObject()).setInternalFee(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
-        visitor.handleFeeWrapper(this);
+        visitor.handleBankFees(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleFeeWrapper(this);
+         visitor.handleBankFees(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleFeeWrapper(this);
+         return visitor.handleBankFees(this);
     }
     
     public boolean hasTransientFields(){

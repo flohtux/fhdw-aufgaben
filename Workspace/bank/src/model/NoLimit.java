@@ -19,7 +19,6 @@ import persistence.NoLimitProxi;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentLimitType;
-import persistence.PersistentMoney;
 import persistence.PersistentNoLimit;
 import persistence.SubjInterface;
 import persistence.TDObserver;

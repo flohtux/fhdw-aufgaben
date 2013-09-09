@@ -14,6 +14,7 @@ import persistence.PersistentAdministrator;
 import persistence.PersistentAmount;
 import persistence.PersistentBank;
 import persistence.PersistentBankCreator;
+import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentCurrencyManager;
@@ -32,7 +33,6 @@ import persistence.PersistentEuro;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
 import persistence.PersistentFalseValue;
-import persistence.PersistentFeeWrapper;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentFranken;
 import persistence.PersistentIncomingAccountRule;
@@ -133,7 +133,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleMixedFee(PersistentMixedFee mixedFee)
 			throws PersistenceException {
-		result = serverConstants.ToStringConstants.MixedFeePrefix + mixedFee.getFix() + serverConstants.ToStringConstants.To + mixedFee.getLimit() + serverConstants.ToStringConstants.After + mixedFee.getProcentual().toString(true);
+		result = serverConstants.ToStringConstants.MixedFeePrefix;
 		
 	}
 
@@ -390,9 +390,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleFeeWrapper(PersistentFeeWrapper feeWrapper)
-			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.FeeWrapper;
+	public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.BankFees;
 	}
 	
 	

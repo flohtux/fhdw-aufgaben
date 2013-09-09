@@ -50,9 +50,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoLimit(NoLimitView noLimit) throws ModelException{
         this.standardHandling(noLimit);
     }
-    public void handleFeeWrapper(FeeWrapperView feeWrapper) throws ModelException{
-        this.standardHandling(feeWrapper);
-    }
     public void handleAdministrator(AdministratorView administrator) throws ModelException{
         this.standardHandling(administrator);
     }
@@ -62,14 +59,14 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.standardHandling(procentualFee);
     }
-    public void handleServer(ServerView server) throws ModelException{
-        this.standardHandling(server);
-    }
     public void handleTransfer(TransferView transfer) throws ModelException{
         this.standardHandling(transfer);
     }
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleServer(ServerView server) throws ModelException{
+        this.standardHandling(server);
     }
     public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
         this.standardHandling(subjectRule);
@@ -163,6 +160,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handlePfund(PfundView pfund) throws ModelException{
         this.standardHandling(pfund);
+    }
+    public void handleBankFees(BankFeesView bankFees) throws ModelException{
+        this.standardHandling(bankFees);
     }
     public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
         this.standardHandling(notSuccessfulStornoState);

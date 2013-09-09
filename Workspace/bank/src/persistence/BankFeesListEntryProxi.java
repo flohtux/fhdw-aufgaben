@@ -1,10 +1,10 @@
 package persistence;
 
-public class FeeWrapperListEntryProxi extends FeeWrapperProxi implements PersistentFeeWrapperListEntryProxi {
+public class BankFeesListEntryProxi extends BankFeesProxi implements PersistentBankFeesListEntryProxi {
 
   long entryId;
 
-  public FeeWrapperListEntryProxi(long objectId, long entryId) {
+  public BankFeesListEntryProxi(long objectId, long entryId) {
     super(objectId);
     this.entryId = entryId;
   }
