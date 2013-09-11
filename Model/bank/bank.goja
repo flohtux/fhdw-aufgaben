@@ -42,7 +42,9 @@ server BankService extends Service {
 	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit);
 	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
 	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
-	void changeTransactionFee@@Gebühren_ändern(TransactionFee dummy, TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
+	void changeTransactionFeeToFixFee@@Fixe_Gebühren(TransactionFee dummy, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency);
+	void changeTransactionFeeToProcentualFee@@Procentuale_Gebühren(TransactionFee dummy, Fraction procentual@@variable_Gebühren);
+	void changeTransactionFeeToMixedFee@@Gemischte_Gebühren(TransactionFee dummy,  Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung, Fraction procentual@@variable_Gebühren);
 	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent);
 }
 class Bank {
