@@ -7,7 +7,6 @@ import persistence.PersistentAccount;
 import persistence.PersistentAccountGrantedDebitGrant;
 import persistence.PersistentAccountPx;
 import persistence.PersistentAccountReceivedDebitGrant;
-import persistence.PersistentAccountServiceBankFees;
 import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
 import persistence.PersistentCurrencyManager;
@@ -27,13 +26,12 @@ import persistence.PersistentProcentualFee;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransfer;
-import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 
 public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 
 	int result = 0;
-	
+		
 	@Override
 	protected void standardHandling(Anything anything) throws PersistenceException {
 		result = 0;	

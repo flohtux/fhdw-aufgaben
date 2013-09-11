@@ -835,45 +835,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof TriggerView){
-                item = new javax.swing.JMenuItem();
-                item.setText("createNewRule ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard wizard = new AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard("createNewRule");
-                        wizard.setFirstArgument((TriggerView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                if (this.filterDisable((TriggerView) selected)) {
-                    item = new javax.swing.JMenuItem();
-                    item.setText("disable");
-                    item.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "disable" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                                try {
-                                    getConnection().disable((TriggerView)selected);
-                                    getConnection().setEagerRefresh();
-                                }catch(ModelException me){
-                                    handleException(me);
-                                }
-                            }
-                        }
-                        
-                    });
-                    result.add(item);
-                }
                 if (this.filterEnable((TriggerView) selected)) {
                     item = new javax.swing.JMenuItem();
-                    item.setText("enable");
+                    item.setText("aktivieren");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "enable" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "aktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                                 try {
                                     getConnection().enable((TriggerView)selected);
                                     getConnection().setEagerRefresh();
@@ -892,6 +859,39 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     });
                     result.add(item);
                 }
+                if (this.filterDisable((TriggerView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("deaktivieren");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "deaktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().disable((TriggerView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                item = new javax.swing.JMenuItem();
+                item.setText("neue Regel erstellen ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard wizard = new AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard("neue Regel erstellen");
+                        wizard.setFirstArgument((TriggerView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
             }
             
         }
@@ -1108,11 +1108,11 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new IntegerSelectionPanel("receiverBankNumber", this));
-			getParametersPanel().add(new IntegerSelectionPanel("receiverAccNumber", this));
-			getParametersPanel().add(new RegExprSelectionPanel("limitType", this, common.RegularExpressionManager.limitTypeSUBTYPEName.getRegExpr()));
-			getParametersPanel().add(new FractionSelectionPanel("amount", this));
-			getParametersPanel().add(new RegExprSelectionPanel("cur", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new IntegerSelectionPanel("Empfänger BLZ", this));
+			getParametersPanel().add(new IntegerSelectionPanel("Empfänger Kontonummer", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Limit", this, common.RegularExpressionManager.limitTypeSUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("Betrag", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}
