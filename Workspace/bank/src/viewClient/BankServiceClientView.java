@@ -696,8 +696,8 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword1", this));
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword2", this));		
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort", this));
+			getParametersPanel().add(new PasswordSelectionPanel("Passwort wiederholen", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -742,9 +742,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		protected void addParameters(){
 			getParametersPanel().add(new RegExprSelectionPanel("Gebührentyp", this, common.RegularExpressionManager.transactionFeeSUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("fixe Gebühren", this));
-			getParametersPanel().add(new RegExprSelectionPanel("fixCurrency", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("Grenze", this));
-			getParametersPanel().add(new RegExprSelectionPanel("limitCurrency", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
 		}	
 		protected void handleDependencies(int i) {
@@ -799,7 +799,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		
 		protected void addParameters(){
 			try{
-				getParametersPanel().add(new ObjectSelectionPanel("transAcc", "view.AccountView", new ListRoot(getConnection().transAcc_Path_In_CloseAccount()), this));
+				getParametersPanel().add(new ObjectSelectionPanel("Zielkonto", "view.AccountView", new ListRoot(getConnection().transAcc_Path_In_CloseAccount()), this));
 			}catch(ModelException me){;
 				 handleException(me);
 				 setVisible(false);
@@ -898,7 +898,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new IntegerSelectionPanel("accountNumber", this));		
+			getParametersPanel().add(new IntegerSelectionPanel("Kontonummer", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

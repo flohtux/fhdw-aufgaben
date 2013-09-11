@@ -57,16 +57,26 @@ public class CommonDateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CommonDateId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            java.sql.Date createDate = new java.sql.Date(System.currentTimeMillis());
+            java.sql.Date commitDate = new java.sql.Date(System.currentTimeMillis());
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10020: {
+                        createDate = links.getDate(7);
+                        break;
+                    }
+                    case 10021: {
+                        commitDate = links.getDate(7);
+                        break;
+                    }
+                }
             }
-            CommonDate result = new CommonDate(obj.getDate(2),
-                                               obj.getDate(3),
+            CommonDate result = new CommonDate(createDate, 
+                                               commitDate, 
                                                CommonDateId);
-            obj.close();
+            links.close();
             callable.close();
             CommonDateICProxi inCache = (CommonDateICProxi)Cache.getTheCache().put(result);
             CommonDate objectInCache = (CommonDate)inCache.getTheObject();

@@ -55,22 +55,26 @@ public class DebitGrantListeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DebitGrantListeId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitGrantListe This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentDebitGrantListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            DebitGrantListe result = new DebitGrantListe(subService,
-                                                         This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10205: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10206: {
+                        This = (PersistentDebitGrantListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            DebitGrantListe result = new DebitGrantListe(subService, 
+                                                         This, 
                                                          DebitGrantListeId);
-            obj.close();
+            links.close();
             callable.close();
             DebitGrantListeICProxi inCache = (DebitGrantListeICProxi)Cache.getTheCache().put(result);
             DebitGrantListe objectInCache = (DebitGrantListe)inCache.getTheObject();

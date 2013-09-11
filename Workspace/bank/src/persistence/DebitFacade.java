@@ -59,50 +59,87 @@ public class DebitFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DebitId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            java.sql.Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+            String subject = "";
             PersistentAccount sender = null;
-            if (obj.getLong(4) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentDebitTransferState state = null;
-            if (obj.getLong(6) != 0)
-                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             SubjInterface subService = null;
-            if (obj.getLong(8) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentDebitTransferTransaction This = null;
-            if (obj.getLong(10) != 0)
-                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            long receiverAccountNumber = 0;
+            long receiverBankNumber = 0;
             PersistentMoney money = null;
-            if (obj.getLong(14) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
             PersistentTriggerValue invokerTrigger = null;
-            if (obj.getLong(16) != 0)
-                invokerTrigger = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
             PersistentDebitTransfer previousDebitTransfer = null;
-            if (obj.getLong(18) != 0)
-                previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(18), obj.getLong(19));
             PersistentStornoState stornoState = null;
-            if (obj.getLong(20) != 0)
-                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(20), obj.getLong(21));
-            Debit result = new Debit(obj.getTimestamp(2),
-                                     obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
-                                     sender,
-                                     state,
-                                     subService,
-                                     This,
-                                     obj.getLong(12),
-                                     obj.getLong(13),
-                                     money,
-                                     invokerTrigger,
-                                     previousDebitTransfer,
-                                     stornoState,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10127: {
+                        timestamp = links.getTimestamp(9);
+                        break;
+                    }
+                    case 10309: {
+                        subject = links.getString(6);
+                        if(subject == null)subject = "";
+                        break;
+                    }
+                    case 10242: {
+                        sender = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10241: {
+                        state = (PersistentDebitTransferState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10076: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10077: {
+                        This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10130: {
+                        receiverAccountNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10131: {
+                        receiverBankNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10133: {
+                        money = (PersistentMoney)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10346: {
+                        invokerTrigger = (PersistentTriggerValue)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10349: {
+                        previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10136: {
+                        stornoState = (PersistentStornoState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Debit result = new Debit(timestamp, 
+                                     subject, 
+                                     sender, 
+                                     state, 
+                                     subService, 
+                                     This, 
+                                     receiverAccountNumber, 
+                                     receiverBankNumber, 
+                                     money, 
+                                     invokerTrigger, 
+                                     previousDebitTransfer, 
+                                     stornoState, 
                                      DebitId);
-            obj.close();
+            links.close();
             callable.close();
             DebitICProxi inCache = (DebitICProxi)Cache.getTheCache().put(result);
             Debit objectInCache = (Debit)inCache.getTheObject();

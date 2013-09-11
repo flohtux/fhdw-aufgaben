@@ -18,6 +18,10 @@ public class IconInfoConstants {
 	public static final int NeutralIconNumber = 14;
 	public static final int NegativeIconNumber = 15;
 	public static final int WarningIconNumber = 16;
+	public static final int EinzugInIconNumber = 17;
+	public static final int EinzugOutIconNumber = 18;
+	public static final int GebührenIconNumber = 19;
+	public static final int FolgebuchungIconNumber = 20;
 
 	private IconInfoConstants(){}
 }

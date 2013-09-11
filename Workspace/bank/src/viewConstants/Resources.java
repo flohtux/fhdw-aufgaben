@@ -25,6 +25,10 @@ public class Resources {
 	private static final String NeutralIcon = Resources + "/neutral.gif";
 	private static final String NegativeIcon = Resources + "/negative.gif";
 	private static final String WarningIcon = Resources + "/warning.png";
+	private static final String EinzugInIcon = Resources + "/einzugEingehend.png";
+	private static final String EinzugOutIcon = Resources + "/einzugAusgehend.png";
+	private static final String GebührenIcon = Resources + "/coins.png";
+	private static final String FolgebuchungIcon = Resources + "/folgebuchung.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -42,6 +46,10 @@ public class Resources {
 	private static ImageIcon neutralIcon;
 	private static ImageIcon negativeIcon;
 	private static ImageIcon warningIcon;
+	private static ImageIcon einzugInIcon;
+	private static ImageIcon einzugOutIcon;
+	private static ImageIcon gebührenIcon;
+	private static ImageIcon folgebuchungIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -62,10 +70,34 @@ public class Resources {
 		return bankIcon;
 	}
 	
+	public static Icon getEinzugInIcon() {
+		if (einzugInIcon == null)
+			einzugInIcon = new ImageIcon(getURL(EinzugInIcon));
+		return einzugInIcon;
+	}
+	
+	public static Icon getEinzugOutIcon() {
+		if (einzugOutIcon == null)
+			einzugOutIcon = new ImageIcon(getURL(EinzugOutIcon));
+		return einzugOutIcon;
+	}
+	
 	public static Icon getFixeKostenIcon() {
 		if (fixeKostenIcon == null)
 			fixeKostenIcon = new ImageIcon(getURL(FixeKostenIcon));
 		return fixeKostenIcon;
+	}
+	
+	public static Icon getFolgebuchungIcon() {
+		if (folgebuchungIcon == null)
+			folgebuchungIcon = new ImageIcon(getURL(FolgebuchungIcon));
+		return folgebuchungIcon;
+	}
+	
+	public static Icon getGebührenIcon() {
+		if (gebührenIcon == null)
+			gebührenIcon = new ImageIcon(getURL(GebührenIcon));
+		return gebührenIcon;
 	}
 	
 	public static Icon getHistorieIcon() {

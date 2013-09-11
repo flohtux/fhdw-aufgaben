@@ -55,30 +55,38 @@ public class BankFeesFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, BankFeesId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentTransactionFee fee = null;
-            if (obj.getLong(2) != 0)
-                fee = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentInternalFee internalFee = null;
-            if (obj.getLong(4) != 0)
-                internalFee = (PersistentInternalFee)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
-            if (obj.getLong(6) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentBankFees This = null;
-            if (obj.getLong(8) != 0)
-                This = (PersistentBankFees)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            BankFees result = new BankFees(fee,
-                                           internalFee,
-                                           subService,
-                                           This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10339: {
+                        fee = (PersistentTransactionFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10340: {
+                        internalFee = (PersistentInternalFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10341: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10342: {
+                        This = (PersistentBankFees)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            BankFees result = new BankFees(fee, 
+                                           internalFee, 
+                                           subService, 
+                                           This, 
                                            BankFeesId);
-            obj.close();
+            links.close();
             callable.close();
             BankFeesICProxi inCache = (BankFeesICProxi)Cache.getTheCache().put(result);
             BankFees objectInCache = (BankFees)inCache.getTheObject();

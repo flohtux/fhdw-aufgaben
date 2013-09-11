@@ -124,16 +124,23 @@ public abstract class BooleanValue extends PersistentObject implements Persisten
     
     // Start of section that contains overridden operations only.
     
-
-    /* Start of protected part that is not overridden by persistence generator */
-    @Override
-    public PersistentBooleanValue or(PersistentBooleanValue value)
-    		throws PersistenceException {
+    public PersistentBooleanValue or(final PersistentBooleanValue value) 
+				throws PersistenceException{
     	if(getThis().isTrue() || value.isTrue()) {
     		return TrueValue.getTheTrueValue();
     	}
     	return FalseValue.getTheFalseValue();
     }
+
+    /* Start of protected part that is not overridden by persistence generator */
+//    @Override
+//    public PersistentBooleanValue or(PersistentBooleanValue value)
+//    		throws PersistenceException {
+//    	if(getThis().isTrue() || value.isTrue()) {
+//    		return TrueValue.getTheTrueValue();
+//    	}
+//    	return FalseValue.getTheFalseValue();
+//    }
     /* End of protected part that is not overridden by persistence generator */
     
 }

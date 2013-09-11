@@ -1056,8 +1056,8 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword1", this));
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword2", this));		
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort", this));
+			getParametersPanel().add(new PasswordSelectionPanel("Passwort wiederholen", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -1248,8 +1248,8 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new StringSelectionPanel("name", this));
-			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new StringSelectionPanel("Name", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Typ", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}

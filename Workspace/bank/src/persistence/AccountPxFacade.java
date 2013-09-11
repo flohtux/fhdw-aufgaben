@@ -55,26 +55,32 @@ public class AccountPxFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountPxId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccount account = null;
-            if (obj.getLong(2) != 0)
-                account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             SubjInterface subService = null;
-            if (obj.getLong(4) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountPx This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAccountPx)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AccountPx result = new AccountPx(account,
-                                             subService,
-                                             This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10210: {
+                        account = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10211: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10212: {
+                        This = (PersistentAccountPx)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AccountPx result = new AccountPx(account, 
+                                             subService, 
+                                             This, 
                                              AccountPxId);
-            obj.close();
+            links.close();
             callable.close();
             AccountPxICProxi inCache = (AccountPxICProxi)Cache.getTheCache().put(result);
             AccountPx objectInCache = (AccountPx)inCache.getTheObject();

@@ -18,8 +18,20 @@ public class IconManager {
 		case common.IconInfoConstants.BankIconNumber:
 			return viewConstants.Resources.getBankIcon();
 			
+		case common.IconInfoConstants.EinzugInIconNumber:
+			return viewConstants.Resources.getEinzugInIcon();
+			
+		case common.IconInfoConstants.EinzugOutIconNumber:
+			return viewConstants.Resources.getEinzugOutIcon();
+			
 		case common.IconInfoConstants.FixeKostenIconNumber:
 			return viewConstants.Resources.getFixeKostenIcon();
+			
+		case common.IconInfoConstants.FolgebuchungIconNumber:
+			return viewConstants.Resources.getFolgebuchungIcon();
+			
+		case common.IconInfoConstants.GebührenIconNumber:
+			return viewConstants.Resources.getGebührenIcon();
 			
 		case common.IconInfoConstants.HistorieIconNumber:
 			return viewConstants.Resources.getHistorieIcon();

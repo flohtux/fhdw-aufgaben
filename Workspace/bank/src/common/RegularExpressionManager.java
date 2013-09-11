@@ -7,9 +7,9 @@ public class RegularExpressionManager {
     public static RegularExpressionHandler debitTransferTransactionSUBTYPEName = new RegularExpressionHandler( "[(Transaction)" + 
 		"(Transfer)" + 
 		"(Debit)]" );
-    public static RegularExpressionHandler transactionFeeSUBTYPEName = new RegularExpressionHandler( "[(MixedFee)" + 
-		"(FixTransactionFee)" + 
-		"(ProcentualFee)]" );
+    public static RegularExpressionHandler transactionFeeSUBTYPEName = new RegularExpressionHandler( "[(gemischte Gebühren)" + 
+		"(fixe Gebühren)" + 
+		"(prozentuale Gebühren)]" );
     public static RegularExpressionHandler currencySUBTYPEName = new RegularExpressionHandler( "[(Dollar)" + 
 		"(Pfund)" + 
 		"(Franken)" + 
