@@ -27,7 +27,6 @@ import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
 import persistence.PersistentBankFees;
-import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentChangeNameCommand;
 import persistence.PersistentCreateAccountCommand;
@@ -47,7 +46,6 @@ import persistence.PersistentServer;
 import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
-import persistence.Procdure;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 

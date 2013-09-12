@@ -182,7 +182,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeTransactionFeeToMixedFee(TransactionFeeView dummy, common.Fraction fix, String fixCurrency, common.Fraction procentual) throws ModelException{
+    public synchronized void changeTransactionFeeToMixedFee(TransactionFeeView dummy, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (dummy == null){
@@ -192,6 +192,8 @@ public class BankServiceConnection extends ServiceConnection {
             }
             parameters.add(fix.toString());
             parameters.add(fixCurrency);
+            parameters.add(limit.toString());
+            parameters.add(limitCurrency);
             parameters.add(procentual.toString());
             java.util.HashMap<?,?> success = (java.util.HashMap<?,?>)this.execute(this.connectionName, "changeTransactionFeeToMixedFee", parameters);
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){

@@ -142,9 +142,9 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
 				throws PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeTransactionFeeToFixFee(dummy, fix, fixCurrency);
     }
-    public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction procentual) 
+    public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
-        ((PersistentBankService)this.getTheObject()).changeTransactionFeeToMixedFee(dummy, fix, fixCurrency, procentual);
+        ((PersistentBankService)this.getTheObject()).changeTransactionFeeToMixedFee(dummy, fix, fixCurrency, limit, limitCurrency, procentual);
     }
     public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 
 				throws PersistenceException{

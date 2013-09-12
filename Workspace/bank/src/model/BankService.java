@@ -2,7 +2,6 @@
 package model;
 
 import model.meta.StringFACTORY;
-import model.meta.TransactionFeeSwitchPARAMETER;
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
@@ -33,12 +32,9 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
-import persistence.PersistentFixTransactionFee;
 import persistence.PersistentInternalFee;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
-import persistence.PersistentMixedFee;
-import persistence.PersistentProcentualFee;
 import persistence.PersistentProxi;
 import persistence.PersistentService;
 import persistence.PersistentTransactionFee;
@@ -309,9 +305,9 @@ public class BankService extends model.Service implements PersistentBankService{
     	getThis().getBank().changeTransactionFeeToFix(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
     	getThis().signalChanged(true);
     }
-    public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction procentual) 
+    public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
 				throws PersistenceException{
-    	getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), Percent.createPercent(procentual), Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
+    	getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), Percent.createPercent(procentual), Money.createMoney(Amount.createAmount(limit), StringFACTORY.createObjectBySubTypeNameForCurrency(limitCurrency)));
         getThis().signalChanged(true);
     }
     public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 

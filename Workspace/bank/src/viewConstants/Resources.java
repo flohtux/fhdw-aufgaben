@@ -23,7 +23,7 @@ public class Resources {
 	private static final String MixKostenIcon = Resources + "/mixKosten.png";
 	private static final String PositiveIcon = Resources + "/positive.gif";
 	private static final String NeutralIcon = Resources + "/neutral.gif";
-	private static final String NegativeIcon = Resources + "/negative.gif";
+	private static final String NegativeIcon = Resources + "/negativ.gif";
 	private static final String WarningIcon = Resources + "/warning.png";
 	private static final String EinzugInIcon = Resources + "/einzugEingehend.png";
 	private static final String EinzugOutIcon = Resources + "/einzugAusgehend.png";

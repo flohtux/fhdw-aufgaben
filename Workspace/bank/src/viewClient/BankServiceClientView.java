@@ -450,7 +450,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                 item.setText("Gemischte Gebühren ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard wizard = new BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard("Gemischte Gebühren");
+                        BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard wizard = new BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard("Gemischte Gebühren");
                         wizard.setFirstArgument((TransactionFeeView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -768,10 +768,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		
 		protected void addParameters(){
 			getParametersPanel().add(new FractionSelectionPanel("fixe Gebühren", this));
-			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
-			getParametersPanel().add(new FractionSelectionPanel("Grenze", this));
-			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
-			getParametersPanel().add(new RegExprSelectionPanel("fixCurrency", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -788,14 +785,14 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		
 	}
 
-	class BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard extends Wizard {
+	class BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard extends Wizard {
 
-		protected BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard(String operationName){
+		protected BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard.help";
+			this.helpFileName = "BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard.help";
 			super.initialize();			
 		}
 				
@@ -803,7 +800,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 			try {
 				getConnection().changeTransactionFeeToMixedFee(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
 									((StringSelectionPanel)getParametersPanel().getComponent(1)).getResult(),
-									((FractionSelectionPanel)getParametersPanel().getComponent(2)).getResult());
+									((FractionSelectionPanel)getParametersPanel().getComponent(2)).getResult(),
+									((StringSelectionPanel)getParametersPanel().getComponent(3)).getResult(),
+									((FractionSelectionPanel)getParametersPanel().getComponent(4)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -821,6 +820,8 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		
 		protected void addParameters(){
 			getParametersPanel().add(new FractionSelectionPanel("fixe Gebühren", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("Grenze", this));
 			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
 		}	
@@ -869,7 +870,6 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-
 			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
 		}	
 		protected void handleDependencies(int i) {
