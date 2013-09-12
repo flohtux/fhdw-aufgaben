@@ -333,14 +333,13 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
 				throws model.ExecuteException, model.CloseAccountNoPossibleException, PersistenceException{
-        PersistentTransfer transfer = Transfer.createTransfer();
+        PersistentTransfer transfer = acc.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);
         transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
         transfer.execute(getThis());
-        getThis().closeAccount(acc);
     }
     public void connected(final String user) 
 				throws PersistenceException{
