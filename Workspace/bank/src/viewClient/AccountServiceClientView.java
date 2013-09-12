@@ -1162,7 +1162,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.ruleSUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new RegExprSelectionPanel("Typ", this, common.RegularExpressionManager.ruleSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}

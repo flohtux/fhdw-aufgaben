@@ -1069,14 +1069,14 @@ class IncomingAccountRuleDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "accountNumber", this.getAnything().getAccountNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Kontonummer", this.getAnything().getAccountNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(IncomingAccountRule$$accountNumber, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "bankNumber", this.getAnything().getBankNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "BLZ", this.getAnything().getBankNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(IncomingAccountRule$$bankNumber, panel);
         }catch(view.ModelException e){
@@ -1287,7 +1287,7 @@ class SubjectRuleDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new StringPanel(this, "subject", this.getAnything().getSubject());
+            BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
             this.getScrollablePane().add(panel);
             this.panels.put(SubjectRule$$subject, panel);
         }catch(view.ModelException e){
@@ -1640,7 +1640,7 @@ class TriggerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new StringPanel(this, "name", this.getAnything().getName());
+            BaseTypePanel panel = new StringPanel(this, "Name", this.getAnything().getName());
             this.getScrollablePane().add(panel);
             this.panels.put(Trigger$$name, panel);
         }catch(view.ModelException e){

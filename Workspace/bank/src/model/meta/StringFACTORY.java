@@ -3,9 +3,9 @@ package model.meta;
 public class StringFACTORY{
 
     public static persistence.PersistentDebitTransferTransaction createObjectBySubTypeNameForDebitTransferTransaction(String name, DebitTransferTransactionSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
-        if(name.equals("Transaction")) return switchAssistant.handleTransaction();
-        if(name.equals("Transfer")) return switchAssistant.handleTransfer();
-        if(name.equals("Debit")) return switchAssistant.handleDebit();
+        if(name.equals("Transaktion")) return switchAssistant.handleTransaction();
+        if(name.equals("Überweisung")) return switchAssistant.handleTransfer();
+        if(name.equals("Lastschrift")) return switchAssistant.handleDebit();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentTransactionFee createObjectBySubTypeNameForTransactionFee(String name, TransactionFeeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
@@ -30,7 +30,7 @@ public class StringFACTORY{
     public static persistence.PersistentRule createObjectBySubTypeNameForRule(String name, RuleSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
         if(name.equals("Betreffregel")) return switchAssistant.handleSubjectRule();
         if(name.equals("Geldregel")) return switchAssistant.handleMoneyRule();
-        if(name.equals("Eingehende Geldregel")) return switchAssistant.handleIncomingAccountRule();
+        if(name.equals("Absenderregel")) return switchAssistant.handleIncomingAccountRule();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     

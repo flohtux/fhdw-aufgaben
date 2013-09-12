@@ -108,9 +108,9 @@ public class IncomingAccountRule extends view.objects.Rule implements IncomingAc
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
-                if(rowIndex == 0) return "accountNumber";
+                if(rowIndex == 0) return "Kontonummer";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "bankNumber";
+                if(rowIndex == 0) return "BLZ";
                 rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getAccountNumber());

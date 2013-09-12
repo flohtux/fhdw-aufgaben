@@ -86,7 +86,7 @@ server AccountService extends Service {
 	void createTrigger@@Neue_Folgebuchung(String name@@Name, DebitTransferTransactionSUBTYPEName type@@Typ);
 	void enable@@Aktivieren(Trigger t checked) throws NoRuleDefinitionException;
 	void disable@@Deaktivieren(Trigger t checked);
-	void createNewRule@@Neue_Regel_erstellen(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
+	void createNewRule@@Neue_Regel_erstellen(Trigger t, RuleSUBTYPEName type@@Typ) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	no-view void changeReceiverBank(DebitTransfer trans checked, Integer receiverBankNumber);
@@ -269,12 +269,12 @@ abstract class DebitTransfer extends DebitTransferTransaction{
 	BooleanValue contains(Trigger trigger);
 }
 
-class Transfer extends DebitTransfer {
+class Transfer@@Überweisung extends DebitTransfer {
 
 }
-class Debit extends DebitTransfer {}
+class Debit@@Lastschrift extends DebitTransfer {}
 
-class Transaction extends DebitTransferTransaction {
+class Transaction@@Transaktion extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
 	void addToTransaction(DebitTransfer ** debitTransfer);
 	void removeFromTransaction(DebitTransfer ** debitTransfer);
@@ -296,13 +296,13 @@ abstract class TriggerValue {
 class NoTrigger extends TriggerValue{}
 
 class Trigger extends TriggerValue{
-	prior String name;
+	prior String name@@Name;
 	one-to-one (no-view master) TriggerState state;
 	DebitTransferTransaction action;
 	Rule ** rules;
 	void enable() throws NoRuleDefinitionException;
 	void disable();
-	void addRule(Rule rule@@Regel) throws DoubleRuleDefinitionException;
+	void addRule(Rule rule) throws DoubleRuleDefinitionException;
 	void executeTrigger(DebitTransfer incomingDebitTransfer, AccountService accService);
 	BooleanValue isEnabled();
 }
@@ -324,13 +324,13 @@ class MoneyRule@@Geldregel extends Rule{
 }
 
 class SubjectRule@@Betreffregel extends Rule{
-	String subject;
+	String subject@@Betreff;
 	void changeSubject(String subject);
 }
 
-class IncomingAccountRule##IncAccRule@@Eingehende_Geldregel extends Rule{
-	Integer accountNumber;
-	Integer bankNumber;
+class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
+	Integer accountNumber@@Kontonummer;
+	Integer bankNumber@@BLZ;
 	void changeAccountNumber(Integer accNum@@Kontonummer);
 	void changeBankNumber(Integer bankNum@@BLZ);
 }

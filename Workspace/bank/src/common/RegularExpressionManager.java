@@ -4,9 +4,9 @@ import expressions.RegularExpressionHandler;
 
 public class RegularExpressionManager {
 
-    public static RegularExpressionHandler debitTransferTransactionSUBTYPEName = new RegularExpressionHandler( "[(Transaction)" + 
-		"(Transfer)" + 
-		"(Debit)]" );
+    public static RegularExpressionHandler debitTransferTransactionSUBTYPEName = new RegularExpressionHandler( "[(Transaktion)" + 
+		"(Überweisung)" + 
+		"(Lastschrift)]" );
     public static RegularExpressionHandler transactionFeeSUBTYPEName = new RegularExpressionHandler( "[(gemischte Gebühren)" + 
 		"(fixe Gebühren)" + 
 		"(prozentuale Gebühren)]" );
@@ -19,7 +19,7 @@ public class RegularExpressionManager {
 		"(Limit)]" );
     public static RegularExpressionHandler ruleSUBTYPEName = new RegularExpressionHandler( "[(Betreffregel)" + 
 		"(Geldregel)" + 
-		"(Eingehende Geldregel)]" );
+		"(Absenderregel)]" );
     
 
 }
