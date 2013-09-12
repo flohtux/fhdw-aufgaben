@@ -610,7 +610,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
 				throws PersistenceException{
-        //TODO: implement method: addToTransactionTrigger
         PersistentDebitTransfer newDebitTransfer = StringFACTORY.createObjectBySubTypeNameForDebitTransfer(type, new DebitTransferSwitchPARAMETER() {
 			@Override
 			public PersistentTransfer handleTransfer() throws PersistenceException {

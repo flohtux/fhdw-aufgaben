@@ -1830,5 +1830,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		return result;
 	}
+	
 
 }

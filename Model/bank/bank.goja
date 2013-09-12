@@ -168,7 +168,6 @@ class Account {
 	void addToTransactionTrigger(Transaction transaction, DebitTransferSUBTYPEName type);
 
 	void checkAllTriggers(DebitTransfer incomingDebitTransfer);
-
 }
 
 class AccountPx {
