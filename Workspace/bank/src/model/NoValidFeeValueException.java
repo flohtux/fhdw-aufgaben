@@ -27,8 +27,8 @@ public class NoValidFeeValueException extends model.UserException{
     public NoValidFeeValueException(String message) throws persistence.PersistenceException {
         super(message);        
     }
-
-	static public long getTypeId() {
+    
+    static public long getTypeId() {
         return -252;
     }
     

@@ -86,7 +86,7 @@ server AccountService extends Service {
 	void createTrigger@@Neue_Folgebuchung(String name@@Name, DebitTransferTransactionSUBTYPEName type@@Typ);
 	void enable@@Aktivieren(Trigger t checked) throws NoRuleDefinitionException;
 	void disable@@Deaktivieren(Trigger t checked);
-	void createNewRule@@Neue_Regel_erstellen(Trigger t, RuleSUBTYPEName type@@Typ) throws DoubleRuleDefinitionException;
+	void createNewRule@@Neue_Regel_erstellen(Trigger t checked, RuleSUBTYPEName type@@Typ) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	no-view void changeReceiverBank(DebitTransfer trans checked, Integer receiverBankNumber);
@@ -97,6 +97,7 @@ server AccountService extends Service {
 	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber@@Empfänger_BLZ,Integer receiverAccNumber@@Empfänger_Kontonummer, LimitTypeSUBTYPEName limitType@@Limit, Fraction amount@@Betrag, CurrencySUBTYPEName cur@@Währung) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
 	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
+void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked, DebitTransferSUBTYPEName type@@Buchung);
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
 
@@ -164,6 +165,7 @@ class Account {
 
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
+	void addToTransactionTrigger(Transaction transaction, DebitTransferSUBTYPEName type);
 
 	void checkAllTriggers(DebitTransfer incomingDebitTransfer);
 
@@ -257,7 +259,7 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	event DebitTransferDoubleState changeState(DebitTransferState newState);
 }
 
-abstract class DebitTransfer extends DebitTransferTransaction{
+string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Money money@@Betrag;

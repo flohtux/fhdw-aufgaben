@@ -8,6 +8,7 @@ import model.meta.DebitTransferChangeCurrencyCurrencyMssg;
 import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
 import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
+import model.meta.DebitTransferSwitchPARAMETER;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
 import model.meta.DebitTransferTransactionExecuteMssg;
 import model.meta.DebitTransferTransactionMssgs;
@@ -606,6 +607,23 @@ public class Account extends PersistentObject implements PersistentAccount{
  				return true;
  			}
  		});
+    }
+    public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
+				throws PersistenceException{
+        //TODO: implement method: addToTransactionTrigger
+        PersistentDebitTransfer newDebitTransfer = StringFACTORY.createObjectBySubTypeNameForDebitTransfer(type, new DebitTransferSwitchPARAMETER() {
+			@Override
+			public PersistentTransfer handleTransfer() throws PersistenceException {
+				return Transfer.createTransfer();
+			}
+			@Override
+			public PersistentDebit handleDebit() throws PersistenceException {
+				return Debit.createDebit();
+			}
+		});
+        newDebitTransfer.setSender(getThis());
+        newDebitTransfer.changeState(NotExecutableState.createNotExecutableState());
+        transaction.getDebitTransfer().getDebitTransfers().add(newDebitTransfer);
     }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{

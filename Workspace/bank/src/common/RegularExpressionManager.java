@@ -15,6 +15,8 @@ public class RegularExpressionManager {
 		"(Franken)" + 
 		"(Euro)" + 
 		"(Yen)]" );
+    public static RegularExpressionHandler debitTransferSUBTYPEName = new RegularExpressionHandler( "[(Lastschrift)" + 
+		"(Überweisung)]" );
     public static RegularExpressionHandler limitTypeSUBTYPEName = new RegularExpressionHandler( "[(NoLimit)" + 
 		"(Limit)]" );
     public static RegularExpressionHandler ruleSUBTYPEName = new RegularExpressionHandler( "[(Betreffregel)" + 

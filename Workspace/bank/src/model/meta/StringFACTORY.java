@@ -22,6 +22,11 @@ public class StringFACTORY{
         if(name.equals("Yen")) return model.Yen.getTheYen();
         throw new persistence.PersistenceException("No such type name!",0);
     }
+    public static persistence.PersistentDebitTransfer createObjectBySubTypeNameForDebitTransfer(String name, DebitTransferSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
+        if(name.equals("Lastschrift")) return switchAssistant.handleDebit();
+        if(name.equals("Überweisung")) return switchAssistant.handleTransfer();
+        throw new persistence.PersistenceException("No such type name!",0);
+    }
     public static persistence.PersistentLimitType createObjectBySubTypeNameForLimitType(String name, LimitTypeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
         if(name.equals("NoLimit")) return model.NoLimit.getTheNoLimit();
         if(name.equals("Limit")) return switchAssistant.handleLimit();

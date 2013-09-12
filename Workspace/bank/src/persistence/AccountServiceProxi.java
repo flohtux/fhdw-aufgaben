@@ -176,6 +176,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransactionTemplate(transaction, debitTransfer);
     }
+    public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).addToTransactionTrigger(transaction, type);
+    }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);

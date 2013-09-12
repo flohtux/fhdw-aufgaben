@@ -61,6 +61,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
+    public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
+				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
