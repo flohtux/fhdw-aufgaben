@@ -28,9 +28,9 @@ public class StringFACTORY{
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentRule createObjectBySubTypeNameForRule(String name, RuleSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
-        if(name.equals("SubjectRule")) return switchAssistant.handleSubjectRule();
-        if(name.equals("MoneyRule")) return switchAssistant.handleMoneyRule();
-        if(name.equals("IncomingAccountRule")) return switchAssistant.handleIncomingAccountRule();
+        if(name.equals("Betreffregel")) return switchAssistant.handleSubjectRule();
+        if(name.equals("Geldregel")) return switchAssistant.handleMoneyRule();
+        if(name.equals("Eingehende Geldregel")) return switchAssistant.handleIncomingAccountRule();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     

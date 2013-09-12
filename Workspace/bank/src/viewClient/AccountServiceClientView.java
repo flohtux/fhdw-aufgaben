@@ -837,10 +837,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
             if (selected instanceof TriggerView){
                 if (this.filterEnable((TriggerView) selected)) {
                     item = new javax.swing.JMenuItem();
-                    item.setText("aktivieren");
+                    item.setText("Aktivieren");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "aktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Aktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                                 try {
                                     getConnection().enable((TriggerView)selected);
                                     getConnection().setEagerRefresh();
@@ -861,10 +861,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 }
                 if (this.filterDisable((TriggerView) selected)) {
                     item = new javax.swing.JMenuItem();
-                    item.setText("deaktivieren");
+                    item.setText("Deaktivieren");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "deaktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Deaktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                                 try {
                                     getConnection().disable((TriggerView)selected);
                                     getConnection().setEagerRefresh();
@@ -878,10 +878,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     result.add(item);
                 }
                 item = new javax.swing.JMenuItem();
-                item.setText("neue Regel erstellen ... ");
+                item.setText("Neue Regel erstellen ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard wizard = new AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard("neue Regel erstellen");
+                        AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard wizard = new AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard("Neue Regel erstellen");
                         wizard.setFirstArgument((TriggerView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -1057,7 +1057,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		
 		protected void addParameters(){
 			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort", this));
-			getParametersPanel().add(new PasswordSelectionPanel("Passwort wiederholen", this));		
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort wiederholen", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

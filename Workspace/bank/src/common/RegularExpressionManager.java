@@ -17,9 +17,9 @@ public class RegularExpressionManager {
 		"(Yen)]" );
     public static RegularExpressionHandler limitTypeSUBTYPEName = new RegularExpressionHandler( "[(NoLimit)" + 
 		"(Limit)]" );
-    public static RegularExpressionHandler ruleSUBTYPEName = new RegularExpressionHandler( "[(SubjectRule)" + 
-		"(MoneyRule)" + 
-		"(IncomingAccountRule)]" );
+    public static RegularExpressionHandler ruleSUBTYPEName = new RegularExpressionHandler( "[(Betreffregel)" + 
+		"(Geldregel)" + 
+		"(Eingehende Geldregel)]" );
     
 
 }

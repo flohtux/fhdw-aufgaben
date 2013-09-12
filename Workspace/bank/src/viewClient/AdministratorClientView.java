@@ -569,7 +569,7 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		
 		protected void addParameters(){
 			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort", this));
-			getParametersPanel().add(new PasswordSelectionPanel("Passwort wiederholen", this));		
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort wiederholen", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

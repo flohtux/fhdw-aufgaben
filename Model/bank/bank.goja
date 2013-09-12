@@ -4,7 +4,7 @@ server Server {
 	one-to-one (server-only access) Service service;
 }
 abstract server Service{
-	String changePassword@@Passwort_ändern(String newPassword1@@neues_Passwort PASSWORD, String newPassword2@@Passwort_wiederholen PASSWORD) throws PasswordException;
+	String changePassword@@Passwort_ändern(String newPassword1@@neues_Passwort PASSWORD, String newPassword2@@neues_Passwort_wiederholen PASSWORD) throws PasswordException;
 }
 server Administrator extends Service {
 	observe CurrencyManager currencyManager;
@@ -81,9 +81,9 @@ server AccountService extends Service {
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
 	void createTrigger@@Neue_Folgebuchung(String name@@Name, DebitTransferTransactionSUBTYPEName type@@Typ);
-	void enable@@aktivieren(Trigger t checked) throws NoRuleDefinitionException;
-	void disable@@deaktivieren(Trigger t checked);
-	void createNewRule@@neue_Regel_erstellen(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
+	void enable@@Aktivieren(Trigger t checked) throws NoRuleDefinitionException;
+	void disable@@Deaktivieren(Trigger t checked);
+	void createNewRule@@Neue_Regel_erstellen(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	no-view void changeReceiverBank(DebitTransfer trans checked, Integer receiverBankNumber);
@@ -297,9 +297,9 @@ class Trigger extends TriggerValue{
 	one-to-one (no-view master) TriggerState state;
 	DebitTransferTransaction action;
 	Rule ** rules;
-	void enable@@aktivieren() throws NoRuleDefinitionException;
-	void disable@@deaktivieren();
-	void addRule@@Regel_hinzufügen(Rule rule@@Regel) throws DoubleRuleDefinitionException;
+	void enable() throws NoRuleDefinitionException;
+	void disable();
+	void addRule(Rule rule@@Regel) throws DoubleRuleDefinitionException;
 	void executeTrigger(DebitTransfer incomingDebitTransfer, AccountService accService);
 	BooleanValue isEnabled();
 }
@@ -310,7 +310,7 @@ string-factory abstract class Rule{
 	BooleanValue check(DebitTransfer debitTransfer);
 }
 
-class MoneyRule extends Rule{
+class MoneyRule@@Geldregel extends Rule{
 	no-view prior Currency currency;
 	skip-view Amount minLimit;
 	skip-view Amount maxLimit;
@@ -320,12 +320,12 @@ class MoneyRule extends Rule{
 	BooleanValue checkMax(Fraction maxValue);
 }
 
-class SubjectRule extends Rule{
+class SubjectRule@@Betreffregel extends Rule{
 	String subject;
 	void changeSubject(String subject);
 }
 
-class IncomingAccountRule##IncAccRule extends Rule{
+class IncomingAccountRule##IncAccRule@@Eingehende_Geldregel extends Rule{
 	Integer accountNumber;
 	Integer bankNumber;
 	void changeAccountNumber(Integer accNum@@Kontonummer);
