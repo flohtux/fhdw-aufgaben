@@ -9,7 +9,7 @@ interface TriggerDOWNMssgsVisitor  {
 }
 
 
-interface TriggerUPMssgsVisitor  {
+interface TriggerUPMssgsVisitor extends TriggerValueUPMssgsVisitor {
 
     
 }

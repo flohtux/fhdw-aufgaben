@@ -33,6 +33,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoValidPercentValueException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -44,6 +46,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.MaxLimitLowerThenMinLimitException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -55,6 +59,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.MinLimitHigherMaxLimitException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -69,16 +75,46 @@ public  class RemoteBankService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> changeTransactionFee(String dummyProxiString, String newFee, String fixAsString, String fixCurrency, String limitAsString, String limitCurrency, String procentualAsString){
+    public synchronized java.util.HashMap<?,?> changeTransactionFeeToFixFee(String dummyProxiString, String fixAsString, String fixCurrency){
+        try {
+            PersistentTransactionFee dummy = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(dummyProxiString));
+            common.Fraction fix = common.Fraction.parse(fixAsString);
+            ((PersistentBankService)this.server).changeTransactionFeeToFixFee(dummy, fix, fixCurrency);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.NoValidFeeValueException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeTransactionFeeToMixedFee(String dummyProxiString, String fixAsString, String fixCurrency, String limitAsString, String limitCurrency, String procentualAsString){
         try {
             PersistentTransactionFee dummy = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(dummyProxiString));
             common.Fraction fix = common.Fraction.parse(fixAsString);
             common.Fraction limit = common.Fraction.parse(limitAsString);
             common.Fraction procentual = common.Fraction.parse(procentualAsString);
-            ((PersistentBankService)this.server).changeTransactionFee(dummy, newFee, fix, fixCurrency, limit, limitCurrency, procentual);
+            ((PersistentBankService)this.server).changeTransactionFeeToMixedFee(dummy, fix, fixCurrency, limit, limitCurrency, procentual);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoValidPercentValueException e0){
+            return createExceptionResult(e0, this);
+        }catch(model.NoValidFeeValueException e1){
+            return createExceptionResult(e1, this);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeTransactionFeeToProcentualFee(String dummyProxiString, String procentualAsString){
+        try {
+            PersistentTransactionFee dummy = (PersistentTransactionFee)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(dummyProxiString));
+            common.Fraction procentual = common.Fraction.parse(procentualAsString);
+            ((PersistentBankService)this.server).changeTransactionFeeToProcentualFee(dummy, procentual);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.NoValidPercentValueException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

@@ -74,6 +74,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
         this.standardHandling(noLimit);
     }
+    public void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException{
+        this.standardHandling(noTrigger);
+    }
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
     }

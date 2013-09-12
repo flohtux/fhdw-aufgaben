@@ -731,6 +731,23 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     });
                     result.add(item);
                 }
+                if (this.filterAddToTransactionTrigger((TransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Buchung zu Transaktion hinzufügen ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceAddToTransactionTriggerTransactionDebitTransferSUBTYPENameMssgWizard wizard = new AccountServiceAddToTransactionTriggerTransactionDebitTransferSUBTYPENameMssgWizard("Buchung zu Transaktion hinzufügen");
+                            wizard.setFirstArgument((TransactionView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
+                        }
+                        
+                    });
+                    result.add(item);
+                }
                 if (this.filterAddToTransactionTemplate((TransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Vorlagebuchung zu Transaktion hinzufügen ... ");
@@ -835,45 +852,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof TriggerView){
-                item = new javax.swing.JMenuItem();
-                item.setText("createNewRule ... ");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard wizard = new AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard("createNewRule");
-                        wizard.setFirstArgument((TriggerView)selected);
-                        wizard.pack();
-                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                        wizard.pack();
-                        wizard.setLocationRelativeTo(getNavigationPanel());
-                        wizard.setVisible(true);
-                    }
-                    
-                });
-                result.add(item);
-                if (this.filterDisable((TriggerView) selected)) {
-                    item = new javax.swing.JMenuItem();
-                    item.setText("disable");
-                    item.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "disable" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                                try {
-                                    getConnection().disable((TriggerView)selected);
-                                    getConnection().setEagerRefresh();
-                                }catch(ModelException me){
-                                    handleException(me);
-                                }
-                            }
-                        }
-                        
-                    });
-                    result.add(item);
-                }
                 if (this.filterEnable((TriggerView) selected)) {
                     item = new javax.swing.JMenuItem();
-                    item.setText("enable");
+                    item.setText("Aktivieren");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "enable" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Aktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                                 try {
                                     getConnection().enable((TriggerView)selected);
                                     getConnection().setEagerRefresh();
@@ -887,6 +871,41 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }
                             }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterDisable((TriggerView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Deaktivieren");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Deaktivieren" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().disable((TriggerView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterCreateNewRule((TriggerView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Neue Regel erstellen ... ");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard wizard = new AccountServiceCreateNewRuleTriggerRuleSUBTYPENameMssgWizard("Neue Regel erstellen");
+                            wizard.setFirstArgument((TriggerView)selected);
+                            wizard.pack();
+                            wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                            wizard.pack();
+                            wizard.setLocationRelativeTo(getNavigationPanel());
+                            wizard.setVisible(true);
                         }
                         
                     });
@@ -943,6 +962,53 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				 dispose();
 				 return;
 			 }		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TransactionView firstArgument; 
+	
+		public void setFirstArgument(TransactionView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class AccountServiceAddToTransactionTriggerTransactionDebitTransferSUBTYPENameMssgWizard extends Wizard {
+
+		protected AccountServiceAddToTransactionTriggerTransactionDebitTransferSUBTYPENameMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "AccountServiceAddToTransactionTriggerTransactionDebitTransferSUBTYPENameMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().addToTransactionTrigger(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new RegExprSelectionPanel("Buchung", this, common.RegularExpressionManager.debitTransferSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -1056,8 +1122,8 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword1", this));
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword2", this));		
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort", this));
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort wiederholen", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -1108,11 +1174,11 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new IntegerSelectionPanel("receiverBankNumber", this));
-			getParametersPanel().add(new IntegerSelectionPanel("receiverAccNumber", this));
-			getParametersPanel().add(new RegExprSelectionPanel("limitType", this, common.RegularExpressionManager.limitTypeSUBTYPEName.getRegExpr()));
-			getParametersPanel().add(new FractionSelectionPanel("amount", this));
-			getParametersPanel().add(new RegExprSelectionPanel("cur", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new IntegerSelectionPanel("Empfänger BLZ", this));
+			getParametersPanel().add(new IntegerSelectionPanel("Empfänger Kontonummer", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Limit", this, common.RegularExpressionManager.limitTypeSUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("Betrag", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -1162,7 +1228,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.ruleSUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new RegExprSelectionPanel("Typ", this, common.RegularExpressionManager.ruleSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -1248,8 +1314,8 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new StringSelectionPanel("name", this));
-			getParametersPanel().add(new RegExprSelectionPanel("type", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
+			getParametersPanel().add(new StringSelectionPanel("Name", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Typ", this, common.RegularExpressionManager.debitTransferTransactionSUBTYPEName.getRegExpr()));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -1700,6 +1766,72 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 	private boolean filterEnable(TriggerView selected) {
 		return !this.filterDisable(selected);
 	}
+	
+	private boolean filterCreateNewRule(TriggerView selected) {
+		boolean result = false;
+		try {
+			result = selected.getState().accept(new TriggerStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleDisabledState(DisabledStateView disabledState)
+						throws ModelException {
+					return true;
+				}
+				@Override
+				public Boolean handleEnabledState(EnabledStateView enabledState)
+						throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+		}
+		return result;
+	}
+	
+	private boolean filterAddToTransactionTrigger(TransactionView selected) {
+		boolean result = false;
+		try {
+			result  = selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotSuccessfulState(
+						NotSuccessfulStateView notSuccessfulState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleSuccessfulState(
+						SuccessfulStateView successfulState) throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotExecutedState(
+						NotExecutedStateView notExecutedState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState)
+						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleNotExecutableState(
+						NotExecutableStateView notExecutableState)
+						throws ModelException {
+					return true;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+		}
+		return result;
+	}
+	
 
 
 }

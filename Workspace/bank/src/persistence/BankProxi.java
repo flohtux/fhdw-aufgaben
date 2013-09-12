@@ -132,8 +132,8 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).updateObservers(event);
     }
-    public void changeInternalFee(final PersistentPercent procentual) 
-				throws PersistenceException{
+    public void changeInternalFee(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeInternalFee(procentual);
     }
     public void changeNameImplementation(final String name) 
@@ -141,15 +141,15 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
-				throws PersistenceException{
+				throws model.NoValidFeeValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToFix(fix);
     }
-    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
-				throws PersistenceException{
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToMixed(fix, procentual, limit);
     }
-    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
-				throws PersistenceException{
+    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToProcentual(procentual);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
+public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
     
     public R handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException, E;
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;
@@ -20,7 +20,6 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleAccountPx(AccountPxView accountPx) throws ModelException, E;
     public R handleAccount(AccountView account) throws ModelException, E;
     public R handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
-    public R handleTrigger(TriggerView trigger) throws ModelException, E;
     public R handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException, E;
     public R handleMoney(MoneyView money) throws ModelException, E;
     public R handleBank(BankView bank) throws ModelException, E;

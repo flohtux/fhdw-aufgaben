@@ -136,6 +136,12 @@ create table DebiTrfTran(
     DbtTrnsfrMn number,
     DbtTrnsfrMnCls number,
     constraint FDbtTrnsfrMn foreign key (DbtTrnsfrMnCls) references Cls (id),
+    DbtTrnsfrInvkrTrggr number,
+    DbtTrnsfrInvkrTrggrCls number,
+    constraint FDbtTrnsfrInvkrTrggr foreign key (DbtTrnsfrInvkrTrggrCls) references Cls (id),
+    DbtTrnsfrPrvdebtra number,
+    DbtTrnsfrPrvdebtraCls number,
+    constraint FDbtTrnsfrPrvdebtra foreign key (DbtTrnsfrPrvdebtraCls) references Cls (id),
     DbtTrnsfrStrnStt number,
     DbtTrnsfrStrnSttCls number,
     constraint FDbtTrnsfrStrnStt foreign key (DbtTrnsfrStrnSttCls) references Cls (id),
@@ -724,28 +730,6 @@ create table UsTmpltCMD(
     constraint FUsTmpltCMDMyCmmnDt foreign key (UsTmpltCMDMyCmmnDtCls) references Cls (id)    
 );
 
-create sequence STrggr nocache;
-
-create table Trggr(
-    id number primary key,
-    Cls number not null,
-    TrggrNm varchar2(2000),
-    TrggrStt number,
-    TrggrSttCls number,
-    constraint FTrggrStt foreign key (TrggrSttCls) references Cls (id),
-    TrggrActn number,
-    TrggrActnCls number,
-    constraint FTrggrActn foreign key (TrggrActnCls) references Cls (id),
-    TrggrSbSrvc number,
-    TrggrSbSrvcCls number,
-    constraint FTrggrSbSrvc foreign key (TrggrSbSrvcCls) references Cls (id),
-    TrggrThis number,
-    TrggrThisCls number,
-    constraint FTrggrThis foreign key (TrggrThisCls) references Cls (id)    
-);
-create index ISttTrggr on Trggr (TrggrStt, TrggrSttCls);
-
-
 create sequence SDbTrNtExec nocache;
 
 create table DbTrNtExec(
@@ -917,6 +901,28 @@ create table DbtTrnSucc(
     DbtTrnSuccThisCls number,
     constraint FDbtTrnSuccThis foreign key (DbtTrnSuccThisCls) references Cls (id)    
 );
+
+create sequence STrggrVl nocache;
+
+create table TrggrVl(
+    id number primary key,
+    Cls number not null,
+    TrggrVlSbSrvc number,
+    TrggrVlSbSrvcCls number,
+    constraint FTrggrVlSbSrvc foreign key (TrggrVlSbSrvcCls) references Cls (id),
+    TrggrVlThis number,
+    TrggrVlThisCls number,
+    constraint FTrggrVlThis foreign key (TrggrVlThisCls) references Cls (id),
+    TrggrNm varchar2(2000),
+    TrggrStt number,
+    TrggrSttCls number,
+    constraint FTrggrStt foreign key (TrggrSttCls) references Cls (id),
+    TrggrActn number,
+    TrggrActnCls number,
+    constraint FTrggrActn foreign key (TrggrActnCls) references Cls (id)    
+);
+create index ISttTrggr on TrggrVl (TrggrStt, TrggrSttCls);
+
 
 create sequence SRl nocache;
 
@@ -1148,7 +1154,7 @@ create table TrggrRls(
     rls number not null,
     Cls number not null,
     constraint FTrggrRlsCls foreign key(Cls) references Cls(id),
-    constraint FTrggrRlsfrm foreign key(frm) references Trggr(id)
+    constraint FTrggrRlsfrm foreign key(frm) references TrggrVl(id)
 );
 create index IFrmTrggrRls on TrggrRls(frm);
 

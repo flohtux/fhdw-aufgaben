@@ -53,6 +53,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
         this.standardHandling(noLimit);
     }
+    public void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException{
+        this.standardHandling(noTrigger);
+    }
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
     }
@@ -125,11 +128,11 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException{
         this.standardHandling(errorDisplay);
     }
-    public void handleEuro(PersistentEuro euro) throws PersistenceException{
-        this.standardHandling(euro);
-    }
     public void handleTrigger(PersistentTrigger trigger) throws PersistenceException{
         this.standardHandling(trigger);
+    }
+    public void handleEuro(PersistentEuro euro) throws PersistenceException{
+        this.standardHandling(euro);
     }
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.standardHandling(templateState);

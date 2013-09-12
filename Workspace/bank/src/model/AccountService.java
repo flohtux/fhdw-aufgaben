@@ -549,6 +549,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().getAccount().addToTransactionTemplate(transaction, debitTransfer);
         getThis().signalChanged(true);
     }
+    public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
+				throws PersistenceException{
+        getThis().getAccount().addToTransactionTrigger(transaction, type);
+        getThis().signalChanged(true);
+    }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
 	    getThis().getAccount().addToTransaction(transaction, debitTransfer);

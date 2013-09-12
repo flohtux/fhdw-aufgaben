@@ -1,6 +1,8 @@
 
 package model;
 
+import common.Fraction;
+
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
@@ -240,20 +242,21 @@ public class Percent extends PersistentObject implements PersistentPercent{
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeValue(final common.Fraction value) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	if(Fraction.Null.greater(value) || value.greater(new Fraction(100, 1))) {
+    		throw new NoValidPercentValueException();
+    	}
+    	getThis().setValue(value.divide(new Fraction(100, 1)));
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

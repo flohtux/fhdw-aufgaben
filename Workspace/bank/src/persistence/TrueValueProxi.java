@@ -96,6 +96,10 @@ public class TrueValueProxi extends BooleanValueProxi implements PersistentTrueV
 				throws PersistenceException{
         return ((PersistentTrueValue)this.getTheObject()).isTrue();
     }
+    public PersistentBooleanValue or(final PersistentBooleanValue value) 
+				throws PersistenceException{
+        return ((PersistentTrueValue)this.getTheObject()).or(value);
+    }
 
     
 }

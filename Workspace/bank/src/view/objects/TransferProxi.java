@@ -37,6 +37,20 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
             money = view.objects.ViewProxi.createProxi(money$Info,connectionKey);
             money.setToString(money$Info.getToString());
         }
+        ViewProxi invokerTrigger = null;
+        String invokerTrigger$String = (String)resultTable.get("invokerTrigger");
+        if (invokerTrigger$String != null) {
+            common.ProxiInformation invokerTrigger$Info = common.RPCConstantsAndServices.createProxiInformation(invokerTrigger$String);
+            invokerTrigger = view.objects.ViewProxi.createProxi(invokerTrigger$Info,connectionKey);
+            invokerTrigger.setToString(invokerTrigger$Info.getToString());
+        }
+        ViewProxi previousDebitTransfer = null;
+        String previousDebitTransfer$String = (String)resultTable.get("previousDebitTransfer");
+        if (previousDebitTransfer$String != null) {
+            common.ProxiInformation previousDebitTransfer$Info = common.RPCConstantsAndServices.createProxiInformation(previousDebitTransfer$String);
+            previousDebitTransfer = view.objects.ViewProxi.createProxi(previousDebitTransfer$Info,connectionKey);
+            previousDebitTransfer.setToString(previousDebitTransfer$Info.getToString());
+        }
         ViewProxi stornoState = null;
         String stornoState$String = (String)resultTable.get("stornoState");
         if (stornoState$String != null) {
@@ -44,7 +58,7 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        TransferView result$$ = new Transfer((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        TransferView result$$ = new Transfer((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,(DebitTransferView)previousDebitTransfer,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -56,21 +70,33 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
         int index = originalIndex;
         if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
         if(this.getState() != null) index = index - 1;
+        if(index == 0 && this.getInvokerTrigger() != null) return new InvokerTriggerDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getInvokerTrigger());
+        if(this.getInvokerTrigger() != null) index = index - 1;
+        if(index == 0 && this.getPreviousDebitTransfer() != null) return new PreviousDebitTransferDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPreviousDebitTransfer());
+        if(this.getPreviousDebitTransfer() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getState() == null ? 0 : 1);
+            + (this.getState() == null ? 0 : 1)
+            + (this.getInvokerTrigger() == null ? 0 : 1)
+            + (this.getPreviousDebitTransfer() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getState() == null ? true : false);
+            && (this.getState() == null ? true : false)
+            && (this.getInvokerTrigger() == null ? true : false)
+            && (this.getPreviousDebitTransfer() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getState() != null && this.getState().equals(child)) return result;
         if(this.getState() != null) result = result + 1;
+        if(this.getInvokerTrigger() != null && this.getInvokerTrigger().equals(child)) return result;
+        if(this.getInvokerTrigger() != null) result = result + 1;
+        if(this.getPreviousDebitTransfer() != null && this.getPreviousDebitTransfer().equals(child)) return result;
+        if(this.getPreviousDebitTransfer() != null) result = result + 1;
         return -1;
     }
     

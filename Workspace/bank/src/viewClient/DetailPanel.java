@@ -739,6 +739,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoLimit(view.NoLimitView object){
         result = new NoLimitDefaultDetailPanel(handler, object);
     }
+    public void handleNoTrigger(view.NoTriggerView object){
+        result = new NoTriggerDefaultDetailPanel(handler, object);
+    }
     public void handleAdministrator(view.AdministratorView object){
         result = new AdministratorDefaultDetailPanel(handler, object);
     }
@@ -1066,14 +1069,14 @@ class IncomingAccountRuleDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "accountNumber", this.getAnything().getAccountNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "Kontonummer", this.getAnything().getAccountNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(IncomingAccountRule$$accountNumber, panel);
         }catch(view.ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "bankNumber", this.getAnything().getBankNumber());
+            BaseTypePanel panel = new IntegerPanel(this, "BLZ", this.getAnything().getBankNumber());
             this.getScrollablePane().add(panel);
             this.panels.put(IncomingAccountRule$$bankNumber, panel);
         }catch(view.ModelException e){
@@ -1120,6 +1123,20 @@ class NoLimitDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NoLimitView getAnything(){
         return (view.NoLimitView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NoTriggerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NoTriggerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NoTriggerView getAnything(){
+        return (view.NoTriggerView)this.anything;
     }
 }
 
@@ -1218,6 +1235,8 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
+    protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1268,7 +1287,7 @@ class SubjectRuleDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new StringPanel(this, "subject", this.getAnything().getSubject());
+            BaseTypePanel panel = new StringPanel(this, "Betreff", this.getAnything().getSubject());
             this.getScrollablePane().add(panel);
             this.panels.put(SubjectRule$$subject, panel);
         }catch(view.ModelException e){
@@ -1405,6 +1424,8 @@ class DebitDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
+    protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1619,7 +1640,7 @@ class TriggerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new StringPanel(this, "name", this.getAnything().getName());
+            BaseTypePanel panel = new StringPanel(this, "Name", this.getAnything().getName());
             this.getScrollablePane().add(panel);
             this.panels.put(Trigger$$name, panel);
         }catch(view.ModelException e){

@@ -54,6 +54,10 @@ public abstract class BooleanValueProxi extends PersistentProxi implements Persi
 				throws PersistenceException{
         return ((PersistentBooleanValue)this.getTheObject()).isTrue();
     }
+    public PersistentBooleanValue or(final PersistentBooleanValue value) 
+				throws PersistenceException{
+        return ((PersistentBooleanValue)this.getTheObject()).or(value);
+    }
 
     
 }

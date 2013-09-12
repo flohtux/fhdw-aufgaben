@@ -133,6 +133,7 @@ public class ConnectionHandler {
     public IncomingAccountRuleFacade theIncomingAccountRuleFacade;
     public AmountFacade theAmountFacade;
     public NoLimitFacade theNoLimitFacade;
+    public NoTriggerFacade theNoTriggerFacade;
     public AdministratorFacade theAdministratorFacade;
     public CreateBankCommandFacade theCreateBankCommandFacade;
     public DebitTransferFacade theDebitTransferFacade;
@@ -186,6 +187,7 @@ public class ConnectionHandler {
     public MoneyFacade theMoneyFacade;
     public BankFacade theBankFacade;
     public DebitTransferSuccessfulFacade theDebitTransferSuccessfulFacade;
+    public TriggerValueFacade theTriggerValueFacade;
     public RuleFacade theRuleFacade;
     public EventWrapperFacade theEventWrapperFacade;
     public AccountServiceNotExecutedFacade theAccountServiceNotExecutedFacade;
@@ -246,6 +248,7 @@ public class ConnectionHandler {
             this.theIncomingAccountRuleFacade= new IncomingAccountRuleFacade(this.schemaName, this.con);
             this.theAmountFacade= new AmountFacade(this.schemaName, this.con);
             this.theNoLimitFacade= new NoLimitFacade(this.schemaName, this.con);
+            this.theNoTriggerFacade= new NoTriggerFacade(this.schemaName, this.con);
             this.theAdministratorFacade= new AdministratorFacade(this.schemaName, this.con);
             this.theCreateBankCommandFacade= new CreateBankCommandFacade(this.schemaName, this.con);
             this.theDebitTransferFacade= new DebitTransferFacade(this.schemaName, this.con);
@@ -299,6 +302,7 @@ public class ConnectionHandler {
             this.theMoneyFacade= new MoneyFacade(this.schemaName, this.con);
             this.theBankFacade= new BankFacade(this.schemaName, this.con);
             this.theDebitTransferSuccessfulFacade= new DebitTransferSuccessfulFacade(this.schemaName, this.con);
+            this.theTriggerValueFacade= new TriggerValueFacade(this.schemaName, this.con);
             this.theRuleFacade= new RuleFacade(this.schemaName, this.con);
             this.theEventWrapperFacade= new EventWrapperFacade(this.schemaName, this.con);
             this.theAccountServiceNotExecutedFacade= new AccountServiceNotExecutedFacade(this.schemaName, this.con);

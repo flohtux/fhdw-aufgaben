@@ -17,6 +17,8 @@ public abstract class ExecuteExceptionDirectVisitor implements ExecuteExceptionV
     
     public abstract void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException;
     
+    public abstract void handleTriggerCyclicException(TriggerCyclicException triggerCyclicException) throws ModelException;
+    
     public abstract void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException;
     
     

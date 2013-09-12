@@ -4,15 +4,15 @@ server Server {
 	one-to-one (server-only access) Service service;
 }
 abstract server Service{
-	String changePassword@@Passwort_ändern(String newPassword1 PASSWORD, String newPassword2 PASSWORD) throws PasswordException;
+	String changePassword@@Passwort_ändern(String newPassword1@@neues_Passwort PASSWORD, String newPassword2@@neues_Passwort_wiederholen PASSWORD) throws PasswordException;
 }
 server Administrator extends Service {
 	observe CurrencyManager currencyManager;
 	observe BankPx ** banks;
-	void createBank@@Bank_erstellen(String name);
+	void createBank@@Bank_erstellen(String name@@Name);
 	void changeName@@Namen_ändern(Bank bank, String name@@Name);
-	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currencyType, Fraction rate);
-	Bank searchBankByBankNumber(Integer bankNum) throws InvalidBankNumberException;
+	void changeCurrencyRateGUI@@Wechselkurs_festlegen(CurrencySUBTYPEName currencyType@@Währung, Fraction rate@@Kurs);
+	Bank searchBankByBankNumber@@Bank_suchen(Integer bankNum@@BLZ) throws InvalidBankNumberException;
 }
 
 singleton CurrencyManager@@Zentralbank {
@@ -36,14 +36,17 @@ server BankService extends Service {
 	skip-view prior final one-to-one (server-only bankServices) Bank bank;
 	void createAccount@@Neues_Konto(CurrencySUBTYPEName currencyType@@Währung);
 	void closeAccount@@Konto_schließen(Account acc) throws CloseAccountNoPossibleException;
-	void closeAccount@@Konto_übertragen(Account acc, Account transAcc{bank;currentAccounts}) throws ExecuteException, CloseAccountNoPossibleException;
-	void changeMaxLimit@@Obergrenze_festlegen(LimitAccount limit,Fraction amount@@Obergrenze);
-	void changeMinLimit@@Untergrenze_festlegen(LimitAccount limit, Fraction amount@@Untergrenze);
+	void closeAccount@@Konto_übertragen(Account acc, Account transAcc@@Zielkonto{bank;currentAccounts}) throws ExecuteException, CloseAccountNoPossibleException;
+	void changeMaxLimit@@Obergrenze_festlegen(LimitAccount limit,Fraction amount@@Obergrenze) throws MaxLimitLowerThenMinLimitException;
+	void changeMinLimit@@Untergrenze_festlegen(LimitAccount limit, Fraction amount@@Untergrenze) throws MinLimitHigherMaxLimitException;
 	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit);
 	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
-	void findAccount@@Konto_finden(Integer accountNumber) throws UserException;
-	void changeTransactionFee@@Gebühren_ändern(TransactionFee dummy, TransactionFeeSUBTYPEName newFee@@Gebührentyp, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency, Fraction procentual@@variable_Gebühren);
-	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent);
+
+	void findAccount@@Konto_finden(Integer accountNumber@@Kontonummer) throws UserException;
+	void changeTransactionFeeToFixFee@@Fixe_Gebühren(TransactionFee dummy, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung) throws NoValidFeeValueException;
+	void changeTransactionFeeToProcentualFee@@Procentuale_Gebühren(TransactionFee dummy, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException;
+	void changeTransactionFeeToMixedFee@@Gemischte_Gebühren(TransactionFee dummy,  Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency@@Währung, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException, NoValidFeeValueException;
+	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent) throws NoValidPercentValueException;
 }
 class Bank {
 	indexed Integer bankNumber@@BLZ;
@@ -58,10 +61,10 @@ class Bank {
 	active void createAccount(CurrencySUBTYPEName currencyType);
 	void sendTransfer(DebitTransfer debitTransfer) throws ExecuteException;
 	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
-	void changeTransactionFeeToFix(Money fix);
-	void changeTransactionFeeToProcentual(Percent procentual);
-	void changeTransactionFeeToMixed(Money fix, Percent procentual, Money limit);
-	void changeInternalFee(Percent procentual);
+	void changeTransactionFeeToFix(Money fix) throws NoValidFeeValueException;
+	void changeTransactionFeeToProcentual(Fraction procentual) throws NoValidPercentValueException; 
+	void changeTransactionFeeToMixed(Money fix, Fraction procentual, Money limit) throws NoValidPercentValueException, NoValidFeeValueException;
+	void changeInternalFee(Fraction procentual) throws NoValidPercentValueException;
 	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
 }
 
@@ -80,11 +83,11 @@ server AccountService extends Service {
 	void createDebit@@Neue_Lastschrift();
 	void createTemplate@@Neue_Vorlage(DebitTransferTransactionSUBTYPEName type@@Buchungstyp);
 	void createTransaction@@Neue_Transaktion();
-	void createTrigger@@Neue_Folgebuchung(String name, DebitTransferTransactionSUBTYPEName type);
-	void enable(Trigger t checked) throws NoRuleDefinitionException;
-	void disable(Trigger t checked);
-	void createNewRule(Trigger t, RuleSUBTYPEName type) throws DoubleRuleDefinitionException;
 
+	void createTrigger@@Neue_Folgebuchung(String name@@Name, DebitTransferTransactionSUBTYPEName type@@Typ);
+	void enable@@Aktivieren(Trigger t checked) throws NoRuleDefinitionException;
+	void disable@@Deaktivieren(Trigger t checked);
+	void createNewRule@@Neue_Regel_erstellen(Trigger t checked, RuleSUBTYPEName type@@Typ) throws DoubleRuleDefinitionException;
 	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	no-view void changeReceiverBank(DebitTransfer trans checked, Integer receiverBankNumber);
@@ -92,9 +95,10 @@ server AccountService extends Service {
 	no-view void changeMoney(DebitTransfer trans checked, Fraction newAmount);
 	no-view void changeSubject(DebitTransfer trans checked, String subject);
 	no-view void changeCurrency(DebitTransfer trans checked, CurrencySUBTYPEName currency);
-	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber,Integer receiverAccNumber, LimitTypeSUBTYPEName limitType, Fraction amount, CurrencySUBTYPEName cur) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
+	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber@@Empfänger_BLZ,Integer receiverAccNumber@@Empfänger_Kontonummer, LimitTypeSUBTYPEName limitType@@Limit, Fraction amount@@Betrag, CurrencySUBTYPEName cur@@Währung) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
 	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
+void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked, DebitTransferSUBTYPEName type@@Buchung);
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
 	void remove@@Erlaubnis_entziehen(DebitGrant grant);
 
@@ -162,7 +166,9 @@ class Account {
 
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
+	void addToTransactionTrigger(Transaction transaction, DebitTransferSUBTYPEName type);
 
+	void checkAllTriggers(DebitTransfer incomingDebitTransfer);
 }
 
 class AccountPx {
@@ -202,11 +208,14 @@ class Amount {
 class LimitAccount {
 	no-view LimitType minLimit;
 	no-view LimitType maxLimit;
+	void changeMaxLimit(Money money) throws MaxLimitLowerThenMinLimitException;
+	void changeMinLimit(Money money) throws MinLimitHigherMaxLimitException;
 	void checkLimit(Money money) throws LimitViolatedException;
 }
 
 abstract class BooleanValue(TrueValue,FalseValue){
 	extern boolean isTrue();
+	BooleanValue or(BooleanValue value);
 }
 
 abstract string-factory class LimitType(NoLimit) {
@@ -218,15 +227,15 @@ class Limit extends LimitType{
 
 string-factory abstract class TransactionFee{}
 
-class MixedFee extends TransactionFee{
+class MixedFee@@gemischte_Gebühren extends TransactionFee{
 	prior FixTransactionFee fix;
 	prior ProcentualFee procentual;
 	prior Money limit;
 }
-class ProcentualFee extends TransactionFee{
+class ProcentualFee@@prozentuale_Gebühren extends TransactionFee{
 	prior no-view Percent percent;
 }
-class FixTransactionFee extends TransactionFee {
+class FixTransactionFee@@fixe_Gebühren extends TransactionFee {
 	prior no-view Money value;
 }
 
@@ -235,6 +244,7 @@ class InternalFee {
 }
 class Percent {
 	prior Fraction value;
+	void changeValue(Fraction value) throws NoValidPercentValueException;
 }
 
 string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
@@ -249,24 +259,27 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	event DebitTransferDoubleState changeState(DebitTransferState newState);
 }
 
-abstract class DebitTransfer extends DebitTransferTransaction{
+string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Money money@@Betrag;
+	TriggerValue invokerTrigger;
+	DebitTransfer previousDebitTransfer##prvdebtra;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
   event void changeReceiverBank(Integer receiverBankNumber);
 	event void changeReceiverAccount(Integer receiverAccountNumber);
 	event void changeMoney(Fraction newAmount);
 	event void changeCurrency(Currency currency);
+	BooleanValue contains(Trigger trigger);
 }
 
-class Transfer extends DebitTransfer {
+class Transfer@@Überweisung extends DebitTransfer {
 
 }
-class Debit extends DebitTransfer {}
+class Debit@@Lastschrift extends DebitTransfer {}
 
-class Transaction extends DebitTransferTransaction {
+class Transaction@@Transaktion extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
 	void addToTransaction(DebitTransfer ** debitTransfer);
 	void removeFromTransaction(DebitTransfer ** debitTransfer);
@@ -281,14 +294,22 @@ class DebitGrant {
 	prior LimitType limits;
 }
 
-class Trigger{
-	prior String name;
+abstract class TriggerValue {
+	abstract TriggerValue copy();
+}
+
+class NoTrigger extends TriggerValue{}
+
+class Trigger extends TriggerValue{
+	prior String name@@Name;
 	one-to-one (no-view master) TriggerState state;
 	DebitTransferTransaction action;
 	Rule ** rules;
 	void enable() throws NoRuleDefinitionException;
 	void disable();
 	void addRule(Rule rule) throws DoubleRuleDefinitionException;
+	void executeTrigger(DebitTransfer incomingDebitTransfer, AccountService accService);
+	BooleanValue isEnabled();
 }
 
 abstract class TriggerState (EnabledState, DisabledState) {}
@@ -297,26 +318,26 @@ string-factory abstract class Rule{
 	BooleanValue check(DebitTransfer debitTransfer);
 }
 
-class MoneyRule extends Rule{
+class MoneyRule@@Geldregel extends Rule{
 	no-view prior Currency currency;
 	skip-view Amount minLimit;
 	skip-view Amount maxLimit;
-	void changeMin(Fraction minValue);
-	void changeMax(Fraction maxValue);
+	void changeMin(Fraction minValue@@Min_Betrag);
+	void changeMax(Fraction maxValue@@Max_Betrag);
 	BooleanValue checkMin(Fraction minValue);
 	BooleanValue checkMax(Fraction maxValue);
 }
 
-class SubjectRule extends Rule{
-	String subject;
+class SubjectRule@@Betreffregel extends Rule{
+	String subject@@Betreff;
 	void changeSubject(String subject);
 }
 
-class IncomingAccountRule##IncAccRule extends Rule{
-	Integer accountNumber;
-	Integer bankNumber;
-	void changeAccountNumber(Integer accNum);
-	void changeBankNumber(Integer bankNum);
+class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
+	Integer accountNumber@@Kontonummer;
+	Integer bankNumber@@BLZ;
+	void changeAccountNumber(Integer accNum@@Kontonummer);
+	void changeBankNumber(Integer bankNum@@BLZ);
 }
 
 class DebitTransferDoubleState##DebTraStaDo {
@@ -353,6 +374,12 @@ exception DebitNotGrantedException extends DebitException{}
 exception RuleNotMatchedException {}
 exception DoubleRuleDefinitionException {}
 exception NoRuleDefinitionException {}
+exception MinLimitHigherMaxLimitException{}
+exception MaxLimitLowerThenMinLimitException{}
+exception NoValidPercentValueException{}
+exception NoValidFeeValueException{}
+
+exception TriggerCyclicException extends ExecuteException{}
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
 

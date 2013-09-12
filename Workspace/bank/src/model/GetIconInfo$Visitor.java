@@ -1,17 +1,23 @@
 package model;
 
 import model.visitor.DebitTransferStateVisitor;
+import model.visitor.TriggerStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountGrantedDebitGrant;
 import persistence.PersistentAccountPx;
 import persistence.PersistentAccountReceivedDebitGrant;
+import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
 import persistence.PersistentCurrencyManager;
+import persistence.PersistentDebit;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentDisabledState;
+import persistence.PersistentEnabledState;
 import persistence.PersistentExecutedState;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentInternalFee;
@@ -24,12 +30,31 @@ import persistence.PersistentNotSuccessfulState;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
+import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
+import persistence.PersistentTrigger;
+import persistence.PersistentTriggerListe;
 
 public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 
 	int result = 0;
 	
+	@Override
+	public void handleTrigger(PersistentTrigger trigger) throws PersistenceException {
+		trigger.getState().accept(new TriggerStateVisitor() {
+			
+			@Override
+			public void handleEnabledState(PersistentEnabledState enabledState)	throws PersistenceException {
+				result = common.IconInfoConstants.PositiveIconNumber;
+			}
+			
+			@Override
+			public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
+				result = common.IconInfoConstants.NegativeIconNumber;
+			}
+		});
+	}
+		
 	@Override
 	protected void standardHandling(Anything anything) throws PersistenceException {
 		result = 0;	
@@ -43,12 +68,14 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	
 	@Override
 	public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException {
-		//TODO ausgehende Grants
+		result = common.IconInfoConstants.EinzugOutIconNumber;
+		//TODO ausgehende Grants, Icon wird in der Oberfläche nicht angezeigt
 	}
 	
 	@Override
 	public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException {
-		// TODO eingehender Grant
+		result = common.IconInfoConstants.EinzugInIconNumber;
+		// TODO eingehender Grant, Icon wird in der Oberfläche nicht angezeigt
 	}
 	
 	@Override
@@ -60,6 +87,11 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
         result = common.IconInfoConstants.AccountIconNumber;
 	}
 	
+	@Override
+	public void handleBankFees(PersistentBankFees bankFees)	throws PersistenceException {
+		result = common.IconInfoConstants.GebührenIconNumber;
+	}
+	
 	public void handleBankPx(PersistentBankPx bank) throws PersistenceException{
         result = common.IconInfoConstants.BankIconNumber;
 	}
@@ -68,11 +100,6 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException {
 		result = common.IconInfoConstants.KontostandIconNumber;
 	}
-	
-//	TODO Einzugsermächtigung für ...
-//	@Override
-//	public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException {
-//	}
 
 	@Override
 	public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted)	throws PersistenceException {
@@ -119,7 +146,27 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	
 	@Override
 	public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
-		transfer.getState().accept(new DebitTransferStateVisitor() {
+		this.handleDebitTransferTransaction(transfer);
+	}
+	
+	@Override
+	public void handleDebit(PersistentDebit debit) throws PersistenceException {
+		this.handleDebitTransferTransaction(debit);
+	}
+	
+	@Override
+	public void handleTransaction(PersistentTransaction transaction)
+			throws PersistenceException {
+		this.handleDebitTransferTransaction(transaction);
+	}
+	
+	@Override
+	public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException {
+		result = common.IconInfoConstants.FolgebuchungIconNumber;
+	}
+	
+	private void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException {
+		debitTransferTransaction.getState().accept(new DebitTransferStateVisitor() {
 			
 			@Override
 			public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
@@ -156,5 +203,4 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			}
 		});
 	}
-	
 }

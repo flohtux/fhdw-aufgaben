@@ -27,7 +27,6 @@ import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
 import persistence.PersistentBankFees;
-import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentChangeNameCommand;
 import persistence.PersistentCreateAccountCommand;
@@ -47,7 +46,6 @@ import persistence.PersistentServer;
 import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
-import persistence.Procdure;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -444,9 +442,11 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeInternalFee(final PersistentPercent procentual) 
-				throws PersistenceException{
-    	final PersistentInternalFee newFee = InternalFee.createInternalFee(procentual);
+    public void changeInternalFee(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
+    	percent.changeValue(procentual);
+    	final PersistentInternalFee newFee = InternalFee.createInternalFee(percent);
     	getThis().getBankFees().changeInternalFee(newFee);
     }
     public void changeNameImplementation(final String name) 
@@ -454,18 +454,28 @@ public class Bank extends PersistentObject implements PersistentBank{
         getThis().setName(name);
     }
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
-				throws PersistenceException{
+				throws model.NoValidFeeValueException, PersistenceException{
+    	if(Fraction.Null.greater(fix.getAmount().getBalance())) {
+    		throw new NoValidFeeValueException();
+    	}
     	final PersistentFixTransactionFee newFee = FixTransactionFee.createFixTransactionFee(fix);
         getThis().getBankFees().changeTransactionFee(newFee);
     }
-    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
-				throws PersistenceException{
-    	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(procentual), limit);
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
+    	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
+    	percent.changeValue(procentual);
+    	if(Fraction.Null.greater(fix.getAmount().getBalance()) || Fraction.Null.greater(limit.getAmount().getBalance())) {
+    		throw new NoValidFeeValueException();
+    	}
+    	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(percent), limit);
         getThis().getBankFees().changeTransactionFee(newFee);
     }
-    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
-				throws PersistenceException{
-    	final PersistentProcentualFee newFee = ProcentualFee.createProcentualFee(procentual); 
+    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
+    	percent.changeValue(procentual);
+    	final PersistentProcentualFee newFee = ProcentualFee.createProcentualFee(percent); 
         getThis().getBankFees().changeTransactionFee(newFee);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -525,7 +535,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	 
     	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
     	acc.getDebitTransferTransactions().add(debitTransfer);
-        
+    	System.out.println("receiveFertig"+debitTransfer.getReceiverAccountNumber());
         
     }
     public PersistentAccount searchAccountByAccNumber(final long accNum) 
@@ -543,9 +553,10 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.ExecuteException, PersistenceException{
+    	System.out.println("sendAN"+debitTransfer.getReceiverAccountNumber());
     	try {
         	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
-    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney());
+    		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney(), getThis(), debitTransfer.getReceiverBankNumber());
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
     		debitTransfer.getSender().setMoney(newAccountMoney);
@@ -555,6 +566,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     		debitTransfer.changeState(NotExecutedState.createNotExecutedState());
     		throw e;
     	}
+    	System.out.println("sendFertig"+debitTransfer.getReceiverAccountNumber());
     }
     
     
@@ -565,12 +577,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     /**
      * Calculate the Fee of <money>.
+     * @param m 
+     * @param l 
      * @return
      * @throws PersistenceException 
      * @throws LimitViolatedException 
      */
-    private PersistentMoney calculateFee(final PersistentMoney money) throws PersistenceException, LimitViolatedException {
-    	return getThis().getBankFees().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
+    private PersistentMoney calculateFee(final PersistentMoney money, PersistentBank senderBank, long receiverBankNumber) throws PersistenceException, LimitViolatedException {
+    	PersistentMoney fee =  getThis().getBankFees().getFee().accept(new TransactionFeeReturnExceptionVisitor<PersistentMoney, LimitViolatedException>() {
 			@Override
 			public PersistentMoney handleMixedFee(PersistentMixedFee mixedFee)
 					throws PersistenceException, LimitViolatedException {
@@ -597,6 +611,10 @@ public class Bank extends PersistentObject implements PersistentBank{
 						procentualFee.getPercent().getValue())), money.getCurrency()); 
 			}
 		});
+    	if (senderBank.getBankNumber() == receiverBankNumber) {
+    		fee = fee.subtract(fee.multiply(senderBank.getBankFees().getInternalFee().getPercent().getValue()))	;
+    	}
+    	return fee;
     }
     
     /* End of protected part that is not overridden by persistence generator */

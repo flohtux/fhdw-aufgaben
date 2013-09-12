@@ -5,22 +5,37 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferTransactionVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
+import model.visitor.TriggerStateReturnVisitor;
+import model.visitor.TriggerValueExceptionVisitor;
+import model.visitor.TriggerValueReturnExceptionVisitor;
+import model.visitor.TriggerValueReturnVisitor;
+import model.visitor.TriggerValueVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
+import persistence.PersistentAccountService;
+import persistence.PersistentBooleanValue;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
-import persistence.PersistentObject;
+import persistence.PersistentDisabledState;
+import persistence.PersistentEnabledState;
 import persistence.PersistentProxi;
 import persistence.PersistentRule;
+import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerState;
+import persistence.PersistentTriggerValue;
 import persistence.Predcate;
+import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 import persistence.TriggerProxi;
@@ -29,13 +44,8 @@ import persistence.Trigger_RulesProxi;
 
 /* Additional import section end */
 
-public class Trigger extends PersistentObject implements PersistentTrigger{
+public class Trigger extends model.TriggerValue implements PersistentTrigger{
     
-    /** Throws persistence exception if the object with the given id does not exist. */
-    public static PersistentTrigger getById(long objectId) throws PersistenceException{
-        long classId = ConnectionHandler.getTheConnectionHandler().theTriggerFacade.getClass(objectId);
-        return (PersistentTrigger)PersistentProxi.createProxi(objectId, classId);
-    }
     
     public static PersistentTrigger createTrigger(String name) throws PersistenceException{
         return createTrigger(name,false);
@@ -109,11 +119,11 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     
     public Trigger provideCopy() throws PersistenceException{
         Trigger result = this;
-        result = new Trigger(this.name, 
+        result = new Trigger(this.subService, 
+                             this.This, 
+                             this.name, 
                              this.state, 
                              this.action, 
-                             this.subService, 
-                             this.This, 
                              this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -126,18 +136,14 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     protected PersistentTriggerState state;
     protected PersistentDebitTransferTransaction action;
     protected Trigger_RulesProxi rules;
-    protected SubjInterface subService;
-    protected PersistentTrigger This;
     
-    public Trigger(String name,PersistentTriggerState state,PersistentDebitTransferTransaction action,SubjInterface subService,PersistentTrigger This,long id) throws persistence.PersistenceException {
+    public Trigger(SubjInterface subService,PersistentTriggerValue This,String name,PersistentTriggerState state,PersistentDebitTransferTransaction action,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super(id);
+        super((SubjInterface)subService,(PersistentTriggerValue)This,id);
         this.name = name;
         this.state = state;
         this.action = action;
-        this.rules = new Trigger_RulesProxi(this);
-        this.subService = subService;
-        if (This != null && !(this.equals(This))) this.This = This;        
+        this.rules = new Trigger_RulesProxi(this);        
     }
     
     static public long getTypeId() {
@@ -162,14 +168,6 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
             ConnectionHandler.getTheConnectionHandler().theTriggerFacade.actionSet(this.getId(), getAction());
         }
         this.getRules().store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theTriggerFacade.subServiceSet(this.getId(), getSubService());
-        }
-        if(!this.equals(this.getThis())){
-            this.getThis().store();
-            ConnectionHandler.getTheConnectionHandler().theTriggerFacade.ThisSet(this.getId(), getThis());
-        }
         
     }
     
@@ -212,35 +210,6 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     public Trigger_RulesProxi getRules() throws PersistenceException {
         return this.rules;
     }
-    public SubjInterface getSubService() throws PersistenceException {
-        return this.subService;
-    }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.subService)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theTriggerFacade.subServiceSet(this.getId(), newValue);
-        }
-    }
-    protected void setThis(PersistentTrigger newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if (newValue.equals(this)){
-            this.This = null;
-            return;
-        }
-        if(newValue.equals(this.This)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.This = (PersistentTrigger)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theTriggerFacade.ThisSet(this.getId(), newValue);
-        }
-    }
     public PersistentTrigger getThis() throws PersistenceException {
         if(this.This == null){
             PersistentTrigger result = new TriggerProxi(this.getId());
@@ -249,6 +218,18 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
         }return (PersistentTrigger)this.This;
     }
     
+    public void accept(TriggerValueVisitor visitor) throws PersistenceException {
+        visitor.handleTrigger(this);
+    }
+    public <R> R accept(TriggerValueReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleTrigger(this);
+    }
+    public <E extends UserException>  void accept(TriggerValueExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleTrigger(this);
+    }
+    public <R, E extends UserException> R accept(TriggerValueReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleTrigger(this);
+    }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
         visitor.handleTrigger(this);
     }
@@ -335,6 +316,13 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    public PersistentTriggerValue copy() 
+				throws PersistenceException{
+    	PersistentTrigger result = Trigger.createTrigger(getThis().getName());
+    	result.setAction(getThis().getAction());
+    	result.setState(getThis().getState());
+    	return result;
+    }
     public void disable() 
 				throws PersistenceException{
     	getThis().setState(DisabledState.getTheDisabledState());
@@ -347,6 +335,47 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     	getThis().setState(EnabledState.getTheEnabledState());
         
     }
+    public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
+				throws PersistenceException{
+    	System.out.println("execTrigger");
+    	
+    	if (!getThis().isEnabled().isTrue()) {
+    		return;
+    	}
+    	try {
+			getThis().getRules().applyToAllException(new ProcdureException<PersistentRule, RuleNotMatchedException>() {
+				public void doItTo(PersistentRule argument) throws PersistenceException, RuleNotMatchedException {
+					if (!(argument.check(incomingDebitTransfer).isTrue())) {
+						throw new RuleNotMatchedException();
+					}
+					System.out.println("matched");
+				}
+			});
+		} catch (RuleNotMatchedException e) {
+			// trigger action will not be executed
+			return;
+		}
+		System.out.println("execute independent");
+		PersistentDebitTransferTransaction copy = getThis().getAction().copy();
+		accService.getAccount().getDebitTransferTransactions().add(copy);
+		copy.changeState(NotExecutedState.createNotExecutedState());
+		copy.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				transfer.setPreviousDebitTransfer(incomingDebitTransfer);
+			}
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				debit.setPreviousDebitTransfer(incomingDebitTransfer);
+			}
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {}
+		});
+		copy.execute(accService);
+        
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	 getThis().setState(DisabledState.getTheDisabledState());
@@ -354,6 +383,17 @@ public class Trigger extends PersistentObject implements PersistentTrigger{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         
+    }
+    public PersistentBooleanValue isEnabled() 
+				throws PersistenceException{
+        return getThis().getState().accept(new TriggerStateReturnVisitor<PersistentBooleanValue>() {
+			public PersistentBooleanValue handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException {
+				return FalseValue.getTheFalseValue();
+			}
+			public PersistentBooleanValue handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException {
+				return TrueValue.getTheTrueValue();
+			}
+		});
     }
     
     

@@ -96,7 +96,7 @@ public class SubjectRule extends view.objects.Rule implements SubjectRuleView{
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
-                if(rowIndex == 0) return "subject";
+                if(rowIndex == 0) return "Betreff";
                 rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return this.getSubject();

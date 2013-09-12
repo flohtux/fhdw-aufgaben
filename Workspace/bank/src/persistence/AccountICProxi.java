@@ -160,6 +160,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).addToTransactionTemplate(transaction, debitTransfer);
     }
+    public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).addToTransactionTrigger(transaction, type);
+    }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).addToTransaction(transaction, debitTransfer);
@@ -179,6 +183,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
+    }
+    public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).checkAllTriggers(incomingDebitTransfer);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

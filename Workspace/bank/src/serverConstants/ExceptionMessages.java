@@ -15,6 +15,9 @@ public class ExceptionMessages {
 	public static final String NoRouleDefinitionMessage = "Es muss mindestens eine Regel definiert werden!";
 	public static final String MaximumIsLowerThenMinimumMessage = "Das Maximum muss größer oder Gleich dem Minimum sein!!";
 	public static final String MinimumIsHigerThenMaximumMessage = "Das Minimum mus kleiner oder gleich dem Maximum sein!!";
+	public static final String TriggerCyclicExceptionMessage = "Ein Zyklus in der Folgebuchung!!!";
+	public static final String NoValidPercentValueMessage = "Kein gültiger Wert für Prozent.";
+	public static final String NoValidFeeValueMessage = "Kein gültiger Wert für die Gebühren";
 	
 
 	private ExceptionMessages(){}

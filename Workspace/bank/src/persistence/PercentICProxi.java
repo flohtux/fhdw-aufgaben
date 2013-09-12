@@ -80,6 +80,10 @@ public class PercentICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentPercent)this.getTheObject()).updateObservers(event);
     }
+    public void changeValue(final common.Fraction value) 
+				throws model.NoValidPercentValueException, PersistenceException{
+        ((PersistentPercent)this.getTheObject()).changeValue(value);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentPercent)this.getTheObject()).copyingPrivateUserAttributes(copy);

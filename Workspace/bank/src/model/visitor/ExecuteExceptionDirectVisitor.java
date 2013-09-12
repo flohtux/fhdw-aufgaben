@@ -18,6 +18,8 @@ public abstract class ExecuteExceptionDirectVisitor implements ExecuteExceptionV
     
     public abstract void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException;
     
+    public abstract void handleTriggerCyclicException(model.TriggerCyclicException triggerCyclicException) throws PersistenceException;
+    
     public abstract void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException;
     
     

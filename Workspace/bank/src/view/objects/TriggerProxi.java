@@ -5,7 +5,7 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class TriggerProxi extends ViewProxi implements TriggerView{
+public class TriggerProxi extends TriggerValueProxi implements TriggerView{
     
     public TriggerProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
@@ -100,6 +100,18 @@ public class TriggerProxi extends ViewProxi implements TriggerView{
         ((Trigger)this.getTheObject()).setRules(newValue);
     }
     
+    public void accept(TriggerValueVisitor visitor) throws ModelException {
+        visitor.handleTrigger(this);
+    }
+    public <R> R accept(TriggerValueReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleTrigger(this);
+    }
+    public <E extends UserException>  void accept(TriggerValueExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleTrigger(this);
+    }
+    public <R, E extends UserException> R accept(TriggerValueReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleTrigger(this);
+    }
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleTrigger(this);
     }

@@ -3,15 +3,15 @@ package model.meta;
 public class StringFACTORY{
 
     public static persistence.PersistentDebitTransferTransaction createObjectBySubTypeNameForDebitTransferTransaction(String name, DebitTransferTransactionSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
-        if(name.equals("Transaction")) return switchAssistant.handleTransaction();
-        if(name.equals("Transfer")) return switchAssistant.handleTransfer();
-        if(name.equals("Debit")) return switchAssistant.handleDebit();
+        if(name.equals("Transaktion")) return switchAssistant.handleTransaction();
+        if(name.equals("Überweisung")) return switchAssistant.handleTransfer();
+        if(name.equals("Lastschrift")) return switchAssistant.handleDebit();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentTransactionFee createObjectBySubTypeNameForTransactionFee(String name, TransactionFeeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
-        if(name.equals("MixedFee")) return switchAssistant.handleMixedFee();
-        if(name.equals("FixTransactionFee")) return switchAssistant.handleFixTransactionFee();
-        if(name.equals("ProcentualFee")) return switchAssistant.handleProcentualFee();
+        if(name.equals("gemischte Gebühren")) return switchAssistant.handleMixedFee();
+        if(name.equals("fixe Gebühren")) return switchAssistant.handleFixTransactionFee();
+        if(name.equals("prozentuale Gebühren")) return switchAssistant.handleProcentualFee();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentCurrency createObjectBySubTypeNameForCurrency(String name) throws persistence.PersistenceException {
@@ -22,15 +22,20 @@ public class StringFACTORY{
         if(name.equals("Yen")) return model.Yen.getTheYen();
         throw new persistence.PersistenceException("No such type name!",0);
     }
+    public static persistence.PersistentDebitTransfer createObjectBySubTypeNameForDebitTransfer(String name, DebitTransferSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
+        if(name.equals("Lastschrift")) return switchAssistant.handleDebit();
+        if(name.equals("Überweisung")) return switchAssistant.handleTransfer();
+        throw new persistence.PersistenceException("No such type name!",0);
+    }
     public static persistence.PersistentLimitType createObjectBySubTypeNameForLimitType(String name, LimitTypeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
         if(name.equals("NoLimit")) return model.NoLimit.getTheNoLimit();
         if(name.equals("Limit")) return switchAssistant.handleLimit();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentRule createObjectBySubTypeNameForRule(String name, RuleSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
-        if(name.equals("SubjectRule")) return switchAssistant.handleSubjectRule();
-        if(name.equals("MoneyRule")) return switchAssistant.handleMoneyRule();
-        if(name.equals("IncomingAccountRule")) return switchAssistant.handleIncomingAccountRule();
+        if(name.equals("Betreffregel")) return switchAssistant.handleSubjectRule();
+        if(name.equals("Geldregel")) return switchAssistant.handleMoneyRule();
+        if(name.equals("Absenderregel")) return switchAssistant.handleIncomingAccountRule();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     

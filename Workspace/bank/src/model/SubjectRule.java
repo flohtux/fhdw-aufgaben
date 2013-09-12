@@ -221,6 +221,7 @@ public class SubjectRule extends model.Rule implements PersistentSubjectRule{
     public void initializeOnCreation() 
 				throws PersistenceException{
         //TODO: implement method: initializeOnCreation
+    	System.out.println("SubjectRule - new ");
         
     }
     public void initializeOnInstantiation() 
@@ -234,6 +235,7 @@ public class SubjectRule extends model.Rule implements PersistentSubjectRule{
     
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
+    	System.out.println("SubjectRule-check: "+debitTransfer.getSubject()+";" + getThis().getSubject());
     	if(debitTransfer.getSubject().contains(getThis().getSubject())){
     		return TrueValue.getTheTrueValue();
     	}

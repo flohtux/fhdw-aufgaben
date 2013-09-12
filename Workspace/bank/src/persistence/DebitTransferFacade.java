@@ -52,6 +52,32 @@ public class DebitTransferFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public void invokerTriggerSet(long DebitTransferId, PersistentTriggerValue invokerTriggerVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtTrnsfrFacade.invkrTrggrSet(?, ?, ?); end;");
+            callable.setLong(1, DebitTransferId);
+            callable.setLong(2, invokerTriggerVal.getId());
+            callable.setLong(3, invokerTriggerVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void previousDebitTransferSet(long DebitTransferId, PersistentDebitTransfer previousDebitTransferVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtTrnsfrFacade.prvdebtraSet(?, ?, ?); end;");
+            callable.setLong(1, DebitTransferId);
+            callable.setLong(2, previousDebitTransferVal.getId());
+            callable.setLong(3, previousDebitTransferVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
     public void stornoStateSet(long DebitTransferId, PersistentStornoState stornoStateVal) throws PersistenceException {
         try{
             CallableStatement callable;

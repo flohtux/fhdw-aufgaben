@@ -14,9 +14,17 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handlePasswordException(model.PasswordException passwordException) throws PersistenceException;
     
+    public abstract void handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException;
+    
+    public abstract void handleNoValidPercentValueException(model.NoValidPercentValueException noValidPercentValueException) throws PersistenceException;
+    
     public abstract void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
     
     public abstract void handleNoRuleDefinitionException(model.NoRuleDefinitionException noRuleDefinitionException) throws PersistenceException;
+    
+    public abstract void handleMinLimitHigherMaxLimitException(model.MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws PersistenceException;
+    
+    public abstract void handleMaxLimitLowerThenMinLimitException(model.MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws PersistenceException;
     
     public abstract void handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException;
     
@@ -35,6 +43,9 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     }
     public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
         this.handleExecuteException(invalidAccountNumberException);
+    }
+    public void handleTriggerCyclicException(model.TriggerCyclicException triggerCyclicException) throws PersistenceException{
+        this.handleExecuteException(triggerCyclicException);
     }
     public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
         this.handleExecuteException(debitNotGrantedException);

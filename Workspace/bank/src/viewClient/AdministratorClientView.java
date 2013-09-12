@@ -314,6 +314,18 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
             }
             
         });result.add(currentButton);
+        currentButton = new javax.swing.JButton("Bank suchen ... ");
+        currentButton.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                AdministratorSearchBankByBankNumberIntegerMssgWizard wizard = new AdministratorSearchBankByBankNumberIntegerMssgWizard("Bank suchen");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });result.add(currentButton);
         currentButton = new javax.swing.JButton("Passwort ändern ... ");
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -330,18 +342,6 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         currentButton.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 AdministratorChangeCurrencyRateGUICurrencySUBTYPENameFractionMssgWizard wizard = new AdministratorChangeCurrencyRateGUICurrencySUBTYPENameFractionMssgWizard("Wechselkurs festlegen");
-                wizard.pack();
-                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                wizard.pack();
-                wizard.setLocationRelativeTo(getNavigationPanel());
-                wizard.setVisible(true);
-            }
-            
-        });result.add(currentButton);
-        currentButton = new javax.swing.JButton("searchBankByBankNumber ... ");
-        currentButton.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                AdministratorSearchBankByBankNumberIntegerMssgWizard wizard = new AdministratorSearchBankByBankNumberIntegerMssgWizard("searchBankByBankNumber");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -370,6 +370,20 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         });
         if (withStaticOperations) result.add(item);
         item = new javax.swing.JMenuItem();
+        item.setText("(S) Bank suchen ... ");
+        item.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                AdministratorSearchBankByBankNumberIntegerMssgWizard wizard = new AdministratorSearchBankByBankNumberIntegerMssgWizard("Bank suchen");
+                wizard.pack();
+                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                wizard.pack();
+                wizard.setLocationRelativeTo(getNavigationPanel());
+                wizard.setVisible(true);
+            }
+            
+        });
+        if (withStaticOperations) result.add(item);
+        item = new javax.swing.JMenuItem();
         item.setText("(S) Passwort ändern ... ");
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -388,20 +402,6 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
         item.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 AdministratorChangeCurrencyRateGUICurrencySUBTYPENameFractionMssgWizard wizard = new AdministratorChangeCurrencyRateGUICurrencySUBTYPENameFractionMssgWizard("Wechselkurs festlegen");
-                wizard.pack();
-                wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
-                wizard.pack();
-                wizard.setLocationRelativeTo(getNavigationPanel());
-                wizard.setVisible(true);
-            }
-            
-        });
-        if (withStaticOperations) result.add(item);
-        item = new javax.swing.JMenuItem();
-        item.setText("(S) searchBankByBankNumber ... ");
-        item.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                AdministratorSearchBankByBankNumberIntegerMssgWizard wizard = new AdministratorSearchBankByBankNumberIntegerMssgWizard("searchBankByBankNumber");
                 wizard.pack();
                 wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
                 wizard.pack();
@@ -467,8 +467,8 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new RegExprSelectionPanel("currencyType", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
-			getParametersPanel().add(new FractionSelectionPanel("rate", this));		
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("Kurs", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -568,8 +568,8 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword1", this));
-			getParametersPanel().add(new PasswordSelectionPanel("newPassword2", this));		
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort", this));
+			getParametersPanel().add(new PasswordSelectionPanel("neues Passwort wiederholen", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -607,7 +607,7 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new StringSelectionPanel("name", this));		
+			getParametersPanel().add(new StringSelectionPanel("Name", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -652,7 +652,7 @@ public class AdministratorClientView extends JPanel implements ExceptionAndEvent
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new IntegerSelectionPanel("bankNum", this));		
+			getParametersPanel().add(new IntegerSelectionPanel("BLZ", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

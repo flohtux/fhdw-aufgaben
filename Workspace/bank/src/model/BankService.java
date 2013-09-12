@@ -2,7 +2,6 @@
 package model;
 
 import model.meta.StringFACTORY;
-import model.meta.TransactionFeeSwitchPARAMETER;
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
@@ -33,12 +32,9 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
-import persistence.PersistentFixTransactionFee;
 import persistence.PersistentInternalFee;
 import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
-import persistence.PersistentMixedFee;
-import persistence.PersistentProcentualFee;
 import persistence.PersistentProxi;
 import persistence.PersistentService;
 import persistence.PersistentTransactionFee;
@@ -288,48 +284,36 @@ public class BankService extends model.Service implements PersistentBankService{
     // Start of section that contains operations that must be implemented.
     
     public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
-				throws PersistenceException{
-        getThis().getBank().changeInternalFee(Percent.createPercent(procentual));
+				throws model.NoValidPercentValueException, PersistenceException{
+        getThis().getBank().changeInternalFee(procentual);
         getThis().signalChanged(true);
     }
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
-				throws PersistenceException{
-        PersistentLimit newMaxLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
-        limit.setMaxLimit(newMaxLimit);
+				throws model.MaxLimitLowerThenMinLimitException, PersistenceException{
+    	limit.changeMaxLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
         getThis().signalChanged(true);
     }
     public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
-				throws PersistenceException{
-    	PersistentLimit newMinLimit = Limit.createLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
-        limit.setMinLimit(newMinLimit);
+				throws model.MinLimitHigherMaxLimitException, PersistenceException{
+    	limit.changeMinLimit(Money.createMoney(Amount.createAmount(amount), limit.getAccount().getMoney().getCurrency()));
         getThis().signalChanged(true);
     }
-    public void changeTransactionFee(final PersistentTransactionFee dummy, final String newFee, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
-				throws PersistenceException{
-       	StringFACTORY.createObjectBySubTypeNameForTransactionFee(newFee, new TransactionFeeSwitchPARAMETER() {
-			
-    			@Override
-    			public PersistentProcentualFee handleProcentualFee()
-    					throws PersistenceException {
-    				getThis().getBank().changeTransactionFeeToProcentual(Percent.createPercent(procentual));
-    				return null;
-    			}
-    			
-    			@Override
-    			public PersistentMixedFee handleMixedFee() throws PersistenceException {
-    				getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), Percent.createPercent(procentual), Money.createMoney(Amount.createAmount(limit), StringFACTORY.createObjectBySubTypeNameForCurrency(limitCurrency)));
-    				return null;
-    			}
-    			
-    			@Override
-    			public PersistentFixTransactionFee handleFixTransactionFee()
-    					throws PersistenceException {
-    				getThis().getBank().changeTransactionFeeToFix(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
-    				return null;
-    			}
-    		});
-        	getThis().signalChanged(true);
-        
+    public void changeTransactionFeeToFixFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency) 
+				throws model.NoValidFeeValueException, PersistenceException{
+    	getThis().getBank().changeTransactionFeeToFix(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
+    	getThis().signalChanged(true);
+    }
+    public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
+    	getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), 
+    			StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), procentual,
+    			Money.createMoney(Amount.createAmount(limit), StringFACTORY.createObjectBySubTypeNameForCurrency(limitCurrency)));
+        getThis().signalChanged(true);
+    }
+    public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	getThis().getBank().changeTransactionFeeToProcentual(procentual);
+    	getThis().signalChanged(true);
     }
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException{
@@ -349,14 +333,13 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 
 				throws model.ExecuteException, model.CloseAccountNoPossibleException, PersistenceException{
-        PersistentTransfer transfer = Transfer.createTransfer();
+        PersistentTransfer transfer = acc.createTransfer();
         transfer.setReceiverAccountNumber(transAcc.getAccountNumber());
         transfer.setSender(acc);
         transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
         transfer.execute(getThis());
-        getThis().closeAccount(acc);
     }
     public void connected(final String user) 
 				throws PersistenceException{

@@ -294,6 +294,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
 		final PersistentTransaction copy = Transaction.createTransaction();
+		copy.setSubject(getThis().getSubject());
 		getThis().getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
 			@Override
 			public void doItTo(PersistentDebitTransfer argument)

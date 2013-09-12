@@ -23,6 +23,8 @@ public interface PersistentPercent extends SubjInterface, Anything, AbstractPers
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void changeValue(final common.Fraction value) 
+				throws model.NoValidPercentValueException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

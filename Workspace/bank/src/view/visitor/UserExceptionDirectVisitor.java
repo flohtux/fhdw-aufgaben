@@ -13,9 +13,17 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handlePasswordException(PasswordException passwordException) throws ModelException;
     
+    public abstract void handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException;
+    
+    public abstract void handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException;
+    
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     
     public abstract void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException;
+    
+    public abstract void handleMinLimitHigherMaxLimitException(MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws ModelException;
+    
+    public abstract void handleMaxLimitLowerThenMinLimitException(MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws ModelException;
     
     public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
     
@@ -34,6 +42,9 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     }
     public void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException{
         this.handleExecuteException(invalidAccountNumberException);
+    }
+    public void handleTriggerCyclicException(TriggerCyclicException triggerCyclicException) throws ModelException{
+        this.handleExecuteException(triggerCyclicException);
     }
     public void handleDebitNotGrantedException(DebitNotGrantedException debitNotGrantedException) throws ModelException{
         this.handleExecuteException(debitNotGrantedException);

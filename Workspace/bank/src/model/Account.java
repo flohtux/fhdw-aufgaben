@@ -8,6 +8,7 @@ import model.meta.DebitTransferChangeCurrencyCurrencyMssg;
 import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
 import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
+import model.meta.DebitTransferSwitchPARAMETER;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
 import model.meta.DebitTransferTransactionExecuteMssg;
 import model.meta.DebitTransferTransactionMssgs;
@@ -49,6 +50,7 @@ import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrantListe;
 import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferDoubleState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentLimitType;
@@ -606,6 +608,22 @@ public class Account extends PersistentObject implements PersistentAccount{
  			}
  		});
     }
+    public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
+				throws PersistenceException{
+        PersistentDebitTransfer newDebitTransfer = StringFACTORY.createObjectBySubTypeNameForDebitTransfer(type, new DebitTransferSwitchPARAMETER() {
+			@Override
+			public PersistentTransfer handleTransfer() throws PersistenceException {
+				return Transfer.createTransfer();
+			}
+			@Override
+			public PersistentDebit handleDebit() throws PersistenceException {
+				return Debit.createDebit();
+			}
+		});
+        newDebitTransfer.setSender(getThis());
+        newDebitTransfer.changeState(NotExecutableState.createNotExecutableState());
+        transaction.getDebitTransfer().getDebitTransfers().add(newDebitTransfer);
+    }
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
     	transaction.addToTransaction(debitTransfer);
@@ -642,6 +660,16 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
     	trans.changeReceiverBank(receiverBankNumber);
+    }
+    public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
+				throws PersistenceException{
+		System.out.println("exec"+incomingDebitTransfer);
+		System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
+		getThis().getTriggerListe().getTriggers().applyToAll(new Procdure<PersistentTrigger>() {
+			public void doItTo(PersistentTrigger argument) throws PersistenceException {
+				argument.executeTrigger(incomingDebitTransfer, getThis().getAccountService());
+			}});
+		
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -708,9 +736,24 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public PersistentTrigger createTrigger(final String name, final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
-    	PersistentTrigger trigger = Trigger.createTrigger(name);
+    	final PersistentTrigger trigger = Trigger.createTrigger(name);
     	dtt.changeState(NotExecutableState.createNotExecutableState());
     	trigger.setAction(dtt);
+    	dtt.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				System.out.println("invoker trigger set"+transfer);
+				transfer.setInvokerTrigger(trigger);
+			}
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				debit.setInvokerTrigger(trigger);
+			}
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {}
+		});
     	getThis().getTriggerListe().add(trigger);
     	return trigger;
     }
@@ -794,17 +837,28 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public void handleDebitTransferChangeReceiverAccountIntegerMssg(DebitTransferChangeReceiverAccountIntegerMssg event) throws PersistenceException {}
 			public void handleDebitTransferChangeMoneyFractionMssg(DebitTransferChangeMoneyFractionMssg event) throws PersistenceException {}
 			public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws PersistenceException {}
-			public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event) throws PersistenceException {}
+			public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event) throws PersistenceException {
+//				final PersistentDebitTransferDoubleState t = event.getResult();
+//				t.getDebitTransferStateNew().getDebitTransfer().accept(new DebitTransferTransactionVisitor() {
+//					public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+//						Account.this.getThis().checkAllTriggers(transfer);
+//					}
+//					public void handleDebit(PersistentDebit debit) throws PersistenceException {
+//						Account.this.getThis().checkAllTriggers(debit);
+//					}
+//					public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {}
+//				});
+			}
 			
 			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
 					t.accept(new DebitTransferTransactionVisitor() {
 						public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
-							Account.this.executeTrigger(transfer);
+							Account.this.checkAllTriggers(transfer);
 						}
 						public void handleDebit(PersistentDebit debit) throws PersistenceException {
-							Account.this.executeTrigger(debit);
+							Account.this.checkAllTriggers(debit);
 						}
 						public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {}
 					});
@@ -814,7 +868,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 					// Execute will be rolled back - no trigger!
 				}
 				
-				
 			}
 
 			
@@ -822,30 +875,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 		
 	}
 
-	private void executeTrigger(final PersistentDebitTransfer t) throws PersistenceException {
-		System.out.println("exec"+t);
-		System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
-		getThis().getTriggerListe().getTriggers().applyToAll(new Procdure<PersistentTrigger>() {
-			public void doItTo(PersistentTrigger argument) throws PersistenceException {
-				try {
-					argument.getRules().applyToAllException(new ProcdureException<PersistentRule, RuleNotMatchedException>() {
-						public void doItTo(PersistentRule argument) throws PersistenceException, RuleNotMatchedException {
-							if (!(argument.check(t).isTrue())) {
-								throw new RuleNotMatchedException();
-							}
-							System.out.println("matched");
-							
-						}
-					});
-				} catch (RuleNotMatchedException e) {
-					// trigger action will not be executed
-					return;
-				}
-				System.out.println("execute independent");
-				argument.getAction().execute(getThis().getAccountService());
-			}});
-		
-	}
     
     
     
