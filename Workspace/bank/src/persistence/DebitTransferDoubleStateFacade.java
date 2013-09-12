@@ -55,38 +55,30 @@ public class DebitTransferDoubleStateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DebitTransferDoubleStateId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentDebitTransferState debitTransferStateOld = null;
-            PersistentDebitTransferState debitTransferStateNew = null;
-            SubjInterface subService = null;
-            PersistentDebitTransferDoubleState This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10295: {
-                        debitTransferStateOld = (PersistentDebitTransferState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10296: {
-                        debitTransferStateNew = (PersistentDebitTransferState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10293: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10294: {
-                        This = (PersistentDebitTransferDoubleState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            DebitTransferDoubleState result = new DebitTransferDoubleState(debitTransferStateOld, 
-                                                                           debitTransferStateNew, 
-                                                                           subService, 
-                                                                           This, 
+            PersistentDebitTransferState debitTransferStateOld = null;
+            if (obj.getLong(2) != 0)
+                debitTransferStateOld = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentDebitTransferState debitTransferStateNew = null;
+            if (obj.getLong(4) != 0)
+                debitTransferStateNew = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            SubjInterface subService = null;
+            if (obj.getLong(6) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentDebitTransferDoubleState This = null;
+            if (obj.getLong(8) != 0)
+                This = (PersistentDebitTransferDoubleState)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            DebitTransferDoubleState result = new DebitTransferDoubleState(debitTransferStateOld,
+                                                                           debitTransferStateNew,
+                                                                           subService,
+                                                                           This,
                                                                            DebitTransferDoubleStateId);
-            links.close();
+            obj.close();
             callable.close();
             DebitTransferDoubleStateICProxi inCache = (DebitTransferDoubleStateICProxi)Cache.getTheCache().put(result);
             DebitTransferDoubleState objectInCache = (DebitTransferDoubleState)inCache.getTheObject();

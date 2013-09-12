@@ -123,15 +123,15 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
         ((PersistentBankService)this.getTheObject()).updateObservers(event);
     }
     public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
-				throws PersistenceException{
+				throws model.NoValidPercentValueException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeInteralFee(fee, procentual);
     }
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
-				throws PersistenceException{
+				throws model.MaxLimitLowerThenMinLimitException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeMaxLimit(limit, amount);
     }
     public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
-				throws PersistenceException{
+				throws model.MinLimitHigherMaxLimitException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeMinLimit(limit, amount);
     }
     public String changePassword(final String newPassword1, final String newPassword2) 
@@ -143,11 +143,11 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
         ((PersistentBankService)this.getTheObject()).changeTransactionFeeToFixFee(dummy, fix, fixCurrency);
     }
     public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
-				throws PersistenceException{
+				throws model.NoValidPercentValueException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeTransactionFeeToMixedFee(dummy, fix, fixCurrency, limit, limitCurrency, procentual);
     }
     public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 
-				throws PersistenceException{
+				throws model.NoValidPercentValueException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeTransactionFeeToProcentualFee(dummy, procentual);
     }
     public void closeAccount(final PersistentAccount acc) 

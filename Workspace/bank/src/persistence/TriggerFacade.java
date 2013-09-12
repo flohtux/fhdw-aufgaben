@@ -56,45 +56,31 @@ public class TriggerFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, TriggerId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentTriggerValue This = null;
-            String name = "";
-            PersistentTriggerState state = null;
-            PersistentDebitTransferTransaction action = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10347: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10348: {
-                        This = (PersistentTriggerValue)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10301: {
-                        name = links.getString(6);
-                        if(name == null)name = "";
-                        break;
-                    }
-                    case 10318: {
-                        state = (PersistentTriggerState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10302: {
-                        action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            Trigger result = new Trigger(subService, 
-                                         This, 
-                                         name, 
-                                         state, 
-                                         action, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTriggerValue This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentTriggerState state = null;
+            if (obj.getLong(7) != 0)
+                state = (PersistentTriggerState)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentDebitTransferTransaction action = null;
+            if (obj.getLong(9) != 0)
+                action = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            Trigger result = new Trigger(subService,
+                                         This,
+                                         obj.getString(6) == null ? "" : obj.getString(6) /* In Oracle "" = null !!! */,
+                                         state,
+                                         action,
                                          TriggerId);
-            links.close();
+            obj.close();
             callable.close();
             TriggerICProxi inCache = (TriggerICProxi)Cache.getTheCache().put(result);
             Trigger objectInCache = (Trigger)inCache.getTheObject();

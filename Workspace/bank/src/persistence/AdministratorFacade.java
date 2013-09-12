@@ -55,38 +55,30 @@ public class AdministratorFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AdministratorId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentService This = null;
-            PersistentAdministratorCurrencyManager currencyManager = null;
-            PersistentAdministratorBanks banks = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10001: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10002: {
-                        This = (PersistentService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10144: {
-                        currencyManager = (PersistentAdministratorCurrencyManager)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10030: {
-                        banks = (PersistentAdministratorBanks)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            Administrator result = new Administrator(subService, 
-                                                     This, 
-                                                     currencyManager, 
-                                                     banks, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentService This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentService)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentAdministratorCurrencyManager currencyManager = null;
+            if (obj.getLong(6) != 0)
+                currencyManager = (PersistentAdministratorCurrencyManager)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentAdministratorBanks banks = null;
+            if (obj.getLong(8) != 0)
+                banks = (PersistentAdministratorBanks)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            Administrator result = new Administrator(subService,
+                                                     This,
+                                                     currencyManager,
+                                                     banks,
                                                      AdministratorId);
-            links.close();
+            obj.close();
             callable.close();
             AdministratorICProxi inCache = (AdministratorICProxi)Cache.getTheCache().put(result);
             Administrator objectInCache = (Administrator)inCache.getTheObject();

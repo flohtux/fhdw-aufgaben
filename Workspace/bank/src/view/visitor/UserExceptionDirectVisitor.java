@@ -13,9 +13,15 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handlePasswordException(PasswordException passwordException) throws ModelException;
     
+    public abstract void handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException;
+    
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     
     public abstract void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException;
+    
+    public abstract void handleMinLimitHigherMaxLimitException(MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws ModelException;
+    
+    public abstract void handleMaxLimitLowerThenMinLimitException(MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws ModelException;
     
     public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
     

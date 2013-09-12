@@ -33,6 +33,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoValidPercentValueException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -44,6 +46,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.MaxLimitLowerThenMinLimitException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -55,6 +59,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.MinLimitHigherMaxLimitException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -90,6 +96,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoValidPercentValueException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -101,6 +109,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoValidPercentValueException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

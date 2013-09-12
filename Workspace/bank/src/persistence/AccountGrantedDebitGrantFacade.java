@@ -55,32 +55,26 @@ public class AccountGrantedDebitGrantFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountGrantedDebitGrantId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAccount observer = null;
-            PersistentDebitGrantListe observee = null;
-            PersistentAccountGrantedDebitGrant This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10221: {
-                        observer = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10222: {
-                        observee = (PersistentDebitGrantListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10223: {
-                        This = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            AccountGrantedDebitGrant result = new AccountGrantedDebitGrant(observer, 
-                                                                           observee, 
-                                                                           This, 
+            PersistentAccount observer = null;
+            if (obj.getLong(2) != 0)
+                observer = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentDebitGrantListe observee = null;
+            if (obj.getLong(4) != 0)
+                observee = (PersistentDebitGrantListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentAccountGrantedDebitGrant This = null;
+            if (obj.getLong(6) != 0)
+                This = (PersistentAccountGrantedDebitGrant)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            AccountGrantedDebitGrant result = new AccountGrantedDebitGrant(observer,
+                                                                           observee,
+                                                                           This,
                                                                            AccountGrantedDebitGrantId);
-            links.close();
+            obj.close();
             callable.close();
             AccountGrantedDebitGrantICProxi inCache = (AccountGrantedDebitGrantICProxi)Cache.getTheCache().put(result);
             AccountGrantedDebitGrant objectInCache = (AccountGrantedDebitGrant)inCache.getTheObject();

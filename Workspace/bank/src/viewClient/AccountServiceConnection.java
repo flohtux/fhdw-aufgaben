@@ -30,6 +30,10 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -249)
+                    throw MinLimitHigherMaxLimitException.fromHashtableToMinLimitHigherMaxLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -243)
                     throw NoRuleDefinitionException.fromHashtableToNoRuleDefinitionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
@@ -52,6 +56,8 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -250)
+                    throw MaxLimitLowerThenMinLimitException.fromHashtableToMaxLimitLowerThenMinLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
                     throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
@@ -79,6 +85,10 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -249)
+                    throw MinLimitHigherMaxLimitException.fromHashtableToMinLimitHigherMaxLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -243)
                     throw NoRuleDefinitionException.fromHashtableToNoRuleDefinitionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
@@ -101,6 +111,8 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -250)
+                    throw MaxLimitLowerThenMinLimitException.fromHashtableToMaxLimitLowerThenMinLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
                     throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
@@ -133,6 +145,10 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -249)
+                    throw MinLimitHigherMaxLimitException.fromHashtableToMinLimitHigherMaxLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -243)
                     throw NoRuleDefinitionException.fromHashtableToNoRuleDefinitionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
@@ -155,6 +171,8 @@ public class AccountServiceConnection extends ServiceConnection {
                     throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -250)
+                    throw MaxLimitLowerThenMinLimitException.fromHashtableToMaxLimitLowerThenMinLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
                     throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);

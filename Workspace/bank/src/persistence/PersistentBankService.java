@@ -36,17 +36,17 @@ public interface PersistentBankService extends PersistentService {
     public AccountSearchList transAcc_Path_In_CloseAccount() 
 				throws model.UserException, PersistenceException;
     public void changeInteralFee(final PersistentInternalFee fee, final common.Fraction procentual) 
-				throws PersistenceException;
+				throws model.NoValidPercentValueException, PersistenceException;
     public void changeMaxLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
-				throws PersistenceException;
+				throws model.MaxLimitLowerThenMinLimitException, PersistenceException;
     public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
-				throws PersistenceException;
+				throws model.MinLimitHigherMaxLimitException, PersistenceException;
     public void changeTransactionFeeToFixFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency) 
 				throws PersistenceException;
     public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
-				throws PersistenceException;
+				throws model.NoValidPercentValueException, PersistenceException;
     public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 
-				throws PersistenceException;
+				throws model.NoValidPercentValueException, PersistenceException;
     public void closeAccount(final PersistentAccount acc) 
 				throws model.CloseAccountNoPossibleException, PersistenceException;
     public void closeAccount(final PersistentAccount acc, final PersistentAccount transAcc) 

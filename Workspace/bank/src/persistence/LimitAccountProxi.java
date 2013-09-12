@@ -90,6 +90,14 @@ public class LimitAccountProxi extends PersistentProxi implements PersistentLimi
 				throws PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).updateObservers(event);
     }
+    public void changeMaxLimit(final PersistentMoney money) 
+				throws model.MaxLimitLowerThenMinLimitException, PersistenceException{
+        ((PersistentLimitAccount)this.getTheObject()).changeMaxLimit(money);
+    }
+    public void changeMinLimit(final PersistentMoney money) 
+				throws model.MinLimitHigherMaxLimitException, PersistenceException{
+        ((PersistentLimitAccount)this.getTheObject()).changeMinLimit(money);
+    }
     public void checkLimit(final PersistentMoney money) 
 				throws model.LimitViolatedException, PersistenceException{
         ((PersistentLimitAccount)this.getTheObject()).checkLimit(money);

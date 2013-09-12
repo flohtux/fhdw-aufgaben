@@ -6,6 +6,7 @@ import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
 import model.visitor.LimitTypeExceptionVisitor;
+import model.visitor.LimitTypeVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -311,6 +312,43 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeMaxLimit(final PersistentMoney money) 
+				throws model.MaxLimitLowerThenMinLimitException, PersistenceException{
+        getThis().getMinLimit().accept(new LimitTypeExceptionVisitor<MaxLimitLowerThenMinLimitException>() {
+			@Override
+			public void handleNoLimit(PersistentNoLimit noLimit)
+					throws PersistenceException,MaxLimitLowerThenMinLimitException {}
+			
+			@Override
+			public void handleLimit(PersistentLimit limit) throws PersistenceException,MaxLimitLowerThenMinLimitException {
+				if(limit.getMoney().greater(money).isTrue()) {
+					throw new MaxLimitLowerThenMinLimitException();
+				}
+			}
+		});
+        getThis().setMaxLimit(Limit.createLimit(money));
+    }
+    public void changeMinLimit(final PersistentMoney money) 
+				throws model.MinLimitHigherMaxLimitException, PersistenceException{
+    	getThis().getMaxLimit().accept(new LimitTypeExceptionVisitor<MinLimitHigherMaxLimitException>() {
+
+			@Override
+			public void handleNoLimit(PersistentNoLimit noLimit)
+					throws PersistenceException,
+					MinLimitHigherMaxLimitException {}
+
+			@Override
+			public void handleLimit(PersistentLimit limit)
+					throws PersistenceException,
+					MinLimitHigherMaxLimitException {
+				if(limit.getMoney().greater(money).isTrue()) {
+					throw new MinLimitHigherMaxLimitException();
+				}
+				
+			}
+		});
+        getThis().setMinLimit(Limit.createLimit(money));
+    }
     /**
      * Checks if the <money> hurts the account limits.
      * Returns {@link TrueValue} if no limit is hurt else {@link FalseValue}.

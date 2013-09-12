@@ -43,16 +43,16 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void changeInternalFee(final PersistentPercent procentual) 
-				throws PersistenceException;
+    public void changeInternalFee(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException;
     public void changeNameImplementation(final String name) 
 				throws PersistenceException;
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
 				throws PersistenceException;
-    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
-				throws PersistenceException;
-    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
-				throws PersistenceException;
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
+				throws model.NoValidPercentValueException, PersistenceException;
+    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createAccount(final String currencyType) 

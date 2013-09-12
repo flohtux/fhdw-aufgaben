@@ -258,8 +258,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
 			throws PersistenceException {
-		this.result = MaxLimitPrefix + limitAccount.getMaxLimit().toString(true) + MinMaxLimitDelimiter + MinLimitPrefix + 
-				limitAccount.getMinLimit().toString(true);
+		this.result =  MinLimitPrefix + limitAccount.getMinLimit().toString(true) + MinMaxLimitDelimiter + 
+				MaxLimitPrefix + limitAccount.getMaxLimit().toString(true);
 	}
 	@Override
 	public void handleLimit(PersistentLimit limit) throws PersistenceException {

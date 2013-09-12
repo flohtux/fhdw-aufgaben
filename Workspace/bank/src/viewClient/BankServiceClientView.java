@@ -571,6 +571,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				setVisible(false);
 				dispose();
 			}
+			catch(NoValidPercentValueException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			
 		}
 		protected String checkCompleteParameterSet(){
@@ -618,6 +621,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				setVisible(false);
 				dispose();
 			}
+			catch(MaxLimitLowerThenMinLimitException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			
 		}
 		protected String checkCompleteParameterSet(){
@@ -664,6 +670,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				handleException(me);
 				setVisible(false);
 				dispose();
+			}
+			catch(MinLimitHigherMaxLimitException e) {
+				getStatusBar().setText(e.getMessage());
 			}
 			
 		}
@@ -812,6 +821,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				setVisible(false);
 				dispose();
 			}
+			catch(NoValidPercentValueException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			
 		}
 		protected String checkCompleteParameterSet(){
@@ -862,6 +874,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				handleException(me);
 				setVisible(false);
 				dispose();
+			}
+			catch(NoValidPercentValueException e) {
+				getStatusBar().setText(e.getMessage());
 			}
 			
 		}

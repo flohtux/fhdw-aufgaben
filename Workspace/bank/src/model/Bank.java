@@ -442,9 +442,11 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeInternalFee(final PersistentPercent procentual) 
-				throws PersistenceException{
-    	final PersistentInternalFee newFee = InternalFee.createInternalFee(procentual);
+    public void changeInternalFee(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
+    	percent.changeValue(procentual);
+    	final PersistentInternalFee newFee = InternalFee.createInternalFee(percent);
     	getThis().getBankFees().changeInternalFee(newFee);
     }
     public void changeNameImplementation(final String name) 
@@ -456,14 +458,18 @@ public class Bank extends PersistentObject implements PersistentBank{
     	final PersistentFixTransactionFee newFee = FixTransactionFee.createFixTransactionFee(fix);
         getThis().getBankFees().changeTransactionFee(newFee);
     }
-    public void changeTransactionFeeToMixed(final PersistentMoney fix, final PersistentPercent procentual, final PersistentMoney limit) 
-				throws PersistenceException{
-    	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(procentual), limit);
+    public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
+    	percent.changeValue(procentual);
+    	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(percent), limit);
         getThis().getBankFees().changeTransactionFee(newFee);
     }
-    public void changeTransactionFeeToProcentual(final PersistentPercent procentual) 
-				throws PersistenceException{
-    	final PersistentProcentualFee newFee = ProcentualFee.createProcentualFee(procentual); 
+    public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
+				throws model.NoValidPercentValueException, PersistenceException{
+    	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
+    	percent.changeValue(procentual);
+    	final PersistentProcentualFee newFee = ProcentualFee.createProcentualFee(percent); 
         getThis().getBankFees().changeTransactionFee(newFee);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

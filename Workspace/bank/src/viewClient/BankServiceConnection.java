@@ -30,6 +30,10 @@ public class BankServiceConnection extends ServiceConnection {
                     throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -249)
+                    throw MinLimitHigherMaxLimitException.fromHashtableToMinLimitHigherMaxLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -243)
                     throw NoRuleDefinitionException.fromHashtableToNoRuleDefinitionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
@@ -52,6 +56,8 @@ public class BankServiceConnection extends ServiceConnection {
                     throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -250)
+                    throw MaxLimitLowerThenMinLimitException.fromHashtableToMaxLimitLowerThenMinLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
                     throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
@@ -66,7 +72,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeInteralFee(InternalFeeView fee, common.Fraction procentual) throws ModelException{
+    public synchronized void changeInteralFee(InternalFeeView fee, common.Fraction procentual) throws ModelException, NoValidPercentValueException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (fee == null){
@@ -79,6 +85,8 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -89,7 +97,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeMaxLimit(LimitAccountView limit, common.Fraction amount) throws ModelException{
+    public synchronized void changeMaxLimit(LimitAccountView limit, common.Fraction amount) throws ModelException, MaxLimitLowerThenMinLimitException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (limit == null){
@@ -102,6 +110,8 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -250)
+                    throw MaxLimitLowerThenMinLimitException.fromHashtableToMaxLimitLowerThenMinLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -112,7 +122,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeMinLimit(LimitAccountView limit, common.Fraction amount) throws ModelException{
+    public synchronized void changeMinLimit(LimitAccountView limit, common.Fraction amount) throws ModelException, MinLimitHigherMaxLimitException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (limit == null){
@@ -125,6 +135,8 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -249)
+                    throw MinLimitHigherMaxLimitException.fromHashtableToMinLimitHigherMaxLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -182,7 +194,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeTransactionFeeToMixedFee(TransactionFeeView dummy, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException{
+    public synchronized void changeTransactionFeeToMixedFee(TransactionFeeView dummy, common.Fraction fix, String fixCurrency, common.Fraction limit, String limitCurrency, common.Fraction procentual) throws ModelException, NoValidPercentValueException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (dummy == null){
@@ -199,6 +211,8 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -209,7 +223,7 @@ public class BankServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void changeTransactionFeeToProcentualFee(TransactionFeeView dummy, common.Fraction procentual) throws ModelException{
+    public synchronized void changeTransactionFeeToProcentualFee(TransactionFeeView dummy, common.Fraction procentual) throws ModelException, NoValidPercentValueException{
         try {
             Vector<Object> parameters = new Vector<Object>();
             if (dummy == null){
@@ -222,6 +236,8 @@ public class BankServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){
@@ -329,6 +345,10 @@ public class BankServiceConnection extends ServiceConnection {
                     throw NoAccountsFound.fromHashtableToNoAccountsFound((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -163)
                     throw PasswordException.fromHashtableToPasswordException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -251)
+                    throw NoValidPercentValueException.fromHashtableToNoValidPercentValueException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -249)
+                    throw MinLimitHigherMaxLimitException.fromHashtableToMinLimitHigherMaxLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -243)
                     throw NoRuleDefinitionException.fromHashtableToNoRuleDefinitionException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -165)
@@ -351,6 +371,8 @@ public class BankServiceConnection extends ServiceConnection {
                     throw CycleException.fromHashtableToCycleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -174)
                     throw CloseAccountNoPossibleException.fromHashtableToCloseAccountNoPossibleException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -250)
+                    throw MaxLimitLowerThenMinLimitException.fromHashtableToMaxLimitLowerThenMinLimitException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -225)
                     throw GrantAlreadyGivenException.fromHashtableToGrantAlreadyGivenException((java.util.HashMap)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);

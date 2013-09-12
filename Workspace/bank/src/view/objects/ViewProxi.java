@@ -48,7 +48,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [148];
+		proxiFactories = new ProxiFactory [151];
         proxiFactories[65] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new FalseValueProxi(objectId, classId, connectionKey);

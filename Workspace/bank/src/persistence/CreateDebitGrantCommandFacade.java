@@ -55,44 +55,34 @@ public class CreateDebitGrantCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CreateDebitGrantCommandId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAccount receiver = null;
-            PersistentLimitType limit = null;
-            Invoker invoker = null;
-            PersistentAccount commandReceiver = null;
-            PersistentCommonDate myCommonDate = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10283: {
-                        receiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10284: {
-                        limit = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10186: {
-                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10187: {
-                        commandReceiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10188: {
-                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            CreateDebitGrantCommand result = new CreateDebitGrantCommand(receiver, 
-                                                                         limit, 
-                                                                         invoker, 
-                                                                         commandReceiver, 
-                                                                         myCommonDate, 
+            PersistentAccount receiver = null;
+            if (obj.getLong(2) != 0)
+                receiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentLimitType limit = null;
+            if (obj.getLong(4) != 0)
+                limit = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            Invoker invoker = null;
+            if (obj.getLong(6) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentAccount commandReceiver = null;
+            if (obj.getLong(8) != 0)
+                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(10) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            CreateDebitGrantCommand result = new CreateDebitGrantCommand(receiver,
+                                                                         limit,
+                                                                         invoker,
+                                                                         commandReceiver,
+                                                                         myCommonDate,
                                                                          CreateDebitGrantCommandId);
-            links.close();
+            obj.close();
             callable.close();
             CreateDebitGrantCommandICProxi inCache = (CreateDebitGrantCommandICProxi)Cache.getTheCache().put(result);
             CreateDebitGrantCommand objectInCache = (CreateDebitGrantCommand)inCache.getTheObject();
