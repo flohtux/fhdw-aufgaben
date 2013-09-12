@@ -2,6 +2,7 @@ package viewClient;
 
 import view.*;
 import view.objects.ViewRoot;
+import view.visitor.TransactionFeeReturnVisitor;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
@@ -431,10 +432,40 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
             }
             if (selected instanceof TransactionFeeView){
                 item = new javax.swing.JMenuItem();
-                item.setText("Gebühren ändern ... ");
+                item.setText("Fixe Gebühren ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        BankServiceChangeTransactionFeeTransactionFeeTransactionFeeSUBTYPENameFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard wizard = new BankServiceChangeTransactionFeeTransactionFeeTransactionFeeSUBTYPENameFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard("Gebühren ändern");
+                        BankServiceChangeTransactionFeeToFixFeeTransactionFeeFractionCurrencySUBTYPENameMssgWizard wizard = new BankServiceChangeTransactionFeeToFixFeeTransactionFeeFractionCurrencySUBTYPENameMssgWizard("Fixe Gebühren");
+                        wizard.setFirstArgument((TransactionFeeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("Gemischte Gebühren ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard wizard = new BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard("Gemischte Gebühren");
+                        wizard.setFirstArgument((TransactionFeeView)selected);
+                        wizard.pack();
+                        wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
+                        wizard.pack();
+                        wizard.setLocationRelativeTo(getNavigationPanel());
+                        wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("Procentuale Gebühren ... ");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard wizard = new BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard("Procentuale Gebühren");
                         wizard.setFirstArgument((TransactionFeeView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));
@@ -705,25 +736,21 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		
 	}
 
-	class BankServiceChangeTransactionFeeTransactionFeeTransactionFeeSUBTYPENameFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard extends Wizard {
+	class BankServiceChangeTransactionFeeToFixFeeTransactionFeeFractionCurrencySUBTYPENameMssgWizard extends Wizard {
 
-		protected BankServiceChangeTransactionFeeTransactionFeeTransactionFeeSUBTYPENameFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard(String operationName){
+		protected BankServiceChangeTransactionFeeToFixFeeTransactionFeeFractionCurrencySUBTYPENameMssgWizard(String operationName){
 			super();
 			getOkButton().setText(operationName);
 		}
 		protected void initialize(){
-			this.helpFileName = "BankServiceChangeTransactionFeeTransactionFeeTransactionFeeSUBTYPENameFractionCurrencySUBTYPENameFractionCurrencySUBTYPENameFractionMssgWizard.help";
+			this.helpFileName = "BankServiceChangeTransactionFeeToFixFeeTransactionFeeFractionCurrencySUBTYPENameMssgWizard.help";
 			super.initialize();			
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().changeTransactionFee(firstArgument, ((StringSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
-									((FractionSelectionPanel)getParametersPanel().getComponent(1)).getResult(),
-									((StringSelectionPanel)getParametersPanel().getComponent(2)).getResult(),
-									((FractionSelectionPanel)getParametersPanel().getComponent(3)).getResult(),
-									((StringSelectionPanel)getParametersPanel().getComponent(4)).getResult(),
-									((FractionSelectionPanel)getParametersPanel().getComponent(5)).getResult());
+				getConnection().changeTransactionFeeToFixFee(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
+									((StringSelectionPanel)getParametersPanel().getComponent(1)).getResult());
 				getConnection().setEagerRefresh();
 				setVisible(false);
 				dispose();	
@@ -740,11 +767,109 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new RegExprSelectionPanel("Gebührentyp", this, common.RegularExpressionManager.transactionFeeSUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("fixe Gebühren", this));
 			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("Grenze", this));
 			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new RegExprSelectionPanel("fixCurrency", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TransactionFeeView firstArgument; 
+	
+		public void setFirstArgument(TransactionFeeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard extends Wizard {
+
+		protected BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "BankServiceChangeTransactionFeeToMixedFeeTransactionFeeFractionCurrencySUBTYPENameFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeTransactionFeeToMixedFee(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult(),
+									((StringSelectionPanel)getParametersPanel().getComponent(1)).getResult(),
+									((FractionSelectionPanel)getParametersPanel().getComponent(2)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+			getParametersPanel().add(new FractionSelectionPanel("fixe Gebühren", this));
+			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
+			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private TransactionFeeView firstArgument; 
+	
+		public void setFirstArgument(TransactionFeeView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard extends Wizard {
+
+		protected BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard(String operationName){
+			super();
+			getOkButton().setText(operationName);
+		}
+		protected void initialize(){
+			this.helpFileName = "BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard.help";
+			super.initialize();			
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeTransactionFeeToProcentualFee(firstArgument, ((FractionSelectionPanel)getParametersPanel().getComponent(0)).getResult());
+				getConnection().setEagerRefresh();
+				setVisible(false);
+				dispose();	
+			}
+			catch(ModelException me){
+				handleException(me);
+				setVisible(false);
+				dispose();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		
+		protected void addParameters(){
+
 			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
 		}	
 		protected void handleDependencies(int i) {
@@ -911,5 +1036,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 	private void addNotGeneratedItems(JPopupMenu result, ViewRoot selected) {
 		// TODO Add items if you have not generated service calls!!!
 	}
+	
+	
 	
 }
