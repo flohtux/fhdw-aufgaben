@@ -7,6 +7,7 @@ public interface UserExceptionReturnVisitor<R> extends ExecuteExceptionReturnVis
     
     public R handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException;
     public R handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException;
+    public R handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException;
     public R handlePasswordException(PasswordException passwordException) throws ModelException;
     public R handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException;
     public R handleMinLimitHigherMaxLimitException(MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws ModelException;

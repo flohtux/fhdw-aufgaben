@@ -48,9 +48,9 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
     public void changeNameImplementation(final String name) 
 				throws PersistenceException;
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
-				throws PersistenceException;
+				throws model.NoValidFeeValueException, PersistenceException;
     public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
-				throws model.NoValidPercentValueException, PersistenceException;
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException;
     public void changeTransactionFeeToProcentual(final common.Fraction procentual) 
 				throws model.NoValidPercentValueException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

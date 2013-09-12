@@ -8,7 +8,7 @@ import model.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class NoValidPercentValueException extends model.UserException{
+public class NoValidFeeValueException extends model.UserException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -24,12 +24,12 @@ public class NoValidPercentValueException extends model.UserException{
         return false;
     }
     
-    public NoValidPercentValueException(String message) throws persistence.PersistenceException {
+    public NoValidFeeValueException(String message) throws persistence.PersistenceException {
         super(message);        
     }
-    
-    static public long getTypeId() {
-        return -251;
+
+	static public long getTypeId() {
+        return -252;
     }
     
     public long getClassId() {
@@ -38,16 +38,16 @@ public class NoValidPercentValueException extends model.UserException{
     
     
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
-        visitor.handleNoValidPercentValueException(this);
+        visitor.handleNoValidFeeValueException(this);
     }
     public <R> R accept(UserExceptionReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleNoValidPercentValueException(this);
+         return visitor.handleNoValidFeeValueException(this);
     }
     public <E extends UserException>  void accept(UserExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleNoValidPercentValueException(this);
+         visitor.handleNoValidFeeValueException(this);
     }
     public <R, E extends UserException> R accept(UserExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleNoValidPercentValueException(this);
+         return visitor.handleNoValidFeeValueException(this);
     }
     public int getLeafInfo() throws PersistenceException{
         return 0;
@@ -60,8 +60,9 @@ public class NoValidPercentValueException extends model.UserException{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    public NoValidPercentValueException() throws PersistenceException {
-		this(serverConstants.ExceptionMessages.NoValidPercentValueMessage);
+    
+    public NoValidFeeValueException() throws PersistenceException {
+		this(serverConstants.ExceptionMessages.NoValidFeeValueMessage);
 	}
     /* End of protected part that is not overridden by persistence generator */
     

@@ -7,6 +7,7 @@ public interface UserExceptionExceptionVisitor<E extends UserException> extends 
     
     public void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException, E;
     public void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException, E;
+    public void handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException, E;
     public void handlePasswordException(PasswordException passwordException) throws ModelException, E;
     public void handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException, E;
     public void handleMinLimitHigherMaxLimitException(MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws ModelException, E;

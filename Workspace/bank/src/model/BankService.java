@@ -299,12 +299,12 @@ public class BankService extends model.Service implements PersistentBankService{
         getThis().signalChanged(true);
     }
     public void changeTransactionFeeToFixFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency) 
-				throws PersistenceException{
+				throws model.NoValidFeeValueException, PersistenceException{
     	getThis().getBank().changeTransactionFeeToFix(Money.createMoney(Amount.createAmount(fix), StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)));
     	getThis().signalChanged(true);
     }
     public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
-				throws model.NoValidPercentValueException, PersistenceException{
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
     	getThis().getBank().changeTransactionFeeToMixed(Money.createMoney(Amount.createAmount(fix), 
     			StringFACTORY.createObjectBySubTypeNameForCurrency(fixCurrency)), procentual,
     			Money.createMoney(Amount.createAmount(limit), StringFACTORY.createObjectBySubTypeNameForCurrency(limitCurrency)));

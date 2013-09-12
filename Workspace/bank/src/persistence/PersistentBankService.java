@@ -42,9 +42,9 @@ public interface PersistentBankService extends PersistentService {
     public void changeMinLimit(final PersistentLimitAccount limit, final common.Fraction amount) 
 				throws model.MinLimitHigherMaxLimitException, PersistenceException;
     public void changeTransactionFeeToFixFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency) 
-				throws PersistenceException;
+				throws model.NoValidFeeValueException, PersistenceException;
     public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
-				throws model.NoValidPercentValueException, PersistenceException;
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException;
     public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 
 				throws model.NoValidPercentValueException, PersistenceException;
     public void closeAccount(final PersistentAccount acc) 

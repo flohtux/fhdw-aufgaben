@@ -141,11 +141,11 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
         ((PersistentBank)this.getTheObject()).changeNameImplementation(name);
     }
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
-				throws PersistenceException{
+				throws model.NoValidFeeValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToFix(fix);
     }
     public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
-				throws model.NoValidPercentValueException, PersistenceException{
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeTransactionFeeToMixed(fix, procentual, limit);
     }
     public void changeTransactionFeeToProcentual(final common.Fraction procentual) 

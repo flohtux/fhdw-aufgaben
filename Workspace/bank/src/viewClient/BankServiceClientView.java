@@ -769,6 +769,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				setVisible(false);
 				dispose();
 			}
+			catch(NoValidFeeValueException e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			
 		}
 		protected String checkCompleteParameterSet(){
@@ -822,6 +825,9 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 				dispose();
 			}
 			catch(NoValidPercentValueException e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			catch(NoValidFeeValueException e) {
 				getStatusBar().setText(e.getMessage());
 			}
 			

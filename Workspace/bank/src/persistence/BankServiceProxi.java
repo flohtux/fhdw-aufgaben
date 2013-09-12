@@ -139,11 +139,11 @@ public class BankServiceProxi extends ServiceProxi implements PersistentBankServ
         return ((PersistentBankService)this.getTheObject()).changePassword(newPassword1, newPassword2);
     }
     public void changeTransactionFeeToFixFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency) 
-				throws PersistenceException{
+				throws model.NoValidFeeValueException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeTransactionFeeToFixFee(dummy, fix, fixCurrency);
     }
     public void changeTransactionFeeToMixedFee(final PersistentTransactionFee dummy, final common.Fraction fix, final String fixCurrency, final common.Fraction limit, final String limitCurrency, final common.Fraction procentual) 
-				throws model.NoValidPercentValueException, PersistenceException{
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
         ((PersistentBankService)this.getTheObject()).changeTransactionFeeToMixedFee(dummy, fix, fixCurrency, limit, limitCurrency, procentual);
     }
     public void changeTransactionFeeToProcentualFee(final PersistentTransactionFee dummy, final common.Fraction procentual) 

@@ -43,9 +43,9 @@ server BankService extends Service {
 	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
 
 	void findAccount@@Konto_finden(Integer accountNumber@@Kontonummer) throws UserException;
-	void changeTransactionFeeToFixFee@@Fixe_Gebühren(TransactionFee dummy, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung);
+	void changeTransactionFeeToFixFee@@Fixe_Gebühren(TransactionFee dummy, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung) throws NoValidFeeValueException;
 	void changeTransactionFeeToProcentualFee@@Procentuale_Gebühren(TransactionFee dummy, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException;
-	void changeTransactionFeeToMixedFee@@Gemischte_Gebühren(TransactionFee dummy,  Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency@@Währung, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException;
+	void changeTransactionFeeToMixedFee@@Gemischte_Gebühren(TransactionFee dummy,  Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency@@Währung, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException, NoValidFeeValueException;
 	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent) throws NoValidPercentValueException;
 }
 class Bank {
@@ -61,9 +61,9 @@ class Bank {
 	active void createAccount(CurrencySUBTYPEName currencyType);
 	void sendTransfer(DebitTransfer debitTransfer) throws ExecuteException;
 	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
-	void changeTransactionFeeToFix(Money fix);
+	void changeTransactionFeeToFix(Money fix) throws NoValidFeeValueException;
 	void changeTransactionFeeToProcentual(Fraction procentual) throws NoValidPercentValueException; 
-	void changeTransactionFeeToMixed(Money fix, Fraction procentual, Money limit) throws NoValidPercentValueException;
+	void changeTransactionFeeToMixed(Money fix, Fraction procentual, Money limit) throws NoValidPercentValueException, NoValidFeeValueException;
 	void changeInternalFee(Fraction procentual) throws NoValidPercentValueException;
 	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
 }
@@ -375,6 +375,7 @@ exception NoRuleDefinitionException {}
 exception MinLimitHigherMaxLimitException{}
 exception MaxLimitLowerThenMinLimitException{}
 exception NoValidPercentValueException{}
+exception NoValidFeeValueException{}
 
 exception TriggerCyclicException extends ExecuteException{}
 abstract exception DebitException extends ExecuteException{}

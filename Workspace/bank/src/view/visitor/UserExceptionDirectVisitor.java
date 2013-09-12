@@ -13,6 +13,8 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handlePasswordException(PasswordException passwordException) throws ModelException;
     
+    public abstract void handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException;
+    
     public abstract void handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException;
     
     public abstract void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;

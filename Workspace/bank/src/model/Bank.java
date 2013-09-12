@@ -454,14 +454,20 @@ public class Bank extends PersistentObject implements PersistentBank{
         getThis().setName(name);
     }
     public void changeTransactionFeeToFix(final PersistentMoney fix) 
-				throws PersistenceException{
+				throws model.NoValidFeeValueException, PersistenceException{
+    	if(Fraction.Null.greater(fix.getAmount().getBalance())) {
+    		throw new NoValidFeeValueException();
+    	}
     	final PersistentFixTransactionFee newFee = FixTransactionFee.createFixTransactionFee(fix);
         getThis().getBankFees().changeTransactionFee(newFee);
     }
     public void changeTransactionFeeToMixed(final PersistentMoney fix, final common.Fraction procentual, final PersistentMoney limit) 
-				throws model.NoValidPercentValueException, PersistenceException{
+				throws model.NoValidPercentValueException, model.NoValidFeeValueException, PersistenceException{
     	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));
     	percent.changeValue(procentual);
+    	if(Fraction.Null.greater(fix.getAmount().getBalance()) || Fraction.Null.greater(limit.getAmount().getBalance())) {
+    		throw new NoValidFeeValueException();
+    	}
     	final PersistentMixedFee newFee = MixedFee.createMixedFee(FixTransactionFee.createFixTransactionFee(fix), ProcentualFee.createProcentualFee(percent), limit);
         getThis().getBankFees().changeTransactionFee(newFee);
     }

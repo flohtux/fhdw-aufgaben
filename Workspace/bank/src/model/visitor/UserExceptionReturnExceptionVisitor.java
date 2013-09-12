@@ -7,6 +7,7 @@ public interface UserExceptionReturnExceptionVisitor<R, E extends UserException>
     
     public R handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException, E;
     public R handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException, E;
+    public R handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException, E;
     public R handlePasswordException(model.PasswordException passwordException) throws PersistenceException, E;
     public R handleNoValidPercentValueException(model.NoValidPercentValueException noValidPercentValueException) throws PersistenceException, E;
     public R handleMinLimitHigherMaxLimitException(model.MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws PersistenceException, E;

@@ -83,6 +83,8 @@ public  class RemoteBankService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoValidFeeValueException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -98,6 +100,8 @@ public  class RemoteBankService extends RemoteService {
             return createExceptionResult(pe);
         }catch(model.NoValidPercentValueException e0){
             return createExceptionResult(e0, this);
+        }catch(model.NoValidFeeValueException e1){
+            return createExceptionResult(e1, this);
         }
     }
     

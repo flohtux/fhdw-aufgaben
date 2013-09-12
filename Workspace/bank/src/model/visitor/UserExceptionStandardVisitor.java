@@ -11,6 +11,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException{
         this.standardHandling(noAccountsFound);
     }
+    public void handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException{
+        this.standardHandling(noValidFeeValueException);
+    }
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException{
         this.standardHandling(passwordException);
     }
@@ -35,11 +38,11 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
         this.standardHandling(debitNotGrantedException);
     }
-    public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
-        this.standardHandling(invalidAccountNumberException);
-    }
     public void handleTriggerCyclicException(model.TriggerCyclicException triggerCyclicException) throws PersistenceException{
         this.standardHandling(triggerCyclicException);
+    }
+    public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
+        this.standardHandling(invalidAccountNumberException);
     }
     public void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException{
         this.standardHandling(ruleNotMatchedException);

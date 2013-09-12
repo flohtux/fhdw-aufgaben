@@ -7,6 +7,7 @@ public interface UserExceptionExceptionVisitor<E extends UserException> extends 
     
     public void handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException, E;
     public void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException, E;
+    public void handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException, E;
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException, E;
     public void handleNoValidPercentValueException(model.NoValidPercentValueException noValidPercentValueException) throws PersistenceException, E;
     public void handleMinLimitHigherMaxLimitException(model.MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws PersistenceException, E;
