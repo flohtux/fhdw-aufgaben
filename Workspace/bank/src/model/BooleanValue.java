@@ -126,6 +126,7 @@ public abstract class BooleanValue extends PersistentObject implements Persisten
     
     public PersistentBooleanValue or(final PersistentBooleanValue value) 
 				throws PersistenceException{
+    	System.out.println("or true this "+getThis().isTrue()+" value "+value.isTrue());
     	if(getThis().isTrue() || value.isTrue()) {
     		return TrueValue.getTheTrueValue();
     	}

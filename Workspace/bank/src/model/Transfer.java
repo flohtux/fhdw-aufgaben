@@ -332,21 +332,23 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
-    	getThis().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
-			@Override
-			public void handleNoTrigger(PersistentNoTrigger noTrigger)
-					throws PersistenceException, TriggerCyclicException {
-				System.out.println("no Trigger");
-			}
-			@Override
-			public void handleTrigger(PersistentTrigger trigger)
-					throws PersistenceException, TriggerCyclicException {
-				System.out.println("trigger okay");
-				if(getThis().contains(trigger).isTrue()) {
-					throw new TriggerCyclicException();
+    	if(getThis().getPreviousDebitTransfer() != null) {
+	    	getThis().getPreviousDebitTransfer().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
+				@Override
+				public void handleNoTrigger(PersistentNoTrigger noTrigger)
+						throws PersistenceException, TriggerCyclicException {
+					System.out.println("no Trigger");
 				}
-			}
-		});
+				@Override
+				public void handleTrigger(PersistentTrigger trigger)
+						throws PersistenceException, TriggerCyclicException {
+					System.out.println("trigger okay");
+					if(getThis().contains(trigger).isTrue()) {
+						throw new TriggerCyclicException();
+					}
+				}
+			});
+    	}
     	if (!getThis().getState().isExecutable().isTrue()) {
     		throw new NoPermissionToExecuteDebitTransferException();
     	}

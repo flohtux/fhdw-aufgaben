@@ -1,6 +1,8 @@
 
 package model;
 
+import java.util.HashMap;
+
 import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
 import model.meta.DebitGrantListeRemoveAccountPxMssg;
@@ -19,6 +21,11 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.CommandExceptionVisitor;
+import model.visitor.CommandReturnExceptionVisitor;
+import model.visitor.CommandReturnVisitor;
+import model.visitor.CommandVisitor;
+import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
@@ -28,6 +35,7 @@ import persistence.AbstractPersistentRoot;
 import persistence.AccountProxi;
 import persistence.AccountSearchList;
 import persistence.Anything;
+import persistence.Command;
 import persistence.ConnectionHandler;
 import persistence.DebitTransferSearchList;
 import persistence.Invoker;
@@ -57,6 +65,7 @@ import persistence.PersistentLimitType;
 import persistence.PersistentMoney;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
+import persistence.PersistentRoot;
 import persistence.PersistentRule;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
@@ -662,14 +671,17 @@ public class Account extends PersistentObject implements PersistentAccount{
     	trans.changeReceiverBank(receiverBankNumber);
     }
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
-				throws PersistenceException{
+				throws model.ExecuteException, PersistenceException{
 		System.out.println("exec"+incomingDebitTransfer);
 		System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
-		getThis().getTriggerListe().getTriggers().applyToAll(new Procdure<PersistentTrigger>() {
-			public void doItTo(PersistentTrigger argument) throws PersistenceException {
+		getThis().getTriggerListe().getTriggers().applyToAllException(new ProcdureException<PersistentTrigger, ExecuteException>() {
+
+			@Override
+			public void doItTo(PersistentTrigger argument)
+					throws PersistenceException, ExecuteException {
 				argument.executeTrigger(incomingDebitTransfer, getThis().getAccountService());
-			}});
-		
+			}
+		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -743,7 +755,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 			@Override
 			public void handleTransfer(PersistentTransfer transfer)
 					throws PersistenceException {
-				System.out.println("invoker trigger set"+transfer);
 				transfer.setInvokerTrigger(trigger);
 			}
 			@Override
@@ -762,7 +773,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     	System.out.println("react!"+getThis()+event);
         getThis().getAccountService().getEventhandle().reactOnEvent(event);
         
-        this.checkTrigger(event);
+		this.checkTrigger(event);
     }
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
@@ -832,7 +843,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     
     private void checkTrigger(DebitTransferTransactionMssgs event) throws PersistenceException {
-		event.accept(new DebitTransferTransactionMssgsVisitor() {
+    	event.accept(new DebitTransferTransactionMssgsVisitor() {
 			public void handleDebitTransferChangeReceiverBankIntegerMssg(DebitTransferChangeReceiverBankIntegerMssg event) throws PersistenceException {}
 			public void handleDebitTransferChangeReceiverAccountIntegerMssg(DebitTransferChangeReceiverAccountIntegerMssg event) throws PersistenceException {}
 			public void handleDebitTransferChangeMoneyFractionMssg(DebitTransferChangeMoneyFractionMssg event) throws PersistenceException {}
@@ -853,18 +864,20 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
-					t.accept(new DebitTransferTransactionVisitor() {
-						public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
-							Account.this.checkAllTriggers(transfer);
+					t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
+						public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
+							getThis().checkAllTriggers(transfer);
 						}
-						public void handleDebit(PersistentDebit debit) throws PersistenceException {
-							Account.this.checkAllTriggers(debit);
+						public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
+							getThis().checkAllTriggers(debit);
 						}
-						public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {}
+						public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
 					});
 					
 					
 				} catch (ExecuteException e) {
+					//TODO hier muss die Exception weiter gegeben werden
+					getThis().getAccountService().getErrors().add(ErrorDisplay.createErrorDisplay(e.getMessage()));
 					// Execute will be rolled back - no trigger!
 				}
 				
