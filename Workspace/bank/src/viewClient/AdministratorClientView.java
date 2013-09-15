@@ -1,18 +1,24 @@
 package viewClient;
 
-import view.*;
-import view.objects.ViewRoot;
-
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JPopupMenu;
-import javax.swing.JSplitPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
-import javax.swing.tree.DefaultTreeSelectionModel;
+
+import view.AdministratorView;
+import view.Anything;
+import view.BankView;
+import view.InvalidBankNumberException;
+import view.ModelException;
+import view.PasswordException;
+import view.UserException;
+import view.objects.ViewRoot;
 
 
 @SuppressWarnings("serial")

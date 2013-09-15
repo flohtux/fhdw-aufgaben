@@ -1,8 +1,6 @@
 
 package model;
 
-import common.Fraction;
-
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
@@ -21,6 +19,8 @@ import persistence.PersistentPercent;
 import persistence.PersistentProxi;
 import persistence.SubjInterface;
 import persistence.TDObserver;
+
+import common.Fraction;
 
 
 /* Additional import section end */

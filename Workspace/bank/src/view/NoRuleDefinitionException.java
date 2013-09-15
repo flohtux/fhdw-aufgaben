@@ -2,8 +2,11 @@
 package view;
 
 
-import viewClient.*;
-import view.visitor.*;
+import view.visitor.UserExceptionExceptionVisitor;
+import view.visitor.UserExceptionReturnExceptionVisitor;
+import view.visitor.UserExceptionReturnVisitor;
+import view.visitor.UserExceptionVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 
 /* Additional import section end */

@@ -2,11 +2,10 @@ package persistence;
 
 import java.util.*;
 
-public class RuleList {
+public class RuleList  extends RuleSearchList{
 
-	protected Vector<PersistentRule> data; //List of proxies
 	protected RuleList() {
-		this.data = new Vector<PersistentRule>();
+		super();
 	}
 	public Iterator<PersistentRule> iterator(PersistentListProxi<PersistentRule> listProxi) {
 		return new PersistentListIterator<PersistentRule>(listProxi, this.data);

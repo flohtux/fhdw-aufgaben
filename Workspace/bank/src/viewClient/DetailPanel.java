@@ -1061,6 +1061,7 @@ class SuccessfulStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class IncomingAccountRuleDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String Rule$$masterTrigger = "Rule$$masterTrigger";
     protected static final String IncomingAccountRule$$accountNumber = "IncomingAccountRule$$accountNumber";
     protected static final String IncomingAccountRule$$bankNumber = "IncomingAccountRule$$bankNumber";
     
@@ -1280,6 +1281,7 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class SubjectRuleDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String Rule$$masterTrigger = "Rule$$masterTrigger";
     protected static final String SubjectRule$$subject = "SubjectRule$$subject";
     
     protected SubjectRuleDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1714,6 +1716,7 @@ class NotExecutableStateDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String Rule$$masterTrigger = "Rule$$masterTrigger";
     protected static final String MoneyRule$$minLimit = "MoneyRule$$minLimit";
     protected static final String MoneyRule$$maxLimit = "MoneyRule$$maxLimit";
     

@@ -74,6 +74,10 @@ public class SubjectRuleProxi extends RuleProxi implements PersistentSubjectRule
 				throws PersistenceException{
         ((PersistentSubjectRule)this.getTheObject()).deregister(observee);
     }
+    public PersistentTrigger getMasterTrigger() 
+				throws PersistenceException{
+        return ((PersistentSubjectRule)this.getTheObject()).getMasterTrigger();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentSubjectRule)this.getTheObject()).initialize(This, final$$Fields);

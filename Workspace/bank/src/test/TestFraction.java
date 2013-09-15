@@ -1,14 +1,10 @@
 package test;
 
-import java.math.BigInteger;
+import junit.framework.TestCase;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import common.Fraction;
-
-import junit.framework.TestCase;
 
 public class TestFraction extends TestCase {
 

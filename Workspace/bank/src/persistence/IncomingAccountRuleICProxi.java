@@ -80,6 +80,10 @@ public class IncomingAccountRuleICProxi extends RuleICProxi implements Persisten
 				throws PersistenceException{
         ((PersistentIncomingAccountRule)this.getTheObject()).deregister(observee);
     }
+    public PersistentTrigger getMasterTrigger() 
+				throws PersistenceException{
+        return ((PersistentIncomingAccountRule)this.getTheObject()).getMasterTrigger();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentIncomingAccountRule)this.getTheObject()).initialize(This, final$$Fields);

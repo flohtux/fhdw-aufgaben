@@ -33,7 +33,6 @@ import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
 import persistence.PersistentInternalFee;
-import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentProxi;
 import persistence.PersistentService;

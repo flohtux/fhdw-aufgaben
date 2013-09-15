@@ -86,6 +86,10 @@ public class MoneyRuleICProxi extends RuleICProxi implements PersistentMoneyRule
 				throws PersistenceException{
         ((PersistentMoneyRule)this.getTheObject()).deregister(observee);
     }
+    public PersistentTrigger getMasterTrigger() 
+				throws PersistenceException{
+        return ((PersistentMoneyRule)this.getTheObject()).getMasterTrigger();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentMoneyRule)this.getTheObject()).initialize(This, final$$Fields);

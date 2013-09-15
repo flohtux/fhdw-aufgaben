@@ -1,7 +1,10 @@
 package persistence;
 
-import model.visitor.*;
-import model.*;
+import model.UserException;
+import model.visitor.ObsInterfaceExceptionVisitor;
+import model.visitor.ObsInterfaceReturnExceptionVisitor;
+import model.visitor.ObsInterfaceReturnVisitor;
+import model.visitor.ObsInterfaceVisitor;
 
 
 /* Additional import section end */

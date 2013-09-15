@@ -3,6 +3,7 @@ package view.objects;
 
 import view.IncomingAccountRuleView;
 import view.ModelException;
+import view.TriggerView;
 import view.UserException;
 import view.visitor.AnythingExceptionVisitor;
 import view.visitor.AnythingReturnExceptionVisitor;
@@ -21,9 +22,9 @@ public class IncomingAccountRule extends view.objects.Rule implements IncomingAc
     protected long accountNumber;
     protected long bankNumber;
     
-    public IncomingAccountRule(long accountNumber,long bankNumber,long id, long classId) {
+    public IncomingAccountRule(TriggerView masterTrigger,long accountNumber,long bankNumber,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(id, classId);
+        super((TriggerView)masterTrigger,id, classId);
         this.accountNumber = accountNumber;
         this.bankNumber = bankNumber;        
     }
@@ -75,30 +76,40 @@ public class IncomingAccountRule extends view.objects.Rule implements IncomingAc
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        TriggerView masterTrigger = this.getMasterTrigger();
+        if (masterTrigger != null) {
+            ((ViewProxi)masterTrigger).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(masterTrigger.getClassId(), masterTrigger.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getMasterTrigger() != null) return new MasterTriggerRuleWrapper(this, originalIndex, (ViewRoot)this.getMasterTrigger());
+        if(this.getMasterTrigger() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getMasterTrigger() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getMasterTrigger() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getMasterTrigger() != null && this.getMasterTrigger().equals(child)) return result;
+        if(this.getMasterTrigger() != null) result = result + 1;
         return -1;
     }
     public int getAccountNumberIndex() throws ModelException {
-        return 0;
+        return 0 + (this.getMasterTrigger() == null ? 0 : 1);
     }
     public int getBankNumberIndex() throws ModelException {
-        return 0 + 1;
+        return 0 + (this.getMasterTrigger() == null ? 0 : 1) + 1;
     }
     public int getRowCount(){
         return 0 
@@ -140,7 +151,7 @@ public class IncomingAccountRule extends view.objects.Rule implements IncomingAc
         rowIndex = rowIndex - 1;
     }
     public boolean hasTransientFields(){
-        return false;
+        return true;
     }
     /* Start of protected part that is not overridden by persistence generator */
     

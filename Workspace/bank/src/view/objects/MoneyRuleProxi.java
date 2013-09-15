@@ -12,6 +12,13 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     
     public MoneyRuleView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
+        ViewProxi masterTrigger = null;
+        String masterTrigger$String = (String)resultTable.get("masterTrigger");
+        if (masterTrigger$String != null) {
+            common.ProxiInformation masterTrigger$Info = common.RPCConstantsAndServices.createProxiInformation(masterTrigger$String);
+            masterTrigger = view.objects.ViewProxi.createProxi(masterTrigger$Info,connectionKey);
+            masterTrigger.setToString(masterTrigger$Info.getToString());
+        }
         ViewProxi currency = null;
         String currency$String = (String)resultTable.get("currency");
         if (currency$String != null) {
@@ -33,7 +40,7 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
             maxLimit = view.objects.ViewProxi.createProxi(maxLimit$Info,connectionKey);
             maxLimit.setToString(maxLimit$Info.getToString());
         }
-        MoneyRuleView result$$ = new MoneyRule((CurrencyView)currency,(AmountView)minLimit,(AmountView)maxLimit, this.getId(), this.getClassId());
+        MoneyRuleView result$$ = new MoneyRule((TriggerView)masterTrigger,(CurrencyView)currency,(AmountView)minLimit,(AmountView)maxLimit, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -43,6 +50,8 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
+        if(index == 0 && this.getMasterTrigger() != null) return new MasterTriggerRuleWrapper(this, originalIndex, (ViewRoot)this.getMasterTrigger());
+        if(this.getMasterTrigger() != null) index = index - 1;
         if(this.getMinLimit() != null && index < this.getMinLimit().getTheObject().getChildCount())
             return this.getMinLimit().getTheObject().getChild(index);
         if(this.getMinLimit() != null) index = index - this.getMinLimit().getTheObject().getChildCount();
@@ -53,17 +62,21 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     public int getChildCount() throws ModelException {
         return 0 
+            + (this.getMasterTrigger() == null ? 0 : 1)
             + (this.getMinLimit() == null ? 0 : this.getMinLimit().getTheObject().getChildCount())
             + (this.getMaxLimit() == null ? 0 : this.getMaxLimit().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
+            && (this.getMasterTrigger() == null ? true : false)
             && (this.getMinLimit() == null ? true : this.getMinLimit().getTheObject().isLeaf())
             && (this.getMaxLimit() == null ? true : this.getMaxLimit().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
+        if(this.getMasterTrigger() != null && this.getMasterTrigger().equals(child)) return result;
+        if(this.getMasterTrigger() != null) result = result + 1;
         if(this.getMinLimit() != null && this.getMinLimit().equals(child)) return result;
         if(this.getMinLimit() != null) result = result + 1;
         if(this.getMaxLimit() != null && this.getMaxLimit().equals(child)) return result;
@@ -116,7 +129,7 @@ public class MoneyRuleProxi extends RuleProxi implements MoneyRuleView{
     }
     
     public boolean hasTransientFields(){
-        return false;
+        return true;
     }
     
     public void setIcon(IconRenderer renderer){

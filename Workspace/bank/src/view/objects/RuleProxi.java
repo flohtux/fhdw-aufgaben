@@ -10,6 +10,9 @@ public abstract class RuleProxi extends ViewProxi implements RuleView{
     }
     
     
+    public TriggerView getMasterTrigger()throws ModelException{
+        return ((Rule)this.getTheObject()).getMasterTrigger();
+    }
     
     
     

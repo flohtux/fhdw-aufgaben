@@ -18,7 +18,6 @@ import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
 import model.visitor.TriggerValueExceptionVisitor;
-import model.visitor.TriggerValueVisitor;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.DebitProxi;

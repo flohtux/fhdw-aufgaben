@@ -195,6 +195,27 @@ public class TriggerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public TriggerSearchList inverseGetRules(long objectId, long classId)throws PersistenceException{
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".TrggrFacade.iGetRls(?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, objectId);
+            callable.setLong(3, classId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            TriggerSearchList result = new TriggerSearchList();
+            while (list.next()) {
+                if (list.getLong(3) != 0) result.add((PersistentTrigger)PersistentProxi.createProxi(list.getLong(3), list.getLong(4)));
+                else result.add((PersistentTrigger)PersistentProxi.createProxi(list.getLong(1), list.getLong(2)));
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
 
 }
 

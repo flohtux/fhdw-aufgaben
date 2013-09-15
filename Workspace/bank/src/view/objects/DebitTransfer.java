@@ -1,10 +1,6 @@
 
 package view.objects;
 
-import model.TriggerCyclicException;
-import persistence.PersistenceException;
-import persistence.PersistentBooleanValue;
-import persistence.PersistentTrigger;
 import view.AccountView;
 import view.DebitTransferStateView;
 import view.DebitTransferView;

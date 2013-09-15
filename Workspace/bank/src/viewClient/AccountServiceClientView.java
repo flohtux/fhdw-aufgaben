@@ -1,25 +1,62 @@
 package viewClient;
 
-import view.*;
+import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.tree.DefaultTreeSelectionModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeSelectionModel;
+
+import model.meta.StringFACTORY;
+import persistence.PersistenceException;
+import persistence.PersistentDisabledState;
+import persistence.PersistentEnabledState;
+import rGType.CharacterValue;
+import view.AccountServiceView;
+import view.Anything;
+import view.DebitGrantListeView;
+import view.DebitGrantView;
+import view.DebitTransferStateView;
+import view.DebitTransferTransactionView;
+import view.DebitTransferView;
+import view.DebitView;
+import view.DisabledStateView;
+import view.DoubleRuleDefinitionException;
+import view.EnabledStateView;
+import view.ExecuteException;
+import view.ExecutedStateView;
+import view.FalseValueView;
+import view.GrantAlreadyGivenException;
+import view.IncomingAccountRuleView;
+import view.InvalidAccountNumberException;
+import view.InvalidBankNumberException;
+import view.ModelException;
+import view.MoneyRuleView;
+import view.NoPermissionToExecuteDebitTransferException;
+import view.NoRuleDefinitionException;
+import view.NoTriggerView;
+import view.NotExecutableStateView;
+import view.NotExecutedStateView;
+import view.NotSuccessfulStateView;
+import view.PasswordException;
+import view.SubjectRuleView;
+import view.SuccessfulStateView;
+import view.TemplateStateView;
+import view.TransactionView;
+import view.TransferView;
+import view.TriggerView;
+import view.TrueValueView;
+import view.UserException;
 import view.objects.ViewRoot;
 import view.visitor.BooleanValueReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
-
-import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JPopupMenu;
-import javax.swing.JSplitPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeSelectionModel;
-import javax.swing.tree.DefaultTreeSelectionModel;
-
-import persistence.PersistenceException;
-import rGType.CharacterValue;
-import model.meta.StringFACTORY;
+import view.visitor.TriggerStateVisitor;
+import view.visitor.TriggerValueReturnVisitor;
 import common.Fraction;
 import expressions.RegularExpressionHandler;
 
@@ -210,154 +247,195 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			
 			@Override
 			 public void handleDebit(final DebitView debit) throws ModelException{
-				final CustomDebitDetailPanel panel = new CustomDebitDetailPanel(AccountServiceClientView.this, debit);
-				debit.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
-					
-						protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
-							panel.registerUpdater(CustomDebitDetailPanel.DebitTransferTransaction$$subject, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(debit, text);}
-								public String format(String text) { return text;	}
-								public boolean check(String text) throws ModelException { return true;	}
-							});
-							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
-								public void update(String text) throws ModelException {
-									AccountServiceClientView.this.getConnection().changeReceiverBank(debit, Integer.parseInt(text)); }
-								public String format(String text) { return text; }
-								public boolean check(String text) throws ModelException {
-							        try{
-							        	Integer.parseInt(text);
-							        } catch(NumberFormatException nfe) {
-							        	return false;
-							        }
-							        return true;
+				Boolean editable = debit.getInvokerTrigger().accept(new TriggerValueReturnVisitor<Boolean>() {
+					public Boolean handleNoTrigger(NoTriggerView noTrigger) throws ModelException {
+						return true;
+					}
+					public Boolean handleTrigger(TriggerView trigger) throws ModelException {
+						return trigger.getState().accept(new TriggerStateReturnVisitor<Boolean>() {
+							@Override
+							public Boolean handleDisabledState(DisabledStateView disabledState)  {
+								return true;
+							}
 
-								}
-							});
-							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeReceiverAccount(debit, Integer.parseInt(text));	}
-								public String format(String text) { return text; }
-								public boolean check(String text) throws ModelException {
-							        try{
-							        	Integer.parseInt(text);
-							        } catch(NumberFormatException nfe) {
-							        	return false;
-							        }
-							        return true;
-								}
-							}); 
-							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$money$$balance, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeMoney(debit, Fraction.parseDec(text));}
-								public String format(String text) {
-									try{
-							        	Fraction frac = Fraction.parseDec(text);
-							        	return frac.formatDec(2);
-							        } catch(NumberFormatException nfe) {
-							        	return text;
-							        }
-								}
-								public boolean check(String text) throws ModelException {
-									return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
-								}
-							});
-							panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$money$$currency, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeCurrency(debit, text); }
-								public String format(String text) { return text; }
-								public boolean check(String text) throws ModelException {
-									try {
-										StringFACTORY.createObjectBySubTypeNameForCurrency(text);
-										return true;
-									} catch (PersistenceException e) {
-										return false;
+							@Override
+							public Boolean handleEnabledState(EnabledStateView enabledState) {
+								return false;
+							}
+						});
+					}
+				});
+				final CustomDebitDetailPanel panel = new CustomDebitDetailPanel(AccountServiceClientView.this, debit);
+				if (editable) {
+					debit.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
+						
+							protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
+								panel.registerUpdater(CustomDebitDetailPanel.DebitTransferTransaction$$subject, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(debit, text);}
+									public String format(String text) { return text;	}
+									public boolean check(String text) throws ModelException { return true;	}
+								});
+								panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+									public void update(String text) throws ModelException {
+										AccountServiceClientView.this.getConnection().changeReceiverBank(debit, Integer.parseInt(text)); }
+									public String format(String text) { return text; }
+									public boolean check(String text) throws ModelException {
+								        try{
+								        	Integer.parseInt(text);
+								        } catch(NumberFormatException nfe) {
+								        	return false;
+								        }
+								        return true;
+	
 									}
-								}
-							});
-							result = panel;
-						};
-						
-						@Override
-						public void handleExecutedState(ExecutedStateView executedState) throws ModelException {
-							// no edit possible
-						}
-						
-						@Override
-						public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
-							// no edit possible
-						}
-						
-					});
+								});
+								panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeReceiverAccount(debit, Integer.parseInt(text));	}
+									public String format(String text) { return text; }
+									public boolean check(String text) throws ModelException {
+								        try{
+								        	Integer.parseInt(text);
+								        } catch(NumberFormatException nfe) {
+								        	return false;
+								        }
+								        return true;
+									}
+								}); 
+								panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeMoney(debit, Fraction.parseDec(text));}
+									public String format(String text) {
+										try{
+								        	Fraction frac = Fraction.parseDec(text);
+								        	return frac.formatDec(2);
+								        } catch(NumberFormatException nfe) {
+								        	return text;
+								        }
+									}
+									public boolean check(String text) throws ModelException {
+										return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
+									}
+								});
+								panel.registerUpdater(CustomDebitDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeCurrency(debit, text); }
+									public String format(String text) { return text; }
+									public boolean check(String text) throws ModelException {
+										try {
+											StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+											return true;
+										} catch (PersistenceException e) {
+											return false;
+										}
+									}
+								});
+
+							};
+							
+							@Override
+							public void handleExecutedState(ExecutedStateView executedState) throws ModelException {
+								// no edit possible
+							}
+							
+							@Override
+							public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
+								// no edit possible
+							}
+							
+						});
+				}
+				result = panel;
 
 			}
 			
 			@Override
 			public void handleTransfer(final TransferView transfer)
 					throws ModelException {
+				Boolean editable = transfer.getInvokerTrigger().accept(new TriggerValueReturnVisitor<Boolean>() {
+					public Boolean handleNoTrigger(NoTriggerView noTrigger) throws ModelException {
+						return true;
+					}
+					public Boolean handleTrigger(TriggerView trigger) throws ModelException {
+						return trigger.getState().accept(new TriggerStateReturnVisitor<Boolean>() {
+							@Override
+							public Boolean handleDisabledState(DisabledStateView disabledState)  {
+								return true;
+							}
+
+							@Override
+							public Boolean handleEnabledState(EnabledStateView enabledState) {
+								return false;
+							}
+						});
+					}
+				});
 				final CustomTransferDetailPanel panel = new CustomTransferDetailPanel(AccountServiceClientView.this, transfer);
-				transfer.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
-					
-						protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
-							panel.registerUpdater(CustomTransferDetailPanel.DebitTransferTransaction$$subject, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(transfer, text);}
-								public String format(String text) { return text;	}
-								public boolean check(String text) throws ModelException { return true;	}
-							});
-							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
-								public void update(String text) throws ModelException {
-									AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text)); }
-								public String format(String text) { return text; }
-								public boolean check(String text) throws ModelException {
-							        try{
-							        	Integer.parseInt(text);
-							        } catch(NumberFormatException nfe) {
-							        	return false;
-							        }
-							        return true;
-								}
-							});
-							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));	}
-								public String format(String text) { return text; }
-								public boolean check(String text) throws ModelException {
-							        try{
-							        	Integer.parseInt(text);
-							        } catch(NumberFormatException nfe) {
-							        	return false;
-							        }
-							        return true;
-								}
-							}); 
-							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parseDec(text));}
-								public String format(String text) {
-									try{
-							        	Fraction frac = Fraction.parseDec(text);
-							        	return frac.formatDec(2);
-							        } catch(NumberFormatException nfe) {
-							        	return text;
-							        }
-								}
-								public boolean check(String text) throws ModelException {
-									return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
-								}
-							});
-							panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
-								public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeCurrency(transfer, text); }
-								public String format(String text) { return text; }
-								public boolean check(String text) throws ModelException {
-									try {
-										StringFACTORY.createObjectBySubTypeNameForCurrency(text);
-										return true;
-									} catch (PersistenceException e) {
-										return false;
-									}
-								}
-							});
-							result = panel;
-						};
+				if (editable) {
+					transfer.getState().accept(new view.visitor.DebitTransferStateStandardVisitor() {
 						
-						public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
-							// no edit possible
-						}
-					});
+							protected void standardHandling(DebitTransferStateView debitTransferState) throws ModelException {
+								panel.registerUpdater(CustomTransferDetailPanel.DebitTransferTransaction$$subject, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeSubject(transfer, text);}
+									public String format(String text) { return text;	}
+									public boolean check(String text) throws ModelException { return true;	}
+								});
+								panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverBankNumber, new Updater() {
+									public void update(String text) throws ModelException {
+										AccountServiceClientView.this.getConnection().changeReceiverBank(transfer, Integer.parseInt(text)); }
+									public String format(String text) { return text; }
+									public boolean check(String text) throws ModelException {
+								        try{
+								        	Integer.parseInt(text);
+								        } catch(NumberFormatException nfe) {
+								        	return false;
+								        }
+								        return true;
+									}
+								});
+								panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$receiverAccountNumber, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeReceiverAccount(transfer, Integer.parseInt(text));	}
+									public String format(String text) { return text; }
+									public boolean check(String text) throws ModelException {
+								        try{
+								        	Integer.parseInt(text);
+								        } catch(NumberFormatException nfe) {
+								        	return false;
+								        }
+								        return true;
+									}
+								}); 
+								panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$balance, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeMoney(transfer, Fraction.parseDec(text));}
+									public String format(String text) {
+										try{
+								        	Fraction frac = Fraction.parseDec(text);
+								        	return frac.formatDec(2);
+								        } catch(NumberFormatException nfe) {
+								        	return text;
+								        }
+									}
+									public boolean check(String text) throws ModelException {
+										return new RegularExpressionHandler(viewConstants.TransferConstants.BalanceRegex).check(new CharacterValue(text));
+									}
+								});
+								panel.registerUpdater(CustomTransferDetailPanel.DebitTransfer$$money$$currency, new Updater() {
+									public void update(String text) throws ModelException { AccountServiceClientView.this.getConnection().changeCurrency(transfer, text); }
+									public String format(String text) { return text; }
+									public boolean check(String text) throws ModelException {
+										try {
+											StringFACTORY.createObjectBySubTypeNameForCurrency(text);
+											return true;
+										} catch (PersistenceException e) {
+											return false;
+										}
+									}
+								});
+							};
+							
+							public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
+								// no edit possible
+							}
+						});
+				}
+				result = panel;
 				
 					
 			}
@@ -365,73 +443,102 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			
 			@Override
 			public void handleMoneyRule(final MoneyRuleView moneyRule) throws ModelException {
-				final CustomMoneyRuleDetailPanel panel = new CustomMoneyRuleDetailPanel(AccountServiceClientView.this, moneyRule);
-				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$minLimit, new DecimalFractionUpdater() {
-					public void update(String text) throws ModelException {
-							AccountServiceClientView.this.getConnection().changeMoneyRuleMin(moneyRule, Fraction.parseDec(text));
+				Boolean enabled = moneyRule.getMasterTrigger().getState().accept(new TriggerStateReturnVisitor<Boolean>() {
+					public Boolean handleEnabledState(EnabledStateView enabledState) throws ModelException {
+						return true;
 					}
-					@Override
-					public boolean check(String text) throws ModelException {
-						return super.check(text) && AccountServiceClientView.this.getConnection().checkMoneyRuleMin(moneyRule, Fraction.parseDec(text)).accept(new BooleanValueReturnVisitor<Boolean>() {
-
-							@Override
-							public Boolean handleFalseValue(FalseValueView falseValue) throws ModelException {
-								return false;
-							}
-
-							@Override
-							public Boolean handleTrueValue(TrueValueView trueValue) throws ModelException {
-								return true;
-							}
-						});
-					}
-					});
-				panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$maxLimit, new DecimalFractionUpdater() {
-					public void update(String text) throws ModelException {
-							AccountServiceClientView.this.getConnection().changeMoneyRuleMax(moneyRule, Fraction.parseDec(text));
-					}
-					@Override
-					public boolean check(String text) throws ModelException {
-						return super.check(text)  && AccountServiceClientView.this.getConnection().checkMoneyRuleMax(moneyRule, Fraction.parseDec(text)).accept(new BooleanValueReturnVisitor<Boolean>() {
-
-							@Override
-							public Boolean handleFalseValue(FalseValueView falseValue) throws ModelException {
-								return false;
-							}
-
-							@Override
-							public Boolean handleTrueValue(TrueValueView trueValue) throws ModelException {
-								return true;
-							}
-						});
+					public Boolean handleDisabledState(DisabledStateView disabledState) throws ModelException {
+						return false;
 					}
 				});
-				
+				final CustomMoneyRuleDetailPanel panel = new CustomMoneyRuleDetailPanel(AccountServiceClientView.this, moneyRule);
+				if (!enabled) {
+					panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$minLimit, new DecimalFractionUpdater() {
+						public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeMoneyRuleMin(moneyRule, Fraction.parseDec(text));
+						}
+						@Override
+						public boolean check(String text) throws ModelException {
+							return super.check(text) && AccountServiceClientView.this.getConnection().checkMoneyRuleMin(moneyRule, Fraction.parseDec(text)).accept(new BooleanValueReturnVisitor<Boolean>() {
+	
+								@Override
+								public Boolean handleFalseValue(FalseValueView falseValue) throws ModelException {
+									return false;
+								}
+	
+								@Override
+								public Boolean handleTrueValue(TrueValueView trueValue) throws ModelException {
+									return true;
+								}
+							});
+						}
+						});
+					panel.registerUpdater(CustomMoneyRuleDetailPanel.MoneyRule$$maxLimit, new DecimalFractionUpdater() {
+						public void update(String text) throws ModelException {
+								AccountServiceClientView.this.getConnection().changeMoneyRuleMax(moneyRule, Fraction.parseDec(text));
+						}
+						@Override
+						public boolean check(String text) throws ModelException {
+							return super.check(text)  && AccountServiceClientView.this.getConnection().checkMoneyRuleMax(moneyRule, Fraction.parseDec(text)).accept(new BooleanValueReturnVisitor<Boolean>() {
+	
+								@Override
+								public Boolean handleFalseValue(FalseValueView falseValue) throws ModelException {
+									return false;
+								}
+	
+								@Override
+								public Boolean handleTrueValue(TrueValueView trueValue) throws ModelException {
+									return true;
+								}
+							});
+						}
+					});
+				}
 				result = panel;
 			}
 			
 			@Override
 			public void handleIncomingAccountRule(final IncomingAccountRuleView incomingAccountRule) throws ModelException {
-				final IncomingAccountRuleDefaultDetailPanel panel = new IncomingAccountRuleDefaultDetailPanel(AccountServiceClientView.this, incomingAccountRule);
-				panel.registerUpdater(IncomingAccountRuleDefaultDetailPanel.IncomingAccountRule$$accountNumber, new UpdaterForInteger() {
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeIncomingAccountRuleAccountNumber(incomingAccountRule, Long.parseLong(text));
+				Boolean enabled = incomingAccountRule.getMasterTrigger().getState().accept(new TriggerStateReturnVisitor<Boolean>() {
+					public Boolean handleEnabledState(EnabledStateView enabledState) throws ModelException {
+						return true;
+					}
+					public Boolean handleDisabledState(DisabledStateView disabledState) throws ModelException {
+						return false;
 					}
 				});
-				panel.registerUpdater(IncomingAccountRuleDefaultDetailPanel.IncomingAccountRule$$bankNumber, new UpdaterForInteger() {
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeIncomingAccountRuleBankNumber(incomingAccountRule, Long.parseLong(text));
-					}});
+				final IncomingAccountRuleDefaultDetailPanel panel = new IncomingAccountRuleDefaultDetailPanel(AccountServiceClientView.this, incomingAccountRule);
+				if (!enabled) {
+					panel.registerUpdater(IncomingAccountRuleDefaultDetailPanel.IncomingAccountRule$$accountNumber, new UpdaterForInteger() {
+						public void update(String text) throws ModelException {
+							AccountServiceClientView.this.getConnection().changeIncomingAccountRuleAccountNumber(incomingAccountRule, Long.parseLong(text));
+						}
+					});
+					panel.registerUpdater(IncomingAccountRuleDefaultDetailPanel.IncomingAccountRule$$bankNumber, new UpdaterForInteger() {
+						public void update(String text) throws ModelException {
+							AccountServiceClientView.this.getConnection().changeIncomingAccountRuleBankNumber(incomingAccountRule, Long.parseLong(text));
+						}});
+				}
 				result = panel;
 			}
 			
 			@Override
 			public void handleSubjectRule(final SubjectRuleView subjectRule) throws ModelException {
+				Boolean enabled = subjectRule.getMasterTrigger().getState().accept(new TriggerStateReturnVisitor<Boolean>() {
+					public Boolean handleEnabledState(EnabledStateView enabledState) throws ModelException {
+						return true;
+					}
+					public Boolean handleDisabledState(DisabledStateView disabledState) throws ModelException {
+						return false;
+					}
+				});
 				final SubjectRuleDefaultDetailPanel panel = new SubjectRuleDefaultDetailPanel(AccountServiceClientView.this, subjectRule);
-				panel.registerUpdater(SubjectRuleDefaultDetailPanel.SubjectRule$$subject, new UpdaterForString() {
-					public void update(String text) throws ModelException {
-						AccountServiceClientView.this.getConnection().changeSubjectRuleSubject(subjectRule, text);
-					}});
+				if (!enabled) {
+					panel.registerUpdater(SubjectRuleDefaultDetailPanel.SubjectRule$$subject, new UpdaterForString() {
+						public void update(String text) throws ModelException {
+							AccountServiceClientView.this.getConnection().changeSubjectRuleSubject(subjectRule, text);
+						}});
+				}
 				result = panel;
 			}
 			

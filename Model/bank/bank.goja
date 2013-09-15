@@ -304,7 +304,7 @@ class Trigger extends TriggerValue{
 	prior String name@@Name;
 	one-to-one (no-view master) TriggerState state;
 	DebitTransferTransaction action;
-	Rule ** rules;
+	one-to-one (masterTrigger) Rule ** rules;
 	void enable() throws NoRuleDefinitionException;
 	void disable();
 	void addRule(Rule rule) throws DoubleRuleDefinitionException;

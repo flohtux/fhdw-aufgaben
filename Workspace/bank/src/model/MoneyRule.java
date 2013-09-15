@@ -255,6 +255,7 @@ public class MoneyRule extends model.Rule implements PersistentMoneyRule{
          return visitor.handleMoneyRule(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getMasterTrigger() != null) return 1;
         if (this.getMinLimit() != null && this.getMinLimit().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getMaxLimit() != null && this.getMaxLimit().getTheObject().getLeafInfo() != 0) return 1;
         return 0;

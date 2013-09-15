@@ -1,7 +1,10 @@
 package persistence;
 
-import model.visitor.*;
-import model.*;
+import model.UserException;
+import model.visitor.DebitTransferTransactionCommandExceptionVisitor;
+import model.visitor.DebitTransferTransactionCommandReturnExceptionVisitor;
+import model.visitor.DebitTransferTransactionCommandReturnVisitor;
+import model.visitor.DebitTransferTransactionCommandVisitor;
 
 
 /* Additional import section end */

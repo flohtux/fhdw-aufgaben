@@ -1,9 +1,21 @@
 
 package model.meta;
 
-import persistence.*;
-import model.*;
-import model.visitor.*;
+import model.UserException;
+import model.visitor.AnythingExceptionVisitor;
+import model.visitor.AnythingReturnExceptionVisitor;
+import model.visitor.AnythingReturnVisitor;
+import model.visitor.AnythingVisitor;
+import persistence.Anything;
+import persistence.Command;
+import persistence.CommandCoordinatorProxi;
+import persistence.CommandCoordinator_ExecuterProxi;
+import persistence.ConnectionHandler;
+import persistence.PersistenceException;
+import persistence.PersistentCommandCoordinator;
+import persistence.PersistentCommandExecuter;
+import persistence.PersistentObject;
+import persistence.TDObserver;
 
 
 /* Additional import section end */

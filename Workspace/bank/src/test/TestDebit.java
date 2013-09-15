@@ -1,32 +1,19 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import model.Administrator;
 import model.Amount;
 import model.BankCreator;
-import model.DebitException;
 import model.DebitNotGrantedException;
 import model.Dollar;
 import model.Euro;
 import model.ExecuteException;
-import model.FixTransactionFee;
 import model.GrantAlreadyGivenException;
-import model.InvalidAccountNumberException;
-import model.InvalidBankNumberException;
 import model.Limit;
-import model.LimitAccount;
-import model.DebitException;
 import model.LimitViolatedException;
-import model.MixedFee;
 import model.Money;
 import model.NoLimit;
-import model.NoPermissionToExecuteDebitTransferException;
-import model.NotExecutedState;
-import model.NotSuccessfulState;
-import model.Percent;
-import model.Pfund;
-import model.ProcentualFee;
-import model.SuccessfulState;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,12 +23,9 @@ import persistence.PersistentAccount;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
 import persistence.PersistentDebit;
-import persistence.PersistentFixTransactionFee;
-import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
-import persistence.PersistentProcentualFee;
 import persistence.PersistentSuccessfulState;
-import persistence.PersistentTransfer;
+
 import common.Fraction;
 
 public class TestDebit {

@@ -1,12 +1,14 @@
 
 package model;
 
+import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.PersistenceException;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.PersistentRule;
+import persistence.PersistentTrigger;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -25,6 +27,15 @@ public abstract class Rule extends PersistentObject implements PersistentRule{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot masterTrigger = (AbstractPersistentRoot)this.getMasterTrigger();
+            if (masterTrigger != null) {
+                result.put("masterTrigger", masterTrigger.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    masterTrigger.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && masterTrigger.hasEssentialFields())masterTrigger.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -101,6 +112,15 @@ public abstract class Rule extends PersistentObject implements PersistentRule{
     
     
     
+    public PersistentTrigger getMasterTrigger() 
+				throws PersistenceException{
+        PersistentTrigger result = null;
+		try {
+			if (result == null) result = (PersistentTrigger)ConnectionHandler.getTheConnectionHandler().theTriggerFacade
+							.inverseGetRules(this.getId(), this.getClassId()).iterator().next();
+		} catch (java.util.NoSuchElementException nsee){}
+		return result;
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentRule)This);

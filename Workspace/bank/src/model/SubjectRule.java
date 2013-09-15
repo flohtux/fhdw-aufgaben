@@ -168,6 +168,7 @@ public class SubjectRule extends model.Rule implements PersistentSubjectRule{
          return visitor.handleSubjectRule(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getMasterTrigger() != null) return 1;
         return 0;
     }
     

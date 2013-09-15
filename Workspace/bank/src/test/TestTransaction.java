@@ -1,11 +1,7 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.prefs.PreferenceChangeEvent;
-
-import junit.framework.TestCase;
-import model.AccountService;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import model.Administrator;
 import model.Amount;
 import model.BankCreator;
@@ -17,18 +13,14 @@ import model.Money;
 import org.junit.Before;
 import org.junit.Test;
 
-import persistence.ConnectionHandler;
 import persistence.DebitTransferSearchList;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
-import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
-import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentTransaction;
-import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
-import persistence.Predcate;
+
 import common.Fraction;
 
 public class TestTransaction{

@@ -176,6 +176,7 @@ public class IncomingAccountRule extends model.Rule implements PersistentIncomin
          return visitor.handleIncomingAccountRule(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getMasterTrigger() != null) return 1;
         return 0;
     }
     

@@ -3,12 +3,9 @@ package test;
 
 
 import junit.framework.TestCase;
-
 import model.Administrator;
 import model.Bank;
 import model.BankCreator;
-
-
 import persistence.PersistenceException;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;

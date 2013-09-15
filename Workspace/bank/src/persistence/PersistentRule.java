@@ -15,6 +15,8 @@ public interface PersistentRule extends SubjInterface, Anything, AbstractPersist
     public <E extends UserException>  void accept(RuleExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(RuleReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public PersistentTrigger getMasterTrigger() 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public PersistentBooleanValue check(final PersistentDebitTransfer debitTransfer) 

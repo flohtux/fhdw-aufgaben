@@ -1,7 +1,5 @@
 package viewConstants;
 
-import rGType.CharacterValue;
-import expressions.RegularExpressionHandler;
 
 public class TransferConstants {
 

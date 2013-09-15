@@ -26,6 +26,10 @@ public abstract class RuleICProxi extends PersistentInCacheProxiOptimistic imple
 				throws PersistenceException{
         ((PersistentRule)this.getTheObject()).deregister(observee);
     }
+    public PersistentTrigger getMasterTrigger() 
+				throws PersistenceException{
+        return ((PersistentRule)this.getTheObject()).getMasterTrigger();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentRule)this.getTheObject()).initialize(This, final$$Fields);

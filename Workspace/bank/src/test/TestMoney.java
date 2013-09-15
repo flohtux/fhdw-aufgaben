@@ -1,35 +1,23 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.Iterator;
-
 import junit.framework.TestCase;
-
-import model.Administrator;
 import model.Amount;
 import model.CurrencyManager;
 import model.Dollar;
 import model.Euro;
 import model.Money;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import common.Fraction;
-import common.RegularExpressionManager;
-import expressions.ContextException;
-import expressions.Parser;
-import expressions.RegExprException;
-import expressions.RegularExpression;
-import expressions.RegularExpressionHandler;
-
-import persistence.ConnectionHandler;
 import persistence.PersistenceException;
-import persistence.PersistentAdministrator;
 import persistence.PersistentMoney;
 import rGType.CharacterValue;
-import rGType.Value;
+
+import common.Fraction;
+
+import expressions.ContextException;
+import expressions.RegExprException;
+import expressions.RegularExpressionHandler;
 
 public class TestMoney extends TestCase {
 

@@ -1,30 +1,27 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import model.Administrator;
 import model.Amount;
 import model.BankCreator;
-import model.Dollar;
 import model.Euro;
 import model.ExecuteException;
 import model.Money;
 import model.PasswordException;
 import model.SubjectRule;
-import model.Trigger;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import common.Fraction;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
-import persistence.PersistentRule;
 import persistence.PersistentSubjectRule;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
-import persistence.Predcate;
+
+import common.Fraction;
 
 public class TestTrigger {
 

@@ -15,14 +15,10 @@ import model.Dollar;
 import model.Euro;
 import model.ExecuteException;
 import model.FixTransactionFee;
-import model.InvalidAccountNumberException;
-import model.InvalidBankNumberException;
 import model.Limit;
 import model.LimitAccount;
-import model.DebitException;
 import model.MixedFee;
 import model.Money;
-import model.NoPermissionToExecuteDebitTransferException;
 import model.Percent;
 import model.Pfund;
 import model.ProcentualFee;
@@ -41,6 +37,7 @@ import persistence.PersistentMoney;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTransfer;
+
 import common.Fraction;
 
 public class TestTransfer {

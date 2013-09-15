@@ -1158,6 +1158,8 @@ create table TrggrRls(
 );
 create index IFrmTrggrRls on TrggrRls(frm);
 
+
+create index IRlsTrggrRls on TrggrRls(rls);
 create sequence SDbTrNtExecNtExctds nocache;
 
 create table DbTrNtExecNtExctds(

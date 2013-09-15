@@ -1,23 +1,32 @@
 package viewClient;
 
-import view.*;
-import view.objects.ViewRoot;
-import view.visitor.TransactionFeeReturnVisitor;
-
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JPopupMenu;
-import javax.swing.JSplitPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
-import javax.swing.tree.DefaultTreeSelectionModel;
 
-import persistence.PersistenceException;
-
-import model.NoLimit;
+import view.AccountView;
+import view.Anything;
+import view.BankServiceView;
+import view.CloseAccountNoPossibleException;
+import view.ExecuteException;
+import view.InternalFeeView;
+import view.LimitAccountView;
+import view.MaxLimitLowerThenMinLimitException;
+import view.MinLimitHigherMaxLimitException;
+import view.ModelException;
+import view.NoValidFeeValueException;
+import view.NoValidPercentValueException;
+import view.PasswordException;
+import view.TransactionFeeView;
+import view.UserException;
+import view.objects.ViewRoot;
 
 
 @SuppressWarnings("serial")

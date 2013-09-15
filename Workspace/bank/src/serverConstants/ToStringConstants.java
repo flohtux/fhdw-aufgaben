@@ -1,8 +1,5 @@
 package serverConstants;
 
-import persistence.PersistentAccountPx;
-import persistence.PersistentAmount;
-import persistence.PersistentFixTransactionFee;
 
 public class ToStringConstants {
 	
