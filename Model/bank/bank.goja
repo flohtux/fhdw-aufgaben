@@ -39,8 +39,8 @@ server BankService extends Service {
 	void closeAccount@@Konto_übertragen(Account acc, Account transAcc@@Zielkonto{bank;currentAccounts}) throws ExecuteException, CloseAccountNoPossibleException;
 	void changeMaxLimit@@Obergrenze_festlegen(LimitAccount limit,Fraction amount@@Obergrenze) throws MaxLimitLowerThenMinLimitException;
 	void changeMinLimit@@Untergrenze_festlegen(LimitAccount limit, Fraction amount@@Untergrenze) throws MinLimitHigherMaxLimitException;
-	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit);
-	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit);
+	void resetMaxLimit@@Obergrenze_aufheben(LimitAccount limit checked);
+	void resetMinLimit@@Untergrenze_aufheben(LimitAccount limit checked);
 
 	void findAccount@@Konto_finden(Integer accountNumber@@Kontonummer) throws UserException;
 	void changeTransactionFeeToFixFee@@Fixe_Gebühren(TransactionFee dummy, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung) throws NoValidFeeValueException;

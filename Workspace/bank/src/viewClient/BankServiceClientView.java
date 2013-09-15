@@ -18,15 +18,18 @@ import view.CloseAccountNoPossibleException;
 import view.ExecuteException;
 import view.InternalFeeView;
 import view.LimitAccountView;
+import view.LimitView;
 import view.MaxLimitLowerThenMinLimitException;
 import view.MinLimitHigherMaxLimitException;
 import view.ModelException;
+import view.NoLimitView;
 import view.NoValidFeeValueException;
 import view.NoValidPercentValueException;
 import view.PasswordException;
 import view.TransactionFeeView;
 import view.UserException;
 import view.objects.ViewRoot;
+import view.visitor.LimitTypeReturnVisitor;
 
 
 @SuppressWarnings("serial")
@@ -487,22 +490,24 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                 result.add(item);
             }
             if (selected instanceof LimitAccountView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Obergrenze aufheben");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Obergrenze aufheben" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().resetMaxLimit((LimitAccountView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
+                if (this.filterResetMaxLimit((LimitAccountView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Obergrenze aufheben");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Obergrenze aufheben" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().resetMaxLimit((LimitAccountView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
+                        
+                    });
+                    result.add(item);
+                }
                 item = new javax.swing.JMenuItem();
                 item.setText("Obergrenze festlegen ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
@@ -518,22 +523,24 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                     
                 });
                 result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("Untergrenze aufheben");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Untergrenze aufheben" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().resetMinLimit((LimitAccountView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
+                if (this.filterResetMinLimit((LimitAccountView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Untergrenze aufheben");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Untergrenze aufheben" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().resetMinLimit((LimitAccountView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
+                        
+                    });
+                    result.add(item);
+                }
                 item = new javax.swing.JMenuItem();
                 item.setText("Untergrenze festlegen ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
@@ -556,7 +563,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         this.addNotGeneratedItems(result,selected);
         return result;
     }
-    
+
 	class BankServiceChangeInteralFeeInternalFeeFractionMssgWizard extends Wizard {
 
 		protected BankServiceChangeInteralFeeInternalFeeFractionMssgWizard(String operationName){
@@ -1065,6 +1072,49 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 	
 	private void addNotGeneratedItems(JPopupMenu result, ViewRoot selected) {
 		// TODO Add items if you have not generated service calls!!!
+	}
+	
+    
+	private boolean filterResetMaxLimit(LimitAccountView selected) {
+		try {
+			return selected.getMaxLimit().accept(new LimitTypeReturnVisitor<Boolean>() {
+	
+				@Override
+				public Boolean handleNoLimit(NoLimitView noLimit) throws ModelException {
+					return false;
+				}
+	
+				@Override
+				public Boolean handleLimit(LimitView limit) throws ModelException {
+					return true;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private boolean filterResetMinLimit(LimitAccountView selected) {
+		try {
+			return selected.getMinLimit().accept(new LimitTypeReturnVisitor<Boolean>() {
+	
+				@Override
+				public Boolean handleNoLimit(NoLimitView noLimit) throws ModelException {
+					return false;
+				}
+	
+				@Override
+				public Boolean handleLimit(LimitView limit) throws ModelException {
+					return true;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	
