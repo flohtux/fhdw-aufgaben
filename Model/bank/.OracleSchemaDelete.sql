@@ -46,6 +46,8 @@ drop sequence SAmnt;
 drop table Amnt cascade constraints;
 drop sequence SCrtBnkCMD;
 drop table CrtBnkCMD cascade constraints;
+drop sequence SChngSbjctCMD;
+drop table ChngSbjctCMD cascade constraints;
 drop sequence SDbTrNtTmpl;
 drop table DbTrNtTmpl cascade constraints;
 drop sequence SSrvr;

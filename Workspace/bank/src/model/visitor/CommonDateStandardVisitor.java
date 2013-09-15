@@ -32,6 +32,9 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
         this.standardHandling(changeMoneyCommand);
     }
+    public void handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException{
+        this.standardHandling(changeSubjectCommand);
+    }
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
         this.standardHandling(changeReceiverAccountCommand);
     }

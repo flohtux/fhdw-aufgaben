@@ -563,7 +563,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
         this.addNotGeneratedItems(result,selected);
         return result;
     }
-
+    
 	class BankServiceChangeInteralFeeInternalFeeFractionMssgWizard extends Wizard {
 
 		protected BankServiceChangeInteralFeeInternalFeeFractionMssgWizard(String operationName){

@@ -412,6 +412,26 @@ create table CrtBnkCMD(
     constraint FCrtBnkCMDMyCmmnDt foreign key (CrtBnkCMDMyCmmnDtCls) references Cls (id)    
 );
 
+create sequence SChngSbjctCMD nocache;
+
+create table ChngSbjctCMD(
+    id number primary key,
+    Cls number not null,
+    ChngSbjctCMDTrns number,
+    ChngSbjctCMDTrnsCls number,
+    constraint FChngSbjctCMDTrns foreign key (ChngSbjctCMDTrnsCls) references Cls (id),
+    ChngSbjctCMDSbjct varchar2(2000),
+    ChngSbjctCMDInvoker number,
+    ChngSbjctCMDInvokerCls number,
+    constraint FChngSbjctCMDInvoker foreign key (ChngSbjctCMDInvokerCls) references Cls (id),
+    ChngSbjctCMDCReceiver number,
+    ChngSbjctCMDCReceiverCls number,
+    constraint FChngSbjctCMDCReceiver foreign key (ChngSbjctCMDCReceiverCls) references Cls (id),
+    ChngSbjctCMDMyCmmnDt number,
+    ChngSbjctCMDMyCmmnDtCls number,
+    constraint FChngSbjctCMDMyCmmnDt foreign key (ChngSbjctCMDMyCmmnDtCls) references Cls (id)    
+);
+
 create sequence SDbTrNtTmpl nocache;
 
 create table DbTrNtTmpl(

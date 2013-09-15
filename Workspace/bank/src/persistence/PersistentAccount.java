@@ -33,6 +33,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber, final Invoker invoker) 
 				throws PersistenceException;
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject, final Invoker invoker) 
+				throws PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit, final Invoker invoker) 
@@ -72,6 +74,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void changeReceiverAccount(final PersistentDebitTransfer trans, final long receiverAccountNumber) 
 				throws PersistenceException;
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
+				throws PersistenceException;
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException;
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
 				throws PersistenceException;

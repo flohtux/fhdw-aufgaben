@@ -157,6 +157,7 @@ class Account {
 	active void changeReceiverAccount##chngRcvAcc(DebitTransfer trans, Integer receiverAccountNumber##recAccNr);
 	active void changeMoney(DebitTransfer trans, Fraction newAmount);
 	active void changeCurrency(DebitTransfer trans, Currency currency);
+	active void changeSubject(DebitTransfer trans, String subject);
 	
 	Debit createDebit();
 	active event void createDebitGrant(Account receiver, LimitType limit) throws GrantAlreadyGivenException; 

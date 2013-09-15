@@ -92,6 +92,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber, invoker);
     }
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeSubject(trans, subject, invoker);
+    }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit);
@@ -183,6 +187,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeReceiverBank(trans, receiverBankNumber);
+    }
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).changeSubject(trans, subject);
     }
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
 				throws PersistenceException{

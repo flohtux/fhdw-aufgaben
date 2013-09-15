@@ -144,6 +144,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
         this.handleCommonDate(changeMoneyCommand);
     }
+    public void handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException{
+        this.handleCommonDate(changeSubjectCommand);
+    }
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
         this.handleCommonDate(changeReceiverAccountCommand);
     }

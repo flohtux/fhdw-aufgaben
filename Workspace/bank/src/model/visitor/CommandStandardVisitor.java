@@ -29,6 +29,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangeMoneyCommand(PersistentChangeMoneyCommand changeMoneyCommand) throws PersistenceException{
         this.standardHandling(changeMoneyCommand);
     }
+    public void handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException{
+        this.standardHandling(changeSubjectCommand);
+    }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
     }

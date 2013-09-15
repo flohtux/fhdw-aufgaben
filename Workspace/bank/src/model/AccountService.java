@@ -613,7 +613,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
 				throws PersistenceException{
-       trans.setSubject(subject);
+       getThis().getAccount().changeSubject(trans, subject, getThis());
        getThis().signalChanged(true);
     }
     public PersistentBooleanValue checkMoneyRuleMax(final PersistentMoneyRule rule, final common.Fraction maxValue) 

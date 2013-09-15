@@ -285,6 +285,7 @@ public class Cache {
 		this.number2NameMap.put(103, "ChangeNameCommand");
 		this.number2NameMap.put(217, "ChangeReceiverAccountCommand");
 		this.number2NameMap.put(215, "ChangeReceiverBankCommand");
+		this.number2NameMap.put(253, "ChangeSubjectCommand");
 		this.number2NameMap.put(-139, "CommandCoordinator");
 		this.number2NameMap.put(-145, "CommandExecuter");
 		this.number2NameMap.put(111, "CommonDate");

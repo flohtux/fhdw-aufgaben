@@ -139,6 +139,7 @@ public class ConnectionHandler {
     public DebitTransferFacade theDebitTransferFacade;
     public BankServiceFacade theBankServiceFacade;
     public ProcentualFeeFacade theProcentualFeeFacade;
+    public ChangeSubjectCommandFacade theChangeSubjectCommandFacade;
     public DebitTransferTemplateFacade theDebitTransferTemplateFacade;
     public ServerFacade theServerFacade;
     public TransferFacade theTransferFacade;
@@ -254,6 +255,7 @@ public class ConnectionHandler {
             this.theDebitTransferFacade= new DebitTransferFacade(this.schemaName, this.con);
             this.theBankServiceFacade= new BankServiceFacade(this.schemaName, this.con);
             this.theProcentualFeeFacade= new ProcentualFeeFacade(this.schemaName, this.con);
+            this.theChangeSubjectCommandFacade= new ChangeSubjectCommandFacade(this.schemaName, this.con);
             this.theDebitTransferTemplateFacade= new DebitTransferTemplateFacade(this.schemaName, this.con);
             this.theServerFacade= new ServerFacade(this.schemaName, this.con);
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);

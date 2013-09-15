@@ -45,6 +45,7 @@ import persistence.PersistentChangeCurrencyCommand;
 import persistence.PersistentChangeMoneyCommand;
 import persistence.PersistentChangeReceiverAccountCommand;
 import persistence.PersistentChangeReceiverBankCommand;
+import persistence.PersistentChangeSubjectCommand;
 import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
@@ -456,6 +457,15 @@ public class Account extends PersistentObject implements PersistentAccount{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeSubjectCommand command = model.meta.ChangeSubjectCommand.createChangeSubjectCommand(subject, now, now);
+		command.setTrans(trans);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException{
         model.meta.AccountCreateDebitGrantAccountLimitTypeMssg event = new model.meta.AccountCreateDebitGrantAccountLimitTypeMssg(receiver, limit, getThis());
@@ -657,6 +667,10 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void changeReceiverBank(final PersistentDebitTransfer trans, final long receiverBankNumber) 
 				throws PersistenceException{
     	trans.changeReceiverBank(receiverBankNumber);
+    }
+    public void changeSubject(final PersistentDebitTransfer trans, final String subject) 
+				throws PersistenceException{
+    	trans.setSubject(subject);        
     }
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
 				throws PersistenceException{
