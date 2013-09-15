@@ -55,22 +55,26 @@ public class DebitTransferTemplateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DebitTransferTemplateId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitTransferTemplate This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentDebitTransferTemplate)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            DebitTransferTemplate result = new DebitTransferTemplate(subService,
-                                                                     This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10228: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10229: {
+                        This = (PersistentDebitTransferTemplate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            DebitTransferTemplate result = new DebitTransferTemplate(subService, 
+                                                                     This, 
                                                                      DebitTransferTemplateId);
-            obj.close();
+            links.close();
             callable.close();
             DebitTransferTemplateICProxi inCache = (DebitTransferTemplateICProxi)Cache.getTheCache().put(result);
             DebitTransferTemplate objectInCache = (DebitTransferTemplate)inCache.getTheObject();

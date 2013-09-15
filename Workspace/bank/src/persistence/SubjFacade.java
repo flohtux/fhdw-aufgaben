@@ -55,18 +55,20 @@ public class SubjFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, SubjId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentSubj This = null;
-            if (obj.getLong(2) != 0)
-                This = (PersistentSubj)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            Subj result = new Subj(This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10005: {
+                        This = (PersistentSubj)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Subj result = new Subj(This, 
                                    SubjId);
-            obj.close();
+            links.close();
             callable.close();
             SubjICProxi inCache = (SubjICProxi)Cache.getTheCache().put(result);
             Subj objectInCache = (Subj)inCache.getTheObject();

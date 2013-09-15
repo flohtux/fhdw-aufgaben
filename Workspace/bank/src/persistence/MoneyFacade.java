@@ -55,30 +55,38 @@ public class MoneyFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, MoneyId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAmount amount = null;
-            if (obj.getLong(2) != 0)
-                amount = (PersistentAmount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCurrency currency = null;
-            if (obj.getLong(4) != 0)
-                currency = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
-            if (obj.getLong(6) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentMoney This = null;
-            if (obj.getLong(8) != 0)
-                This = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            Money result = new Money(amount,
-                                     currency,
-                                     subService,
-                                     This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10106: {
+                        amount = (PersistentAmount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10079: {
+                        currency = (PersistentCurrency)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10080: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10081: {
+                        This = (PersistentMoney)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Money result = new Money(amount, 
+                                     currency, 
+                                     subService, 
+                                     This, 
                                      MoneyId);
-            obj.close();
+            links.close();
             callable.close();
             MoneyICProxi inCache = (MoneyICProxi)Cache.getTheCache().put(result);
             Money objectInCache = (Money)inCache.getTheObject();

@@ -58,37 +58,63 @@ public class BankFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, BankId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            long bankNumber = 0;
+            String name = "";
+            long lastAccountNumber = 0;
             PersistentBankFees bankFees = null;
-            if (obj.getLong(5) != 0)
-                bankFees = (PersistentBankFees)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccount ownAccount = null;
-            if (obj.getLong(7) != 0)
-                ownAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentAdministrator administrator = null;
-            if (obj.getLong(9) != 0)
-                administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             SubjInterface subService = null;
-            if (obj.getLong(11) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
             PersistentBank This = null;
-            if (obj.getLong(13) != 0)
-                This = (PersistentBank)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
-            Bank result = new Bank(obj.getLong(2),
-                                   obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
-                                   obj.getLong(4),
-                                   bankFees,
-                                   ownAccount,
-                                   administrator,
-                                   subService,
-                                   This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10082: {
+                        bankNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10083: {
+                        name = links.getString(6);
+                        if(name == null)name = "";
+                        break;
+                    }
+                    case 10084: {
+                        lastAccountNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10338: {
+                        bankFees = (PersistentBankFees)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10087: {
+                        ownAccount = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10105: {
+                        administrator = (PersistentAdministrator)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10090: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10091: {
+                        This = (PersistentBank)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Bank result = new Bank(bankNumber, 
+                                   name, 
+                                   lastAccountNumber, 
+                                   bankFees, 
+                                   ownAccount, 
+                                   administrator, 
+                                   subService, 
+                                   This, 
                                    BankId);
-            obj.close();
+            links.close();
             callable.close();
             BankICProxi inCache = (BankICProxi)Cache.getTheCache().put(result);
             Bank objectInCache = (Bank)inCache.getTheObject();

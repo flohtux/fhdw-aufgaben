@@ -39,6 +39,9 @@ public class IconManager {
 		case common.IconInfoConstants.KontostandIconNumber:
 			return viewConstants.Resources.getKontostandIcon();
 			
+		case common.IconInfoConstants.LimitIconNumber:
+			return viewConstants.Resources.getLimitIcon();
+			
 		case common.IconInfoConstants.LimitsIconNumber:
 			return viewConstants.Resources.getLimitsIcon();
 			
@@ -53,6 +56,9 @@ public class IconManager {
 			
 		case common.IconInfoConstants.NochNichtErledigteAuftraegeIconNumber:
 			return viewConstants.Resources.getNochNichtErledigteAuftraegeIcon();
+			
+		case common.IconInfoConstants.NoLimitIconNumber:
+			return viewConstants.Resources.getNoLimitIcon();
 			
 		case common.IconInfoConstants.PositiveIconNumber:
 			return viewConstants.Resources.getPositiveIcon();

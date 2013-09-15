@@ -56,23 +56,32 @@ public class AmountFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AmountId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            common.Fraction balance = common.Fraction.Null;
             SubjInterface subService = null;
-            if (obj.getLong(3) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             PersistentAmount This = null;
-            if (obj.getLong(5) != 0)
-                This = (PersistentAmount)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            Amount result = new Amount(common.Fraction.parse(obj.getString(2)),
-                                       subService,
-                                       This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10027: {
+                        balance = common.Fraction.parse(links.getString(10));
+                        break;
+                    }
+                    case 10028: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10029: {
+                        This = (PersistentAmount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Amount result = new Amount(balance, 
+                                       subService, 
+                                       This, 
                                        AmountId);
-            obj.close();
+            links.close();
             callable.close();
             AmountICProxi inCache = (AmountICProxi)Cache.getTheCache().put(result);
             Amount objectInCache = (Amount)inCache.getTheObject();

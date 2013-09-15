@@ -22,6 +22,8 @@ public class IconInfoConstants {
 	public static final int EinzugOutIconNumber = 18;
 	public static final int GebührenIconNumber = 19;
 	public static final int FolgebuchungIconNumber = 20;
+	public static final int LimitIconNumber = 21;
+	public static final int NoLimitIconNumber = 22;
 
 	private IconInfoConstants(){}
 }

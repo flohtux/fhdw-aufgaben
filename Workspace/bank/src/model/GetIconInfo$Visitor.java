@@ -12,6 +12,7 @@ import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
+import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
