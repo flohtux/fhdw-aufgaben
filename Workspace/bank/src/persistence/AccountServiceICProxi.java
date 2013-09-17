@@ -116,6 +116,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).deregister(observee);
     }
+    public DebitTransferTransactionSearchList dtr_Path_In_RequestCompensation() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).dtr_Path_In_RequestCompensation();
+    }
     public PersistentServer getAccess() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getAccess();
@@ -183,6 +187,18 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
+    }
+    public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).answerAcceptWithTrigger(a);
+    }
+    public void answerAccept(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).answerAccept(a);
+    }
+    public void answerDecline(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).answerDecline(a);
     }
     public void bankFees_update(final model.meta.BankFeesMssgs event) 
 				throws PersistenceException{
@@ -323,6 +339,10 @@ public class AccountServiceICProxi extends ServiceICProxi implements PersistentA
     public void remove(final PersistentDebitGrant grant) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).remove(grant);
+    }
+    public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).requestCompensation(dtr);
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{

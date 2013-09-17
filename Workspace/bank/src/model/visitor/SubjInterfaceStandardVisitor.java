@@ -5,11 +5,17 @@ import persistence.*;
 
 public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisitor {
     
+    public void handleCompensation(PersistentCompensation compensation) throws PersistenceException{
+        this.standardHandling(compensation);
+    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
         this.standardHandling(falseValue);
+    }
+    public void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException{
+        this.standardHandling(allCompensationListe);
     }
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.standardHandling(noRequestState);
@@ -89,14 +95,14 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{
         this.standardHandling(dollar);
     }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.standardHandling(enabledState);
+    }
     public void handleFranken(PersistentFranken franken) throws PersistenceException{
         this.standardHandling(franken);
     }
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
-    }
-    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
-        this.standardHandling(enabledState);
     }
     public void handleDebit(PersistentDebit debit) throws PersistenceException{
         this.standardHandling(debit);
@@ -115,6 +121,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
+    }
+    public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException{
+        this.standardHandling(compensationRequest);
     }
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
         this.standardHandling(accountPx);
@@ -145,6 +154,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException{
+        this.standardHandling(compensationListe);
     }
     public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
         this.standardHandling(moneyRule);
@@ -181,6 +193,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException{
         this.standardHandling(bankCreator);
+    }
+    public void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException{
+        this.standardHandling(compensationRequestListe);
     }
     protected abstract void standardHandling(SubjInterface subjInterface) throws PersistenceException;
 }

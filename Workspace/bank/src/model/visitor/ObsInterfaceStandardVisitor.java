@@ -14,6 +14,9 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
         this.standardHandling(accountDebitTransferTransactions);
     }
+    public void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException{
+        this.standardHandling(compensationPendingRequests);
+    }
     public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException{
         this.standardHandling(accountServiceBankFees);
     }

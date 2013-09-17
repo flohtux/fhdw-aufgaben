@@ -16,6 +16,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
     }
+    public abstract void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
+    
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
@@ -30,6 +32,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
+    
+    public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
     
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
@@ -46,6 +50,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException;
+    
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
@@ -66,6 +72,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.handleDebitTransferState(templateState);
     }
+    public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    
     public abstract void handleStornoState(PersistentStornoState stornoState) throws PersistenceException;
     
     public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
@@ -80,15 +88,13 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
         this.handleStornoState(noRequestState);
     }
-    public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     
-    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
+    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
-    
-    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
     public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     
@@ -116,6 +122,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
         this.handleTriggerState(enabledState);
     }
+    public abstract void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
+    
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
@@ -179,6 +187,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
+    
+    public abstract void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     
     
 }

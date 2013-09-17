@@ -1,7 +1,9 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
+import view.DebitTransferStateView;
+import view.DebitTransferTransactionView;
+import view.ModelException;
+import viewClient.ExceptionAndEventHandler;
 
 public abstract class DebitTransferStateProxi extends ViewProxi implements DebitTransferStateView{
     

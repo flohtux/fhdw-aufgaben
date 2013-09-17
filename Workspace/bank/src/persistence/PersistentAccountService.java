@@ -39,6 +39,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws model.UserException, PersistenceException;
     public DebitTransferSearchList debitTransfer_Path_In_RemoveFromTransaction(final PersistentTransaction transaction) 
 				throws model.UserException, PersistenceException;
+    public DebitTransferTransactionSearchList dtr_Path_In_RequestCompensation() 
+				throws model.UserException, PersistenceException;
     public PersistentBankFees getBankFees() 
 				throws PersistenceException;
     public PersistentDebitTransferNotExecuted getNotExecuted() 
@@ -64,6 +66,12 @@ public interface PersistentAccountService extends PersistentService {
     public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException;
+    public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
+				throws PersistenceException;
+    public void answerAccept(final PersistentCompensationRequest a) 
+				throws PersistenceException;
+    public void answerDecline(final PersistentCompensationRequest a) 
 				throws PersistenceException;
     public void bankFees_update(final model.meta.BankFeesMssgs event) 
 				throws PersistenceException;
@@ -122,6 +130,8 @@ public interface PersistentAccountService extends PersistentService {
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void remove(final PersistentDebitGrant grant) 
+				throws PersistenceException;
+    public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException;
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException;

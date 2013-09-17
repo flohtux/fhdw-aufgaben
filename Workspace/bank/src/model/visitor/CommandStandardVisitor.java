@@ -8,6 +8,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.standardHandling(createAccountCommand);
     }
+    public void handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException{
+        this.standardHandling(executeCompensationCommand);
+    }
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException{
         this.standardHandling(changeCurrencyCommand);
     }

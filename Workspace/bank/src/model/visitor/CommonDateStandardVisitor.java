@@ -8,6 +8,9 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.standardHandling(createAccountCommand);
     }
+    public void handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException{
+        this.standardHandling(executeCompensationCommand);
+    }
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException{
         this.standardHandling(changeCurrencyCommand);
     }
@@ -17,11 +20,11 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException{
         this.standardHandling(commonDate);
     }
-    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
-        this.standardHandling(executeCommand);
-    }
     public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException{
         this.standardHandling(changeReceiverBankCommand);
+    }
+    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
+        this.standardHandling(executeCommand);
     }
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.standardHandling(useTemplateCommand);

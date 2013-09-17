@@ -10,9 +10,11 @@ import persistence.PersistentAccountPx;
 import persistence.PersistentAccountReceivedDebitGrant;
 import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
+import persistence.PersistentCompensationListe;
+import persistence.PersistentCompensationPendingRequests;
+import persistence.PersistentCompensationRequest;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
-import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
@@ -22,9 +24,11 @@ import persistence.PersistentEnabledState;
 import persistence.PersistentExecutedState;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentInternalFee;
+import persistence.PersistentLimit;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMixedFee;
 import persistence.PersistentMoney;
+import persistence.PersistentNoLimit;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
@@ -204,4 +208,32 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			}
 		});
 	}
+	@Override
+	public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException {
+		result = common.IconInfoConstants.NoLimitIconNumber;
+	}
+	
+	@Override
+	public void handleLimit(PersistentLimit limit) throws PersistenceException {
+		result = common.IconInfoConstants.LimitIconNumber;
+	}
+	@Override
+	public void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException {
+		// TODO Auto-generated method stub  "von mir ausgelöste Kompensation"
+		super.handleCompensationListe(compensationListe);
+	}
+	
+	@Override
+	public void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException {
+		// TODO Auto-generated method stub   "eingehenden Anfragen"
+		super.handleCompensationPendingRequests(compensationPendingRequests);
+	}
+	
+	@Override
+	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
+		// TODO Auto-generated method stub  "Kompensationsanfrage"
+		super.handleCompensationRequest(compensationRequest);
+	}
+	
+	
 }

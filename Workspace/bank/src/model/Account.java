@@ -41,12 +41,14 @@ import persistence.PersistentAccountPx;
 import persistence.PersistentAccountReceivedDebitGrant;
 import persistence.PersistentAccountService;
 import persistence.PersistentAccountTriggerListe;
+import persistence.PersistentAllCompensationListe;
 import persistence.PersistentBank;
 import persistence.PersistentChangeCurrencyCommand;
 import persistence.PersistentChangeMoneyCommand;
 import persistence.PersistentChangeReceiverAccountCommand;
 import persistence.PersistentChangeReceiverBankCommand;
 import persistence.PersistentChangeSubjectCommand;
+import persistence.PersistentCompensationRequest;
 import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
@@ -169,6 +171,15 @@ public class Account extends PersistentObject implements PersistentAccount{
                     if(forGUI && triggerListe.hasEssentialFields())triggerListe.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot allCompensation = (AbstractPersistentRoot)this.getAllCompensation();
+            if (allCompensation != null) {
+                result.put("allCompensation", allCompensation.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    allCompensation.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && allCompensation.hasEssentialFields())allCompensation.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -189,6 +200,7 @@ public class Account extends PersistentObject implements PersistentAccount{
                              this.grantedDebitGrant, 
                              this.receivedDebitGrant, 
                              this.triggerListe, 
+                             this.allCompensation, 
                              this.subService, 
                              this.This, 
                              this.getId());
@@ -206,10 +218,11 @@ public class Account extends PersistentObject implements PersistentAccount{
     protected PersistentAccountGrantedDebitGrant grantedDebitGrant;
     protected PersistentAccountReceivedDebitGrant receivedDebitGrant;
     protected PersistentAccountTriggerListe triggerListe;
+    protected PersistentAllCompensationListe allCompensation;
     protected SubjInterface subService;
     protected PersistentAccount This;
     
-    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountDebitTransferTransactions debitTransferTransactions,PersistentAccountGrantedDebitGrant grantedDebitGrant,PersistentAccountReceivedDebitGrant receivedDebitGrant,PersistentAccountTriggerListe triggerListe,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
+    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountDebitTransferTransactions debitTransferTransactions,PersistentAccountGrantedDebitGrant grantedDebitGrant,PersistentAccountReceivedDebitGrant receivedDebitGrant,PersistentAccountTriggerListe triggerListe,PersistentAllCompensationListe allCompensation,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.accountNumber = accountNumber;
@@ -219,6 +232,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         this.grantedDebitGrant = grantedDebitGrant;
         this.receivedDebitGrant = receivedDebitGrant;
         this.triggerListe = triggerListe;
+        this.allCompensation = allCompensation;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -259,6 +273,10 @@ public class Account extends PersistentObject implements PersistentAccount{
         if(this.triggerListe != null){
             this.triggerListe.store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.triggerListeSet(this.getId(), triggerListe);
+        }
+        if(this.getAllCompensation() != null){
+            this.getAllCompensation().store();
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.allCompensationSet(this.getId(), getAllCompensation());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -350,6 +368,20 @@ public class Account extends PersistentObject implements PersistentAccount{
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.triggerListeSet(this.getId(), newValue);
         }
     }
+    public PersistentAllCompensationListe getAllCompensation() throws PersistenceException {
+        return this.allCompensation;
+    }
+    public void setAllCompensation(PersistentAllCompensationListe newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.allCompensation)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.allCompensation = (PersistentAllCompensationListe)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.allCompensationSet(this.getId(), newValue);
+        }
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
     }
@@ -417,6 +449,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         if (this.getGrantedDebitGrant() != null) return 1;
         if (this.getReceivedDebitGrant() != null) return 1;
         if (this.getTriggerListe() != null) return 1;
+        if (this.getAllCompensation() != null) return 1;
         return 0;
     }
     
@@ -653,6 +686,21 @@ public class Account extends PersistentObject implements PersistentAccount{
  			}
  		});
     }
+    public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        //TODO: implement method: answerAcceptWithTrigger
+        
+    }
+    public void answerAccept(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        //TODO: implement method: answerAccept
+        
+    }
+    public void answerDecline(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        //TODO: implement method: answerDecline
+        
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
         trans.changeCurrency(currency);
@@ -806,6 +854,9 @@ public class Account extends PersistentObject implements PersistentAccount{
     	getThis().setLimit(limits);
     	getThis().setGrantedDebitGrant(DebitGrantListe.createDebitGrantListe());
     	getThis().setReceivedDebitGrant(DebitGrantListe.createDebitGrantListe());
+    	getThis().setAllCompensation(AllCompensationListe.createAllCompensationListe());
+    	getThis().getAllCompensation().setOutgoingCompensations(CompensationListe.createCompensationListe());
+    	getThis().getAllCompensation().setPendingCompensationRequests(CompensationRequestListe.createCompensationRequestListe());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -831,6 +882,49 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         list.remove(acc);
+    }
+    public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
+				throws PersistenceException{
+        if (!dtr.getSender().equals(getThis())) {
+            PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest();
+            newRequest.setDebitTransferTransaction(dtr);
+        	dtr.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
+        }
+        
+        dtr.accept(new DebitTransferTransactionVisitor() {
+			
+			@Override
+			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+				try {
+					PersistentBank b = getThis().getBank().getAdministrator().searchBankByBankNumber(transfer.getReceiverBankNumber());
+					PersistentAccount acc = b.searchAccountByAccNumber(transfer.getReceiverAccountNumber());
+			        PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest();
+			        newRequest.setDebitTransferTransaction(dtr);
+					
+					acc.getAllCompensation().getPendingCompensationRequests().add(newRequest);
+				} catch (InvalidBankNumberException e) {
+					// TODO So gehts nicht!
+					
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidAccountNumberException e) {
+					
+				}
+			}
+			
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
     }
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException{

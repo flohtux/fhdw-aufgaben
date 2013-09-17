@@ -40,6 +40,12 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
+    public PersistentAllCompensationListe getAllCompensation() throws PersistenceException {
+        return ((PersistentAccount)this.getTheObject()).getAllCompensation();
+    }
+    public void setAllCompensation(PersistentAllCompensationListe newValue) throws PersistenceException {
+        ((PersistentAccount)this.getTheObject()).setAllCompensation(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -172,6 +178,18 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
+    public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).answerAcceptWithTrigger(a);
+    }
+    public void answerAccept(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).answerAccept(a);
+    }
+    public void answerDecline(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).answerDecline(a);
+    }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeCurrency(trans, currency);
@@ -247,6 +265,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);
+    }
+    public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).requestCompensation(dtr);
     }
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException{

@@ -1,9 +1,22 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.ErrorDisplayView;
+import view.ModelException;
+import view.ServerView;
+import view.ServiceView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.RemoteExceptionVisitor;
+import view.visitor.RemoteReturnExceptionVisitor;
+import view.visitor.RemoteReturnVisitor;
+import view.visitor.RemoteVisitor;
+import viewClient.ConnectionIndex;
+import viewClient.ConnectionMaster;
+import viewClient.ExceptionAndEventHandler;
+import viewClient.ServerConnection;
 
 public class ServerProxi extends ViewProxi implements ServerView{
     

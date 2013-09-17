@@ -1,9 +1,17 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.ModelException;
+import view.PfundView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.CurrencyExceptionVisitor;
+import view.visitor.CurrencyReturnExceptionVisitor;
+import view.visitor.CurrencyReturnVisitor;
+import view.visitor.CurrencyVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class PfundProxi extends CurrencyProxi implements PfundView{
     

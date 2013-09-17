@@ -13,11 +13,10 @@ import javax.swing.tree.TreeSelectionModel;
 
 import model.meta.StringFACTORY;
 import persistence.PersistenceException;
-import persistence.PersistentDisabledState;
-import persistence.PersistentEnabledState;
 import rGType.CharacterValue;
 import view.AccountServiceView;
 import view.Anything;
+import view.CompensationRequestView;
 import view.DebitGrantListeView;
 import view.DebitGrantView;
 import view.DebitTransferStateView;
@@ -55,9 +54,10 @@ import view.objects.ViewRoot;
 import view.visitor.BooleanValueReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
-import view.visitor.TriggerStateVisitor;
 import view.visitor.TriggerValueReturnVisitor;
+
 import common.Fraction;
+
 import expressions.RegularExpressionHandler;
 
 
@@ -874,6 +874,22 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 }
             }
             if (selected instanceof DebitTransferTransactionView){
+                item = new javax.swing.JMenuItem();
+                item.setText("Rückbuchung anfordern");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Rückbuchung anfordern" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().requestCompensation((DebitTransferTransactionView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                    
+                });
+                result.add(item);
                 if (this.filterUseTemplate((DebitTransferTransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Vorlage verwenden");
@@ -935,6 +951,56 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                         wizard.pack();
                         wizard.setLocationRelativeTo(getNavigationPanel());
                         wizard.setVisible(true);
+                    }
+                    
+                });
+                result.add(item);
+            }
+            if (selected instanceof CompensationRequestView){
+                item = new javax.swing.JMenuItem();
+                item.setText("ablehnen");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "ablehnen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().answerDecline((CompensationRequestView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("annehmen wenn auch Folgebuchungen kompensiert werden können");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "annehmen wenn auch Folgebuchungen kompensiert werden können" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().answerAcceptWithTrigger((CompensationRequestView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                    
+                });
+                result.add(item);
+                item = new javax.swing.JMenuItem();
+                item.setText("annehmen");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "annehmen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().answerAccept((CompensationRequestView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
                     }
                     
                 });

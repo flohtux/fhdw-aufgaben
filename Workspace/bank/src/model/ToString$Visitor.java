@@ -11,12 +11,17 @@ import persistence.PersistentAccount;
 import persistence.PersistentAccountPx;
 import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
+import persistence.PersistentAllCompensationListe;
 import persistence.PersistentAmount;
 import persistence.PersistentBank;
 import persistence.PersistentBankCreator;
 import persistence.PersistentBankFees;
 import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
+import persistence.PersistentCompensation;
+import persistence.PersistentCompensationListe;
+import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestListe;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -399,6 +404,31 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			throws PersistenceException {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void handleCompensation(PersistentCompensation compensation) throws PersistenceException {
+		result = serverConstants.ToStringConstants.Compensation;
+		
+	}
+	@Override
+	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
+		result = serverConstants.ToStringConstants.CompensationRequest;
+		
+	}
+	@Override
+	public void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException {
+		result = serverConstants.ToStringConstants.CompensationListe;
+		
+	}
+	@Override
+	public void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException {
+		result = serverConstants.ToStringConstants.CompensationRequestListe;
+		
+	}
+	
+	@Override
+	public void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException {
+		result = serverConstants.ToStringConstants.AllCompensationListe;
 	}
 	
 	

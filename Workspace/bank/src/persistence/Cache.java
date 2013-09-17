@@ -274,6 +274,7 @@ public class Cache {
 		this.number2NameMap.put(-117, "Administrator");
 		this.number2NameMap.put(125, "AdministratorBanks");
 		this.number2NameMap.put(183, "AdministratorCurrencyManager");
+		this.number2NameMap.put(261, "AllCompensationListe");
 		this.number2NameMap.put(115, "Amount");
 		this.number2NameMap.put(-149, "Bank");
 		this.number2NameMap.put(152, "BankCreator");
@@ -289,6 +290,11 @@ public class Cache {
 		this.number2NameMap.put(-139, "CommandCoordinator");
 		this.number2NameMap.put(-145, "CommandExecuter");
 		this.number2NameMap.put(111, "CommonDate");
+		this.number2NameMap.put(254, "Compensation");
+		this.number2NameMap.put(259, "CompensationListe");
+		this.number2NameMap.put(257, "CompensationPendingRequests");
+		this.number2NameMap.put(256, "CompensationRequest");
+		this.number2NameMap.put(260, "CompensationRequestListe");
 		this.number2NameMap.put(107, "CreateAccountCommand");
 		this.number2NameMap.put(118, "CreateBankCommand");
 		this.number2NameMap.put(198, "CreateDebitGrantCommand");
@@ -308,6 +314,7 @@ public class Cache {
 		this.number2NameMap.put(137, "Euro");
 		this.number2NameMap.put(227, "EventWrapper");
 		this.number2NameMap.put(213, "ExecuteCommand");
+		this.number2NameMap.put(255, "ExecuteCompensationCommand");
 		this.number2NameMap.put(110, "ExecutedState");
 		this.number2NameMap.put(166, "FalseValue");
 		this.number2NameMap.put(108, "FixTransactionFee");

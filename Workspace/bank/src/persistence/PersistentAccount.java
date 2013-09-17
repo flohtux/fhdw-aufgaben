@@ -12,6 +12,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
+    public PersistentAllCompensationListe getAllCompensation() throws PersistenceException ;
+    public void setAllCompensation(PersistentAllCompensationListe newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;
@@ -67,6 +69,12 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
+    public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
+				throws PersistenceException;
+    public void answerAccept(final PersistentCompensationRequest a) 
+				throws PersistenceException;
+    public void answerDecline(final PersistentCompensationRequest a) 
+				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException;
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
@@ -104,6 +112,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
+				throws PersistenceException;
+    public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException;
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException;

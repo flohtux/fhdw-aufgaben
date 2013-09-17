@@ -56,6 +56,11 @@ public class ToStringConstants {
 	public static final String SubjectRuleFormat = "Betreff enthält '%s'";
 	public static final String IncomingAccountRuleFormatAccountBank = "Absender ist %s@%s";
 	public static final String MoneyRuleFormatMinMax = "Betrag zwischen %s und %s";
+	public static final String Compensation = "Kompensation";
+	public static final String CompensationRequest = "Kompensationsanfrage";
+	public static final String CompensationListe = "Von mir ausgelöste Kompensationen";
+	public static final String CompensationRequestListe = "Eingehende Kompensationsanfrage";
+	public static final String AllCompensationListe = "Kompensationen";
 
 
 	

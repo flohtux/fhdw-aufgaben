@@ -5,17 +5,23 @@ import view.*;
 
 public abstract class AnythingStandardVisitor implements AnythingVisitor {
     
+    public void handleCompensation(CompensationView compensation) throws ModelException{
+        this.standardHandling(compensation);
+    }
     public void handleFalseValue(FalseValueView falseValue) throws ModelException{
         this.standardHandling(falseValue);
+    }
+    public void handleAllCompensationListe(AllCompensationListeView allCompensationListe) throws ModelException{
+        this.standardHandling(allCompensationListe);
     }
     public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
         this.standardHandling(noRequestState);
     }
-    public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException{
-        this.standardHandling(debitTransferListe);
-    }
     public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException{
         this.standardHandling(currencyManager);
+    }
+    public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException{
+        this.standardHandling(debitTransferListe);
     }
     public void handleFixTransactionFee(FixTransactionFeeView fixTransactionFee) throws ModelException{
         this.standardHandling(fixTransactionFee);
@@ -62,11 +68,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.standardHandling(procentualFee);
     }
-    public void handleServer(ServerView server) throws ModelException{
-        this.standardHandling(server);
-    }
     public void handleTransfer(TransferView transfer) throws ModelException{
         this.standardHandling(transfer);
+    }
+    public void handleServer(ServerView server) throws ModelException{
+        this.standardHandling(server);
     }
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException{
         this.standardHandling(debitTransferTemplate);
@@ -113,17 +119,20 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.standardHandling(accountService);
     }
+    public void handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException{
+        this.standardHandling(compensationRequest);
+    }
     public void handleAccountPx(AccountPxView accountPx) throws ModelException{
         this.standardHandling(accountPx);
     }
     public void handleAccount(AccountView account) throws ModelException{
         this.standardHandling(account);
     }
-    public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException{
-        this.standardHandling(errorDisplay);
-    }
     public void handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException{
         this.standardHandling(notExecutedState);
+    }
+    public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException{
+        this.standardHandling(errorDisplay);
     }
     public void handleTrigger(TriggerView trigger) throws ModelException{
         this.standardHandling(trigger);
@@ -142,6 +151,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleCompensationListe(CompensationListeView compensationListe) throws ModelException{
+        this.standardHandling(compensationListe);
     }
     public void handleMoneyRule(MoneyRuleView moneyRule) throws ModelException{
         this.standardHandling(moneyRule);
@@ -178,6 +190,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException{
         this.standardHandling(bankCreator);
+    }
+    public void handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException{
+        this.standardHandling(compensationRequestListe);
     }
     protected abstract void standardHandling(Anything anything) throws ModelException;
 }

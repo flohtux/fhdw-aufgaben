@@ -2,6 +2,7 @@
 package view.objects;
 
 import view.AccountView;
+import view.AllCompensationListeView;
 import view.DebitGrantListeView;
 import view.DebitTransferTransactionView;
 import view.LimitAccountView;
@@ -26,8 +27,9 @@ public class Account extends ViewObject implements AccountView{
     protected DebitGrantListeView grantedDebitGrant;
     protected DebitGrantListeView receivedDebitGrant;
     protected TriggerListeView triggerListe;
+    protected AllCompensationListeView allCompensation;
     
-    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListeView receivedDebitGrant,TriggerListeView triggerListe,long id, long classId) {
+    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListeView receivedDebitGrant,TriggerListeView triggerListe,AllCompensationListeView allCompensation,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.accountNumber = accountNumber;
@@ -36,7 +38,8 @@ public class Account extends ViewObject implements AccountView{
         this.debitTransferTransactions = debitTransferTransactions;
         this.grantedDebitGrant = grantedDebitGrant;
         this.receivedDebitGrant = receivedDebitGrant;
-        this.triggerListe = triggerListe;        
+        this.triggerListe = triggerListe;
+        this.allCompensation = allCompensation;        
     }
     
     static public long getTypeId() {
@@ -89,6 +92,12 @@ public class Account extends ViewObject implements AccountView{
     public void setTriggerListe(TriggerListeView newValue) throws ModelException {
         this.triggerListe = newValue;
     }
+    public AllCompensationListeView getAllCompensation()throws ModelException{
+        return this.allCompensation;
+    }
+    public void setAllCompensation(AllCompensationListeView newValue) throws ModelException {
+        this.allCompensation = newValue;
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleAccount(this);
@@ -128,6 +137,10 @@ public class Account extends ViewObject implements AccountView{
         if (triggerListe != null) {
             ((ViewProxi)triggerListe).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(triggerListe.getClassId(), triggerListe.getId())));
         }
+        AllCompensationListeView allCompensation = this.getAllCompensation();
+        if (allCompensation != null) {
+            ((ViewProxi)allCompensation).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(allCompensation.getClassId(), allCompensation.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -145,6 +158,8 @@ public class Account extends ViewObject implements AccountView{
         if(this.getReceivedDebitGrant() != null) index = index - 1;
         if(index == 0 && this.getTriggerListe() != null) return new TriggerListeAccountWrapper(this, originalIndex, (ViewRoot)this.getTriggerListe());
         if(this.getTriggerListe() != null) index = index - 1;
+        if(index == 0 && this.getAllCompensation() != null) return new AllCompensationAccountWrapper(this, originalIndex, (ViewRoot)this.getAllCompensation());
+        if(this.getAllCompensation() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
@@ -153,7 +168,8 @@ public class Account extends ViewObject implements AccountView{
             + (this.getLimit() == null ? 0 : 1)
             + (this.getGrantedDebitGrant() == null ? 0 : 1)
             + (this.getReceivedDebitGrant() == null ? 0 : 1)
-            + (this.getTriggerListe() == null ? 0 : 1);
+            + (this.getTriggerListe() == null ? 0 : 1)
+            + (this.getAllCompensation() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
@@ -161,7 +177,8 @@ public class Account extends ViewObject implements AccountView{
             && (this.getLimit() == null ? true : false)
             && (this.getGrantedDebitGrant() == null ? true : false)
             && (this.getReceivedDebitGrant() == null ? true : false)
-            && (this.getTriggerListe() == null ? true : false);
+            && (this.getTriggerListe() == null ? true : false)
+            && (this.getAllCompensation() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -175,6 +192,8 @@ public class Account extends ViewObject implements AccountView{
         if(this.getReceivedDebitGrant() != null) result = result + 1;
         if(this.getTriggerListe() != null && this.getTriggerListe().equals(child)) return result;
         if(this.getTriggerListe() != null) result = result + 1;
+        if(this.getAllCompensation() != null && this.getAllCompensation().equals(child)) return result;
+        if(this.getAllCompensation() != null) result = result + 1;
         return -1;
     }
     public int getAccountNumberIndex() throws ModelException {

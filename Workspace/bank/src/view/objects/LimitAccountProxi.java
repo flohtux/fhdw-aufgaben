@@ -1,9 +1,15 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.LimitAccountView;
+import view.LimitTypeView;
+import view.ModelException;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class LimitAccountProxi extends ViewProxi implements LimitAccountView{
     

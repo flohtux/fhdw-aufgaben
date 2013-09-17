@@ -48,6 +48,17 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> dtr_Path_In_RequestCompensation(){
+        try {
+            DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).dtr_Path_In_RequestCompensation();
+            return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> addToTransactionTemplate(String transactionProxiString, java.util.Vector<String> debitTransferTrnsprt){
         try {
             PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
@@ -84,6 +95,36 @@ public  class RemoteAccountService extends RemoteService {
 				debitTransfer.add(currentProxi);
 			}
             ((PersistentAccountService)this.server).addToTransaction(transaction, debitTransfer);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> answerAcceptWithTrigger(String aProxiString){
+        try {
+            PersistentCompensationRequest a = (PersistentCompensationRequest)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(aProxiString));
+            ((PersistentAccountService)this.server).answerAcceptWithTrigger(a);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> answerAccept(String aProxiString){
+        try {
+            PersistentCompensationRequest a = (PersistentCompensationRequest)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(aProxiString));
+            ((PersistentAccountService)this.server).answerAccept(a);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> answerDecline(String aProxiString){
+        try {
+            PersistentCompensationRequest a = (PersistentCompensationRequest)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(aProxiString));
+            ((PersistentAccountService)this.server).answerDecline(a);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -364,6 +405,16 @@ public  class RemoteAccountService extends RemoteService {
         try {
             PersistentDebitGrant grant = (PersistentDebitGrant)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(grantProxiString));
             ((PersistentAccountService)this.server).remove(grant);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> requestCompensation(String dtrProxiString){
+        try {
+            PersistentDebitTransferTransaction dtr = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(dtrProxiString));
+            ((PersistentAccountService)this.server).requestCompensation(dtr);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

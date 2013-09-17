@@ -16,7 +16,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleBankService(BankServiceView bankService) throws ModelException{
         this.handleService(bankService);
     }
-    public abstract void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
+    public abstract void handleCompensation(CompensationView compensation) throws ModelException;
     
     public abstract void handleDebitTransferTransaction(DebitTransferTransactionView debitTransferTransaction) throws ModelException;
     
@@ -29,21 +29,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleDebit(DebitView debit) throws ModelException{
         this.handleDebitTransferTransaction(debit);
     }
-    public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
+    public abstract void handleAllCompensationListe(AllCompensationListeView allCompensationListe) throws ModelException;
     
-    public abstract void handleAccount(AccountView account) throws ModelException;
-    
-    public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
-    
-    public void handleMixedFee(MixedFeeView mixedFee) throws ModelException{
-        this.handleTransactionFee(mixedFee);
-    }
-    public void handleFixTransactionFee(FixTransactionFeeView fixTransactionFee) throws ModelException{
-        this.handleTransactionFee(fixTransactionFee);
-    }
-    public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
-        this.handleTransactionFee(procentualFee);
-    }
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
@@ -64,8 +51,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.handleDebitTransferState(templateState);
     }
-    public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
-    
     public abstract void handleStornoState(StornoStateView stornoState) throws ModelException;
     
     public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
@@ -84,20 +69,10 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
     
-    public abstract void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;
-    
     public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     
     public abstract void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     
-    public abstract void handleLimitType(LimitTypeView limitType) throws ModelException;
-    
-    public void handleNoLimit(NoLimitView noLimit) throws ModelException{
-        this.handleLimitType(noLimit);
-    }
-    public void handleLimit(LimitView limit) throws ModelException{
-        this.handleLimitType(limit);
-    }
     public abstract void handleBooleanValue(BooleanValueView booleanValue) throws ModelException;
     
     public void handleFalseValue(FalseValueView falseValue) throws ModelException{
@@ -105,14 +80,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public void handleTrueValue(TrueValueView trueValue) throws ModelException{
         this.handleBooleanValue(trueValue);
-    }
-    public abstract void handleTriggerState(TriggerStateView triggerState) throws ModelException;
-    
-    public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
-        this.handleTriggerState(disabledState);
-    }
-    public void handleEnabledState(EnabledStateView enabledState) throws ModelException{
-        this.handleTriggerState(enabledState);
     }
     public abstract void handlePercent(PercentView percent) throws ModelException;
     
@@ -134,6 +101,57 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
         this.handleCurrency(yen);
     }
     public abstract void handleAmount(AmountView amount) throws ModelException;
+    
+    public abstract void handleServer(ServerView server) throws ModelException;
+    
+    public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
+    
+    public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
+    
+    public abstract void handleBankPx(BankPxView bankPx) throws ModelException;
+    
+    public abstract void handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
+    
+    public abstract void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;
+    
+    public abstract void handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException;
+    
+    public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
+    
+    public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
+    
+    public void handleMixedFee(MixedFeeView mixedFee) throws ModelException{
+        this.handleTransactionFee(mixedFee);
+    }
+    public void handleFixTransactionFee(FixTransactionFeeView fixTransactionFee) throws ModelException{
+        this.handleTransactionFee(fixTransactionFee);
+    }
+    public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
+        this.handleTransactionFee(procentualFee);
+    }
+    public abstract void handleAccount(AccountView account) throws ModelException;
+    
+    public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
+    
+    public abstract void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;
+    
+    public abstract void handleLimitType(LimitTypeView limitType) throws ModelException;
+    
+    public void handleNoLimit(NoLimitView noLimit) throws ModelException{
+        this.handleLimitType(noLimit);
+    }
+    public void handleLimit(LimitView limit) throws ModelException{
+        this.handleLimitType(limit);
+    }
+    public abstract void handleTriggerState(TriggerStateView triggerState) throws ModelException;
+    
+    public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
+        this.handleTriggerState(disabledState);
+    }
+    public void handleEnabledState(EnabledStateView enabledState) throws ModelException{
+        this.handleTriggerState(enabledState);
+    }
+    public abstract void handleCompensationListe(CompensationListeView compensationListe) throws ModelException;
     
     public abstract void handleMoney(MoneyView money) throws ModelException;
     
@@ -162,21 +180,13 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     
-    public abstract void handleServer(ServerView server) throws ModelException;
-    
-    public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
-    
     public abstract void handleBankFees(BankFeesView bankFees) throws ModelException;
-    
-    public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
-    
-    public abstract void handleBankPx(BankPxView bankPx) throws ModelException;
     
     public abstract void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     
     public abstract void handleBankCreator(BankCreatorView bankCreator) throws ModelException;
     
-    public abstract void handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
+    public abstract void handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException;
     
     
 }

@@ -110,6 +110,12 @@ void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction tran
 	no-view BooleanValue checkMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 	no-view void changeMoneyRuleMin(MoneyRule rule, Fraction minValue);
 	no-view void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
+
+	//Kompensation
+	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls});
+	void answerAccept@@annehmen(CompensationRequest a);
+	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
+	void answerDecline@@ablehnen(CompensationRequest a);
 }
 
 class BankFees {
@@ -149,6 +155,7 @@ class Account {
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
+	AllCompensationListe allCompensation;
 	event void remove(AccountPx acc, DebitGrantListe list);
 
 	Transfer createTransfer();
@@ -170,6 +177,12 @@ class Account {
 	void addToTransactionTrigger(Transaction transaction, DebitTransferSUBTYPEName type);
 
 	void checkAllTriggers(DebitTransfer incomingDebitTransfer) throws ExecuteException;
+
+	// Kompensation
+	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr);
+	void answerAccept@@annehmen(CompensationRequest a);
+	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
+	void answerDecline@@ablehnen(CompensationRequest a);
 }
 
 class AccountPx {
@@ -180,6 +193,25 @@ class TriggerListe {
 	Trigger ** triggers;
 	event void remove(Trigger t);
 	event void add(Trigger t);
+}
+
+
+class AllCompensationListe##AllCmpLst {
+	CompensationListe outgoingCompensations##outgngCmps;
+	CompensationRequestListe pendingCompensationRequests##pndgCmp;
+}
+
+
+class CompensationListe {
+	Compensation ** compensations;
+	void remove(Compensation t);
+	void add(Compensation t);
+}
+
+class CompensationRequestListe##CmpRqLst {
+	CompensationRequest ** compensationrequests##rqsts;
+	void remove(CompensationRequest t);
+	void add(CompensationRequest t);
 }
 
 class DebitGrantListe {
@@ -340,6 +372,21 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 	void changeAccountNumber(Integer accNum@@Kontonummer);
 	void changeBankNumber(Integer bankNum@@BLZ);
 }
+
+
+class Compensation {
+	DebitTransferTransaction ** transactionsToBeCompensated##2beCmpstd;
+	Account requestingAccount;
+	observe CompensationRequest ** pendingRequests;
+	active void executeCompensation();
+}
+
+class CompensationRequest {
+	DebitTransferTransaction debitTransferTransaction##cmpstDtTr;
+}
+
+
+
 
 class DebitTransferDoubleState##DebTraStaDo {
 	prior DebitTransferState debitTransferStateOld##dbtrstold;

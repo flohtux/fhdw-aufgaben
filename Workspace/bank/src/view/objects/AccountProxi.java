@@ -1,9 +1,19 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.AllCompensationListeView;
+import view.DebitGrantListeView;
+import view.DebitTransferTransactionView;
+import view.LimitAccountView;
+import view.ModelException;
+import view.MoneyView;
+import view.TriggerListeView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class AccountProxi extends ViewProxi implements AccountView{
     
@@ -51,7 +61,14 @@ public class AccountProxi extends ViewProxi implements AccountView{
             triggerListe = view.objects.ViewProxi.createProxi(triggerListe$Info,connectionKey);
             triggerListe.setToString(triggerListe$Info.getToString());
         }
-        AccountView result$$ = new Account((long)accountNumber,(MoneyView)money,(LimitAccountView)limit,debitTransferTransactions,(DebitGrantListeView)grantedDebitGrant,(DebitGrantListeView)receivedDebitGrant,(TriggerListeView)triggerListe, this.getId(), this.getClassId());
+        ViewProxi allCompensation = null;
+        String allCompensation$String = (String)resultTable.get("allCompensation");
+        if (allCompensation$String != null) {
+            common.ProxiInformation allCompensation$Info = common.RPCConstantsAndServices.createProxiInformation(allCompensation$String);
+            allCompensation = view.objects.ViewProxi.createProxi(allCompensation$Info,connectionKey);
+            allCompensation.setToString(allCompensation$Info.getToString());
+        }
+        AccountView result$$ = new Account((long)accountNumber,(MoneyView)money,(LimitAccountView)limit,debitTransferTransactions,(DebitGrantListeView)grantedDebitGrant,(DebitGrantListeView)receivedDebitGrant,(TriggerListeView)triggerListe,(AllCompensationListeView)allCompensation, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -71,6 +88,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
         if(this.getReceivedDebitGrant() != null) index = index - 1;
         if(index == 0 && this.getTriggerListe() != null) return new TriggerListeAccountWrapper(this, originalIndex, (ViewRoot)this.getTriggerListe());
         if(this.getTriggerListe() != null) index = index - 1;
+        if(index == 0 && this.getAllCompensation() != null) return new AllCompensationAccountWrapper(this, originalIndex, (ViewRoot)this.getAllCompensation());
+        if(this.getAllCompensation() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
@@ -79,7 +98,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
             + (this.getLimit() == null ? 0 : 1)
             + (this.getGrantedDebitGrant() == null ? 0 : 1)
             + (this.getReceivedDebitGrant() == null ? 0 : 1)
-            + (this.getTriggerListe() == null ? 0 : 1);
+            + (this.getTriggerListe() == null ? 0 : 1)
+            + (this.getAllCompensation() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
@@ -88,7 +108,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
             && (this.getLimit() == null ? true : false)
             && (this.getGrantedDebitGrant() == null ? true : false)
             && (this.getReceivedDebitGrant() == null ? true : false)
-            && (this.getTriggerListe() == null ? true : false);
+            && (this.getTriggerListe() == null ? true : false)
+            && (this.getAllCompensation() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -102,6 +123,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
         if(this.getReceivedDebitGrant() != null) result = result + 1;
         if(this.getTriggerListe() != null && this.getTriggerListe().equals(child)) return result;
         if(this.getTriggerListe() != null) result = result + 1;
+        if(this.getAllCompensation() != null && this.getAllCompensation().equals(child)) return result;
+        if(this.getAllCompensation() != null) result = result + 1;
         return -1;
     }
     
@@ -146,6 +169,12 @@ public class AccountProxi extends ViewProxi implements AccountView{
     }
     public void setTriggerListe(TriggerListeView newValue) throws ModelException {
         ((Account)this.getTheObject()).setTriggerListe(newValue);
+    }
+    public AllCompensationListeView getAllCompensation()throws ModelException{
+        return ((Account)this.getTheObject()).getAllCompensation();
+    }
+    public void setAllCompensation(AllCompensationListeView newValue) throws ModelException {
+        ((Account)this.getTheObject()).setAllCompensation(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

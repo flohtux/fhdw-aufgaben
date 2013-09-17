@@ -53,6 +53,7 @@ import persistence.PersistentAccountServiceTemplate;
 import persistence.PersistentBank;
 import persistence.PersistentBankFees;
 import persistence.PersistentBooleanValue;
+import persistence.PersistentCompensationRequest;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
@@ -451,6 +452,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 		}
 		subService.deregister(observee);
     }
+    public DebitTransferTransactionSearchList dtr_Path_In_RequestCompensation() 
+				throws model.UserException, PersistenceException{
+        	return new DebitTransferTransactionSearchList(getThis().getSuccessful().
+                getSuccessfuls().getList());
+    }
     public PersistentBankFees getBankFees() 
 				throws PersistenceException{
         if (this.bankFees== null) return null;
@@ -558,6 +564,21 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
 	    getThis().getAccount().addToTransaction(transaction, debitTransfer);
         getThis().signalChanged(true);
+    }
+    public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        //TODO: implement method: answerAcceptWithTrigger
+        
+    }
+    public void answerAccept(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        //TODO: implement method: answerAccept
+        
+    }
+    public void answerDecline(final PersistentCompensationRequest a) 
+				throws PersistenceException{
+        //TODO: implement method: answerDecline
+        
     }
     public void bankFees_update(final model.meta.BankFeesMssgs event) 
 				throws PersistenceException{
@@ -768,6 +789,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
     	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
     	grant.getPermittedAccount().getAccount().getGrantedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
     	getThis().signalChanged(true);
+    }
+    public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
+				throws PersistenceException{
+        getThis().getAccount().requestCompensation(dtr);
+        getThis().signalChanged(true);
+        
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException{

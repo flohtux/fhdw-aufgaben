@@ -18,9 +18,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
     
-    public abstract void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException;
-    
-    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
+    public abstract void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
@@ -35,22 +33,7 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
-    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
-    
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
-    
-    public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
-    
-    public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
-        this.handleTransactionFee(mixedFee);
-    }
-    public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
-        this.handleTransactionFee(fixTransactionFee);
-    }
-    public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
-        this.handleTransactionFee(procentualFee);
-    }
-    public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
+    public abstract void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException;
     
     public abstract void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
     
@@ -74,8 +57,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.handleDebitTransferState(templateState);
     }
-    public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
-    
     public abstract void handleStornoState(PersistentStornoState stornoState) throws PersistenceException;
     
     public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
@@ -94,22 +75,10 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     
-    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
-    
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     
     public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     
-    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
-    
-    public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
-    
-    public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
-        this.handleLimitType(noLimit);
-    }
-    public void handleLimit(PersistentLimit limit) throws PersistenceException{
-        this.handleLimitType(limit);
-    }
     public abstract void handleBooleanValue(PersistentBooleanValue booleanValue) throws PersistenceException;
     
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
@@ -123,17 +92,20 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.handleCommonDate(createAccountCommand);
     }
+    public void handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException{
+        this.handleCommonDate(executeCompensationCommand);
+    }
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException{
         this.handleCommonDate(changeCurrencyCommand);
     }
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException{
         this.handleCommonDate(createBankCommand);
     }
-    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
-        this.handleCommonDate(executeCommand);
-    }
     public void handleChangeReceiverBankCommand(PersistentChangeReceiverBankCommand changeReceiverBankCommand) throws PersistenceException{
         this.handleCommonDate(changeReceiverBankCommand);
+    }
+    public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
+        this.handleCommonDate(executeCommand);
     }
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.handleCommonDate(useTemplateCommand);
@@ -152,16 +124,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.handleCommonDate(createDebitGrantCommand);
-    }
-    public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
-    
-    public abstract void handleTriggerState(PersistentTriggerState triggerState) throws PersistenceException;
-    
-    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
-        this.handleTriggerState(disabledState);
-    }
-    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
-        this.handleTriggerState(enabledState);
     }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
@@ -185,6 +147,71 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
         this.handleCurrency(yen);
     }
     public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
+    
+    public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    
+    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
+    
+    public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    
+    public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
+    
+    public abstract void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException;
+    
+    public abstract void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
+    
+    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
+    
+    public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
+    
+    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
+    
+    public abstract void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException;
+    
+    public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
+    
+    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
+    
+    public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
+    
+    public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
+        this.handleTransactionFee(mixedFee);
+    }
+    public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
+        this.handleTransactionFee(fixTransactionFee);
+    }
+    public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
+        this.handleTransactionFee(procentualFee);
+    }
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    
+    public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
+    
+    public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
+    
+    public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
+    
+    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
+    
+    public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
+    
+    public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
+        this.handleLimitType(noLimit);
+    }
+    public void handleLimit(PersistentLimit limit) throws PersistenceException{
+        this.handleLimitType(limit);
+    }
+    public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
+    
+    public abstract void handleTriggerState(PersistentTriggerState triggerState) throws PersistenceException;
+    
+    public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
+        this.handleTriggerState(disabledState);
+    }
+    public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
+        this.handleTriggerState(enabledState);
+    }
+    public abstract void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
     
     public abstract void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
     
@@ -217,27 +244,15 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     
-    public abstract void handleServer(PersistentServer server) throws PersistenceException;
-    
-    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
-    
     public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
-    
-    public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
-    
-    public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     
     public abstract void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException;
     
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     
-    public abstract void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
-    
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     
-    public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
-    
-    public abstract void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
+    public abstract void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     
     
 }
