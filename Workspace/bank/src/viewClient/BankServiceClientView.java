@@ -474,10 +474,10 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
                 });
                 result.add(item);
                 item = new javax.swing.JMenuItem();
-                item.setText("Procentuale Gebühren ... ");
+                item.setText("Prozentuale Gebühren ... ");
                 item.addActionListener(new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent e) {
-                        BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard wizard = new BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard("Procentuale Gebühren");
+                        BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard wizard = new BankServiceChangeTransactionFeeToProcentualFeeTransactionFeeFractionMssgWizard("Prozentuale Gebühren");
                         wizard.setFirstArgument((TransactionFeeView)selected);
                         wizard.pack();
                         wizard.setPreferredSize(new java.awt.Dimension(getNavigationPanel().getWidth(), wizard.getHeight()));

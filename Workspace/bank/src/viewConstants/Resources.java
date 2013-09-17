@@ -29,6 +29,8 @@ public class Resources {
 	private static final String EinzugOutIcon = Resources + "/einzugAusgehend.png";
 	private static final String GebührenIcon = Resources + "/coins.png";
 	private static final String FolgebuchungIcon = Resources + "/folgebuchung.png";
+	private static final String LimitIcon = Resources + "/limit.gif";
+	private static final String NoLimitIcon = Resources + "/noLimit.gif";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -50,6 +52,8 @@ public class Resources {
 	private static ImageIcon einzugOutIcon;
 	private static ImageIcon gebührenIcon;
 	private static ImageIcon folgebuchungIcon;
+	private static ImageIcon limitIcon;
+	private static ImageIcon noLimitIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -112,6 +116,12 @@ public class Resources {
 		return kontostandIcon;
 		}
 	
+	public static Icon getLimitIcon() {
+		if (limitIcon == null)
+			limitIcon = new ImageIcon(getURL(LimitIcon));
+		return limitIcon;
+	}
+	
 	public static Icon getLimitsIcon() {
 		if (limitsIcon == null)
 			limitsIcon = new ImageIcon(getURL(LimitsIcon));
@@ -140,6 +150,12 @@ public class Resources {
 		if (nochNichtErledigteAuftraegeIcon == null)
 			nochNichtErledigteAuftraegeIcon = new ImageIcon(getURL(NochNichtErledigteAuftraegeIcon));
 		return nochNichtErledigteAuftraegeIcon;
+	}
+	
+	public static Icon getNoLimitIcon() {
+		if (noLimitIcon == null)
+			noLimitIcon = new ImageIcon(getURL(NoLimitIcon));
+		return noLimitIcon;
 	}
 	
 	public static Icon getProzentualeKostenIcon() {

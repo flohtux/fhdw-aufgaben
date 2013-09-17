@@ -44,7 +44,7 @@ server BankService extends Service {
 
 	void findAccount@@Konto_finden(Integer accountNumber@@Kontonummer) throws UserException;
 	void changeTransactionFeeToFixFee@@Fixe_Gebühren(TransactionFee dummy, Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung) throws NoValidFeeValueException;
-	void changeTransactionFeeToProcentualFee@@Procentuale_Gebühren(TransactionFee dummy, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException;
+	void changeTransactionFeeToProcentualFee@@Prozentuale_Gebühren(TransactionFee dummy, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException;
 	void changeTransactionFeeToMixedFee@@Gemischte_Gebühren(TransactionFee dummy,  Fraction fix@@fixe_Gebühren, CurrencySUBTYPEName fixCurrency@@Währung, Fraction limit@@Grenze, CurrencySUBTYPEName limitCurrency@@Währung, Fraction procentual@@variable_Gebühren) throws NoValidPercentValueException, NoValidFeeValueException;
 	void changeInteralFee@@Interne_Gebühren_ändern(InternalFee fee, Fraction procentual@@Prozent) throws NoValidPercentValueException;
 }
