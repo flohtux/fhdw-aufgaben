@@ -28,8 +28,8 @@ public class StringFACTORY{
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentLimitType createObjectBySubTypeNameForLimitType(String name, LimitTypeSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {
-        if(name.equals("NoLimit")) return model.NoLimit.getTheNoLimit();
-        if(name.equals("Limit")) return switchAssistant.handleLimit();
+        if(name.equals("Unbegrenzt")) return model.NoLimit.getTheNoLimit();
+        if(name.equals("Begrenzt")) return switchAssistant.handleLimit();
         throw new persistence.PersistenceException("No such type name!",0);
     }
     public static persistence.PersistentRule createObjectBySubTypeNameForRule(String name, RuleSwitchPARAMETER switchAssistant) throws persistence.PersistenceException {

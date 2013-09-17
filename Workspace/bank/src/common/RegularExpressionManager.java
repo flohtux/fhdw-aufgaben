@@ -17,8 +17,8 @@ public class RegularExpressionManager {
 		"(Yen)]" );
     public static RegularExpressionHandler debitTransferSUBTYPEName = new RegularExpressionHandler( "[(Lastschrift)" + 
 		"(Überweisung)]" );
-    public static RegularExpressionHandler limitTypeSUBTYPEName = new RegularExpressionHandler( "[(NoLimit)" + 
-		"(Limit)]" );
+    public static RegularExpressionHandler limitTypeSUBTYPEName = new RegularExpressionHandler( "[(Unbegrenzt)" + 
+		"(Begrenzt)]" );
     public static RegularExpressionHandler ruleSUBTYPEName = new RegularExpressionHandler( "[(Betreffregel)" + 
 		"(Geldregel)" + 
 		"(Absenderregel)]" );

@@ -219,10 +219,10 @@ abstract class BooleanValue(TrueValue,FalseValue){
 	BooleanValue or(BooleanValue value);
 }
 
-abstract string-factory class LimitType(NoLimit) {
+abstract string-factory class LimitType(NoLimit@@Unbegrenzt) {
 	void checkMaxLimit(Money money) throws LimitViolatedException;
 }
-class Limit extends LimitType{
+class Limit@@Begrenzt extends LimitType{
 	prior skip-view Money money;
 }
 
