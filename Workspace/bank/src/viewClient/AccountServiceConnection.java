@@ -716,16 +716,11 @@ public class AccountServiceConnection extends ServiceConnection {
         
     }
     
-    public synchronized void createDebitGrant(DebitGrantListeView debitGrantList, long receiverBankNumber, long receiverAccNumber, String limitType, common.Fraction amount, String cur) throws ModelException, GrantAlreadyGivenException, InvalidBankNumberException, InvalidAccountNumberException{
+    public synchronized void createDebitGrant(long receiverAccNumber, long receiverBankNumber, String limitType, common.Fraction amount, String cur) throws ModelException, GrantAlreadyGivenException, InvalidBankNumberException, InvalidAccountNumberException{
         try {
             Vector<Object> parameters = new Vector<Object>();
-            if (debitGrantList == null){
-                parameters.add(common.RPCConstantsAndServices.createFromClientNullProxiRepresentation());
-            } else {
-                parameters.add(((view.objects.ViewProxi)debitGrantList).createProxiInformation());
-            }
-            parameters.add(new Long(receiverBankNumber).toString());
             parameters.add(new Long(receiverAccNumber).toString());
+            parameters.add(new Long(receiverBankNumber).toString());
             parameters.add(limitType);
             parameters.add(amount.toString());
             parameters.add(cur);

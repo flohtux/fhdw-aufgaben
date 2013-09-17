@@ -101,7 +101,7 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+    public void createDebitGrant(final long receiverAccNumber, final long receiverBankNumber, final String limitType, final common.Fraction amount, final String cur) 
 				throws model.GrantAlreadyGivenException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException;
     public void createDebit() 
 				throws PersistenceException;

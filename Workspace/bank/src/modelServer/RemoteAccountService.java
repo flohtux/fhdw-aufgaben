@@ -273,13 +273,12 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> createDebitGrant(String debitGrantListProxiString, String receiverBankNumberAsString, String receiverAccNumberAsString, String limitType, String amountAsString, String cur){
+    public synchronized java.util.HashMap<?,?> createDebitGrant(String receiverAccNumberAsString, String receiverBankNumberAsString, String limitType, String amountAsString, String cur){
         try {
-            PersistentDebitGrantListe debitGrantList = (PersistentDebitGrantListe)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(debitGrantListProxiString));
-            long receiverBankNumber = new Long(receiverBankNumberAsString).longValue();
             long receiverAccNumber = new Long(receiverAccNumberAsString).longValue();
+            long receiverBankNumber = new Long(receiverBankNumberAsString).longValue();
             common.Fraction amount = common.Fraction.parse(amountAsString);
-            ((PersistentAccountService)this.server).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur);
+            ((PersistentAccountService)this.server).createDebitGrant(receiverAccNumber, receiverBankNumber, limitType, amount, cur);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

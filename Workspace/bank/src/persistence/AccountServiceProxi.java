@@ -264,9 +264,9 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void createDebitGrant(final PersistentDebitGrantListe debitGrantList, final long receiverBankNumber, final long receiverAccNumber, final String limitType, final common.Fraction amount, final String cur) 
+    public void createDebitGrant(final long receiverAccNumber, final long receiverBankNumber, final String limitType, final common.Fraction amount, final String cur) 
 				throws model.GrantAlreadyGivenException, model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).createDebitGrant(debitGrantList, receiverBankNumber, receiverAccNumber, limitType, amount, cur);
+        ((PersistentAccountService)this.getTheObject()).createDebitGrant(receiverAccNumber, receiverBankNumber, limitType, amount, cur);
     }
     public void createDebit() 
 				throws PersistenceException{

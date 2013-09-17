@@ -95,7 +95,7 @@ server AccountService extends Service {
 	no-view void changeMoney(DebitTransfer trans checked, Fraction newAmount);
 	no-view void changeSubject(DebitTransfer trans checked, String subject);
 	no-view void changeCurrency(DebitTransfer trans checked, CurrencySUBTYPEName currency);
-	void createDebitGrant@@Neue_Erlaubnis_erteilen(DebitGrantListe debitGrantList,Integer receiverBankNumber@@Empfänger_BLZ,Integer receiverAccNumber@@Empfänger_Kontonummer, LimitTypeSUBTYPEName limitType@@Limit, Fraction amount@@Betrag, CurrencySUBTYPEName cur@@Währung) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
+	void createDebitGrant@@Neue_Einzugsermächtigung(Integer receiverAccNumber@@Empfänger_Kontonummer, Integer receiverBankNumber@@Empfänger_BLZ, LimitTypeSUBTYPEName limitType@@Limit, Fraction amount@@Betrag, CurrencySUBTYPEName cur@@Währung) throws InvalidAccountNumberException, InvalidBankNumberException, GrantAlreadyGivenException;
 	void addToTransaction@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {notExecuted;notExecuteds});
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked, DebitTransferSUBTYPEName type@@Buchung);
