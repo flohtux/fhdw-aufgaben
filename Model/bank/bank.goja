@@ -169,7 +169,7 @@ class Account {
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTrigger(Transaction transaction, DebitTransferSUBTYPEName type);
 
-	void checkAllTriggers(DebitTransfer incomingDebitTransfer);
+	void checkAllTriggers(DebitTransfer incomingDebitTransfer) throws ExecuteException;
 }
 
 class AccountPx {
@@ -309,7 +309,7 @@ class Trigger extends TriggerValue{
 	void enable() throws NoRuleDefinitionException;
 	void disable();
 	void addRule(Rule rule) throws DoubleRuleDefinitionException;
-	void executeTrigger(DebitTransfer incomingDebitTransfer, AccountService accService);
+	void executeTrigger(DebitTransfer incomingDebitTransfer, AccountService accService) throws ExecuteException;
 	BooleanValue isEnabled();
 }
 

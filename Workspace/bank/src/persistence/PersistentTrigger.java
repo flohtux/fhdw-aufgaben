@@ -39,7 +39,7 @@ public interface PersistentTrigger extends PersistentTriggerValue {
     public void enable() 
 				throws model.NoRuleDefinitionException, PersistenceException;
     public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
-				throws PersistenceException;
+				throws model.ExecuteException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

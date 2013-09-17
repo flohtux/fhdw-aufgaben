@@ -193,7 +193,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).changeSubject(trans, subject);
     }
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
-				throws PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).checkAllTriggers(incomingDebitTransfer);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

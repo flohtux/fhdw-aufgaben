@@ -122,7 +122,7 @@ public class TriggerProxi extends TriggerValueProxi implements PersistentTrigger
         ((PersistentTrigger)this.getTheObject()).enable();
     }
     public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
-				throws PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentTrigger)this.getTheObject()).executeTrigger(incomingDebitTransfer, accService);
     }
     public void initializeOnCreation() 

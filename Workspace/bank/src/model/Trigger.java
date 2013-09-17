@@ -336,9 +336,8 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
         
     }
     public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
-				throws PersistenceException{
+				throws model.ExecuteException, PersistenceException{
     	System.out.println("execTrigger");
-    	
     	if (!getThis().isEnabled().isTrue()) {
     		return;
     	}
@@ -373,8 +372,8 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 			public void handleTransaction(PersistentTransaction transaction)
 					throws PersistenceException {}
 		});
-		copy.execute(accService);
-        
+//		copy.execute(accService);
+		copy.execute();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

@@ -193,7 +193,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
         ((PersistentAccount)this.getTheObject()).changeSubject(trans, subject);
     }
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
-				throws PersistenceException{
+				throws model.ExecuteException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).checkAllTriggers(incomingDebitTransfer);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
