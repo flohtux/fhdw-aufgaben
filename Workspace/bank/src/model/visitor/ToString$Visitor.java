@@ -24,6 +24,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException;
     public abstract void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException;
     public abstract void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException;
+    public abstract void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
     public abstract void handleBankService(PersistentBankService bankService) throws PersistenceException;
     public abstract void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException;
     public abstract void handleTransfer(PersistentTransfer transfer) throws PersistenceException;

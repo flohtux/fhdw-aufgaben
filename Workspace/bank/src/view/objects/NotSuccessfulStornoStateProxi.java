@@ -1,18 +1,9 @@
 package view.objects;
 
-import view.DebitTransferView;
-import view.ModelException;
-import view.NotSuccessfulStornoStateView;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.StornoStateExceptionVisitor;
-import view.visitor.StornoStateReturnExceptionVisitor;
-import view.visitor.StornoStateReturnVisitor;
-import view.visitor.StornoStateVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class NotSuccessfulStornoStateProxi extends StornoStateProxi implements NotSuccessfulStornoStateView{
     

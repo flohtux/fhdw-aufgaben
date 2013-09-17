@@ -16,6 +16,7 @@ import persistence.PersistentAmount;
 import persistence.PersistentBank;
 import persistence.PersistentBankCreator;
 import persistence.PersistentBankFees;
+import persistence.PersistentBankOwnAccountPx;
 import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
 import persistence.PersistentCompensation;
@@ -429,6 +430,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException {
 		result = serverConstants.ToStringConstants.AllCompensationListe;
+	}
+	@Override
+	public void handleBankOwnAccountPx(
+			PersistentBankOwnAccountPx bankOwnAccountPx)
+			throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.BankOwnAccountPxPrefix+bankOwnAccountPx.getAccount().getMoney().toString(true);
 	}
 	
 	

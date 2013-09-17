@@ -14,8 +14,8 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
     public void setLastAccountNumber(long newValue) throws PersistenceException ;
     public PersistentBankFees getBankFees() throws PersistenceException ;
     public void setBankFees(PersistentBankFees newValue) throws PersistenceException ;
-    public PersistentAccount getOwnAccount() throws PersistenceException ;
-    public void setOwnAccount(PersistentAccount newValue) throws PersistenceException ;
+    public PersistentBankOwnAccountPx getOwnAccount() throws PersistenceException ;
+    public void setOwnAccount(PersistentBankOwnAccountPx newValue) throws PersistenceException ;
     public Bank_AccountsProxi getAccounts() throws PersistenceException ;
     public PersistentAdministrator getAdministrator() throws PersistenceException ;
     public void setAdministrator(PersistentAdministrator newValue) throws PersistenceException ;

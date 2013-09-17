@@ -19,6 +19,7 @@ import persistence.PersistentAccount;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
 import persistence.PersistentBankCreator;
+import persistence.PersistentBankOwnAccountPx;
 import persistence.PersistentBankService;
 import persistence.PersistentCreateBankCommand;
 import persistence.PersistentObject;
@@ -249,7 +250,8 @@ public class BankCreator extends PersistentObject implements PersistentBankCreat
     	long newBankNumber = getThis().getLastBankNumber();
     	PersistentAccount newBankAccount = Account.createAccount(1, Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), 
     			Euro.getTheEuro()));
-    	PersistentBank newBank = Bank.createBank(name,newBankAccount, administrator);
+    	PersistentBankOwnAccountPx accPx = BankOwnAccountPx.createBankOwnAccountPx(newBankAccount);
+    	PersistentBank newBank = Bank.createBank(name,accPx, administrator);
     	newBank.setBankNumber(newBankNumber);
     	PersistentBankService newBankService = BankService.createBankService(newBank);
     	PersistentServer newServer = Server.createServer(serverConstants.ServerConstants.StandardBankPassword, serverConstants.ServerConstants.BankServicePrefix + newBankNumber, 0, serverConstants.DateConstants.Now);

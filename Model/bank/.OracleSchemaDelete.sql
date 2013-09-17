@@ -30,6 +30,8 @@ drop sequence SCrrnc;
 drop table Crrnc cascade constraints;
 drop sequence SExctCmpnstnCMD;
 drop table ExctCmpnstnCMD cascade constraints;
+drop sequence SBankOwAccPx;
+drop table BankOwAccPx cascade constraints;
 drop sequence SChngSbjctCMD;
 drop table ChngSbjctCMD cascade constraints;
 drop sequence SSrvr;

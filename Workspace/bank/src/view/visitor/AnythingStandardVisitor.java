@@ -62,6 +62,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAdministrator(AdministratorView administrator) throws ModelException{
         this.standardHandling(administrator);
     }
+    public void handleBankOwnAccountPx(BankOwnAccountPxView bankOwnAccountPx) throws ModelException{
+        this.standardHandling(bankOwnAccountPx);
+    }
     public void handleBankService(BankServiceView bankService) throws ModelException{
         this.standardHandling(bankService);
     }

@@ -122,6 +122,7 @@ public class ConnectionHandler {
     public CurrencyFacade theCurrencyFacade;
     public ExecuteCompensationCommandFacade theExecuteCompensationCommandFacade;
     public NoTriggerFacade theNoTriggerFacade;
+    public BankOwnAccountPxFacade theBankOwnAccountPxFacade;
     public ProcentualFeeFacade theProcentualFeeFacade;
     public ChangeSubjectCommandFacade theChangeSubjectCommandFacade;
     public ServerFacade theServerFacade;
@@ -245,6 +246,7 @@ public class ConnectionHandler {
             this.theCurrencyFacade= new CurrencyFacade(this.schemaName, this.con);
             this.theExecuteCompensationCommandFacade= new ExecuteCompensationCommandFacade(this.schemaName, this.con);
             this.theNoTriggerFacade= new NoTriggerFacade(this.schemaName, this.con);
+            this.theBankOwnAccountPxFacade= new BankOwnAccountPxFacade(this.schemaName, this.con);
             this.theProcentualFeeFacade= new ProcentualFeeFacade(this.schemaName, this.con);
             this.theChangeSubjectCommandFacade= new ChangeSubjectCommandFacade(this.schemaName, this.con);
             this.theServerFacade= new ServerFacade(this.schemaName, this.con);

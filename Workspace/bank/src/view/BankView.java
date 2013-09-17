@@ -12,8 +12,8 @@ public interface BankView extends Anything, AbstractViewRoot {
     public void setName(String newValue) throws ModelException ;
     public BankFeesView getBankFees()throws ModelException;
     public void setBankFees(BankFeesView newValue) throws ModelException ;
-    public AccountView getOwnAccount()throws ModelException;
-    public void setOwnAccount(AccountView newValue) throws ModelException ;
+    public BankOwnAccountPxView getOwnAccount()throws ModelException;
+    public void setOwnAccount(BankOwnAccountPxView newValue) throws ModelException ;
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException;
     public void setCurrentAccounts(java.util.Vector<AccountView> newValue) throws ModelException ;
     

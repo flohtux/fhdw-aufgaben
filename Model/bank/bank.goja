@@ -53,7 +53,7 @@ class Bank {
 	indexed prior String name@@Name;
 	server-only Integer lastAccountNumber##lstAccNo;
 	final skip-view BankFees bankFees;
-	prior Account ownAccount;
+	prior BankOwnAccountPx ownAccount;
 	server-only one-to-one (server-only bank) Account ** Integer ** accounts;
 	symmetric (server-only banks) prior server-only Administrator administrator;
 	transient Account ** currentAccounts;
@@ -186,6 +186,10 @@ class Account {
 }
 
 class AccountPx {
+	server-only prior Account account;
+}
+
+class BankOwnAccountPx##BankOwAccPx {
 	server-only prior Account account;
 }
 

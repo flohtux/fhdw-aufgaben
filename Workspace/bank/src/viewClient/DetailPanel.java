@@ -721,6 +721,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleNoTrigger(view.NoTriggerView object){
         result = new NoTriggerDefaultDetailPanel(handler, object);
     }
+    public void handleBankOwnAccountPx(view.BankOwnAccountPxView object){
+        result = new BankOwnAccountPxDefaultDetailPanel(handler, object);
+    }
     public void handleProcentualFee(view.ProcentualFeeView object){
         result = new ProcentualFeeDefaultDetailPanel(handler, object);
     }
@@ -1029,6 +1032,20 @@ class NoTriggerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NoTriggerView getAnything(){
         return (view.NoTriggerView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class BankOwnAccountPxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected BankOwnAccountPxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.BankOwnAccountPxView getAnything(){
+        return (view.BankOwnAccountPxView)this.anything;
     }
 }
 

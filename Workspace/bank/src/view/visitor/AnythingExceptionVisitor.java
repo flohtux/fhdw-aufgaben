@@ -9,6 +9,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;
     public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException, E;
     public void handlePercent(PercentView percent) throws ModelException, E;
+    public void handleBankOwnAccountPx(BankOwnAccountPxView bankOwnAccountPx) throws ModelException, E;
     public void handleServer(ServerView server) throws ModelException, E;
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException, E;
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException, E;

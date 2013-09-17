@@ -61,6 +61,7 @@ public class ToStringConstants {
 	public static final String CompensationListe = "Von mir ausgelöste Kompensationen";
 	public static final String CompensationRequestListe = "Eingehende Kompensationsanfrage";
 	public static final String AllCompensationListe = "Kompensationen";
+	public static final String BankOwnAccountPxPrefix = "Bankkonto Saldo: ";
 
 
 	

@@ -238,8 +238,8 @@ public class TestTransfer {
 		newTrans.execute();
 		assertEquals(new Fraction(-17, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(11, 1), acc2.getMoney().getAmount().getBalance());
-		assertEquals(new Fraction(6, 1), bank1.getOwnAccount().getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(6, 1), bank1.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank2.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 	}
 	
 	@Test
@@ -288,7 +288,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(100, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-100, 1), acc1.getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 
 	}
 	@Test
@@ -310,7 +310,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(0, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(0, 1), acc1.getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 
 	}
 	@Test
@@ -333,8 +333,8 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank1.getOwnAccount().getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank1.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank2.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
 	public void testBankExternFixFee2() throws PersistenceException, ExecuteException {
@@ -357,8 +357,8 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(-105, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(100, 1), acc2.getMoney().getAmount().getBalance());
-		assertEquals(new Fraction(5, 1), bank1.getOwnAccount().getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(5, 1), bank1.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank2.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 
 	}
 	@Test
@@ -381,7 +381,7 @@ public class TestTransfer {
 
 		assertEquals(new Fraction(100, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-105, 1), acc1.getMoney().getAmount().getBalance());
-		assertEquals(new Fraction(5, 1), bank.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(5, 1), bank.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
 	public void testBankExternProcentualFee2() throws PersistenceException, ExecuteException {
@@ -403,8 +403,8 @@ public class TestTransfer {
 		newTrans.execute();
 		assertEquals(new Fraction(-210, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(200, 1), acc2.getMoney().getAmount().getBalance());
-		assertEquals(new Fraction(10, 1), bank1.getOwnAccount().getMoney().getAmount().getBalance());
-		assertEquals(Fraction.Null, bank2.getOwnAccount().getMoney().getAmount().getBalance());
+		assertEquals(new Fraction(10, 1), bank1.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
+		assertEquals(Fraction.Null, bank2.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
 	}
 	@Test
 	public void testBankinternProcentualFee() throws PersistenceException, ExecuteException {

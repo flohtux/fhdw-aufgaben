@@ -1,15 +1,9 @@
 package view.objects;
 
-import view.AccountView;
-import view.BankFeesView;
-import view.BankView;
-import view.ModelException;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class BankProxi extends ViewProxi implements BankView{
     
@@ -37,7 +31,7 @@ public class BankProxi extends ViewProxi implements BankView{
         }
         java.util.Vector<String> currentAccounts_string = (java.util.Vector<String>)resultTable.get("currentAccounts");
         java.util.Vector<AccountView> currentAccounts = ViewProxi.getProxiVector(currentAccounts_string, connectionKey);
-        BankView result$$ = new Bank((long)bankNumber,(String)name,(BankFeesView)bankFees,(AccountView)ownAccount,currentAccounts, this.getId(), this.getClassId());
+        BankView result$$ = new Bank((long)bankNumber,(String)name,(BankFeesView)bankFees,(BankOwnAccountPxView)ownAccount,currentAccounts, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -101,10 +95,10 @@ public class BankProxi extends ViewProxi implements BankView{
     public void setBankFees(BankFeesView newValue) throws ModelException {
         ((Bank)this.getTheObject()).setBankFees(newValue);
     }
-    public AccountView getOwnAccount()throws ModelException{
+    public BankOwnAccountPxView getOwnAccount()throws ModelException{
         return ((Bank)this.getTheObject()).getOwnAccount();
     }
-    public void setOwnAccount(AccountView newValue) throws ModelException {
+    public void setOwnAccount(BankOwnAccountPxView newValue) throws ModelException {
         ((Bank)this.getTheObject()).setOwnAccount(newValue);
     }
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException{

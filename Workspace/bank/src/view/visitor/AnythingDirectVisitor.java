@@ -102,6 +102,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleAmount(AmountView amount) throws ModelException;
     
+    public abstract void handleBankOwnAccountPx(BankOwnAccountPxView bankOwnAccountPx) throws ModelException;
+    
     public abstract void handleServer(ServerView server) throws ModelException;
     
     public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;

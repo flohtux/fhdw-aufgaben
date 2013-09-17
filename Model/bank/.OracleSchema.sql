@@ -284,6 +284,22 @@ create table ExctCmpnstnCMD(
     constraint FExctCmpnstnCMDMyCmmnDt foreign key (ExctCmpnstnCMDMyCmmnDtCls) references Cls (id)    
 );
 
+create sequence SBankOwAccPx nocache;
+
+create table BankOwAccPx(
+    id number primary key,
+    Cls number not null,
+    BankOwAccPxAccnt number,
+    BankOwAccPxAccntCls number,
+    constraint FBankOwAccPxAccnt foreign key (BankOwAccPxAccntCls) references Cls (id),
+    BankOwAccPxSbSrvc number,
+    BankOwAccPxSbSrvcCls number,
+    constraint FBankOwAccPxSbSrvc foreign key (BankOwAccPxSbSrvcCls) references Cls (id),
+    BankOwAccPxThis number,
+    BankOwAccPxThisCls number,
+    constraint FBankOwAccPxThis foreign key (BankOwAccPxThisCls) references Cls (id)    
+);
+
 create sequence SChngSbjctCMD nocache;
 
 create table ChngSbjctCMD(

@@ -1,18 +1,9 @@
 package view.objects;
 
-import view.FixTransactionFeeView;
-import view.ModelException;
-import view.MoneyView;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.TransactionFeeExceptionVisitor;
-import view.visitor.TransactionFeeReturnExceptionVisitor;
-import view.visitor.TransactionFeeReturnVisitor;
-import view.visitor.TransactionFeeVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class FixTransactionFeeProxi extends TransactionFeeProxi implements FixTransactionFeeView{
     

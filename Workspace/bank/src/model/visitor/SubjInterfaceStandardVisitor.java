@@ -65,6 +65,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
     }
+    public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException{
+        this.standardHandling(bankOwnAccountPx);
+    }
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.standardHandling(bankService);
     }
@@ -104,11 +107,11 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException{
         this.standardHandling(limitAccount);
     }
-    public void handleDebit(PersistentDebit debit) throws PersistenceException{
-        this.standardHandling(debit);
-    }
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.standardHandling(limit);
+    }
+    public void handleDebit(PersistentDebit debit) throws PersistenceException{
+        this.standardHandling(debit);
     }
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
         this.standardHandling(mixedFee);

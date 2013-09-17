@@ -3,6 +3,7 @@ package view.objects;
 
 import view.AccountView;
 import view.BankFeesView;
+import view.BankOwnAccountPxView;
 import view.BankView;
 import view.ModelException;
 import view.UserException;
@@ -19,10 +20,10 @@ public class Bank extends ViewObject implements BankView{
     protected long bankNumber;
     protected String name;
     protected BankFeesView bankFees;
-    protected AccountView ownAccount;
+    protected BankOwnAccountPxView ownAccount;
     protected java.util.Vector<AccountView> currentAccounts;
     
-    public Bank(long bankNumber,String name,BankFeesView bankFees,AccountView ownAccount,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
+    public Bank(long bankNumber,String name,BankFeesView bankFees,BankOwnAccountPxView ownAccount,java.util.Vector<AccountView> currentAccounts,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.bankNumber = bankNumber;
@@ -58,10 +59,10 @@ public class Bank extends ViewObject implements BankView{
     public void setBankFees(BankFeesView newValue) throws ModelException {
         this.bankFees = newValue;
     }
-    public AccountView getOwnAccount()throws ModelException{
+    public BankOwnAccountPxView getOwnAccount()throws ModelException{
         return this.ownAccount;
     }
-    public void setOwnAccount(AccountView newValue) throws ModelException {
+    public void setOwnAccount(BankOwnAccountPxView newValue) throws ModelException {
         this.ownAccount = newValue;
     }
     public java.util.Vector<AccountView> getCurrentAccounts()throws ModelException{
@@ -89,7 +90,7 @@ public class Bank extends ViewObject implements BankView{
         if (bankFees != null) {
             ((ViewProxi)bankFees).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(bankFees.getClassId(), bankFees.getId())));
         }
-        AccountView ownAccount = this.getOwnAccount();
+        BankOwnAccountPxView ownAccount = this.getOwnAccount();
         if (ownAccount != null) {
             ((ViewProxi)ownAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(ownAccount.getClassId(), ownAccount.getId())));
         }

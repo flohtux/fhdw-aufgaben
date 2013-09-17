@@ -46,10 +46,10 @@ public class BankICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void setBankFees(PersistentBankFees newValue) throws PersistenceException {
         ((PersistentBank)this.getTheObject()).setBankFees(newValue);
     }
-    public PersistentAccount getOwnAccount() throws PersistenceException {
+    public PersistentBankOwnAccountPx getOwnAccount() throws PersistenceException {
         return ((PersistentBank)this.getTheObject()).getOwnAccount();
     }
-    public void setOwnAccount(PersistentAccount newValue) throws PersistenceException {
+    public void setOwnAccount(PersistentBankOwnAccountPx newValue) throws PersistenceException {
         ((PersistentBank)this.getTheObject()).setOwnAccount(newValue);
     }
     public Bank_AccountsProxi getAccounts() throws PersistenceException {

@@ -148,6 +148,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
     
+    public abstract void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
+    
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;

@@ -147,6 +147,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
     
+    public abstract void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
+    
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;

@@ -67,9 +67,9 @@ public class BankFacade{
             PersistentBankFees bankFees = null;
             if (obj.getLong(5) != 0)
                 bankFees = (PersistentBankFees)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            PersistentAccount ownAccount = null;
+            PersistentBankOwnAccountPx ownAccount = null;
             if (obj.getLong(7) != 0)
-                ownAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+                ownAccount = (PersistentBankOwnAccountPx)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentAdministrator administrator = null;
             if (obj.getLong(9) != 0)
                 administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
@@ -205,7 +205,7 @@ public class BankFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void ownAccountSet(long BankId, PersistentAccount ownAccountVal) throws PersistenceException {
+    public void ownAccountSet(long BankId, PersistentBankOwnAccountPx ownAccountVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".BnkFacade.ownAccntSet(?, ?, ?); end;");

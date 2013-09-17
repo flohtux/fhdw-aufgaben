@@ -27,6 +27,7 @@ import persistence.PersistentAccountService;
 import persistence.PersistentAdministrator;
 import persistence.PersistentBank;
 import persistence.PersistentBankFees;
+import persistence.PersistentBankOwnAccountPx;
 import persistence.PersistentBankService;
 import persistence.PersistentChangeNameCommand;
 import persistence.PersistentCreateAccountCommand;
@@ -62,11 +63,11 @@ public class Bank extends PersistentObject implements PersistentBank{
         return (PersistentBank)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentBank createBank(String name,PersistentAccount ownAccount,PersistentAdministrator administrator) throws PersistenceException{
+    public static PersistentBank createBank(String name,PersistentBankOwnAccountPx ownAccount,PersistentAdministrator administrator) throws PersistenceException{
         return createBank(name,ownAccount,administrator,false);
     }
     
-    public static PersistentBank createBank(String name,PersistentAccount ownAccount,PersistentAdministrator administrator,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentBank createBank(String name,PersistentBankOwnAccountPx ownAccount,PersistentAdministrator administrator,boolean delayed$Persistence) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentBank result = null;
         if(delayed$Persistence){
@@ -87,7 +88,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         return result;
     }
     
-    public static PersistentBank createBank(String name,PersistentAccount ownAccount,PersistentAdministrator administrator,boolean delayed$Persistence,PersistentBank This) throws PersistenceException {
+    public static PersistentBank createBank(String name,PersistentBankOwnAccountPx ownAccount,PersistentAdministrator administrator,boolean delayed$Persistence,PersistentBank This) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentBank result = null;
         if(delayed$Persistence){
@@ -171,14 +172,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     protected String name;
     protected long lastAccountNumber;
     protected PersistentBankFees bankFees;
-    protected PersistentAccount ownAccount;
+    protected PersistentBankOwnAccountPx ownAccount;
     protected Bank_AccountsProxi accounts;
     protected PersistentAdministrator administrator;
     protected Bank_CurrentAccountsProxi currentAccounts;
     protected SubjInterface subService;
     protected PersistentBank This;
     
-    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentBankFees bankFees,PersistentAccount ownAccount,PersistentAdministrator administrator,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
+    public Bank(long bankNumber,String name,long lastAccountNumber,PersistentBankFees bankFees,PersistentBankOwnAccountPx ownAccount,PersistentAdministrator administrator,SubjInterface subService,PersistentBank This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.bankNumber = bankNumber;
@@ -267,15 +268,15 @@ public class Bank extends PersistentObject implements PersistentBank{
             ConnectionHandler.getTheConnectionHandler().theBankFacade.bankFeesSet(this.getId(), newValue);
         }
     }
-    public PersistentAccount getOwnAccount() throws PersistenceException {
+    public PersistentBankOwnAccountPx getOwnAccount() throws PersistenceException {
         return this.ownAccount;
     }
-    public void setOwnAccount(PersistentAccount newValue) throws PersistenceException {
+    public void setOwnAccount(PersistentBankOwnAccountPx newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.ownAccount)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.ownAccount = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        this.ownAccount = (PersistentBankOwnAccountPx)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theBankFacade.ownAccountSet(this.getId(), newValue);
@@ -416,7 +417,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         this.setThis((PersistentBank)This);
 		if(this.equals(This)){
 			this.setName((String)final$$Fields.get("name"));
-			this.setOwnAccount((PersistentAccount)final$$Fields.get("ownAccount"));
+			this.setOwnAccount((PersistentBankOwnAccountPx)final$$Fields.get("ownAccount"));
 			this.setAdministrator((PersistentAdministrator)final$$Fields.get("administrator"));
 		}
     }
@@ -503,7 +504,7 @@ public class Bank extends PersistentObject implements PersistentBank{
 				throws PersistenceException{
     	getThis().setLastAccountNumber(serverConstants.ServerConstants.FirstAccountNumber);
     	PersistentTransactionFee tfee = FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(Fraction.Null), 
-    			getThis().getOwnAccount().getMoney().getCurrency()));
+    			getThis().getOwnAccount().getAccount().getMoney().getCurrency()));
     	PersistentInternalFee ifee = InternalFee.createInternalFee(Percent.createPercent(Fraction.One));
     	getThis().setBankFees(BankFees.createBankFees(tfee, ifee));
     	
@@ -560,7 +561,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
     		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
     		debitTransfer.getSender().setMoney(newAccountMoney);
-    		getThis().getOwnAccount().setMoney(getThis().getOwnAccount().getMoney().add(fee));
+    		getThis().getOwnAccount().getAccount().setMoney(getThis().getOwnAccount().getAccount().getMoney().add(fee));
 			result.receiveTransfer(debitTransfer);
     	} catch (ExecuteException e) {
     		debitTransfer.changeState(NotExecutedState.createNotExecutedState());

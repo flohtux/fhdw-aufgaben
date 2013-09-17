@@ -89,6 +89,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException{
         this.standardHandling(administrator);
     }
+    public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException{
+        this.standardHandling(bankOwnAccountPx);
+    }
     public void handleCreateBankCommand(PersistentCreateBankCommand createBankCommand) throws PersistenceException{
         this.standardHandling(createBankCommand);
     }
