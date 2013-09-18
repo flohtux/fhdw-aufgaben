@@ -11,7 +11,7 @@ public class ServerConstants {
 	public static final String StandardBankPassword = "hugo";
 	public static final String StandardAccountPassword = "hugo";
 	public static final long FirstBankNumber = 0;
-	public static final long FirstAccountNumber = 1;
+	public static final long FirstAccountNumber = 0;
 
 	private ServerConstants(){}
 
