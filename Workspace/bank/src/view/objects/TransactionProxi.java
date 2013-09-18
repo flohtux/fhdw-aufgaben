@@ -1,9 +1,20 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.DebitTransferListeView;
+import view.DebitTransferStateView;
+import view.ModelException;
+import view.TransactionView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.DebitTransferTransactionExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
+import view.visitor.DebitTransferTransactionVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class TransactionProxi extends DebitTransferTransactionProxi implements TransactionView{
     

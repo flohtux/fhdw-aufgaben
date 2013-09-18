@@ -1,7 +1,12 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
+import view.DebitTransferTransactionView;
+import view.DebitTransferView;
+import view.ModelException;
+import view.MoneyView;
+import view.StornoStateView;
+import view.TriggerValueView;
+import viewClient.ExceptionAndEventHandler;
 
 public abstract class DebitTransferProxi extends DebitTransferTransactionProxi implements DebitTransferView{
     
@@ -33,6 +38,12 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     }
     public void setInvokerTrigger(TriggerValueView newValue) throws ModelException {
         ((DebitTransfer)this.getTheObject()).setInvokerTrigger(newValue);
+    }
+    public java.util.Vector<DebitTransferTransactionView> getNextDebitTransferTransactionstriggers()throws ModelException{
+        return ((DebitTransfer)this.getTheObject()).getNextDebitTransferTransactionstriggers();
+    }
+    public void setNextDebitTransferTransactionstriggers(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
+        ((DebitTransfer)this.getTheObject()).setNextDebitTransferTransactionstriggers(newValue);
     }
     public DebitTransferView getPreviousDebitTransfer()throws ModelException{
         return ((DebitTransfer)this.getTheObject()).getPreviousDebitTransfer();

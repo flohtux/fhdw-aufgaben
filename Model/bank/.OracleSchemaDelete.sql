@@ -156,6 +156,8 @@ drop sequence SCmmndCrdntrExctr;
 drop table CmmndCrdntrExctr cascade constraints;
 drop sequence SAccntDebTrfTransObs;
 drop table AccntDebTrfTransObs cascade constraints;
+drop sequence SDbtTrnsfrNxtdtttrg;
+drop table DbtTrnsfrNxtdtttrg cascade constraints;
 drop sequence SCmpnstnPndngRqstsObs;
 drop table CmpnstnPndngRqstsObs cascade constraints;
 drop sequence SAdmnstrtrBnksObs;

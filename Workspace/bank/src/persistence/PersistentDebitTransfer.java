@@ -14,6 +14,7 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentTriggerValue getInvokerTrigger() throws PersistenceException ;
     public void setInvokerTrigger(PersistentTriggerValue newValue) throws PersistenceException ;
+    public DebitTransfer_NextDebitTransferTransactionstriggersProxi getNextDebitTransferTransactionstriggers() throws PersistenceException ;
     public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException ;
     public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
     public PersistentStornoState getStornoState() throws PersistenceException ;

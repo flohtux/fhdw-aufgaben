@@ -1623,6 +1623,7 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
     protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
+    protected static final String DebitTransfer$$nextDebitTransferTransactionstriggers = "DebitTransfer$$nextDebitTransferTransactionstriggers";
     protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1729,6 +1730,7 @@ class DebitDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
     protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
+    protected static final String DebitTransfer$$nextDebitTransferTransactionstriggers = "DebitTransfer$$nextDebitTransferTransactionstriggers";
     protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

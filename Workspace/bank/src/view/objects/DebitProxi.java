@@ -1,9 +1,28 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.DebitTransferStateView;
+import view.DebitTransferTransactionView;
+import view.DebitTransferView;
+import view.DebitView;
+import view.ModelException;
+import view.MoneyView;
+import view.StornoStateView;
+import view.TriggerValueView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.DebitTransferExceptionVisitor;
+import view.visitor.DebitTransferReturnExceptionVisitor;
+import view.visitor.DebitTransferReturnVisitor;
+import view.visitor.DebitTransferTransactionExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
+import view.visitor.DebitTransferTransactionVisitor;
+import view.visitor.DebitTransferVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class DebitProxi extends DebitTransferProxi implements DebitView{
     
@@ -11,6 +30,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
         super(objectId, classId, connectionKey);
     }
     
+    @SuppressWarnings("unchecked")
     public DebitView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Date timestamp = (java.util.Date)resultTable.get("timestamp");
         String subject = (String)resultTable.get("subject");
@@ -44,6 +64,8 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             invokerTrigger = view.objects.ViewProxi.createProxi(invokerTrigger$Info,connectionKey);
             invokerTrigger.setToString(invokerTrigger$Info.getToString());
         }
+        java.util.Vector<String> nextDebitTransferTransactionstriggers_string = (java.util.Vector<String>)resultTable.get("nextDebitTransferTransactionstriggers");
+        java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers = ViewProxi.getProxiVector(nextDebitTransferTransactionstriggers_string, connectionKey);
         ViewProxi previousDebitTransfer = null;
         String previousDebitTransfer$String = (String)resultTable.get("previousDebitTransfer");
         if (previousDebitTransfer$String != null) {
@@ -58,7 +80,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
             stornoState.setToString(stornoState$Info.getToString());
         }
-        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,(DebitTransferView)previousDebitTransfer,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -72,6 +94,8 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
         if(this.getState() != null) index = index - 1;
         if(index == 0 && this.getInvokerTrigger() != null) return new InvokerTriggerDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getInvokerTrigger());
         if(this.getInvokerTrigger() != null) index = index - 1;
+        if(index < this.getNextDebitTransferTransactionstriggers().size()) return new NextDebitTransferTransactionstriggersDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getNextDebitTransferTransactionstriggers().get(index));
+        index = index - this.getNextDebitTransferTransactionstriggers().size();
         if(index == 0 && this.getPreviousDebitTransfer() != null) return new PreviousDebitTransferDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPreviousDebitTransfer());
         if(this.getPreviousDebitTransfer() != null) index = index - 1;
         return null;
@@ -80,6 +104,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
         return 0 
             + (this.getState() == null ? 0 : 1)
             + (this.getInvokerTrigger() == null ? 0 : 1)
+            + (this.getNextDebitTransferTransactionstriggers().size())
             + (this.getPreviousDebitTransfer() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
@@ -87,6 +112,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
         return true 
             && (this.getState() == null ? true : false)
             && (this.getInvokerTrigger() == null ? true : false)
+            && (this.getNextDebitTransferTransactionstriggers().size() == 0)
             && (this.getPreviousDebitTransfer() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
@@ -95,6 +121,11 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
         if(this.getState() != null) result = result + 1;
         if(this.getInvokerTrigger() != null && this.getInvokerTrigger().equals(child)) return result;
         if(this.getInvokerTrigger() != null) result = result + 1;
+        java.util.Iterator<?> getNextDebitTransferTransactionstriggersIterator = this.getNextDebitTransferTransactionstriggers().iterator();
+        while(getNextDebitTransferTransactionstriggersIterator.hasNext()){
+            if(getNextDebitTransferTransactionstriggersIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         if(this.getPreviousDebitTransfer() != null && this.getPreviousDebitTransfer().equals(child)) return result;
         if(this.getPreviousDebitTransfer() != null) result = result + 1;
         return -1;

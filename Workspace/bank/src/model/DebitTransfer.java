@@ -4,6 +4,7 @@ package model;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
+import persistence.DebitTransfer_NextDebitTransferTransactionstriggersProxi;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentBooleanValue;
@@ -51,6 +52,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
                     if(forGUI && invokerTrigger.hasEssentialFields())invokerTrigger.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            result.put("nextDebitTransferTransactionstriggers", this.getNextDebitTransferTransactionstriggers().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             AbstractPersistentRoot previousDebitTransfer = (AbstractPersistentRoot)this.getPreviousDebitTransfer();
             if (previousDebitTransfer != null) {
                 result.put("previousDebitTransfer", previousDebitTransfer.createProxiInformation(false, essentialLevel == 0));
@@ -84,6 +86,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     protected long receiverBankNumber;
     protected PersistentMoney money;
     protected PersistentTriggerValue invokerTrigger;
+    protected DebitTransfer_NextDebitTransferTransactionstriggersProxi nextDebitTransferTransactionstriggers;
     protected PersistentDebitTransfer previousDebitTransfer;
     protected PersistentStornoState stornoState;
     
@@ -94,6 +97,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
         this.receiverBankNumber = receiverBankNumber;
         this.money = money;
         this.invokerTrigger = invokerTrigger;
+        this.nextDebitTransferTransactionstriggers = new DebitTransfer_NextDebitTransferTransactionstriggersProxi(this);
         this.previousDebitTransfer = previousDebitTransfer;
         this.stornoState = stornoState;        
     }
@@ -117,6 +121,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
             this.getInvokerTrigger().store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.invokerTriggerSet(this.getId(), getInvokerTrigger());
         }
+        this.getNextDebitTransferTransactionstriggers().store();
         if(this.getPreviousDebitTransfer() != null){
             this.getPreviousDebitTransfer().store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.previousDebitTransferSet(this.getId(), getPreviousDebitTransfer());
@@ -169,6 +174,9 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.invokerTriggerSet(this.getId(), newValue);
         }
+    }
+    public DebitTransfer_NextDebitTransferTransactionstriggersProxi getNextDebitTransferTransactionstriggers() throws PersistenceException {
+        return this.nextDebitTransferTransactionstriggers;
     }
     public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException {
         return this.previousDebitTransfer;

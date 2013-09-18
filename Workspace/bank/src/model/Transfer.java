@@ -204,6 +204,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         if (this.getState() != null) return 1;
         if (this.getInvokerTrigger() != null) return 1;
         if (this.getPreviousDebitTransfer() != null) return 1;
+        if (this.getNextDebitTransferTransactionstriggers().getLength() > 0) return 1;
         return 0;
     }
     

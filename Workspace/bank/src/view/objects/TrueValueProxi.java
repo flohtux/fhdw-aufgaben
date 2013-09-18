@@ -1,9 +1,17 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.ModelException;
+import view.TrueValueView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.BooleanValueExceptionVisitor;
+import view.visitor.BooleanValueReturnExceptionVisitor;
+import view.visitor.BooleanValueReturnVisitor;
+import view.visitor.BooleanValueVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class TrueValueProxi extends BooleanValueProxi implements TrueValueView{
     

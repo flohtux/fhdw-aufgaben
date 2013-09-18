@@ -748,13 +748,9 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws model.GrantAlreadyGivenException, PersistenceException{
     	PersistentAccountPx receiverAccPx = AccountPx.createAccountPx(receiver);
         getThis().getReceivedDebitGrant().createDebitGrant(receiverAccPx, limit);
-        System.out.println("create"+getThis().getGrantedDebitGrant().getDebitGrants());
         
         PersistentAccountPx thisAccPx = AccountPx.createAccountPx(getThis());
         receiver.getGrantedDebitGrant().createDebitGrant(thisAccPx, limit);
-        System.out.println("create"+receiver.getReceivedDebitGrant().getDebitGrants());
-        
-        
     }
     public PersistentDebit createDebit() 
 				throws PersistenceException{

@@ -1,9 +1,15 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AmountView;
+import view.CurrencyManagerView;
+import view.ModelException;
+import view.MoneyView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class CurrencyManagerProxi extends ViewProxi implements CurrencyManagerView{
     

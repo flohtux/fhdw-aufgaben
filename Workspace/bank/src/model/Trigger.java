@@ -372,6 +372,7 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 			public void handleTransaction(PersistentTransaction transaction)
 					throws PersistenceException {}
 		});
+		incomingDebitTransfer.getNextDebitTransferTransactionstriggers().add(copy);
 //		copy.execute(accService);
 		copy.execute();
     }

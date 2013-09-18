@@ -1,7 +1,9 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
+import view.DebitTransferView;
+import view.ModelException;
+import view.StornoStateView;
+import viewClient.ExceptionAndEventHandler;
 
 public abstract class StornoStateProxi extends ViewProxi implements StornoStateView{
     

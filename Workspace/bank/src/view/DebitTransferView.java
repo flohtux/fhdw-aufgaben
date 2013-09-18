@@ -12,6 +12,8 @@ public interface DebitTransferView extends DebitTransferTransactionView {
     public void setMoney(MoneyView newValue) throws ModelException ;
     public TriggerValueView getInvokerTrigger()throws ModelException;
     public void setInvokerTrigger(TriggerValueView newValue) throws ModelException ;
+    public java.util.Vector<DebitTransferTransactionView> getNextDebitTransferTransactionstriggers()throws ModelException;
+    public void setNextDebitTransferTransactionstriggers(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException ;
     public DebitTransferView getPreviousDebitTransfer()throws ModelException;
     public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException ;
     public StornoStateView getStornoState()throws ModelException;

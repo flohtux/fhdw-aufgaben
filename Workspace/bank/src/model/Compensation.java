@@ -328,48 +328,9 @@ public class Compensation extends PersistentObject implements PersistentCompensa
         //TODO: implement method: executeCompensation
         
     }
-    public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtr) 
+    public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
-
-        if (!dtr.getSender().equals(getThis())) {
-            PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(getThis());
-            newRequest.setDebitTransferTransaction(dtr);
-        	dtr.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
-        }
-        
-        dtr.accept(new DebitTransferTransactionVisitor() {
-			
-			@Override
-			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
-				try {
-					PersistentBank b = getThis().getBank().getAdministrator().searchBankByBankNumber(transfer.getReceiverBankNumber());
-					PersistentAccount acc = b.searchAccountByAccNumber(transfer.getReceiverAccountNumber());
-			        PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(getThis());
-			        newRequest.setDebitTransferTransaction(dtr);
-					
-					acc.getAllCompensation().getPendingCompensationRequests().add(newRequest);
-				} catch (InvalidBankNumberException e) {
-					// TODO So gehts nicht!
-					
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidAccountNumberException e) {
-					
-				}
-			}
-			
-			@Override
-			public void handleDebit(PersistentDebit debit) throws PersistenceException {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+        //TODO: implement method: initializeDebitTransferTransaction
         
     }
     public void initializeOnCreation() 

@@ -1,13 +1,15 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import java.util.Vector;
 import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.tree.TreePath;
+
+import view.ModelException;
+import viewClient.ConnectionIndex;
+import viewClient.ConnectionMaster;
+import viewClient.ExceptionAndEventHandler;
 
 abstract class ProxiFactory {
 	  abstract ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey);

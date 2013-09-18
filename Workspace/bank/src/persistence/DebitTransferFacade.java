@@ -65,6 +65,52 @@ public class DebitTransferFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public long nextDebitTransferTransactionstriggersAdd(long DebitTransferId, PersistentDebitTransferTransaction nextDebitTransferTransactionstriggersVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbtTrnsfrFacade.nxtdtttrgAdd(?, ?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, DebitTransferId);
+            callable.setLong(3, nextDebitTransferTransactionstriggersVal.getId());
+            callable.setLong(4, nextDebitTransferTransactionstriggersVal.getClassId());
+            callable.execute();
+            long result = callable.getLong(1);
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void nextDebitTransferTransactionstriggersRem(long nextDebitTransferTransactionstriggersId) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtTrnsfrFacade.nxtdtttrgRem(?); end;");
+            callable.setLong(1, nextDebitTransferTransactionstriggersId);
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public DebitTransferTransactionList nextDebitTransferTransactionstriggersGet(long DebitTransferId) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".DbtTrnsfrFacade.nxtdtttrgGet(?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, DebitTransferId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            DebitTransferTransactionList result = new DebitTransferTransactionList();
+            while (list.next()) {
+                result.add((PersistentDebitTransferTransaction)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
     public void previousDebitTransferSet(long DebitTransferId, PersistentDebitTransfer previousDebitTransferVal) throws PersistenceException {
         try{
             CallableStatement callable;

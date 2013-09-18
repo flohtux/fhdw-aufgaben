@@ -1325,6 +1325,18 @@ create table AccntDebTrfTransObs(
 );
 create index IFrmAccntDebTrfTransObs on AccntDebTrfTransObs(frm);
 
+create sequence SDbtTrnsfrNxtdtttrg nocache;
+
+create table DbtTrnsfrNxtdtttrg(
+    id number primary key,
+    frm number not null,
+    nxtdtttrg number not null,
+    Cls number not null,
+    constraint FDbtTrnsfrNxtdtttrgCls foreign key(Cls) references Cls(id),
+    constraint FDbtTrnsfrNxtdtttrgfrm foreign key(frm) references DebiTrfTran(id)
+);
+create index IFrmDbtTrnsfrNxtdtttrg on DbtTrnsfrNxtdtttrg(frm);
+
 create sequence SCmpnstnPndngRqstsObs nocache;
 
 create table CmpnstnPndngRqstsObs(

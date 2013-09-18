@@ -303,6 +303,7 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Money money@@Betrag;
 	TriggerValue invokerTrigger;
+	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg;
 	DebitTransfer previousDebitTransfer##prvdebtra;
 	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();

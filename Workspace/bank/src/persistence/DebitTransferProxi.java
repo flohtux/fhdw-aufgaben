@@ -36,6 +36,9 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setInvokerTrigger(PersistentTriggerValue newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setInvokerTrigger(newValue);
     }
+    public DebitTransfer_NextDebitTransferTransactionstriggersProxi getNextDebitTransferTransactionstriggers() throws PersistenceException {
+        return ((PersistentDebitTransfer)this.getTheObject()).getNextDebitTransferTransactionstriggers();
+    }
     public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getPreviousDebitTransfer();
     }
