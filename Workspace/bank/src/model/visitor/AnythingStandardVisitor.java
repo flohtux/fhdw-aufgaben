@@ -14,6 +14,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
+    public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException{
+        this.standardHandling(acceptedState);
+    }
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
         this.standardHandling(falseValue);
     }
@@ -115,6 +118,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleCreateDebitGrantCommand(PersistentCreateDebitGrantCommand createDebitGrantCommand) throws PersistenceException{
         this.standardHandling(createDebitGrantCommand);
+    }
+    public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
+        this.standardHandling(waitingState);
     }
     public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
         this.standardHandling(subjectRule);
@@ -233,6 +239,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
         this.standardHandling(moneyRule);
     }
+    public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException{
+        this.standardHandling(compensationRequestState);
+    }
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException{
         this.standardHandling(commandExecuter);
     }
@@ -265,6 +274,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException{
         this.standardHandling(successfulStornoState);
+    }
+    public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
+        this.standardHandling(declinedState);
     }
     public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException{
         this.standardHandling(accountServiceBankFees);

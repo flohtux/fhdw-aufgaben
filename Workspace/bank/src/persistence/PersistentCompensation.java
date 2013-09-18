@@ -32,11 +32,15 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void executeCompensation() 
 				throws PersistenceException;
+    public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
+				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
+				throws PersistenceException;
+    public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException;
 
 }

@@ -106,6 +106,10 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
 				throws PersistenceException{
         return ((PersistentTransaction)this.getTheObject()).changeStateImplementation(newState);
     }
+    public PersistentBooleanValue contains(final PersistentDebitTransferTransaction debitTransfer) 
+				throws PersistenceException{
+        return ((PersistentTransaction)this.getTheObject()).contains(debitTransfer);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);

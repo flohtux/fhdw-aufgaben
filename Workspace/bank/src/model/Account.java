@@ -20,6 +20,7 @@ import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
 import model.visitor.DebitTransferTransactionExceptionVisitor;
+import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
@@ -48,6 +49,7 @@ import persistence.PersistentChangeMoneyCommand;
 import persistence.PersistentChangeReceiverAccountCommand;
 import persistence.PersistentChangeReceiverBankCommand;
 import persistence.PersistentChangeSubjectCommand;
+import persistence.PersistentCompensation;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
@@ -688,18 +690,23 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        //TODO: implement method: answerAcceptWithTrigger
+    	a.changeState(AcceptedState.getTheAcceptedState());
+    	// TODO Trigger accept
         
     }
     public void answerAccept(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        //TODO: implement method: answerAccept
+        PersistentTransaction t = getThis().findContainingTransaction(a.getDebitTransferTransaction());
         
+        if (t != null) {
+        	a.getMasterCompensation().requestCompensationForDebitTransfers(t.getDebitTransfer().getDebitTransfers().getList());
+        }
+        
+        a.changeState(AcceptedState.getTheAcceptedState());
     }
     public void answerDecline(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        //TODO: implement method: answerDecline
-        
+        a.changeState(DeclinedState.getTheDeclinedState());
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
@@ -826,6 +833,24 @@ public class Account extends PersistentObject implements PersistentAccount{
         
 		this.checkTrigger(event);
     }
+    public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
+				throws PersistenceException{
+    	return (PersistentTransaction) getThis().getDebitTransferTransactions().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
+				return argument.accept(new DebitTransferTransactionReturnVisitor<Boolean>() {
+					public Boolean handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+						return false; // must be false to comply with cast!
+					}
+					public Boolean handleDebit(PersistentDebit debit) throws PersistenceException {
+						return false; // must be false to comply with cast!
+					}
+					public Boolean handleTransaction(PersistentTransaction transaction) throws PersistenceException {
+						return transaction.contains(dt).isTrue();
+					}
+				});
+			}
+		});
+    }
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
         event.accept(new DebitGrantListeMssgsVisitor() {
@@ -883,48 +908,16 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         list.remove(acc);
     }
+    public void requestCompensationForTransaction(final PersistentTransaction a) 
+				throws PersistenceException{
+        
+        
+    }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException{
-        if (!dtr.getSender().equals(getThis())) {
-            PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest();
-            newRequest.setDebitTransferTransaction(dtr);
-        	dtr.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
-        }
-        
-        dtr.accept(new DebitTransferTransactionVisitor() {
-			
-			@Override
-			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
-				try {
-					PersistentBank b = getThis().getBank().getAdministrator().searchBankByBankNumber(transfer.getReceiverBankNumber());
-					PersistentAccount acc = b.searchAccountByAccNumber(transfer.getReceiverAccountNumber());
-			        PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest();
-			        newRequest.setDebitTransferTransaction(dtr);
-					
-					acc.getAllCompensation().getPendingCompensationRequests().add(newRequest);
-				} catch (InvalidBankNumberException e) {
-					// TODO So gehts nicht!
-					
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvalidAccountNumberException e) {
-					
-				}
-			}
-			
-			@Override
-			public void handleDebit(PersistentDebit debit) throws PersistenceException {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-        
+    	final PersistentCompensation comp = Compensation.createCompensation(getThis());
+    	comp.initializeDebitTransferTransaction(dtr);
+    	
     }
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException{

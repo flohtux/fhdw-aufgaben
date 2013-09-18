@@ -3,7 +3,7 @@ package model.visitor;
 import model.UserException;
 import persistence.*;
 
-public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
+public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
     
     public R handleCompensation(PersistentCompensation compensation) throws PersistenceException, E;
     public R handleSubj(PersistentSubj subj) throws PersistenceException, E;
@@ -27,6 +27,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public R handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException, E;
+    public R handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException, E;
     public R handleMoney(PersistentMoney money) throws PersistenceException, E;
     public R handleBank(PersistentBank bank) throws PersistenceException, E;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;

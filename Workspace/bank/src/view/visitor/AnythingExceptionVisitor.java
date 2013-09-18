@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,StornoStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
+public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,StornoStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
     
     public void handleCompensation(CompensationView compensation) throws ModelException, E;
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;
@@ -16,6 +16,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException, E;
     public void handleAccountPx(AccountPxView accountPx) throws ModelException, E;
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
+    public void handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException, E;
     public void handleMoney(MoneyView money) throws ModelException, E;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;

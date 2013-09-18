@@ -246,6 +246,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).debitTransferTransactions_update(event);
     }
+    public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).findContainingTransaction(dt);
+    }
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).grantedDebitGrant_update(event);
@@ -265,6 +269,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);
+    }
+    public void requestCompensationForTransaction(final PersistentTransaction a) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).requestCompensationForTransaction(a);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException{

@@ -8,6 +8,10 @@ public interface PersistentCompensationRequest extends SubjInterface, Anything, 
     
     public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException ;
     public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
+    public PersistentCompensation getMasterCompensation() throws PersistenceException ;
+    public void setMasterCompensation(PersistentCompensation newValue) throws PersistenceException ;
+    public PersistentCompensationRequestState getState() throws PersistenceException ;
+    public void setState(PersistentCompensationRequestState newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCompensationRequest getThis() throws PersistenceException ;
@@ -21,7 +25,11 @@ public interface PersistentCompensationRequest extends SubjInterface, Anything, 
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeState(final PersistentCompensationRequestState a) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeStateImplementation(final PersistentCompensationRequestState a) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

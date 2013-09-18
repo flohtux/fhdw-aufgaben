@@ -27,6 +27,8 @@ public interface PersistentTransaction extends PersistentDebitTransferTransactio
 				throws PersistenceException;
     public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
+    public PersistentBooleanValue contains(final PersistentDebitTransferTransaction debitTransfer) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

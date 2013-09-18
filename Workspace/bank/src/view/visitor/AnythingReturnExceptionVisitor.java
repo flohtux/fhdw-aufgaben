@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
+public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
     
     public R handleCompensation(CompensationView compensation) throws ModelException, E;
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;
@@ -16,6 +16,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException, E;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException, E;
     public R handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
+    public R handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException, E;
     public R handleMoney(MoneyView money) throws ModelException, E;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;

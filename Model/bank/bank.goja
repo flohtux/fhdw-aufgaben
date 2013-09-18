@@ -183,6 +183,8 @@ class Account {
 	void answerAccept@@annehmen(CompensationRequest a);
 	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
 	void answerDecline@@ablehnen(CompensationRequest a);
+	Transaction findContainingTransaction(DebitTransferTransaction dt);
+	void requestCompensationForTransaction(Transaction a);
 }
 
 class AccountPx {
@@ -320,6 +322,7 @@ class Transaction@@Transaktion extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
 	void addToTransaction(DebitTransfer ** debitTransfer);
 	void removeFromTransaction(DebitTransfer ** debitTransfer);
+	BooleanValue contains(DebitTransferTransaction debitTransfer);
 }
 
 class DebitTransferListe##DebTransLst {
@@ -380,15 +383,24 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 
 class Compensation {
 	DebitTransferTransaction ** transactionsToBeCompensated##2beCmpstd;
-	Account requestingAccount;
-	observe CompensationRequest ** pendingRequests;
+	prior Account requestingAccount;
+  observe CompensationRequest ** pendingRequests;
+
+	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
+	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
+
 	active void executeCompensation();
 }
 
 class CompensationRequest {
 	DebitTransferTransaction debitTransferTransaction##cmpstDtTr;
+	prior Compensation masterCompensation;
+	CompensationRequestState state;
+	event void changeState(CompensationRequestState a);
 }
 
+
+class CompensationRequestState##CmpReqSt(WaitingState, AcceptedState, DeclinedState) {}
 
 
 

@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,StornoStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,RuleReturnVisitor<R> {
+public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,StornoStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,RuleReturnVisitor<R> {
     
     public R handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public R handleSubj(PersistentSubj subj) throws PersistenceException;
@@ -27,6 +27,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     public R handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
+    public R handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException;
     public R handleMoney(PersistentMoney money) throws PersistenceException;
     public R handleBank(PersistentBank bank) throws PersistenceException;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;

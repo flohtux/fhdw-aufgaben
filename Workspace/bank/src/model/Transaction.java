@@ -15,12 +15,14 @@ import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
 import persistence.AbstractPersistentRoot;
+import persistence.Aggregtion;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.DebitTransferSearchList;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
+import persistence.PersistentBooleanValue;
 import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferState;
@@ -258,6 +260,19 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 				argument.changeState(NotSuccessfulState.createNotSuccessfulState());
 			}
 		});
+    }
+    public PersistentBooleanValue contains(final PersistentDebitTransferTransaction debitTransfer) 
+				throws PersistenceException{
+        PersistentDebitTransfer result = getThis().getDebitTransfer().getDebitTransfers().findFirst(new Predcate<PersistentDebitTransfer>() {
+			public boolean test(PersistentDebitTransfer argument) throws PersistenceException {
+				return argument.equals(debitTransfer);
+			}
+		});
+        if (result != null) {
+        	return TrueValue.getTheTrueValue();
+        } else {
+        	return FalseValue.getTheFalseValue();
+        }
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

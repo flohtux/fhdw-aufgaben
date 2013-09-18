@@ -733,6 +733,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleDebitTransferTemplate(view.DebitTransferTemplateView object){
         result = new DebitTransferTemplateDefaultDetailPanel(handler, object);
     }
+    public void handleWaitingState(view.WaitingStateView object){
+        result = new WaitingStateDefaultDetailPanel(handler, object);
+    }
     public void handleSubjectRule(view.SubjectRuleView object){
         result = new SubjectRuleDefaultDetailPanel(handler, object);
     }
@@ -766,6 +769,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleMoneyRule(view.MoneyRuleView object){
         result = new MoneyRuleDefaultDetailPanel(handler, object);
     }
+    public void handleCompensationRequestState(view.CompensationRequestStateView object){
+        result = new CompensationRequestStateDefaultDetailPanel(handler, object);
+    }
     public void handleMoney(view.MoneyView object){
         result = new MoneyDefaultDetailPanel(handler, object);
     }
@@ -780,6 +786,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleBankCreator(view.BankCreatorView object){
         result = new BankCreatorDefaultDetailPanel(handler, object);
+    }
+    public void handleAcceptedState(view.AcceptedStateView object){
+        result = new AcceptedStateDefaultDetailPanel(handler, object);
     }
     public void handleFalseValue(view.FalseValueView object){
         result = new FalseValueDefaultDetailPanel(handler, object);
@@ -882,6 +891,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleNotSuccessfulStornoState(view.NotSuccessfulStornoStateView object){
         result = new NotSuccessfulStornoStateDefaultDetailPanel(handler, object);
+    }
+    public void handleDeclinedState(view.DeclinedStateView object){
+        result = new DeclinedStateDefaultDetailPanel(handler, object);
     }
     public void handleCompensationRequestListe(view.CompensationRequestListeView object){
         result = new CompensationRequestListeDefaultDetailPanel(handler, object);
@@ -1104,6 +1116,20 @@ class DebitTransferTemplateDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class WaitingStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected WaitingStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.WaitingStateView getAnything(){
+        return (view.WaitingStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class SubjectRuleDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Rule$$masterTrigger = "Rule$$masterTrigger";
@@ -1209,6 +1235,8 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 class CompensationRequestDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CompensationRequest$$debitTransferTransaction = "CompensationRequest$$debitTransferTransaction";
+    protected static final String CompensationRequest$$masterCompensation = "CompensationRequest$$masterCompensation";
+    protected static final String CompensationRequest$$state = "CompensationRequest$$state";
     
     protected CompensationRequestDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1291,6 +1319,20 @@ class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class CompensationRequestStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CompensationRequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CompensationRequestStateView getAnything(){
+        return (view.CompensationRequestStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class MoneyDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Money$$amount = "Money$$amount";
@@ -1363,6 +1405,20 @@ class BankCreatorDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.BankCreatorView getAnything(){
         return (view.BankCreatorView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class AcceptedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected AcceptedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.AcceptedStateView getAnything(){
+        return (view.AcceptedStateView)this.anything;
     }
 }
 
@@ -2032,6 +2088,20 @@ class NotSuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NotSuccessfulStornoStateView getAnything(){
         return (view.NotSuccessfulStornoStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DeclinedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected DeclinedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DeclinedStateView getAnything(){
+        return (view.DeclinedStateView)this.anything;
     }
 }
 

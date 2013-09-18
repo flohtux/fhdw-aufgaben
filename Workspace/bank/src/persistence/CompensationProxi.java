@@ -99,6 +99,10 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).executeCompensation();
     }
+    public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
+				throws PersistenceException{
+        ((PersistentCompensation)this.getTheObject()).initializeDebitTransferTransaction(dtt);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).initializeOnCreation();
@@ -110,6 +114,10 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).pendingRequests_update(event);
+    }
+    public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
+				throws PersistenceException{
+        ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfers(debitTransfers);
     }
 
     

@@ -28,6 +28,18 @@ public class CompensationRequestICProxi extends PersistentInCacheProxiOptimistic
     public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
         ((PersistentCompensationRequest)this.getTheObject()).setDebitTransferTransaction(newValue);
     }
+    public PersistentCompensation getMasterCompensation() throws PersistenceException {
+        return ((PersistentCompensationRequest)this.getTheObject()).getMasterCompensation();
+    }
+    public void setMasterCompensation(PersistentCompensation newValue) throws PersistenceException {
+        ((PersistentCompensationRequest)this.getTheObject()).setMasterCompensation(newValue);
+    }
+    public PersistentCompensationRequestState getState() throws PersistenceException {
+        return ((PersistentCompensationRequest)this.getTheObject()).getState();
+    }
+    public void setState(PersistentCompensationRequestState newValue) throws PersistenceException {
+        ((PersistentCompensationRequest)this.getTheObject()).setState(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCompensationRequest)this.getTheObject()).getSubService();
     }
@@ -64,6 +76,10 @@ public class CompensationRequestICProxi extends PersistentInCacheProxiOptimistic
     }
     
     
+    public void changeState(final PersistentCompensationRequestState a) 
+				throws PersistenceException{
+        ((PersistentCompensationRequest)this.getTheObject()).changeState(a);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentCompensationRequest)this.getTheObject()).deregister(observee);
@@ -79,6 +95,10 @@ public class CompensationRequestICProxi extends PersistentInCacheProxiOptimistic
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentCompensationRequest)this.getTheObject()).updateObservers(event);
+    }
+    public void changeStateImplementation(final PersistentCompensationRequestState a) 
+				throws PersistenceException{
+        ((PersistentCompensationRequest)this.getTheObject()).changeStateImplementation(a);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

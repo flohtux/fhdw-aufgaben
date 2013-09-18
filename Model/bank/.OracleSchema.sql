@@ -454,6 +454,12 @@ create table CmpnstnRqst(
     CmpnstnRqstCmpstDtTr number,
     CmpnstnRqstCmpstDtTrCls number,
     constraint FCmpnstnRqstCmpstDtTr foreign key (CmpnstnRqstCmpstDtTrCls) references Cls (id),
+    CmpnstnRqstMstrCmpnstn number,
+    CmpnstnRqstMstrCmpnstnCls number,
+    constraint FCmpnstnRqstMstrCmpnstn foreign key (CmpnstnRqstMstrCmpnstnCls) references Cls (id),
+    CmpnstnRqstStt number,
+    CmpnstnRqstSttCls number,
+    constraint FCmpnstnRqstStt foreign key (CmpnstnRqstSttCls) references Cls (id),
     CmpnstnRqstSbSrvc number,
     CmpnstnRqstSbSrvcCls number,
     constraint FCmpnstnRqstSbSrvc foreign key (CmpnstnRqstSbSrvcCls) references Cls (id),
@@ -579,6 +585,19 @@ create table ChngMnCMD(
     ChngMnCMDMyCmmnDt number,
     ChngMnCMDMyCmmnDtCls number,
     constraint FChngMnCMDMyCmmnDt foreign key (ChngMnCMDMyCmmnDtCls) references Cls (id)    
+);
+
+create sequence SCmpReqSt nocache;
+
+create table CmpReqSt(
+    id number primary key,
+    Cls number not null,
+    CmpReqStSbSrvc number,
+    CmpReqStSbSrvcCls number,
+    constraint FCmpReqStSbSrvc foreign key (CmpReqStSbSrvcCls) references Cls (id),
+    CmpReqStThis number,
+    CmpReqStThisCls number,
+    constraint FCmpReqStThis foreign key (CmpReqStThisCls) references Cls (id)    
 );
 
 create sequence SMn nocache;

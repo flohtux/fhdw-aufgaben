@@ -5,11 +5,13 @@ public interface CompensationRequestMssgsVisitor extends CompensationRequestDOWN
 
 interface CompensationRequestDOWNMssgsVisitor  {
 
+    public void handleCompensationRequestChangeStateCompensationRequestStateMssg(CompensationRequestChangeStateCompensationRequestStateMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface CompensationRequestUPMssgsVisitor  {
 
+    public void handleCompensationRequestChangeStateCompensationRequestStateMssg(CompensationRequestChangeStateCompensationRequestStateMssg event) throws persistence.PersistenceException;
     
 }

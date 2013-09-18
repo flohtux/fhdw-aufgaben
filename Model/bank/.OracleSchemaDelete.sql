@@ -64,6 +64,8 @@ drop sequence SAccntDebTrfTrans;
 drop table AccntDebTrfTrans cascade constraints;
 drop sequence SChngMnCMD;
 drop table ChngMnCMD cascade constraints;
+drop sequence SCmpReqSt;
+drop table CmpReqSt cascade constraints;
 drop sequence SMn;
 drop table Mn cascade constraints;
 drop sequence STrggrVl;

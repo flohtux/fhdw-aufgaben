@@ -7,6 +7,7 @@ import static serverConstants.ToStringConstants.NoLimitType;
 import static serverConstants.ToStringConstants.PercentSign;
 import persistence.Anything;
 import persistence.PersistenceException;
+import persistence.PersistentAcceptedState;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountPx;
 import persistence.PersistentAccountService;
@@ -23,6 +24,7 @@ import persistence.PersistentCompensation;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCompensationRequestListe;
+import persistence.PersistentCompensationRequestState;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -32,6 +34,7 @@ import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDeclinedState;
 import persistence.PersistentDisabledState;
 import persistence.PersistentDollar;
 import persistence.PersistentEnabledState;
@@ -69,8 +72,8 @@ import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.PersistentTrueValue;
+import persistence.PersistentWaitingState;
 import persistence.PersistentYen;
-
 import common.Fraction;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -436,6 +439,26 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			PersistentBankOwnAccountPx bankOwnAccountPx)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.BankOwnAccountPxPrefix+bankOwnAccountPx.getAccount().getMoney().toString(true);
+	}
+	@Override
+	public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

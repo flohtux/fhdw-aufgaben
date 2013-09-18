@@ -260,6 +260,7 @@ public class Cache {
 	
 	private void initializeNumber2NameMap() {
 		this.number2NameMap = new Hashtable<Integer,String>();
+		this.number2NameMap.put(265, "AcceptedState");
 		this.number2NameMap.put(133, "Account");
 		this.number2NameMap.put(226, "AccountDebitTransferTransactions");
 		this.number2NameMap.put(206, "AccountGrantedDebitGrant");
@@ -296,6 +297,7 @@ public class Cache {
 		this.number2NameMap.put(257, "CompensationPendingRequests");
 		this.number2NameMap.put(256, "CompensationRequest");
 		this.number2NameMap.put(260, "CompensationRequestListe");
+		this.number2NameMap.put(264, "CompensationRequestState");
 		this.number2NameMap.put(107, "CreateAccountCommand");
 		this.number2NameMap.put(118, "CreateBankCommand");
 		this.number2NameMap.put(198, "CreateDebitGrantCommand");
@@ -308,6 +310,7 @@ public class Cache {
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(208, "DebitTransferTemplate");
+		this.number2NameMap.put(266, "DeclinedState");
 		this.number2NameMap.put(237, "DisabledState");
 		this.number2NameMap.put(126, "Dollar");
 		this.number2NameMap.put(238, "EnabledState");
@@ -350,6 +353,7 @@ public class Cache {
 		this.number2NameMap.put(234, "TriggerListe");
 		this.number2NameMap.put(168, "TrueValue");
 		this.number2NameMap.put(209, "UseTemplateCommand");
+		this.number2NameMap.put(263, "WaitingState");
 		this.number2NameMap.put(181, "Yen");	
 	}
 	

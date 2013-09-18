@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,TriggerStateVisitor,TriggerValueVisitor,RuleVisitor{
+public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,StornoStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,LimitTypeVisitor,TriggerStateVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,RuleVisitor{
     
     public void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public void handleSubj(PersistentSubj subj) throws PersistenceException;
@@ -27,6 +27,7 @@ public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransa
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     public void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
+    public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException;
     public void handleMoney(PersistentMoney money) throws PersistenceException;
     public void handleBank(PersistentBank bank) throws PersistenceException;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;

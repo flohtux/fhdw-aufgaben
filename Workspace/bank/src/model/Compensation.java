@@ -5,6 +5,7 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferTransactionVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -14,15 +15,22 @@ import persistence.Anything;
 import persistence.CompensationProxi;
 import persistence.Compensation_TransactionsToBeCompensatedProxi;
 import persistence.ConnectionHandler;
+import persistence.DebitTransferSearchList;
 import persistence.Invoker;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
+import persistence.PersistentBank;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationPendingRequests;
+import persistence.PersistentCompensationRequest;
+import persistence.PersistentDebit;
+import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentExecuteCompensationCommand;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
+import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -37,11 +45,11 @@ public class Compensation extends PersistentObject implements PersistentCompensa
         return (PersistentCompensation)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentCompensation createCompensation() throws PersistenceException{
-        return createCompensation(false);
+    public static PersistentCompensation createCompensation(PersistentAccount requestingAccount) throws PersistenceException{
+        return createCompensation(requestingAccount,false);
     }
     
-    public static PersistentCompensation createCompensation(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCompensation createCompensation(PersistentAccount requestingAccount,boolean delayed$Persistence) throws PersistenceException {
         PersistentCompensation result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCompensationFacade
@@ -52,12 +60,13 @@ public class Compensation extends PersistentObject implements PersistentCompensa
                 .newCompensation(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("requestingAccount", requestingAccount);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCompensation createCompensation(boolean delayed$Persistence,PersistentCompensation This) throws PersistenceException {
+    public static PersistentCompensation createCompensation(PersistentAccount requestingAccount,boolean delayed$Persistence,PersistentCompensation This) throws PersistenceException {
         PersistentCompensation result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCompensationFacade
@@ -68,6 +77,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
                 .newCompensation(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("requestingAccount", requestingAccount);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -283,6 +293,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 				throws PersistenceException{
         this.setThis((PersistentCompensation)This);
 		if(this.equals(This)){
+			this.setRequestingAccount((PersistentAccount)final$$Fields.get("requestingAccount"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 
@@ -317,6 +328,50 @@ public class Compensation extends PersistentObject implements PersistentCompensa
         //TODO: implement method: executeCompensation
         
     }
+    public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtr) 
+				throws PersistenceException{
+
+        if (!dtr.getSender().equals(getThis())) {
+            PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(getThis());
+            newRequest.setDebitTransferTransaction(dtr);
+        	dtr.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
+        }
+        
+        dtr.accept(new DebitTransferTransactionVisitor() {
+			
+			@Override
+			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+				try {
+					PersistentBank b = getThis().getBank().getAdministrator().searchBankByBankNumber(transfer.getReceiverBankNumber());
+					PersistentAccount acc = b.searchAccountByAccNumber(transfer.getReceiverAccountNumber());
+			        PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(getThis());
+			        newRequest.setDebitTransferTransaction(dtr);
+					
+					acc.getAllCompensation().getPendingCompensationRequests().add(newRequest);
+				} catch (InvalidBankNumberException e) {
+					// TODO So gehts nicht!
+					
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidAccountNumberException e) {
+					
+				}
+			}
+			
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         //TODO: implement method: initializeOnCreation
@@ -330,6 +385,11 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException{
         //TODO: implement method: pendingRequests_update
+        
+    }
+    public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
+				throws PersistenceException{
+        
         
     }
     

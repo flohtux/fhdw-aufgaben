@@ -155,6 +155,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleCompensationListe(CompensationListeView compensationListe) throws ModelException;
     
+    public abstract void handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException;
+    
+    public void handleWaitingState(WaitingStateView waitingState) throws ModelException{
+        this.handleCompensationRequestState(waitingState);
+    }
+    public void handleDeclinedState(DeclinedStateView declinedState) throws ModelException{
+        this.handleCompensationRequestState(declinedState);
+    }
+    public void handleAcceptedState(AcceptedStateView acceptedState) throws ModelException{
+        this.handleCompensationRequestState(acceptedState);
+    }
     public abstract void handleMoney(MoneyView money) throws ModelException;
     
     public abstract void handleBank(BankView bank) throws ModelException;

@@ -128,6 +128,7 @@ public class ConnectionHandler {
     public ServerFacade theServerFacade;
     public DebitTransferTemplateFacade theDebitTransferTemplateFacade;
     public CreateDebitGrantCommandFacade theCreateDebitGrantCommandFacade;
+    public WaitingStateFacade theWaitingStateFacade;
     public SubjectRuleFacade theSubjectRuleFacade;
     public TriggerListeFacade theTriggerListeFacade;
     public DisabledStateFacade theDisabledStateFacade;
@@ -148,6 +149,7 @@ public class ConnectionHandler {
     public AccountDebitTransferTransactionsFacade theAccountDebitTransferTransactionsFacade;
     public ChangeMoneyCommandFacade theChangeMoneyCommandFacade;
     public MoneyRuleFacade theMoneyRuleFacade;
+    public CompensationRequestStateFacade theCompensationRequestStateFacade;
     public MoneyFacade theMoneyFacade;
     public TriggerValueFacade theTriggerValueFacade;
     public AccountServiceNotExecutedFacade theAccountServiceNotExecutedFacade;
@@ -155,6 +157,7 @@ public class ConnectionHandler {
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
     public DebitGrantFacade theDebitGrantFacade;
     public BankCreatorFacade theBankCreatorFacade;
+    public AcceptedStateFacade theAcceptedStateFacade;
     public FalseValueFacade theFalseValueFacade;
     public AllCompensationListeFacade theAllCompensationListeFacade;
     public AccountGrantedDebitGrantFacade theAccountGrantedDebitGrantFacade;
@@ -205,6 +208,7 @@ public class ConnectionHandler {
     public EventWrapperFacade theEventWrapperFacade;
     public BankFeesFacade theBankFeesFacade;
     public NotSuccessfulStornoStateFacade theNotSuccessfulStornoStateFacade;
+    public DeclinedStateFacade theDeclinedStateFacade;
     public AccountServiceBankFeesFacade theAccountServiceBankFeesFacade;
     public CompensationRequestListeFacade theCompensationRequestListeFacade;
 
@@ -252,6 +256,7 @@ public class ConnectionHandler {
             this.theServerFacade= new ServerFacade(this.schemaName, this.con);
             this.theDebitTransferTemplateFacade= new DebitTransferTemplateFacade(this.schemaName, this.con);
             this.theCreateDebitGrantCommandFacade= new CreateDebitGrantCommandFacade(this.schemaName, this.con);
+            this.theWaitingStateFacade= new WaitingStateFacade(this.schemaName, this.con);
             this.theSubjectRuleFacade= new SubjectRuleFacade(this.schemaName, this.con);
             this.theTriggerListeFacade= new TriggerListeFacade(this.schemaName, this.con);
             this.theDisabledStateFacade= new DisabledStateFacade(this.schemaName, this.con);
@@ -272,6 +277,7 @@ public class ConnectionHandler {
             this.theAccountDebitTransferTransactionsFacade= new AccountDebitTransferTransactionsFacade(this.schemaName, this.con);
             this.theChangeMoneyCommandFacade= new ChangeMoneyCommandFacade(this.schemaName, this.con);
             this.theMoneyRuleFacade= new MoneyRuleFacade(this.schemaName, this.con);
+            this.theCompensationRequestStateFacade= new CompensationRequestStateFacade(this.schemaName, this.con);
             this.theMoneyFacade= new MoneyFacade(this.schemaName, this.con);
             this.theTriggerValueFacade= new TriggerValueFacade(this.schemaName, this.con);
             this.theAccountServiceNotExecutedFacade= new AccountServiceNotExecutedFacade(this.schemaName, this.con);
@@ -279,6 +285,7 @@ public class ConnectionHandler {
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
             this.theDebitGrantFacade= new DebitGrantFacade(this.schemaName, this.con);
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
+            this.theAcceptedStateFacade= new AcceptedStateFacade(this.schemaName, this.con);
             this.theFalseValueFacade= new FalseValueFacade(this.schemaName, this.con);
             this.theAllCompensationListeFacade= new AllCompensationListeFacade(this.schemaName, this.con);
             this.theAccountGrantedDebitGrantFacade= new AccountGrantedDebitGrantFacade(this.schemaName, this.con);
@@ -329,6 +336,7 @@ public class ConnectionHandler {
             this.theEventWrapperFacade= new EventWrapperFacade(this.schemaName, this.con);
             this.theBankFeesFacade= new BankFeesFacade(this.schemaName, this.con);
             this.theNotSuccessfulStornoStateFacade= new NotSuccessfulStornoStateFacade(this.schemaName, this.con);
+            this.theDeclinedStateFacade= new DeclinedStateFacade(this.schemaName, this.con);
             this.theAccountServiceBankFeesFacade= new AccountServiceBankFeesFacade(this.schemaName, this.con);
             this.theCompensationRequestListeFacade= new CompensationRequestListeFacade(this.schemaName, this.con);
 		} catch (SQLException sqlExc) {

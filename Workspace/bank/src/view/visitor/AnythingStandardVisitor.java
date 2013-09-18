@@ -8,6 +8,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCompensation(CompensationView compensation) throws ModelException{
         this.standardHandling(compensation);
     }
+    public void handleAcceptedState(AcceptedStateView acceptedState) throws ModelException{
+        this.standardHandling(acceptedState);
+    }
     public void handleFalseValue(FalseValueView falseValue) throws ModelException{
         this.standardHandling(falseValue);
     }
@@ -79,6 +82,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleWaitingState(WaitingStateView waitingState) throws ModelException{
+        this.standardHandling(waitingState);
     }
     public void handleSubjectRule(SubjectRuleView subjectRule) throws ModelException{
         this.standardHandling(subjectRule);
@@ -161,6 +167,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleMoneyRule(MoneyRuleView moneyRule) throws ModelException{
         this.standardHandling(moneyRule);
     }
+    public void handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException{
+        this.standardHandling(compensationRequestState);
+    }
     public void handleTransaction(TransactionView transaction) throws ModelException{
         this.standardHandling(transaction);
     }
@@ -187,6 +196,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleSuccessfulStornoState(SuccessfulStornoStateView successfulStornoState) throws ModelException{
         this.standardHandling(successfulStornoState);
+    }
+    public void handleDeclinedState(DeclinedStateView declinedState) throws ModelException{
+        this.standardHandling(declinedState);
     }
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException{
         this.standardHandling(debitGrant);

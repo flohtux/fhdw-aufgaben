@@ -11,6 +11,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
+    public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException{
+        this.standardHandling(acceptedState);
+    }
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
         this.standardHandling(falseValue);
     }
@@ -82,6 +85,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleServer(PersistentServer server) throws PersistenceException{
         this.standardHandling(server);
+    }
+    public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
+        this.standardHandling(waitingState);
     }
     public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
         this.standardHandling(subjectRule);
@@ -164,6 +170,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
         this.standardHandling(moneyRule);
     }
+    public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException{
+        this.standardHandling(compensationRequestState);
+    }
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
         this.standardHandling(transaction);
     }
@@ -190,6 +199,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException{
         this.standardHandling(successfulStornoState);
+    }
+    public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
+        this.standardHandling(declinedState);
     }
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException{
         this.standardHandling(debitGrant);

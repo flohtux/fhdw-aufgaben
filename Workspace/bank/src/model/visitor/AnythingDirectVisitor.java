@@ -215,6 +215,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
     
+    public abstract void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException;
+    
+    public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
+        this.handleCompensationRequestState(waitingState);
+    }
+    public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
+        this.handleCompensationRequestState(declinedState);
+    }
+    public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException{
+        this.handleCompensationRequestState(acceptedState);
+    }
     public abstract void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;

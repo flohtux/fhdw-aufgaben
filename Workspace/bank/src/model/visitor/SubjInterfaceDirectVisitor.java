@@ -143,6 +143,17 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleYen(PersistentYen yen) throws PersistenceException{
         this.handleCurrency(yen);
     }
+    public abstract void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException;
+    
+    public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
+        this.handleCompensationRequestState(waitingState);
+    }
+    public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
+        this.handleCompensationRequestState(declinedState);
+    }
+    public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException{
+        this.handleCompensationRequestState(acceptedState);
+    }
     public abstract void handleAmount(PersistentAmount amount) throws PersistenceException;
     
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
