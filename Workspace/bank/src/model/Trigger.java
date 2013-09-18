@@ -35,6 +35,7 @@ import persistence.PersistentTrigger;
 import persistence.PersistentTriggerState;
 import persistence.PersistentTriggerValue;
 import persistence.Predcate;
+import persistence.Procdure;
 import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -370,7 +371,16 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 			}
 			@Override
 			public void handleTransaction(PersistentTransaction transaction)
-					throws PersistenceException {}
+					throws PersistenceException {
+				transaction.getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
+					@Override
+					public void doItTo(PersistentDebitTransfer argument)
+							throws PersistenceException {
+						argument.setPreviousDebitTransfer(incomingDebitTransfer);
+						argument.changeState(NotExecutedState.createNotExecutedState());
+					}
+				});
+			}
 		});
 		incomingDebitTransfer.getNextDebitTransferTransactionstriggers().add(copy);
 //		copy.execute(accService);

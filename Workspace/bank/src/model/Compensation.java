@@ -322,8 +322,6 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void executeCompensation() 
 				throws PersistenceException{
@@ -334,6 +332,22 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 				throws PersistenceException{
         PersistentCompensationRequest componentRequest = CompensationRequest.createCompensationRequest(dtt, getThis());
         getThis().getPendingRequests().add(componentRequest);
+        dtt.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {
+				// TODO Auto-generated method stub
+			}
+		});
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -354,6 +368,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 					throws PersistenceException {
 				PersistentCompensationRequest compensationRequest = CompensationRequest.createCompensationRequest(argument, getThis());
 				getThis().getPendingRequests().add(compensationRequest);
+				//TODO wann und wo wird der zustimmende acc benachricht?
 			}
 		});
         
