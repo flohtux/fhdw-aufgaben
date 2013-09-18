@@ -35,11 +35,11 @@ public class CompensationRequest extends PersistentObject implements PersistentC
         return (PersistentCompensationRequest)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentCompensationRequest createCompensationRequest(PersistentCompensation masterCompensation) throws PersistenceException{
-        return createCompensationRequest(masterCompensation,false);
+    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation) throws PersistenceException{
+        return createCompensationRequest(debitTransferTransaction,masterCompensation,false);
     }
     
-    public static PersistentCompensationRequest createCompensationRequest(PersistentCompensation masterCompensation,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation,boolean delayed$Persistence) throws PersistenceException {
         PersistentCompensationRequest result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade
@@ -50,13 +50,14 @@ public class CompensationRequest extends PersistentObject implements PersistentC
                 .newCompensationRequest(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("debitTransferTransaction", debitTransferTransaction);
         final$$Fields.put("masterCompensation", masterCompensation);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCompensationRequest createCompensationRequest(PersistentCompensation masterCompensation,boolean delayed$Persistence,PersistentCompensationRequest This) throws PersistenceException {
+    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation,boolean delayed$Persistence,PersistentCompensationRequest This) throws PersistenceException {
         PersistentCompensationRequest result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade
@@ -67,6 +68,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
                 .newCompensationRequest(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("debitTransferTransaction", debitTransferTransaction);
         final$$Fields.put("masterCompensation", masterCompensation);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
@@ -308,6 +310,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
 				throws PersistenceException{
         this.setThis((PersistentCompensationRequest)This);
 		if(this.equals(This)){
+			this.setDebitTransferTransaction((PersistentDebitTransferTransaction)final$$Fields.get("debitTransferTransaction"));
 			this.setMasterCompensation((PersistentCompensation)final$$Fields.get("masterCompensation"));
 		}
     }

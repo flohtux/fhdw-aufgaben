@@ -25,12 +25,14 @@ import persistence.PersistentCompensation;
 import persistence.PersistentCompensationPendingRequests;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentDebit;
+import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentExecuteCompensationCommand;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
+import persistence.Procdure;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -330,18 +332,14 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     }
     public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
-        //TODO: implement method: initializeDebitTransferTransaction
-        
+        PersistentCompensationRequest componentRequest = CompensationRequest.createCompensationRequest(dtt, getThis());
+        getThis().getPendingRequests().add(componentRequest);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException{
@@ -350,7 +348,14 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{
-        
+        debitTransfers.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				PersistentCompensationRequest compensationRequest = CompensationRequest.createCompensationRequest(argument, getThis());
+				getThis().getPendingRequests().add(compensationRequest);
+			}
+		});
         
     }
     

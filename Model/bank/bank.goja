@@ -394,7 +394,7 @@ class Compensation {
 }
 
 class CompensationRequest {
-	DebitTransferTransaction debitTransferTransaction##cmpstDtTr;
+	prior DebitTransferTransaction debitTransferTransaction##cmpstDtTr;
 	prior Compensation masterCompensation;
 	CompensationRequestState state;
 	event void changeState(CompensationRequestState a);

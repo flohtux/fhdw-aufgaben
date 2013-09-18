@@ -1,18 +1,9 @@
 package view.objects;
 
-import view.IncomingAccountRuleView;
-import view.ModelException;
-import view.TriggerView;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.RuleExceptionVisitor;
-import view.visitor.RuleReturnExceptionVisitor;
-import view.visitor.RuleReturnVisitor;
-import view.visitor.RuleVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class IncomingAccountRuleProxi extends RuleProxi implements IncomingAccountRuleView{
     

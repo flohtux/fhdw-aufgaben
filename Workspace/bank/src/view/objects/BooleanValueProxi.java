@@ -1,7 +1,7 @@
 package view.objects;
 
-import view.BooleanValueView;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
 
 public abstract class BooleanValueProxi extends ViewProxi implements BooleanValueView{
     

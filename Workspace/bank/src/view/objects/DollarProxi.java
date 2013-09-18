@@ -1,17 +1,9 @@
 package view.objects;
 
-import view.DollarView;
-import view.ModelException;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.CurrencyExceptionVisitor;
-import view.visitor.CurrencyReturnExceptionVisitor;
-import view.visitor.CurrencyReturnVisitor;
-import view.visitor.CurrencyVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class DollarProxi extends CurrencyProxi implements DollarView{
     
