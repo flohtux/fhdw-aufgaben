@@ -55,22 +55,26 @@ public class AdministratorBanksFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AdministratorBanksId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAdministrator observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentAdministratorBanks This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentAdministratorBanks)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            AdministratorBanks result = new AdministratorBanks(observer,
-                                                               This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10046: {
+                        observer = (PersistentAdministrator)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10048: {
+                        This = (PersistentAdministratorBanks)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AdministratorBanks result = new AdministratorBanks(observer, 
+                                                               This, 
                                                                AdministratorBanksId);
-            obj.close();
+            links.close();
             callable.close();
             AdministratorBanksICProxi inCache = (AdministratorBanksICProxi)Cache.getTheCache().put(result);
             AdministratorBanks objectInCache = (AdministratorBanks)inCache.getTheObject();

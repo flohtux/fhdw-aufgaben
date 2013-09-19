@@ -55,34 +55,44 @@ public class CompensationRequestFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CompensationRequestId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentDebitTransferTransaction debitTransferTransaction = null;
-            if (obj.getLong(2) != 0)
-                debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCompensation masterCompensation = null;
-            if (obj.getLong(4) != 0)
-                masterCompensation = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentCompensationRequestState state = null;
-            if (obj.getLong(6) != 0)
-                state = (PersistentCompensationRequestState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             SubjInterface subService = null;
-            if (obj.getLong(8) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentCompensationRequest This = null;
-            if (obj.getLong(10) != 0)
-                This = (PersistentCompensationRequest)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            CompensationRequest result = new CompensationRequest(debitTransferTransaction,
-                                                                 masterCompensation,
-                                                                 state,
-                                                                 subService,
-                                                                 This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10365: {
+                        debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10391: {
+                        masterCompensation = (PersistentCompensation)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10388: {
+                        state = (PersistentCompensationRequestState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10366: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10367: {
+                        This = (PersistentCompensationRequest)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            CompensationRequest result = new CompensationRequest(debitTransferTransaction, 
+                                                                 masterCompensation, 
+                                                                 state, 
+                                                                 subService, 
+                                                                 This, 
                                                                  CompensationRequestId);
-            obj.close();
+            links.close();
             callable.close();
             CompensationRequestICProxi inCache = (CompensationRequestICProxi)Cache.getTheCache().put(result);
             CompensationRequest objectInCache = (CompensationRequest)inCache.getTheObject();

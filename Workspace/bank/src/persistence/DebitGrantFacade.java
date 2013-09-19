@@ -55,30 +55,38 @@ public class DebitGrantFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DebitGrantId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccountPx permittedAccount = null;
-            if (obj.getLong(2) != 0)
-                permittedAccount = (PersistentAccountPx)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentLimitType limits = null;
-            if (obj.getLong(4) != 0)
-                limits = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
-            if (obj.getLong(6) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentDebitGrant This = null;
-            if (obj.getLong(8) != 0)
-                This = (PersistentDebitGrant)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            DebitGrant result = new DebitGrant(permittedAccount,
-                                               limits,
-                                               subService,
-                                               This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10164: {
+                        permittedAccount = (PersistentAccountPx)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10165: {
+                        limits = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10166: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10167: {
+                        This = (PersistentDebitGrant)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            DebitGrant result = new DebitGrant(permittedAccount, 
+                                               limits, 
+                                               subService, 
+                                               This, 
                                                DebitGrantId);
-            obj.close();
+            links.close();
             callable.close();
             DebitGrantICProxi inCache = (DebitGrantICProxi)Cache.getTheCache().put(result);
             DebitGrant objectInCache = (DebitGrant)inCache.getTheObject();

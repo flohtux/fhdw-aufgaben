@@ -56,31 +56,45 @@ public class ChangeSubjectCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ChangeSubjectCommandId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentDebitTransfer trans = null;
-            if (obj.getLong(2) != 0)
-                trans = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            String subject = "";
             Invoker invoker = null;
-            if (obj.getLong(5) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccount commandReceiver = null;
-            if (obj.getLong(7) != 0)
-                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(9) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            ChangeSubjectCommand result = new ChangeSubjectCommand(trans,
-                                                                   obj.getString(4) == null ? "" : obj.getString(4) /* In Oracle "" = null !!! */,
-                                                                   invoker,
-                                                                   commandReceiver,
-                                                                   myCommonDate,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10352: {
+                        trans = (PersistentDebitTransfer)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10353: {
+                        subject = links.getString(6);
+                        if(subject == null)subject = "";
+                        break;
+                    }
+                    case 10354: {
+                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10355: {
+                        commandReceiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10356: {
+                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            ChangeSubjectCommand result = new ChangeSubjectCommand(trans, 
+                                                                   subject, 
+                                                                   invoker, 
+                                                                   commandReceiver, 
+                                                                   myCommonDate, 
                                                                    ChangeSubjectCommandId);
-            obj.close();
+            links.close();
             callable.close();
             ChangeSubjectCommandICProxi inCache = (ChangeSubjectCommandICProxi)Cache.getTheCache().put(result);
             ChangeSubjectCommand objectInCache = (ChangeSubjectCommand)inCache.getTheObject();

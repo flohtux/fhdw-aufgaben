@@ -31,6 +31,9 @@ public class Resources {
 	private static final String FolgebuchungIcon = Resources + "/folgebuchung.png";
 	private static final String LimitIcon = Resources + "/limit.gif";
 	private static final String NoLimitIcon = Resources + "/noLimit.gif";
+	private static final String KompensationIcon = Resources + "/mailSendReceive.png";
+	private static final String KompensationOutIcon = Resources + "/mailSend.png";
+	private static final String KompensationInIcon = Resources + "/mailGet.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -54,6 +57,9 @@ public class Resources {
 	private static ImageIcon folgebuchungIcon;
 	private static ImageIcon limitIcon;
 	private static ImageIcon noLimitIcon;
+	private static ImageIcon kompensationIcon;
+	private static ImageIcon kompensationOutIcon;
+	private static ImageIcon kompensationInIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
 	public static Icon getAccountIcon() {
@@ -110,6 +116,24 @@ public class Resources {
 		return historieIcon;
 	}
 	
+	public static Icon getKompensationIcon() {
+		if (kompensationIcon == null)
+			kompensationIcon = new ImageIcon(getURL(KompensationIcon));
+		return kompensationIcon;
+		}
+	
+	public static Icon getKompensationInIcon() {
+		if (kompensationInIcon == null)
+			kompensationInIcon = new ImageIcon(getURL(KompensationInIcon));
+		return kompensationInIcon;
+		}
+	
+	public static Icon getKompensationOutIcon() {
+		if (kompensationOutIcon == null)
+			kompensationOutIcon = new ImageIcon(getURL(KompensationOutIcon));
+		return kompensationOutIcon;
+		}
+		
 	public static Icon getKontostandIcon() {
 		if (kontostandIcon == null)
 			kontostandIcon = new ImageIcon(getURL(KontostandIcon));

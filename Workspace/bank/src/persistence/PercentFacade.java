@@ -56,23 +56,32 @@ public class PercentFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, PercentId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            common.Fraction value = common.Fraction.Null;
             SubjInterface subService = null;
-            if (obj.getLong(3) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             PersistentPercent This = null;
-            if (obj.getLong(5) != 0)
-                This = (PersistentPercent)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
-            Percent result = new Percent(common.Fraction.parse(obj.getString(2)),
-                                         subService,
-                                         This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10022: {
+                        value = common.Fraction.parse(links.getString(10));
+                        break;
+                    }
+                    case 10023: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10024: {
+                        This = (PersistentPercent)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Percent result = new Percent(value, 
+                                         subService, 
+                                         This, 
                                          PercentId);
-            obj.close();
+            links.close();
             callable.close();
             PercentICProxi inCache = (PercentICProxi)Cache.getTheCache().put(result);
             Percent objectInCache = (Percent)inCache.getTheObject();

@@ -36,6 +36,15 @@ public class IconManager {
 		case common.IconInfoConstants.HistorieIconNumber:
 			return viewConstants.Resources.getHistorieIcon();
 			
+		case common.IconInfoConstants.KompensationIconNumber:
+			return viewConstants.Resources.getKompensationIcon();
+			
+		case common.IconInfoConstants.KompensationInIconNumber:
+			return viewConstants.Resources.getKompensationInIcon();
+			
+		case common.IconInfoConstants.KompensationOutIconNumber:
+			return viewConstants.Resources.getKompensationOutIcon();
+			
 		case common.IconInfoConstants.KontostandIconNumber:
 			return viewConstants.Resources.getKontostandIcon();
 			

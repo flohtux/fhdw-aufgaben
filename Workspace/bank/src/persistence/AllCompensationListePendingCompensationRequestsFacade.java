@@ -55,26 +55,32 @@ public class AllCompensationListePendingCompensationRequestsFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AllCompensationListePendingCompensationRequestsId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAllCompensationListe observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAllCompensationListe)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCompensationRequestListe observee = null;
-            if (obj.getLong(4) != 0)
-                observee = (PersistentCompensationRequestListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAllCompensationListePendingCompensationRequests This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAllCompensationListePendingCompensationRequests)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AllCompensationListePendingCompensationRequests result = new AllCompensationListePendingCompensationRequests(observer,
-                                                                                                                         observee,
-                                                                                                                         This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10403: {
+                        observer = (PersistentAllCompensationListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10404: {
+                        observee = (PersistentCompensationRequestListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10405: {
+                        This = (PersistentAllCompensationListePendingCompensationRequests)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AllCompensationListePendingCompensationRequests result = new AllCompensationListePendingCompensationRequests(observer, 
+                                                                                                                         observee, 
+                                                                                                                         This, 
                                                                                                                          AllCompensationListePendingCompensationRequestsId);
-            obj.close();
+            links.close();
             callable.close();
             AllCompensationListePendingCompensationRequestsICProxi inCache = (AllCompensationListePendingCompensationRequestsICProxi)Cache.getTheCache().put(result);
             AllCompensationListePendingCompensationRequests objectInCache = (AllCompensationListePendingCompensationRequests)inCache.getTheObject();

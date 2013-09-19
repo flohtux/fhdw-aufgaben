@@ -24,6 +24,9 @@ public class IconInfoConstants {
 	public static final int FolgebuchungIconNumber = 20;
 	public static final int LimitIconNumber = 21;
 	public static final int NoLimitIconNumber = 22;
+	public static final int KompensationIconNumber = 23;
+	public static final int KompensationInIconNumber = 24;
+	public static final int KompensationOutIconNumber = 25;
 
 	private IconInfoConstants(){}
 }

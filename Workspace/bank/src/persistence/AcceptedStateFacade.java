@@ -36,22 +36,26 @@ public class AcceptedStateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AcceptedStateId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCompensationRequestState This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentCompensationRequestState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            AcceptedState result = new AcceptedState(subService,
-                                                     This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10389: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10390: {
+                        This = (PersistentCompensationRequestState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AcceptedState result = new AcceptedState(subService, 
+                                                     This, 
                                                      AcceptedStateId);
-            obj.close();
+            links.close();
             callable.close();
             AcceptedStateICProxi inCache = (AcceptedStateICProxi)Cache.getTheCache().put(result);
             AcceptedState objectInCache = (AcceptedState)inCache.getTheObject();

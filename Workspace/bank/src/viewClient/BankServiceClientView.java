@@ -857,7 +857,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
 			getParametersPanel().add(new FractionSelectionPanel("Grenze", this));
 			getParametersPanel().add(new RegExprSelectionPanel("Währung", this, common.RegularExpressionManager.currencySUBTYPEName.getRegExpr()));
-			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
+			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren in Prozent", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
@@ -907,7 +907,7 @@ public class BankServiceClientView extends JPanel implements ExceptionAndEventHa
 		}
 		
 		protected void addParameters(){
-			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren", this));		
+			getParametersPanel().add(new FractionSelectionPanel("variable Gebühren in Prozent", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}

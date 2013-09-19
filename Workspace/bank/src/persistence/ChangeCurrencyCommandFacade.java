@@ -55,34 +55,44 @@ public class ChangeCurrencyCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ChangeCurrencyCommandId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentDebitTransfer trans = null;
-            if (obj.getLong(2) != 0)
-                trans = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCurrency currency = null;
-            if (obj.getLong(4) != 0)
-                currency = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             Invoker invoker = null;
-            if (obj.getLong(6) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentAccount commandReceiver = null;
-            if (obj.getLong(8) != 0)
-                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(10) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            ChangeCurrencyCommand result = new ChangeCurrencyCommand(trans,
-                                                                     currency,
-                                                                     invoker,
-                                                                     commandReceiver,
-                                                                     myCommonDate,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10262: {
+                        trans = (PersistentDebitTransfer)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10263: {
+                        currency = (PersistentCurrency)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10264: {
+                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10265: {
+                        commandReceiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10266: {
+                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            ChangeCurrencyCommand result = new ChangeCurrencyCommand(trans, 
+                                                                     currency, 
+                                                                     invoker, 
+                                                                     commandReceiver, 
+                                                                     myCommonDate, 
                                                                      ChangeCurrencyCommandId);
-            obj.close();
+            links.close();
             callable.close();
             ChangeCurrencyCommandICProxi inCache = (ChangeCurrencyCommandICProxi)Cache.getTheCache().put(result);
             ChangeCurrencyCommand objectInCache = (ChangeCurrencyCommand)inCache.getTheObject();

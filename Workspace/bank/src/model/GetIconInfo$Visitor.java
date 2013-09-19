@@ -5,14 +5,20 @@ import model.visitor.TriggerStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
+import persistence.PersistentAccountAllCompensation;
 import persistence.PersistentAccountGrantedDebitGrant;
 import persistence.PersistentAccountPx;
 import persistence.PersistentAccountReceivedDebitGrant;
+import persistence.PersistentAllCompensationListe;
 import persistence.PersistentBankFees;
+import persistence.PersistentBankOwnAccountPx;
 import persistence.PersistentBankPx;
+import persistence.PersistentCompensation;
+import persistence.PersistentCompensationDeclinedCommand;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationPendingRequests;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestListe;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitTransferNotExecuted;
@@ -219,21 +225,24 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	}
 	@Override
 	public void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException {
-		// TODO Auto-generated method stub  "von mir ausgelöste Kompensation"
-		super.handleCompensationListe(compensationListe);
+		result = common.IconInfoConstants.KompensationOutIconNumber;
 	}
 	
 	@Override
-	public void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException {
-		// TODO Auto-generated method stub   "eingehenden Anfragen"
-		super.handleCompensationPendingRequests(compensationPendingRequests);
+	public void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe)
+			throws PersistenceException {
+		result = common.IconInfoConstants.KompensationInIconNumber;
 	}
 	
 	@Override
-	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
-		// TODO Auto-generated method stub  "Kompensationsanfrage"
-		super.handleCompensationRequest(compensationRequest);
+	public void handleAllCompensationListe(
+			PersistentAllCompensationListe allCompensationListe)
+			throws PersistenceException {
+		result = common.IconInfoConstants.KompensationIconNumber;
 	}
 	
-	
+	@Override
+	public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx)	throws PersistenceException {
+		result = common.IconInfoConstants.BankIconNumber;
+	}
 }

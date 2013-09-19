@@ -56,31 +56,44 @@ public class ChangeReceiverAccountCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ChangeReceiverAccountCommandId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentDebitTransfer trans = null;
-            if (obj.getLong(2) != 0)
-                trans = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            long receiverAccountNumber = 0;
             Invoker invoker = null;
-            if (obj.getLong(5) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentAccount commandReceiver = null;
-            if (obj.getLong(7) != 0)
-                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(9) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
-            ChangeReceiverAccountCommand result = new ChangeReceiverAccountCommand(trans,
-                                                                                   obj.getLong(4),
-                                                                                   invoker,
-                                                                                   commandReceiver,
-                                                                                   myCommonDate,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10252: {
+                        trans = (PersistentDebitTransfer)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10253: {
+                        receiverAccountNumber = links.getLong(5);
+                        break;
+                    }
+                    case 10254: {
+                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10255: {
+                        commandReceiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10256: {
+                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            ChangeReceiverAccountCommand result = new ChangeReceiverAccountCommand(trans, 
+                                                                                   receiverAccountNumber, 
+                                                                                   invoker, 
+                                                                                   commandReceiver, 
+                                                                                   myCommonDate, 
                                                                                    ChangeReceiverAccountCommandId);
-            obj.close();
+            links.close();
             callable.close();
             ChangeReceiverAccountCommandICProxi inCache = (ChangeReceiverAccountCommandICProxi)Cache.getTheCache().put(result);
             ChangeReceiverAccountCommand objectInCache = (ChangeReceiverAccountCommand)inCache.getTheObject();
