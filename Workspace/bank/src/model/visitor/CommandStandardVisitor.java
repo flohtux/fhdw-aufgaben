@@ -41,5 +41,8 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
         this.standardHandling(changeReceiverAccountCommand);
     }
+    public void handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException{
+        this.standardHandling(compensationDeclinedCommand);
+    }
     protected abstract void standardHandling(Command command) throws PersistenceException;
 }

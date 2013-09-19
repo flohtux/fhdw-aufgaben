@@ -16,6 +16,8 @@ import persistence.ConnectionHandler;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAllCompensationListe;
+import persistence.PersistentAllCompensationListeOutgoingCompensations;
+import persistence.PersistentAllCompensationListePendingCompensationRequests;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationRequestListe;
 import persistence.PersistentObject;
@@ -112,12 +114,12 @@ public class AllCompensationListe extends PersistentObject implements Persistent
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentCompensationListe outgoingCompensations;
-    protected PersistentCompensationRequestListe pendingCompensationRequests;
+    protected PersistentAllCompensationListeOutgoingCompensations outgoingCompensations;
+    protected PersistentAllCompensationListePendingCompensationRequests pendingCompensationRequests;
     protected SubjInterface subService;
     protected PersistentAllCompensationListe This;
     
-    public AllCompensationListe(PersistentCompensationListe outgoingCompensations,PersistentCompensationRequestListe pendingCompensationRequests,SubjInterface subService,PersistentAllCompensationListe This,long id) throws persistence.PersistenceException {
+    public AllCompensationListe(PersistentAllCompensationListeOutgoingCompensations outgoingCompensations,PersistentAllCompensationListePendingCompensationRequests pendingCompensationRequests,SubjInterface subService,PersistentAllCompensationListe This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.outgoingCompensations = outgoingCompensations;
@@ -139,13 +141,13 @@ public class AllCompensationListe extends PersistentObject implements Persistent
         if (this.getClassId() == 261) ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade
             .newAllCompensationListe(this.getId());
         super.store();
-        if(this.getOutgoingCompensations() != null){
-            this.getOutgoingCompensations().store();
-            ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade.outgoingCompensationsSet(this.getId(), getOutgoingCompensations());
+        if(this.outgoingCompensations != null){
+            this.outgoingCompensations.store();
+            ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade.outgoingCompensationsSet(this.getId(), outgoingCompensations);
         }
-        if(this.getPendingCompensationRequests() != null){
-            this.getPendingCompensationRequests().store();
-            ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade.pendingCompensationRequestsSet(this.getId(), getPendingCompensationRequests());
+        if(this.pendingCompensationRequests != null){
+            this.pendingCompensationRequests.store();
+            ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade.pendingCompensationRequestsSet(this.getId(), pendingCompensationRequests);
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -158,29 +160,23 @@ public class AllCompensationListe extends PersistentObject implements Persistent
         
     }
     
-    public PersistentCompensationListe getOutgoingCompensations() throws PersistenceException {
-        return this.outgoingCompensations;
-    }
-    public void setOutgoingCompensations(PersistentCompensationListe newValue) throws PersistenceException {
+    protected void setOutgoingCompensations(PersistentAllCompensationListeOutgoingCompensations newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.outgoingCompensations)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.outgoingCompensations = (PersistentCompensationListe)PersistentProxi.createProxi(objectId, classId);
+        this.outgoingCompensations = (PersistentAllCompensationListeOutgoingCompensations)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade.outgoingCompensationsSet(this.getId(), newValue);
         }
     }
-    public PersistentCompensationRequestListe getPendingCompensationRequests() throws PersistenceException {
-        return this.pendingCompensationRequests;
-    }
-    public void setPendingCompensationRequests(PersistentCompensationRequestListe newValue) throws PersistenceException {
+    protected void setPendingCompensationRequests(PersistentAllCompensationListePendingCompensationRequests newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.pendingCompensationRequests)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.pendingCompensationRequests = (PersistentCompensationRequestListe)PersistentProxi.createProxi(objectId, classId);
+        this.pendingCompensationRequests = (PersistentAllCompensationListePendingCompensationRequests)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAllCompensationListeFacade.pendingCompensationRequestsSet(this.getId(), newValue);
@@ -263,6 +259,16 @@ public class AllCompensationListe extends PersistentObject implements Persistent
 		}
 		subService.deregister(observee);
     }
+    public PersistentCompensationListe getOutgoingCompensations() 
+				throws PersistenceException{
+        if (this.outgoingCompensations== null) return null;
+		return this.outgoingCompensations.getObservee();
+    }
+    public PersistentCompensationRequestListe getPendingCompensationRequests() 
+				throws PersistenceException{
+        if (this.pendingCompensationRequests== null) return null;
+		return this.pendingCompensationRequests.getObservee();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAllCompensationListe)This);
@@ -277,6 +283,29 @@ public class AllCompensationListe extends PersistentObject implements Persistent
 			getThis().setSubService(subService);
 		}
 		subService.register(observee);
+    }
+    public void setOutgoingCompensations(final PersistentCompensationListe outgoingCompensations) 
+				throws PersistenceException{
+        if (this.outgoingCompensations == null) {
+			this.setOutgoingCompensations(model.AllCompensationListeOutgoingCompensations.createAllCompensationListeOutgoingCompensations(this.isDelayed$Persistence()));
+			this.outgoingCompensations.setObserver(getThis());
+		}
+		this.outgoingCompensations.setObservee(outgoingCompensations);
+    }
+    public void setPendingCompensationRequests(final PersistentCompensationRequestListe pendingCompensationRequests) 
+				throws PersistenceException{
+        if (this.pendingCompensationRequests == null) {
+			this.setPendingCompensationRequests(model.AllCompensationListePendingCompensationRequests.createAllCompensationListePendingCompensationRequests(this.isDelayed$Persistence()));
+			this.pendingCompensationRequests.setObserver(getThis());
+		}
+		this.pendingCompensationRequests.setObservee(pendingCompensationRequests);
+    }
+    public void signalChanges() 
+				throws PersistenceException{
+        model.meta.AllCompensationListeSignalChangesMssg event = new model.meta.AllCompensationListeSignalChangesMssg(getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
     }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
@@ -305,6 +334,20 @@ public class AllCompensationListe extends PersistentObject implements Persistent
 				throws PersistenceException{
         //TODO: implement method: initializeOnInstantiation
         
+    }
+    public void outgoingCompensations_update(final model.meta.CompensationListeMssgs event) 
+				throws PersistenceException{
+        getThis().signalChanges();
+        
+    }
+    public void pendingCompensationRequests_update(final model.meta.CompensationRequestListeMssgs event) 
+				throws PersistenceException{
+    	getThis().signalChanges();
+        
+    }
+    public void signalChangesImplementation() 
+				throws PersistenceException{
+        return;
     }
     
     

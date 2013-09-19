@@ -27,7 +27,6 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException, E;
-    public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException, E;
     public void handleMoney(PersistentMoney money) throws PersistenceException, E;
     public void handleBank(PersistentBank bank) throws PersistenceException, E;
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;

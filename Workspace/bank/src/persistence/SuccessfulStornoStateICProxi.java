@@ -68,7 +68,7 @@ public class SuccessfulStornoStateICProxi extends StornoStateICProxi implements 
 				throws PersistenceException{
         ((PersistentSuccessfulStornoState)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentCompensation getDebitTransfer() 
 				throws PersistenceException{
         return ((PersistentSuccessfulStornoState)this.getTheObject()).getDebitTransfer();
     }

@@ -17,6 +17,7 @@ public interface UserExceptionReturnVisitor<R> extends ExecuteExceptionReturnVis
     public R handleCycleException(CycleException cycleException) throws ModelException;
     public R handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     public R handleMaxLimitLowerThenMinLimitException(MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws ModelException;
+    public R handleCompensationAbortedException(CompensationAbortedException compensationAbortedException) throws ModelException;
     public R handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
     
 }

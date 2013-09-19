@@ -12,8 +12,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
-    public PersistentAllCompensationListe getAllCompensation() throws PersistenceException ;
-    public void setAllCompensation(PersistentAllCompensationListe newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentAccount getThis() throws PersistenceException ;
@@ -37,11 +35,15 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void changeSubject(final PersistentDebitTransfer trans, final String subject, final Invoker invoker) 
 				throws PersistenceException;
+    public void compensationDeclined(final PersistentCompensation compensation, final String reason, final Invoker invoker) 
+				throws PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException;
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit, final Invoker invoker) 
 				throws PersistenceException;
     public PersistentAccountService getAccountService() 
+				throws PersistenceException;
+    public PersistentAllCompensationListe getAllCompensation() 
 				throws PersistenceException;
     public PersistentBank getBank() 
 				throws PersistenceException;
@@ -57,6 +59,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException;
+    public void setAllCompensation(final PersistentAllCompensationListe allCompensation) 
+				throws PersistenceException;
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException;
     public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
@@ -68,6 +72,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
 				throws PersistenceException;
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException;
+    public void allCompensation_update(final model.meta.AllCompensationListeMssgs event) 
 				throws PersistenceException;
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException;
@@ -87,6 +93,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
 				throws model.ExecuteException, PersistenceException;
+    public void compensationDeclined(final PersistentCompensation compensation, final String reason) 
+				throws model.CompensationAbortedException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
@@ -103,6 +111,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException;
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException;
     public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
 				throws PersistenceException;
     public void grantedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 

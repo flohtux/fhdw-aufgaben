@@ -17,6 +17,9 @@ public abstract class AccountCommandStandardVisitor implements AccountCommandVis
     public void handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException{
         this.standardHandling(changeSubjectCommand);
     }
+    public void handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException{
+        this.standardHandling(compensationDeclinedCommand);
+    }
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
         this.standardHandling(changeReceiverAccountCommand);
     }

@@ -19,6 +19,7 @@ import persistence.PersistentCompensation;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
+import persistence.Predcate;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -199,6 +200,13 @@ public class CompensationListe extends PersistentObject implements PersistentCom
     }
     
     
+    public void add(final PersistentCompensation t) 
+				throws PersistenceException{
+        model.meta.CompensationListeAddCompensationMssg event = new model.meta.CompensationListeAddCompensationMssg(t, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -223,6 +231,13 @@ public class CompensationListe extends PersistentObject implements PersistentCom
 		}
 		subService.register(observee);
     }
+    public void remove(final PersistentCompensation t) 
+				throws PersistenceException{
+        model.meta.CompensationListeRemoveCompensationMssg event = new model.meta.CompensationListeRemoveCompensationMssg(t, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -236,9 +251,9 @@ public class CompensationListe extends PersistentObject implements PersistentCom
     
     // Start of section that contains operations that must be implemented.
     
-    public void add(final PersistentCompensation t) 
+    public void addImplementation(final PersistentCompensation t) 
 				throws PersistenceException{
-        //TODO: implement method: add
+        getThis().getCompensations().add(t);
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -256,9 +271,13 @@ public class CompensationListe extends PersistentObject implements PersistentCom
         //TODO: implement method: initializeOnInstantiation
         
     }
-    public void remove(final PersistentCompensation t) 
+    public void removeImplementation(final PersistentCompensation t) 
 				throws PersistenceException{
-        //TODO: implement method: remove
+    	getThis().getCompensations().filter(new Predcate<PersistentCompensation>() {
+			public boolean test(PersistentCompensation argument) throws PersistenceException {
+				return argument.equals(t);
+			}
+		});
         
     }
     

@@ -124,9 +124,15 @@ public abstract class BooleanValue extends PersistentObject implements Persisten
     
     // Start of section that contains overridden operations only.
     
+    public PersistentBooleanValue and(final PersistentBooleanValue value) 
+				throws PersistenceException{
+    	if(getThis().isTrue() && value.isTrue()) {
+    		return TrueValue.getTheTrueValue();
+    	}
+    	return FalseValue.getTheFalseValue();
+	}
     public PersistentBooleanValue or(final PersistentBooleanValue value) 
 				throws PersistenceException{
-    	System.out.println("or true this "+getThis().isTrue()+" value "+value.isTrue());
     	if(getThis().isTrue() || value.isTrue()) {
     		return TrueValue.getTheTrueValue();
     	}

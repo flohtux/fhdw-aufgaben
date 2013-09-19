@@ -1,10 +1,8 @@
 package persistence;
 
-import model.UserException;
 
-import model.visitor.*;
 
-public class CompensationRequestStateProxi extends PersistentProxi implements PersistentCompensationRequestState{
+public abstract class CompensationRequestStateProxi extends PersistentProxi implements PersistentCompensationRequestState{
     
     public CompensationRequestStateProxi(long objectId) {
         super(objectId);
@@ -13,14 +11,6 @@ public class CompensationRequestStateProxi extends PersistentProxi implements Pe
         super(object);
     }
     
-    protected PersistentObject getRemote() throws PersistenceException {
-        return ConnectionHandler.getTheConnectionHandler().theCompensationRequestStateFacade
-            .getCompensationRequestState(this.getId());
-    }
-    
-    public long getClassId() {
-        return 264;
-    }
     
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCompensationRequestState)this.getTheObject()).getSubService();
@@ -28,46 +18,8 @@ public class CompensationRequestStateProxi extends PersistentProxi implements Pe
     public void setSubService(SubjInterface newValue) throws PersistenceException {
         ((PersistentCompensationRequestState)this.getTheObject()).setSubService(newValue);
     }
-    public PersistentCompensationRequestState getThis() throws PersistenceException {
-        return ((PersistentCompensationRequestState)this.getTheObject()).getThis();
-    }
+    public abstract PersistentCompensationRequestState getThis() throws PersistenceException ;
     
-    public void accept(CompensationRequestStateVisitor visitor) throws PersistenceException {
-        visitor.handleCompensationRequestState(this);
-    }
-    public <R> R accept(CompensationRequestStateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCompensationRequestState(this);
-    }
-    public <E extends UserException>  void accept(CompensationRequestStateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCompensationRequestState(this);
-    }
-    public <R, E extends UserException> R accept(CompensationRequestStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCompensationRequestState(this);
-    }
-    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleCompensationRequestState(this);
-    }
-    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCompensationRequestState(this);
-    }
-    public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCompensationRequestState(this);
-    }
-    public <R, E extends UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCompensationRequestState(this);
-    }
-    public void accept(AnythingVisitor visitor) throws PersistenceException {
-        visitor.handleCompensationRequestState(this);
-    }
-    public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCompensationRequestState(this);
-    }
-    public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCompensationRequestState(this);
-    }
-    public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCompensationRequestState(this);
-    }
     
     
     public void deregister(final ObsInterface observee) 

@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class TransactionsToBeCompensatedCompensationWrapper extends AssociationInTreeWrapper {
+public class StornoStateCompensationWrapper extends AssociationInTreeWrapper {
 
-	public TransactionsToBeCompensatedCompensationWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public StornoStateCompensationWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class TransactionsToBeCompensatedCompensationWrapper extends AssociationI
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association transactionsToBeCompensated in class Compensation
+    	//TODO: Implement toString in wrapper class for association stornoState in class Compensation
     	return this.getWrappedObject().toString();
     }
 

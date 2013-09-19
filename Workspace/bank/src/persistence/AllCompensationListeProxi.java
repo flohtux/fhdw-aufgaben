@@ -22,18 +22,6 @@ public class AllCompensationListeProxi extends PersistentProxi implements Persis
         return 261;
     }
     
-    public PersistentCompensationListe getOutgoingCompensations() throws PersistenceException {
-        return ((PersistentAllCompensationListe)this.getTheObject()).getOutgoingCompensations();
-    }
-    public void setOutgoingCompensations(PersistentCompensationListe newValue) throws PersistenceException {
-        ((PersistentAllCompensationListe)this.getTheObject()).setOutgoingCompensations(newValue);
-    }
-    public PersistentCompensationRequestListe getPendingCompensationRequests() throws PersistenceException {
-        return ((PersistentAllCompensationListe)this.getTheObject()).getPendingCompensationRequests();
-    }
-    public void setPendingCompensationRequests(PersistentCompensationRequestListe newValue) throws PersistenceException {
-        ((PersistentAllCompensationListe)this.getTheObject()).setPendingCompensationRequests(newValue);
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAllCompensationListe)this.getTheObject()).getSubService();
     }
@@ -74,6 +62,14 @@ public class AllCompensationListeProxi extends PersistentProxi implements Persis
 				throws PersistenceException{
         ((PersistentAllCompensationListe)this.getTheObject()).deregister(observee);
     }
+    public PersistentCompensationListe getOutgoingCompensations() 
+				throws PersistenceException{
+        return ((PersistentAllCompensationListe)this.getTheObject()).getOutgoingCompensations();
+    }
+    public PersistentCompensationRequestListe getPendingCompensationRequests() 
+				throws PersistenceException{
+        return ((PersistentAllCompensationListe)this.getTheObject()).getPendingCompensationRequests();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAllCompensationListe)this.getTheObject()).initialize(This, final$$Fields);
@@ -81,6 +77,18 @@ public class AllCompensationListeProxi extends PersistentProxi implements Persis
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentAllCompensationListe)this.getTheObject()).register(observee);
+    }
+    public void setOutgoingCompensations(final PersistentCompensationListe outgoingCompensations) 
+				throws PersistenceException{
+        ((PersistentAllCompensationListe)this.getTheObject()).setOutgoingCompensations(outgoingCompensations);
+    }
+    public void setPendingCompensationRequests(final PersistentCompensationRequestListe pendingCompensationRequests) 
+				throws PersistenceException{
+        ((PersistentAllCompensationListe)this.getTheObject()).setPendingCompensationRequests(pendingCompensationRequests);
+    }
+    public void signalChanges() 
+				throws PersistenceException{
+        ((PersistentAllCompensationListe)this.getTheObject()).signalChanges();
     }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
@@ -97,6 +105,18 @@ public class AllCompensationListeProxi extends PersistentProxi implements Persis
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentAllCompensationListe)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void outgoingCompensations_update(final model.meta.CompensationListeMssgs event) 
+				throws PersistenceException{
+        ((PersistentAllCompensationListe)this.getTheObject()).outgoingCompensations_update(event);
+    }
+    public void pendingCompensationRequests_update(final model.meta.CompensationRequestListeMssgs event) 
+				throws PersistenceException{
+        ((PersistentAllCompensationListe)this.getTheObject()).pendingCompensationRequests_update(event);
+    }
+    public void signalChangesImplementation() 
+				throws PersistenceException{
+        ((PersistentAllCompensationListe)this.getTheObject()).signalChangesImplementation();
     }
 
     

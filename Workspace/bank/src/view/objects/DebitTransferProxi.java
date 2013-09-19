@@ -46,12 +46,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException {
         ((DebitTransfer)this.getTheObject()).setPreviousDebitTransfer(newValue);
     }
-    public StornoStateView getStornoState()throws ModelException{
-        return ((DebitTransfer)this.getTheObject()).getStornoState();
-    }
-    public void setStornoState(StornoStateView newValue) throws ModelException {
-        ((DebitTransfer)this.getTheObject()).setStornoState(newValue);
-    }
     
     
     

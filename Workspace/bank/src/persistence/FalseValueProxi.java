@@ -80,6 +80,10 @@ public class FalseValueProxi extends BooleanValueProxi implements PersistentFals
 				throws PersistenceException{
         ((PersistentFalseValue)this.getTheObject()).updateObservers(event);
     }
+    public PersistentBooleanValue and(final PersistentBooleanValue value) 
+				throws PersistenceException{
+        return ((PersistentFalseValue)this.getTheObject()).and(value);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentFalseValue)this.getTheObject()).copyingPrivateUserAttributes(copy);

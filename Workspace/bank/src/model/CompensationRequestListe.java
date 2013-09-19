@@ -199,6 +199,13 @@ public class CompensationRequestListe extends PersistentObject implements Persis
     }
     
     
+    public void add(final PersistentCompensationRequest t) 
+				throws PersistenceException{
+        model.meta.CompensationRequestListeAddCompensationRequestMssg event = new model.meta.CompensationRequestListeAddCompensationRequestMssg(t, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -236,7 +243,7 @@ public class CompensationRequestListe extends PersistentObject implements Persis
     
     // Start of section that contains operations that must be implemented.
     
-    public void add(final PersistentCompensationRequest t) 
+    public void addImplementation(final PersistentCompensationRequest t) 
 				throws PersistenceException{
         getThis().getCompensationrequests().add(t);
         

@@ -119,6 +119,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException{
         this.handleCommonDate(changeSubjectCommand);
     }
+    public void handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException{
+        this.handleCommonDate(compensationDeclinedCommand);
+    }
     public void handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException{
         this.handleCommonDate(changeReceiverAccountCommand);
     }
@@ -174,6 +177,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
+    public abstract void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException;
+    
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
@@ -203,8 +208,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
     }
-    public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
-    
     public abstract void handleTriggerState(PersistentTriggerState triggerState) throws PersistenceException;
     
     public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{
@@ -213,7 +216,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleEnabledState(PersistentEnabledState enabledState) throws PersistenceException{
         this.handleTriggerState(enabledState);
     }
+    public abstract void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException;
+    
     public abstract void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
+    
+    public abstract void handleAllCompensationListePendingCompensationRequests(PersistentAllCompensationListePendingCompensationRequests allCompensationListePendingCompensationRequests) throws PersistenceException;
     
     public abstract void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException;
     
@@ -253,6 +260,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
         this.handleRule(incomingAccountRule);
     }
+    public abstract void handleAllCompensationListeOutgoingCompensations(PersistentAllCompensationListeOutgoingCompensations allCompensationListeOutgoingCompensations) throws PersistenceException;
+    
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     
     public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;

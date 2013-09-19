@@ -38,6 +38,10 @@ public abstract class BooleanValueProxi extends PersistentProxi implements Persi
 				throws PersistenceException{
         ((PersistentBooleanValue)this.getTheObject()).updateObservers(event);
     }
+    public PersistentBooleanValue and(final PersistentBooleanValue value) 
+				throws PersistenceException{
+        return ((PersistentBooleanValue)this.getTheObject()).and(value);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentBooleanValue)this.getTheObject()).copyingPrivateUserAttributes(copy);

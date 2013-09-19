@@ -16,7 +16,6 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException;
     public R handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
-    public R handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException;
     public R handleMoney(MoneyView money) throws ModelException;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException;

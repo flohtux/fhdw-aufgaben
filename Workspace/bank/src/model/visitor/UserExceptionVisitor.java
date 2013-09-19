@@ -17,6 +17,7 @@ public interface UserExceptionVisitor extends ExecuteExceptionVisitor{
     public void handleCycleException(model.CycleException cycleException) throws PersistenceException;
     public void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
     public void handleMaxLimitLowerThenMinLimitException(model.MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws PersistenceException;
+    public void handleCompensationAbortedException(model.CompensationAbortedException compensationAbortedException) throws PersistenceException;
     public void handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException;
     
 }

@@ -155,7 +155,7 @@ class Account {
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
-	AllCompensationListe allCompensation;
+	observe AllCompensationListe allCompensation;
 	event void remove(AccountPx acc, DebitGrantListe list);
 
 	Transfer createTransfer();
@@ -165,6 +165,7 @@ class Account {
 	active void changeMoney(DebitTransfer trans, Fraction newAmount);
 	active void changeCurrency(DebitTransfer trans, Currency currency);
 	active void changeSubject(DebitTransfer trans, String subject);
+	void executeTransfer(DebitTransferTransaction debitTransfer) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	
 	Debit createDebit();
 	active event void createDebitGrant(Account receiver, LimitType limit) throws GrantAlreadyGivenException; 
@@ -185,6 +186,7 @@ class Account {
 	void answerDecline@@ablehnen(CompensationRequest a);
 	Transaction findContainingTransaction(DebitTransferTransaction dt);
 	void requestCompensationForTransaction(Transaction a);
+	active void compensationDeclined##cmpDeclnd(Compensation compensation, String reason) throws CompensationAbortedException;
 }
 
 class AccountPx {
@@ -203,21 +205,22 @@ class TriggerListe {
 
 
 class AllCompensationListe##AllCmpLst {
-	CompensationListe outgoingCompensations##outgngCmps;
-	CompensationRequestListe pendingCompensationRequests##pndgCmp;
+	observe CompensationListe outgoingCompensations##outgngCmps;
+	observe CompensationRequestListe pendingCompensationRequests##pndgCmp;
+   event void signalChanges();
 }
 
 
 class CompensationListe {
 	Compensation ** compensations;
-	void remove(Compensation t);
-	void add(Compensation t);
+	event void remove(Compensation t);
+	event void add(Compensation t);
 }
 
 class CompensationRequestListe##CmpRqLst {
 	CompensationRequest ** compensationrequests##rqsts;
 	void remove(CompensationRequest t);
-	void add(CompensationRequest t);
+	event void add(CompensationRequest t);
 }
 
 class DebitGrantListe {
@@ -255,6 +258,7 @@ class LimitAccount {
 abstract class BooleanValue(TrueValue,FalseValue){
 	extern boolean isTrue();
 	BooleanValue or(BooleanValue value);
+	BooleanValue and(BooleanValue value);
 }
 
 abstract string-factory class LimitType(NoLimit@@Unbegrenzt) {
@@ -305,7 +309,6 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	TriggerValue invokerTrigger;
 	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg;
 	DebitTransfer previousDebitTransfer##prvdebtra;
-	no-view one-to-one (no-view debitTransfer) StornoState stornoState;
 	abstract Money fetchRealMoney();
   event void changeReceiverBank(Integer receiverBankNumber);
 	event void changeReceiverAccount(Integer receiverAccountNumber);
@@ -383,14 +386,16 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 
 
 class Compensation {
-	DebitTransferTransaction ** transactionsToBeCompensated##2beCmpstd;
 	prior Account requestingAccount;
   observe CompensationRequest ** pendingRequests;
+	one-to-one (no-view debitTransfer) StornoState stornoState;
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
+	void requestCompensationForDebitTransfer(DebitTransfer debitTransfers);
 
 	active void executeCompensation();
+	BooleanValue allAnswered() throws CompensationAbortedException;
 }
 
 class CompensationRequest {
@@ -401,7 +406,7 @@ class CompensationRequest {
 }
 
 
-class CompensationRequestState##CmpReqSt(WaitingState, AcceptedState, DeclinedState) {}
+abstract class CompensationRequestState##CmpReqSt(WaitingState, AcceptedState, DeclinedState) {}
 
 
 
@@ -447,6 +452,8 @@ exception NoValidFeeValueException{}
 exception TriggerCyclicException extends ExecuteException{}
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
+
+exception CompensationAbortedException {prior Compensation compensation;}
 
 }
 

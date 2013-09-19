@@ -451,11 +451,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException {
 		// TODO Auto-generated method stub
 		

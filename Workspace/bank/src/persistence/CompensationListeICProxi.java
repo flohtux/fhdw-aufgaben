@@ -61,6 +61,10 @@ public class CompensationListeICProxi extends PersistentInCacheProxiOptimistic i
     }
     
     
+    public void add(final PersistentCompensation t) 
+				throws PersistenceException{
+        ((PersistentCompensationListe)this.getTheObject()).add(t);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentCompensationListe)this.getTheObject()).deregister(observee);
@@ -73,13 +77,17 @@ public class CompensationListeICProxi extends PersistentInCacheProxiOptimistic i
 				throws PersistenceException{
         ((PersistentCompensationListe)this.getTheObject()).register(observee);
     }
+    public void remove(final PersistentCompensation t) 
+				throws PersistenceException{
+        ((PersistentCompensationListe)this.getTheObject()).remove(t);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentCompensationListe)this.getTheObject()).updateObservers(event);
     }
-    public void add(final PersistentCompensation t) 
+    public void addImplementation(final PersistentCompensation t) 
 				throws PersistenceException{
-        ((PersistentCompensationListe)this.getTheObject()).add(t);
+        ((PersistentCompensationListe)this.getTheObject()).addImplementation(t);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -93,9 +101,9 @@ public class CompensationListeICProxi extends PersistentInCacheProxiOptimistic i
 				throws PersistenceException{
         ((PersistentCompensationListe)this.getTheObject()).initializeOnInstantiation();
     }
-    public void remove(final PersistentCompensation t) 
+    public void removeImplementation(final PersistentCompensation t) 
 				throws PersistenceException{
-        ((PersistentCompensationListe)this.getTheObject()).remove(t);
+        ((PersistentCompensationListe)this.getTheObject()).removeImplementation(t);
     }
 
     

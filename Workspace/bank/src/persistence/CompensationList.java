@@ -2,11 +2,10 @@ package persistence;
 
 import java.util.*;
 
-public class CompensationList {
+public class CompensationList  extends CompensationSearchList{
 
-	protected Vector<PersistentCompensation> data; //List of proxies
 	protected CompensationList() {
-		this.data = new Vector<PersistentCompensation>();
+		super();
 	}
 	public Iterator<PersistentCompensation> iterator(PersistentListProxi<PersistentCompensation> listProxi) {
 		return new PersistentListIterator<PersistentCompensation>(listProxi, this.data);

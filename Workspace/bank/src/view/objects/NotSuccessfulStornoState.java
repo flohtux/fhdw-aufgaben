@@ -1,7 +1,7 @@
 
 package view.objects;
 
-import view.DebitTransferView;
+import view.CompensationView;
 import view.ModelException;
 import view.NotSuccessfulStornoStateView;
 import view.UserException;
@@ -20,9 +20,9 @@ import view.visitor.StornoStateVisitor;
 public class NotSuccessfulStornoState extends view.objects.StornoState implements NotSuccessfulStornoStateView{
     
     
-    public NotSuccessfulStornoState(DebitTransferView debitTransfer,long id, long classId) {
+    public NotSuccessfulStornoState(CompensationView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitTransferView)debitTransfer,id, classId);        
+        super((CompensationView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -60,7 +60,7 @@ public class NotSuccessfulStornoState extends view.objects.StornoState implement
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitTransferView debitTransfer = this.getDebitTransfer();
+        CompensationView debitTransfer = this.getDebitTransfer();
         if (debitTransfer != null) {
             ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }

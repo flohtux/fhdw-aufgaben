@@ -567,17 +567,19 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        //TODO: implement method: answerAcceptWithTrigger
-        
+        getThis().getAccount().answerAcceptWithTrigger(a);
+        getThis().signalChanged(true);        
     }
     public void answerAccept(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        //TODO: implement method: answerAccept
+        getThis().getAccount().answerAccept(a);
+        getThis().signalChanged(true);
         
     }
     public void answerDecline(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        //TODO: implement method: answerDecline
+        getThis().getAccount().answerDecline(a);
+        getThis().signalChanged(true);
         
     }
     public void bankFees_update(final model.meta.BankFeesMssgs event) 
@@ -749,7 +751,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
-    	debitTransfer.execute(getThis());
+    	getThis().getAccount().executeTransfer(debitTransfer);
     	getThis().signalChanged(true);
     }
     public void initializeOnCreation() 

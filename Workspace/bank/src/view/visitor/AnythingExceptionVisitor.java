@@ -16,7 +16,6 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException, E;
     public void handleAccountPx(AccountPxView accountPx) throws ModelException, E;
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
-    public void handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException, E;
     public void handleMoney(MoneyView money) throws ModelException, E;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;

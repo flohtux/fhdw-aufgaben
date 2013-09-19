@@ -62,5 +62,8 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException{
         this.standardHandling(grantAlreadyGivenException);
     }
+    public void handleCompensationAbortedException(CompensationAbortedException compensationAbortedException) throws ModelException{
+        this.standardHandling(compensationAbortedException);
+    }
     protected abstract void standardHandling(UserException userException) throws ModelException;
 }

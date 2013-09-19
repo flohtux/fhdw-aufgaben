@@ -6,9 +6,10 @@ import model.visitor.*;
 
 public interface PersistentCompensation extends SubjInterface, Anything, AbstractPersistentProxi {
     
-    public Compensation_TransactionsToBeCompensatedProxi getTransactionsToBeCompensated() throws PersistenceException ;
     public PersistentAccount getRequestingAccount() throws PersistenceException ;
     public void setRequestingAccount(PersistentAccount newValue) throws PersistenceException ;
+    public PersistentStornoState getStornoState() throws PersistenceException ;
+    public void setStornoState(PersistentStornoState newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCompensation getThis() throws PersistenceException ;
@@ -28,8 +29,13 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public PersistentBooleanValue allAnswered() 
+				throws model.CompensationAbortedException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    /**
+     * Compensates requested debit Transfers with *-1.
+     */
     public void executeCompensation() 
 				throws PersistenceException;
     public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
@@ -41,6 +47,8 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException;
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
+				throws PersistenceException;
+    public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfers) 
 				throws PersistenceException;
 
 }

@@ -16,7 +16,6 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException, E;
     public R handleAccountPx(AccountPxView accountPx) throws ModelException, E;
     public R handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException, E;
-    public R handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException, E;
     public R handleMoney(MoneyView money) throws ModelException, E;
     public R handleDebitGrant(DebitGrantView debitGrant) throws ModelException, E;
     public R handleBankCreator(BankCreatorView bankCreator) throws ModelException, E;

@@ -1,7 +1,7 @@
 
 package view.objects;
 
-import view.DebitTransferView;
+import view.CompensationView;
 import view.ModelException;
 import view.RequestStateView;
 import view.UserException;
@@ -20,9 +20,9 @@ import view.visitor.StornoStateVisitor;
 public class RequestState extends view.objects.StornoState implements RequestStateView{
     
     
-    public RequestState(DebitTransferView debitTransfer,long id, long classId) {
+    public RequestState(CompensationView debitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((DebitTransferView)debitTransfer,id, classId);        
+        super((CompensationView)debitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -60,7 +60,7 @@ public class RequestState extends view.objects.StornoState implements RequestSta
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        DebitTransferView debitTransfer = this.getDebitTransfer();
+        CompensationView debitTransfer = this.getDebitTransfer();
         if (debitTransfer != null) {
             ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
         }

@@ -19,7 +19,7 @@ public class RequestStateProxi extends StornoStateProxi implements RequestStateV
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        RequestStateView result$$ = new RequestState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        RequestStateView result$$ = new RequestState((CompensationView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

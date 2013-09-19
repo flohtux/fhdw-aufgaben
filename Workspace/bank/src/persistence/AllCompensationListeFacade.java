@@ -61,12 +61,12 @@ public class AllCompensationListeFacade{
                 callable.close();
                 return null;
             }
-            PersistentCompensationListe outgoingCompensations = null;
+            PersistentAllCompensationListeOutgoingCompensations outgoingCompensations = null;
             if (obj.getLong(2) != 0)
-                outgoingCompensations = (PersistentCompensationListe)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            PersistentCompensationRequestListe pendingCompensationRequests = null;
+                outgoingCompensations = (PersistentAllCompensationListeOutgoingCompensations)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentAllCompensationListePendingCompensationRequests pendingCompensationRequests = null;
             if (obj.getLong(4) != 0)
-                pendingCompensationRequests = (PersistentCompensationRequestListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+                pendingCompensationRequests = (PersistentAllCompensationListePendingCompensationRequests)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
             if (obj.getLong(6) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
@@ -102,7 +102,7 @@ public class AllCompensationListeFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void outgoingCompensationsSet(long AllCompensationListeId, PersistentCompensationListe outgoingCompensationsVal) throws PersistenceException {
+    public void outgoingCompensationsSet(long AllCompensationListeId, PersistentAllCompensationListeOutgoingCompensations outgoingCompensationsVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AllCmpLstFacade.outgngCmpsSet(?, ?, ?); end;");
@@ -115,7 +115,7 @@ public class AllCompensationListeFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void pendingCompensationRequestsSet(long AllCompensationListeId, PersistentCompensationRequestListe pendingCompensationRequestsVal) throws PersistenceException {
+    public void pendingCompensationRequestsSet(long AllCompensationListeId, PersistentAllCompensationListePendingCompensationRequests pendingCompensationRequestsVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AllCmpLstFacade.pndgCmpSet(?, ?, ?); end;");

@@ -8,9 +8,6 @@ public abstract class CompensationRequestStateStandardVisitor implements Compens
     public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
         this.standardHandling(waitingState);
     }
-    public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException{
-        this.standardHandling(compensationRequestState);
-    }
     public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
         this.standardHandling(declinedState);
     }

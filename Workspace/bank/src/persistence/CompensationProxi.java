@@ -22,14 +22,17 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
         return 254;
     }
     
-    public Compensation_TransactionsToBeCompensatedProxi getTransactionsToBeCompensated() throws PersistenceException {
-        return ((PersistentCompensation)this.getTheObject()).getTransactionsToBeCompensated();
-    }
     public PersistentAccount getRequestingAccount() throws PersistenceException {
         return ((PersistentCompensation)this.getTheObject()).getRequestingAccount();
     }
     public void setRequestingAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentCompensation)this.getTheObject()).setRequestingAccount(newValue);
+    }
+    public PersistentStornoState getStornoState() throws PersistenceException {
+        return ((PersistentCompensation)this.getTheObject()).getStornoState();
+    }
+    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
+        ((PersistentCompensation)this.getTheObject()).setStornoState(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCompensation)this.getTheObject()).getSubService();
@@ -91,6 +94,10 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).updateObservers(event);
     }
+    public PersistentBooleanValue allAnswered() 
+				throws model.CompensationAbortedException, PersistenceException{
+        return ((PersistentCompensation)this.getTheObject()).allAnswered();
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -118,6 +125,10 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfers(debitTransfers);
+    }
+    public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfers) 
+				throws PersistenceException{
+        ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfer(debitTransfers);
     }
 
     

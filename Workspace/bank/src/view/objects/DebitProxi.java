@@ -54,14 +54,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             previousDebitTransfer = view.objects.ViewProxi.createProxi(previousDebitTransfer$Info,connectionKey);
             previousDebitTransfer.setToString(previousDebitTransfer$Info.getToString());
         }
-        ViewProxi stornoState = null;
-        String stornoState$String = (String)resultTable.get("stornoState");
-        if (stornoState$String != null) {
-            common.ProxiInformation stornoState$Info = common.RPCConstantsAndServices.createProxiInformation(stornoState$String);
-            stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
-            stornoState.setToString(stornoState$Info.getToString());
-        }
-        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer,(StornoStateView)stornoState, this.getId(), this.getClassId());
+        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

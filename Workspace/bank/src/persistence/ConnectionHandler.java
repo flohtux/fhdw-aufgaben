@@ -140,6 +140,7 @@ public class ConnectionHandler {
     public MixedFeeFacade theMixedFeeFacade;
     public CompensationRequestFacade theCompensationRequestFacade;
     public AccountPxFacade theAccountPxFacade;
+    public AccountAllCompensationFacade theAccountAllCompensationFacade;
     public TransactionFeeFacade theTransactionFeeFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public UseTemplateCommandFacade theUseTemplateCommandFacade;
@@ -152,6 +153,7 @@ public class ConnectionHandler {
     public CompensationRequestStateFacade theCompensationRequestStateFacade;
     public MoneyFacade theMoneyFacade;
     public TriggerValueFacade theTriggerValueFacade;
+    public AllCompensationListeOutgoingCompensationsFacade theAllCompensationListeOutgoingCompensationsFacade;
     public AccountServiceNotExecutedFacade theAccountServiceNotExecutedFacade;
     public PfundFacade thePfundFacade;
     public SuccessfulStornoStateFacade theSuccessfulStornoStateFacade;
@@ -185,6 +187,7 @@ public class ConnectionHandler {
     public FrankenFacade theFrankenFacade;
     public EnabledStateFacade theEnabledStateFacade;
     public DebitFacade theDebitFacade;
+    public CompensationDeclinedCommandFacade theCompensationDeclinedCommandFacade;
     public DebitGrantListeFacade theDebitGrantListeFacade;
     public AccountTriggerListeFacade theAccountTriggerListeFacade;
     public AccountServiceFacade theAccountServiceFacade;
@@ -200,6 +203,7 @@ public class ConnectionHandler {
     public TriggerStateFacade theTriggerStateFacade;
     public NotExecutableStateFacade theNotExecutableStateFacade;
     public CompensationListeFacade theCompensationListeFacade;
+    public AllCompensationListePendingCompensationRequestsFacade theAllCompensationListePendingCompensationRequestsFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
     public TransactionFacade theTransactionFacade;
     public BankFacade theBankFacade;
@@ -268,6 +272,7 @@ public class ConnectionHandler {
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
             this.theCompensationRequestFacade= new CompensationRequestFacade(this.schemaName, this.con);
             this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
+            this.theAccountAllCompensationFacade= new AccountAllCompensationFacade(this.schemaName, this.con);
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
@@ -280,6 +285,7 @@ public class ConnectionHandler {
             this.theCompensationRequestStateFacade= new CompensationRequestStateFacade(this.schemaName, this.con);
             this.theMoneyFacade= new MoneyFacade(this.schemaName, this.con);
             this.theTriggerValueFacade= new TriggerValueFacade(this.schemaName, this.con);
+            this.theAllCompensationListeOutgoingCompensationsFacade= new AllCompensationListeOutgoingCompensationsFacade(this.schemaName, this.con);
             this.theAccountServiceNotExecutedFacade= new AccountServiceNotExecutedFacade(this.schemaName, this.con);
             this.thePfundFacade= new PfundFacade(this.schemaName, this.con);
             this.theSuccessfulStornoStateFacade= new SuccessfulStornoStateFacade(this.schemaName, this.con);
@@ -313,6 +319,7 @@ public class ConnectionHandler {
             this.theFrankenFacade= new FrankenFacade(this.schemaName, this.con);
             this.theEnabledStateFacade= new EnabledStateFacade(this.schemaName, this.con);
             this.theDebitFacade= new DebitFacade(this.schemaName, this.con);
+            this.theCompensationDeclinedCommandFacade= new CompensationDeclinedCommandFacade(this.schemaName, this.con);
             this.theDebitGrantListeFacade= new DebitGrantListeFacade(this.schemaName, this.con);
             this.theAccountTriggerListeFacade= new AccountTriggerListeFacade(this.schemaName, this.con);
             this.theAccountServiceFacade= new AccountServiceFacade(this.schemaName, this.con);
@@ -328,6 +335,7 @@ public class ConnectionHandler {
             this.theTriggerStateFacade= new TriggerStateFacade(this.schemaName, this.con);
             this.theNotExecutableStateFacade= new NotExecutableStateFacade(this.schemaName, this.con);
             this.theCompensationListeFacade= new CompensationListeFacade(this.schemaName, this.con);
+            this.theAllCompensationListePendingCompensationRequestsFacade= new AllCompensationListePendingCompensationRequestsFacade(this.schemaName, this.con);
             this.theCommandExecuterFacade= new CommandExecuterFacade(this.schemaName, this.con);
             this.theTransactionFacade= new TransactionFacade(this.schemaName, this.con);
             this.theBankFacade= new BankFacade(this.schemaName, this.con);

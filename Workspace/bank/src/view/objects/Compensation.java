@@ -4,8 +4,8 @@ package view.objects;
 import view.AccountView;
 import view.CompensationRequestView;
 import view.CompensationView;
-import view.DebitTransferTransactionView;
 import view.ModelException;
+import view.StornoStateView;
 import view.UserException;
 import view.visitor.AnythingExceptionVisitor;
 import view.visitor.AnythingReturnExceptionVisitor;
@@ -17,16 +17,16 @@ import view.visitor.AnythingVisitor;
 
 public class Compensation extends ViewObject implements CompensationView{
     
-    protected java.util.Vector<DebitTransferTransactionView> transactionsToBeCompensated;
     protected AccountView requestingAccount;
     protected java.util.Vector<CompensationRequestView> pendingRequests;
+    protected StornoStateView stornoState;
     
-    public Compensation(java.util.Vector<DebitTransferTransactionView> transactionsToBeCompensated,AccountView requestingAccount,java.util.Vector<CompensationRequestView> pendingRequests,long id, long classId) {
+    public Compensation(AccountView requestingAccount,java.util.Vector<CompensationRequestView> pendingRequests,StornoStateView stornoState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.transactionsToBeCompensated = transactionsToBeCompensated;
         this.requestingAccount = requestingAccount;
-        this.pendingRequests = pendingRequests;        
+        this.pendingRequests = pendingRequests;
+        this.stornoState = stornoState;        
     }
     
     static public long getTypeId() {
@@ -37,12 +37,6 @@ public class Compensation extends ViewObject implements CompensationView{
         return getTypeId();
     }
     
-    public java.util.Vector<DebitTransferTransactionView> getTransactionsToBeCompensated()throws ModelException{
-        return this.transactionsToBeCompensated;
-    }
-    public void setTransactionsToBeCompensated(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
-        this.transactionsToBeCompensated = newValue;
-    }
     public AccountView getRequestingAccount()throws ModelException{
         return this.requestingAccount;
     }
@@ -54,6 +48,12 @@ public class Compensation extends ViewObject implements CompensationView{
     }
     public void setPendingRequests(java.util.Vector<CompensationRequestView> newValue) throws ModelException {
         this.pendingRequests = newValue;
+    }
+    public StornoStateView getStornoState()throws ModelException{
+        return this.stornoState;
+    }
+    public void setStornoState(StornoStateView newValue) throws ModelException {
+        this.stornoState = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -70,10 +70,6 @@ public class Compensation extends ViewObject implements CompensationView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        java.util.Vector<?> transactionsToBeCompensated = this.getTransactionsToBeCompensated();
-        if (transactionsToBeCompensated != null) {
-            ViewObject.resolveVectorProxies(transactionsToBeCompensated, resultTable);
-        }
         AccountView requestingAccount = this.getRequestingAccount();
         if (requestingAccount != null) {
             ((ViewProxi)requestingAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(requestingAccount.getClassId(), requestingAccount.getId())));
@@ -82,6 +78,10 @@ public class Compensation extends ViewObject implements CompensationView{
         if (pendingRequests != null) {
             ViewObject.resolveVectorProxies(pendingRequests, resultTable);
         }
+        StornoStateView stornoState = this.getStornoState();
+        if (stornoState != null) {
+            ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -89,33 +89,28 @@ public class Compensation extends ViewObject implements CompensationView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getTransactionsToBeCompensated().size()) return new TransactionsToBeCompensatedCompensationWrapper(this, originalIndex, (ViewRoot)this.getTransactionsToBeCompensated().get(index));
-        index = index - this.getTransactionsToBeCompensated().size();
         if(index == 0 && this.getRequestingAccount() != null) return new RequestingAccountCompensationWrapper(this, originalIndex, (ViewRoot)this.getRequestingAccount());
         if(this.getRequestingAccount() != null) index = index - 1;
         if(index < this.getPendingRequests().size()) return new PendingRequestsCompensationWrapper(this, originalIndex, (ViewRoot)this.getPendingRequests().get(index));
         index = index - this.getPendingRequests().size();
+        if(index == 0 && this.getStornoState() != null) return new StornoStateCompensationWrapper(this, originalIndex, (ViewRoot)this.getStornoState());
+        if(this.getStornoState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getTransactionsToBeCompensated().size())
             + (this.getRequestingAccount() == null ? 0 : 1)
-            + (this.getPendingRequests().size());
+            + (this.getPendingRequests().size())
+            + (this.getStornoState() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getTransactionsToBeCompensated().size() == 0)
             && (this.getRequestingAccount() == null ? true : false)
-            && (this.getPendingRequests().size() == 0);
+            && (this.getPendingRequests().size() == 0)
+            && (this.getStornoState() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getTransactionsToBeCompensatedIterator = this.getTransactionsToBeCompensated().iterator();
-        while(getTransactionsToBeCompensatedIterator.hasNext()){
-            if(getTransactionsToBeCompensatedIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
         if(this.getRequestingAccount() != null && this.getRequestingAccount().equals(child)) return result;
         if(this.getRequestingAccount() != null) result = result + 1;
         java.util.Iterator<?> getPendingRequestsIterator = this.getPendingRequests().iterator();
@@ -123,6 +118,8 @@ public class Compensation extends ViewObject implements CompensationView{
             if(getPendingRequestsIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getStornoState() != null && this.getStornoState().equals(child)) return result;
+        if(this.getStornoState() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

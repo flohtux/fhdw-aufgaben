@@ -769,9 +769,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleMoneyRule(view.MoneyRuleView object){
         result = new MoneyRuleDefaultDetailPanel(handler, object);
     }
-    public void handleCompensationRequestState(view.CompensationRequestStateView object){
-        result = new CompensationRequestStateDefaultDetailPanel(handler, object);
-    }
     public void handleMoney(view.MoneyView object){
         result = new MoneyDefaultDetailPanel(handler, object);
     }
@@ -906,9 +903,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
 @SuppressWarnings("serial")
 class CompensationDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String Compensation$$transactionsToBeCompensated = "Compensation$$transactionsToBeCompensated";
     protected static final String Compensation$$requestingAccount = "Compensation$$requestingAccount";
     protected static final String Compensation$$pendingRequests = "Compensation$$pendingRequests";
+    protected static final String Compensation$$stornoState = "Compensation$$stornoState";
     
     protected CompensationDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1315,20 +1312,6 @@ class MoneyRuleDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.MoneyRuleView getAnything(){
         return (view.MoneyRuleView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class CompensationRequestStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected CompensationRequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.CompensationRequestStateView getAnything(){
-        return (view.CompensationRequestStateView)this.anything;
     }
 }
 

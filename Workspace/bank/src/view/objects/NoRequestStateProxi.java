@@ -19,7 +19,7 @@ public class NoRequestStateProxi extends StornoStateProxi implements NoRequestSt
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NoRequestStateView result$$ = new NoRequestState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        NoRequestStateView result$$ = new NoRequestState((CompensationView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

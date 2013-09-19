@@ -19,7 +19,7 @@ public class NotSuccessfulStornoStateProxi extends StornoStateProxi implements N
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        NotSuccessfulStornoStateView result$$ = new NotSuccessfulStornoState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        NotSuccessfulStornoStateView result$$ = new NotSuccessfulStornoState((CompensationView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

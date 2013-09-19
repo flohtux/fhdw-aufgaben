@@ -17,6 +17,7 @@ public interface UserExceptionVisitor extends ExecuteExceptionVisitor{
     public void handleCycleException(CycleException cycleException) throws ModelException;
     public void handleCloseAccountNoPossibleException(CloseAccountNoPossibleException closeAccountNoPossibleException) throws ModelException;
     public void handleMaxLimitLowerThenMinLimitException(MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws ModelException;
+    public void handleCompensationAbortedException(CompensationAbortedException compensationAbortedException) throws ModelException;
     public void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
     
 }

@@ -30,7 +30,6 @@ import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
 import persistence.PersistentNoTrigger;
-import persistence.PersistentStornoState;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
@@ -103,7 +102,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
                            this.money, 
                            this.invokerTrigger, 
                            this.previousDebitTransfer, 
-                           this.stornoState, 
                            this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -113,9 +111,9 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         return false;
     }
     
-    public Debit(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,PersistentStornoState stornoState,long id) throws persistence.PersistenceException {
+    public Debit(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,(PersistentStornoState)stornoState,id);        
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,id);        
     }
     
     static public long getTypeId() {
@@ -249,7 +247,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
         getThis().setState(NotExecutedState.createNotExecutedState());
-        getThis().setStornoState(NoRequestState.getTheNoRequestState());
         getThis().setInvokerTrigger(NoTrigger.createNoTrigger());
     }
     public void initializeOnInstantiation() 
@@ -269,7 +266,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		copy.setSender(getThis().getSender());
 		copy.setState(getThis().getState());
 		copy.setSubject(getThis().getSubject());
-		copy.setStornoState(getThis().getStornoState());
 		copy.setTimestamp(getThis().getTimestamp());
 		return copy;
 	}

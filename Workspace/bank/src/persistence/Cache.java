@@ -262,6 +262,7 @@ public class Cache {
 		this.number2NameMap = new Hashtable<Integer,String>();
 		this.number2NameMap.put(265, "AcceptedState");
 		this.number2NameMap.put(133, "Account");
+		this.number2NameMap.put(271, "AccountAllCompensation");
 		this.number2NameMap.put(226, "AccountDebitTransferTransactions");
 		this.number2NameMap.put(206, "AccountGrantedDebitGrant");
 		this.number2NameMap.put(203, "AccountPx");
@@ -276,6 +277,8 @@ public class Cache {
 		this.number2NameMap.put(125, "AdministratorBanks");
 		this.number2NameMap.put(183, "AdministratorCurrencyManager");
 		this.number2NameMap.put(261, "AllCompensationListe");
+		this.number2NameMap.put(269, "AllCompensationListeOutgoingCompensations");
+		this.number2NameMap.put(270, "AllCompensationListePendingCompensationRequests");
 		this.number2NameMap.put(115, "Amount");
 		this.number2NameMap.put(-149, "Bank");
 		this.number2NameMap.put(152, "BankCreator");
@@ -293,11 +296,11 @@ public class Cache {
 		this.number2NameMap.put(-145, "CommandExecuter");
 		this.number2NameMap.put(111, "CommonDate");
 		this.number2NameMap.put(254, "Compensation");
+		this.number2NameMap.put(268, "CompensationDeclinedCommand");
 		this.number2NameMap.put(259, "CompensationListe");
 		this.number2NameMap.put(257, "CompensationPendingRequests");
 		this.number2NameMap.put(256, "CompensationRequest");
 		this.number2NameMap.put(260, "CompensationRequestListe");
-		this.number2NameMap.put(264, "CompensationRequestState");
 		this.number2NameMap.put(107, "CreateAccountCommand");
 		this.number2NameMap.put(118, "CreateBankCommand");
 		this.number2NameMap.put(198, "CreateDebitGrantCommand");

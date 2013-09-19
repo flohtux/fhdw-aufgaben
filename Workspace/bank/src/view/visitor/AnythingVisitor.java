@@ -16,7 +16,6 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleCompensationRequest(CompensationRequestView compensationRequest) throws ModelException;
     public void handleAccountPx(AccountPxView accountPx) throws ModelException;
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
-    public void handleCompensationRequestState(CompensationRequestStateView compensationRequestState) throws ModelException;
     public void handleMoney(MoneyView money) throws ModelException;
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     public void handleBankCreator(BankCreatorView bankCreator) throws ModelException;

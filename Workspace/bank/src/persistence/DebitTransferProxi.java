@@ -45,12 +45,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setPreviousDebitTransfer(newValue);
     }
-    public PersistentStornoState getStornoState() throws PersistenceException {
-        return ((PersistentDebitTransfer)this.getTheObject()).getStornoState();
-    }
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
-        ((PersistentDebitTransfer)this.getTheObject()).setStornoState(newValue);
-    }
     public abstract PersistentDebitTransfer getThis() throws PersistenceException ;
     
     

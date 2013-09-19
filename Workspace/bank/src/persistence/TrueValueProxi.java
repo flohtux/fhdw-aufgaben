@@ -80,6 +80,10 @@ public class TrueValueProxi extends BooleanValueProxi implements PersistentTrueV
 				throws PersistenceException{
         ((PersistentTrueValue)this.getTheObject()).updateObservers(event);
     }
+    public PersistentBooleanValue and(final PersistentBooleanValue value) 
+				throws PersistenceException{
+        return ((PersistentTrueValue)this.getTheObject()).and(value);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTrueValue)this.getTheObject()).copyingPrivateUserAttributes(copy);

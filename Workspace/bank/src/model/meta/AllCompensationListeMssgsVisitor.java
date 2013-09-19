@@ -5,11 +5,13 @@ public interface AllCompensationListeMssgsVisitor extends AllCompensationListeDO
 
 interface AllCompensationListeDOWNMssgsVisitor  {
 
+    public void handleAllCompensationListeSignalChangesMssg(AllCompensationListeSignalChangesMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface AllCompensationListeUPMssgsVisitor  {
 
+    public void handleAllCompensationListeSignalChangesMssg(AllCompensationListeSignalChangesMssg event) throws persistence.PersistenceException;
     
 }

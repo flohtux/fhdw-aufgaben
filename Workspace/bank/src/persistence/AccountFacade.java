@@ -80,9 +80,9 @@ public class AccountFacade{
             PersistentAccountTriggerListe triggerListe = null;
             if (obj.getLong(13) != 0)
                 triggerListe = (PersistentAccountTriggerListe)PersistentProxi.createProxi(obj.getLong(13), obj.getLong(14));
-            PersistentAllCompensationListe allCompensation = null;
+            PersistentAccountAllCompensation allCompensation = null;
             if (obj.getLong(15) != 0)
-                allCompensation = (PersistentAllCompensationListe)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
+                allCompensation = (PersistentAccountAllCompensation)PersistentProxi.createProxi(obj.getLong(15), obj.getLong(16));
             SubjInterface subService = null;
             if (obj.getLong(17) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(17), obj.getLong(18));
@@ -236,7 +236,7 @@ public class AccountFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void allCompensationSet(long AccountId, PersistentAllCompensationListe allCompensationVal) throws PersistenceException {
+    public void allCompensationSet(long AccountId, PersistentAccountAllCompensation allCompensationVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntFacade.allCmpnstnSet(?, ?, ?); end;");

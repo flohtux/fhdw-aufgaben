@@ -13,8 +13,6 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
     
     @SuppressWarnings("unchecked")
     public CompensationView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        java.util.Vector<String> transactionsToBeCompensated_string = (java.util.Vector<String>)resultTable.get("transactionsToBeCompensated");
-        java.util.Vector<DebitTransferTransactionView> transactionsToBeCompensated = ViewProxi.getProxiVector(transactionsToBeCompensated_string, connectionKey);
         ViewProxi requestingAccount = null;
         String requestingAccount$String = (String)resultTable.get("requestingAccount");
         if (requestingAccount$String != null) {
@@ -24,7 +22,14 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
         }
         java.util.Vector<String> pendingRequests_string = (java.util.Vector<String>)resultTable.get("pendingRequests");
         java.util.Vector<CompensationRequestView> pendingRequests = ViewProxi.getProxiVector(pendingRequests_string, connectionKey);
-        CompensationView result$$ = new Compensation(transactionsToBeCompensated,(AccountView)requestingAccount,pendingRequests, this.getId(), this.getClassId());
+        ViewProxi stornoState = null;
+        String stornoState$String = (String)resultTable.get("stornoState");
+        if (stornoState$String != null) {
+            common.ProxiInformation stornoState$Info = common.RPCConstantsAndServices.createProxiInformation(stornoState$String);
+            stornoState = view.objects.ViewProxi.createProxi(stornoState$Info,connectionKey);
+            stornoState.setToString(stornoState$Info.getToString());
+        }
+        CompensationView result$$ = new Compensation((AccountView)requestingAccount,pendingRequests,(StornoStateView)stornoState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -34,34 +39,29 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getTransactionsToBeCompensated().size()) return new TransactionsToBeCompensatedCompensationWrapper(this, originalIndex, (ViewRoot)this.getTransactionsToBeCompensated().get(index));
-        index = index - this.getTransactionsToBeCompensated().size();
         if(index == 0 && this.getRequestingAccount() != null) return new RequestingAccountCompensationWrapper(this, originalIndex, (ViewRoot)this.getRequestingAccount());
         if(this.getRequestingAccount() != null) index = index - 1;
         if(index < this.getPendingRequests().size()) return new PendingRequestsCompensationWrapper(this, originalIndex, (ViewRoot)this.getPendingRequests().get(index));
         index = index - this.getPendingRequests().size();
+        if(index == 0 && this.getStornoState() != null) return new StornoStateCompensationWrapper(this, originalIndex, (ViewRoot)this.getStornoState());
+        if(this.getStornoState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getTransactionsToBeCompensated().size())
             + (this.getRequestingAccount() == null ? 0 : 1)
-            + (this.getPendingRequests().size());
+            + (this.getPendingRequests().size())
+            + (this.getStornoState() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getTransactionsToBeCompensated().size() == 0)
             && (this.getRequestingAccount() == null ? true : false)
-            && (this.getPendingRequests().size() == 0);
+            && (this.getPendingRequests().size() == 0)
+            && (this.getStornoState() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getTransactionsToBeCompensatedIterator = this.getTransactionsToBeCompensated().iterator();
-        while(getTransactionsToBeCompensatedIterator.hasNext()){
-            if(getTransactionsToBeCompensatedIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
         if(this.getRequestingAccount() != null && this.getRequestingAccount().equals(child)) return result;
         if(this.getRequestingAccount() != null) result = result + 1;
         java.util.Iterator<?> getPendingRequestsIterator = this.getPendingRequests().iterator();
@@ -69,15 +69,11 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
             if(getPendingRequestsIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getStornoState() != null && this.getStornoState().equals(child)) return result;
+        if(this.getStornoState() != null) result = result + 1;
         return -1;
     }
     
-    public java.util.Vector<DebitTransferTransactionView> getTransactionsToBeCompensated()throws ModelException{
-        return ((Compensation)this.getTheObject()).getTransactionsToBeCompensated();
-    }
-    public void setTransactionsToBeCompensated(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
-        ((Compensation)this.getTheObject()).setTransactionsToBeCompensated(newValue);
-    }
     public AccountView getRequestingAccount()throws ModelException{
         return ((Compensation)this.getTheObject()).getRequestingAccount();
     }
@@ -89,6 +85,12 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
     }
     public void setPendingRequests(java.util.Vector<CompensationRequestView> newValue) throws ModelException {
         ((Compensation)this.getTheObject()).setPendingRequests(newValue);
+    }
+    public StornoStateView getStornoState()throws ModelException{
+        return ((Compensation)this.getTheObject()).getStornoState();
+    }
+    public void setStornoState(StornoStateView newValue) throws ModelException {
+        ((Compensation)this.getTheObject()).setStornoState(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

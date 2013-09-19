@@ -17,8 +17,6 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public DebitTransfer_NextDebitTransferTransactionstriggersProxi getNextDebitTransferTransactionstriggers() throws PersistenceException ;
     public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException ;
     public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
-    public PersistentStornoState getStornoState() throws PersistenceException ;
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException ;
     public abstract PersistentDebitTransfer getThis() throws PersistenceException ;
     
     public void accept(DebitTransferVisitor visitor) throws PersistenceException;

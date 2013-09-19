@@ -19,7 +19,7 @@ public class SuccessfulStornoStateProxi extends StornoStateProxi implements Succ
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
-        SuccessfulStornoStateView result$$ = new SuccessfulStornoState((DebitTransferView)debitTransfer, this.getId(), this.getClassId());
+        SuccessfulStornoStateView result$$ = new SuccessfulStornoState((CompensationView)debitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

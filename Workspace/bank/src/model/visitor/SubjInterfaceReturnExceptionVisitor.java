@@ -27,7 +27,6 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public R handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException, E;
-    public R handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException, E;
     public R handleMoney(PersistentMoney money) throws PersistenceException, E;
     public R handleBank(PersistentBank bank) throws PersistenceException, E;
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;

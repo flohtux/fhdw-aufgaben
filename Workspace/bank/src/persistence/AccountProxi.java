@@ -40,12 +40,6 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException {
         ((PersistentAccount)this.getTheObject()).setLimit(newValue);
     }
-    public PersistentAllCompensationListe getAllCompensation() throws PersistenceException {
-        return ((PersistentAccount)this.getTheObject()).getAllCompensation();
-    }
-    public void setAllCompensation(PersistentAllCompensationListe newValue) throws PersistenceException {
-        ((PersistentAccount)this.getTheObject()).setAllCompensation(newValue);
-    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentAccount)this.getTheObject()).getSubService();
     }
@@ -102,6 +96,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).changeSubject(trans, subject, invoker);
     }
+    public void compensationDeclined(final PersistentCompensation compensation, final String reason, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).compensationDeclined(compensation, reason, invoker);
+    }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).createDebitGrant(receiver, limit);
@@ -117,6 +115,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public PersistentAccountService getAccountService() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getAccountService();
+    }
+    public PersistentAllCompensationListe getAllCompensation() 
+				throws PersistenceException{
+        return ((PersistentAccount)this.getTheObject()).getAllCompensation();
     }
     public PersistentBank getBank() 
 				throws PersistenceException{
@@ -150,6 +152,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).remove(acc, list);
     }
+    public void setAllCompensation(final PersistentAllCompensationListe allCompensation) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).setAllCompensation(allCompensation);
+    }
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).setGrantedDebitGrant(grantedDebitGrant);
@@ -177,6 +183,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).addToTransaction(transaction, debitTransfer);
+    }
+    public void allCompensation_update(final model.meta.AllCompensationListeMssgs event) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).allCompensation_update(event);
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
@@ -214,6 +224,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws model.ExecuteException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).checkAllTriggers(incomingDebitTransfer);
     }
+    public void compensationDeclined(final PersistentCompensation compensation, final String reason) 
+				throws model.CompensationAbortedException, PersistenceException{
+        ((PersistentAccount)this.getTheObject()).compensationDeclined(compensation, reason);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -245,6 +259,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).debitTransferTransactions_update(event);
+    }
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
+        ((PersistentAccount)this.getTheObject()).executeTransfer(debitTransfer);
     }
     public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
 				throws PersistenceException{

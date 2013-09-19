@@ -8,20 +8,12 @@ public interface PersistentCompensationRequestState extends SubjInterface, Anyth
     
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
-    public PersistentCompensationRequestState getThis() throws PersistenceException ;
+    public abstract PersistentCompensationRequestState getThis() throws PersistenceException ;
     
     public void accept(CompensationRequestStateVisitor visitor) throws PersistenceException;
     public <R> R accept(CompensationRequestStateReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends UserException>  void accept(CompensationRequestStateExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(CompensationRequestStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
-    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException;
-    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException;
-    public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
-    public <R, E extends UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
-    public void accept(AnythingVisitor visitor) throws PersistenceException;
-    public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException;
-    public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
-    public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;

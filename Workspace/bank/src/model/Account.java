@@ -1,6 +1,8 @@
 
 package model;
 
+import model.meta.AllCompensationListeMssgsVisitor;
+import model.meta.AllCompensationListeSignalChangesMssg;
 import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
 import model.meta.DebitGrantListeRemoveAccountPxMssg;
@@ -36,6 +38,7 @@ import persistence.Invoker;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
+import persistence.PersistentAccountAllCompensation;
 import persistence.PersistentAccountDebitTransferTransactions;
 import persistence.PersistentAccountGrantedDebitGrant;
 import persistence.PersistentAccountPx;
@@ -50,6 +53,7 @@ import persistence.PersistentChangeReceiverAccountCommand;
 import persistence.PersistentChangeReceiverBankCommand;
 import persistence.PersistentChangeSubjectCommand;
 import persistence.PersistentCompensation;
+import persistence.PersistentCompensationDeclinedCommand;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
@@ -220,11 +224,11 @@ public class Account extends PersistentObject implements PersistentAccount{
     protected PersistentAccountGrantedDebitGrant grantedDebitGrant;
     protected PersistentAccountReceivedDebitGrant receivedDebitGrant;
     protected PersistentAccountTriggerListe triggerListe;
-    protected PersistentAllCompensationListe allCompensation;
+    protected PersistentAccountAllCompensation allCompensation;
     protected SubjInterface subService;
     protected PersistentAccount This;
     
-    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountDebitTransferTransactions debitTransferTransactions,PersistentAccountGrantedDebitGrant grantedDebitGrant,PersistentAccountReceivedDebitGrant receivedDebitGrant,PersistentAccountTriggerListe triggerListe,PersistentAllCompensationListe allCompensation,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
+    public Account(long accountNumber,PersistentMoney money,PersistentLimitAccount limit,PersistentAccountDebitTransferTransactions debitTransferTransactions,PersistentAccountGrantedDebitGrant grantedDebitGrant,PersistentAccountReceivedDebitGrant receivedDebitGrant,PersistentAccountTriggerListe triggerListe,PersistentAccountAllCompensation allCompensation,SubjInterface subService,PersistentAccount This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.accountNumber = accountNumber;
@@ -276,9 +280,9 @@ public class Account extends PersistentObject implements PersistentAccount{
             this.triggerListe.store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.triggerListeSet(this.getId(), triggerListe);
         }
-        if(this.getAllCompensation() != null){
-            this.getAllCompensation().store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.allCompensationSet(this.getId(), getAllCompensation());
+        if(this.allCompensation != null){
+            this.allCompensation.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountFacade.allCompensationSet(this.getId(), allCompensation);
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -370,15 +374,12 @@ public class Account extends PersistentObject implements PersistentAccount{
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.triggerListeSet(this.getId(), newValue);
         }
     }
-    public PersistentAllCompensationListe getAllCompensation() throws PersistenceException {
-        return this.allCompensation;
-    }
-    public void setAllCompensation(PersistentAllCompensationListe newValue) throws PersistenceException {
+    protected void setAllCompensation(PersistentAccountAllCompensation newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.allCompensation)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.allCompensation = (PersistentAllCompensationListe)PersistentProxi.createProxi(objectId, classId);
+        this.allCompensation = (PersistentAccountAllCompensation)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.allCompensationSet(this.getId(), newValue);
@@ -502,6 +503,15 @@ public class Account extends PersistentObject implements PersistentAccount{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public void compensationDeclined(final PersistentCompensation compensation, final String reason, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentCompensationDeclinedCommand command = model.meta.CompensationDeclinedCommand.createCompensationDeclinedCommand(reason, now, now);
+		command.setCompensation(compensation);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public void createDebitGrant(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException{
         model.meta.AccountCreateDebitGrantAccountLimitTypeMssg event = new model.meta.AccountCreateDebitGrantAccountLimitTypeMssg(receiver, limit, getThis());
@@ -536,6 +546,11 @@ public class Account extends PersistentObject implements PersistentAccount{
 							.inverseGetAccount(this.getId(), this.getClassId()).iterator().next();
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
+    }
+    public PersistentAllCompensationListe getAllCompensation() 
+				throws PersistenceException{
+        if (this.allCompensation== null) return null;
+		return this.allCompensation.getObservee();
     }
     public PersistentBank getBank() 
 				throws PersistenceException{
@@ -592,6 +607,14 @@ public class Account extends PersistentObject implements PersistentAccount{
 		event.execute();
 		getThis().updateObservers(event);
 		event.getResult();
+    }
+    public void setAllCompensation(final PersistentAllCompensationListe allCompensation) 
+				throws PersistenceException{
+        if (this.allCompensation == null) {
+			this.setAllCompensation(model.AccountAllCompensation.createAccountAllCompensation(this.isDelayed$Persistence()));
+			this.allCompensation.setObserver(getThis());
+		}
+		this.allCompensation.setObservee(allCompensation);
     }
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException{
@@ -688,6 +711,15 @@ public class Account extends PersistentObject implements PersistentAccount{
  			}
  		});
     }
+    public void allCompensation_update(final model.meta.AllCompensationListeMssgs event) 
+				throws PersistenceException{
+        event.accept(new AllCompensationListeMssgsVisitor() {
+			public void handleAllCompensationListeSignalChangesMssg(AllCompensationListeSignalChangesMssg event) throws PersistenceException {
+				getThis().getAccountService().signalChanged(true);
+			}
+		});
+        
+    }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
     	a.changeState(AcceptedState.getTheAcceptedState());
@@ -740,6 +772,12 @@ public class Account extends PersistentObject implements PersistentAccount{
 				argument.executeTrigger(incomingDebitTransfer, getThis().getAccountService());
 			}
 		});
+    }
+    public void compensationDeclined(final PersistentCompensation compensation, final String reason) 
+				throws model.CompensationAbortedException, PersistenceException{
+        getThis().getAllCompensation().getOutgoingCompensations().remove(compensation);
+        throw new CompensationAbortedException(compensation, reason);
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -829,6 +867,10 @@ public class Account extends PersistentObject implements PersistentAccount{
         
 		this.checkTrigger(event);
     }
+    public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
+				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
+    	debitTransfer.execute(getThis().getAccountService());
+    }
     public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
 				throws PersistenceException{
     	return (PersistentTransaction) getThis().getDebitTransferTransactions().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
@@ -913,6 +955,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
     	final PersistentCompensation comp = Compensation.createCompensation(getThis());
     	comp.initializeDebitTransferTransaction(dtr);
+    	getThis().getAllCompensation().getOutgoingCompensations().add(comp);
     	
     }
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 

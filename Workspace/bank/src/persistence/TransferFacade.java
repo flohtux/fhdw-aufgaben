@@ -28,7 +28,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
+            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -44,7 +44,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
+            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -86,9 +86,6 @@ public class TransferFacade{
             PersistentDebitTransfer previousDebitTransfer = null;
             if (obj.getLong(18) != 0)
                 previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(18), obj.getLong(19));
-            PersistentStornoState stornoState = null;
-            if (obj.getLong(20) != 0)
-                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(20), obj.getLong(21));
             Transfer result = new Transfer(obj.getTimestamp(2),
                                            obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                            sender,
@@ -100,7 +97,6 @@ public class TransferFacade{
                                            money,
                                            invokerTrigger,
                                            previousDebitTransfer,
-                                           stornoState,
                                            TransferId);
             obj.close();
             callable.close();

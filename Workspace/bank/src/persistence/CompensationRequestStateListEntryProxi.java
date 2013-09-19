@@ -1,6 +1,6 @@
 package persistence;
 
-public class CompensationRequestStateListEntryProxi extends CompensationRequestStateProxi implements PersistentCompensationRequestStateListEntryProxi {
+public abstract class CompensationRequestStateListEntryProxi extends CompensationRequestStateProxi implements PersistentCompensationRequestStateListEntryProxi {
 
   long entryId;
 

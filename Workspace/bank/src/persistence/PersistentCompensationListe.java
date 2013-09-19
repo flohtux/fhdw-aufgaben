@@ -20,9 +20,13 @@ public interface PersistentCompensationListe extends SubjInterface, Anything, Ab
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void add(final PersistentCompensation t) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void add(final PersistentCompensation t) 
+    public void remove(final PersistentCompensation t) 
+				throws PersistenceException;
+    public void addImplementation(final PersistentCompensation t) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
@@ -30,7 +34,7 @@ public interface PersistentCompensationListe extends SubjInterface, Anything, Ab
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void remove(final PersistentCompensation t) 
+    public void removeImplementation(final PersistentCompensation t) 
 				throws PersistenceException;
 
 }

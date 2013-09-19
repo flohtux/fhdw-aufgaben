@@ -7,7 +7,6 @@ import view.DebitTransferTransactionView;
 import view.DebitTransferView;
 import view.ModelException;
 import view.MoneyView;
-import view.StornoStateView;
 import view.TransferView;
 import view.TriggerValueView;
 import view.UserException;
@@ -30,9 +29,9 @@ import view.visitor.DebitTransferVisitor;
 public class Transfer extends view.objects.DebitTransfer implements TransferView{
     
     
-    public Transfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,StornoStateView stornoState,long id, long classId) {
+    public Transfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer,(StornoStateView)stornoState,id, classId);        
+        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -105,10 +104,6 @@ public class Transfer extends view.objects.DebitTransfer implements TransferView
         DebitTransferView previousDebitTransfer = this.getPreviousDebitTransfer();
         if (previousDebitTransfer != null) {
             ((ViewProxi)previousDebitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(previousDebitTransfer.getClassId(), previousDebitTransfer.getId())));
-        }
-        StornoStateView stornoState = this.getStornoState();
-        if (stornoState != null) {
-            ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
         }
         
     }

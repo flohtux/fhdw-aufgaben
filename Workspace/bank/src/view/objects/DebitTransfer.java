@@ -7,7 +7,6 @@ import view.DebitTransferTransactionView;
 import view.DebitTransferView;
 import view.ModelException;
 import view.MoneyView;
-import view.StornoStateView;
 import view.TriggerValueView;
 
 
@@ -21,9 +20,8 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     protected TriggerValueView invokerTrigger;
     protected java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers;
     protected DebitTransferView previousDebitTransfer;
-    protected StornoStateView stornoState;
     
-    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,StornoStateView stornoState,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
@@ -31,8 +29,7 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         this.money = money;
         this.invokerTrigger = invokerTrigger;
         this.nextDebitTransferTransactionstriggers = nextDebitTransferTransactionstriggers;
-        this.previousDebitTransfer = previousDebitTransfer;
-        this.stornoState = stornoState;        
+        this.previousDebitTransfer = previousDebitTransfer;        
     }
     
     public long getReceiverAccountNumber()throws ModelException{
@@ -71,12 +68,6 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException {
         this.previousDebitTransfer = newValue;
     }
-    public StornoStateView getStornoState()throws ModelException{
-        return this.stornoState;
-    }
-    public void setStornoState(StornoStateView newValue) throws ModelException {
-        this.stornoState = newValue;
-    }
     
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
@@ -103,10 +94,6 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         DebitTransferView previousDebitTransfer = this.getPreviousDebitTransfer();
         if (previousDebitTransfer != null) {
             ((ViewProxi)previousDebitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(previousDebitTransfer.getClassId(), previousDebitTransfer.getId())));
-        }
-        StornoStateView stornoState = this.getStornoState();
-        if (stornoState != null) {
-            ((ViewProxi)stornoState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(stornoState.getClassId(), stornoState.getId())));
         }
         
     }

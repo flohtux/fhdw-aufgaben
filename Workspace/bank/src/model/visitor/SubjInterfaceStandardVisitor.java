@@ -170,9 +170,6 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException{
         this.standardHandling(moneyRule);
     }
-    public void handleCompensationRequestState(PersistentCompensationRequestState compensationRequestState) throws PersistenceException{
-        this.standardHandling(compensationRequestState);
-    }
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
         this.standardHandling(transaction);
     }

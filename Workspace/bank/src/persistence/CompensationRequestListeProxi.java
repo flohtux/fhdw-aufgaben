@@ -61,6 +61,10 @@ public class CompensationRequestListeProxi extends PersistentProxi implements Pe
     }
     
     
+    public void add(final PersistentCompensationRequest t) 
+				throws PersistenceException{
+        ((PersistentCompensationRequestListe)this.getTheObject()).add(t);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentCompensationRequestListe)this.getTheObject()).deregister(observee);
@@ -77,9 +81,9 @@ public class CompensationRequestListeProxi extends PersistentProxi implements Pe
 				throws PersistenceException{
         ((PersistentCompensationRequestListe)this.getTheObject()).updateObservers(event);
     }
-    public void add(final PersistentCompensationRequest t) 
+    public void addImplementation(final PersistentCompensationRequest t) 
 				throws PersistenceException{
-        ((PersistentCompensationRequestListe)this.getTheObject()).add(t);
+        ((PersistentCompensationRequestListe)this.getTheObject()).addImplementation(t);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

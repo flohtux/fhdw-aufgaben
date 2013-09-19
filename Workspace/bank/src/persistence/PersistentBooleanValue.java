@@ -17,6 +17,8 @@ public interface PersistentBooleanValue extends SubjInterface, Anything, Abstrac
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public PersistentBooleanValue and(final PersistentBooleanValue value) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

@@ -17,6 +17,7 @@ public interface UserExceptionReturnExceptionVisitor<R, E extends UserException>
     public R handleCycleException(model.CycleException cycleException) throws PersistenceException, E;
     public R handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException, E;
     public R handleMaxLimitLowerThenMinLimitException(model.MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws PersistenceException, E;
+    public R handleCompensationAbortedException(model.CompensationAbortedException compensationAbortedException) throws PersistenceException, E;
     public R handleGrantAlreadyGivenException(model.GrantAlreadyGivenException grantAlreadyGivenException) throws PersistenceException, E;
     
 }

@@ -5,7 +5,7 @@ import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.PersistenceException;
-import persistence.PersistentDebitTransfer;
+import persistence.PersistentCompensation;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.PersistentStornoState;
@@ -112,11 +112,11 @@ public abstract class StornoState extends PersistentObject implements Persistent
     
     
     
-    public PersistentDebitTransfer getDebitTransfer() 
+    public PersistentCompensation getDebitTransfer() 
 				throws PersistenceException{
-        PersistentDebitTransfer result = null;
+        PersistentCompensation result = null;
 		try {
-			if (result == null) result = (PersistentDebitTransfer)ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade
+			if (result == null) result = (PersistentCompensation)ConnectionHandler.getTheConnectionHandler().theCompensationFacade
 							.inverseGetStornoState(this.getId(), this.getClassId()).iterator().next();
 		} catch (java.util.NoSuchElementException nsee){}
 		return result;
