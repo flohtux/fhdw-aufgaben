@@ -46,6 +46,8 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    public PersistentDebitTransfer copy() 
+				throws PersistenceException;
     /**
      * Returns the value of this transaction with correct sign (+/-).
      * E.g. debits will be shown as negative!
@@ -57,6 +59,8 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public PersistentDebitTransfer mirror() 
 				throws PersistenceException;
 
 }

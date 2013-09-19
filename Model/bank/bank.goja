@@ -298,8 +298,6 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	String subject@@Betreff;
 	no-view	Account sender;
 	one-to-one (no-view debitTransfer) DebitTransferState state;
-	DebitTransferTransaction copy();
-	event DebitTransferDoubleState changeState(DebitTransferState newState);
 }
 
 string-factory abstract class DebitTransfer extends DebitTransferTransaction{
@@ -315,18 +313,23 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	event void changeMoney(Fraction newAmount);
 	event void changeCurrency(Currency currency);
 	BooleanValue contains(Trigger trigger);
+	DebitTransfer mirror();
+	DebitTransfer copy();
 }
 
 class Transfer@@Überweisung extends DebitTransfer {
-
 }
-class Debit@@Lastschrift extends DebitTransfer {}
+class Debit@@Lastschrift extends DebitTransfer {
+	Transfer copyToTransfer();
+}
 
 class Transaction@@Transaktion extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
 	void addToTransaction(DebitTransfer ** debitTransfer);
 	void removeFromTransaction(DebitTransfer ** debitTransfer);
 	BooleanValue contains(DebitTransferTransaction debitTransfer);
+	Transaction mirror();
+	Transaction copy();
 }
 
 class DebitTransferListe##DebTransLst {

@@ -5,7 +5,6 @@ public interface DebitTransferTransactionMssgsVisitor extends DebitTransferTrans
 
 interface DebitTransferTransactionDOWNMssgsVisitor extends DebitTransferDOWNMssgsVisitor, TransactionDOWNMssgsVisitor {
 
-    public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event) throws persistence.PersistenceException;
     public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws persistence.PersistenceException;
     
 }
@@ -13,7 +12,6 @@ interface DebitTransferTransactionDOWNMssgsVisitor extends DebitTransferDOWNMssg
 
 interface DebitTransferTransactionUPMssgsVisitor  {
 
-    public void handleDebitTransferTransactionChangeStateDebitTransferStateMssg(DebitTransferTransactionChangeStateDebitTransferStateMssg event) throws persistence.PersistenceException;
     public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws persistence.PersistenceException;
     
 }

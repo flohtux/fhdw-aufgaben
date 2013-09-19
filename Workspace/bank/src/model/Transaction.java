@@ -277,6 +277,16 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    public PersistentTransaction copy() 
+				throws PersistenceException{
+        //TODO: implement method: copy
+        try{
+            throw new java.lang.UnsupportedOperationException("Method \"copy\" not implemented yet.");
+        } catch (java.lang.UnsupportedOperationException uoe){
+            uoe.printStackTrace();
+            throw uoe;
+        }
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setDebitTransfer(DebitTransferListe.createDebitTransferListe());
@@ -284,6 +294,20 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    }
+    public PersistentTransaction mirror() 
+				throws PersistenceException{
+		return getThis().getDebitTransfer().getDebitTransfers().aggregate(new Aggregtion<PersistentDebitTransfer, PersistentTransaction>() {
+			public PersistentTransaction neutral() throws PersistenceException {
+				return Transaction.createTransaction();
+			}
+			public PersistentTransaction compose(PersistentTransaction result, PersistentDebitTransfer argument) throws PersistenceException {
+				DebitTransferSearchList a = new DebitTransferSearchList();
+				a.add(argument.mirror());
+				result.addToTransaction(a);
+				return result;
+			}
+		});
     }
     public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
@@ -306,65 +330,6 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     
     // Start of section that contains overridden operations only.
     
-    public PersistentDebitTransferTransaction copy() 
-				throws PersistenceException{
-		final PersistentTransaction copy = Transaction.createTransaction();
-		copy.setSubject(getThis().getSubject());
-		getThis().getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
-			@Override
-			public void doItTo(PersistentDebitTransfer argument)
-					throws PersistenceException {
-				copy.getDebitTransfer().getDebitTransfers().add((PersistentDebitTransfer) argument.copy());
-			}
-		});
-		copy.setSender(getThis().getSender());
-		PersistentDebitTransferState copyState = getThis().getState().accept(new DebitTransferStateReturnVisitor<PersistentDebitTransferState>() {
-			@Override
-			public PersistentDebitTransferState handleExecutedState(
-					PersistentExecutedState executedState)
-					throws PersistenceException {
-				return ExecutedState.createExecutedState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleNotSuccessfulState(
-					PersistentNotSuccessfulState notSuccessfulState)
-					throws PersistenceException {
-				return NotSuccessfulState.createNotSuccessfulState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleSuccessfulState(
-					PersistentSuccessfulState successfulState)
-					throws PersistenceException {
-				return SuccessfulState.createSuccessfulState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleNotExecutedState(
-					PersistentNotExecutedState notExecutedState)
-					throws PersistenceException {
-				return NotExecutedState.createNotExecutedState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleTemplateState(
-					PersistentTemplateState templateState)
-					throws PersistenceException {
-				return TemplateState.createTemplateState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleNotExecutableState(
-					PersistentNotExecutableState notExecutableState)
-					throws PersistenceException {
-				return NotExecutableState.createNotExecutableState();
-			}
-		});
-		copy.setState(copyState);
-		copy.setTimestamp(getThis().getTimestamp());
-		return copy;
-	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {

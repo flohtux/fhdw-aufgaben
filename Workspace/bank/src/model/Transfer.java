@@ -36,7 +36,6 @@ import persistence.PersistentNoTrigger;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
-import persistence.PersistentStornoState;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransfer;
@@ -268,65 +267,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
-    public PersistentDebitTransferTransaction copy() 
-				throws PersistenceException{
-		PersistentTransfer copy = Transfer.createTransfer();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setSubject(getThis().getSubject());
-		PersistentDebitTransferState copyState = 
-		getThis().getState().accept(new DebitTransferStateReturnVisitor<PersistentDebitTransferState>() {
-			@Override
-			public PersistentDebitTransferState handleExecutedState(
-					PersistentExecutedState executedState)
-					throws PersistenceException {
-				return ExecutedState.createExecutedState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleNotSuccessfulState(
-					PersistentNotSuccessfulState notSuccessfulState)
-					throws PersistenceException {
-				return NotSuccessfulState.createNotSuccessfulState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleSuccessfulState(
-					PersistentSuccessfulState successfulState)
-					throws PersistenceException {
-				return SuccessfulState.createSuccessfulState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleNotExecutedState(
-					PersistentNotExecutedState notExecutedState)
-					throws PersistenceException {
-				return NotExecutedState.createNotExecutedState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleTemplateState(
-					PersistentTemplateState templateState)
-					throws PersistenceException {
-				return TemplateState.createTemplateState();
-			}
-
-			@Override
-			public PersistentDebitTransferState handleNotExecutableState(
-					PersistentNotExecutableState notExecutableState)
-					throws PersistenceException {
-				return NotExecutableState.createNotExecutableState();
-			}
-		});
-		copy.setState(copyState);
-		copy.setTimestamp(getThis().getTimestamp());
-		PersistentTriggerValue copyTrigger = getThis().getInvokerTrigger().copy();
-		copy.setInvokerTrigger(copyTrigger);
-		return copy;
-	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
     	if(getThis().getPreviousDebitTransfer() != null) {

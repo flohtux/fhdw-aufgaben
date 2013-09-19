@@ -30,11 +30,11 @@ import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
 import persistence.PersistentNoTrigger;
+import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
 import common.Fraction;
 
 
@@ -234,6 +234,12 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     // Start of section that contains operations that must be implemented.
     
+    public PersistentTransfer copyToTransfer() 
+				throws PersistenceException{
+        PersistentTransfer result = Transfer.createTransfer();
+        //TODO hier musst du noch copy to transfer machen
+        return result;
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -256,19 +262,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     // Start of section that contains overridden operations only.
     
-    public PersistentDebitTransferTransaction copy() 
-				throws PersistenceException{
-		PersistentDebit copy = Debit.createDebit();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setState(getThis().getState());
-		copy.setSubject(getThis().getSubject());
-		copy.setTimestamp(getThis().getTimestamp());
-		return copy;
-	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		System.out.println("exe debit");

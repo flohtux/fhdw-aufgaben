@@ -65,10 +65,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).changeReceiverBank(receiverBankNumber);
     }
-    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
-				throws PersistenceException{
-        return ((PersistentDebitTransfer)this.getTheObject()).changeState(newState);
-    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).deregister(observee);
@@ -109,10 +105,6 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).changeReceiverBankImplementation(receiverBankNumber);
     }
-    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
-				throws PersistenceException{
-        return ((PersistentDebitTransfer)this.getTheObject()).changeStateImplementation(newState);
-    }
     public PersistentBooleanValue contains(final PersistentTrigger trigger) 
 				throws PersistenceException{
         return ((PersistentDebitTransfer)this.getTheObject()).contains(trigger);
@@ -121,7 +113,7 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public PersistentDebitTransferTransaction copy() 
+    public PersistentDebitTransfer copy() 
 				throws PersistenceException{
         return ((PersistentDebitTransfer)this.getTheObject()).copy();
     }
@@ -140,6 +132,10 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentDebitTransfer mirror() 
+				throws PersistenceException{
+        return ((PersistentDebitTransfer)this.getTheObject()).mirror();
     }
 
     

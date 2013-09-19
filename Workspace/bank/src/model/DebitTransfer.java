@@ -1,6 +1,7 @@
 
 package model;
 
+import model.visitor.DebitTransferReturnVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
@@ -9,17 +10,18 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentBooleanValue;
 import persistence.PersistentCurrency;
+import persistence.PersistentDebit;
 import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
 import persistence.PersistentProxi;
 import persistence.PersistentStornoState;
+import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
 import common.Fraction;
 
 
@@ -264,6 +266,22 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     	}
     	return result;
 	}
+    
+    @Override
+    public PersistentDebitTransfer mirror() throws PersistenceException {
+    	PersistentDebitTransfer copy = getThis().copy();
+    	PersistentTransfer result = copy.accept(new DebitTransferReturnVisitor<PersistentTransfer>() {
+			public PersistentTransfer handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+				return transfer;
+			}
+			public PersistentTransfer handleDebit(PersistentDebit debit) throws PersistenceException {
+				return debit.copyToTransfer();
+			}
+		});
+    	result.setMoney(result.getMoney().multiply(new Fraction(-1, 1)));
+    	//TODO sender empfänger tauschen
+    	return result;
+    }
     /* End of protected part that is not overridden by persistence generator */
     
 }
