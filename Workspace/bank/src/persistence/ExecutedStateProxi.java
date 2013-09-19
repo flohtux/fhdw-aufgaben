@@ -96,6 +96,10 @@ public class ExecutedStateProxi extends DebitTransferStateProxi implements Persi
 				throws PersistenceException{
         ((PersistentExecutedState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+        return ((PersistentExecutedState)this.getTheObject()).copy();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentExecutedState)this.getTheObject()).initializeOnCreation();

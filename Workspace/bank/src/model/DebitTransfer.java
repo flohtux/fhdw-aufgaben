@@ -269,7 +269,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     @Override
     public PersistentDebitTransfer mirror() throws PersistenceException {
-    	PersistentDebitTransfer copy = getThis().copy();
+    	PersistentDebitTransfer copy = getThis().copyDebitTransfer();
     	PersistentTransfer result = copy.accept(new DebitTransferReturnVisitor<PersistentTransfer>() {
 			public PersistentTransfer handleTransfer(PersistentTransfer transfer) throws PersistenceException {
 				return transfer;
@@ -282,6 +282,9 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     	//TODO sender empfänger tauschen
     	return result;
     }
+    
+
+ 
     /* End of protected part that is not overridden by persistence generator */
     
 }

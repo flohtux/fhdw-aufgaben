@@ -70,6 +70,10 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
     }
     
     
+    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        return ((PersistentTransaction)this.getTheObject()).changeState(newState);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).deregister(observee);
@@ -98,6 +102,10 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).addToTransaction(debitTransfer);
     }
+    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        return ((PersistentTransaction)this.getTheObject()).changeStateImplementation(newState);
+    }
     public PersistentBooleanValue contains(final PersistentDebitTransferTransaction debitTransfer) 
 				throws PersistenceException{
         return ((PersistentTransaction)this.getTheObject()).contains(debitTransfer);
@@ -106,7 +114,7 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public PersistentTransaction copy() 
+    public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
         return ((PersistentTransaction)this.getTheObject()).copy();
     }

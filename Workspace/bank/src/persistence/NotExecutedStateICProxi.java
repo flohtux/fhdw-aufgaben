@@ -96,6 +96,10 @@ public class NotExecutedStateICProxi extends DebitTransferStateICProxi implement
 				throws PersistenceException{
         ((PersistentNotExecutedState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+        return ((PersistentNotExecutedState)this.getTheObject()).copy();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentNotExecutedState)this.getTheObject()).initializeOnCreation();

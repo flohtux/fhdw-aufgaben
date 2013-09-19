@@ -198,18 +198,12 @@ public class ExecutedState extends model.DebitTransferState implements Persisten
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     
@@ -224,6 +218,11 @@ public class ExecutedState extends model.DebitTransferState implements Persisten
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
+	}
+
+	@Override
+	public PersistentDebitTransferState copy() throws PersistenceException {
+		return ExecutedState.createExecutedState();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

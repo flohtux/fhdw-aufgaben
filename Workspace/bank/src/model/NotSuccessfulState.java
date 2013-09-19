@@ -198,18 +198,12 @@ public class NotSuccessfulState extends model.DebitTransferState implements Pers
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     
@@ -223,6 +217,11 @@ public class NotSuccessfulState extends model.DebitTransferState implements Pers
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return TrueValue.getTheTrueValue();
+	}
+
+	@Override
+	public PersistentDebitTransferState copy() throws PersistenceException {
+		return NotSuccessfulState.createNotSuccessfulState();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

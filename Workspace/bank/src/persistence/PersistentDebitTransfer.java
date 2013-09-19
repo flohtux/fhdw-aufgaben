@@ -44,9 +44,9 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
 				throws PersistenceException;
     public PersistentBooleanValue contains(final PersistentTrigger trigger) 
 				throws PersistenceException;
-    public void copyingPrivateUserAttributes(final Anything copy) 
+    public PersistentDebitTransfer copyDebitTransfer() 
 				throws PersistenceException;
-    public PersistentDebitTransfer copy() 
+    public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     /**
      * Returns the value of this transaction with correct sign (+/-).

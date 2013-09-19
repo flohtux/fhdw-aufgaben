@@ -92,6 +92,10 @@ public class TransferProxi extends DebitTransferProxi implements PersistentTrans
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).changeReceiverBank(receiverBankNumber);
     }
+    public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        return ((PersistentTransfer)this.getTheObject()).changeState(newState);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).deregister(observee);
@@ -132,15 +136,23 @@ public class TransferProxi extends DebitTransferProxi implements PersistentTrans
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).changeReceiverBankImplementation(receiverBankNumber);
     }
+    public PersistentDebitTransferDoubleState changeStateImplementation(final PersistentDebitTransferState newState) 
+				throws PersistenceException{
+        return ((PersistentTransfer)this.getTheObject()).changeStateImplementation(newState);
+    }
     public PersistentBooleanValue contains(final PersistentTrigger trigger) 
 				throws PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).contains(trigger);
+    }
+    public PersistentDebitTransfer copyDebitTransfer() 
+				throws PersistenceException{
+        return ((PersistentTransfer)this.getTheObject()).copyDebitTransfer();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public PersistentDebitTransfer copy() 
+    public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).copy();
     }

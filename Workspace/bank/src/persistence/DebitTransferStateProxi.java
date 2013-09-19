@@ -54,6 +54,10 @@ public abstract class DebitTransferStateProxi extends PersistentProxi implements
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+        return ((PersistentDebitTransferState)this.getTheObject()).copy();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).initializeOnCreation();

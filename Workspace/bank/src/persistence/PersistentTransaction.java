@@ -31,8 +31,6 @@ public interface PersistentTransaction extends PersistentDebitTransferTransactio
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
-    public PersistentTransaction copy() 
-				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 

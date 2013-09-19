@@ -96,6 +96,10 @@ public class TemplateStateProxi extends DebitTransferStateProxi implements Persi
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+        return ((PersistentTemplateState)this.getTheObject()).copy();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).initializeOnCreation();

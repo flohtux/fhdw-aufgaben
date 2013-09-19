@@ -96,6 +96,10 @@ public class SuccessfulStateProxi extends DebitTransferStateProxi implements Per
 				throws PersistenceException{
         ((PersistentSuccessfulState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+        return ((PersistentSuccessfulState)this.getTheObject()).copy();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentSuccessfulState)this.getTheObject()).initializeOnCreation();

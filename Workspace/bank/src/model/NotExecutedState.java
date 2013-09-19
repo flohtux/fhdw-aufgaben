@@ -220,6 +220,11 @@ public class NotExecutedState extends model.DebitTransferState implements Persis
 		return TrueValue.getTheTrueValue();
 	}
 
+	@Override
+	public PersistentDebitTransferState copy() throws PersistenceException {
+		return NotExecutedState.createNotExecutedState();
+	}
+
     /* Start of protected part that is not overridden by persistence generator */
     
     /* End of protected part that is not overridden by persistence generator */

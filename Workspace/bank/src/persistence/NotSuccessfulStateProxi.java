@@ -96,6 +96,10 @@ public class NotSuccessfulStateProxi extends DebitTransferStateProxi implements 
 				throws PersistenceException{
         ((PersistentNotSuccessfulState)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+        return ((PersistentNotSuccessfulState)this.getTheObject()).copy();
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentNotSuccessfulState)this.getTheObject()).initializeOnCreation();

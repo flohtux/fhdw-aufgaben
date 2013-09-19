@@ -277,16 +277,6 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public PersistentTransaction copy() 
-				throws PersistenceException{
-        //TODO: implement method: copy
-        try{
-            throw new java.lang.UnsupportedOperationException("Method \"copy\" not implemented yet.");
-        } catch (java.lang.UnsupportedOperationException uoe){
-            uoe.printStackTrace();
-            throw uoe;
-        }
-    }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setDebitTransfer(DebitTransferListe.createDebitTransferListe());
@@ -330,6 +320,22 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		final PersistentTransaction result = Transaction.createTransaction();
+		result.setSender(getThis().getSender());
+		result.setSubject(getThis().getSubject());
+		result.setTimestamp(getThis().getTimestamp());
+		result.setState(getThis().getState().copy());
+		getThis().getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				result.getDebitTransfer().getDebitTransfers().add(argument.copyDebitTransfer());
+			}
+		});
+		return result;
+	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {
