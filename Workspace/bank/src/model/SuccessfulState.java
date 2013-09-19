@@ -215,14 +215,13 @@ public class SuccessfulState extends model.DebitTransferState implements Persist
 		getThis().addDebitTransferFromList(newState);
 		getThis().getDebitTransfer().setState(newState);
 	}
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+		return SuccessfulState.createSuccessfulState();
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
-	}
-
-	@Override
-	public PersistentDebitTransferState copy() throws PersistenceException {
-		return SuccessfulState.createSuccessfulState();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

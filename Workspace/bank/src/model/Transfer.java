@@ -267,6 +267,25 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransfer copyDebitTransfer() 
+				throws PersistenceException{
+		PersistentTransfer copy = Transfer.createTransfer();
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
+		copy.setMoney(copyMoney);
+		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
+		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
+		copy.setSender(getThis().getSender());
+		copy.setSubject(getThis().getSubject());
+		copy.setState(getThis().getState().copy());
+		copy.setTimestamp(getThis().getTimestamp());
+		PersistentTriggerValue copyTrigger = getThis().getInvokerTrigger().copy();
+		copy.setInvokerTrigger(copyTrigger);
+		return copy;
+	}
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		return getThis().copyDebitTransfer();
+	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
     	if(getThis().getPreviousDebitTransfer() != null) {
@@ -293,29 +312,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     	getThis().setTimestamp(tstamp);
     	getThis().getSender().getBank().sendTransfer(getThis());
 		return getThis();
-	}
-
-	@Override
-	public PersistentDebitTransferTransaction copy()
-			throws PersistenceException {
-		return getThis().copyDebitTransfer();
-	}
-
-	@Override
-	public PersistentDebitTransfer copyDebitTransfer()
-			throws PersistenceException {
-		PersistentTransfer copy = Transfer.createTransfer();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setSubject(getThis().getSubject());
-		copy.setState(getThis().getState().copy());
-		copy.setTimestamp(getThis().getTimestamp());
-		PersistentTriggerValue copyTrigger = getThis().getInvokerTrigger().copy();
-		copy.setInvokerTrigger(copyTrigger);
-		return copy;
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

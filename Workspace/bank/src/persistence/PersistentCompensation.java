@@ -48,7 +48,7 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException;
-    public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfers) 
+    public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
 
 }

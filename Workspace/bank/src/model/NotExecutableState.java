@@ -216,14 +216,13 @@ public class NotExecutableState extends model.DebitTransferState implements Pers
 		getThis().getDebitTransfer().setState(newState);
 		
 	}
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+		return NotExecutableState.createNotExecutableState();
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
-	}
-
-	@Override
-	public PersistentDebitTransferState copy() throws PersistenceException {
-		return NotExecutableState.createNotExecutableState();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

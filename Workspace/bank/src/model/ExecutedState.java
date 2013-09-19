@@ -215,14 +215,13 @@ public class ExecutedState extends model.DebitTransferState implements Persisten
 		getThis().getDebitTransfer().setState(newState);
 		
 	}
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+		return ExecutedState.createExecutedState();
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
-	}
-
-	@Override
-	public PersistentDebitTransferState copy() throws PersistenceException {
-		return ExecutedState.createExecutedState();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

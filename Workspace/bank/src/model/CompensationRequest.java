@@ -338,23 +338,16 @@ public class CompensationRequest extends PersistentObject implements PersistentC
     
     public void changeStateImplementation(final PersistentCompensationRequestState a) 
 				throws PersistenceException{
-        //TODO: implement method: changeStateImplementation
-        
+    	getThis().setState(a);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

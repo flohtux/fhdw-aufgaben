@@ -442,17 +442,17 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException {
-		// TODO Auto-generated method stub
+		this.result = serverConstants.ToStringConstants.AcceptedState;
 		
 	}
 	@Override
 	public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException {
-		// TODO Auto-generated method stub
+		this.result = serverConstants.ToStringConstants.WaitingState;
 		
 	}
 	@Override
 	public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException {
-		// TODO Auto-generated method stub
+		this.result = serverConstants.ToStringConstants.DeclinedState;
 		
 	}
 	

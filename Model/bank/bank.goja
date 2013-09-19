@@ -396,7 +396,7 @@ class Compensation {
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
-	void requestCompensationForDebitTransfer(DebitTransfer debitTransfers);
+	void requestCompensationForDebitTransfer(DebitTransfer debitTransfer);
 
 	active void executeCompensation();
 	BooleanValue allAnswered() throws CompensationAbortedException;

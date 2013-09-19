@@ -126,9 +126,9 @@ public class CompensationICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfers(debitTransfers);
     }
-    public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfers) 
+    public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
-        ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfer(debitTransfers);
+        ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfer(debitTransfer);
     }
 
     

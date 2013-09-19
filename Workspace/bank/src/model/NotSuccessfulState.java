@@ -214,14 +214,13 @@ public class NotSuccessfulState extends model.DebitTransferState implements Pers
 		getThis().removeDebitTransferFromList();
 		getThis().getDebitTransfer().setState(newState);
 	}
+    public PersistentDebitTransferState copy() 
+				throws PersistenceException{
+		return NotSuccessfulState.createNotSuccessfulState();
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return TrueValue.getTheTrueValue();
-	}
-
-	@Override
-	public PersistentDebitTransferState copy() throws PersistenceException {
-		return NotSuccessfulState.createNotSuccessfulState();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

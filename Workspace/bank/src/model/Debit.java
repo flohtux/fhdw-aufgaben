@@ -271,6 +271,23 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     // Start of section that contains overridden operations only.
     
+    public PersistentDebitTransfer copyDebitTransfer() 
+				throws PersistenceException{
+		PersistentDebit copy = Debit.createDebit();
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
+		copy.setMoney(copyMoney);
+		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
+		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
+		copy.setSender(getThis().getSender());
+		copy.setState(getThis().getState().copy());
+		copy.setSubject(getThis().getSubject());
+		copy.setTimestamp(getThis().getTimestamp());
+		return copy;
+	}
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		return getThis().copyDebitTransfer();
+	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
 		System.out.println("exe debit");
@@ -292,27 +309,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     	System.out.println("exe debit  erfolg");
 		getThis().getSender().getBank().sendTransfer(getThis());
 		return getThis();
-	}
-
-	@Override
-	public PersistentDebitTransferTransaction copy()
-			throws PersistenceException {
-		return getThis().copyDebitTransfer();
-	}
-
-	@Override
-	public PersistentDebitTransfer copyDebitTransfer()
-			throws PersistenceException {
-		PersistentDebit copy = Debit.createDebit();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setState(getThis().getState().copy());
-		copy.setSubject(getThis().getSubject());
-		copy.setTimestamp(getThis().getTimestamp());
-		return copy;
 	}
 
     /* Start of protected part that is not overridden by persistence generator */
