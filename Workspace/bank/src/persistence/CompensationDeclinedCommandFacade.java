@@ -56,45 +56,31 @@ public class CompensationDeclinedCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CompensationDeclinedCommandId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentCompensation compensation = null;
-            String reason = "";
-            Invoker invoker = null;
-            PersistentAccount commandReceiver = null;
-            PersistentCommonDate myCommonDate = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10395: {
-                        compensation = (PersistentCompensation)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10399: {
-                        reason = links.getString(6);
-                        if(reason == null)reason = "";
-                        break;
-                    }
-                    case 10396: {
-                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10397: {
-                        commandReceiver = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10398: {
-                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            CompensationDeclinedCommand result = new CompensationDeclinedCommand(compensation, 
-                                                                                 reason, 
-                                                                                 invoker, 
-                                                                                 commandReceiver, 
-                                                                                 myCommonDate, 
+            PersistentCompensation compensation = null;
+            if (obj.getLong(2) != 0)
+                compensation = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            Invoker invoker = null;
+            if (obj.getLong(5) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
+            PersistentAccount commandReceiver = null;
+            if (obj.getLong(7) != 0)
+                commandReceiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(9) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
+            CompensationDeclinedCommand result = new CompensationDeclinedCommand(compensation,
+                                                                                 obj.getString(4) == null ? "" : obj.getString(4) /* In Oracle "" = null !!! */,
+                                                                                 invoker,
+                                                                                 commandReceiver,
+                                                                                 myCommonDate,
                                                                                  CompensationDeclinedCommandId);
-            links.close();
+            obj.close();
             callable.close();
             CompensationDeclinedCommandICProxi inCache = (CompensationDeclinedCommandICProxi)Cache.getTheCache().put(result);
             CompensationDeclinedCommand objectInCache = (CompensationDeclinedCommand)inCache.getTheObject();

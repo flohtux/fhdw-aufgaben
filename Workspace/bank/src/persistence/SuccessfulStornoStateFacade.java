@@ -36,26 +36,22 @@ public class SuccessfulStornoStateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, SuccessfulStornoStateId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentStornoState This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10010: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10011: {
-                        This = (PersistentStornoState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            SuccessfulStornoState result = new SuccessfulStornoState(subService, 
-                                                                     This, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentStornoState This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            SuccessfulStornoState result = new SuccessfulStornoState(subService,
+                                                                     This,
                                                                      SuccessfulStornoStateId);
-            links.close();
+            obj.close();
             callable.close();
             SuccessfulStornoStateICProxi inCache = (SuccessfulStornoStateICProxi)Cache.getTheCache().put(result);
             SuccessfulStornoState objectInCache = (SuccessfulStornoState)inCache.getTheObject();

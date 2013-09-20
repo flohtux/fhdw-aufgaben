@@ -319,8 +319,8 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 					throws PersistenceException,MaxLimitLowerThenMinLimitException {}
 			
 			@Override
-			public void handleLimit(PersistentLimit limit) throws PersistenceException,MaxLimitLowerThenMinLimitException {
-				if(limit.getMoney().greater(money).isTrue()) {
+			public void handleLimit(PersistentLimit minLimit) throws PersistenceException,MaxLimitLowerThenMinLimitException {
+				if(minLimit.getMoney().greater(money).isTrue()) {
 					throw new MaxLimitLowerThenMinLimitException();
 				}
 			}
@@ -337,10 +337,10 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 					MinLimitHigherMaxLimitException {}
 
 			@Override
-			public void handleLimit(PersistentLimit limit)
+			public void handleLimit(PersistentLimit maxLimit)
 					throws PersistenceException,
 					MinLimitHigherMaxLimitException {
-				if(limit.getMoney().greater(money).isTrue()) {
+				if(money.greater(maxLimit.getMoney()).isTrue()) {
 					throw new MinLimitHigherMaxLimitException();
 				}
 				

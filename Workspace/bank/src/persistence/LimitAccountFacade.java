@@ -55,38 +55,30 @@ public class LimitAccountFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, LimitAccountId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentLimitType minLimit = null;
-            PersistentLimitType maxLimit = null;
-            SubjInterface subService = null;
-            PersistentLimitAccount This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10049: {
-                        minLimit = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10050: {
-                        maxLimit = (PersistentLimitType)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10052: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10053: {
-                        This = (PersistentLimitAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            LimitAccount result = new LimitAccount(minLimit, 
-                                                   maxLimit, 
-                                                   subService, 
-                                                   This, 
+            PersistentLimitType minLimit = null;
+            if (obj.getLong(2) != 0)
+                minLimit = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentLimitType maxLimit = null;
+            if (obj.getLong(4) != 0)
+                maxLimit = (PersistentLimitType)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            SubjInterface subService = null;
+            if (obj.getLong(6) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentLimitAccount This = null;
+            if (obj.getLong(8) != 0)
+                This = (PersistentLimitAccount)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            LimitAccount result = new LimitAccount(minLimit,
+                                                   maxLimit,
+                                                   subService,
+                                                   This,
                                                    LimitAccountId);
-            links.close();
+            obj.close();
             callable.close();
             LimitAccountICProxi inCache = (LimitAccountICProxi)Cache.getTheCache().put(result);
             LimitAccount objectInCache = (LimitAccount)inCache.getTheObject();

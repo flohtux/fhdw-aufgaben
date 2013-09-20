@@ -55,32 +55,26 @@ public class AllCompensationListeOutgoingCompensationsFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AllCompensationListeOutgoingCompensationsId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAllCompensationListe observer = null;
-            PersistentCompensationListe observee = null;
-            PersistentAllCompensationListeOutgoingCompensations This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10400: {
-                        observer = (PersistentAllCompensationListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10401: {
-                        observee = (PersistentCompensationListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10402: {
-                        This = (PersistentAllCompensationListeOutgoingCompensations)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            AllCompensationListeOutgoingCompensations result = new AllCompensationListeOutgoingCompensations(observer, 
-                                                                                                             observee, 
-                                                                                                             This, 
+            PersistentAllCompensationListe observer = null;
+            if (obj.getLong(2) != 0)
+                observer = (PersistentAllCompensationListe)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentCompensationListe observee = null;
+            if (obj.getLong(4) != 0)
+                observee = (PersistentCompensationListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentAllCompensationListeOutgoingCompensations This = null;
+            if (obj.getLong(6) != 0)
+                This = (PersistentAllCompensationListeOutgoingCompensations)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            AllCompensationListeOutgoingCompensations result = new AllCompensationListeOutgoingCompensations(observer,
+                                                                                                             observee,
+                                                                                                             This,
                                                                                                              AllCompensationListeOutgoingCompensationsId);
-            links.close();
+            obj.close();
             callable.close();
             AllCompensationListeOutgoingCompensationsICProxi inCache = (AllCompensationListeOutgoingCompensationsICProxi)Cache.getTheCache().put(result);
             AllCompensationListeOutgoingCompensations objectInCache = (AllCompensationListeOutgoingCompensations)inCache.getTheObject();
