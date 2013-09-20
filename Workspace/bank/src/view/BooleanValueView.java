@@ -1,8 +1,10 @@
 package view;
 
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.BooleanValueExceptionVisitor;
+import view.visitor.BooleanValueReturnExceptionVisitor;
+import view.visitor.BooleanValueReturnVisitor;
+import view.visitor.BooleanValueVisitor;
 
 public interface BooleanValueView extends Anything, AbstractViewRoot {
     

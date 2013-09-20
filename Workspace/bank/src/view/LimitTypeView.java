@@ -1,8 +1,10 @@
 package view;
 
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.LimitTypeExceptionVisitor;
+import view.visitor.LimitTypeReturnExceptionVisitor;
+import view.visitor.LimitTypeReturnVisitor;
+import view.visitor.LimitTypeVisitor;
 
 public interface LimitTypeView extends Anything, AbstractViewRoot {
     

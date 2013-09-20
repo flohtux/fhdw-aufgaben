@@ -345,6 +345,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setState(WaitingState.getTheWaitingState());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

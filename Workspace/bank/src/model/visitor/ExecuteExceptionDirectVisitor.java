@@ -16,11 +16,15 @@ public abstract class ExecuteExceptionDirectVisitor implements ExecuteExceptionV
     }
     public abstract void handleNoPermissionToExecuteDebitTransferException(model.NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws PersistenceException;
     
-    public abstract void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException;
+    public abstract void handleAccountSearchException(model.AccountSearchException accountSearchException) throws PersistenceException;
     
+    public void handleInvalidBankNumberException(model.InvalidBankNumberException invalidBankNumberException) throws PersistenceException{
+        this.handleAccountSearchException(invalidBankNumberException);
+    }
+    public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
+        this.handleAccountSearchException(invalidAccountNumberException);
+    }
     public abstract void handleTriggerCyclicException(model.TriggerCyclicException triggerCyclicException) throws PersistenceException;
-    
-    public abstract void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException;
     
     
 }

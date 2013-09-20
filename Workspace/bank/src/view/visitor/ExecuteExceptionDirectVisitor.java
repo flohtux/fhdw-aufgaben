@@ -15,11 +15,15 @@ public abstract class ExecuteExceptionDirectVisitor implements ExecuteExceptionV
     }
     public abstract void handleNoPermissionToExecuteDebitTransferException(NoPermissionToExecuteDebitTransferException noPermissionToExecuteDebitTransferException) throws ModelException;
     
-    public abstract void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException;
+    public abstract void handleAccountSearchException(AccountSearchException accountSearchException) throws ModelException;
     
+    public void handleInvalidBankNumberException(InvalidBankNumberException invalidBankNumberException) throws ModelException{
+        this.handleAccountSearchException(invalidBankNumberException);
+    }
+    public void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException{
+        this.handleAccountSearchException(invalidAccountNumberException);
+    }
     public abstract void handleTriggerCyclicException(TriggerCyclicException triggerCyclicException) throws ModelException;
-    
-    public abstract void handleInvalidAccountNumberException(InvalidAccountNumberException invalidAccountNumberException) throws ModelException;
     
     
 }

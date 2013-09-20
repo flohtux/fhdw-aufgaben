@@ -315,7 +315,7 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	event void changeMoney(Fraction newAmount);
 	event void changeCurrency(Currency currency);
 	BooleanValue contains(Trigger trigger);
-	DebitTransfer mirror();
+	DebitTransfer mirror() throws AccountSearchException;
 	DebitTransfer copyDebitTransfer();
 }
 
@@ -330,7 +330,7 @@ class Transaction@@Transaktion extends DebitTransferTransaction {
 	void addToTransaction(DebitTransfer ** debitTransfer);
 	void removeFromTransaction(DebitTransfer ** debitTransfer);
 	BooleanValue contains(DebitTransferTransaction debitTransfer);
-	Transaction mirror();
+	Transaction mirror() throws AccountSearchException;
 }
 
 class DebitTransferListe##DebTransLst {
@@ -438,8 +438,9 @@ class NotExecutableState extends DebitTransferState {}
 abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
 
 exception PasswordException {}
-exception InvalidBankNumberException extends ExecuteException{}
-exception InvalidAccountNumberException extends ExecuteException{}
+
+exception InvalidBankNumberException extends AccountSearchException{}
+exception InvalidAccountNumberException extends AccountSearchException{}
 exception LimitViolatedException extends DebitException{}
 exception NoPermissionToExecuteDebitTransferException extends ExecuteException{}
 exception CloseAccountNoPossibleException{}
@@ -457,6 +458,7 @@ exception NoValidFeeValueException{}
 exception TriggerCyclicException extends ExecuteException{}
 abstract exception DebitException extends ExecuteException{}
 abstract exception ExecuteException{}
+abstract exception AccountSearchException extends ExecuteException{}
 
 exception CompensationAbortedException {prior Compensation compensation;}
 

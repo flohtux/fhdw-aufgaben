@@ -1,6 +1,13 @@
 package view;
 
-import view.visitor.*;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.StornoStateExceptionVisitor;
+import view.visitor.StornoStateReturnExceptionVisitor;
+import view.visitor.StornoStateReturnVisitor;
+import view.visitor.StornoStateVisitor;
 
 public interface RequestStateView extends StornoStateView {
     

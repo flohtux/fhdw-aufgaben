@@ -1,6 +1,13 @@
 package view;
 
-import view.visitor.*;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.CurrencyExceptionVisitor;
+import view.visitor.CurrencyReturnExceptionVisitor;
+import view.visitor.CurrencyReturnVisitor;
+import view.visitor.CurrencyVisitor;
 
 public interface PfundView extends CurrencyView {
     

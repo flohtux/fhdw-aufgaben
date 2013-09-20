@@ -131,7 +131,7 @@ public class TransactionProxi extends DebitTransferTransactionProxi implements P
         ((PersistentTransaction)this.getTheObject()).initializeOnInstantiation();
     }
     public PersistentTransaction mirror() 
-				throws PersistenceException{
+				throws model.AccountSearchException, PersistenceException{
         return ((PersistentTransaction)this.getTheObject()).mirror();
     }
     public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 

@@ -1,8 +1,10 @@
 package view;
 
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.TriggerStateExceptionVisitor;
+import view.visitor.TriggerStateReturnExceptionVisitor;
+import view.visitor.TriggerStateReturnVisitor;
+import view.visitor.TriggerStateVisitor;
 
 public interface TriggerStateView extends Anything, AbstractViewRoot {
     

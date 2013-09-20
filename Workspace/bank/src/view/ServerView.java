@@ -1,10 +1,17 @@
 package view;
 
-import viewClient.*;
-
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.RemoteExceptionVisitor;
+import view.visitor.RemoteReturnExceptionVisitor;
+import view.visitor.RemoteReturnVisitor;
+import view.visitor.RemoteVisitor;
+import viewClient.ConnectionMaster;
+import viewClient.ExceptionAndEventHandler;
+import viewClient.ServerConnection;
 
 public interface ServerView extends Remote, Anything, AbstractViewRoot {
     

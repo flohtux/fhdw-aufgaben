@@ -1,6 +1,13 @@
 package view;
 
-import view.visitor.*;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.LimitTypeExceptionVisitor;
+import view.visitor.LimitTypeReturnExceptionVisitor;
+import view.visitor.LimitTypeReturnVisitor;
+import view.visitor.LimitTypeVisitor;
 
 public interface LimitView extends LimitTypeView {
     

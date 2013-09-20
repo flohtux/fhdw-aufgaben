@@ -1,8 +1,10 @@
 package view;
 
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
 
 public interface CompensationRequestView extends Anything, AbstractViewRoot {
     

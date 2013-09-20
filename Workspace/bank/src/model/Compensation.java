@@ -418,13 +418,15 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 						return result;
 					}
 				});
-		transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount().getAccountService());
+		try {
+			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount().getAccountService());
+		} catch (AccountSearchException e) {
+			getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
+		}
 
 	}
     public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
 				throws PersistenceException{
-		PersistentCompensationRequest componentRequest = CompensationRequest.createCompensationRequest(dtt, getThis());
-		getThis().getPendingRequests().add(componentRequest);
 		dtt.accept(new DebitTransferTransactionVisitor() {
 			@Override
 			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
@@ -505,6 +507,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     	PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
 	    newRequest.setDebitTransferTransaction(debitTransfer);
 	    debitTransfer.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
+	    getThis().getPendingRequests().add(newRequest);
 	
 	    try {
 		     PersistentBank b = getThis().getRequestingAccount().getBank().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
@@ -513,6 +516,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 		     newRequest2.setDebitTransferTransaction(debitTransfer);
 		
 		     acc.getAllCompensation().getPendingCompensationRequests().add(newRequest2);
+		     getThis().getPendingRequests().add(newRequest2);
 	   } catch (ExecuteException e) {
 	      getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
 	   } 

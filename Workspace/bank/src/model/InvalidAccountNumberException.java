@@ -1,6 +1,10 @@
 
 package model;
 
+import model.visitor.AccountSearchExceptionExceptionVisitor;
+import model.visitor.AccountSearchExceptionReturnExceptionVisitor;
+import model.visitor.AccountSearchExceptionReturnVisitor;
+import model.visitor.AccountSearchExceptionVisitor;
 import model.visitor.ExecuteExceptionExceptionVisitor;
 import model.visitor.ExecuteExceptionReturnExceptionVisitor;
 import model.visitor.ExecuteExceptionReturnVisitor;
@@ -16,7 +20,7 @@ import persistence.TDObserver;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class InvalidAccountNumberException extends model.ExecuteException{
+public class InvalidAccountNumberException extends model.AccountSearchException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -45,6 +49,18 @@ public class InvalidAccountNumberException extends model.ExecuteException{
     }
     
     
+    public void accept(AccountSearchExceptionVisitor visitor) throws PersistenceException {
+        visitor.handleInvalidAccountNumberException(this);
+    }
+    public <R> R accept(AccountSearchExceptionReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleInvalidAccountNumberException(this);
+    }
+    public <E extends UserException>  void accept(AccountSearchExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleInvalidAccountNumberException(this);
+    }
+    public <R, E extends UserException> R accept(AccountSearchExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleInvalidAccountNumberException(this);
+    }
     public void accept(ExecuteExceptionVisitor visitor) throws PersistenceException {
         visitor.handleInvalidAccountNumberException(this);
     }

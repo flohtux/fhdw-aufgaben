@@ -173,7 +173,7 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
         ((PersistentTransfer)this.getTheObject()).initializeOnInstantiation();
     }
     public PersistentDebitTransfer mirror() 
-				throws PersistenceException{
+				throws model.AccountSearchException, PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).mirror();
     }
 

@@ -270,7 +270,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public PersistentDebitTransfer copyDebitTransfer() 
 				throws PersistenceException{
 		PersistentTransfer copy = Transfer.createTransfer();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney().getCurrency());
 		copy.setMoney(copyMoney);
 		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
 		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());

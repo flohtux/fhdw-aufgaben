@@ -1,8 +1,20 @@
 package view;
 
-import viewClient.*;
-
-import view.visitor.*;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.RemoteExceptionVisitor;
+import view.visitor.RemoteReturnExceptionVisitor;
+import view.visitor.RemoteReturnVisitor;
+import view.visitor.RemoteVisitor;
+import view.visitor.ServiceExceptionVisitor;
+import view.visitor.ServiceReturnExceptionVisitor;
+import view.visitor.ServiceReturnVisitor;
+import view.visitor.ServiceVisitor;
+import viewClient.AccountServiceConnection;
+import viewClient.ConnectionMaster;
+import viewClient.ExceptionAndEventHandler;
 
 public interface AccountServiceView extends ServiceView {
     

@@ -78,6 +78,11 @@ public class Fraction {
 	 public Fraction(int enumarator, int denominator) {
          this(BigInteger.valueOf(enumarator), BigInteger.valueOf(denominator));
 	 }
+	public Fraction(Fraction balance) {
+		this.denominator = balance.getDenominator();
+		this.enumerator = balance.getEnumerator();
+	}
+
 	public String toString(){
 		return this.getEnumerator().toString() + (this.getDenominator().equals(BIOne) ? "" : (FractionStroke + this.getDenominator().toString())); 
 	}

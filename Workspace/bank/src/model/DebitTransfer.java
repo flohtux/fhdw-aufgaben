@@ -8,6 +8,7 @@ import persistence.ConnectionHandler;
 import persistence.DebitTransfer_NextDebitTransferTransactionstriggersProxi;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
+import persistence.PersistentBank;
 import persistence.PersistentBooleanValue;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
@@ -16,12 +17,12 @@ import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
 import persistence.PersistentProxi;
-import persistence.PersistentStornoState;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
+
 import common.Fraction;
 
 
@@ -268,7 +269,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 	}
     
     @Override
-    public PersistentDebitTransfer mirror() throws PersistenceException {
+    public PersistentDebitTransfer mirror() throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException {
     	PersistentDebitTransfer copy = getThis().copyDebitTransfer();
     	PersistentTransfer result = copy.accept(new DebitTransferReturnVisitor<PersistentTransfer>() {
 			public PersistentTransfer handleTransfer(PersistentTransfer transfer) throws PersistenceException {
@@ -278,8 +279,13 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 				return debit.copyToTransfer();
 			}
 		});
-    	result.setMoney(result.getMoney().multiply(new Fraction(-1, 1)));
-    	//TODO sender empfänger tauschen
+    	result.setReceiverAccountNumber(getThis().getSender().getAccountNumber());
+    	result.setReceiverBankNumber(getThis().getSender().getBank().getBankNumber());
+    	
+    	PersistentBank b = getThis().getSender().getBank().getAdministrator().searchBankByBankNumber(getThis().getReceiverBankNumber());
+    	PersistentAccount a = b.searchAccountByAccNumber(getThis().getReceiverAccountNumber());
+    	result.setSender(a);
+    	
     	return result;
     }
     

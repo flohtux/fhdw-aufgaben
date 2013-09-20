@@ -1,8 +1,10 @@
 package view;
 
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.RemoteExceptionVisitor;
+import view.visitor.RemoteReturnExceptionVisitor;
+import view.visitor.RemoteReturnVisitor;
+import view.visitor.RemoteVisitor;
 
 public interface Remote extends AbstractViewRoot {
     

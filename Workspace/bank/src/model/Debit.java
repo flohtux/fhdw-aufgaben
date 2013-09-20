@@ -1,4 +1,3 @@
-
 package model;
 
 import model.visitor.AnythingExceptionVisitor;
@@ -36,7 +35,6 @@ import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 import common.Fraction;
-
 
 /* Additional import section end */
 
@@ -236,37 +234,37 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     public PersistentTransfer copyToTransfer() 
 				throws PersistenceException{
-        PersistentTransfer result = Transfer.createTransfer();
-        result.setInvokerTrigger(getThis().getInvokerTrigger());
-        PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), 
-        		getThis().getMoney().getCurrency());
-        result.setMoney(copyMoney);
-        result.setPreviousDebitTransfer(getThis().getPreviousDebitTransfer());
-        result.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-        result.setReceiverBankNumber(getThis().getReceiverBankNumber());
-        result.setState(getThis().getState().copy());
-        result.setSubject(getThis().getSubject());
-        result.setTimestamp(getThis().getTimestamp());
-        return result;
-    }
+		PersistentTransfer result = Transfer.createTransfer();
+		result.setInvokerTrigger(getThis().getInvokerTrigger());
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney()
+				.getCurrency());
+		result.setMoney(copyMoney);
+		result.setPreviousDebitTransfer(getThis().getPreviousDebitTransfer());
+		result.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
+		result.setReceiverBankNumber(getThis().getReceiverBankNumber());
+		result.setState(getThis().getState().copy());
+		result.setSubject(getThis().getSubject());
+		result.setTimestamp(getThis().getTimestamp());
+		return result;
+	}
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-    }
+	}
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException{
-        return getThis().getMoney().multiply(Fraction.MinusOne);
-    }
+		return getThis().getMoney().multiply(Fraction.MinusOne);
+	}
     public void initializeOnCreation() 
 				throws PersistenceException{
-        getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
-        getThis().setReceiverAccountNumber(0);
-        getThis().setReceiverBankNumber(0);
-        getThis().setState(NotExecutedState.createNotExecutedState());
-        getThis().setInvokerTrigger(NoTrigger.createNoTrigger());
-    }
+		getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
+		getThis().setReceiverAccountNumber(0);
+		getThis().setReceiverBankNumber(0);
+		getThis().setState(NotExecutedState.createNotExecutedState());
+		getThis().setInvokerTrigger(NoTrigger.createNoTrigger());
+	}
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-    }
+	}
     
     
     // Start of section that contains overridden operations only.
@@ -274,7 +272,8 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     public PersistentDebitTransfer copyDebitTransfer() 
 				throws PersistenceException{
 		PersistentDebit copy = Debit.createDebit();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(getThis().getMoney().getAmount().getBalance()), getThis().getMoney().getCurrency());
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney()
+				.getCurrency());
 		copy.setMoney(copyMoney);
 		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
 		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
@@ -293,26 +292,26 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		System.out.println("exe debit");
 		getThis().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
 			@Override
-			public void handleNoTrigger(PersistentNoTrigger noTrigger)
-					throws PersistenceException, TriggerCyclicException {}
+			public void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException, TriggerCyclicException {
+			}
+
 			@Override
-			public void handleTrigger(PersistentTrigger trigger)
-					throws PersistenceException, TriggerCyclicException {
-				if(getThis().contains(trigger).isTrue()) {
+			public void handleTrigger(PersistentTrigger trigger) throws PersistenceException, TriggerCyclicException {
+				if (getThis().contains(trigger).isTrue()) {
 					throw new TriggerCyclicException();
 				}
 			}
 		});
-    	if (!getThis().getState().isExecutable().isTrue()) {
+		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}
-    	System.out.println("exe debit  erfolg");
+		System.out.println("exe debit  erfolg");
 		getThis().getSender().getBank().sendTransfer(getThis());
 		return getThis();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */
-    
-    /* End of protected part that is not overridden by persistence generator */
+
+	/* End of protected part that is not overridden by persistence generator */
     
 }

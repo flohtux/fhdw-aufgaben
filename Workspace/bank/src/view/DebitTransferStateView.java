@@ -1,8 +1,10 @@
 package view;
 
-import view.objects.*;
-
-import view.visitor.*;
+import view.objects.AbstractViewRoot;
+import view.visitor.DebitTransferStateExceptionVisitor;
+import view.visitor.DebitTransferStateReturnExceptionVisitor;
+import view.visitor.DebitTransferStateReturnVisitor;
+import view.visitor.DebitTransferStateVisitor;
 
 public interface DebitTransferStateView extends Anything, AbstractViewRoot {
     

@@ -61,7 +61,7 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public PersistentDebitTransfer mirror() 
-				throws PersistenceException;
+				throws model.AccountSearchException, PersistenceException;
 
 }
 

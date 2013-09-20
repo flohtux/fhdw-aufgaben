@@ -2,6 +2,10 @@
 package view;
 
 
+import view.visitor.AccountSearchExceptionReturnVisitor;
+import view.visitor.AccountSearchExceptionExceptionVisitor;
+import view.visitor.AccountSearchExceptionReturnExceptionVisitor;
+import view.visitor.AccountSearchExceptionVisitor;
 import view.visitor.ExecuteExceptionExceptionVisitor;
 import view.visitor.ExecuteExceptionReturnExceptionVisitor;
 import view.visitor.ExecuteExceptionReturnVisitor;
@@ -16,7 +20,7 @@ import viewClient.ExceptionAndEventHandler;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class InvalidBankNumberException extends view.ExecuteException{
+public class InvalidBankNumberException extends view.AccountSearchException{
     
     public static InvalidBankNumberException fromHashtableToInvalidBankNumberException(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         String message = (String)resultTable.get("?Message?");
@@ -29,6 +33,18 @@ public class InvalidBankNumberException extends view.ExecuteException{
     }
     
     
+    public void accept(AccountSearchExceptionVisitor visitor) throws ModelException {
+        visitor.handleInvalidBankNumberException(this);
+    }
+    public <R> R accept(AccountSearchExceptionReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleInvalidBankNumberException(this);
+    }
+    public <E extends UserException>  void accept(AccountSearchExceptionExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleInvalidBankNumberException(this);
+    }
+    public <R, E extends UserException> R accept(AccountSearchExceptionReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleInvalidBankNumberException(this);
+    }
     public void accept(ExecuteExceptionVisitor visitor) throws ModelException {
         visitor.handleInvalidBankNumberException(this);
     }
