@@ -320,6 +320,7 @@ public class Cache {
 		this.number2NameMap.put(-135, "ErrorDisplay");
 		this.number2NameMap.put(137, "Euro");
 		this.number2NameMap.put(227, "EventWrapper");
+		this.number2NameMap.put(273, "ExchangeRateWrapper");
 		this.number2NameMap.put(213, "ExecuteCommand");
 		this.number2NameMap.put(255, "ExecuteCompensationCommand");
 		this.number2NameMap.put(110, "ExecutedState");

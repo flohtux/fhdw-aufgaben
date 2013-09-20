@@ -53,6 +53,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
         this.standardHandling(successfulState);
     }
+    public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException{
+        this.standardHandling(exchangeRateWrapper);
+    }
     public void handleIncomingAccountRule(PersistentIncomingAccountRule incomingAccountRule) throws PersistenceException{
         this.standardHandling(incomingAccountRule);
     }

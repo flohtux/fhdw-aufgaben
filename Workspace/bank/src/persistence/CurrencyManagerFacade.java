@@ -75,6 +75,52 @@ public class CurrencyManagerFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public long exchangeRatesGUIAdd(long CurrencyManagerId, PersistentExchangeRateWrapper exchangeRatesGUIVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.xchngRtGUIAdd(?, ?, ?); end;");
+            callable.registerOutParameter(1, OracleTypes.NUMBER);
+            callable.setLong(2, CurrencyManagerId);
+            callable.setLong(3, exchangeRatesGUIVal.getId());
+            callable.setLong(4, exchangeRatesGUIVal.getClassId());
+            callable.execute();
+            long result = callable.getLong(1);
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void exchangeRatesGUIRem(long exchangeRatesGUIId) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CrrncMngrFacade.xchngRtGUIRem(?); end;");
+            callable.setLong(1, exchangeRatesGUIId);
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public ExchangeRateWrapperList exchangeRatesGUIGet(long CurrencyManagerId) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CrrncMngrFacade.xchngRtGUIGet(?); end;");
+            callable.registerOutParameter(1, OracleTypes.CURSOR);
+            callable.setLong(2, CurrencyManagerId);
+            callable.execute();
+            ResultSet list = ((OracleCallableStatement)callable).getCursor(1);
+            ExchangeRateWrapperList result = new ExchangeRateWrapperList();
+            while (list.next()) {
+                result.add((PersistentExchangeRateWrapper)PersistentProxi.createListEntryProxi(list.getLong(1), list.getLong(2), list.getLong(3)));
+            }
+            list.close();
+            callable.close();
+            return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
     public long exchangeRatesAdd(long CurrencyManagerId, PersistentCurrency indxxVal, PersistentAmount exchangeRatesVal) throws PersistenceException {
         try{
             CallableStatement callable;

@@ -13,6 +13,7 @@ public interface SubjInterfaceVisitor extends ServiceVisitor,DebitTransferTransa
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public void handlePercent(PersistentPercent percent) throws PersistenceException;
+    public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
     public void handleAmount(PersistentAmount amount) throws PersistenceException;
     public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;

@@ -1,10 +1,8 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.CompensationRequestStateExceptionVisitor;
-import view.visitor.CompensationRequestStateReturnExceptionVisitor;
-import view.visitor.CompensationRequestStateReturnVisitor;
-import view.visitor.CompensationRequestStateVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface CompensationRequestStateView extends Anything, AbstractViewRoot {
     

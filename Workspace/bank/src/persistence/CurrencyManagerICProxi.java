@@ -22,6 +22,9 @@ public class CurrencyManagerICProxi extends PersistentInCacheProxiOptimistic imp
         return 179;
     }
     
+    public CurrencyManager_ExchangeRatesGUIProxi getExchangeRatesGUI() throws PersistenceException {
+        return ((PersistentCurrencyManager)this.getTheObject()).getExchangeRatesGUI();
+    }
     public CurrencyManager_ExchangeRatesProxi getExchangeRates() throws PersistenceException {
         return ((PersistentCurrencyManager)this.getTheObject()).getExchangeRates();
     }

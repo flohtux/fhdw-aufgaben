@@ -38,6 +38,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
         this.standardHandling(successfulState);
     }
+    public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException{
+        this.standardHandling(exchangeRateWrapper);
+    }
     public void handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException{
         this.standardHandling(executeCompensationCommand);
     }
@@ -284,11 +287,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException{
         this.standardHandling(eventWrapper);
     }
-    public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
-        this.standardHandling(notSuccessfulStornoState);
-    }
     public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException{
         this.standardHandling(bankFees);
+    }
+    public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
+        this.standardHandling(notSuccessfulStornoState);
     }
     public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
         this.standardHandling(declinedState);

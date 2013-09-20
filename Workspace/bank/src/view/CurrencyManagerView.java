@@ -1,13 +1,13 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface CurrencyManagerView extends Anything, AbstractViewRoot {
     
+    public java.util.Vector<ExchangeRateWrapperView> getExchangeRatesGUI()throws ModelException;
+    public void setExchangeRatesGUI(java.util.Vector<ExchangeRateWrapperView> newValue) throws ModelException ;
     public java.util.Vector<AmountView> getExchangeRates()throws ModelException;
     public void setExchangeRates(java.util.Vector<AmountView> newValue) throws ModelException ;
     public java.util.Vector<MoneyView> getCurrencyStock()throws ModelException;

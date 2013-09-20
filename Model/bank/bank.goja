@@ -16,7 +16,8 @@ server Administrator extends Service {
 }
 
 singleton CurrencyManager@@Zentralbank {
-	Amount** Currency** exchangeRates;
+	ExchangeRateWrapper ** exchangeRatesGUI##xchngRtGUI;
+   no-view Amount** Currency** exchangeRates;
 	Money** currencyStock;
 	Money translateMoneyWithoutChanging(Money money, Currency target);
 	Money translateMoney(Money money, Currency target);
@@ -26,6 +27,11 @@ singleton CurrencyManager@@Zentralbank {
 
 	void changeExchangeRate(Currency currency, Amount newRate);
 	Amount fetchExchangeRate(Currency currency);
+}
+
+class ExchangeRateWrapper##ExchngRtWrp {
+	no-view prior Amount amount;
+	no-view prior Currency currency;
 }
 
 singleton BankCreator {

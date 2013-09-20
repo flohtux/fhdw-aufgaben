@@ -40,6 +40,7 @@ import persistence.PersistentDollar;
 import persistence.PersistentEnabledState;
 import persistence.PersistentEuro;
 import persistence.PersistentEventWrapper;
+import persistence.PersistentExchangeRateWrapper;
 import persistence.PersistentExecutedState;
 import persistence.PersistentFalseValue;
 import persistence.PersistentFixTransactionFee;
@@ -454,6 +455,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.DeclinedState;
 		
+	}
+	@Override
+	public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException {
+		this.result = String.format(serverConstants.ToStringConstants.ExchangeWrapper, exchangeRateWrapper.getCurrency().toString(true), exchangeRateWrapper.getAmount().toString(true));
 	}
 	
 	

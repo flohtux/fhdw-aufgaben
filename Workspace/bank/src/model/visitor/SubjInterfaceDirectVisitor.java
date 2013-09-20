@@ -126,6 +126,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
+    public abstract void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
+    
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
     
     public void handleDollar(PersistentDollar dollar) throws PersistenceException{

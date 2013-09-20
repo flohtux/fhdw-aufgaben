@@ -1,10 +1,8 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.RuleExceptionVisitor;
-import view.visitor.RuleReturnExceptionVisitor;
-import view.visitor.RuleReturnVisitor;
-import view.visitor.RuleVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface RuleView extends Anything, AbstractViewRoot {
     

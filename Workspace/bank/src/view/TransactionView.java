@@ -1,13 +1,6 @@
 package view;
 
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.DebitTransferTransactionExceptionVisitor;
-import view.visitor.DebitTransferTransactionReturnExceptionVisitor;
-import view.visitor.DebitTransferTransactionReturnVisitor;
-import view.visitor.DebitTransferTransactionVisitor;
+import view.visitor.*;
 
 public interface TransactionView extends DebitTransferTransactionView {
     

@@ -9,6 +9,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     public void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
     public void handlePercent(PercentView percent) throws ModelException;
+    public void handleExchangeRateWrapper(ExchangeRateWrapperView exchangeRateWrapper) throws ModelException;
     public void handleBankOwnAccountPx(BankOwnAccountPxView bankOwnAccountPx) throws ModelException;
     public void handleServer(ServerView server) throws ModelException;
     public void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;

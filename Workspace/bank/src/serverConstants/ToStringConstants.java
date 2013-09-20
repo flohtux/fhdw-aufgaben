@@ -65,6 +65,7 @@ public class ToStringConstants {
 	public static final String AcceptedState = "Angenommen";
 	public static final String WaitingState = "Warten";
 	public static final String DeclinedState = "Abgelehnt";
+	public static final String ExchangeWrapper = "Wechselkurs für %s: %s";
 
 
 	

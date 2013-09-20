@@ -1,13 +1,6 @@
 package view;
 
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.TransactionFeeExceptionVisitor;
-import view.visitor.TransactionFeeReturnExceptionVisitor;
-import view.visitor.TransactionFeeReturnVisitor;
-import view.visitor.TransactionFeeVisitor;
+import view.visitor.*;
 
 public interface ProcentualFeeView extends TransactionFeeView {
     

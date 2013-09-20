@@ -1,13 +1,6 @@
 package view;
 
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.DebitTransferStateExceptionVisitor;
-import view.visitor.DebitTransferStateReturnExceptionVisitor;
-import view.visitor.DebitTransferStateReturnVisitor;
-import view.visitor.DebitTransferStateVisitor;
+import view.visitor.*;
 
 public interface TemplateStateView extends DebitTransferStateView {
     

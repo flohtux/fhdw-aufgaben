@@ -83,6 +83,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handlePercent(PercentView percent) throws ModelException;
     
+    public abstract void handleExchangeRateWrapper(ExchangeRateWrapperView exchangeRateWrapper) throws ModelException;
+    
     public abstract void handleCurrency(CurrencyView currency) throws ModelException;
     
     public void handleDollar(DollarView dollar) throws ModelException{

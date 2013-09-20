@@ -1,13 +1,10 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.ServiceExceptionVisitor;
-import view.visitor.ServiceReturnExceptionVisitor;
-import view.visitor.ServiceReturnVisitor;
-import view.visitor.ServiceVisitor;
-import viewClient.ConnectionMaster;
-import viewClient.ExceptionAndEventHandler;
-import viewClient.ServiceConnection;
+import viewClient.*;
+
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface ServiceView extends Remote, Anything, AbstractViewRoot {
     

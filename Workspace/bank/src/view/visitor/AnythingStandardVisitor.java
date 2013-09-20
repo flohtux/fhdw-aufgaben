@@ -29,6 +29,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
         this.standardHandling(successfulState);
     }
+    public void handleExchangeRateWrapper(ExchangeRateWrapperView exchangeRateWrapper) throws ModelException{
+        this.standardHandling(exchangeRateWrapper);
+    }
     public void handleNoTrigger(NoTriggerView noTrigger) throws ModelException{
         this.standardHandling(noTrigger);
     }
@@ -194,11 +197,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException{
         this.standardHandling(eventWrapper);
     }
-    public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
-        this.standardHandling(notSuccessfulStornoState);
-    }
     public void handleBankFees(BankFeesView bankFees) throws ModelException{
         this.standardHandling(bankFees);
+    }
+    public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
+        this.standardHandling(notSuccessfulStornoState);
     }
     public void handleDeclinedState(DeclinedStateView declinedState) throws ModelException{
         this.standardHandling(declinedState);

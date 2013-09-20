@@ -9,6 +9,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     public R handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
     public R handlePercent(PercentView percent) throws ModelException;
+    public R handleExchangeRateWrapper(ExchangeRateWrapperView exchangeRateWrapper) throws ModelException;
     public R handleBankOwnAccountPx(BankOwnAccountPxView bankOwnAccountPx) throws ModelException;
     public R handleServer(ServerView server) throws ModelException;
     public R handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;

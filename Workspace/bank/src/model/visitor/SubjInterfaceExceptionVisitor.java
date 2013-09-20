@@ -13,6 +13,7 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException, E;
     public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException, E;
     public void handlePercent(PersistentPercent percent) throws PersistenceException, E;
+    public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException, E;
     public void handleAmount(PersistentAmount amount) throws PersistenceException, E;
     public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException, E;
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException, E;

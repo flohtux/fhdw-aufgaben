@@ -130,6 +130,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
     
+    public abstract void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
+    
     public abstract void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException;
     
     public abstract void handleCurrency(PersistentCurrency currency) throws PersistenceException;
@@ -198,8 +200,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     
-    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
-    
     public abstract void handleLimitType(PersistentLimitType limitType) throws PersistenceException;
     
     public void handleNoLimit(PersistentNoLimit noLimit) throws PersistenceException{
@@ -208,6 +208,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleLimit(PersistentLimit limit) throws PersistenceException{
         this.handleLimitType(limit);
     }
+    public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
+    
     public abstract void handleTriggerState(PersistentTriggerState triggerState) throws PersistenceException;
     
     public void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException{

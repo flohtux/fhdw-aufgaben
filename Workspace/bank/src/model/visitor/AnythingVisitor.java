@@ -14,6 +14,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public void handlePercent(PersistentPercent percent) throws PersistenceException;
+    public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
     public void handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException;
     public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
     public void handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException;

@@ -6,6 +6,7 @@ import model.visitor.*;
 
 public interface PersistentCurrencyManager extends SubjInterface, Anything, AbstractPersistentProxi {
     
+    public CurrencyManager_ExchangeRatesGUIProxi getExchangeRatesGUI() throws PersistenceException ;
     public CurrencyManager_ExchangeRatesProxi getExchangeRates() throws PersistenceException ;
     public CurrencyManager_CurrencyStockProxi getCurrencyStock() throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;

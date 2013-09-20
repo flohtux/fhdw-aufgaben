@@ -2,6 +2,7 @@
 package model;
 
 import java.util.Iterator;
+import java.util.prefs.PreferenceChangeEvent;
 
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
@@ -16,18 +17,20 @@ import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.CurrencyManagerProxi;
 import persistence.CurrencyManager_CurrencyStockProxi;
+import persistence.CurrencyManager_ExchangeRatesGUIProxi;
 import persistence.CurrencyManager_ExchangeRatesProxi;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAmount;
 import persistence.PersistentCurrency;
 import persistence.PersistentCurrencyManager;
+import persistence.PersistentExchangeRateWrapper;
 import persistence.PersistentMoney;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
+import persistence.Predcate;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
 import common.Fraction;
 
 
@@ -78,6 +81,7 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            result.put("exchangeRatesGUI", this.getExchangeRatesGUI().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             result.put("exchangeRates", this.getExchangeRates().getValues().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             result.put("currencyStock", this.getCurrencyStock().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -98,6 +102,7 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected CurrencyManager_ExchangeRatesGUIProxi exchangeRatesGUI;
     protected CurrencyManager_ExchangeRatesProxi exchangeRates;
     protected CurrencyManager_CurrencyStockProxi currencyStock;
     protected SubjInterface subService;
@@ -106,6 +111,7 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
     public CurrencyManager(SubjInterface subService,PersistentCurrencyManager This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.exchangeRatesGUI = new CurrencyManager_ExchangeRatesGUIProxi(this);
         this.exchangeRates = new CurrencyManager_ExchangeRatesProxi(this);
         this.currencyStock = new CurrencyManager_CurrencyStockProxi(this);
         this.subService = subService;
@@ -124,6 +130,9 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
         // Singletons cannot be delayed!
     }
     
+    public CurrencyManager_ExchangeRatesGUIProxi getExchangeRatesGUI() throws PersistenceException {
+        return this.exchangeRatesGUI;
+    }
     public CurrencyManager_ExchangeRatesProxi getExchangeRates() throws PersistenceException {
         return this.exchangeRates;
     }
@@ -192,8 +201,8 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
          return visitor.handleCurrencyManager(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getExchangeRatesGUI().getLength() > 0) return 1;
         if (this.getCurrencyStock().getLength() > 0) return 1;
-        if( this.getExchangeRates().getValues().getLength() > 0) return 1;
         return 0;
     }
     
@@ -250,6 +259,12 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
     public void changeExchangeRate(final PersistentCurrency currency, final PersistentAmount newRate) 
 				throws PersistenceException{
     	getThis().getExchangeRates().put(currency, newRate);
+    	getThis().getExchangeRatesGUI().filter(new Predcate<PersistentExchangeRateWrapper>() {
+			public boolean test(PersistentExchangeRateWrapper argument) throws PersistenceException {
+				return !argument.getCurrency().equals(currency);
+			}
+		});
+    	getThis().getExchangeRatesGUI().add(ExchangeRateWrapper.createExchangeRateWrapper(newRate, currency));
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

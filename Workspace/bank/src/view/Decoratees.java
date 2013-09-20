@@ -1,6 +1,6 @@
 package view;
 
-import view.objects.AbstractViewRoot;
+import view.objects.*;
 
 
 public interface Decoratees extends AbstractViewRoot {

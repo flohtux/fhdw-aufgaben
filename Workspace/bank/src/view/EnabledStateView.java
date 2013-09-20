@@ -1,13 +1,6 @@
 package view;
 
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.TriggerStateExceptionVisitor;
-import view.visitor.TriggerStateReturnExceptionVisitor;
-import view.visitor.TriggerStateReturnVisitor;
-import view.visitor.TriggerStateVisitor;
+import view.visitor.*;
 
 public interface EnabledStateView extends TriggerStateView {
     

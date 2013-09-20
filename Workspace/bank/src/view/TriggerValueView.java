@@ -1,10 +1,8 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.TriggerValueExceptionVisitor;
-import view.visitor.TriggerValueReturnExceptionVisitor;
-import view.visitor.TriggerValueReturnVisitor;
-import view.visitor.TriggerValueVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface TriggerValueView extends Anything, AbstractViewRoot {
     

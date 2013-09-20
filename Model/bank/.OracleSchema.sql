@@ -256,6 +256,25 @@ create table Prcnt(
     constraint FPrcntThis foreign key (PrcntThisCls) references Cls (id)    
 );
 
+create sequence SExchngRtWrp nocache;
+
+create table ExchngRtWrp(
+    id number primary key,
+    Cls number not null,
+    ExchngRtWrpAmnt number,
+    ExchngRtWrpAmntCls number,
+    constraint FExchngRtWrpAmnt foreign key (ExchngRtWrpAmntCls) references Cls (id),
+    ExchngRtWrpCrrnc number,
+    ExchngRtWrpCrrncCls number,
+    constraint FExchngRtWrpCrrnc foreign key (ExchngRtWrpCrrncCls) references Cls (id),
+    ExchngRtWrpSbSrvc number,
+    ExchngRtWrpSbSrvcCls number,
+    constraint FExchngRtWrpSbSrvc foreign key (ExchngRtWrpSbSrvcCls) references Cls (id),
+    ExchngRtWrpThis number,
+    ExchngRtWrpThisCls number,
+    constraint FExchngRtWrpThis foreign key (ExchngRtWrpThisCls) references Cls (id)    
+);
+
 create sequence SCrrnc nocache;
 
 create table Crrnc(
@@ -1305,6 +1324,18 @@ create table DebTransLstDbtTrnsfrs(
     constraint FDebTransLstDbtTrnsfrsfrm foreign key(frm) references DebTransLst(id)
 );
 create index IFrmDebTransLstDbtTrnsfrs on DebTransLstDbtTrnsfrs(frm);
+
+create sequence SCrrncMngrXchngRtGUI nocache;
+
+create table CrrncMngrXchngRtGUI(
+    id number primary key,
+    frm number not null,
+    xchngRtGUI number not null,
+    Cls number not null,
+    constraint FCrrncMngrXchngRtGUICls foreign key(Cls) references Cls(id),
+    constraint FCrrncMngrXchngRtGUIfrm foreign key(frm) references CrrncMngr(id)
+);
+create index IFrmCrrncMngrXchngRtGUI on CrrncMngrXchngRtGUI(frm);
 
 create sequence SCrrncMngrExchngRts nocache;
 

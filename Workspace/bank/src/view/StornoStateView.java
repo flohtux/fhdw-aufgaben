@@ -1,10 +1,8 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.StornoStateExceptionVisitor;
-import view.visitor.StornoStateReturnExceptionVisitor;
-import view.visitor.StornoStateReturnVisitor;
-import view.visitor.StornoStateVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface StornoStateView extends Anything, AbstractViewRoot {
     

@@ -1,10 +1,8 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.CurrencyExceptionVisitor;
-import view.visitor.CurrencyReturnExceptionVisitor;
-import view.visitor.CurrencyReturnVisitor;
-import view.visitor.CurrencyVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface CurrencyView extends Anything, AbstractViewRoot {
     

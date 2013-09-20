@@ -715,6 +715,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handlePercent(view.PercentView object){
         result = new PercentDefaultDetailPanel(handler, object);
     }
+    public void handleExchangeRateWrapper(view.ExchangeRateWrapperView object){
+        result = new ExchangeRateWrapperDefaultDetailPanel(handler, object);
+    }
     public void handleSuccessfulState(view.SuccessfulStateView object){
         result = new SuccessfulStateDefaultDetailPanel(handler, object);
     }
@@ -951,7 +954,7 @@ class DebitTransferListeDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class CurrencyManagerDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String CurrencyManager$$exchangeRates = "CurrencyManager$$exchangeRates";
+    protected static final String CurrencyManager$$exchangeRatesGUI = "CurrencyManager$$exchangeRatesGUI";
     protected static final String CurrencyManager$$currencyStock = "CurrencyManager$$currencyStock";
     
     protected CurrencyManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1013,6 +1016,20 @@ class PercentDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.PercentView getAnything(){
         return (view.PercentView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class ExchangeRateWrapperDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected ExchangeRateWrapperDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.ExchangeRateWrapperView getAnything(){
+        return (view.ExchangeRateWrapperView)this.anything;
     }
 }
 

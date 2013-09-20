@@ -118,6 +118,7 @@ public class ConnectionHandler {
     public ExecutedStateFacade theExecutedStateFacade;
     public TrueValueFacade theTrueValueFacade;
     public PercentFacade thePercentFacade;
+    public ExchangeRateWrapperFacade theExchangeRateWrapperFacade;
     public SuccessfulStateFacade theSuccessfulStateFacade;
     public CurrencyFacade theCurrencyFacade;
     public ExecuteCompensationCommandFacade theExecuteCompensationCommandFacade;
@@ -250,6 +251,7 @@ public class ConnectionHandler {
             this.theExecutedStateFacade= new ExecutedStateFacade(this.schemaName, this.con);
             this.theTrueValueFacade= new TrueValueFacade(this.schemaName, this.con);
             this.thePercentFacade= new PercentFacade(this.schemaName, this.con);
+            this.theExchangeRateWrapperFacade= new ExchangeRateWrapperFacade(this.schemaName, this.con);
             this.theSuccessfulStateFacade= new SuccessfulStateFacade(this.schemaName, this.con);
             this.theCurrencyFacade= new CurrencyFacade(this.schemaName, this.con);
             this.theExecuteCompensationCommandFacade= new ExecuteCompensationCommandFacade(this.schemaName, this.con);

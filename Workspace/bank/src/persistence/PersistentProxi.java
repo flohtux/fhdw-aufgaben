@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[172];
+		listProxiFactories = new ListProxiFactory[173];
         listProxiFactories[153] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new CompensationListEntryProxi(objectId, entryId);
@@ -65,6 +65,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         listProxiFactories[11] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new PercentListEntryProxi(objectId, entryId);
+            }
+        };
+        listProxiFactories[172] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new ExchangeRateWrapperListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[74] = new ListProxiFactory(){
@@ -512,7 +517,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [172];
+		proxiFactories = new ProxiFactory [173];
         proxiFactories[153] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new CompensationProxi(objectId);
@@ -561,6 +566,11 @@ public abstract class PersistentProxi extends PersistentRoot {
         proxiFactories[11] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new PercentProxi(objectId);
+            }
+        };
+        proxiFactories[172] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new ExchangeRateWrapperProxi(objectId);
             }
         };
         proxiFactories[74] = new ProxiFactory(){

@@ -1,10 +1,8 @@
 package view;
 
-import view.objects.AbstractViewRoot;
-import view.visitor.TransactionFeeExceptionVisitor;
-import view.visitor.TransactionFeeReturnExceptionVisitor;
-import view.visitor.TransactionFeeReturnVisitor;
-import view.visitor.TransactionFeeVisitor;
+import view.objects.*;
+
+import view.visitor.*;
 
 public interface TransactionFeeView extends Anything, AbstractViewRoot {
     

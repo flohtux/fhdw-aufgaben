@@ -14,6 +14,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public R handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
+    public R handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
     public R handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException;
     public R handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
     public R handleChangeSubjectCommand(PersistentChangeSubjectCommand changeSubjectCommand) throws PersistenceException;

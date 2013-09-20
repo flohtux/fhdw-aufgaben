@@ -13,6 +13,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ServiceReturnVisitor<R> ,
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public R handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public R handlePercent(PersistentPercent percent) throws PersistenceException;
+    public R handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
     public R handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
     public R handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
