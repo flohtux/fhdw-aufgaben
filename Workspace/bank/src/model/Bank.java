@@ -443,6 +443,17 @@ public class Bank extends PersistentObject implements PersistentBank{
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToCurrentAccounts(final PersistentAccount a) 
+				throws PersistenceException{
+        PersistentAccount contained = getThis().getCurrentAccounts().findFirst(new Predcate<PersistentAccount>() {
+			public boolean test(PersistentAccount argument) throws PersistenceException {
+				return argument.equals(a);
+			}
+		});
+        if (contained == null) {
+        	getThis().getCurrentAccounts().add(a);
+        }
+    }
     public void changeInternalFee(final common.Fraction procentual) 
 				throws model.NoValidPercentValueException, PersistenceException{
     	PersistentPercent percent = Percent.createPercent(new Fraction(100, 1));

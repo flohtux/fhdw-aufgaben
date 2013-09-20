@@ -356,17 +356,8 @@ public class BankService extends model.Service implements PersistentBankService{
     }
     public void findAccount(final long accountNumber) 
 				throws model.UserException, PersistenceException{
-    	AccountSearchList sl = Account.getAccountByAccountNumber(accountNumber);
-    	sl.filter(new Predcate<PersistentAccount>() {
-			public boolean test(PersistentAccount argument) throws PersistenceException {
-				return argument.getBank().equals(getThis().getBank());
-			}
-		});
-        if (sl.getLength() == 0) {
-        	throw new NoAccountsFound();
-        } else {
-            getThis().getBank().getCurrentAccounts().add(sl);
-        }
+    	PersistentAccount a = getThis().getBank().searchAccountByAccNumber(accountNumber);
+        getThis().getBank().addToCurrentAccounts(a);
         getThis().signalChanged(true);
     }
     public void initializeOnCreation() 

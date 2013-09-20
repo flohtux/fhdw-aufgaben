@@ -72,6 +72,8 @@ class Bank {
 	void changeTransactionFeeToMixed(Money fix, Fraction procentual, Money limit) throws NoValidPercentValueException, NoValidFeeValueException;
 	void changeInternalFee(Fraction procentual) throws NoValidPercentValueException;
 	Account searchAccountByAccNumber(Integer accNum) throws InvalidAccountNumberException;
+
+	void addToCurrentAccounts(Account a);
 }
 
 class BankPx {

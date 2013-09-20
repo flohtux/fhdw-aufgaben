@@ -132,6 +132,10 @@ public class BankProxi extends PersistentProxi implements PersistentBank{
 				throws PersistenceException{
         ((PersistentBank)this.getTheObject()).updateObservers(event);
     }
+    public void addToCurrentAccounts(final PersistentAccount a) 
+				throws PersistenceException{
+        ((PersistentBank)this.getTheObject()).addToCurrentAccounts(a);
+    }
     public void changeInternalFee(final common.Fraction procentual) 
 				throws model.NoValidPercentValueException, PersistenceException{
         ((PersistentBank)this.getTheObject()).changeInternalFee(procentual);

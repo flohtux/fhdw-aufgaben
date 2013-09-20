@@ -43,6 +43,8 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void addToCurrentAccounts(final PersistentAccount a) 
+				throws PersistenceException;
     public void changeInternalFee(final common.Fraction procentual) 
 				throws model.NoValidPercentValueException, PersistenceException;
     public void changeNameImplementation(final String name) 
