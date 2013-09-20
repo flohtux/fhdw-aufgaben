@@ -44,6 +44,10 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
 				throws PersistenceException;
     public PersistentBooleanValue contains(final PersistentTrigger trigger) 
 				throws PersistenceException;
+    /**
+     * Returns a deep copy of this debit, transfer or transaction
+     * with all attributes being cloned objects with same values.
+     */
     public PersistentDebitTransfer copyDebitTransfer() 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -52,7 +56,6 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
      * Returns the value of this transaction with correct sign (+/-).
      * E.g. debits will be shown as negative!
      * @return money that the receiver gets -> with correct sign (+/-)
-     * @throws PersistenceException
      */
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException;
@@ -60,7 +63,11 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public PersistentDebitTransfer mirror() 
+    /**
+     * Returns a new transfer that would undo this debit or transfer.
+     * @throws model.AccountSearchException if a closed account is involved.
+     */
+    public PersistentTransfer mirror() 
 				throws model.AccountSearchException, PersistenceException;
 
 }

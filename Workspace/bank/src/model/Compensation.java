@@ -377,7 +377,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 
 									public PersistentBooleanValue handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException,
 											CompensationAbortedException {
-										return TrueValue.getTheTrueValue();
+										throw new CompensationAbortedException(getThis(), serverConstants.ExceptionMessages.CompensationAbortOneDecline);
 									}
 								}));
 					}

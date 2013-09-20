@@ -311,8 +311,7 @@ public class Administrator extends model.Service implements PersistentAdministra
     
     public void banks_update(final model.meta.BankPxMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: banks_update
-        
+    	getThis().signalChanged(true);
     }
     public void changeCurrencyRateGUI(final String currencyType, final common.Fraction rate) 
 				throws PersistenceException{
@@ -340,7 +339,6 @@ public class Administrator extends model.Service implements PersistentAdministra
     public void currencyManager_update(final model.meta.CurrencyManagerMssgs event) 
 				throws PersistenceException{
         getThis().signalChanged(true);
-        
     }
     public void disconnected() 
 				throws PersistenceException{

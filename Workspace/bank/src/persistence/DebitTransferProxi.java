@@ -145,7 +145,7 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
 				throws PersistenceException{
         ((PersistentDebitTransfer)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentDebitTransfer mirror() 
+    public PersistentTransfer mirror() 
 				throws model.AccountSearchException, PersistenceException{
         return ((PersistentDebitTransfer)this.getTheObject()).mirror();
     }

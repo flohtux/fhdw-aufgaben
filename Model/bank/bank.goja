@@ -315,15 +315,17 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverBankNumber@@Empfänger_Bank;	
 	no-view Money money@@Betrag;
 	TriggerValue invokerTrigger;
-	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg;
+	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg; // triggered DTR
 	DebitTransfer previousDebitTransfer##prvdebtra;
+
 	abstract Money fetchRealMoney();
-  event void changeReceiverBank(Integer receiverBankNumber);
+	event void changeReceiverBank(Integer receiverBankNumber);
 	event void changeReceiverAccount(Integer receiverAccountNumber);
 	event void changeMoney(Fraction newAmount);
 	event void changeCurrency(Currency currency);
+
 	BooleanValue contains(Trigger trigger);
-	DebitTransfer mirror() throws AccountSearchException;
+	Transfer mirror() throws AccountSearchException;
 	DebitTransfer copyDebitTransfer();
 }
 
@@ -399,7 +401,7 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 
 class Compensation {
 	prior Account requestingAccount;
-  observe CompensationRequest ** pendingRequests;
+	observe CompensationRequest ** pendingRequests;
 	one-to-one (no-view debitTransfer) StornoState stornoState;
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);

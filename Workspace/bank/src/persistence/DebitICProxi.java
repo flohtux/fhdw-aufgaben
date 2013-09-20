@@ -176,7 +176,7 @@ public class DebitICProxi extends DebitTransferICProxi implements PersistentDebi
 				throws PersistenceException{
         ((PersistentDebit)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentDebitTransfer mirror() 
+    public PersistentTransfer mirror() 
 				throws model.AccountSearchException, PersistenceException{
         return ((PersistentDebit)this.getTheObject()).mirror();
     }

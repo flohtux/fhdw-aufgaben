@@ -172,7 +172,7 @@ public class TransferProxi extends DebitTransferProxi implements PersistentTrans
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentDebitTransfer mirror() 
+    public PersistentTransfer mirror() 
 				throws model.AccountSearchException, PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).mirror();
     }

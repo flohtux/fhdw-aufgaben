@@ -1,6 +1,7 @@
 
 package model;
 
+import model.visitor.DebitTransferReturnExceptionVisitor;
 import model.visitor.DebitTransferReturnVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
@@ -22,7 +23,6 @@ import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
 import common.Fraction;
 
 
@@ -269,23 +269,22 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 	}
     
     @Override
-    public PersistentDebitTransfer mirror() throws model.InvalidBankNumberException, model.InvalidAccountNumberException, PersistenceException {
+    public PersistentTransfer mirror() throws AccountSearchException, PersistenceException {
     	PersistentDebitTransfer copy = getThis().copyDebitTransfer();
-    	PersistentTransfer result = copy.accept(new DebitTransferReturnVisitor<PersistentTransfer>() {
-			public PersistentTransfer handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+    	PersistentTransfer result = copy.accept(new DebitTransferReturnExceptionVisitor<PersistentTransfer, AccountSearchException>() {
+			public PersistentTransfer handleTransfer(PersistentTransfer transfer) throws PersistenceException, AccountSearchException {
+		    	transfer.setReceiverAccountNumber(getThis().getSender().getAccountNumber());
+		    	transfer.setReceiverBankNumber(getThis().getSender().getBank().getBankNumber());
+		    	
+		    	PersistentBank b = getThis().getSender().getBank().getAdministrator().searchBankByBankNumber(getThis().getReceiverBankNumber());
+		    	PersistentAccount a = b.searchAccountByAccNumber(getThis().getReceiverAccountNumber());
+		    	transfer.setSender(a);
 				return transfer;
 			}
 			public PersistentTransfer handleDebit(PersistentDebit debit) throws PersistenceException {
 				return debit.copyToTransfer();
 			}
 		});
-    	result.setReceiverAccountNumber(getThis().getSender().getAccountNumber());
-    	result.setReceiverBankNumber(getThis().getSender().getBank().getBankNumber());
-    	
-    	PersistentBank b = getThis().getSender().getBank().getAdministrator().searchBankByBankNumber(getThis().getReceiverBankNumber());
-    	PersistentAccount a = b.searchAccountByAccNumber(getThis().getReceiverAccountNumber());
-    	result.setSender(a);
-    	
     	return result;
     }
     

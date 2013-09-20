@@ -29,12 +29,19 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    /**
+     * Checks whether there are unanswered requests.
+     * @return false, if some requests have not been answered
+     * return true, if all requests have been answered positively
+     * @throws CompensationAbortedException if at least one request has been declined
+     */
     public PersistentBooleanValue allAnswered() 
 				throws model.CompensationAbortedException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     /**
-     * Compensates requested debit Transfers with *-1.
+     * Compensates requested debit and transfers.
+     * Assumes all transfers have been authorized (= all requests have been answered positively).
      */
     public void executeCompensation() 
 				throws PersistenceException;
@@ -46,8 +53,14 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException;
+    /**
+     * Sends compensation requests to all participants in all debits and transfers.
+     */
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException;
+    /**
+     * Sends compensation requests to all participants in the debit or transfer.
+     */
     public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException;
 

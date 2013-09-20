@@ -27,6 +27,9 @@ public interface PersistentDebit extends PersistentDebitTransfer {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    /**
+     * Creates a transfer with same attributes as this debit.
+     */
     public PersistentTransfer copyToTransfer() 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
