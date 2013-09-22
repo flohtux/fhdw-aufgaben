@@ -6,6 +6,7 @@ import model.meta.AllCompensationListeSignalChangesMssg;
 import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
 import model.meta.DebitGrantListeRemoveAccountPxMssg;
+import model.meta.DebitMssgsVisitor;
 import model.meta.DebitTransferChangeCurrencyCurrencyMssg;
 import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
@@ -21,6 +22,7 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferStateReturnVisitor;
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
@@ -61,11 +63,17 @@ import persistence.PersistentDebit;
 import persistence.PersistentDebitGrantListe;
 import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentExecutedState;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentLimitType;
 import persistence.PersistentMoney;
+import persistence.PersistentNotExecutableState;
+import persistence.PersistentNotExecutedState;
+import persistence.PersistentNotSuccessfulState;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
+import persistence.PersistentSuccessfulState;
+import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
@@ -993,15 +1001,37 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
-					t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
-						public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
-							getThis().checkAllTriggers(transfer);
+					final Boolean successful = t.getState().accept(new DebitTransferStateReturnVisitor<Boolean>(){
+						public Boolean handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
+							return false;
 						}
-						public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
-							getThis().checkAllTriggers(debit);
+						public Boolean handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
+							return false;
 						}
-						public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
-					});
+						public Boolean handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
+							return true;
+						}
+						public Boolean handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
+							return false;
+						}
+						public Boolean handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
+							return false;
+						}
+						public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
+							return false;
+						}});
+					
+					if (successful) {
+						t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
+							public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
+								getThis().checkAllTriggers(transfer);
+							}
+							public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
+								getThis().checkAllTriggers(debit);
+							}
+							public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
+						});
+					}
 					
 					
 				} catch (ExecuteException e) {
