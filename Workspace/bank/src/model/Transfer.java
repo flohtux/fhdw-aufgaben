@@ -293,12 +293,10 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 				@Override
 				public void handleNoTrigger(PersistentNoTrigger noTrigger)
 						throws PersistenceException, TriggerCyclicException {
-					System.out.println("no Trigger");
 				}
 				@Override
 				public void handleTrigger(PersistentTrigger trigger)
 						throws PersistenceException, TriggerCyclicException {
-					System.out.println("trigger okay");
 					if(getThis().contains(trigger).isTrue()) {
 						throw new TriggerCyclicException();
 					}

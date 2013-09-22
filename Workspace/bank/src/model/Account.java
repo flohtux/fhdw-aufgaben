@@ -6,7 +6,6 @@ import model.meta.AllCompensationListeSignalChangesMssg;
 import model.meta.DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg;
 import model.meta.DebitGrantListeMssgsVisitor;
 import model.meta.DebitGrantListeRemoveAccountPxMssg;
-import model.meta.DebitMssgsVisitor;
 import model.meta.DebitTransferChangeCurrencyCurrencyMssg;
 import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
@@ -22,11 +21,7 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
-<<<<<<< HEAD
-import model.visitor.DebitTransferStateVisitor;
-=======
 import model.visitor.DebitTransferStateReturnVisitor;
->>>>>>> refs/remotes/origin/florian
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
@@ -874,9 +869,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void debitTransferTransactions_update(final model.meta.DebitTransferTransactionMssgs event) 
 				throws PersistenceException{
-    	System.out.println("react!"+getThis()+event);
         getThis().getAccountService().getEventhandle().reactOnEvent(event);
-        
 		this.checkTrigger(event);
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 

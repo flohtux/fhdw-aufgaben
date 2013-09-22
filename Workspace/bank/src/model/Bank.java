@@ -544,11 +544,8 @@ public class Bank extends PersistentObject implements PersistentBank{
 		});
     	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
     	debitTransfer.changeState(SuccessfulState.createSuccessfulState());
-    	 
     	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
     	acc.getDebitTransferTransactions().add(debitTransfer);
-    	System.out.println("receiveFertig"+debitTransfer.getReceiverAccountNumber());
-        
     }
     public PersistentAccount searchAccountByAccNumber(final long accNum) 
 				throws model.InvalidAccountNumberException, PersistenceException{
@@ -565,7 +562,6 @@ public class Bank extends PersistentObject implements PersistentBank{
     }
     public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws model.ExecuteException, PersistenceException{
-    	System.out.println("sendAN"+debitTransfer.getReceiverAccountNumber());
     	try {
         	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney(), getThis(), debitTransfer.getReceiverBankNumber());
@@ -578,7 +574,6 @@ public class Bank extends PersistentObject implements PersistentBank{
     		debitTransfer.changeState(NotExecutedState.createNotExecutedState());
     		throw e;
     	}
-    	System.out.println("sendFertig"+debitTransfer.getReceiverAccountNumber());
     }
     
     
