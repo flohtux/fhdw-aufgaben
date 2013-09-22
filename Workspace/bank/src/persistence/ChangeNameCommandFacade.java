@@ -56,27 +56,39 @@ public class ChangeNameCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ChangeNameCommandId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            String name = "";
             Invoker invoker = null;
-            if (obj.getLong(3) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             PersistentBank commandReceiver = null;
-            if (obj.getLong(5) != 0)
-                commandReceiver = (PersistentBank)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(7) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
-            ChangeNameCommand result = new ChangeNameCommand(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
-                                                             invoker,
-                                                             commandReceiver,
-                                                             myCommonDate,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10006: {
+                        name = links.getString(6);
+                        if(name == null)name = "";
+                        break;
+                    }
+                    case 10007: {
+                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10008: {
+                        commandReceiver = (PersistentBank)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10009: {
+                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            ChangeNameCommand result = new ChangeNameCommand(name, 
+                                                             invoker, 
+                                                             commandReceiver, 
+                                                             myCommonDate, 
                                                              ChangeNameCommandId);
-            obj.close();
+            links.close();
             callable.close();
             ChangeNameCommandICProxi inCache = (ChangeNameCommandICProxi)Cache.getTheCache().put(result);
             ChangeNameCommand objectInCache = (ChangeNameCommand)inCache.getTheObject();

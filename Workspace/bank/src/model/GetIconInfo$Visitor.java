@@ -25,6 +25,7 @@ import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentDeclinedState;
 import persistence.PersistentDisabledState;
 import persistence.PersistentEnabledState;
 import persistence.PersistentExecutedState;
@@ -45,10 +46,38 @@ import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
+import persistence.PersistentWaitingState;
+import view.AcceptedStateView;
+import view.DeclinedStateView;
+import view.ModelException;
+import view.WaitingStateView;
+import view.visitor.CompensationRequestStateReturnVisitor;
+import view.visitor.CompensationRequestStateVisitor;
 
 public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 
 	int result = 0;
+	
+	@Override
+	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
+		compensationRequest.getState().accept(new CompensationRequestStateReturnVisitor() {
+
+			@Override
+			public void handleAcceptedState(AcceptedStateView acceptedState) throws PersistenceException{
+				result = common.IconInfoConstants.AngenommenIconNumber;
+			}
+
+			@Override
+			public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
+				result = common.IconInfoConstants.WartenIconNumber;
+			}
+
+			@Override
+			public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
+				result = common.IconInfoConstants.AbgelehntIconNumber;
+			}
+		});
+	}
 	
 	@Override
 	public void handleTrigger(PersistentTrigger trigger) throws PersistenceException {

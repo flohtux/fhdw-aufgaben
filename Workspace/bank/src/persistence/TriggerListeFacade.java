@@ -55,22 +55,26 @@ public class TriggerListeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, TriggerListeId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentTriggerListe This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentTriggerListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            TriggerListe result = new TriggerListe(subService,
-                                                   This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10311: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10312: {
+                        This = (PersistentTriggerListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            TriggerListe result = new TriggerListe(subService, 
+                                                   This, 
                                                    TriggerListeId);
-            obj.close();
+            links.close();
             callable.close();
             TriggerListeICProxi inCache = (TriggerListeICProxi)Cache.getTheCache().put(result);
             TriggerListe objectInCache = (TriggerListe)inCache.getTheObject();

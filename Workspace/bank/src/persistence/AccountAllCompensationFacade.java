@@ -55,26 +55,32 @@ public class AccountAllCompensationFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountAllCompensationId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccount observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentAllCompensationListe observee = null;
-            if (obj.getLong(4) != 0)
-                observee = (PersistentAllCompensationListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountAllCompensation This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAccountAllCompensation)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AccountAllCompensation result = new AccountAllCompensation(observer,
-                                                                       observee,
-                                                                       This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10406: {
+                        observer = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10407: {
+                        observee = (PersistentAllCompensationListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10408: {
+                        This = (PersistentAccountAllCompensation)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AccountAllCompensation result = new AccountAllCompensation(observer, 
+                                                                       observee, 
+                                                                       This, 
                                                                        AccountAllCompensationId);
-            obj.close();
+            links.close();
             callable.close();
             AccountAllCompensationICProxi inCache = (AccountAllCompensationICProxi)Cache.getTheCache().put(result);
             AccountAllCompensation objectInCache = (AccountAllCompensation)inCache.getTheObject();

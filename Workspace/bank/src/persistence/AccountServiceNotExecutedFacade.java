@@ -55,26 +55,32 @@ public class AccountServiceNotExecutedFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountServiceNotExecutedId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccountService observer = null;
-            if (obj.getLong(2) != 0)
-                observer = (PersistentAccountService)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitTransferNotExecuted observee = null;
-            if (obj.getLong(4) != 0)
-                observee = (PersistentDebitTransferNotExecuted)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountServiceNotExecuted This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            AccountServiceNotExecuted result = new AccountServiceNotExecuted(observer,
-                                                                             observee,
-                                                                             This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10270: {
+                        observer = (PersistentAccountService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10271: {
+                        observee = (PersistentDebitTransferNotExecuted)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10272: {
+                        This = (PersistentAccountServiceNotExecuted)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            AccountServiceNotExecuted result = new AccountServiceNotExecuted(observer, 
+                                                                             observee, 
+                                                                             This, 
                                                                              AccountServiceNotExecutedId);
-            obj.close();
+            links.close();
             callable.close();
             AccountServiceNotExecutedICProxi inCache = (AccountServiceNotExecutedICProxi)Cache.getTheCache().put(result);
             AccountServiceNotExecuted objectInCache = (AccountServiceNotExecuted)inCache.getTheObject();
