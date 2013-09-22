@@ -319,7 +319,6 @@ public class Money extends PersistentObject implements PersistentMoney{
     
     public PersistentMoney add(final PersistentMoney money) 
 				throws PersistenceException{
-    	System.out.println(money.toString() + getThis());
     	if(getThis().getCurrency().equals(money.getCurrency())) {
     		return Money.createMoney(Amount.createAmount(money.getAmount().getBalance().add(getThis().getAmount().getBalance())),
     				money.getCurrency());

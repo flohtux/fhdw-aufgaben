@@ -7,6 +7,7 @@ import java.util.Date;
 import model.visitor.DebitTransferReturnExceptionVisitor;
 import model.visitor.DebitTransferReturnVisitor;
 import model.visitor.TriggerValueExceptionVisitor;
+import model.visitor.TriggerValueReturnVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
@@ -290,15 +291,27 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public PersistentBooleanValue contains(PersistentTrigger trigger)
 			throws PersistenceException {
     	PersistentBooleanValue result;
-    	if(getThis().getInvokerTrigger().equals(trigger)) {
-    		result =  TrueValue.getTheTrueValue();
+    	
+    	PersistentTrigger realThisTrigger = getThis().getInvokerTrigger().accept(new TriggerValueReturnVisitor<PersistentTrigger>(){
+			public PersistentTrigger handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException {
+				return null;
+			}
+			public PersistentTrigger handleTrigger(PersistentTrigger trigger) throws PersistenceException {
+				return trigger;
+			}});
+    	
+    	if(realThisTrigger != null && realThisTrigger.equals(trigger)) {
+    		return TrueValue.getTheTrueValue();
     	}else {
     		result = FalseValue.getTheFalseValue();
     	}
     	//TODO Null abfrage entfernen
     	if(getThis().getPreviousDebitTransfer() != null) {
-    		return result.or(getThis().getPreviousDebitTransfer().contains(trigger));
+    		result = result.or(getThis().getPreviousDebitTransfer().contains(trigger));
+    		System.out.println("ergebnis1: "+result.isTrue());
+    		return result;
     	}
+    	System.out.println("ergebnis: "+result.isTrue());
     	return result;
 	}
     
@@ -324,20 +337,24 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     public PersistentDebitTransferTransaction executeImplementation() 
 			throws model.ExecuteException, PersistenceException{
+    	System.out.println("Überweisung execute: "+getThis().getId()+getThis().getSubject() + " "+ getThis().getSender().getAccountNumber()+"@"+ getThis().getSender().getBank().getBankNumber()+ "-->"+getThis().getReceiverAccountNumber()+"@"+getThis().getReceiverBankNumber());
 		if(getThis().getPreviousDebitTransfer() != null) {
-	    	getThis().getPreviousDebitTransfer().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
-				@Override
-				public void handleNoTrigger(PersistentNoTrigger noTrigger)
-						throws PersistenceException, TriggerCyclicException {
-				}
-				@Override
-				public void handleTrigger(PersistentTrigger trigger)
-						throws PersistenceException, TriggerCyclicException {
-					if(getThis().contains(trigger).isTrue()) {
-						throw new TriggerCyclicException();
+			if (getThis().getInvokerTrigger() != null) {
+				System.out.println(getThis().getPreviousDebitTransfer().getId()+";"+getThis().getInvokerTrigger());
+		    	getThis().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
+					@Override
+					public void handleNoTrigger(PersistentNoTrigger noTrigger)
+							throws PersistenceException, TriggerCyclicException {
 					}
-				}
-			});
+					@Override
+					public void handleTrigger(PersistentTrigger myInvokerTrigger)
+							throws PersistenceException, TriggerCyclicException {
+						if(getThis().getPreviousDebitTransfer().contains(myInvokerTrigger).isTrue()) {
+							throw new TriggerCyclicException();
+						}
+					}
+				});
+			}
 		}
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
