@@ -871,6 +871,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         getThis().getAccountService().getEventhandle().reactOnEvent(event);
 		this.checkTrigger(event);
+
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
@@ -998,40 +999,42 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
-					final Boolean successful = t.getState().accept(new DebitTransferStateReturnVisitor<Boolean>(){
-						public Boolean handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
-							return true;
-						}
-						public Boolean handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
-							return false;
-						}});
-					
-					if (successful) {
-						t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
-							public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
-								getThis().checkAllTriggers(transfer);
+					if (!t.getSender().equals(getThis())) {
+						final Boolean successful = t.getState().accept(new DebitTransferStateReturnVisitor<Boolean>(){
+							public Boolean handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
+								return false;
 							}
-							public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
-								getThis().checkAllTriggers(debit);
+							public Boolean handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
+								return false;
 							}
-							public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
-						});
+							public Boolean handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
+								return true;
+							}
+							public Boolean handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
+								return false;
+							}
+							public Boolean handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
+								return false;
+							}
+							public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
+								return false;
+							}});
+						
+						if (successful) {
+							t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
+								public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
+									getThis().checkAllTriggers(transfer);
+								}
+								public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
+									getThis().checkAllTriggers(debit);
+								}
+								public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
+							});
+						}
 					}
 					
-					
 				} catch (ExecuteException e) {
+					System.out.println("count catch here");
 					//TODO hier muss die Exception weiter gegeben werden
 					getThis().getAccountService().getErrors().add(ErrorDisplay.createErrorDisplay(e.getMessage()));
 					// Execute will be rolled back - no trigger!
