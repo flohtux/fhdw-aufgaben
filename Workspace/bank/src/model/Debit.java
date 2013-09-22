@@ -289,7 +289,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 	}
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
-		System.out.println("exe debit");
 		getThis().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
 			@Override
 			public void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException, TriggerCyclicException {
@@ -305,7 +304,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}
-		System.out.println("exe debit  erfolg");
 		getThis().getSender().getBank().sendTransfer(getThis());
 		return getThis();
 	}

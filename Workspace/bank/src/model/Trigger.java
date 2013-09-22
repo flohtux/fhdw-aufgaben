@@ -338,7 +338,6 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
     }
     public void executeTrigger(final PersistentDebitTransfer incomingDebitTransfer, final PersistentAccountService accService) 
 				throws model.ExecuteException, PersistenceException{
-    	System.out.println("execTrigger");
     	if (!getThis().isEnabled().isTrue()) {
     		return;
     	}
@@ -348,14 +347,12 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 					if (!(argument.check(incomingDebitTransfer).isTrue())) {
 						throw new RuleNotMatchedException();
 					}
-					System.out.println("matched");
 				}
 			});
 		} catch (RuleNotMatchedException e) {
 			// trigger action will not be executed
 			return;
 		}
-		System.out.println("execute independent");
 		PersistentDebitTransferTransaction copy = getThis().getAction().copy();
 		accService.getAccount().getDebitTransferTransactions().add(copy);
 		copy.changeState(NotExecutedState.createNotExecutedState());
@@ -377,7 +374,7 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 					public void doItTo(PersistentDebitTransfer argument)
 							throws PersistenceException {
 						argument.setPreviousDebitTransfer(incomingDebitTransfer);
-						argument.changeState(NotExecutedState.createNotExecutedState());
+						argument.changeState(NotSuccessfulState.createNotSuccessfulState());
 					}
 				});
 			}
