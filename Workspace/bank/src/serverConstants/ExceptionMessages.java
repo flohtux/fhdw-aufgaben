@@ -9,7 +9,7 @@ public class ExceptionMessages {
 	public static final String DebitNotGrantedMessage = "Es gibt keine Einzugsermächtigung für das Zielkonto!";
 	public static final String InvalidBankMessage = "Die Bankleitzahl %s ist ungültig!";
 	public static final String InvalidAccountNumberMessage = "Die Kontonummer %s ist ungültig!";
-	public static final String GrantAlreadyGivenMessage = "Der Account hat bereits eine Erlaubnis!";
+	public static final String GrantAlreadyGivenMessage = "Der Account hat bereits eine Erlaubnis.";
 	public static final String RuleNotMatchedMessage = "Die Regel trifft nicht zu.";
 	public static final String DoubleRuleDefinitionMessage = "Doppelte Regel vom gleichen Typ.";
 	public static final String NoRouleDefinitionMessage = "Es muss mindestens eine Regel definiert werden!";
