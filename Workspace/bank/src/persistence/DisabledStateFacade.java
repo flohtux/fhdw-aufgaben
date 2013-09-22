@@ -36,26 +36,22 @@ public class DisabledStateFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DisabledStateId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentTriggerState This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10320: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10321: {
-                        This = (PersistentTriggerState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            DisabledState result = new DisabledState(subService, 
-                                                     This, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTriggerState This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentTriggerState)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            DisabledState result = new DisabledState(subService,
+                                                     This,
                                                      DisabledStateId);
-            links.close();
+            obj.close();
             callable.close();
             DisabledStateICProxi inCache = (DisabledStateICProxi)Cache.getTheCache().put(result);
             DisabledState objectInCache = (DisabledState)inCache.getTheObject();

@@ -55,32 +55,26 @@ public class ProcentualFeeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ProcentualFeeId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentTransactionFee This = null;
-            PersistentPercent percent = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10059: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10060: {
-                        This = (PersistentTransactionFee)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10037: {
-                        percent = (PersistentPercent)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            ProcentualFee result = new ProcentualFee(subService, 
-                                                     This, 
-                                                     percent, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTransactionFee This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentTransactionFee)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentPercent percent = null;
+            if (obj.getLong(6) != 0)
+                percent = (PersistentPercent)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            ProcentualFee result = new ProcentualFee(subService,
+                                                     This,
+                                                     percent,
                                                      ProcentualFeeId);
-            links.close();
+            obj.close();
             callable.close();
             ProcentualFeeICProxi inCache = (ProcentualFeeICProxi)Cache.getTheCache().put(result);
             ProcentualFee objectInCache = (ProcentualFee)inCache.getTheObject();

@@ -55,26 +55,22 @@ public class CompensationPendingRequestsFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CompensationPendingRequestsId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentCompensation observer = null;
-            PersistentCompensationPendingRequests This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10368: {
-                        observer = (PersistentCompensation)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10370: {
-                        This = (PersistentCompensationPendingRequests)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            CompensationPendingRequests result = new CompensationPendingRequests(observer, 
-                                                                                 This, 
+            PersistentCompensation observer = null;
+            if (obj.getLong(2) != 0)
+                observer = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentCompensationPendingRequests This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentCompensationPendingRequests)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            CompensationPendingRequests result = new CompensationPendingRequests(observer,
+                                                                                 This,
                                                                                  CompensationPendingRequestsId);
-            links.close();
+            obj.close();
             callable.close();
             CompensationPendingRequestsICProxi inCache = (CompensationPendingRequestsICProxi)Cache.getTheCache().put(result);
             CompensationPendingRequests objectInCache = (CompensationPendingRequests)inCache.getTheObject();

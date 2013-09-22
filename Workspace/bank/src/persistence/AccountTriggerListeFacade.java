@@ -55,32 +55,26 @@ public class AccountTriggerListeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountTriggerListeId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAccount observer = null;
-            PersistentTriggerListe observee = null;
-            PersistentAccountTriggerListe This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10313: {
-                        observer = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10314: {
-                        observee = (PersistentTriggerListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10315: {
-                        This = (PersistentAccountTriggerListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            AccountTriggerListe result = new AccountTriggerListe(observer, 
-                                                                 observee, 
-                                                                 This, 
+            PersistentAccount observer = null;
+            if (obj.getLong(2) != 0)
+                observer = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTriggerListe observee = null;
+            if (obj.getLong(4) != 0)
+                observee = (PersistentTriggerListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentAccountTriggerListe This = null;
+            if (obj.getLong(6) != 0)
+                This = (PersistentAccountTriggerListe)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            AccountTriggerListe result = new AccountTriggerListe(observer,
+                                                                 observee,
+                                                                 This,
                                                                  AccountTriggerListeId);
-            links.close();
+            obj.close();
             callable.close();
             AccountTriggerListeICProxi inCache = (AccountTriggerListeICProxi)Cache.getTheCache().put(result);
             AccountTriggerListe objectInCache = (AccountTriggerListe)inCache.getTheObject();

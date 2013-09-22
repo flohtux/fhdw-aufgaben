@@ -55,44 +55,34 @@ public class CompensationFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CompensationId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAccount requestingAccount = null;
-            PersistentCompensationPendingRequests pendingRequests = null;
-            PersistentStornoState stornoState = null;
-            SubjInterface subService = null;
-            PersistentCompensation This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10358: {
-                        requestingAccount = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10359: {
-                        pendingRequests = (PersistentCompensationPendingRequests)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10393: {
-                        stornoState = (PersistentStornoState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10360: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10361: {
-                        This = (PersistentCompensation)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            Compensation result = new Compensation(requestingAccount, 
-                                                   pendingRequests, 
-                                                   stornoState, 
-                                                   subService, 
-                                                   This, 
+            PersistentAccount requestingAccount = null;
+            if (obj.getLong(2) != 0)
+                requestingAccount = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentCompensationPendingRequests pendingRequests = null;
+            if (obj.getLong(4) != 0)
+                pendingRequests = (PersistentCompensationPendingRequests)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentStornoState stornoState = null;
+            if (obj.getLong(6) != 0)
+                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            SubjInterface subService = null;
+            if (obj.getLong(8) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentCompensation This = null;
+            if (obj.getLong(10) != 0)
+                This = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            Compensation result = new Compensation(requestingAccount,
+                                                   pendingRequests,
+                                                   stornoState,
+                                                   subService,
+                                                   This,
                                                    CompensationId);
-            links.close();
+            obj.close();
             callable.close();
             CompensationICProxi inCache = (CompensationICProxi)Cache.getTheCache().put(result);
             Compensation objectInCache = (Compensation)inCache.getTheObject();

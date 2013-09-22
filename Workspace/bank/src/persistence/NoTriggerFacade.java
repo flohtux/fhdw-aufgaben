@@ -55,26 +55,22 @@ public class NoTriggerFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, NoTriggerId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            SubjInterface subService = null;
-            PersistentTriggerValue This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10347: {
-                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10348: {
-                        This = (PersistentTriggerValue)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            NoTrigger result = new NoTrigger(subService, 
-                                             This, 
+            SubjInterface subService = null;
+            if (obj.getLong(2) != 0)
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentTriggerValue This = null;
+            if (obj.getLong(4) != 0)
+                This = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            NoTrigger result = new NoTrigger(subService,
+                                             This,
                                              NoTriggerId);
-            links.close();
+            obj.close();
             callable.close();
             NoTriggerICProxi inCache = (NoTriggerICProxi)Cache.getTheCache().put(result);
             NoTrigger objectInCache = (NoTrigger)inCache.getTheObject();

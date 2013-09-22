@@ -1,9 +1,12 @@
 package model;
 
+import model.visitor.CompensationRequestStateReturnVisitor;
+import model.visitor.CompensationRequestStateVisitor;
 import model.visitor.DebitTransferStateVisitor;
 import model.visitor.TriggerStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
+import persistence.PersistentAcceptedState;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountAllCompensation;
 import persistence.PersistentAccountGrantedDebitGrant;
@@ -47,12 +50,6 @@ import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.PersistentWaitingState;
-import view.AcceptedStateView;
-import view.DeclinedStateView;
-import view.ModelException;
-import view.WaitingStateView;
-import view.visitor.CompensationRequestStateReturnVisitor;
-import view.visitor.CompensationRequestStateVisitor;
 
 public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 
@@ -60,10 +57,10 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	
 	@Override
 	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
-		compensationRequest.getState().accept(new CompensationRequestStateReturnVisitor() {
+		compensationRequest.getState().accept(new CompensationRequestStateVisitor() {
 
 			@Override
-			public void handleAcceptedState(AcceptedStateView acceptedState) throws PersistenceException{
+			public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException{
 				result = common.IconInfoConstants.AngenommenIconNumber;
 			}
 

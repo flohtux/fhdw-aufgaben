@@ -55,32 +55,26 @@ public class AccountServiceBankFeesFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, AccountServiceBankFeesId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            PersistentAccountService observer = null;
-            PersistentBankFees observee = null;
-            PersistentAccountServiceBankFees This = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10343: {
-                        observer = (PersistentAccountService)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10344: {
-                        observee = (PersistentBankFees)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10345: {
-                        This = (PersistentAccountServiceBankFees)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            AccountServiceBankFees result = new AccountServiceBankFees(observer, 
-                                                                       observee, 
-                                                                       This, 
+            PersistentAccountService observer = null;
+            if (obj.getLong(2) != 0)
+                observer = (PersistentAccountService)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentBankFees observee = null;
+            if (obj.getLong(4) != 0)
+                observee = (PersistentBankFees)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentAccountServiceBankFees This = null;
+            if (obj.getLong(6) != 0)
+                This = (PersistentAccountServiceBankFees)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            AccountServiceBankFees result = new AccountServiceBankFees(observer,
+                                                                       observee,
+                                                                       This,
                                                                        AccountServiceBankFeesId);
-            links.close();
+            obj.close();
             callable.close();
             AccountServiceBankFeesICProxi inCache = (AccountServiceBankFeesICProxi)Cache.getTheCache().put(result);
             AccountServiceBankFees objectInCache = (AccountServiceBankFees)inCache.getTheObject();

@@ -55,32 +55,26 @@ public class ExecuteCompensationCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ExecuteCompensationCommandId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            Invoker invoker = null;
-            PersistentCompensation commandReceiver = null;
-            PersistentCommonDate myCommonDate = null;
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                    case 10362: {
-                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10363: {
-                        commandReceiver = (PersistentCompensation)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                    case 10364: {
-                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
-                        break;
-                    }
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
-            ExecuteCompensationCommand result = new ExecuteCompensationCommand(invoker, 
-                                                                               commandReceiver, 
-                                                                               myCommonDate, 
+            Invoker invoker = null;
+            if (obj.getLong(2) != 0)
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            PersistentCompensation commandReceiver = null;
+            if (obj.getLong(4) != 0)
+                commandReceiver = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(6) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            ExecuteCompensationCommand result = new ExecuteCompensationCommand(invoker,
+                                                                               commandReceiver,
+                                                                               myCommonDate,
                                                                                ExecuteCompensationCommandId);
-            links.close();
+            obj.close();
             callable.close();
             ExecuteCompensationCommandICProxi inCache = (ExecuteCompensationCommandICProxi)Cache.getTheCache().put(result);
             ExecuteCompensationCommand objectInCache = (ExecuteCompensationCommand)inCache.getTheObject();

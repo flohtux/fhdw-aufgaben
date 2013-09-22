@@ -36,14 +36,14 @@ public class CommandCoordinatorFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CommandCoordinatorId);
             callable.execute();
-            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
-            while(links.next()){
-                long associationId = links.getLong(2);
-                switch ((int)associationId) {
-                }
+            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
+            if (!obj.next()) {
+                obj.close();
+                callable.close();
+                return null;
             }
             CommandCoordinator result = new CommandCoordinator(CommandCoordinatorId);
-            links.close();
+            obj.close();
             callable.close();
             CommandCoordinatorICProxi inCache = (CommandCoordinatorICProxi)Cache.getTheCache().put(result);
             CommandCoordinator objectInCache = (CommandCoordinator)inCache.getTheObject();
