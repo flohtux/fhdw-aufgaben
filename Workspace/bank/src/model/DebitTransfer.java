@@ -42,6 +42,15 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("receiverAccountNumber", new Long(this.getReceiverAccountNumber()).toString());
             result.put("receiverBankNumber", new Long(this.getReceiverBankNumber()).toString());
+            AbstractPersistentRoot receiver = (AbstractPersistentRoot)this.getReceiver();
+            if (receiver != null) {
+                result.put("receiver", receiver.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    receiver.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && receiver.hasEssentialFields())receiver.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             AbstractPersistentRoot money = (AbstractPersistentRoot)this.getMoney();
             if (money != null) {
                 result.put("money", money.createProxiInformation(false, essentialLevel == 0));
@@ -83,16 +92,18 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     }
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
+    protected PersistentAccount receiver;
     protected PersistentMoney money;
     protected PersistentTriggerValue invokerTrigger;
     protected DebitTransfer_NextDebitTransferTransactionstriggersProxi nextDebitTransferTransactionstriggers;
     protected PersistentDebitTransfer previousDebitTransfer;
     
-    public DebitTransfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
+    public DebitTransfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
+        this.receiver = receiver;
         this.money = money;
         this.invokerTrigger = invokerTrigger;
         this.nextDebitTransferTransactionstriggers = new DebitTransfer_NextDebitTransferTransactionstriggersProxi(this);
@@ -110,6 +121,10 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
+        if(this.getReceiver() != null){
+            this.getReceiver().store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverSet(this.getId(), getReceiver());
+        }
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.moneySet(this.getId(), getMoney());
@@ -139,6 +154,20 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public void setReceiverBankNumber(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverBankNumberSet(this.getId(), newValue);
         this.receiverBankNumber = newValue;
+    }
+    public PersistentAccount getReceiver() throws PersistenceException {
+        return this.receiver;
+    }
+    public void setReceiver(PersistentAccount newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.receiver)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.receiver = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverSet(this.getId(), newValue);
+        }
     }
     public PersistentMoney getMoney() throws PersistenceException {
         return this.money;

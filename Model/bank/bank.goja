@@ -312,7 +312,8 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 
 string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
-	Integer receiverBankNumber@@Empfänger_Bank;	
+	Integer receiverBankNumber@@Empfänger_Bank;
+	no-view Account receiver; //if executed successfully
 	no-view Money money@@Betrag;
 	TriggerValue invokerTrigger;
 	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg; // triggered DTR

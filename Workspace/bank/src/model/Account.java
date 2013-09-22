@@ -769,16 +769,18 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void checkAllTriggers(final PersistentDebitTransfer incomingDebitTransfer) 
 				throws model.ExecuteException, PersistenceException{
-		System.out.println("exec"+incomingDebitTransfer);
-		System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
-		getThis().getTriggerListe().getTriggers().applyToAllException(new ProcdureException<PersistentTrigger, ExecuteException>() {
-
-			@Override
-			public void doItTo(PersistentTrigger argument)
-					throws PersistenceException, ExecuteException {
-				argument.executeTrigger(incomingDebitTransfer, getThis().getAccountService());
-			}
-		});
+    	if (incomingDebitTransfer.getReceiver().equals(getThis())) {
+	    	System.out.println("exec"+incomingDebitTransfer);
+			System.out.println("triggerlist" + getThis().getTriggerListe().getTriggers().getLength());
+			getThis().getTriggerListe().getTriggers().applyToAllException(new ProcdureException<PersistentTrigger, ExecuteException>() {
+	
+				@Override
+				public void doItTo(PersistentTrigger argument)
+						throws PersistenceException, ExecuteException {
+					argument.executeTrigger(incomingDebitTransfer, getThis().getAccountService());
+				}
+			});
+    	}
     }
     public void compensationDeclined(final PersistentCompensation compensation, final String reason) 
 				throws model.CompensationAbortedException, PersistenceException{
