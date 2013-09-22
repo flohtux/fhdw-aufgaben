@@ -22,7 +22,11 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+<<<<<<< HEAD
 import model.visitor.DebitTransferStateVisitor;
+=======
+import model.visitor.DebitTransferStateReturnVisitor;
+>>>>>>> refs/remotes/origin/florian
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
@@ -1001,15 +1005,37 @@ public class Account extends PersistentObject implements PersistentAccount{
 			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
-					t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
-						public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
-							getThis().checkAllTriggers(transfer);
+					final Boolean successful = t.getState().accept(new DebitTransferStateReturnVisitor<Boolean>(){
+						public Boolean handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
+							return false;
 						}
-						public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
-							getThis().checkAllTriggers(debit);
+						public Boolean handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
+							return false;
 						}
-						public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
-					});
+						public Boolean handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
+							return true;
+						}
+						public Boolean handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
+							return false;
+						}
+						public Boolean handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
+							return false;
+						}
+						public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
+							return false;
+						}});
+					
+					if (successful) {
+						t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
+							public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
+								getThis().checkAllTriggers(transfer);
+							}
+							public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
+								getThis().checkAllTriggers(debit);
+							}
+							public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
+						});
+					}
 					
 					
 				} catch (ExecuteException e) {
