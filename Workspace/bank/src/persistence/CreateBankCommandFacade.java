@@ -56,35 +56,51 @@ public class CreateBankCommandFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, CreateBankCommandId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            String name = "";
             PersistentAdministrator administrator = null;
-            if (obj.getLong(3) != 0)
-                administrator = (PersistentAdministrator)PersistentProxi.createProxi(obj.getLong(3), obj.getLong(4));
             Invoker invoker = null;
-            if (obj.getLong(5) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(5), obj.getLong(6));
             PersistentBankCreator commandReceiver = null;
-            if (obj.getLong(7) != 0)
-                commandReceiver = (PersistentBankCreator)PersistentProxi.createProxi(obj.getLong(7), obj.getLong(8));
             PersistentBank commandResult = null;
-            if (obj.getLong(9) != 0)
-                commandResult = (PersistentBank)PersistentProxi.createProxi(obj.getLong(9), obj.getLong(10));
             PersistentCommonDate myCommonDate = null;
-            if (obj.getLong(11) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(11), obj.getLong(12));
-            CreateBankCommand result = new CreateBankCommand(obj.getString(2) == null ? "" : obj.getString(2) /* In Oracle "" = null !!! */,
-                                                             administrator,
-                                                             invoker,
-                                                             commandReceiver,
-                                                             commandResult,
-                                                             myCommonDate,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10031: {
+                        name = links.getString(6);
+                        if(name == null)name = "";
+                        break;
+                    }
+                    case 10122: {
+                        administrator = (PersistentAdministrator)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10032: {
+                        invoker = (Invoker)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10033: {
+                        commandReceiver = (PersistentBankCreator)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10034: {
+                        commandResult = (PersistentBank)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10035: {
+                        myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            CreateBankCommand result = new CreateBankCommand(name, 
+                                                             administrator, 
+                                                             invoker, 
+                                                             commandReceiver, 
+                                                             commandResult, 
+                                                             myCommonDate, 
                                                              CreateBankCommandId);
-            obj.close();
+            links.close();
             callable.close();
             CreateBankCommandICProxi inCache = (CreateBankCommandICProxi)Cache.getTheCache().put(result);
             CreateBankCommand objectInCache = (CreateBankCommand)inCache.getTheObject();

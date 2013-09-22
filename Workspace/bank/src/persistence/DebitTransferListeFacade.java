@@ -55,22 +55,26 @@ public class DebitTransferListeFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, DebitTransferListeId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             SubjInterface subService = null;
-            if (obj.getLong(2) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentDebitTransferListe This = null;
-            if (obj.getLong(4) != 0)
-                This = (PersistentDebitTransferListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            DebitTransferListe result = new DebitTransferListe(subService,
-                                                               This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10238: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10239: {
+                        This = (PersistentDebitTransferListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            DebitTransferListe result = new DebitTransferListe(subService, 
+                                                               This, 
                                                                DebitTransferListeId);
-            obj.close();
+            links.close();
             callable.close();
             DebitTransferListeICProxi inCache = (DebitTransferListeICProxi)Cache.getTheCache().put(result);
             DebitTransferListe objectInCache = (DebitTransferListe)inCache.getTheObject();

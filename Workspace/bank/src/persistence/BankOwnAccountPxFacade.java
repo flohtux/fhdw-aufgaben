@@ -55,26 +55,32 @@ public class BankOwnAccountPxFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, BankOwnAccountPxId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAccount account = null;
-            if (obj.getLong(2) != 0)
-                account = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             SubjInterface subService = null;
-            if (obj.getLong(4) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentBankOwnAccountPx This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentBankOwnAccountPx)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            BankOwnAccountPx result = new BankOwnAccountPx(account,
-                                                           subService,
-                                                           This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10385: {
+                        account = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10386: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10387: {
+                        This = (PersistentBankOwnAccountPx)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            BankOwnAccountPx result = new BankOwnAccountPx(account, 
+                                                           subService, 
+                                                           This, 
                                                            BankOwnAccountPxId);
-            obj.close();
+            links.close();
             callable.close();
             BankOwnAccountPxICProxi inCache = (BankOwnAccountPxICProxi)Cache.getTheCache().put(result);
             BankOwnAccountPx objectInCache = (BankOwnAccountPx)inCache.getTheObject();

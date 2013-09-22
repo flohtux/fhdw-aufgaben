@@ -55,30 +55,38 @@ public class ExchangeRateWrapperFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, ExchangeRateWrapperId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentAmount amount = null;
-            if (obj.getLong(2) != 0)
-                amount = (PersistentAmount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCurrency currency = null;
-            if (obj.getLong(4) != 0)
-                currency = (PersistentCurrency)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             SubjInterface subService = null;
-            if (obj.getLong(6) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             PersistentExchangeRateWrapper This = null;
-            if (obj.getLong(8) != 0)
-                This = (PersistentExchangeRateWrapper)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            ExchangeRateWrapper result = new ExchangeRateWrapper(amount,
-                                                                 currency,
-                                                                 subService,
-                                                                 This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10410: {
+                        amount = (PersistentAmount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10411: {
+                        currency = (PersistentCurrency)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10412: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10413: {
+                        This = (PersistentExchangeRateWrapper)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            ExchangeRateWrapper result = new ExchangeRateWrapper(amount, 
+                                                                 currency, 
+                                                                 subService, 
+                                                                 This, 
                                                                  ExchangeRateWrapperId);
-            obj.close();
+            links.close();
             callable.close();
             ExchangeRateWrapperICProxi inCache = (ExchangeRateWrapperICProxi)Cache.getTheCache().put(result);
             ExchangeRateWrapper objectInCache = (ExchangeRateWrapper)inCache.getTheObject();

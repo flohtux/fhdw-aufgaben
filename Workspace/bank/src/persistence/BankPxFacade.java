@@ -55,26 +55,32 @@ public class BankPxFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, BankPxId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
             PersistentBank bank = null;
-            if (obj.getLong(2) != 0)
-                bank = (PersistentBank)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             SubjInterface subService = null;
-            if (obj.getLong(4) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentBankPx This = null;
-            if (obj.getLong(6) != 0)
-                This = (PersistentBankPx)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            BankPx result = new BankPx(bank,
-                                       subService,
-                                       This,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10325: {
+                        bank = (PersistentBank)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10326: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10327: {
+                        This = (PersistentBankPx)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            BankPx result = new BankPx(bank, 
+                                       subService, 
+                                       This, 
                                        BankPxId);
-            obj.close();
+            links.close();
             callable.close();
             BankPxICProxi inCache = (BankPxICProxi)Cache.getTheCache().put(result);
             BankPx objectInCache = (BankPx)inCache.getTheObject();

@@ -57,36 +57,57 @@ public class TransactionFacade{
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, TransactionId);
             callable.execute();
-            ResultSet obj = ((OracleCallableStatement)callable).getCursor(1);
-            if (!obj.next()) {
-                obj.close();
-                callable.close();
-                return null;
-            }
+            ResultSet links = ((OracleCallableStatement)callable).getCursor(1);
+            java.sql.Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+            String subject = "";
             PersistentAccount sender = null;
-            if (obj.getLong(4) != 0)
-                sender = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentDebitTransferState state = null;
-            if (obj.getLong(6) != 0)
-                state = (PersistentDebitTransferState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             SubjInterface subService = null;
-            if (obj.getLong(8) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
             PersistentDebitTransferTransaction This = null;
-            if (obj.getLong(10) != 0)
-                This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             PersistentDebitTransferListe debitTransfer = null;
-            if (obj.getLong(12) != 0)
-                debitTransfer = (PersistentDebitTransferListe)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
-            Transaction result = new Transaction(obj.getTimestamp(2),
-                                                 obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
-                                                 sender,
-                                                 state,
-                                                 subService,
-                                                 This,
-                                                 debitTransfer,
+            while(links.next()){
+                long associationId = links.getLong(2);
+                switch ((int)associationId) {
+                    case 10127: {
+                        timestamp = links.getTimestamp(9);
+                        break;
+                    }
+                    case 10309: {
+                        subject = links.getString(6);
+                        if(subject == null)subject = "";
+                        break;
+                    }
+                    case 10242: {
+                        sender = (PersistentAccount)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10241: {
+                        state = (PersistentDebitTransferState)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10076: {
+                        subService = (SubjInterface)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10077: {
+                        This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                    case 10240: {
+                        debitTransfer = (PersistentDebitTransferListe)PersistentProxi.createProxi(links.getLong(3), links.getLong(4));
+                        break;
+                    }
+                }
+            }
+            Transaction result = new Transaction(timestamp, 
+                                                 subject, 
+                                                 sender, 
+                                                 state, 
+                                                 subService, 
+                                                 This, 
+                                                 debitTransfer, 
                                                  TransactionId);
-            obj.close();
+            links.close();
             callable.close();
             TransactionICProxi inCache = (TransactionICProxi)Cache.getTheCache().put(result);
             Transaction objectInCache = (Transaction)inCache.getTheObject();
