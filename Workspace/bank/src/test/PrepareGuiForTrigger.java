@@ -42,7 +42,11 @@ public class PrepareGuiForTrigger {
 		}
 	}
 	
-	
+	/**
+	 * Erzeugt einen Standardfall für die Oberfläche:
+	 * also 2 accounts 1@1 und 2@1 mit jeweils einem zyklischen trigger.
+	 * resettet natürlich vorher
+	 */
 	@Test
 	public void test() throws PersistenceException, DoubleRuleDefinitionException, NoRuleDefinitionException {
 		PersistentAdministrator admin = Administrator.createAdministrator();
