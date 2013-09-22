@@ -1,8 +1,12 @@
 
 package model;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import model.visitor.DebitTransferReturnExceptionVisitor;
 import model.visitor.DebitTransferReturnVisitor;
+import model.visitor.TriggerValueExceptionVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
@@ -17,6 +21,7 @@ import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
+import persistence.PersistentNoTrigger;
 import persistence.PersistentProxi;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
@@ -288,6 +293,31 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     	return result;
     }
     
+    public PersistentDebitTransferTransaction executeImplementation() 
+			throws model.ExecuteException, PersistenceException{
+		if(getThis().getPreviousDebitTransfer() != null) {
+	    	getThis().getPreviousDebitTransfer().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
+				@Override
+				public void handleNoTrigger(PersistentNoTrigger noTrigger)
+						throws PersistenceException, TriggerCyclicException {
+				}
+				@Override
+				public void handleTrigger(PersistentTrigger trigger)
+						throws PersistenceException, TriggerCyclicException {
+					if(getThis().contains(trigger).isTrue()) {
+						throw new TriggerCyclicException();
+					}
+				}
+			});
+		}
+		if (!getThis().getState().isExecutable().isTrue()) {
+			throw new NoPermissionToExecuteDebitTransferException();
+		}
+		Timestamp tstamp = new Timestamp(new Date().getTime());
+		getThis().setTimestamp(tstamp);
+		getThis().getSender().getBank().sendTransfer(getThis());
+		return getThis();
+}
 
  
     /* End of protected part that is not overridden by persistence generator */

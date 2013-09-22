@@ -355,7 +355,7 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 		}
 		PersistentDebitTransferTransaction copy = getThis().getAction().copy();
 		accService.getAccount().getDebitTransferTransactions().add(copy);
-		copy.changeState(NotExecutedState.createNotExecutedState());
+		copy.changeState(NotSuccessfulState.createNotSuccessfulState());
 		copy.accept(new DebitTransferTransactionVisitor() {
 			@Override
 			public void handleTransfer(PersistentTransfer transfer)
@@ -380,8 +380,8 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 			}
 		});
 		incomingDebitTransfer.getNextDebitTransferTransactionstriggers().add(copy);
-//		copy.execute(accService);
-		copy.execute();
+		copy.execute(accService);
+//		copy.execute();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

@@ -81,7 +81,7 @@ public class TestTrigger {
 		initTransfer.setReceiverAccountNumber(SecondAccountNumber);
 		initTransfer.setReceiverBankNumber(bank.getBankNumber());
 		initTransfer.setSubject("Das ist MeinBetreff!");
-		initTransfer.execute();
+		initTransfer.execute(acc1.getAccountService());
 		
 		assertEquals(Fraction.parse("-45"), acc1.getMoney().getAmount().getBalance());
 		assertEquals(0, acc1.getAccountService().getErrors().getLength());
