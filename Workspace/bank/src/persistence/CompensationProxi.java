@@ -122,6 +122,10 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).pendingRequests_update(event);
     }
+    public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransferTransaction(debitTransferTransaction);
+    }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfers(debitTransfers);

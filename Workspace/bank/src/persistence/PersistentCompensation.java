@@ -53,6 +53,8 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
 				throws PersistenceException;
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException;
+    public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException;
     /**
      * Sends compensation requests to all participants in all debits and transfers.
      */

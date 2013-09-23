@@ -492,6 +492,11 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			}
 		});
 	}
+    public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        //TODO: implement method: requestCompensationForDebitTransferTransaction
+        
+    }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{
 		debitTransfers.applyToAll(new Procdure<PersistentDebitTransfer>() {

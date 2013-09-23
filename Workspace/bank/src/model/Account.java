@@ -78,6 +78,7 @@ import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.Predcate;
+import persistence.Procdure;
 import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -456,6 +457,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
         if (this.getLimit() != null) return 1;
+        if (this.getDebitTransferTransactions().getObservee().getLength() > 0) return 1;
         if (this.getGrantedDebitGrant() != null) return 1;
         if (this.getReceivedDebitGrant() != null) return 1;
         if (this.getTriggerListe() != null) return 1;
@@ -742,9 +744,35 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-    	a.changeState(AcceptedState.getTheAcceptedState());
-    	// TODO Trigger accept
-        
+    	a.getDebitTransferTransaction().accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(final PersistentTransfer transfer)
+					throws PersistenceException {
+				transfer.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+					@Override
+					public void doItTo(PersistentDebitTransferTransaction argument)
+							throws PersistenceException {
+						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(transfer);
+					}
+				});
+			}
+			@Override
+			public void handleDebit(final PersistentDebit debit) throws PersistenceException {
+				debit.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+					@Override
+					public void doItTo(PersistentDebitTransferTransaction argument)
+							throws PersistenceException {
+						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(debit);
+					}
+				});
+			}
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {
+				
+			}
+		});
+        getThis().answerAccept(a);
     }
     public void answerAccept(final PersistentCompensationRequest a) 
 				throws PersistenceException{

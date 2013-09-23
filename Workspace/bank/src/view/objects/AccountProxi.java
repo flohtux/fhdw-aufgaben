@@ -72,6 +72,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
         if(this.getMoney() != null) index = index - 1;
         if(index == 0 && this.getLimit() != null) return new LimitAccountWrapper(this, originalIndex, (ViewRoot)this.getLimit());
         if(this.getLimit() != null) index = index - 1;
+        if(index < this.getDebitTransferTransactions().size()) return new DebitTransferTransactionsAccountWrapper(this, originalIndex, (ViewRoot)this.getDebitTransferTransactions().get(index));
+        index = index - this.getDebitTransferTransactions().size();
         if(index == 0 && this.getGrantedDebitGrant() != null) return new GrantedDebitGrantAccountWrapper(this, originalIndex, (ViewRoot)this.getGrantedDebitGrant());
         if(this.getGrantedDebitGrant() != null) index = index - 1;
         if(index == 0 && this.getReceivedDebitGrant() != null) return new ReceivedDebitGrantAccountWrapper(this, originalIndex, (ViewRoot)this.getReceivedDebitGrant());
@@ -86,6 +88,7 @@ public class AccountProxi extends ViewProxi implements AccountView{
         return 0 
             + (this.getMoney() == null ? 0 : 1)
             + (this.getLimit() == null ? 0 : 1)
+            + (this.getDebitTransferTransactions().size())
             + (this.getGrantedDebitGrant() == null ? 0 : 1)
             + (this.getReceivedDebitGrant() == null ? 0 : 1)
             + (this.getTriggerListe() == null ? 0 : 1)
@@ -96,6 +99,7 @@ public class AccountProxi extends ViewProxi implements AccountView{
         return true 
             && (this.getMoney() == null ? true : false)
             && (this.getLimit() == null ? true : false)
+            && (this.getDebitTransferTransactions().size() == 0)
             && (this.getGrantedDebitGrant() == null ? true : false)
             && (this.getReceivedDebitGrant() == null ? true : false)
             && (this.getTriggerListe() == null ? true : false)
@@ -107,6 +111,11 @@ public class AccountProxi extends ViewProxi implements AccountView{
         if(this.getMoney() != null) result = result + 1;
         if(this.getLimit() != null && this.getLimit().equals(child)) return result;
         if(this.getLimit() != null) result = result + 1;
+        java.util.Iterator<?> getDebitTransferTransactionsIterator = this.getDebitTransferTransactions().iterator();
+        while(getDebitTransferTransactionsIterator.hasNext()){
+            if(getDebitTransferTransactionsIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         if(this.getGrantedDebitGrant() != null && this.getGrantedDebitGrant().equals(child)) return result;
         if(this.getGrantedDebitGrant() != null) result = result + 1;
         if(this.getReceivedDebitGrant() != null && this.getReceivedDebitGrant().equals(child)) return result;

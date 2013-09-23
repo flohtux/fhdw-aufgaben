@@ -159,7 +159,7 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
@@ -414,6 +414,7 @@ class Compensation {
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
 	void requestCompensationForDebitTransfer(DebitTransfer debitTransfer);
+	void requestCompensationForDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
 
 	active void executeCompensation();
 	BooleanValue allAnswered() throws CompensationAbortedException;
