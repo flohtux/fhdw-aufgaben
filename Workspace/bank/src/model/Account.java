@@ -456,6 +456,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
         if (this.getLimit() != null) return 1;
+        if (this.getDebitTransferTransactions().getObservee().getLength() > 0) return 1;
         if (this.getGrantedDebitGrant() != null) return 1;
         if (this.getReceivedDebitGrant() != null) return 1;
         if (this.getTriggerListe() != null) return 1;
@@ -660,6 +661,19 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     // Start of section that contains operations that must be implemented.
     
+    public void addDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        PersistentDebitTransferTransaction result = getThis().getDebitTransferTransactions().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
+			@Override
+			public boolean test(PersistentDebitTransferTransaction argument)
+					throws PersistenceException {
+				return argument.equals(debitTransferTransaction);
+			}
+		});
+        if(result == null) {
+        	getThis().getDebitTransferTransactions().add(debitTransferTransaction);
+        }
+    }
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
     	 transaction.addToTransaction(debitTransfer);
@@ -952,11 +966,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         list.remove(acc);
     }
-    public void requestCompensationForTransaction(final PersistentTransaction a) 
-				throws PersistenceException{
-        
-        
-    }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException{
     	final PersistentCompensation comp = Compensation.createCompensation(getThis());
@@ -967,7 +976,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException{
         //TODO: implement method: triggerListe_update
-        
     }
     
     

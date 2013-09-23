@@ -74,6 +74,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAccountPx(AccountPxView accountPx) throws ModelException{
         this.standardHandling(accountPx);
     }
+    public void handleNoDebitTransfer(NoDebitTransferView noDebitTransfer) throws ModelException{
+        this.standardHandling(noDebitTransfer);
+    }
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException{
         this.standardHandling(errorDisplay);
     }

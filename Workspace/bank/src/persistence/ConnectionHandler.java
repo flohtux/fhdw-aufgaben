@@ -140,9 +140,10 @@ public class ConnectionHandler {
     public ChangeReceiverAccountCommandFacade theChangeReceiverAccountCommandFacade;
     public MixedFeeFacade theMixedFeeFacade;
     public CompensationRequestFacade theCompensationRequestFacade;
-    public AccountPxFacade theAccountPxFacade;
     public AccountAllCompensationFacade theAccountAllCompensationFacade;
+    public AccountPxFacade theAccountPxFacade;
     public TransactionFeeFacade theTransactionFeeFacade;
+    public NoDebitTransferFacade theNoDebitTransferFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
     public UseTemplateCommandFacade theUseTemplateCommandFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
@@ -273,9 +274,10 @@ public class ConnectionHandler {
             this.theChangeReceiverAccountCommandFacade= new ChangeReceiverAccountCommandFacade(this.schemaName, this.con);
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
             this.theCompensationRequestFacade= new CompensationRequestFacade(this.schemaName, this.con);
-            this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
             this.theAccountAllCompensationFacade= new AccountAllCompensationFacade(this.schemaName, this.con);
+            this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
+            this.theNoDebitTransferFacade= new NoDebitTransferFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
             this.theUseTemplateCommandFacade= new UseTemplateCommandFacade(this.schemaName, this.con);
             this.theErrorDisplayFacade= new ErrorDisplayFacade();

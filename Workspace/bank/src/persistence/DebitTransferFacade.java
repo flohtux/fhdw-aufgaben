@@ -124,7 +124,7 @@ public class DebitTransferFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void previousDebitTransferSet(long DebitTransferId, PersistentDebitTransfer previousDebitTransferVal) throws PersistenceException {
+    public void previousDebitTransferSet(long DebitTransferId, DebitTransferNoValue previousDebitTransferVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtTrnsfrFacade.prvdebtraSet(?, ?, ?); end;");

@@ -26,8 +26,9 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException;
     public R handleChangeReceiverAccountCommand(PersistentChangeReceiverAccountCommand changeReceiverAccountCommand) throws PersistenceException;
     public R handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
-    public R handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     public R handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException;
+    public R handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
+    public R handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer) throws PersistenceException;
     public R handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     public R handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;

@@ -763,6 +763,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleAccountPx(view.AccountPxView object){
         result = new AccountPxDefaultDetailPanel(handler, object);
     }
+    public void handleNoDebitTransfer(view.NoDebitTransferView object){
+        result = new NoDebitTransferDefaultDetailPanel(handler, object);
+    }
     public void handleErrorDisplay(view.ErrorDisplayView object){
         result = new ErrorDisplayDefaultDetailPanel(handler, object);
     }
@@ -1274,6 +1277,20 @@ class AccountPxDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.AccountPxView getAnything(){
         return (view.AccountPxView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class NoDebitTransferDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NoDebitTransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NoDebitTransferView getAnything(){
+        return (view.NoDebitTransferView)this.anything;
     }
 }
 
@@ -1828,6 +1845,7 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
+    protected static final String Account$$debitTransferTransactions = "Account$$debitTransferTransactions";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
     protected static final String Account$$triggerListe = "Account$$triggerListe";

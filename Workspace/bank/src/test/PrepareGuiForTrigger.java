@@ -80,6 +80,40 @@ public class PrepareGuiForTrigger {
 		
 		
 	}
+	
+	@Test
+	public void test2() throws PersistenceException, DoubleRuleDefinitionException, NoRuleDefinitionException {
+		PersistentAdministrator admin = Administrator.createAdministrator();
+		PersistentBank b = BankCreator.getTheBankCreator().createBank(BankName1, admin);
+		b.createAccount("Euro");
+		b.createAccount("Euro");
+		
+		PersistentAccount acc1 = b.getAccounts().get(FirstAccountNumber);
+		PersistentAccount acc2 = b.getAccounts().get(SecondAccountNumber);
+		
+		PersistentTransfer action = acc2.createTransfer();
+		action.setSubject("Folge 2->1");
+		action.setMoney(Money.createMoney(Amount.createAmount(Fraction.parseDec("12")), Euro.getTheEuro()));
+		action.setReceiverAccountNumber(acc1.getAccountNumber());
+		action.setReceiverBankNumber(acc1.getBank().getBankNumber());
+		PersistentTrigger tr = acc2.createTrigger("T2",action);
+		tr.addRule(SubjectRule.createSubjectRule());
+		tr.enable();
+		
+		PersistentTransfer action2 = acc1.createTransfer();
+		action2.setSubject("Folge 1->2");
+		action2.setReceiverAccountNumber(acc2.getAccountNumber());
+		action2.setReceiverBankNumber(acc2.getBank().getBankNumber());
+		action2.setMoney(Money.createMoney(Amount.createAmount(Fraction.parseDec("13")), Euro.getTheEuro()));
+		PersistentTrigger tr2 = acc1.createTrigger("T1",action2);
+		tr2.addRule(SubjectRule.createSubjectRule());
+		tr2.enable();
+		
+		
+		
+		
+		
+	}
 
 }
 

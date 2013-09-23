@@ -28,6 +28,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException;
     public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
+    public abstract void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer) throws PersistenceException;
     public abstract void handleEuro(PersistentEuro euro) throws PersistenceException;
     public abstract void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException;
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;

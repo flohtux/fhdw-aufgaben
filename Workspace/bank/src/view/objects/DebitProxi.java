@@ -1,9 +1,31 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.DebitTransferNoValue;
+import view.DebitTransferStateView;
+import view.DebitTransferTransactionView;
+import view.DebitView;
+import view.ModelException;
+import view.MoneyView;
+import view.TriggerValueView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.DebitTransferExceptionVisitor;
+import view.visitor.DebitTransferNoValueExceptionVisitor;
+import view.visitor.DebitTransferNoValueReturnExceptionVisitor;
+import view.visitor.DebitTransferNoValueReturnVisitor;
+import view.visitor.DebitTransferNoValueVisitor;
+import view.visitor.DebitTransferReturnExceptionVisitor;
+import view.visitor.DebitTransferReturnVisitor;
+import view.visitor.DebitTransferTransactionExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
+import view.visitor.DebitTransferTransactionVisitor;
+import view.visitor.DebitTransferVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class DebitProxi extends DebitTransferProxi implements DebitView{
     
@@ -61,7 +83,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             previousDebitTransfer = view.objects.ViewProxi.createProxi(previousDebitTransfer$Info,connectionKey);
             previousDebitTransfer.setToString(previousDebitTransfer$Info.getToString());
         }
-        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer, this.getId(), this.getClassId());
+        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferNoValue)previousDebitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -147,6 +169,18 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
          visitor.handleDebit(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleDebit(this);
+    }
+    public void accept(DebitTransferNoValueVisitor visitor) throws ModelException {
+        visitor.handleDebit(this);
+    }
+    public <R> R accept(DebitTransferNoValueReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleDebit(this);
+    }
+    public <E extends UserException>  void accept(DebitTransferNoValueExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleDebit(this);
+    }
+    public <R, E extends UserException> R accept(DebitTransferNoValueReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
          return visitor.handleDebit(this);
     }
     

@@ -52,6 +52,7 @@ import persistence.PersistentLimitAccount;
 import persistence.PersistentMixedFee;
 import persistence.PersistentMoney;
 import persistence.PersistentMoneyRule;
+import persistence.PersistentNoDebitTransfer;
 import persistence.PersistentNoLimit;
 import persistence.PersistentNoRequestState;
 import persistence.PersistentNoTrigger;
@@ -459,6 +460,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException {
 		this.result = String.format(serverConstants.ToStringConstants.ExchangeWrapper, exchangeRateWrapper.getCurrency().toString(true), exchangeRateWrapper.getAmount().toString(true));
+	}
+	@Override
+	public void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer)
+			throws PersistenceException {
+		// No-view
 	}
 	
 	

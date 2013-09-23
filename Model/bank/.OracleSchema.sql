@@ -491,22 +491,6 @@ create table CmpnstnRqst(
     constraint FCmpnstnRqstThis foreign key (CmpnstnRqstThisCls) references Cls (id)    
 );
 
-create sequence SAccntPx nocache;
-
-create table AccntPx(
-    id number primary key,
-    Cls number not null,
-    AccntPxAccnt number,
-    AccntPxAccntCls number,
-    constraint FAccntPxAccnt foreign key (AccntPxAccntCls) references Cls (id),
-    AccntPxSbSrvc number,
-    AccntPxSbSrvcCls number,
-    constraint FAccntPxSbSrvc foreign key (AccntPxSbSrvcCls) references Cls (id),
-    AccntPxThis number,
-    AccntPxThisCls number,
-    constraint FAccntPxThis foreign key (AccntPxThisCls) references Cls (id)    
-);
-
 create sequence SAccntAllCmpnstn nocache;
 
 create table AccntAllCmpnstn(
@@ -521,6 +505,22 @@ create table AccntAllCmpnstn(
     AccntAllCmpnstnThis number,
     AccntAllCmpnstnThisCls number,
     constraint FAccntAllCmpnstnThis foreign key (AccntAllCmpnstnThisCls) references Cls (id)    
+);
+
+create sequence SAccntPx nocache;
+
+create table AccntPx(
+    id number primary key,
+    Cls number not null,
+    AccntPxAccnt number,
+    AccntPxAccntCls number,
+    constraint FAccntPxAccnt foreign key (AccntPxAccntCls) references Cls (id),
+    AccntPxSbSrvc number,
+    AccntPxSbSrvcCls number,
+    constraint FAccntPxSbSrvc foreign key (AccntPxSbSrvcCls) references Cls (id),
+    AccntPxThis number,
+    AccntPxThisCls number,
+    constraint FAccntPxThis foreign key (AccntPxThisCls) references Cls (id)    
 );
 
 create sequence STrnsctnF nocache;
@@ -549,6 +549,19 @@ create table TrnsctnF(
     MxdFLmt number,
     MxdFLmtCls number,
     constraint FMxdFLmt foreign key (MxdFLmtCls) references Cls (id)    
+);
+
+create sequence SNDbtTrnsfr nocache;
+
+create table NDbtTrnsfr(
+    id number primary key,
+    Cls number not null,
+    NDbtTrnsfrSbSrvc number,
+    NDbtTrnsfrSbSrvcCls number,
+    constraint FNDbtTrnsfrSbSrvc foreign key (NDbtTrnsfrSbSrvcCls) references Cls (id),
+    NDbtTrnsfrThis number,
+    NDbtTrnsfrThisCls number,
+    constraint FNDbtTrnsfrThis foreign key (NDbtTrnsfrThisCls) references Cls (id)    
 );
 
 create sequence SAdmnstrtrCrrncMngr nocache;

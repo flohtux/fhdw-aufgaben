@@ -1,9 +1,18 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.CompensationView;
+import view.ModelException;
+import view.NotSuccessfulStornoStateView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.StornoStateExceptionVisitor;
+import view.visitor.StornoStateReturnExceptionVisitor;
+import view.visitor.StornoStateReturnVisitor;
+import view.visitor.StornoStateVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class NotSuccessfulStornoStateProxi extends StornoStateProxi implements NotSuccessfulStornoStateView{
     

@@ -45,10 +45,10 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public DebitTransfer_NextDebitTransferTransactionstriggersProxi getNextDebitTransferTransactionstriggers() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getNextDebitTransferTransactionstriggers();
     }
-    public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException {
+    public DebitTransferNoValue getPreviousDebitTransfer() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getPreviousDebitTransfer();
     }
-    public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
+    public void setPreviousDebitTransfer(DebitTransferNoValue newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setPreviousDebitTransfer(newValue);
     }
     public abstract PersistentDebitTransfer getThis() throws PersistenceException ;
@@ -134,6 +134,10 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
         return ((PersistentDebitTransfer)this.getTheObject()).copy();
+    }
+    public PersistentDebitTransfer createNewObject() 
+				throws PersistenceException{
+        return ((PersistentDebitTransfer)this.getTheObject()).createNewObject();
     }
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
