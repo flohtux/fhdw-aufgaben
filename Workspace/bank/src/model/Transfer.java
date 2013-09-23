@@ -267,24 +267,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
-    public PersistentDebitTransfer copyDebitTransfer() 
-				throws PersistenceException{
-		PersistentTransfer copy = Transfer.createTransfer();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setSubject(getThis().getSubject());
-		copy.setState(getThis().getState().copy());
-		copy.setTimestamp(getThis().getTimestamp());
-		copy.setInvokerTrigger(getThis().getInvokerTrigger());
-		return copy;
-	}
-    public PersistentDebitTransferTransaction copy() 
-				throws PersistenceException{
-		return getThis().copyDebitTransfer();
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
  

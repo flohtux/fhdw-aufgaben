@@ -16,7 +16,6 @@ import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
-import model.visitor.TriggerValueExceptionVisitor;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.DebitProxi;
@@ -28,12 +27,11 @@ import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
-import persistence.PersistentNoTrigger;
 import persistence.PersistentTransfer;
-import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
+
 import common.Fraction;
 
 /* Additional import section end */
@@ -270,24 +268,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
     
     // Start of section that contains overridden operations only.
     
-    public PersistentDebitTransfer copyDebitTransfer() 
-				throws PersistenceException{
-		PersistentDebit copy = Debit.createDebit();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney()
-				.getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setState(getThis().getState().copy());
-		copy.setSubject(getThis().getSubject());
-		copy.setTimestamp(getThis().getTimestamp());
-		return copy;
-	}
-    public PersistentDebitTransferTransaction copy() 
-				throws PersistenceException{
-		return getThis().copyDebitTransfer();
-	}
 
     /* Start of protected part that is not overridden by persistence generator */
 

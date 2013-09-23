@@ -363,7 +363,27 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 		getThis().setTimestamp(tstamp);
 		getThis().getSender().getBank().sendTransfer(getThis());
 		return getThis();
-}
+    }
+    
+    public PersistentDebitTransfer copyDebitTransfer() 
+				throws PersistenceException{
+		PersistentDebit copy = Debit.createDebit();
+		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney()
+				.getCurrency());
+		copy.setMoney(copyMoney);
+		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
+		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
+		copy.setSender(getThis().getSender());
+		copy.setState(getThis().getState().copy());
+		copy.setSubject(getThis().getSubject());
+		copy.setInvokerTrigger(getThis().getInvokerTrigger());
+		copy.setTimestamp(getThis().getTimestamp());
+		return copy;
+	}
+    public PersistentDebitTransferTransaction copy() 
+				throws PersistenceException{
+		return getThis().copyDebitTransfer();
+	}
 
  
     /* End of protected part that is not overridden by persistence generator */
