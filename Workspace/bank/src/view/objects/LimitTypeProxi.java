@@ -1,7 +1,7 @@
 package view.objects;
 
-import view.LimitTypeView;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
 
 public abstract class LimitTypeProxi extends ViewProxi implements LimitTypeView{
     

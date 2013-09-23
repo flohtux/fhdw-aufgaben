@@ -1,17 +1,9 @@
 package view.objects;
 
-import view.AcceptedStateView;
-import view.ModelException;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.CompensationRequestStateExceptionVisitor;
-import view.visitor.CompensationRequestStateReturnExceptionVisitor;
-import view.visitor.CompensationRequestStateReturnVisitor;
-import view.visitor.CompensationRequestStateVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class AcceptedStateProxi extends CompensationRequestStateProxi implements AcceptedStateView{
     

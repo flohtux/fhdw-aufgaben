@@ -1,18 +1,9 @@
 package view.objects;
 
-import view.DebitTransferTransactionView;
-import view.ExecutedStateView;
-import view.ModelException;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.DebitTransferStateExceptionVisitor;
-import view.visitor.DebitTransferStateReturnExceptionVisitor;
-import view.visitor.DebitTransferStateReturnVisitor;
-import view.visitor.DebitTransferStateVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class ExecutedStateProxi extends DebitTransferStateProxi implements ExecutedStateView{
     
