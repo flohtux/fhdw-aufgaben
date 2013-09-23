@@ -1,17 +1,9 @@
 package view.objects;
 
-import view.ModelException;
-import view.NoDebitTransferView;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.DebitTransferNoValueExceptionVisitor;
-import view.visitor.DebitTransferNoValueReturnExceptionVisitor;
-import view.visitor.DebitTransferNoValueReturnVisitor;
-import view.visitor.DebitTransferNoValueVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class NoDebitTransferProxi extends ViewProxi implements NoDebitTransferView{
     

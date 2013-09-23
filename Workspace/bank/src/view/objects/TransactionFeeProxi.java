@@ -1,7 +1,7 @@
 package view.objects;
 
-import view.TransactionFeeView;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
 
 public abstract class TransactionFeeProxi extends ViewProxi implements TransactionFeeView{
     
