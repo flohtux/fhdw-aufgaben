@@ -278,15 +278,13 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
 		copy.setSubject(getThis().getSubject());
 		copy.setState(getThis().getState().copy());
 		copy.setTimestamp(getThis().getTimestamp());
-		PersistentTriggerValue copyTrigger = getThis().getInvokerTrigger().copy();
-		copy.setInvokerTrigger(copyTrigger);
+		copy.setInvokerTrigger(getThis().getInvokerTrigger());
 		return copy;
 	}
     public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
 		return getThis().copyDebitTransfer();
 	}
-    
 
     /* Start of protected part that is not overridden by persistence generator */
  

@@ -967,7 +967,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException{
         //TODO: implement method: triggerListe_update
-        
     }
     
     
