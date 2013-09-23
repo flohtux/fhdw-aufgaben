@@ -7,6 +7,7 @@ import java.util.Date;
 import model.visitor.DebitTransferReturnExceptionVisitor;
 import model.visitor.DebitTransferReturnVisitor;
 import model.visitor.TriggerValueExceptionVisitor;
+import model.visitor.TriggerValueReturnVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;
 import persistence.ConnectionHandler;
@@ -42,6 +43,15 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("receiverAccountNumber", new Long(this.getReceiverAccountNumber()).toString());
             result.put("receiverBankNumber", new Long(this.getReceiverBankNumber()).toString());
+            AbstractPersistentRoot receiver = (AbstractPersistentRoot)this.getReceiver();
+            if (receiver != null) {
+                result.put("receiver", receiver.createProxiInformation(false, essentialLevel == 0));
+                if(depth > 1) {
+                    receiver.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && receiver.hasEssentialFields())receiver.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             AbstractPersistentRoot money = (AbstractPersistentRoot)this.getMoney();
             if (money != null) {
                 result.put("money", money.createProxiInformation(false, essentialLevel == 0));
@@ -83,16 +93,18 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     }
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
+    protected PersistentAccount receiver;
     protected PersistentMoney money;
     protected PersistentTriggerValue invokerTrigger;
     protected DebitTransfer_NextDebitTransferTransactionstriggersProxi nextDebitTransferTransactionstriggers;
     protected PersistentDebitTransfer previousDebitTransfer;
     
-    public DebitTransfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
+    public DebitTransfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,id);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
+        this.receiver = receiver;
         this.money = money;
         this.invokerTrigger = invokerTrigger;
         this.nextDebitTransferTransactionstriggers = new DebitTransfer_NextDebitTransferTransactionstriggersProxi(this);
@@ -110,6 +122,10 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
+        if(this.getReceiver() != null){
+            this.getReceiver().store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverSet(this.getId(), getReceiver());
+        }
         if(this.getMoney() != null){
             this.getMoney().store();
             ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.moneySet(this.getId(), getMoney());
@@ -139,6 +155,20 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public void setReceiverBankNumber(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverBankNumberSet(this.getId(), newValue);
         this.receiverBankNumber = newValue;
+    }
+    public PersistentAccount getReceiver() throws PersistenceException {
+        return this.receiver;
+    }
+    public void setReceiver(PersistentAccount newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.receiver)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.receiver = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDebitTransferFacade.receiverSet(this.getId(), newValue);
+        }
     }
     public PersistentMoney getMoney() throws PersistenceException {
         return this.money;
@@ -261,15 +291,27 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     public PersistentBooleanValue contains(PersistentTrigger trigger)
 			throws PersistenceException {
     	PersistentBooleanValue result;
-    	if(getThis().getInvokerTrigger().equals(trigger)) {
-    		result =  TrueValue.getTheTrueValue();
+    	
+    	PersistentTrigger realThisTrigger = getThis().getInvokerTrigger().accept(new TriggerValueReturnVisitor<PersistentTrigger>(){
+			public PersistentTrigger handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException {
+				return null;
+			}
+			public PersistentTrigger handleTrigger(PersistentTrigger trigger) throws PersistenceException {
+				return trigger;
+			}});
+    	
+    	if(realThisTrigger != null && realThisTrigger.equals(trigger)) {
+    		return TrueValue.getTheTrueValue();
     	}else {
     		result = FalseValue.getTheFalseValue();
     	}
     	//TODO Null abfrage entfernen
     	if(getThis().getPreviousDebitTransfer() != null) {
-    		return result.or(getThis().getPreviousDebitTransfer().contains(trigger));
+    		result = result.or(getThis().getPreviousDebitTransfer().contains(trigger));
+    		System.out.println("ergebnis1: "+result.isTrue());
+    		return result;
     	}
+    	System.out.println("ergebnis: "+result.isTrue());
     	return result;
 	}
     
@@ -295,20 +337,24 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     
     public PersistentDebitTransferTransaction executeImplementation() 
 			throws model.ExecuteException, PersistenceException{
+    	System.out.println("Überweisung execute: "+getThis().getId()+getThis().getSubject() + " "+ getThis().getSender().getAccountNumber()+"@"+ getThis().getSender().getBank().getBankNumber()+ "-->"+getThis().getReceiverAccountNumber()+"@"+getThis().getReceiverBankNumber());
 		if(getThis().getPreviousDebitTransfer() != null) {
-	    	getThis().getPreviousDebitTransfer().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
-				@Override
-				public void handleNoTrigger(PersistentNoTrigger noTrigger)
-						throws PersistenceException, TriggerCyclicException {
-				}
-				@Override
-				public void handleTrigger(PersistentTrigger trigger)
-						throws PersistenceException, TriggerCyclicException {
-					if(getThis().contains(trigger).isTrue()) {
-						throw new TriggerCyclicException();
+			if (getThis().getInvokerTrigger() != null) {
+				System.out.println(getThis().getPreviousDebitTransfer().getId()+";"+getThis().getInvokerTrigger());
+		    	getThis().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
+					@Override
+					public void handleNoTrigger(PersistentNoTrigger noTrigger)
+							throws PersistenceException, TriggerCyclicException {
 					}
-				}
-			});
+					@Override
+					public void handleTrigger(PersistentTrigger myInvokerTrigger)
+							throws PersistenceException, TriggerCyclicException {
+						if(getThis().getPreviousDebitTransfer().contains(myInvokerTrigger).isTrue()) {
+							throw new TriggerCyclicException();
+						}
+					}
+				});
+			}
 		}
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();

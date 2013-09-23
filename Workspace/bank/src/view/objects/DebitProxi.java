@@ -31,6 +31,13 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
         }
         long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
         long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
+        ViewProxi receiver = null;
+        String receiver$String = (String)resultTable.get("receiver");
+        if (receiver$String != null) {
+            common.ProxiInformation receiver$Info = common.RPCConstantsAndServices.createProxiInformation(receiver$String);
+            receiver = view.objects.ViewProxi.createProxi(receiver$Info,connectionKey);
+            receiver.setToString(receiver$Info.getToString());
+        }
         ViewProxi money = null;
         String money$String = (String)resultTable.get("money");
         if (money$String != null) {
@@ -54,7 +61,7 @@ public class DebitProxi extends DebitTransferProxi implements DebitView{
             previousDebitTransfer = view.objects.ViewProxi.createProxi(previousDebitTransfer$Info,connectionKey);
             previousDebitTransfer.setToString(previousDebitTransfer$Info.getToString());
         }
-        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer, this.getId(), this.getClassId());
+        DebitView result$$ = new Debit((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferView)previousDebitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

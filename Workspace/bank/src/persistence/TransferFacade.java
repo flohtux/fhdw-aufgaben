@@ -28,7 +28,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,id);
+            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -44,7 +44,7 @@ public class TransferFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,id);
+            Transfer result = new Transfer(timestamp,subject,null,null,null,null,receiverAccountNumber,receiverBankNumber,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (TransferProxi)PersistentProxi.createProxi(id, 122);
         }catch(SQLException se) {
@@ -77,15 +77,18 @@ public class TransferFacade{
             PersistentDebitTransferTransaction This = null;
             if (obj.getLong(10) != 0)
                 This = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            PersistentMoney money = null;
+            PersistentAccount receiver = null;
             if (obj.getLong(14) != 0)
-                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
-            PersistentTriggerValue invokerTrigger = null;
+                receiver = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(14), obj.getLong(15));
+            PersistentMoney money = null;
             if (obj.getLong(16) != 0)
-                invokerTrigger = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
-            PersistentDebitTransfer previousDebitTransfer = null;
+                money = (PersistentMoney)PersistentProxi.createProxi(obj.getLong(16), obj.getLong(17));
+            PersistentTriggerValue invokerTrigger = null;
             if (obj.getLong(18) != 0)
-                previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(18), obj.getLong(19));
+                invokerTrigger = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(18), obj.getLong(19));
+            PersistentDebitTransfer previousDebitTransfer = null;
+            if (obj.getLong(20) != 0)
+                previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(20), obj.getLong(21));
             Transfer result = new Transfer(obj.getTimestamp(2),
                                            obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                            sender,
@@ -94,6 +97,7 @@ public class TransferFacade{
                                            This,
                                            obj.getLong(12),
                                            obj.getLong(13),
+                                           receiver,
                                            money,
                                            invokerTrigger,
                                            previousDebitTransfer,

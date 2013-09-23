@@ -109,6 +109,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
                               this.This, 
                               this.receiverAccountNumber, 
                               this.receiverBankNumber, 
+                              this.receiver, 
                               this.money, 
                               this.invokerTrigger, 
                               this.previousDebitTransfer, 
@@ -121,9 +122,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         return false;
     }
     
-    public Transfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
+    public Transfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,id);        
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)receiver,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,id);        
     }
     
     static public long getTypeId() {
@@ -256,7 +257,6 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         getThis().setMoney(Money.createMoney(Amount.createAmount(Fraction.parse("0/1")), Euro.getTheEuro()));
         getThis().setReceiverAccountNumber(0);
         getThis().setReceiverBankNumber(0);
-        System.err.println("niti 0");
         getThis().setState(NotExecutedState.createNotExecutedState());
         getThis().setInvokerTrigger(NoTrigger.createNoTrigger());
     }

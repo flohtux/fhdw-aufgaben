@@ -457,7 +457,6 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			public void handleCompensationRequestChangeStateCompensationRequestStateMssg(
 					CompensationRequestChangeStateCompensationRequestStateMssg event)
 					throws PersistenceException {
-				System.out.println("update pending requests");
 				Boolean execute = getThis().getPendingRequests().aggregate(new Aggregtion<PersistentCompensationRequest, Boolean>() {
 					public Boolean neutral() throws PersistenceException {
 						return true;

@@ -97,6 +97,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
                            this.This, 
                            this.receiverAccountNumber, 
                            this.receiverBankNumber, 
+                           this.receiver, 
                            this.money, 
                            this.invokerTrigger, 
                            this.previousDebitTransfer, 
@@ -109,9 +110,9 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         return false;
     }
     
-    public Debit(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
+    public Debit(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,id);        
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)receiver,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,id);        
     }
     
     static public long getTypeId() {

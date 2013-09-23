@@ -16,16 +16,18 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
+    protected AccountView receiver;
     protected MoneyView money;
     protected TriggerValueView invokerTrigger;
     protected java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers;
     protected DebitTransferView previousDebitTransfer;
     
-    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
+        this.receiver = receiver;
         this.money = money;
         this.invokerTrigger = invokerTrigger;
         this.nextDebitTransferTransactionstriggers = nextDebitTransferTransactionstriggers;
@@ -43,6 +45,12 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     }
     public void setReceiverBankNumber(long newValue) throws ModelException {
         this.receiverBankNumber = newValue;
+    }
+    public AccountView getReceiver()throws ModelException{
+        return this.receiver;
+    }
+    public void setReceiver(AccountView newValue) throws ModelException {
+        this.receiver = newValue;
     }
     public MoneyView getMoney()throws ModelException{
         return this.money;
@@ -78,6 +86,10 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         DebitTransferStateView state = this.getState();
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
+        AccountView receiver = this.getReceiver();
+        if (receiver != null) {
+            ((ViewProxi)receiver).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(receiver.getClassId(), receiver.getId())));
         }
         MoneyView money = this.getMoney();
         if (money != null) {

@@ -357,7 +357,6 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
         //TODO: Was ist mit unterschiedlichen Währungen? Können diese auftreten?
         final PersistentMoney newAmount = getThis().getAccount().getMoney().add(money);
         if(money.getAmount().getBalance().isPositive()) {
-	        System.out.println("Checke MaxLimit " + money + " acc: "+ getThis().getAccount());
 	       
 	        getThis().getMaxLimit().accept(new LimitTypeExceptionVisitor<LimitViolatedException>() {
 			   @Override
@@ -370,7 +369,6 @@ public class LimitAccount extends PersistentObject implements PersistentLimitAcc
 			   }
 	        });
 		}else {
-			System.out.println("Checke MinLimit " + money + " acc: " +getThis().getAccount());
 			getThis().getMinLimit().accept(new LimitTypeExceptionVisitor<LimitViolatedException>() {
 			   @Override
 			   public void handleNoLimit(
