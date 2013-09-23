@@ -1,9 +1,17 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.ModelException;
+import view.NoTriggerView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.TriggerValueExceptionVisitor;
+import view.visitor.TriggerValueReturnExceptionVisitor;
+import view.visitor.TriggerValueReturnVisitor;
+import view.visitor.TriggerValueVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class NoTriggerProxi extends TriggerValueProxi implements NoTriggerView{
     

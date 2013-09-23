@@ -86,9 +86,9 @@ public class TransferFacade{
             PersistentTriggerValue invokerTrigger = null;
             if (obj.getLong(18) != 0)
                 invokerTrigger = (PersistentTriggerValue)PersistentProxi.createProxi(obj.getLong(18), obj.getLong(19));
-            PersistentDebitTransfer previousDebitTransfer = null;
+            DebitTransferNoValue previousDebitTransfer = null;
             if (obj.getLong(20) != 0)
-                previousDebitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(20), obj.getLong(21));
+                previousDebitTransfer = (DebitTransferNoValue)PersistentProxi.createProxi(obj.getLong(20), obj.getLong(21));
             Transfer result = new Transfer(obj.getTimestamp(2),
                                            obj.getString(3) == null ? "" : obj.getString(3) /* In Oracle "" = null !!! */,
                                            sender,

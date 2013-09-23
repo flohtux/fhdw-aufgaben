@@ -13,7 +13,7 @@ interface DebitTransferDOWNMssgsVisitor extends TransferDOWNMssgsVisitor, DebitD
 }
 
 
-interface DebitTransferUPMssgsVisitor extends DebitTransferTransactionUPMssgsVisitor {
+interface DebitTransferUPMssgsVisitor extends DebitTransferTransactionUPMssgsVisitor, DebitTransferNoValueUPMssgsVisitor {
 
     public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws persistence.PersistenceException;
     public void handleDebitTransferChangeMoneyFractionMssg(DebitTransferChangeMoneyFractionMssg event) throws persistence.PersistenceException;

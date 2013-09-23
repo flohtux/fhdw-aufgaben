@@ -18,6 +18,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     
+    public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
+    
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
     public void handleTransaction(PersistentTransaction transaction) throws PersistenceException{
@@ -29,15 +31,11 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleDebit(PersistentDebit debit) throws PersistenceException{
         this.handleDebitTransferTransaction(debit);
     }
-    public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
-    
     public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     
     public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
     
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
-    
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
@@ -50,6 +48,10 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    
+    public abstract void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer) throws PersistenceException;
+    
     public abstract void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException;
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
@@ -164,8 +166,6 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
     
-    public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
-    
     public abstract void handleTriggerValue(PersistentTriggerValue triggerValue) throws PersistenceException;
     
     public void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException{
@@ -174,6 +174,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleTrigger(PersistentTrigger trigger) throws PersistenceException{
         this.handleTriggerValue(trigger);
     }
+    public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
+    
     public abstract void handleRule(PersistentRule rule) throws PersistenceException;
     
     public void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException{
@@ -187,9 +189,9 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     
-    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
-    
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
+    
+    public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
     public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
     

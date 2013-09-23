@@ -2,6 +2,7 @@
 package view.objects;
 
 import view.AccountView;
+import view.DebitTransferNoValue;
 import view.DebitTransferStateView;
 import view.DebitTransferTransactionView;
 import view.DebitTransferView;
@@ -20,9 +21,9 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     protected MoneyView money;
     protected TriggerValueView invokerTrigger;
     protected java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers;
-    protected DebitTransferView previousDebitTransfer;
+    protected DebitTransferNoValue previousDebitTransfer;
     
-    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferView previousDebitTransfer,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferNoValue previousDebitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
@@ -70,10 +71,10 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     public void setNextDebitTransferTransactionstriggers(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException {
         this.nextDebitTransferTransactionstriggers = newValue;
     }
-    public DebitTransferView getPreviousDebitTransfer()throws ModelException{
+    public DebitTransferNoValue getPreviousDebitTransfer()throws ModelException{
         return this.previousDebitTransfer;
     }
-    public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException {
+    public void setPreviousDebitTransfer(DebitTransferNoValue newValue) throws ModelException {
         this.previousDebitTransfer = newValue;
     }
     
@@ -103,7 +104,7 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         if (nextDebitTransferTransactionstriggers != null) {
             ViewObject.resolveVectorProxies(nextDebitTransferTransactionstriggers, resultTable);
         }
-        DebitTransferView previousDebitTransfer = this.getPreviousDebitTransfer();
+        DebitTransferNoValue previousDebitTransfer = this.getPreviousDebitTransfer();
         if (previousDebitTransfer != null) {
             ((ViewProxi)previousDebitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(previousDebitTransfer.getClassId(), previousDebitTransfer.getId())));
         }

@@ -1,7 +1,7 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
+import view.TriggerValueView;
+import viewClient.ExceptionAndEventHandler;
 
 public abstract class TriggerValueProxi extends ViewProxi implements TriggerValueView{
     

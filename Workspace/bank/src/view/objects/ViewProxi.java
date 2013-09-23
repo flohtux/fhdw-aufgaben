@@ -1,13 +1,15 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import java.util.Vector;
 import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.tree.TreePath;
+
+import view.ModelException;
+import viewClient.ConnectionIndex;
+import viewClient.ConnectionMaster;
+import viewClient.ExceptionAndEventHandler;
 
 abstract class ProxiFactory {
 	  abstract ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey);
@@ -48,7 +50,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [173];
+		proxiFactories = new ProxiFactory [177];
         proxiFactories[153] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new CompensationProxi(objectId, classId, connectionKey);
@@ -162,6 +164,11 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[102] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new AccountPxProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[175] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new NoDebitTransferProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[34] = new ProxiFactory(){

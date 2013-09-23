@@ -1,9 +1,14 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.ModelException;
+import view.TriggerListeView;
+import view.TriggerView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class TriggerListeProxi extends ViewProxi implements TriggerListeView{
     

@@ -2,7 +2,7 @@ package model.meta;
 
 import persistence.PersistenceException;
 
-public class DebitTransferTransactionChangeStateDebitTransferStateMssg implements DebitTransferTransactionDOWNMssgs,DebitTransferTransactionUPMssgs{
+public class DebitTransferTransactionChangeStateDebitTransferStateMssg implements DebitTransferTransactionDOWNMssgs,DebitTransferTransactionUPMssgs, DebitTransferNoValueDOWNMssgs{
     
     private java.util.Date exctDte = null;
     private persistence.PersistentDebitTransferDoubleState rslt;
@@ -28,6 +28,9 @@ public class DebitTransferTransactionChangeStateDebitTransferStateMssg implement
         visitor.handleDebitTransferTransactionChangeStateDebitTransferStateMssg(this);
     }
     public void accept(TransactionMssgsVisitor visitor) throws persistence.PersistenceException{
+        visitor.handleDebitTransferTransactionChangeStateDebitTransferStateMssg(this);
+    }
+    public void accept(DebitTransferNoValueMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferTransactionChangeStateDebitTransferStateMssg(this);
     }
     public synchronized void execute() {

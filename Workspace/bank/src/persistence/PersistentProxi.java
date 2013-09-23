@@ -16,7 +16,7 @@ public abstract class PersistentProxi extends PersistentRoot {
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[173];
+		listProxiFactories = new ListProxiFactory[177];
         listProxiFactories[153] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new CompensationListEntryProxi(objectId, entryId);
@@ -172,14 +172,19 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new CompensationRequestListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[170] = new ListProxiFactory(){
+            PersistentListEntryProxi create(long objectId, long entryId){
+                return new AccountAllCompensationListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[102] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
                 return new AccountPxListEntryProxi(objectId, entryId);
             }
         };
-        listProxiFactories[170] = new ListProxiFactory(){
+        listProxiFactories[175] = new ListProxiFactory(){
             PersistentListEntryProxi create(long objectId, long entryId){
-                return new AccountAllCompensationListEntryProxi(objectId, entryId);
+                return new NoDebitTransferListEntryProxi(objectId, entryId);
             }
         };
         listProxiFactories[82] = new ListProxiFactory(){
@@ -517,7 +522,7 @@ public abstract class PersistentProxi extends PersistentRoot {
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [173];
+		proxiFactories = new ProxiFactory [177];
         proxiFactories[153] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new CompensationProxi(objectId);
@@ -673,14 +678,19 @@ public abstract class PersistentProxi extends PersistentRoot {
                 return new CompensationRequestProxi(objectId);
             }
         };
+        proxiFactories[170] = new ProxiFactory(){
+            PersistentProxi create(long objectId){
+                return new AccountAllCompensationProxi(objectId);
+            }
+        };
         proxiFactories[102] = new ProxiFactory(){
             PersistentProxi create(long objectId){
                 return new AccountPxProxi(objectId);
             }
         };
-        proxiFactories[170] = new ProxiFactory(){
+        proxiFactories[175] = new ProxiFactory(){
             PersistentProxi create(long objectId){
-                return new AccountAllCompensationProxi(objectId);
+                return new NoDebitTransferProxi(objectId);
             }
         };
         proxiFactories[82] = new ProxiFactory(){

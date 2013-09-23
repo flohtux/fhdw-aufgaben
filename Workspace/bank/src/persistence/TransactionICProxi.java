@@ -98,6 +98,10 @@ public class TransactionICProxi extends DebitTransferTransactionICProxi implemen
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).updateObservers(event);
     }
+    public void addToTransactionWithoutStateChange(final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        ((PersistentTransaction)this.getTheObject()).addToTransactionWithoutStateChange(debitTransfer);
+    }
     public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentTransaction)this.getTheObject()).addToTransaction(debitTransfer);

@@ -135,6 +135,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleAccount(AccountView account) throws ModelException;
     
+    public abstract void handleNoDebitTransfer(NoDebitTransferView noDebitTransfer) throws ModelException;
+    
     public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
     
     public abstract void handleDebitTransferNotExecuted(DebitTransferNotExecutedView debitTransferNotExecuted) throws ModelException;

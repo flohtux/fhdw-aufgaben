@@ -1,9 +1,31 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountServiceView;
+import view.AccountView;
+import view.BankFeesView;
+import view.DebitTransferNotExecutedView;
+import view.DebitTransferSuccessfulView;
+import view.DebitTransferTemplateView;
+import view.ErrorDisplayView;
+import view.EventWrapperView;
+import view.ModelException;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.RemoteExceptionVisitor;
+import view.visitor.RemoteReturnExceptionVisitor;
+import view.visitor.RemoteReturnVisitor;
+import view.visitor.RemoteVisitor;
+import view.visitor.ServiceExceptionVisitor;
+import view.visitor.ServiceReturnExceptionVisitor;
+import view.visitor.ServiceReturnVisitor;
+import view.visitor.ServiceVisitor;
+import viewClient.AccountServiceConnection;
+import viewClient.ConnectionIndex;
+import viewClient.ConnectionMaster;
+import viewClient.ExceptionAndEventHandler;
 
 public class AccountServiceProxi extends ServiceProxi implements AccountServiceView{
     

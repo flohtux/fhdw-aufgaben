@@ -546,7 +546,8 @@ public class Bank extends PersistentObject implements PersistentBank{
     	debitTransfer.changeState(SuccessfulState.createSuccessfulState());
     	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
     	debitTransfer.setReceiver(acc);
-    	acc.getDebitTransferTransactions().add(debitTransfer);
+    	acc.addDebitTransferTransaction(debitTransfer);
+    	debitTransfer.getSender().addDebitTransferTransaction(debitTransfer);
     }
     public PersistentAccount searchAccountByAccNumber(final long accNum) 
 				throws model.InvalidAccountNumberException, PersistenceException{

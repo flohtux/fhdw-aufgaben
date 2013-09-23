@@ -98,14 +98,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException{
         this.standardHandling(compensationRequest);
     }
-    public void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException{
-        this.standardHandling(accountAllCompensation);
-    }
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
         this.standardHandling(accountPx);
     }
+    public void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException{
+        this.standardHandling(accountAllCompensation);
+    }
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException{
         this.standardHandling(administratorCurrencyManager);
+    }
+    public void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer) throws PersistenceException{
+        this.standardHandling(noDebitTransfer);
     }
     public void handleUseTemplateCommand(PersistentUseTemplateCommand useTemplateCommand) throws PersistenceException{
         this.standardHandling(useTemplateCommand);

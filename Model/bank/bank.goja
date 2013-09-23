@@ -159,7 +159,7 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
@@ -193,8 +193,8 @@ class Account {
 	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
 	void answerDecline@@ablehnen(CompensationRequest a);
 	Transaction findContainingTransaction(DebitTransferTransaction dt);
-	void requestCompensationForTransaction(Transaction a);
 	active void compensationDeclined##cmpDeclnd(Compensation compensation, String reason) throws CompensationAbortedException;
+	void addDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
 }
 
 class AccountPx {
@@ -300,6 +300,10 @@ class Percent {
 
 string-factory abstract class Currency (Euro, Dollar, Yen, Pfund, Franken){}
 
+interface DebitTransferNoValue##DBTNoV{}
+
+class NoDebitTransfer implements DebitTransferNoValue {}
+
 string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	active event DebitTransferTransaction execute()  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
@@ -310,14 +314,14 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	DebitTransferTransaction copy();
 }
 
-string-factory abstract class DebitTransfer extends DebitTransferTransaction{
+string-factory abstract class DebitTransfer extends DebitTransferTransaction implements DebitTransferNoValue{
 	Integer receiverAccountNumber##recaccno@@Empfänger_Konto;
 	Integer receiverBankNumber@@Empfänger_Bank;
 	no-view Account receiver; //if executed successfully
 	no-view Money money@@Betrag;
 	TriggerValue invokerTrigger;
 	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg; // triggered DTR
-	DebitTransfer previousDebitTransfer##prvdebtra;
+	DebitTransferNoValue previousDebitTransfer##prvdebtra;
 
 	abstract Money fetchRealMoney();
 	event void changeReceiverBank(Integer receiverBankNumber);
@@ -328,6 +332,7 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction{
 	BooleanValue contains(Trigger trigger);
 	Transfer mirror() throws AccountSearchException;
 	DebitTransfer copyDebitTransfer();
+	DebitTransfer createNewObject();
 }
 
 class Transfer@@Überweisung extends DebitTransfer {
@@ -339,6 +344,7 @@ class Debit@@Lastschrift extends DebitTransfer {
 class Transaction@@Transaktion extends DebitTransferTransaction {
 	skip-view DebitTransferListe debitTransfer;
 	void addToTransaction(DebitTransfer ** debitTransfer);
+	void addToTransactionWithoutStateChange(DebitTransfer ** debitTransfer);
 	void removeFromTransaction(DebitTransfer ** debitTransfer);
 	BooleanValue contains(DebitTransferTransaction debitTransfer);
 	Transaction mirror() throws AccountSearchException;
