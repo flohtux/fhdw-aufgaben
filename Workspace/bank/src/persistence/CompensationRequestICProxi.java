@@ -22,11 +22,11 @@ public class CompensationRequestICProxi extends PersistentInCacheProxiOptimistic
         return 256;
     }
     
-    public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException {
-        return ((PersistentCompensationRequest)this.getTheObject()).getDebitTransferTransaction();
+    public PersistentDebitTransfer getDebitTransfer() throws PersistenceException {
+        return ((PersistentCompensationRequest)this.getTheObject()).getDebitTransfer();
     }
-    public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
-        ((PersistentCompensationRequest)this.getTheObject()).setDebitTransferTransaction(newValue);
+    public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
+        ((PersistentCompensationRequest)this.getTheObject()).setDebitTransfer(newValue);
     }
     public PersistentCompensation getMasterCompensation() throws PersistenceException {
         return ((PersistentCompensationRequest)this.getTheObject()).getMasterCompensation();

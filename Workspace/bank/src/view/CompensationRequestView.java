@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface CompensationRequestView extends Anything, AbstractViewRoot {
     
-    public DebitTransferTransactionView getDebitTransferTransaction()throws ModelException;
-    public void setDebitTransferTransaction(DebitTransferTransactionView newValue) throws ModelException ;
+    public DebitTransferView getDebitTransfer()throws ModelException;
+    public void setDebitTransfer(DebitTransferView newValue) throws ModelException ;
     public CompensationView getMasterCompensation()throws ModelException;
     public void setMasterCompensation(CompensationView newValue) throws ModelException ;
     public CompensationRequestStateView getState()throws ModelException;

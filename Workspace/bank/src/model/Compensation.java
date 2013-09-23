@@ -7,10 +7,8 @@ import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
 import model.visitor.CompensationRequestStateReturnExceptionVisitor;
-import model.visitor.CompensationRequestStateReturnVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
-import model.visitor.DebitTransferVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -396,7 +394,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 					}
 
 					public PersistentTransaction compose(PersistentTransaction result, PersistentCompensationRequest argument) throws PersistenceException {
-						DebitTransferSearchList sl = argument.getDebitTransferTransaction().accept(
+						DebitTransferSearchList sl = argument.getDebitTransfer().accept(
 								new DebitTransferTransactionReturnVisitor<DebitTransferSearchList>() {
 									public DebitTransferSearchList handleTransfer(PersistentTransfer transfer) throws PersistenceException {
 										DebitTransferSearchList list = new DebitTransferSearchList();
@@ -494,8 +492,25 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 	}
     public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
-        //TODO: implement method: requestCompensationForDebitTransferTransaction
-        
+        debitTransferTransaction.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				getThis().requestCompensationForDebitTransfer(transfer);
+			}
+			
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				getThis().requestCompensationForDebitTransfer(debit);
+			}
+			
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {
+				getThis().requestCompensationForDebitTransfers(transaction.getDebitTransfer().getDebitTransfers().getList());
+				
+			}
+		});        
     }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{
@@ -513,12 +528,12 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			@Override
 			public boolean test(PersistentCompensationRequest argument)
 					throws PersistenceException {
-				return argument.getDebitTransferTransaction().equals(debitTransfer);
+				return argument.getDebitTransfer().equals(debitTransfer);
 			}
 		});
     	if(result == null) {
 	    	PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
-		    newRequest.setDebitTransferTransaction(debitTransfer);
+		    newRequest.setDebitTransfer(debitTransfer);
 		    debitTransfer.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
 		    getThis().getPendingRequests().add(newRequest);
 		
@@ -526,7 +541,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			     PersistentBank b = getThis().getRequestingAccount().getBank().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
 			     PersistentAccount acc = b.searchAccountByAccNumber(debitTransfer.getReceiverAccountNumber());
 			     PersistentCompensationRequest newRequest2 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
-			     newRequest2.setDebitTransferTransaction(debitTransfer);
+			     newRequest2.setDebitTransfer(debitTransfer);
 			
 			     acc.getAllCompensation().getPendingCompensationRequests().add(newRequest2);
 			     getThis().getPendingRequests().add(newRequest2);

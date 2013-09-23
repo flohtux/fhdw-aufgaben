@@ -61,9 +61,9 @@ public class CompensationRequestFacade{
                 callable.close();
                 return null;
             }
-            PersistentDebitTransferTransaction debitTransferTransaction = null;
+            PersistentDebitTransfer debitTransfer = null;
             if (obj.getLong(2) != 0)
-                debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+                debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
             PersistentCompensation masterCompensation = null;
             if (obj.getLong(4) != 0)
                 masterCompensation = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
@@ -76,7 +76,7 @@ public class CompensationRequestFacade{
             PersistentCompensationRequest This = null;
             if (obj.getLong(10) != 0)
                 This = (PersistentCompensationRequest)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
-            CompensationRequest result = new CompensationRequest(debitTransferTransaction,
+            CompensationRequest result = new CompensationRequest(debitTransfer,
                                                                  masterCompensation,
                                                                  state,
                                                                  subService,
@@ -106,13 +106,13 @@ public class CompensationRequestFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void debitTransferTransactionSet(long CompensationRequestId, PersistentDebitTransferTransaction debitTransferTransactionVal) throws PersistenceException {
+    public void debitTransferSet(long CompensationRequestId, PersistentDebitTransfer debitTransferVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CmpnstnRqstFacade.cmpstDtTrSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CmpnstnRqstFacade.dbtTrnsfrSet(?, ?, ?); end;");
             callable.setLong(1, CompensationRequestId);
-            callable.setLong(2, debitTransferTransactionVal.getId());
-            callable.setLong(3, debitTransferTransactionVal.getClassId());
+            callable.setLong(2, debitTransferVal.getId());
+            callable.setLong(3, debitTransferVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

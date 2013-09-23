@@ -192,7 +192,7 @@ class Account {
 	void answerAccept@@annehmen(CompensationRequest a);
 	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
 	void answerDecline@@ablehnen(CompensationRequest a);
-	Transaction findContainingTransaction(DebitTransferTransaction dt);
+	Transaction findContainingTransaction(DebitTransfer dt);
 	active void compensationDeclined##cmpDeclnd(Compensation compensation, String reason) throws CompensationAbortedException;
 	void addDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
 }
@@ -421,7 +421,7 @@ class Compensation {
 }
 
 class CompensationRequest {
-	prior DebitTransferTransaction debitTransferTransaction##cmpstDtTr;
+	prior DebitTransfer debitTransfer;
 	prior Compensation masterCompensation;
 	CompensationRequestState state;
 	event void changeState(CompensationRequestState a);

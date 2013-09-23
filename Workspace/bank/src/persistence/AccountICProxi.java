@@ -268,7 +268,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).executeTransfer(debitTransfer);
     }
-    public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
+    public PersistentTransaction findContainingTransaction(final PersistentDebitTransfer dt) 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).findContainingTransaction(dt);
     }

@@ -474,9 +474,9 @@ create sequence SCmpnstnRqst nocache;
 create table CmpnstnRqst(
     id number primary key,
     Cls number not null,
-    CmpnstnRqstCmpstDtTr number,
-    CmpnstnRqstCmpstDtTrCls number,
-    constraint FCmpnstnRqstCmpstDtTr foreign key (CmpnstnRqstCmpstDtTrCls) references Cls (id),
+    CmpnstnRqstDbtTrnsfr number,
+    CmpnstnRqstDbtTrnsfrCls number,
+    constraint FCmpnstnRqstDbtTrnsfr foreign key (CmpnstnRqstDbtTrnsfrCls) references Cls (id),
     CmpnstnRqstMstrCmpnstn number,
     CmpnstnRqstMstrCmpnstnCls number,
     constraint FCmpnstnRqstMstrCmpnstn foreign key (CmpnstnRqstMstrCmpnstnCls) references Cls (id),

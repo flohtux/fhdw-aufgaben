@@ -25,6 +25,7 @@ import model.visitor.DebitTransferStateReturnVisitor;
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
+import model.visitor.DebitTransferVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -744,7 +745,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-    	a.getDebitTransferTransaction().accept(new DebitTransferTransactionVisitor() {
+    	a.getDebitTransfer().accept(new DebitTransferVisitor() {
 			@Override
 			public void handleTransfer(final PersistentTransfer transfer)
 					throws PersistenceException {
@@ -766,17 +767,12 @@ public class Account extends PersistentObject implements PersistentAccount{
 					}
 				});
 			}
-			@Override
-			public void handleTransaction(PersistentTransaction transaction)
-					throws PersistenceException {
-				
-			}
 		});
         getThis().answerAccept(a);
     }
     public void answerAccept(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        PersistentTransaction t = getThis().findContainingTransaction(a.getDebitTransferTransaction());
+        PersistentTransaction t = getThis().findContainingTransaction(a.getDebitTransfer());
         
         if (t != null) {
         	a.getMasterCompensation().requestCompensationForDebitTransfers(t.getDebitTransfer().getDebitTransfers().getList());
@@ -918,7 +914,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
     	debitTransfer.execute(getThis().getAccountService());
     }
-    public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
+    public PersistentTransaction findContainingTransaction(final PersistentDebitTransfer dt) 
 				throws PersistenceException{
     	return (PersistentTransaction) getThis().getDebitTransferTransactions().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
 			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {

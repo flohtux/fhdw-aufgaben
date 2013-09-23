@@ -1251,7 +1251,7 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class CompensationRequestDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String CompensationRequest$$debitTransferTransaction = "CompensationRequest$$debitTransferTransaction";
+    protected static final String CompensationRequest$$debitTransfer = "CompensationRequest$$debitTransfer";
     protected static final String CompensationRequest$$masterCompensation = "CompensationRequest$$masterCompensation";
     protected static final String CompensationRequest$$state = "CompensationRequest$$state";
     

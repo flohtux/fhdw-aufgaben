@@ -18,7 +18,7 @@ import persistence.PersistenceException;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCompensationRequestState;
-import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentDebitTransfer;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 import persistence.SubjInterface;
@@ -35,11 +35,11 @@ public class CompensationRequest extends PersistentObject implements PersistentC
         return (PersistentCompensationRequest)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation) throws PersistenceException{
-        return createCompensationRequest(debitTransferTransaction,masterCompensation,false);
+    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransfer debitTransfer,PersistentCompensation masterCompensation) throws PersistenceException{
+        return createCompensationRequest(debitTransfer,masterCompensation,false);
     }
     
-    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransfer debitTransfer,PersistentCompensation masterCompensation,boolean delayed$Persistence) throws PersistenceException {
         PersistentCompensationRequest result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade
@@ -50,14 +50,14 @@ public class CompensationRequest extends PersistentObject implements PersistentC
                 .newCompensationRequest(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        final$$Fields.put("debitTransferTransaction", debitTransferTransaction);
+        final$$Fields.put("debitTransfer", debitTransfer);
         final$$Fields.put("masterCompensation", masterCompensation);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation,boolean delayed$Persistence,PersistentCompensationRequest This) throws PersistenceException {
+    public static PersistentCompensationRequest createCompensationRequest(PersistentDebitTransfer debitTransfer,PersistentCompensation masterCompensation,boolean delayed$Persistence,PersistentCompensationRequest This) throws PersistenceException {
         PersistentCompensationRequest result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade
@@ -68,7 +68,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
                 .newCompensationRequest(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        final$$Fields.put("debitTransferTransaction", debitTransferTransaction);
+        final$$Fields.put("debitTransfer", debitTransfer);
         final$$Fields.put("masterCompensation", masterCompensation);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
@@ -79,13 +79,13 @@ public class CompensationRequest extends PersistentObject implements PersistentC
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            AbstractPersistentRoot debitTransferTransaction = (AbstractPersistentRoot)this.getDebitTransferTransaction();
-            if (debitTransferTransaction != null) {
-                result.put("debitTransferTransaction", debitTransferTransaction.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot debitTransfer = (AbstractPersistentRoot)this.getDebitTransfer();
+            if (debitTransfer != null) {
+                result.put("debitTransfer", debitTransfer.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    debitTransferTransaction.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    debitTransfer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && debitTransferTransaction.hasEssentialFields())debitTransferTransaction.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && debitTransfer.hasEssentialFields())debitTransfer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             AbstractPersistentRoot masterCompensation = (AbstractPersistentRoot)this.getMasterCompensation();
@@ -114,7 +114,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
     
     public CompensationRequest provideCopy() throws PersistenceException{
         CompensationRequest result = this;
-        result = new CompensationRequest(this.debitTransferTransaction, 
+        result = new CompensationRequest(this.debitTransfer, 
                                          this.masterCompensation, 
                                          this.state, 
                                          this.subService, 
@@ -127,16 +127,16 @@ public class CompensationRequest extends PersistentObject implements PersistentC
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentDebitTransferTransaction debitTransferTransaction;
+    protected PersistentDebitTransfer debitTransfer;
     protected PersistentCompensation masterCompensation;
     protected PersistentCompensationRequestState state;
     protected SubjInterface subService;
     protected PersistentCompensationRequest This;
     
-    public CompensationRequest(PersistentDebitTransferTransaction debitTransferTransaction,PersistentCompensation masterCompensation,PersistentCompensationRequestState state,SubjInterface subService,PersistentCompensationRequest This,long id) throws persistence.PersistenceException {
+    public CompensationRequest(PersistentDebitTransfer debitTransfer,PersistentCompensation masterCompensation,PersistentCompensationRequestState state,SubjInterface subService,PersistentCompensationRequest This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.debitTransferTransaction = debitTransferTransaction;
+        this.debitTransfer = debitTransfer;
         this.masterCompensation = masterCompensation;
         this.state = state;
         this.subService = subService;
@@ -156,9 +156,9 @@ public class CompensationRequest extends PersistentObject implements PersistentC
         if (this.getClassId() == 256) ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade
             .newCompensationRequest(this.getId());
         super.store();
-        if(this.getDebitTransferTransaction() != null){
-            this.getDebitTransferTransaction().store();
-            ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade.debitTransferTransactionSet(this.getId(), getDebitTransferTransaction());
+        if(this.getDebitTransfer() != null){
+            this.getDebitTransfer().store();
+            ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade.debitTransferSet(this.getId(), getDebitTransfer());
         }
         if(this.getMasterCompensation() != null){
             this.getMasterCompensation().store();
@@ -179,18 +179,18 @@ public class CompensationRequest extends PersistentObject implements PersistentC
         
     }
     
-    public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException {
-        return this.debitTransferTransaction;
+    public PersistentDebitTransfer getDebitTransfer() throws PersistenceException {
+        return this.debitTransfer;
     }
-    public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException {
+    public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.debitTransferTransaction)) return;
+        if(newValue.equals(this.debitTransfer)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.debitTransferTransaction = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(objectId, classId);
+        this.debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade.debitTransferTransactionSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theCompensationRequestFacade.debitTransferSet(this.getId(), newValue);
         }
     }
     public PersistentCompensation getMasterCompensation() throws PersistenceException {
@@ -283,7 +283,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
          return visitor.handleCompensationRequest(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getDebitTransferTransaction() != null) return 1;
+        if (this.getDebitTransfer() != null) return 1;
         if (this.getMasterCompensation() != null) return 1;
         if (this.getState() != null) return 1;
         return 0;
@@ -310,7 +310,7 @@ public class CompensationRequest extends PersistentObject implements PersistentC
 				throws PersistenceException{
         this.setThis((PersistentCompensationRequest)This);
 		if(this.equals(This)){
-			this.setDebitTransferTransaction((PersistentDebitTransferTransaction)final$$Fields.get("debitTransferTransaction"));
+			this.setDebitTransfer((PersistentDebitTransfer)final$$Fields.get("debitTransfer"));
 			this.setMasterCompensation((PersistentCompensation)final$$Fields.get("masterCompensation"));
 		}
     }
