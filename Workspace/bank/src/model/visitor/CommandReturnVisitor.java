@@ -1,7 +1,7 @@
 
 package model.visitor;
 
-public interface CommandReturnVisitor<R> extends BankCreatorCommandReturnVisitor<R> ,DebitTransferTransactionCommandReturnVisitor<R> ,AccountServiceCommandReturnVisitor<R> ,BankCommandReturnVisitor<R> ,AccountCommandReturnVisitor<R> ,CompensationCommandReturnVisitor<R> {
+public interface CommandReturnVisitor<R> extends CompensationCommandReturnVisitor<R> ,AccountCommandReturnVisitor<R> ,DebitTransferTransactionCommandReturnVisitor<R> ,BankCreatorCommandReturnVisitor<R> ,AccountServiceCommandReturnVisitor<R> ,BankCommandReturnVisitor<R> {
     
     
 }

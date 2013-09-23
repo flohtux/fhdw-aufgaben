@@ -2,7 +2,7 @@ package view;
 
 import view.visitor.*;
 
-public interface DebitTransferView extends DebitTransferTransactionView {
+public interface DebitTransferView extends DebitTransferNoValue, DebitTransferTransactionView {
     
     public long getReceiverAccountNumber()throws ModelException;
     public void setReceiverAccountNumber(long newValue) throws ModelException ;
@@ -16,8 +16,8 @@ public interface DebitTransferView extends DebitTransferTransactionView {
     public void setInvokerTrigger(TriggerValueView newValue) throws ModelException ;
     public java.util.Vector<DebitTransferTransactionView> getNextDebitTransferTransactionstriggers()throws ModelException;
     public void setNextDebitTransferTransactionstriggers(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException ;
-    public DebitTransferView getPreviousDebitTransfer()throws ModelException;
-    public void setPreviousDebitTransfer(DebitTransferView newValue) throws ModelException ;
+    public DebitTransferNoValue getPreviousDebitTransfer()throws ModelException;
+    public void setPreviousDebitTransfer(DebitTransferNoValue newValue) throws ModelException ;
     
     public void accept(DebitTransferVisitor visitor) throws ModelException;
     public <R> R accept(DebitTransferReturnVisitor<R>  visitor) throws ModelException;

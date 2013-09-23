@@ -67,6 +67,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void setTriggerListe(final PersistentTriggerListe triggerListe) 
 				throws PersistenceException;
+    public void addDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException;
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void addToTransactionTrigger(final PersistentTransaction transaction, final String type) 
@@ -124,8 +126,6 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException;
-    public void requestCompensationForTransaction(final PersistentTransaction a) 
 				throws PersistenceException;
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException;

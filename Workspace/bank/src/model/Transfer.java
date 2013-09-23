@@ -1,17 +1,17 @@
 
 package model;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
 import model.visitor.DebitTransferExceptionVisitor;
+import model.visitor.DebitTransferNoValueExceptionVisitor;
+import model.visitor.DebitTransferNoValueReturnExceptionVisitor;
+import model.visitor.DebitTransferNoValueReturnVisitor;
+import model.visitor.DebitTransferNoValueVisitor;
 import model.visitor.DebitTransferReturnExceptionVisitor;
 import model.visitor.DebitTransferReturnVisitor;
-import model.visitor.DebitTransferStateReturnVisitor;
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
@@ -21,25 +21,17 @@ import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
-import model.visitor.TriggerValueExceptionVisitor;
 import persistence.Anything;
 import persistence.ConnectionHandler;
+import persistence.DebitTransferNoValue;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
-import persistence.PersistentExecutedState;
 import persistence.PersistentMoney;
-import persistence.PersistentNoTrigger;
-import persistence.PersistentNotExecutableState;
-import persistence.PersistentNotExecutedState;
-import persistence.PersistentNotSuccessfulState;
-import persistence.PersistentSuccessfulState;
-import persistence.PersistentTemplateState;
 import persistence.PersistentTransfer;
-import persistence.PersistentTrigger;
 import persistence.PersistentTriggerValue;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -122,9 +114,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         return false;
     }
     
-    public Transfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,PersistentDebitTransfer previousDebitTransfer,long id) throws persistence.PersistenceException {
+    public Transfer(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,DebitTransferNoValue previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)receiver,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(PersistentDebitTransfer)previousDebitTransfer,id);        
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)receiver,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(DebitTransferNoValue)previousDebitTransfer,id);        
     }
     
     static public long getTypeId() {
@@ -199,6 +191,18 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransfer(this);
     }
+    public void accept(DebitTransferNoValueVisitor visitor) throws PersistenceException {
+        visitor.handleTransfer(this);
+    }
+    public <R> R accept(DebitTransferNoValueReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleTransfer(this);
+    }
+    public <E extends UserException>  void accept(DebitTransferNoValueExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleTransfer(this);
+    }
+    public <R, E extends UserException> R accept(DebitTransferNoValueReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleTransfer(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getState() != null) return 1;
         if (this.getInvokerTrigger() != null) return 1;
@@ -259,6 +263,7 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
         getThis().setReceiverBankNumber(0);
         getThis().setState(NotExecutedState.createNotExecutedState());
         getThis().setInvokerTrigger(NoTrigger.createNoTrigger());
+        getThis().setPreviousDebitTransfer(NoDebitTransfer.createNoDebitTransfer());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -267,24 +272,9 @@ public class Transfer extends model.DebitTransfer implements PersistentTransfer{
     
     // Start of section that contains overridden operations only.
     
-    public PersistentDebitTransfer copyDebitTransfer() 
+    public PersistentDebitTransfer createNewObject() 
 				throws PersistenceException{
-		PersistentTransfer copy = Transfer.createTransfer();
-		PersistentMoney copyMoney = Money.createMoney(Amount.createAmount(new Fraction(getThis().getMoney().getAmount().getBalance())), getThis().getMoney().getCurrency());
-		copy.setMoney(copyMoney);
-		copy.setReceiverAccountNumber(getThis().getReceiverAccountNumber());
-		copy.setReceiverBankNumber(getThis().getReceiverBankNumber());
-		copy.setSender(getThis().getSender());
-		copy.setSubject(getThis().getSubject());
-		copy.setState(getThis().getState().copy());
-		copy.setTimestamp(getThis().getTimestamp());
-		PersistentTriggerValue copyTrigger = getThis().getInvokerTrigger();
-		copy.setInvokerTrigger(copyTrigger);
-		return copy;
-	}
-    public PersistentDebitTransferTransaction copy() 
-				throws PersistenceException{
-		return getThis().copyDebitTransfer();
+		return Transfer.createTransfer();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

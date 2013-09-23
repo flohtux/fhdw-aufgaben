@@ -249,6 +249,17 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToTransactionWithoutStateChange(final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+    	debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException {
+				if (!getThis().contains(argument).isTrue()) {
+					getThis().getDebitTransfer().getDebitTransfers().add(argument);
+				}
+			}
+		});
+    }
     public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
 		debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {

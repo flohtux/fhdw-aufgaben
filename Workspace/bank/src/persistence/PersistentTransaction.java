@@ -25,6 +25,8 @@ public interface PersistentTransaction extends PersistentDebitTransferTransactio
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void addToTransactionWithoutStateChange(final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException;
     public void addToTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public PersistentBooleanValue contains(final PersistentDebitTransferTransaction debitTransfer) 

@@ -20,6 +20,9 @@ public class DebitTransferChangeMoneyFractionMssg implements DebitTransferDOWNMs
     public void accept(DebitTransferTransactionMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferChangeMoneyFractionMssg(this);
     }
+    public void accept(DebitTransferNoValueMssgsVisitor visitor) throws persistence.PersistenceException{
+        visitor.handleDebitTransferChangeMoneyFractionMssg(this);
+    }
     public void accept(TransferMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferChangeMoneyFractionMssg(this);
     }

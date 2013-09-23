@@ -177,9 +177,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
     
-    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
-    
     public abstract void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException;
+    
+    public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
@@ -195,6 +195,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     
     public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
+    
+    public abstract void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer) throws PersistenceException;
     
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     

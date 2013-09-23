@@ -1,7 +1,9 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
+import view.ModelException;
+import view.TriggerStateView;
+import view.TriggerView;
+import viewClient.ExceptionAndEventHandler;
 
 public abstract class TriggerStateProxi extends ViewProxi implements TriggerStateView{
     

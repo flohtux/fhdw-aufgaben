@@ -17,20 +17,20 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException{
         this.standardHandling(administratorCurrencyManager);
     }
-    public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException{
-        this.standardHandling(accountGrantedDebitGrant);
-    }
     public void handleAllCompensationListeOutgoingCompensations(PersistentAllCompensationListeOutgoingCompensations allCompensationListeOutgoingCompensations) throws PersistenceException{
         this.standardHandling(allCompensationListeOutgoingCompensations);
+    }
+    public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException{
+        this.standardHandling(accountGrantedDebitGrant);
     }
     public void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException{
         this.standardHandling(accountServiceNotExecuted);
     }
-    public void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException{
-        this.standardHandling(compensationPendingRequests);
-    }
     public void handleAccountDebitTransferTransactions(PersistentAccountDebitTransferTransactions accountDebitTransferTransactions) throws PersistenceException{
         this.standardHandling(accountDebitTransferTransactions);
+    }
+    public void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException{
+        this.standardHandling(compensationPendingRequests);
     }
     public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException{
         this.standardHandling(accountServiceBankFees);
@@ -41,11 +41,11 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handleAccountServiceTemplate(PersistentAccountServiceTemplate accountServiceTemplate) throws PersistenceException{
         this.standardHandling(accountServiceTemplate);
     }
-    public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException{
-        this.standardHandling(accountServiceSuccessful);
-    }
     public void handleAllCompensationListePendingCompensationRequests(PersistentAllCompensationListePendingCompensationRequests allCompensationListePendingCompensationRequests) throws PersistenceException{
         this.standardHandling(allCompensationListePendingCompensationRequests);
+    }
+    public void handleAccountServiceSuccessful(PersistentAccountServiceSuccessful accountServiceSuccessful) throws PersistenceException{
+        this.standardHandling(accountServiceSuccessful);
     }
     protected abstract void standardHandling(ObsInterface obsInterface) throws PersistenceException;
 }

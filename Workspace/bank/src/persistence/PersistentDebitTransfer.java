@@ -4,7 +4,7 @@ import model.UserException;
 
 import model.visitor.*;
 
-public interface PersistentDebitTransfer extends PersistentDebitTransferTransaction {
+public interface PersistentDebitTransfer extends DebitTransferNoValue, PersistentDebitTransferTransaction {
     
     public long getReceiverAccountNumber() throws PersistenceException ;
     public void setReceiverAccountNumber(long newValue) throws PersistenceException ;
@@ -17,8 +17,8 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public PersistentTriggerValue getInvokerTrigger() throws PersistenceException ;
     public void setInvokerTrigger(PersistentTriggerValue newValue) throws PersistenceException ;
     public DebitTransfer_NextDebitTransferTransactionstriggersProxi getNextDebitTransferTransactionstriggers() throws PersistenceException ;
-    public PersistentDebitTransfer getPreviousDebitTransfer() throws PersistenceException ;
-    public void setPreviousDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
+    public DebitTransferNoValue getPreviousDebitTransfer() throws PersistenceException ;
+    public void setPreviousDebitTransfer(DebitTransferNoValue newValue) throws PersistenceException ;
     public abstract PersistentDebitTransfer getThis() throws PersistenceException ;
     
     public void accept(DebitTransferVisitor visitor) throws PersistenceException;
@@ -53,6 +53,8 @@ public interface PersistentDebitTransfer extends PersistentDebitTransferTransact
     public PersistentDebitTransfer copyDebitTransfer() 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
+				throws PersistenceException;
+    public PersistentDebitTransfer createNewObject() 
 				throws PersistenceException;
     /**
      * Returns the value of this transaction with correct sign (+/-).

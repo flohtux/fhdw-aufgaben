@@ -172,6 +172,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).updateObservers(event);
     }
+    public void addDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).addDebitTransferTransaction(debitTransferTransaction);
+    }
     public void addToTransactionTemplate(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).addToTransactionTemplate(transaction, debitTransfer);
@@ -287,10 +291,6 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);
-    }
-    public void requestCompensationForTransaction(final PersistentTransaction a) 
-				throws PersistenceException{
-        ((PersistentAccount)this.getTheObject()).requestCompensationForTransaction(a);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException{

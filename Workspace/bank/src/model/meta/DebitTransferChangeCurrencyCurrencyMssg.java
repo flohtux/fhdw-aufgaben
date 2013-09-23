@@ -20,6 +20,9 @@ public class DebitTransferChangeCurrencyCurrencyMssg implements DebitTransferDOW
     public void accept(DebitTransferTransactionMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferChangeCurrencyCurrencyMssg(this);
     }
+    public void accept(DebitTransferNoValueMssgsVisitor visitor) throws persistence.PersistenceException{
+        visitor.handleDebitTransferChangeCurrencyCurrencyMssg(this);
+    }
     public void accept(TransferMssgsVisitor visitor) throws persistence.PersistenceException{
         visitor.handleDebitTransferChangeCurrencyCurrencyMssg(this);
     }

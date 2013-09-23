@@ -74,6 +74,18 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleTransfer(this);
     }
+    public void accept(DebitTransferNoValueVisitor visitor) throws PersistenceException {
+        visitor.handleTransfer(this);
+    }
+    public <R> R accept(DebitTransferNoValueReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleTransfer(this);
+    }
+    public <E extends UserException>  void accept(DebitTransferNoValueExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleTransfer(this);
+    }
+    public <R, E extends UserException> R accept(DebitTransferNoValueReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleTransfer(this);
+    }
     
     
     public void changeCurrency(final PersistentCurrency currency) 
@@ -155,6 +167,10 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
     public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).copy();
+    }
+    public PersistentDebitTransfer createNewObject() 
+				throws PersistenceException{
+        return ((PersistentTransfer)this.getTheObject()).createNewObject();
     }
     public PersistentDebitTransferTransaction executeImplementation() 
 				throws model.ExecuteException, PersistenceException{
