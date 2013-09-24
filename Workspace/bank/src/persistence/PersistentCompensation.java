@@ -8,8 +8,8 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
     
     public PersistentAccount getRequestingAccount() throws PersistenceException ;
     public void setRequestingAccount(PersistentAccount newValue) throws PersistenceException ;
-    public PersistentStornoState getStornoState() throws PersistenceException ;
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException ;
+    public PersistentCompensationState getState() throws PersistenceException ;
+    public void setState(PersistentCompensationState newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCompensation getThis() throws PersistenceException ;

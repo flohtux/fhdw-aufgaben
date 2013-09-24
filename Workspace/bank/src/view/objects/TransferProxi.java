@@ -1,9 +1,31 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.DebitTransferNoValue;
+import view.DebitTransferStateView;
+import view.DebitTransferTransactionView;
+import view.ModelException;
+import view.MoneyView;
+import view.TransferView;
+import view.TriggerValueView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.DebitTransferExceptionVisitor;
+import view.visitor.DebitTransferNoValueExceptionVisitor;
+import view.visitor.DebitTransferNoValueReturnExceptionVisitor;
+import view.visitor.DebitTransferNoValueReturnVisitor;
+import view.visitor.DebitTransferNoValueVisitor;
+import view.visitor.DebitTransferReturnExceptionVisitor;
+import view.visitor.DebitTransferReturnVisitor;
+import view.visitor.DebitTransferTransactionExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnExceptionVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
+import view.visitor.DebitTransferTransactionVisitor;
+import view.visitor.DebitTransferVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class TransferProxi extends DebitTransferProxi implements TransferView{
     

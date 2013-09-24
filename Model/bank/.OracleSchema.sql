@@ -97,9 +97,9 @@ create table Cmpnstn(
     CmpnstnPndngRqsts number,
     CmpnstnPndngRqstsCls number,
     constraint FCmpnstnPndngRqsts foreign key (CmpnstnPndngRqstsCls) references Cls (id),
-    CmpnstnStrnStt number,
-    CmpnstnStrnSttCls number,
-    constraint FCmpnstnStrnStt foreign key (CmpnstnStrnSttCls) references Cls (id),
+    CmpnstnStt number,
+    CmpnstnSttCls number,
+    constraint FCmpnstnStt foreign key (CmpnstnSttCls) references Cls (id),
     CmpnstnSbSrvc number,
     CmpnstnSbSrvcCls number,
     constraint FCmpnstnSbSrvc foreign key (CmpnstnSbSrvcCls) references Cls (id),
@@ -107,7 +107,7 @@ create table Cmpnstn(
     CmpnstnThisCls number,
     constraint FCmpnstnThis foreign key (CmpnstnThisCls) references Cls (id)    
 );
-create index IStrnSttCmpnstn on Cmpnstn (CmpnstnStrnStt, CmpnstnStrnSttCls);
+create index ISttCmpnstn on Cmpnstn (CmpnstnStt, CmpnstnSttCls);
 
 
 create sequence SAccntRcvdGrnt nocache;
@@ -491,22 +491,6 @@ create table CmpnstnRqst(
     constraint FCmpnstnRqstThis foreign key (CmpnstnRqstThisCls) references Cls (id)    
 );
 
-create sequence SAccntAllCmpnstn nocache;
-
-create table AccntAllCmpnstn(
-    id number primary key,
-    Cls number not null,
-    AccntAllCmpnstnMstr number,
-    AccntAllCmpnstnMstrCls number,
-    constraint FAccntAllCmpnstnMstr foreign key (AccntAllCmpnstnMstrCls) references Cls (id),
-    AccntAllCmpnstnObs number,
-    AccntAllCmpnstnObsCls number,
-    constraint FAccntAllCmpnstnObs foreign key (AccntAllCmpnstnObsCls) references Cls (id),
-    AccntAllCmpnstnThis number,
-    AccntAllCmpnstnThisCls number,
-    constraint FAccntAllCmpnstnThis foreign key (AccntAllCmpnstnThisCls) references Cls (id)    
-);
-
 create sequence SAccntPx nocache;
 
 create table AccntPx(
@@ -521,6 +505,22 @@ create table AccntPx(
     AccntPxThis number,
     AccntPxThisCls number,
     constraint FAccntPxThis foreign key (AccntPxThisCls) references Cls (id)    
+);
+
+create sequence SAccntAllCmpnstn nocache;
+
+create table AccntAllCmpnstn(
+    id number primary key,
+    Cls number not null,
+    AccntAllCmpnstnMstr number,
+    AccntAllCmpnstnMstrCls number,
+    constraint FAccntAllCmpnstnMstr foreign key (AccntAllCmpnstnMstrCls) references Cls (id),
+    AccntAllCmpnstnObs number,
+    AccntAllCmpnstnObsCls number,
+    constraint FAccntAllCmpnstnObs foreign key (AccntAllCmpnstnObsCls) references Cls (id),
+    AccntAllCmpnstnThis number,
+    AccntAllCmpnstnThisCls number,
+    constraint FAccntAllCmpnstnThis foreign key (AccntAllCmpnstnThisCls) references Cls (id)    
 );
 
 create sequence STrnsctnF nocache;
@@ -793,19 +793,6 @@ create table AccntGrntdGrnt(
     constraint FAccntGrntdGrntThis foreign key (AccntGrntdGrntThisCls) references Cls (id)    
 );
 
-create sequence SStrnStt nocache;
-
-create table StrnStt(
-    id number primary key,
-    Cls number not null,
-    StrnSttSbSrvc number,
-    StrnSttSbSrvcCls number,
-    constraint FStrnSttSbSrvc foreign key (StrnSttSbSrvcCls) references Cls (id),
-    StrnSttThis number,
-    StrnSttThisCls number,
-    constraint FStrnSttThis foreign key (StrnSttThisCls) references Cls (id)    
-);
-
 create sequence SCrtAccntCMD nocache;
 
 create table CrtAccntCMD(
@@ -938,6 +925,19 @@ create table CrtBnkCMD(
     CrtBnkCMDMyCmmnDt number,
     CrtBnkCMDMyCmmnDtCls number,
     constraint FCrtBnkCMDMyCmmnDt foreign key (CrtBnkCMDMyCmmnDtCls) references Cls (id)    
+);
+
+create sequence SCmpnstnStt nocache;
+
+create table CmpnstnStt(
+    id number primary key,
+    Cls number not null,
+    CmpnstnSttSbSrvc number,
+    CmpnstnSttSbSrvcCls number,
+    constraint FCmpnstnSttSbSrvc foreign key (CmpnstnSttSbSrvcCls) references Cls (id),
+    CmpnstnSttThis number,
+    CmpnstnSttThisCls number,
+    constraint FCmpnstnSttThis foreign key (CmpnstnSttThisCls) references Cls (id)    
 );
 
 create sequence SBnkPx nocache;

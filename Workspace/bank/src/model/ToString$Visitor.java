@@ -24,7 +24,6 @@ import persistence.PersistentCompensation;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCompensationRequestListe;
-import persistence.PersistentCompensationRequestState;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -34,6 +33,7 @@ import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
+import persistence.PersistentDeclinedCompensationState;
 import persistence.PersistentDeclinedState;
 import persistence.PersistentDisabledState;
 import persistence.PersistentDollar;
@@ -54,28 +54,27 @@ import persistence.PersistentMoney;
 import persistence.PersistentMoneyRule;
 import persistence.PersistentNoDebitTransfer;
 import persistence.PersistentNoLimit;
-import persistence.PersistentNoRequestState;
 import persistence.PersistentNoTrigger;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
-import persistence.PersistentNotSuccessfulStornoState;
 import persistence.PersistentPercent;
 import persistence.PersistentPfund;
 import persistence.PersistentProcentualFee;
-import persistence.PersistentRequestState;
 import persistence.PersistentServer;
 import persistence.PersistentSubjectRule;
+import persistence.PersistentSuccessfulCompensationState;
 import persistence.PersistentSuccessfulState;
-import persistence.PersistentSuccessfulStornoState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.PersistentTrueValue;
+import persistence.PersistentWaitingCompensationState;
 import persistence.PersistentWaitingState;
 import persistence.PersistentYen;
+
 import common.Fraction;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -179,25 +178,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 				serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
-	public void handleRequestState(PersistentRequestState requestState)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void handleNotSuccessfulStornoState(
-			PersistentNotSuccessfulStornoState notSuccessfulStornoState)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void handleNoRequestState(PersistentNoRequestState noRequestState)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	public void handleTemplateState(PersistentTemplateState templateState)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.TemplatePrefix;
@@ -258,13 +238,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		this.result = serverConstants.ToStringConstants.TransferPrefix +transfer.getSubject()+serverConstants.ToStringConstants.BracketOpen+
 				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().getAccountNumber()+
 				serverConstants.ToStringConstants.BracketClose;
-	}
-	@Override
-	public void handleSuccessfulStornoState(
-			PersistentSuccessfulStornoState SuccessfulStornoState)
-			throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
@@ -465,6 +438,27 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer)
 			throws PersistenceException {
 		// No-view
+	}
+	@Override
+	public void handleWaitingCompensationState(
+			PersistentWaitingCompensationState waitingCompensationState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleSuccessfulCompensationState(
+			PersistentSuccessfulCompensationState successfulCompensationState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleDeclinedCompensationState(
+			PersistentDeclinedCompensationState declinedCompensationState)
+			throws PersistenceException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -1,7 +1,7 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
+import view.CurrencyView;
+import viewClient.ExceptionAndEventHandler;
 
 public abstract class CurrencyProxi extends ViewProxi implements CurrencyView{
     

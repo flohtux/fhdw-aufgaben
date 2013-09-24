@@ -409,7 +409,7 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 class Compensation {
 	prior Account requestingAccount;
 	observe CompensationRequest ** pendingRequests;
-	one-to-one (no-view debitTransfer) StornoState stornoState;
+	one-to-one (no-view compensation) CompensationState state;
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
@@ -453,7 +453,7 @@ class ExecutedState extends DebitTransferState {}
 class NotExecutedState extends DebitTransferState {}
 class NotExecutableState extends DebitTransferState {}
 
-abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
+abstract class CompensationState(SuccessfulCompensationState##SuccComSta,WaitingCompensationState##WaitComSta,DeclinedCompensationState##DecComSta){}
 
 exception PasswordException {}
 

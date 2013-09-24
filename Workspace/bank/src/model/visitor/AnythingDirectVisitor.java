@@ -57,20 +57,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.handleDebitTransferState(templateState);
     }
-    public abstract void handleStornoState(PersistentStornoState stornoState) throws PersistenceException;
-    
-    public void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException{
-        this.handleStornoState(notSuccessfulStornoState);
-    }
-    public void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException{
-        this.handleStornoState(successfulStornoState);
-    }
-    public void handleRequestState(PersistentRequestState requestState) throws PersistenceException{
-        this.handleStornoState(requestState);
-    }
-    public void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException{
-        this.handleStornoState(noRequestState);
-    }
     public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
@@ -161,6 +147,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     
+    public abstract void handleCompensationState(PersistentCompensationState compensationState) throws PersistenceException;
+    
+    public void handleWaitingCompensationState(PersistentWaitingCompensationState waitingCompensationState) throws PersistenceException{
+        this.handleCompensationState(waitingCompensationState);
+    }
+    public void handleDeclinedCompensationState(PersistentDeclinedCompensationState declinedCompensationState) throws PersistenceException{
+        this.handleCompensationState(declinedCompensationState);
+    }
+    public void handleSuccessfulCompensationState(PersistentSuccessfulCompensationState successfulCompensationState) throws PersistenceException{
+        this.handleCompensationState(successfulCompensationState);
+    }
     public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     
     public abstract void handleCompensationPendingRequests(PersistentCompensationPendingRequests compensationPendingRequests) throws PersistenceException;
@@ -177,9 +174,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
     
-    public abstract void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException;
-    
     public abstract void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException;
+    
+    public abstract void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException;
     
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     

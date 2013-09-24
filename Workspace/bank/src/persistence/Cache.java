@@ -313,6 +313,7 @@ public class Cache {
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(208, "DebitTransferTemplate");
+		this.number2NameMap.put(281, "DeclinedCompensationState");
 		this.number2NameMap.put(266, "DeclinedState");
 		this.number2NameMap.put(237, "DisabledState");
 		this.number2NameMap.put(126, "Dollar");
@@ -336,21 +337,18 @@ public class Cache {
 		this.number2NameMap.put(232, "MoneyRule");
 		this.number2NameMap.put(276, "NoDebitTransfer");
 		this.number2NameMap.put(116, "NoLimit");
-		this.number2NameMap.put(104, "NoRequestState");
 		this.number2NameMap.put(246, "NoTrigger");
 		this.number2NameMap.put(144, "NotExecutableState");
 		this.number2NameMap.put(210, "NotExecutedState");
 		this.number2NameMap.put(142, "NotSuccessfulState");
-		this.number2NameMap.put(134, "NotSuccessfulStornoState");
 		this.number2NameMap.put(112, "Percent");
 		this.number2NameMap.put(182, "Pfund");
 		this.number2NameMap.put(120, "ProcentualFee");
-		this.number2NameMap.put(131, "RequestState");
 		this.number2NameMap.put(-121, "Server");
 		this.number2NameMap.put(102, "Subj");
 		this.number2NameMap.put(230, "SubjectRule");
+		this.number2NameMap.put(279, "SuccessfulCompensationState");
 		this.number2NameMap.put(175, "SuccessfulState");
-		this.number2NameMap.put(123, "SuccessfulStornoState");
 		this.number2NameMap.put(138, "TemplateState");
 		this.number2NameMap.put(146, "Transaction");
 		this.number2NameMap.put(122, "Transfer");
@@ -358,6 +356,7 @@ public class Cache {
 		this.number2NameMap.put(234, "TriggerListe");
 		this.number2NameMap.put(168, "TrueValue");
 		this.number2NameMap.put(209, "UseTemplateCommand");
+		this.number2NameMap.put(278, "WaitingCompensationState");
 		this.number2NameMap.put(263, "WaitingState");
 		this.number2NameMap.put(181, "Yen");	
 	}

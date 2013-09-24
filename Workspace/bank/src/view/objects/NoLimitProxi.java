@@ -1,9 +1,17 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.ModelException;
+import view.NoLimitView;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import view.visitor.LimitTypeExceptionVisitor;
+import view.visitor.LimitTypeReturnExceptionVisitor;
+import view.visitor.LimitTypeReturnVisitor;
+import view.visitor.LimitTypeVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class NoLimitProxi extends LimitTypeProxi implements NoLimitView{
     

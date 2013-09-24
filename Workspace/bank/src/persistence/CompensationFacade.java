@@ -67,9 +67,9 @@ public class CompensationFacade{
             PersistentCompensationPendingRequests pendingRequests = null;
             if (obj.getLong(4) != 0)
                 pendingRequests = (PersistentCompensationPendingRequests)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            PersistentStornoState stornoState = null;
+            PersistentCompensationState state = null;
             if (obj.getLong(6) != 0)
-                stornoState = (PersistentStornoState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+                state = (PersistentCompensationState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
             SubjInterface subService = null;
             if (obj.getLong(8) != 0)
                 subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
@@ -78,7 +78,7 @@ public class CompensationFacade{
                 This = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
             Compensation result = new Compensation(requestingAccount,
                                                    pendingRequests,
-                                                   stornoState,
+                                                   state,
                                                    subService,
                                                    This,
                                                    CompensationId);
@@ -132,13 +132,13 @@ public class CompensationFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void stornoStateSet(long CompensationId, PersistentStornoState stornoStateVal) throws PersistenceException {
+    public void stateSet(long CompensationId, PersistentCompensationState stateVal) throws PersistenceException {
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin " + this.schemaName + ".CmpnstnFacade.strnSttSet(?, ?, ?); end;");
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CmpnstnFacade.sttSet(?, ?, ?); end;");
             callable.setLong(1, CompensationId);
-            callable.setLong(2, stornoStateVal.getId());
-            callable.setLong(3, stornoStateVal.getClassId());
+            callable.setLong(2, stateVal.getId());
+            callable.setLong(3, stateVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {
@@ -171,10 +171,10 @@ public class CompensationFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public CompensationSearchList inverseGetStornoState(long objectId, long classId)throws PersistenceException{
+    public CompensationSearchList inverseGetState(long objectId, long classId)throws PersistenceException{
         try{
             CallableStatement callable;
-            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CmpnstnFacade.iGetStrnStt(?, ?); end;");
+            callable = this.con.prepareCall("Begin ? := " + this.schemaName + ".CmpnstnFacade.iGetStt(?, ?); end;");
             callable.registerOutParameter(1, OracleTypes.CURSOR);
             callable.setLong(2, objectId);
             callable.setLong(3, classId);

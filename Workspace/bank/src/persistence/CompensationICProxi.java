@@ -28,11 +28,11 @@ public class CompensationICProxi extends PersistentInCacheProxiOptimistic implem
     public void setRequestingAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentCompensation)this.getTheObject()).setRequestingAccount(newValue);
     }
-    public PersistentStornoState getStornoState() throws PersistenceException {
-        return ((PersistentCompensation)this.getTheObject()).getStornoState();
+    public PersistentCompensationState getState() throws PersistenceException {
+        return ((PersistentCompensation)this.getTheObject()).getState();
     }
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
-        ((PersistentCompensation)this.getTheObject()).setStornoState(newValue);
+    public void setState(PersistentCompensationState newValue) throws PersistenceException {
+        ((PersistentCompensation)this.getTheObject()).setState(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCompensation)this.getTheObject()).getSubService();

@@ -8,9 +8,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCompensation(CompensationView compensation) throws ModelException{
         this.standardHandling(compensation);
     }
-    public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
-        this.standardHandling(noRequestState);
-    }
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException{
         this.standardHandling(debitTransferListe);
     }
@@ -56,8 +53,14 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
         this.standardHandling(triggerListe);
     }
+    public void handleWaitingCompensationState(WaitingCompensationStateView waitingCompensationState) throws ModelException{
+        this.standardHandling(waitingCompensationState);
+    }
     public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
         this.standardHandling(disabledState);
+    }
+    public void handleSuccessfulCompensationState(SuccessfulCompensationStateView successfulCompensationState) throws ModelException{
+        this.standardHandling(successfulCompensationState);
     }
     public void handleDollar(DollarView dollar) throws ModelException{
         this.standardHandling(dollar);
@@ -91,9 +94,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handlePfund(PfundView pfund) throws ModelException{
         this.standardHandling(pfund);
-    }
-    public void handleSuccessfulStornoState(SuccessfulStornoStateView successfulStornoState) throws ModelException{
-        this.standardHandling(successfulStornoState);
     }
     public void handleDebitGrant(DebitGrantView debitGrant) throws ModelException{
         this.standardHandling(debitGrant);
@@ -161,9 +161,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.standardHandling(accountService);
     }
-    public void handleRequestState(RequestStateView requestState) throws ModelException{
-        this.standardHandling(requestState);
-    }
     public void handleAccount(AccountView account) throws ModelException{
         this.standardHandling(account);
     }
@@ -194,6 +191,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleBank(BankView bank) throws ModelException{
         this.standardHandling(bank);
     }
+    public void handleDeclinedCompensationState(DeclinedCompensationStateView declinedCompensationState) throws ModelException{
+        this.standardHandling(declinedCompensationState);
+    }
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException{
         this.standardHandling(debitTransferSuccessful);
     }
@@ -202,9 +202,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleBankFees(BankFeesView bankFees) throws ModelException{
         this.standardHandling(bankFees);
-    }
-    public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
-        this.standardHandling(notSuccessfulStornoState);
     }
     public void handleDeclinedState(DeclinedStateView declinedState) throws ModelException{
         this.standardHandling(declinedState);

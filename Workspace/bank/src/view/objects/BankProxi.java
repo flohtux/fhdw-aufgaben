@@ -1,9 +1,16 @@
 package view.objects;
 
-import view.*;
-import viewClient.*;
-
-import view.visitor.*;
+import view.AccountView;
+import view.BankFeesView;
+import view.BankOwnAccountPxView;
+import view.BankView;
+import view.ModelException;
+import view.UserException;
+import view.visitor.AnythingExceptionVisitor;
+import view.visitor.AnythingReturnExceptionVisitor;
+import view.visitor.AnythingReturnVisitor;
+import view.visitor.AnythingVisitor;
+import viewClient.ExceptionAndEventHandler;
 
 public class BankProxi extends ViewProxi implements BankView{
     

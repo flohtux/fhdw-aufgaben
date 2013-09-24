@@ -51,20 +51,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.handleDebitTransferState(templateState);
     }
-    public abstract void handleStornoState(StornoStateView stornoState) throws ModelException;
-    
-    public void handleNotSuccessfulStornoState(NotSuccessfulStornoStateView notSuccessfulStornoState) throws ModelException{
-        this.handleStornoState(notSuccessfulStornoState);
-    }
-    public void handleSuccessfulStornoState(SuccessfulStornoStateView successfulStornoState) throws ModelException{
-        this.handleStornoState(successfulStornoState);
-    }
-    public void handleRequestState(RequestStateView requestState) throws ModelException{
-        this.handleStornoState(requestState);
-    }
-    public void handleNoRequestState(NoRequestStateView noRequestState) throws ModelException{
-        this.handleStornoState(noRequestState);
-    }
     public abstract void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
@@ -112,6 +98,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
     
+    public abstract void handleCompensationState(CompensationStateView compensationState) throws ModelException;
+    
+    public void handleWaitingCompensationState(WaitingCompensationStateView waitingCompensationState) throws ModelException{
+        this.handleCompensationState(waitingCompensationState);
+    }
+    public void handleDeclinedCompensationState(DeclinedCompensationStateView declinedCompensationState) throws ModelException{
+        this.handleCompensationState(declinedCompensationState);
+    }
+    public void handleSuccessfulCompensationState(SuccessfulCompensationStateView successfulCompensationState) throws ModelException{
+        this.handleCompensationState(successfulCompensationState);
+    }
     public abstract void handleBankPx(BankPxView bankPx) throws ModelException;
     
     public abstract void handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
