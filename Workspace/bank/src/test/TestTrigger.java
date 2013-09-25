@@ -81,7 +81,7 @@ public class TestTrigger {
 		initTransfer.setReceiverAccountNumber(SecondAccountNumber);
 		initTransfer.setReceiverBankNumber(bank.getBankNumber());
 		initTransfer.setSubject("Das ist MeinBetreff!");
-		initTransfer.execute(acc1.getAccountService());
+		initTransfer.execute(acc1, acc1.getAccountService());
 		
 		assertEquals(Fraction.parse("-45"), acc1.getMoney().getAmount().getBalance());
 		assertEquals(0, acc1.getAccountService().getErrors().getLength());
@@ -119,7 +119,7 @@ public class TestTrigger {
 		initTransfer.setReceiverAccountNumber(SecondAccountNumber);
 		initTransfer.setReceiverBankNumber(bank.getBankNumber());
 		initTransfer.setSubject("Das ist MeinBetreff!");
-		initTransfer.execute();
+		initTransfer.execute(acc1);
 		
 		assertEquals(Fraction.parse("-45"), acc1.getMoney().getAmount().getBalance());
 		assertEquals(0, acc1.getAccountService().getErrors().getLength());
@@ -157,7 +157,7 @@ public class TestTrigger {
 		initTransfer.setReceiverAccountNumber(SecondAccountNumber);
 		initTransfer.setReceiverBankNumber(bank.getBankNumber());
 		initTransfer.setSubject("Das ist MeinBetreff!");
-		initTransfer.execute();
+		initTransfer.execute(acc1);
 		
 		assertEquals(Fraction.parse("-2"), acc1.getMoney().getAmount().getBalance());
 		assertEquals(0, acc1.getAccountService().getErrors().getLength());
@@ -201,7 +201,7 @@ public class TestTrigger {
 		initTransfer.setReceiverAccountNumber(SecondAccountNumber);
 		initTransfer.setReceiverBankNumber(bank.getBankNumber());
 		initTransfer.setSubject("Das ist MeinBetreff!");
-		initTransfer.execute();
+		initTransfer.execute(acc1);
 		
 		assertEquals(Fraction.parse("-50"), acc1.getMoney().getAmount().getBalance());
 		assertEquals(1, acc1.getAccountService().getErrors().getLength());

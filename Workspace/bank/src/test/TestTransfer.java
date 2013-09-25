@@ -15,6 +15,7 @@ import model.Dollar;
 import model.Euro;
 import model.ExecuteException;
 import model.FixTransactionFee;
+import model.InternalFee;
 import model.Limit;
 import model.LimitAccount;
 import model.MixedFee;
@@ -34,10 +35,10 @@ import persistence.PersistentBank;
 import persistence.PersistentFixTransactionFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentMoney;
+import persistence.PersistentPercent;
 import persistence.PersistentProcentualFee;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTransfer;
-
 import common.Fraction;
 
 public class TestTransfer {
@@ -82,11 +83,11 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
-		assertEquals(SuccessfulState.createSuccessfulState(), newTrans.getState());
+		assertEquals(SuccessfulState.createSuccessfulState().getClassId(), newTrans.getState().getClassId());
 
 	}
 
@@ -105,7 +106,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Dollar.getTheDollar()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
@@ -133,7 +134,7 @@ public class TestTransfer {
 		newTrans.setReceiverBankNumber(bankTestLimits.getBankNumber());
 		System.err.println(bankTestLimits.getBankNumber());
 		try {
-			newTrans.execute();
+			newTrans.execute(acc1);
 		} catch (DebitException e) {
 			assertTrue(true);
 			return;
@@ -161,7 +162,7 @@ public class TestTransfer {
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
 		try {
-			newTrans.execute();
+			newTrans.execute(acc1);
 		} catch (DebitException e) {
 			assertTrue(true);
 			return;
@@ -188,7 +189,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bankNumber2);
-		newTrans.execute();
+		newTrans.execute(acc1);
 		assertEquals(new Fraction(-11, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 	}
@@ -209,7 +210,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 		assertEquals(new Fraction(-15, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
 	}
@@ -235,7 +236,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(11, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bankNumber2);
-		newTrans.execute();
+		newTrans.execute(acc1);
 		assertEquals(new Fraction(-17, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(11, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(6, 1), bank1.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
@@ -262,7 +263,7 @@ public class TestTransfer {
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
 		try {
-			newTrans.execute();
+			newTrans.execute(acc1);
 		} catch (DebitException e) {
 			assertTrue(true);
 			return;
@@ -284,7 +285,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(100, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(100, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-100, 1), acc1.getMoney().getAmount().getBalance());
@@ -306,7 +307,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(0, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(0, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(0, 1), acc1.getMoney().getAmount().getBalance());
@@ -329,7 +330,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-10, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc2.getMoney().getAmount().getBalance());
@@ -353,7 +354,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(100, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-105, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(100, 1), acc2.getMoney().getAmount().getBalance());
@@ -367,6 +368,7 @@ public class TestTransfer {
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
 		bank.getBankFees().setFee(FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)), Euro.getTheEuro())));
+		bank.getBankFees().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.Null)));
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -377,7 +379,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(100, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(100, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-105, 1), acc1.getMoney().getAmount().getBalance());
@@ -400,7 +402,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(200, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 		assertEquals(new Fraction(-210, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(200, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), bank1.getOwnAccount().getAccount().getMoney().getAmount().getBalance());
@@ -412,6 +414,7 @@ public class TestTransfer {
 
 		PersistentBank bank = BankCreator.getTheBankCreator().createBank(BankName1, admin);
 		bank.getBankFees().setFee(ProcentualFee.createProcentualFee(Percent.createPercent(new Fraction(1, 20))));
+		bank.getBankFees().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.Null)));
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -422,7 +425,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(200, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(200, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-210, 1), acc1.getMoney().getAmount().getBalance());
@@ -447,7 +450,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(150, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-160, 1), acc1.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(150, 1), acc2.getMoney().getAmount().getBalance());
@@ -461,6 +464,7 @@ public class TestTransfer {
 		PersistentFixTransactionFee fixFee = FixTransactionFee.createFixTransactionFee(Money.createMoney(Amount.createAmount(new Fraction(5, 1)),
 				Euro.getTheEuro()));
 		bank.getBankFees().setFee(MixedFee.createMixedFee(fixFee, procentualFee, Money.createMoney(Amount.createAmount(new Fraction(50, 1)), Euro.getTheEuro())));
+		bank.getBankFees().setInternalFee(InternalFee.createInternalFee(Percent.createPercent(Fraction.Null)));
 		bank.createAccount("Euro");
 		bank.createAccount("Euro");
 
@@ -471,7 +475,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(150, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertMoneyEquals(Money.createMoney(Amount.createAmount(Fraction.parse("150")), Euro.getTheEuro()), acc2.getMoney());
 		assertMoneyEquals(Money.createMoney(Amount.createAmount(Fraction.parse("-160")), Euro.getTheEuro()), acc1.getMoney());
@@ -496,7 +500,7 @@ public class TestTransfer {
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
 		try {
-			newTrans.execute();
+			newTrans.execute(acc1);
 		} catch (DebitException e) {
 			assertTrue(true);
 			return;
@@ -522,7 +526,7 @@ public class TestTransfer {
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
 		try {
-			newTrans.execute();
+			newTrans.execute(acc1);
 		} catch (DebitException e) {
 			assertTrue(true);
 			return;
@@ -550,7 +554,7 @@ public class TestTransfer {
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
 		try {
-			newTrans.execute();
+			newTrans.execute(acc1);
 		} catch (DebitException e) {
 			assertTrue(true);
 			return;
@@ -561,9 +565,9 @@ public class TestTransfer {
 	public void testBankExternCurrencyTransfer() throws PersistenceException, ExecuteException {
 		PersistentAdministrator a = Administrator.createAdministrator();
 
-		a.changeCurrencyRateGUI("Euro", Fraction.parse("2"));
+		a.changeCurrencyRateGUI("Euro", Fraction.parse("1/2"));
 		a.changeCurrencyRateGUI("Dollar", Fraction.parse("1"));
-		a.changeCurrencyRateGUI("Pfund", Fraction.parse("3"));
+		a.changeCurrencyRateGUI("Pfund", Fraction.parse("1/3"));
 
 		PersistentBank bank1 = BankCreator.getTheBankCreator().createBank(BankName1, a);
 		PersistentBank bank2 = BankCreator.getTheBankCreator().createBank(BankName2, a);
@@ -577,7 +581,7 @@ public class TestTransfer {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(100, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		PersistentMoney m1 = Money.createMoney(Amount.createAmount(Fraction.parse("-100")), Euro.getTheEuro());
 		PersistentMoney m2 = Money.createMoney(Amount.createAmount(Fraction.parse("150")), Pfund.getThePfund());
