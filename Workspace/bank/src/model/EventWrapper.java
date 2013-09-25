@@ -6,7 +6,7 @@ import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
 import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
-import model.meta.DebitTransferTransactionExecuteMssg;
+import model.meta.DebitTransferTransactionExecuteAccountMssg;
 import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
@@ -273,7 +273,7 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 			@Override
 			public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws PersistenceException {}
 			@Override
-			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
+			public void handleDebitTransferTransactionExecuteAccountMssg(DebitTransferTransactionExecuteAccountMssg event) throws PersistenceException {
 				PersistentDebitTransferTransaction result;
 				
 				try {

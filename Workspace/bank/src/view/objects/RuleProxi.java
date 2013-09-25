@@ -1,9 +1,7 @@
 package view.objects;
 
-import view.ModelException;
-import view.RuleView;
-import view.TriggerView;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
 
 public abstract class RuleProxi extends ViewProxi implements RuleView{
     

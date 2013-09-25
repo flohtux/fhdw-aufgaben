@@ -1,13 +1,9 @@
 package view.objects;
 
-import view.AccountPxView;
-import view.ModelException;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class AccountPxProxi extends ViewProxi implements AccountPxView{
     

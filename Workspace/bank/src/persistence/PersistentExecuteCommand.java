@@ -6,6 +6,8 @@ import model.visitor.*;
 
 public interface PersistentExecuteCommand extends DebitTransferTransactionCommand, Anything, PersistentCommonDate, AbstractPersistentProxi {
     
+    public PersistentAccount getHasToPayFees() throws PersistenceException ;
+    public void setHasToPayFees(PersistentAccount newValue) throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentDebitTransferTransaction getCommandReceiver() throws PersistenceException ;

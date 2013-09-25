@@ -1,18 +1,9 @@
 package view.objects;
 
-import view.DisabledStateView;
-import view.ModelException;
-import view.TriggerView;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import view.visitor.TriggerStateExceptionVisitor;
-import view.visitor.TriggerStateReturnExceptionVisitor;
-import view.visitor.TriggerStateReturnVisitor;
-import view.visitor.TriggerStateVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class DisabledStateProxi extends TriggerStateProxi implements DisabledStateView{
     

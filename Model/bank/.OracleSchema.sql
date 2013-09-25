@@ -419,6 +419,9 @@ create sequence SExctCMD nocache;
 create table ExctCMD(
     id number primary key,
     Cls number not null,
+    ExctCMDHsTPFs number,
+    ExctCMDHsTPFsCls number,
+    constraint FExctCMDHsTPFs foreign key (ExctCMDHsTPFsCls) references Cls (id),
     ExctCMDInvoker number,
     ExctCMDInvokerCls number,
     constraint FExctCMDInvoker foreign key (ExctCMDInvokerCls) references Cls (id),

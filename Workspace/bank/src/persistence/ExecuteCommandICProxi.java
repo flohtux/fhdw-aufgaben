@@ -22,6 +22,12 @@ public class ExecuteCommandICProxi extends PersistentInCacheProxi implements Per
         return 213;
     }
     
+    public PersistentAccount getHasToPayFees() throws PersistenceException {
+        return ((PersistentExecuteCommand)this.getTheObject()).getHasToPayFees();
+    }
+    public void setHasToPayFees(PersistentAccount newValue) throws PersistenceException {
+        ((PersistentExecuteCommand)this.getTheObject()).setHasToPayFees(newValue);
+    }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentExecuteCommand)this.getTheObject()).getInvoker();
     }

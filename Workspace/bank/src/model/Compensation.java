@@ -422,7 +422,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 					}
 				});
 		try {
-			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount().getAccountService());
+			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount(), getThis().getRequestingAccount().getAccountService());
 		} catch (AccountSearchException e) {
 			getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
 		}

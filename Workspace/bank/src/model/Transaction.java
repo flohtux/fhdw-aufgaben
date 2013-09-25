@@ -347,12 +347,12 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 		});
 		return result;
 	}
-    public PersistentDebitTransferTransaction executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {
 			@Override
 			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException, ExecuteException {
-				argument.execute();
+				argument.execute(hasToPayFees);
 			}
 		});
 		getThis().changeState(SuccessfulState.createSuccessfulState());

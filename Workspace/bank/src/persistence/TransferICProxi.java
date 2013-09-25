@@ -112,13 +112,13 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
 				throws PersistenceException{
         ((PersistentTransfer)this.getTheObject()).deregister(observee);
     }
-    public PersistentDebitTransferTransaction execute() 
+    public PersistentDebitTransferTransaction execute(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException{
-        return ((PersistentTransfer)this.getTheObject()).execute();
+        return ((PersistentTransfer)this.getTheObject()).execute(hasToPayFees);
     }
-    public void execute(final Invoker invoker) 
+    public void execute(final PersistentAccount hasToPayFees, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentTransfer)this.getTheObject()).execute(invoker);
+        ((PersistentTransfer)this.getTheObject()).execute(hasToPayFees, invoker);
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -172,9 +172,9 @@ public class TransferICProxi extends DebitTransferICProxi implements PersistentT
 				throws PersistenceException{
         return ((PersistentTransfer)this.getTheObject()).createNewObject();
     }
-    public PersistentDebitTransferTransaction executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException{
-        return ((PersistentTransfer)this.getTheObject()).executeImplementation();
+        return ((PersistentTransfer)this.getTheObject()).executeImplementation(hasToPayFees);
     }
     public PersistentMoney fetchRealMoney() 
 				throws PersistenceException{

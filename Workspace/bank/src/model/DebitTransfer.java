@@ -351,8 +351,8 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 		});
     	return result;
     }
-    
-    public PersistentDebitTransferTransaction executeImplementation() 
+    @Override
+    public PersistentDebitTransferTransaction executeImplementation(PersistentAccount hasToPayFees) 
 			throws model.ExecuteException, PersistenceException{
 		if(getThis().getPreviousDebitTransfer() != null) {
 			if (getThis().getInvokerTrigger() != null) {
@@ -399,7 +399,7 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 		}
 		Timestamp tstamp = new Timestamp(new Date().getTime());
 		getThis().setTimestamp(tstamp);
-		getThis().getSender().getBank().sendTransfer(getThis());
+		getThis().getSender().getBank().sendTransfer(getThis(), hasToPayFees);
 		return getThis();
     }
     

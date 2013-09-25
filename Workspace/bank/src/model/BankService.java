@@ -338,7 +338,7 @@ public class BankService extends model.Service implements PersistentBankService{
         transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
-        transfer.execute(getThis());
+        transfer.execute(getThis().getBank().getOwnAccount().getAccount(), getThis());
     }
     public void connected(final String user) 
 				throws PersistenceException{

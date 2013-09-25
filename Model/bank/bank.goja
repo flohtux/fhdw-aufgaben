@@ -65,7 +65,7 @@ class Bank {
 	transient Account ** currentAccounts;
 	active event void changeName(String name);
 	active void createAccount(CurrencySUBTYPEName currencyType);
-	void sendTransfer(DebitTransfer debitTransfer) throws ExecuteException;
+	void sendTransfer(DebitTransfer debitTransfer, Account hasToPayFees) throws ExecuteException;
 	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
 	void changeTransactionFeeToFix(Money fix) throws NoValidFeeValueException;
 	void changeTransactionFeeToProcentual(Fraction procentual) throws NoValidPercentValueException; 
@@ -305,7 +305,7 @@ interface DebitTransferNoValue##DBTNoV{}
 class NoDebitTransfer implements DebitTransferNoValue {}
 
 string-factory abstract class DebitTransferTransaction##DebiTrfTran {
-	active event DebitTransferTransaction execute()  throws ExecuteException;
+	active event DebitTransferTransaction execute(Account hasToPayFees)  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
 	String subject@@Betreff;
 	no-view	Account sender;

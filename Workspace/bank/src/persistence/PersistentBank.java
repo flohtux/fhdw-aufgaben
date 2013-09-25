@@ -67,7 +67,7 @@ public interface PersistentBank extends SubjInterface, Anything, AbstractPersist
 				throws model.DebitException, model.InvalidAccountNumberException, PersistenceException;
     public PersistentAccount searchAccountByAccNumber(final long accNum) 
 				throws model.InvalidAccountNumberException, PersistenceException;
-    public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void sendTransfer(final PersistentDebitTransfer debitTransfer, final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException;
 
 }

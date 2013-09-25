@@ -1,13 +1,7 @@
 package view.objects;
 
-import view.AccountView;
-import view.DebitTransferNoValue;
-import view.DebitTransferTransactionView;
-import view.DebitTransferView;
-import view.ModelException;
-import view.MoneyView;
-import view.TriggerValueView;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
 
 public abstract class DebitTransferProxi extends DebitTransferTransactionProxi implements DebitTransferView{
     

@@ -1,9 +1,7 @@
 package view.objects;
 
-import view.CompensationStateView;
-import view.CompensationView;
-import view.ModelException;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
 
 public abstract class CompensationStateProxi extends ViewProxi implements CompensationStateView{
     

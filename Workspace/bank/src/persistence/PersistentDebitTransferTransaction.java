@@ -25,9 +25,9 @@ public interface PersistentDebitTransferTransaction extends SubjInterface, Anyth
     
     public PersistentDebitTransferDoubleState changeState(final PersistentDebitTransferState newState) 
 				throws PersistenceException;
-    public PersistentDebitTransferTransaction execute() 
+    public PersistentDebitTransferTransaction execute(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException;
-    public void execute(final Invoker invoker) 
+    public void execute(final PersistentAccount hasToPayFees, final Invoker invoker) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
@@ -37,7 +37,7 @@ public interface PersistentDebitTransferTransaction extends SubjInterface, Anyth
 				throws PersistenceException;
     public PersistentDebitTransferTransaction copy() 
 				throws PersistenceException;
-    public PersistentDebitTransferTransaction executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

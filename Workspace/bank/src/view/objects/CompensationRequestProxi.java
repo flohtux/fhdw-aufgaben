@@ -1,16 +1,9 @@
 package view.objects;
 
-import view.CompensationRequestStateView;
-import view.CompensationRequestView;
-import view.CompensationView;
-import view.DebitTransferView;
-import view.ModelException;
-import view.UserException;
-import view.visitor.AnythingExceptionVisitor;
-import view.visitor.AnythingReturnExceptionVisitor;
-import view.visitor.AnythingReturnVisitor;
-import view.visitor.AnythingVisitor;
-import viewClient.ExceptionAndEventHandler;
+import view.*;
+import viewClient.*;
+
+import view.visitor.*;
 
 public class CompensationRequestProxi extends ViewProxi implements CompensationRequestView{
     

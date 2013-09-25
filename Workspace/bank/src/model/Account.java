@@ -12,7 +12,7 @@ import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
 import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
 import model.meta.DebitTransferSwitchPARAMETER;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
-import model.meta.DebitTransferTransactionExecuteMssg;
+import model.meta.DebitTransferTransactionExecuteAccountMssg;
 import model.meta.DebitTransferTransactionMssgs;
 import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.meta.DebitTransferTransactionSwitchPARAMETER;
@@ -912,7 +912,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
-    	debitTransfer.execute(getThis().getAccountService());
+    	debitTransfer.execute(getThis(), getThis().getAccountService());
     }
     public PersistentTransaction findContainingTransaction(final PersistentDebitTransfer dt) 
 				throws PersistenceException{
@@ -1027,7 +1027,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 //				});
 			}
 			
-			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
+			public void handleDebitTransferTransactionExecuteAccountMssg(DebitTransferTransactionExecuteAccountMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
 					if (!t.getSender().equals(getThis())) {

@@ -24,7 +24,7 @@ public class ExecuteCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            ExecuteCommand result = new ExecuteCommand(null,null,null,null,id);
+            ExecuteCommand result = new ExecuteCommand(null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 213);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class ExecuteCommandFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            ExecuteCommand result = new ExecuteCommand(null,null,null,null,id);
+            ExecuteCommand result = new ExecuteCommand(null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (ExecuteCommandProxi)PersistentProxi.createProxi(id, 213);
         }catch(SQLException se) {
@@ -61,19 +61,23 @@ public class ExecuteCommandFacade{
                 callable.close();
                 return null;
             }
-            Invoker invoker = null;
+            PersistentAccount hasToPayFees = null;
             if (obj.getLong(2) != 0)
-                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            PersistentDebitTransferTransaction commandReceiver = null;
+                hasToPayFees = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
+            Invoker invoker = null;
             if (obj.getLong(4) != 0)
-                commandReceiver = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            PersistentDebitTransferTransaction commandResult = null;
+                invoker = (Invoker)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentDebitTransferTransaction commandReceiver = null;
             if (obj.getLong(6) != 0)
-                commandResult = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            PersistentCommonDate myCommonDate = null;
+                commandReceiver = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentDebitTransferTransaction commandResult = null;
             if (obj.getLong(8) != 0)
-                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            ExecuteCommand result = new ExecuteCommand(invoker,
+                commandResult = (PersistentDebitTransferTransaction)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            PersistentCommonDate myCommonDate = null;
+            if (obj.getLong(10) != 0)
+                myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            ExecuteCommand result = new ExecuteCommand(hasToPayFees,
+                                                       invoker,
                                                        commandReceiver,
                                                        commandResult,
                                                        myCommonDate,
@@ -97,6 +101,19 @@ public class ExecuteCommandFacade{
             long result = callable.getLong(1);
             callable.close();
             return result;
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void hasToPayFeesSet(long ExecuteCommandId, PersistentAccount hasToPayFeesVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".ExctCMDFacade.hsTPFsSet(?, ?, ?); end;");
+            callable.setLong(1, ExecuteCommandId);
+            callable.setLong(2, hasToPayFeesVal.getId());
+            callable.setLong(3, hasToPayFeesVal.getClassId());
+            callable.execute();
+            callable.close();
         }catch(SQLException se) {
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }

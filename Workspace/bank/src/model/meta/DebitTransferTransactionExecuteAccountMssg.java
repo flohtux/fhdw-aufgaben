@@ -2,39 +2,42 @@ package model.meta;
 
 import persistence.PersistenceException;
 
-public class DebitTransferTransactionExecuteMssg implements DebitTransferTransactionDOWNMssgs,DebitTransferTransactionUPMssgs, DebitTransferNoValueDOWNMssgs{
+public class DebitTransferTransactionExecuteAccountMssg implements DebitTransferTransactionDOWNMssgs,DebitTransferTransactionUPMssgs, DebitTransferNoValueDOWNMssgs{
     
     private java.util.Date exctDte = null;
     private persistence.PersistentDebitTransferTransaction rslt;
     private Exception excptn;
     public final persistence.PersistentDebitTransferTransaction rcvr;
+    public final persistence.PersistentAccount hasToPayFees;
     
-    public DebitTransferTransactionExecuteMssg(persistence.PersistentDebitTransferTransaction rcvr){
+    public DebitTransferTransactionExecuteAccountMssg(persistence.PersistentAccount hasToPayFees,
+                                                      persistence.PersistentDebitTransferTransaction rcvr){
+        this.hasToPayFees = hasToPayFees;
         this.rcvr = rcvr;
     }
     public void accept(DebitTransferTransactionMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
+        visitor.handleDebitTransferTransactionExecuteAccountMssg(this);
     }
     public void accept(DebitTransferMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
+        visitor.handleDebitTransferTransactionExecuteAccountMssg(this);
     }
     public void accept(TransferMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
+        visitor.handleDebitTransferTransactionExecuteAccountMssg(this);
     }
     public void accept(DebitMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
+        visitor.handleDebitTransferTransactionExecuteAccountMssg(this);
     }
     public void accept(TransactionMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
+        visitor.handleDebitTransferTransactionExecuteAccountMssg(this);
     }
     public void accept(DebitTransferNoValueMssgsVisitor visitor) throws persistence.PersistenceException{
-        visitor.handleDebitTransferTransactionExecuteMssg(this);
+        visitor.handleDebitTransferTransactionExecuteAccountMssg(this);
     }
     public synchronized void execute() {
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();
             try{
-                rslt = this.rcvr.executeImplementation();
+                rslt = this.rcvr.executeImplementation(this.hasToPayFees);
             }catch(Exception exception){
                 this.excptn = exception;
             }

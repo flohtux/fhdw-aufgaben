@@ -380,7 +380,7 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 			}
 		});
 		incomingDebitTransfer.getNextDebitTransferTransactionstriggers().add(copy);
-		copy.execute(accService);
+		copy.execute(copy.getSender(), accService);
 //		copy.execute();
     }
     public void initializeOnCreation() 
