@@ -70,45 +70,17 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
-        if(this.getState() != null) index = index - 1;
-        if(index == 0 && this.getInvokerTrigger() != null) return new InvokerTriggerDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getInvokerTrigger());
-        if(this.getInvokerTrigger() != null) index = index - 1;
-        if(index < this.getNextDebitTransferTransactionstriggers().size()) return new NextDebitTransferTransactionstriggersDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getNextDebitTransferTransactionstriggers().get(index));
-        index = index - this.getNextDebitTransferTransactionstriggers().size();
-        if(index == 0 && this.getPreviousDebitTransfer() != null) return new PreviousDebitTransferDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPreviousDebitTransfer());
-        if(this.getPreviousDebitTransfer() != null) index = index - 1;
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getState() == null ? 0 : 1)
-            + (this.getInvokerTrigger() == null ? 0 : 1)
-            + (this.getNextDebitTransferTransactionstriggers().size())
-            + (this.getPreviousDebitTransfer() == null ? 0 : 1);
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        if (this.object == null) return this.getLeafInfo() == 0;
-        return true 
-            && (this.getState() == null ? true : false)
-            && (this.getInvokerTrigger() == null ? true : false)
-            && (this.getNextDebitTransferTransactionstriggers().size() == 0)
-            && (this.getPreviousDebitTransfer() == null ? true : false);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        if(this.getState() != null && this.getState().equals(child)) return result;
-        if(this.getState() != null) result = result + 1;
-        if(this.getInvokerTrigger() != null && this.getInvokerTrigger().equals(child)) return result;
-        if(this.getInvokerTrigger() != null) result = result + 1;
-        java.util.Iterator<?> getNextDebitTransferTransactionstriggersIterator = this.getNextDebitTransferTransactionstriggers().iterator();
-        while(getNextDebitTransferTransactionstriggersIterator.hasNext()){
-            if(getNextDebitTransferTransactionstriggersIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
-        if(this.getPreviousDebitTransfer() != null && this.getPreviousDebitTransfer().equals(child)) return result;
-        if(this.getPreviousDebitTransfer() != null) result = result + 1;
+        
         return -1;
     }
     

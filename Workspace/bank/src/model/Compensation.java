@@ -291,9 +291,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
          return visitor.handleCompensation(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getRequestingAccount() != null) return 1;
         if (this.getPendingRequests().getObservee().getLength() > 0) return 1;
-        if (this.getState() != null) return 1;
         return 0;
     }
     

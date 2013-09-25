@@ -1019,22 +1019,24 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof DebitGrantView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Erlaubnis entziehen");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Erlaubnis entziehen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().remove((DebitGrantView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
+                if (this.filterRemove((DebitGrantView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Erlaubnis entziehen");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Erlaubnis entziehen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().remove((DebitGrantView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
+                        
+                    });
+                    result.add(item);
+                }
             }
             if (selected instanceof TriggerView){
                 if (this.filterEnable((TriggerView) selected)) {
@@ -2122,6 +2124,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			return false;
 		}
 	}
+	
+	private boolean filterRemove(DebitGrantView selected) {
+		//TODO machen
+		return true;
+	}
+
 
 
 }

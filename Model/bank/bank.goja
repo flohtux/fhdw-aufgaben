@@ -108,7 +108,7 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked, DebitTransferSUBTYPEName type@@Buchung);
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
-	void remove@@Erlaubnis_entziehen(DebitGrant grant);
+	void remove@@Erlaubnis_entziehen(DebitGrant grant checked);
 
 	//Rules
 	no-view void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
@@ -159,7 +159,7 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
@@ -310,7 +310,7 @@ string-factory abstract class DebitTransferTransaction##DebiTrfTran {
 	Timestamp timestamp@@Zeitstempel;
 	String subject@@Betreff;
 	no-view	Account sender;
-	one-to-one (no-view debitTransfer) DebitTransferState state;
+	one-to-one (no-view debitTransfer) no-view DebitTransferState state;
 	event DebitTransferDoubleState changeState(DebitTransferState newState);
 	DebitTransferTransaction copy();
 }
@@ -320,9 +320,9 @@ string-factory abstract class DebitTransfer extends DebitTransferTransaction imp
 	Integer receiverBankNumber@@Empfänger_Bank;
 	no-view Account receiver; //if executed successfully
 	no-view Money money@@Betrag;
-	TriggerValue invokerTrigger;
-	DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg; // triggered DTR
-	DebitTransferNoValue previousDebitTransfer##prvdebtra;
+	no-view TriggerValue invokerTrigger;
+	no-view DebitTransferTransaction ** nextDebitTransferTransactionstriggers##nxtdtttrg; // triggered DTR
+	no-view DebitTransferNoValue previousDebitTransfer##prvdebtra;
 
 	abstract Money fetchRealMoney();
 	event void changeReceiverBank(Integer receiverBankNumber);
@@ -408,9 +408,9 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 
 
 class Compensation {
-	prior Account requestingAccount;
+	prior no-view Account requestingAccount;
 	observe CompensationRequest ** pendingRequests;
-	one-to-one (no-view compensation) CompensationState state;
+	one-to-one (no-view compensation) no-view CompensationState state;
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
@@ -430,8 +430,6 @@ class CompensationRequest {
 
 
 abstract class CompensationRequestState##CmpReqSt(WaitingState, AcceptedState, DeclinedState) {}
-
-
 
 class DebitTransferDoubleState##DebTraStaDo {
 	prior DebitTransferState debitTransferStateOld##dbtrstold;

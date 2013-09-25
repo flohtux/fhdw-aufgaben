@@ -207,7 +207,6 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
          return visitor.handleTransaction(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getState() != null) return 1;
         if (this.getDebitTransfer() != null && this.getDebitTransfer().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
