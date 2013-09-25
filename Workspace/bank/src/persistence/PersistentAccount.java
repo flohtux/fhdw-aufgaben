@@ -9,8 +9,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public long getAccountNumber() throws PersistenceException ;
     public void setAccountNumber(long newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;
-    public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public PersistentLimitAccount getLimit() throws PersistenceException ;
+    public void setMoney(PersistentMoney newValue) throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
