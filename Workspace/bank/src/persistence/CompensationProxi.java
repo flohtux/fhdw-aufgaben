@@ -28,11 +28,11 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
     public void setRequestingAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentCompensation)this.getTheObject()).setRequestingAccount(newValue);
     }
-    public PersistentStornoState getStornoState() throws PersistenceException {
-        return ((PersistentCompensation)this.getTheObject()).getStornoState();
+    public PersistentCompensationState getState() throws PersistenceException {
+        return ((PersistentCompensation)this.getTheObject()).getState();
     }
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
-        ((PersistentCompensation)this.getTheObject()).setStornoState(newValue);
+    public void setState(PersistentCompensationState newValue) throws PersistenceException {
+        ((PersistentCompensation)this.getTheObject()).setState(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCompensation)this.getTheObject()).getSubService();
@@ -121,6 +121,10 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException{
         ((PersistentCompensation)this.getTheObject()).pendingRequests_update(event);
+    }
+    public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+        ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransferTransaction(debitTransferTransaction);
     }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{

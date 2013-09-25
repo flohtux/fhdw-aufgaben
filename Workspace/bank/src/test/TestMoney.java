@@ -21,7 +21,7 @@ import expressions.RegularExpressionHandler;
 
 public class TestMoney extends TestCase {
 
-	public void NOsetUp(){
+	public void setUp(){
 		try {
 			TestSupport.prepareDatabase(); //TODO PREREQUISITES: Test: substitute by following statement for database-less test: ConnectionHandler.getTheConnectionHandler().connect("", "", "", null, false);
 			TestSupport.prepareSingletons();

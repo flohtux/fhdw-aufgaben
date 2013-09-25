@@ -72,7 +72,7 @@ public class TestDebit {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
@@ -93,7 +93,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(-10, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 	}
 	
@@ -113,7 +113,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(24, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 		assertEquals(new Fraction(-24, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(24, 1), acc1.getMoney().getAmount().getBalance());
@@ -136,7 +136,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(25, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 		assertEquals(new Fraction(-25, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(25, 1), acc1.getMoney().getAmount().getBalance());
@@ -159,7 +159,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(26, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 	}
 	
@@ -180,7 +180,7 @@ public class TestDebit {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Dollar.getTheDollar()));
 		newTrans.setReceiverAccountNumber(SecondAccountNumber);
 		newTrans.setReceiverBankNumber(bank.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
@@ -206,7 +206,7 @@ public class TestDebit {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
@@ -228,7 +228,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(-10, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(FirstAccountNumber);
 		newDebit.setReceiverBankNumber(bank2.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 	}
 	
@@ -249,7 +249,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(24, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(FirstAccountNumber);
 		newDebit.setReceiverBankNumber(bank2.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 		assertEquals(new Fraction(-24, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(24, 1), acc1.getMoney().getAmount().getBalance());
@@ -273,7 +273,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(25, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(FirstAccountNumber);
 		newDebit.setReceiverBankNumber(bank2.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 		assertEquals(new Fraction(-25, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(25, 1), acc1.getMoney().getAmount().getBalance());
@@ -297,7 +297,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(26, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(FirstAccountNumber);
 		newDebit.setReceiverBankNumber(bank2.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 
 	}
 	
@@ -319,7 +319,7 @@ public class TestDebit {
 		newTrans.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Dollar.getTheDollar()));
 		newTrans.setReceiverAccountNumber(FirstAccountNumber);
 		newTrans.setReceiverBankNumber(bank2.getBankNumber());
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(-10, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(10, 1), acc1.getMoney().getAmount().getBalance());
@@ -347,7 +347,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(SecondAccountNumber);
 		newDebit.setReceiverBankNumber(bank.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 //		System.out.println("stata"+newDebit.getState());
 		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
 //		System.out.println(acc2.getMoney()+"acc2");
@@ -373,7 +373,7 @@ public class TestDebit {
 		newDebit.setMoney(Money.createMoney(Amount.createAmount(new Fraction(10, 1)), Euro.getTheEuro()));
 		newDebit.setReceiverAccountNumber(FirstAccountNumber);
 		newDebit.setReceiverBankNumber(bank2.getBankNumber());
-		newDebit.execute();
+		newDebit.execute(acc1);
 		assertTrue(newDebit.getState() instanceof PersistentSuccessfulState);
 //		System.out.println(acc2.getMoney()+"acc2");
 //		System.out.println("acc1"+acc1.getMoney());

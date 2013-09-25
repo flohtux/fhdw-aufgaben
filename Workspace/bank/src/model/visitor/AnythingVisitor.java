@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,StornoStateVisitor,CommonDateVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
+public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,CommonDateVisitor,CompensationStateVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
@@ -54,8 +54,8 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public void handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException;
-    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException;
+    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public void handleAccount(PersistentAccount account) throws PersistenceException;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException;

@@ -193,17 +193,18 @@ public abstract class DebitTransferTransaction extends PersistentObject implemen
 		getThis().updateObservers(event);
 		return event.getResult();
     }
-    public PersistentDebitTransferTransaction execute() 
+    public PersistentDebitTransferTransaction execute(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException{
-        model.meta.DebitTransferTransactionExecuteMssg event = new model.meta.DebitTransferTransactionExecuteMssg(getThis());
+        model.meta.DebitTransferTransactionExecuteAccountMssg event = new model.meta.DebitTransferTransactionExecuteAccountMssg(hasToPayFees, getThis());
 		event.execute();
 		getThis().updateObservers(event);
 		return event.getResult();
     }
-    public void execute(final Invoker invoker) 
+    public void execute(final PersistentAccount hasToPayFees, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentExecuteCommand command = model.meta.ExecuteCommand.createExecuteCommand(now, now);
+		command.setHasToPayFees(hasToPayFees);
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);

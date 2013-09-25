@@ -21,6 +21,7 @@ import model.visitor.DebitTransferTransactionCommandVisitor;
 import persistence.ConnectionHandler;
 import persistence.Invoker;
 import persistence.PersistenceException;
+import persistence.PersistentAccount;
 import persistence.PersistentCommonDate;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentExecuteCommand;
@@ -59,6 +60,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
+    protected PersistentAccount hasToPayFees;
     protected Invoker invoker;
     protected PersistentDebitTransferTransaction commandReceiver;
     protected PersistentDebitTransferTransaction commandResult;
@@ -66,9 +68,10 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     
     private model.UserException commandException = null;
     
-    public ExecuteCommand(Invoker invoker,PersistentDebitTransferTransaction commandReceiver,PersistentDebitTransferTransaction commandResult,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
+    public ExecuteCommand(PersistentAccount hasToPayFees,Invoker invoker,PersistentDebitTransferTransaction commandReceiver,PersistentDebitTransferTransaction commandResult,PersistentCommonDate myCommonDate,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.hasToPayFees = hasToPayFees;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.commandResult = commandResult;
@@ -88,6 +91,10 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
         if (this.getClassId() == 213) ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade
             .newExecuteCommand(this.getId());
         super.store();
+        if(this.getHasToPayFees() != null){
+            this.getHasToPayFees().store();
+            ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.hasToPayFeesSet(this.getId(), getHasToPayFees());
+        }
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -107,6 +114,20 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
         
     }
     
+    public PersistentAccount getHasToPayFees() throws PersistenceException {
+        return this.hasToPayFees;
+    }
+    public void setHasToPayFees(PersistentAccount newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.equals(this.hasToPayFees)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.hasToPayFees = (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theExecuteCommandFacade.hasToPayFeesSet(this.getId(), newValue);
+        }
+    }
     public Invoker getInvoker() throws PersistenceException {
         return this.invoker;
     }
@@ -229,6 +250,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
          return visitor.handleExecuteCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getHasToPayFees() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         if (this.getCommandResult() != null) return 1;
         return 0;
@@ -246,7 +268,7 @@ public class ExecuteCommand extends PersistentObject implements PersistentExecut
     public void execute() 
 				throws PersistenceException{
         try{
-			this.setCommandResult(this.getCommandReceiver().execute());
+			this.setCommandResult(this.getCommandReceiver().execute(this.getHasToPayFees()));
 		}
 		catch(model.ExecuteException e){
 			this.commandException = e;

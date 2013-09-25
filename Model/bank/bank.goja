@@ -65,7 +65,7 @@ class Bank {
 	transient Account ** currentAccounts;
 	active event void changeName(String name);
 	active void createAccount(CurrencySUBTYPEName currencyType);
-	void sendTransfer(DebitTransfer debitTransfer) throws ExecuteException;
+	void sendTransfer(DebitTransfer debitTransfer, Account hasToPayFees) throws ExecuteException;
 	void receiveTransfer(DebitTransfer debitTransfer) throws InvalidAccountNumberException, DebitException;
 	void changeTransactionFeeToFix(Money fix) throws NoValidFeeValueException;
 	void changeTransactionFeeToProcentual(Fraction procentual) throws NoValidPercentValueException; 
@@ -120,7 +120,7 @@ void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction tran
 	no-view void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 
 	//Kompensation
-	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls});
+	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls} checked);
 	void answerAccept@@annehmen(CompensationRequest a);
 	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
 	void answerDecline@@ablehnen(CompensationRequest a);
@@ -159,7 +159,7 @@ class Account {
 	prior indexed Integer accountNumber@@Kontonummer;
 	prior one-to-one (no-view account) Money money@@Geldmenge;
 	one-to-one (no-view account) LimitAccount limit;
-	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
+	observe DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
@@ -180,6 +180,7 @@ class Account {
 
 	DebitTransferTransaction createTemplate(DebitTransferTransactionSUBTYPEName type);
 	Transaction createTransaction();
+	void removeFromTransaction(Transaction transaction, DebitTransfer ** debitTransfer);
 
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
@@ -192,7 +193,7 @@ class Account {
 	void answerAccept@@annehmen(CompensationRequest a);
 	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
 	void answerDecline@@ablehnen(CompensationRequest a);
-	Transaction findContainingTransaction(DebitTransferTransaction dt);
+	Transaction findContainingTransaction(DebitTransfer dt);
 	active void compensationDeclined##cmpDeclnd(Compensation compensation, String reason) throws CompensationAbortedException;
 	void addDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
 }
@@ -305,7 +306,7 @@ interface DebitTransferNoValue##DBTNoV{}
 class NoDebitTransfer implements DebitTransferNoValue {}
 
 string-factory abstract class DebitTransferTransaction##DebiTrfTran {
-	active event DebitTransferTransaction execute()  throws ExecuteException;
+	active event DebitTransferTransaction execute(Account hasToPayFees)  throws ExecuteException;
 	Timestamp timestamp@@Zeitstempel;
 	String subject@@Betreff;
 	no-view	Account sender;
@@ -409,18 +410,19 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 class Compensation {
 	prior Account requestingAccount;
 	observe CompensationRequest ** pendingRequests;
-	one-to-one (no-view debitTransfer) StornoState stornoState;
+	one-to-one (no-view compensation) CompensationState state;
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
 	void requestCompensationForDebitTransfer(DebitTransfer debitTransfer);
+	void requestCompensationForDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
 
 	active void executeCompensation();
 	BooleanValue allAnswered() throws CompensationAbortedException;
 }
 
 class CompensationRequest {
-	prior DebitTransferTransaction debitTransferTransaction##cmpstDtTr;
+	prior DebitTransfer debitTransfer;
 	prior Compensation masterCompensation;
 	CompensationRequestState state;
 	event void changeState(CompensationRequestState a);
@@ -439,6 +441,7 @@ class DebitTransferDoubleState##DebTraStaDo {
 abstract class DebitTransferState##DebiTraStat{
 	BooleanValue isExecutable();
 	BooleanValue isTransaction();
+	BooleanValue isCompensationRequest();
 	void changeState(DebitTransferState newState);
 	void removeDebitTransferFromList();
 	void addDebitTransferFromList(DebitTransferState state);
@@ -451,8 +454,10 @@ class TemplateState extends DebitTransferState {}
 class ExecutedState extends DebitTransferState {}
 class NotExecutedState extends DebitTransferState {}
 class NotExecutableState extends DebitTransferState {}
+class CompensatedState extends DebitTransferState {}
+class CompensationRequestedState##CompReqSta extends DebitTransferState {}
 
-abstract class StornoState(SuccessfulStornoState##SucStoSta,NotSuccessfulStornoState##NoSucStoSta,RequestState,NoRequestState){}
+abstract class CompensationState(SuccessfulCompensationState##SuccComSta,WaitingCompensationState##WaitComSta,DeclinedCompensationState##DecComSta){}
 
 exception PasswordException {}
 

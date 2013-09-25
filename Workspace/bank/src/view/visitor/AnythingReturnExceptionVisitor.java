@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
+public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,CompensationStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
     
     public R handleCompensation(CompensationView compensation) throws ModelException, E;
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;

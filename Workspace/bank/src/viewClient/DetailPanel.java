@@ -697,9 +697,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleCompensation(view.CompensationView object){
         result = new CompensationDefaultDetailPanel(handler, object);
     }
-    public void handleNoRequestState(view.NoRequestStateView object){
-        result = new NoRequestStateDefaultDetailPanel(handler, object);
-    }
     public void handleDebitTransferListe(view.DebitTransferListeView object){
         result = new DebitTransferListeDefaultDetailPanel(handler, object);
     }
@@ -745,8 +742,20 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTriggerListe(view.TriggerListeView object){
         result = new TriggerListeDefaultDetailPanel(handler, object);
     }
+    public void handleCompensationRequestedState(view.CompensationRequestedStateView object){
+        result = new CompensationRequestedStateDefaultDetailPanel(handler, object);
+    }
+    public void handleWaitingCompensationState(view.WaitingCompensationStateView object){
+        result = new WaitingCompensationStateDefaultDetailPanel(handler, object);
+    }
     public void handleDisabledState(view.DisabledStateView object){
         result = new DisabledStateDefaultDetailPanel(handler, object);
+    }
+    public void handleCompensatedState(view.CompensatedStateView object){
+        result = new CompensatedStateDefaultDetailPanel(handler, object);
+    }
+    public void handleSuccessfulCompensationState(view.SuccessfulCompensationStateView object){
+        result = new SuccessfulCompensationStateDefaultDetailPanel(handler, object);
     }
     public void handleDollar(view.DollarView object){
         result = new DollarDefaultDetailPanel(handler, object);
@@ -780,9 +789,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handlePfund(view.PfundView object){
         result = new PfundDefaultDetailPanel(handler, object);
-    }
-    public void handleSuccessfulStornoState(view.SuccessfulStornoStateView object){
-        result = new SuccessfulStornoStateDefaultDetailPanel(handler, object);
     }
     public void handleDebitGrant(view.DebitGrantView object){
         result = new DebitGrantDefaultDetailPanel(handler, object);
@@ -850,9 +856,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleAccountService(view.AccountServiceView object){
         result = new AccountServiceDefaultDetailPanel(handler, object);
     }
-    public void handleRequestState(view.RequestStateView object){
-        result = new RequestStateDefaultDetailPanel(handler, object);
-    }
     public void handleAccount(view.AccountView object){
         result = new AccountDefaultDetailPanel(handler, object);
     }
@@ -883,6 +886,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleBank(view.BankView object){
         result = new BankDefaultDetailPanel(handler, object);
     }
+    public void handleDeclinedCompensationState(view.DeclinedCompensationStateView object){
+        result = new DeclinedCompensationStateDefaultDetailPanel(handler, object);
+    }
     public void handleDebitTransferSuccessful(view.DebitTransferSuccessfulView object){
         result = new DebitTransferSuccessfulDefaultDetailPanel(handler, object);
     }
@@ -891,9 +897,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleBankFees(view.BankFeesView object){
         result = new BankFeesDefaultDetailPanel(handler, object);
-    }
-    public void handleNotSuccessfulStornoState(view.NotSuccessfulStornoStateView object){
-        result = new NotSuccessfulStornoStateDefaultDetailPanel(handler, object);
     }
     public void handleDeclinedState(view.DeclinedStateView object){
         result = new DeclinedStateDefaultDetailPanel(handler, object);
@@ -911,7 +914,7 @@ class CompensationDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Compensation$$requestingAccount = "Compensation$$requestingAccount";
     protected static final String Compensation$$pendingRequests = "Compensation$$pendingRequests";
-    protected static final String Compensation$$stornoState = "Compensation$$stornoState";
+    protected static final String Compensation$$state = "Compensation$$state";
     
     protected CompensationDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -921,20 +924,6 @@ class CompensationDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.CompensationView getAnything(){
         return (view.CompensationView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class NoRequestStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected NoRequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.NoRequestStateView getAnything(){
-        return (view.NoRequestStateView)this.anything;
     }
 }
 
@@ -1187,6 +1176,34 @@ class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class CompensationRequestedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CompensationRequestedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CompensationRequestedStateView getAnything(){
+        return (view.CompensationRequestedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class WaitingCompensationStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected WaitingCompensationStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.WaitingCompensationStateView getAnything(){
+        return (view.WaitingCompensationStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class DisabledStateDefaultDetailPanel extends DefaultDetailPanel{
     
     protected DisabledStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1197,6 +1214,34 @@ class DisabledStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DisabledStateView getAnything(){
         return (view.DisabledStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class CompensatedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CompensatedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CompensatedStateView getAnything(){
+        return (view.CompensatedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class SuccessfulCompensationStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected SuccessfulCompensationStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.SuccessfulCompensationStateView getAnything(){
+        return (view.SuccessfulCompensationStateView)this.anything;
     }
 }
 
@@ -1251,7 +1296,7 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 @SuppressWarnings("serial")
 class CompensationRequestDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String CompensationRequest$$debitTransferTransaction = "CompensationRequest$$debitTransferTransaction";
+    protected static final String CompensationRequest$$debitTransfer = "CompensationRequest$$debitTransfer";
     protected static final String CompensationRequest$$masterCompensation = "CompensationRequest$$masterCompensation";
     protected static final String CompensationRequest$$state = "CompensationRequest$$state";
     
@@ -1377,20 +1422,6 @@ class PfundDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.PfundView getAnything(){
         return (view.PfundView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class SuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected SuccessfulStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.SuccessfulStornoStateView getAnything(){
-        return (view.SuccessfulStornoStateView)this.anything;
     }
 }
 
@@ -1826,25 +1857,12 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
-class RequestStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected RequestStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.RequestStateView getAnything(){
-        return (view.RequestStateView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
 class AccountDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
+    protected static final String Account$$debitTransferTransactions = "Account$$debitTransferTransactions";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
     protected static final String Account$$triggerListe = "Account$$triggerListe";
@@ -2050,6 +2068,20 @@ class BankDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class DeclinedCompensationStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected DeclinedCompensationStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DeclinedCompensationStateView getAnything(){
+        return (view.DeclinedCompensationStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class DebitTransferSuccessfulDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferSuccessful$$successfuls = "DebitTransferSuccessful$$successfuls";
@@ -2093,20 +2125,6 @@ class BankFeesDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.BankFeesView getAnything(){
         return (view.BankFeesView)this.anything;
-    }
-}
-
-@SuppressWarnings("serial")
-class NotSuccessfulStornoStateDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected NotSuccessfulStornoStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.NotSuccessfulStornoStateView getAnything(){
-        return (view.NotSuccessfulStornoStateView)this.anything;
     }
 }
 

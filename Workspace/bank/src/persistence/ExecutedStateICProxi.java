@@ -108,6 +108,10 @@ public class ExecutedStateICProxi extends DebitTransferStateICProxi implements P
 				throws PersistenceException{
         ((PersistentExecutedState)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBooleanValue isCompensationRequest() 
+				throws PersistenceException{
+        return ((PersistentExecutedState)this.getTheObject()).isCompensationRequest();
+    }
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentExecutedState)this.getTheObject()).isExecutable();

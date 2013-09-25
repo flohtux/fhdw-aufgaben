@@ -268,7 +268,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).executeTransfer(debitTransfer);
     }
-    public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
+    public PersistentTransaction findContainingTransaction(final PersistentDebitTransfer dt) 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).findContainingTransaction(dt);
     }
@@ -287,6 +287,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).receivedDebitGrant_update(event);
+    }
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
     }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{

@@ -12,7 +12,7 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
 		
 	  private static ICProxiFactory [] getTheICProxiFactories(){
 		if (iCProxiFactories == null){
-			iCProxiFactories = new ICProxiFactory[177];
+			iCProxiFactories = new ICProxiFactory[183];
         iCProxiFactories[153] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CompensationICProxi(objectId);
@@ -31,11 +31,6 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[2] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ChangeNameCommandICProxi(objectId);
-            }
-        };
-        iCProxiFactories[3] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new NoRequestStateICProxi(objectId);
             }
         };
         iCProxiFactories[110] = new ICProxiFactory(){
@@ -128,6 +123,16 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new TriggerListeICProxi(objectId);
             }
         };
+        iCProxiFactories[182] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new CompensationRequestedStateICProxi(objectId);
+            }
+        };
+        iCProxiFactories[177] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new WaitingCompensationStateICProxi(objectId);
+            }
+        };
         iCProxiFactories[136] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new DisabledStateICProxi(objectId);
@@ -136,6 +141,16 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[112] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ExecuteCommandICProxi(objectId);
+            }
+        };
+        iCProxiFactories[181] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new CompensatedStateICProxi(objectId);
+            }
+        };
+        iCProxiFactories[178] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new SuccessfulCompensationStateICProxi(objectId);
             }
         };
         iCProxiFactories[25] = new ICProxiFactory(){
@@ -241,11 +256,6 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[81] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new PfundICProxi(objectId);
-            }
-        };
-        iCProxiFactories[22] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new SuccessfulStornoStateICProxi(objectId);
             }
         };
         iCProxiFactories[90] = new ICProxiFactory(){
@@ -393,24 +403,19 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new CompensationDeclinedCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[101] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new DebitGrantListeICProxi(objectId);
-            }
-        };
         iCProxiFactories[134] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountTriggerListeICProxi(objectId);
             }
         };
+        iCProxiFactories[101] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new DebitGrantListeICProxi(objectId);
+            }
+        };
         iCProxiFactories[29] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountServiceICProxi(objectId);
-            }
-        };
-        iCProxiFactories[30] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new RequestStateICProxi(objectId);
             }
         };
         iCProxiFactories[32] = new ICProxiFactory(){
@@ -478,6 +483,11 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new BankICProxi(objectId);
             }
         };
+        iCProxiFactories[180] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new DeclinedCompensationStateICProxi(objectId);
+            }
+        };
         iCProxiFactories[96] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new DebitTransferSuccessfulICProxi(objectId);
@@ -491,11 +501,6 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[143] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new BankFeesICProxi(objectId);
-            }
-        };
-        iCProxiFactories[33] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new NotSuccessfulStornoStateICProxi(objectId);
             }
         };
         iCProxiFactories[165] = new ICProxiFactory(){

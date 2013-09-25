@@ -5,11 +5,17 @@ import view.*;
 
 public abstract class DebitTransferStateStandardVisitor implements DebitTransferStateVisitor {
     
+    public void handleCompensationRequestedState(CompensationRequestedStateView compensationRequestedState) throws ModelException{
+        this.standardHandling(compensationRequestedState);
+    }
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.standardHandling(executedState);
     }
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);
+    }
+    public void handleCompensatedState(CompensatedStateView compensatedState) throws ModelException{
+        this.standardHandling(compensatedState);
     }
     public void handleNotSuccessfulState(NotSuccessfulStateView notSuccessfulState) throws ModelException{
         this.standardHandling(notSuccessfulState);

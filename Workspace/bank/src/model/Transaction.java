@@ -35,6 +35,7 @@ import persistence.PersistentProxi;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
 import persistence.Predcate;
 import persistence.Procdure;
 import persistence.ProcdureException;
@@ -298,20 +299,24 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 	}
     public PersistentTransaction mirror() 
 				throws model.AccountSearchException, PersistenceException{
-		return getThis().getDebitTransfer().getDebitTransfers()
+		PersistentTransaction result =  getThis().getDebitTransfer().getDebitTransfers()
 				.aggregateException(new AggregtionException<PersistentDebitTransfer, PersistentTransaction, AccountSearchException>() {
 					public PersistentTransaction neutral() throws PersistenceException {
-						return Transaction.createTransaction();
+						PersistentTransaction result = Transaction.createTransaction();
+						result.changeState(CompensatedState.createCompensatedState());
+						return result;
+						
 					}
 
 					public PersistentTransaction compose(PersistentTransaction result, PersistentDebitTransfer argument) throws PersistenceException,
 							AccountSearchException {
 						DebitTransferSearchList a = new DebitTransferSearchList();
 						a.add(argument.mirror());
-						result.addToTransaction(a);
+						result.addToTransactionWithoutStateChange(a);
 						return result;
 					}
 				});
+		return result;
 	}
     public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
@@ -347,12 +352,12 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 		});
 		return result;
 	}
-    public PersistentDebitTransferTransaction executeImplementation() 
+    public PersistentDebitTransferTransaction executeImplementation(final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException{
 		getThis().getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, ExecuteException>() {
 			@Override
 			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException, ExecuteException {
-				argument.execute();
+				argument.execute(hasToPayFees);
 			}
 		});
 		getThis().changeState(SuccessfulState.createSuccessfulState());

@@ -8,6 +8,8 @@ import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.PersistenceException;
 import persistence.PersistentBooleanValue;
+import persistence.PersistentCompensatedState;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
@@ -190,6 +192,18 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 				@Override
 				public void handleExecutedState(PersistentExecutedState executedState)
 						throws PersistenceException {}
+				@Override
+				public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+					// TODO Auto-generated method stub Janik :)
+					
+				}
+				@Override
+				public void handleCompensationRequestedState(
+						PersistentCompensationRequestedState compensationRequestedState)
+						throws PersistenceException {
+					// TODO Auto-generated method stub
+					
+				}
 			});
     	}
 		
@@ -246,11 +260,23 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 	    		@Override
 	    		public void handleExecutedState(PersistentExecutedState executedState)
 	    				throws PersistenceException {}
+				@Override
+				public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+					// TODO Auto-generated method stub Janik
+					
+				}
+				@Override
+				public void handleCompensationRequestedState(
+						PersistentCompensationRequestedState compensationRequestedState)
+						throws PersistenceException {
+					// TODO Auto-generated method stub
+					
+				}
 	    	});
     }
 
     /* Start of protected part that is not overridden by persistence generator */
-       
+
     /* End of protected part that is not overridden by persistence generator */
     
 }

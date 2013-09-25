@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceReturnVisitor<R> extends DebitTransferNoValueReturnVisitor<R> ,ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,StornoStateReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,RuleReturnVisitor<R> {
+public interface SubjInterfaceReturnVisitor<R> extends DebitTransferNoValueReturnVisitor<R> ,ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,CompensationStateReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,RuleReturnVisitor<R> {
     
     public R handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public R handleSubj(PersistentSubj subj) throws PersistenceException;

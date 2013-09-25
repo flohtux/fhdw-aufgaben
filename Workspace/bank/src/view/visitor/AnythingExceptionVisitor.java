@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,StornoStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
+public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,CompensationStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
     
     public void handleCompensation(CompensationView compensation) throws ModelException, E;
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;

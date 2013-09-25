@@ -543,7 +543,11 @@ public class Bank extends PersistentObject implements PersistentBank{
 			}
 		});
     	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
-    	debitTransfer.changeState(SuccessfulState.createSuccessfulState());
+    	if (debitTransfer.getState().isCompensationRequest().isTrue()) {
+    		debitTransfer.changeState(CompensatedState.createCompensatedState());
+    	}else {
+    		debitTransfer.changeState(SuccessfulState.createSuccessfulState());
+    	}
     	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
     	debitTransfer.setReceiver(acc);
     	acc.addDebitTransferTransaction(debitTransfer);
@@ -562,14 +566,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     		return a;
     	}
     }
-    public void sendTransfer(final PersistentDebitTransfer debitTransfer) 
+    public void sendTransfer(final PersistentDebitTransfer debitTransfer, final PersistentAccount hasToPayFees) 
 				throws model.ExecuteException, PersistenceException{
     	try {
         	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney(), getThis(), debitTransfer.getReceiverBankNumber());
-    		final PersistentMoney newAccountMoney = debitTransfer.getSender().getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
-    		debitTransfer.getSender().getLimit().checkLimit(newAccountMoney);
-    		debitTransfer.getSender().setMoney(newAccountMoney);
+    		final PersistentMoney newAccountMoney = hasToPayFees.getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
+    		hasToPayFees.getLimit().checkLimit(newAccountMoney);
+    		hasToPayFees.setMoney(newAccountMoney);
     		getThis().getOwnAccount().getAccount().setMoney(getThis().getOwnAccount().getAccount().getMoney().add(fee));
 			result.receiveTransfer(debitTransfer);
     	} catch (ExecuteException e) {

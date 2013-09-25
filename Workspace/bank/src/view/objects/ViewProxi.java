@@ -48,15 +48,10 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [177];
+		proxiFactories = new ProxiFactory [183];
         proxiFactories[153] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new CompensationProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[3] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new NoRequestStateProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[110] = new ProxiFactory(){
@@ -134,9 +129,29 @@ public abstract class ViewProxi extends ViewRoot {
                 return new TriggerListeProxi(objectId, classId, connectionKey);
             }
         };
+        proxiFactories[182] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new CompensationRequestedStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[177] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new WaitingCompensationStateProxi(objectId, classId, connectionKey);
+            }
+        };
         proxiFactories[136] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new DisabledStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[181] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new CompensatedStateProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[178] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new SuccessfulCompensationStateProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[25] = new ProxiFactory(){
@@ -192,11 +207,6 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[81] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new PfundProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[22] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new SuccessfulStornoStateProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[90] = new ProxiFactory(){
@@ -309,11 +319,6 @@ public abstract class ViewProxi extends ViewRoot {
                 return new AccountServiceProxi(objectId, classId, connectionKey);
             }
         };
-        proxiFactories[30] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new RequestStateProxi(objectId, classId, connectionKey);
-            }
-        };
         proxiFactories[32] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new AccountProxi(objectId, classId, connectionKey);
@@ -364,6 +369,11 @@ public abstract class ViewProxi extends ViewRoot {
                 return new BankProxi(objectId, classId, connectionKey);
             }
         };
+        proxiFactories[180] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new DeclinedCompensationStateProxi(objectId, classId, connectionKey);
+            }
+        };
         proxiFactories[96] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new DebitTransferSuccessfulProxi(objectId, classId, connectionKey);
@@ -377,11 +387,6 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[143] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new BankFeesProxi(objectId, classId, connectionKey);
-            }
-        };
-        proxiFactories[33] = new ProxiFactory(){
-            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
-                return new NotSuccessfulStornoStateProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[165] = new ProxiFactory(){

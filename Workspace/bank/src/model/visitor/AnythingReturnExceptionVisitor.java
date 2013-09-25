@@ -3,7 +3,7 @@ package model.visitor;
 import model.UserException;
 import persistence.*;
 
-public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,StornoStateReturnExceptionVisitor<R, E> ,CommonDateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
+public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,CommonDateReturnExceptionVisitor<R, E> ,CompensationStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
     
     public R handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException, E;
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
@@ -54,8 +54,8 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public R handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException, E;
-    public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public R handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException, E;
+    public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public R handleAccount(PersistentAccount account) throws PersistenceException, E;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public R handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException, E;

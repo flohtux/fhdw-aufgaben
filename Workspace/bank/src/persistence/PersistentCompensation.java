@@ -8,8 +8,8 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
     
     public PersistentAccount getRequestingAccount() throws PersistenceException ;
     public void setRequestingAccount(PersistentAccount newValue) throws PersistenceException ;
-    public PersistentStornoState getStornoState() throws PersistenceException ;
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException ;
+    public PersistentCompensationState getState() throws PersistenceException ;
+    public void setState(PersistentCompensationState newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCompensation getThis() throws PersistenceException ;
@@ -52,6 +52,8 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
+				throws PersistenceException;
+    public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException;
     /**
      * Sends compensation requests to all participants in all debits and transfers.

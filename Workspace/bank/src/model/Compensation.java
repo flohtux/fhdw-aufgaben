@@ -7,10 +7,8 @@ import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
 import model.visitor.CompensationRequestStateReturnExceptionVisitor;
-import model.visitor.CompensationRequestStateReturnVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
-import model.visitor.DebitTransferVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -32,6 +30,7 @@ import persistence.PersistentBooleanValue;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationPendingRequests;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationState;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
@@ -39,7 +38,6 @@ import persistence.PersistentDeclinedState;
 import persistence.PersistentExecuteCompensationCommand;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
-import persistence.PersistentStornoState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentWaitingState;
@@ -110,13 +108,13 @@ public class Compensation extends PersistentObject implements PersistentCompensa
                 }
             }
             result.put("pendingRequests", this.getPendingRequests().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, essentialLevel == 0));
-            AbstractPersistentRoot stornoState = (AbstractPersistentRoot)this.getStornoState();
-            if (stornoState != null) {
-                result.put("stornoState", stornoState.createProxiInformation(false, essentialLevel == 0));
+            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
+            if (state != null) {
+                result.put("state", state.createProxiInformation(false, essentialLevel == 0));
                 if(depth > 1) {
-                    stornoState.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && stornoState.hasEssentialFields())stornoState.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -129,7 +127,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
         Compensation result = this;
         result = new Compensation(this.requestingAccount, 
                                   this.pendingRequests, 
-                                  this.stornoState, 
+                                  this.state, 
                                   this.subService, 
                                   this.This, 
                                   this.getId());
@@ -142,16 +140,16 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     }
     protected PersistentAccount requestingAccount;
     protected PersistentCompensationPendingRequests pendingRequests;
-    protected PersistentStornoState stornoState;
+    protected PersistentCompensationState state;
     protected SubjInterface subService;
     protected PersistentCompensation This;
     
-    public Compensation(PersistentAccount requestingAccount,PersistentCompensationPendingRequests pendingRequests,PersistentStornoState stornoState,SubjInterface subService,PersistentCompensation This,long id) throws persistence.PersistenceException {
+    public Compensation(PersistentAccount requestingAccount,PersistentCompensationPendingRequests pendingRequests,PersistentCompensationState state,SubjInterface subService,PersistentCompensation This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.requestingAccount = requestingAccount;
         this.pendingRequests = pendingRequests;
-        this.stornoState = stornoState;
+        this.state = state;
         this.subService = subService;
         if (This != null && !(this.equals(This))) this.This = This;        
     }
@@ -177,9 +175,9 @@ public class Compensation extends PersistentObject implements PersistentCompensa
             this.pendingRequests.store();
             ConnectionHandler.getTheConnectionHandler().theCompensationFacade.pendingRequestsSet(this.getId(), pendingRequests);
         }
-        if(this.getStornoState() != null){
-            this.getStornoState().store();
-            ConnectionHandler.getTheConnectionHandler().theCompensationFacade.stornoStateSet(this.getId(), getStornoState());
+        if(this.getState() != null){
+            this.getState().store();
+            ConnectionHandler.getTheConnectionHandler().theCompensationFacade.stateSet(this.getId(), getState());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -217,18 +215,18 @@ public class Compensation extends PersistentObject implements PersistentCompensa
             ConnectionHandler.getTheConnectionHandler().theCompensationFacade.pendingRequestsSet(this.getId(), newValue);
         }
     }
-    public PersistentStornoState getStornoState() throws PersistenceException {
-        return this.stornoState;
+    public PersistentCompensationState getState() throws PersistenceException {
+        return this.state;
     }
-    public void setStornoState(PersistentStornoState newValue) throws PersistenceException {
+    public void setState(PersistentCompensationState newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.equals(this.stornoState)) return;
+        if(newValue.equals(this.state)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.stornoState = (PersistentStornoState)PersistentProxi.createProxi(objectId, classId);
+        this.state = (PersistentCompensationState)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theCompensationFacade.stornoStateSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theCompensationFacade.stateSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -295,7 +293,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     public int getLeafInfo() throws PersistenceException{
         if (this.getRequestingAccount() != null) return 1;
         if (this.getPendingRequests().getObservee().getLength() > 0) return 1;
-        if (this.getStornoState() != null) return 1;
+        if (this.getState() != null) return 1;
         return 0;
     }
     
@@ -364,7 +362,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 
 					public PersistentBooleanValue compose(PersistentBooleanValue result, PersistentCompensationRequest argument) throws PersistenceException,
 							CompensationAbortedException {
-						return result.and(argument.getState().accept(
+						PersistentBooleanValue booleanResult = result.and(argument.getState().accept(
 								new CompensationRequestStateReturnExceptionVisitor<PersistentBooleanValue, CompensationAbortedException>() {
 									public PersistentBooleanValue handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException,
 											CompensationAbortedException {
@@ -378,9 +376,14 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 
 									public PersistentBooleanValue handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException,
 											CompensationAbortedException {
+										getThis().setState(DeclinedCompensationState.getTheDeclinedCompensationState());
 										throw new CompensationAbortedException(getThis(), serverConstants.ExceptionMessages.CompensationAbortOneDecline);
 									}
 								}));
+						if(booleanResult.isTrue()) {
+							getThis().setState(SuccessfulCompensationState.getTheSuccessfulCompensationState());
+						}
+						return booleanResult;
 					}
 				});
 	}
@@ -396,7 +399,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 					}
 
 					public PersistentTransaction compose(PersistentTransaction result, PersistentCompensationRequest argument) throws PersistenceException {
-						DebitTransferSearchList sl = argument.getDebitTransferTransaction().accept(
+						DebitTransferSearchList sl = argument.getDebitTransfer().accept(
 								new DebitTransferTransactionReturnVisitor<DebitTransferSearchList>() {
 									public DebitTransferSearchList handleTransfer(PersistentTransfer transfer) throws PersistenceException {
 										DebitTransferSearchList list = new DebitTransferSearchList();
@@ -418,8 +421,14 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 						return result;
 					}
 				});
+		transactionToBeExecuted.changeState(CompensationRequestedState.createCompensationRequestedState());
+		transactionToBeExecuted.getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
+			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException {
+				argument.changeState(CompensationRequestedState.createCompensationRequestedState());
+			}
+		});
 		try {
-			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount().getAccountService());
+			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount(), getThis().getRequestingAccount().getAccountService());
 		} catch (AccountSearchException e) {
 			getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
 		}
@@ -446,6 +455,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 	}
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setState(WaitingCompensationState.getTheWaitingCompensationState());
 	}
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -492,6 +502,29 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			}
 		});
 	}
+    public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
+				throws PersistenceException{
+    	debitTransferTransaction.changeState(CompensatedState.createCompensatedState());
+        debitTransferTransaction.accept(new DebitTransferTransactionVisitor() {
+			@Override
+			public void handleTransfer(PersistentTransfer transfer)
+					throws PersistenceException {
+				getThis().requestCompensationForDebitTransfer(transfer);
+			}
+			
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+				getThis().requestCompensationForDebitTransfer(debit);
+			}
+			
+			@Override
+			public void handleTransaction(PersistentTransaction transaction)
+					throws PersistenceException {
+				getThis().requestCompensationForDebitTransfers(transaction.getDebitTransfer().getDebitTransfers().getList());
+				
+			}
+		});        
+    }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
 				throws PersistenceException{
 		debitTransfers.applyToAll(new Procdure<PersistentDebitTransfer>() {
@@ -504,16 +537,17 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 	}
     public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
+    	debitTransfer.changeState(CompensatedState.createCompensatedState());
     	PersistentCompensationRequest result = getThis().getPendingRequests().findFirst(new Predcate<PersistentCompensationRequest>() {
 			@Override
 			public boolean test(PersistentCompensationRequest argument)
 					throws PersistenceException {
-				return argument.getDebitTransferTransaction().equals(debitTransfer);
+				return argument.getDebitTransfer().equals(debitTransfer);
 			}
 		});
     	if(result == null) {
 	    	PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
-		    newRequest.setDebitTransferTransaction(debitTransfer);
+		    newRequest.setDebitTransfer(debitTransfer);
 		    debitTransfer.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
 		    getThis().getPendingRequests().add(newRequest);
 		
@@ -521,7 +555,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			     PersistentBank b = getThis().getRequestingAccount().getBank().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
 			     PersistentAccount acc = b.searchAccountByAccNumber(debitTransfer.getReceiverAccountNumber());
 			     PersistentCompensationRequest newRequest2 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
-			     newRequest2.setDebitTransferTransaction(debitTransfer);
+			     newRequest2.setDebitTransfer(debitTransfer);
 			
 			     acc.getAllCompensation().getPendingCompensationRequests().add(newRequest2);
 			     getThis().getPendingRequests().add(newRequest2);

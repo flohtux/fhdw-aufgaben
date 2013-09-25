@@ -3,7 +3,7 @@ package model.visitor;
 import model.UserException;
 import persistence.*;
 
-public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,StornoStateExceptionVisitor<E>,CommonDateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
+public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,CommonDateExceptionVisitor<E>,CompensationStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException, E;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
@@ -54,8 +54,8 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public void handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException, E;
-    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException, E;
+    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException, E;

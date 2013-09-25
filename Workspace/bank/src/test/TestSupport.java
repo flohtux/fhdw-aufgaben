@@ -32,25 +32,24 @@ public class TestSupport {
 	private TestSupport(){}	
 	
 	public static void prepareSingletons(){
-        model.NoRequestState.reset$For$Test = true;
         model.CurrencyManager.reset$For$Test = true;
         model.TrueValue.reset$For$Test = true;
         model.WaitingState.reset$For$Test = true;
+        model.WaitingCompensationState.reset$For$Test = true;
         model.DisabledState.reset$For$Test = true;
+        model.SuccessfulCompensationState.reset$For$Test = true;
         model.Dollar.reset$For$Test = true;
         model.Euro.reset$For$Test = true;
         model.meta.CommandCoordinator.reset$For$Test = true;
         model.Pfund.reset$For$Test = true;
-        model.SuccessfulStornoState.reset$For$Test = true;
         model.BankCreator.reset$For$Test = true;
         model.AcceptedState.reset$For$Test = true;
         model.FalseValue.reset$For$Test = true;
         model.NoLimit.reset$For$Test = true;
         model.Franken.reset$For$Test = true;
         model.EnabledState.reset$For$Test = true;
-        model.RequestState.reset$For$Test = true;
         model.Yen.reset$For$Test = true;
-        model.NotSuccessfulStornoState.reset$For$Test = true;
+        model.DeclinedCompensationState.reset$For$Test = true;
         model.DeclinedState.reset$For$Test = true;
 
 	}

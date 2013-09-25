@@ -3,7 +3,7 @@ package model.visitor;
 import model.UserException;
 import persistence.*;
 
-public interface SubjInterfaceExceptionVisitor<E extends UserException> extends DebitTransferNoValueExceptionVisitor<E>,ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,StornoStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
+public interface SubjInterfaceExceptionVisitor<E extends UserException> extends DebitTransferNoValueExceptionVisitor<E>,ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,CompensationStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
     
     public void handleCompensation(PersistentCompensation compensation) throws PersistenceException, E;
     public void handleSubj(PersistentSubj subj) throws PersistenceException, E;

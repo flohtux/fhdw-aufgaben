@@ -218,6 +218,10 @@ public class NotSuccessfulState extends model.DebitTransferState implements Pers
 				throws PersistenceException{
 		return NotSuccessfulState.createNotSuccessfulState();
 	}
+    public PersistentBooleanValue isCompensationRequest() 
+				throws PersistenceException{
+		return FalseValue.getTheFalseValue();
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return TrueValue.getTheTrueValue();

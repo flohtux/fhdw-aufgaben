@@ -6,8 +6,8 @@ import model.visitor.*;
 
 public interface PersistentCompensationRequest extends SubjInterface, Anything, AbstractPersistentProxi {
     
-    public PersistentDebitTransferTransaction getDebitTransferTransaction() throws PersistenceException ;
-    public void setDebitTransferTransaction(PersistentDebitTransferTransaction newValue) throws PersistenceException ;
+    public PersistentDebitTransfer getDebitTransfer() throws PersistenceException ;
+    public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
     public PersistentCompensation getMasterCompensation() throws PersistenceException ;
     public void setMasterCompensation(PersistentCompensation newValue) throws PersistenceException ;
     public PersistentCompensationRequestState getState() throws PersistenceException ;

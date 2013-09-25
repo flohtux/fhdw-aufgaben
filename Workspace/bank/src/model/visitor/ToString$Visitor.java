@@ -6,14 +6,13 @@ import persistence.*;
 public abstract class ToString$Visitor extends AnythingStandardVisitor{
     
     public abstract void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
-    public abstract void handleNoRequestState(PersistentNoRequestState noRequestState) throws PersistenceException;
     public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
     public abstract void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException;
     public abstract void handleTrueValue(PersistentTrueValue trueValue) throws PersistenceException;
     public abstract void handlePercent(PersistentPercent percent) throws PersistenceException;
-    public abstract void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException;
     public abstract void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException;
+    public abstract void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException;
     public abstract void handleNoTrigger(PersistentNoTrigger noTrigger) throws PersistenceException;
     public abstract void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx) throws PersistenceException;
     public abstract void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException;
@@ -22,7 +21,11 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException;
     public abstract void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException;
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    public abstract void handleCompensationRequestedState(PersistentCompensationRequestedState compensationRequestedState) throws PersistenceException;
+    public abstract void handleWaitingCompensationState(PersistentWaitingCompensationState waitingCompensationState) throws PersistenceException;
     public abstract void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException;
+    public abstract void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException;
+    public abstract void handleSuccessfulCompensationState(PersistentSuccessfulCompensationState successfulCompensationState) throws PersistenceException;
     public abstract void handleDollar(PersistentDollar dollar) throws PersistenceException;
     public abstract void handleLimit(PersistentLimit limit) throws PersistenceException;
     public abstract void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException;
@@ -33,7 +36,6 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleMoneyRule(PersistentMoneyRule moneyRule) throws PersistenceException;
     public abstract void handleMoney(PersistentMoney money) throws PersistenceException;
     public abstract void handlePfund(PersistentPfund pfund) throws PersistenceException;
-    public abstract void handleSuccessfulStornoState(PersistentSuccessfulStornoState successfulStornoState) throws PersistenceException;
     public abstract void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException;
     public abstract void handleBankCreator(PersistentBankCreator bankCreator) throws PersistenceException;
     public abstract void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException;
@@ -56,7 +58,6 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleDebit(PersistentDebit debit) throws PersistenceException;
     public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
-    public abstract void handleRequestState(PersistentRequestState requestState) throws PersistenceException;
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
     public abstract void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException;
     public abstract void handleTrigger(PersistentTrigger trigger) throws PersistenceException;
@@ -67,10 +68,10 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleCompensationListe(PersistentCompensationListe compensationListe) throws PersistenceException;
     public abstract void handleTransaction(PersistentTransaction transaction) throws PersistenceException;
     public abstract void handleBank(PersistentBank bank) throws PersistenceException;
+    public abstract void handleDeclinedCompensationState(PersistentDeclinedCompensationState declinedCompensationState) throws PersistenceException;
     public abstract void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
-    public abstract void handleNotSuccessfulStornoState(PersistentNotSuccessfulStornoState notSuccessfulStornoState) throws PersistenceException;
     public abstract void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException;
     public abstract void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     

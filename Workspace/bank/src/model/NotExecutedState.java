@@ -219,6 +219,10 @@ public class NotExecutedState extends model.DebitTransferState implements Persis
 				throws PersistenceException{
 		return NotExecutedState.createNotExecutedState();
 	}
+    public PersistentBooleanValue isCompensationRequest() 
+				throws PersistenceException{
+		return FalseValue.getTheFalseValue();
+	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
 		return TrueValue.getTheTrueValue();

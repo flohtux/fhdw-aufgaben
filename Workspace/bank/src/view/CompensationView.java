@@ -10,8 +10,8 @@ public interface CompensationView extends Anything, AbstractViewRoot {
     public void setRequestingAccount(AccountView newValue) throws ModelException ;
     public java.util.Vector<CompensationRequestView> getPendingRequests()throws ModelException;
     public void setPendingRequests(java.util.Vector<CompensationRequestView> newValue) throws ModelException ;
-    public StornoStateView getStornoState()throws ModelException;
-    public void setStornoState(StornoStateView newValue) throws ModelException ;
+    public CompensationStateView getState()throws ModelException;
+    public void setState(CompensationStateView newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

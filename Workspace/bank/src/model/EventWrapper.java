@@ -6,7 +6,7 @@ import model.meta.DebitTransferChangeMoneyFractionMssg;
 import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
 import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
-import model.meta.DebitTransferTransactionExecuteMssg;
+import model.meta.DebitTransferTransactionExecuteAccountMssg;
 import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
@@ -23,6 +23,8 @@ import persistence.EventWrapperProxi;
 import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccountService;
+import persistence.PersistentCompensatedState;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
@@ -273,7 +275,7 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 			@Override
 			public void handleDebitTransferChangeCurrencyCurrencyMssg(DebitTransferChangeCurrencyCurrencyMssg event) throws PersistenceException {}
 			@Override
-			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
+			public void handleDebitTransferTransactionExecuteAccountMssg(DebitTransferTransactionExecuteAccountMssg event) throws PersistenceException {
 				PersistentDebitTransferTransaction result;
 				
 				try {
@@ -310,6 +312,14 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 					@Override
 					public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
 					}
+					@Override
+					public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+					}
+					@Override
+					public void handleCompensationRequestedState(
+							PersistentCompensationRequestedState compensationRequestedState)
+							throws PersistenceException {
+					}
 				});
 				event.getResult().getDebitTransferStateNew().accept(new DebitTransferStateVisitor() {
 					@Override
@@ -332,6 +342,17 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 					}
 					@Override
 					public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
+					}
+					@Override
+					public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+						getThis().getAccountService().getSuccessful().add(object);
+						
+					}
+					@Override
+					public void handleCompensationRequestedState(
+							PersistentCompensationRequestedState compensationRequestedState)
+							throws PersistenceException {
+						getThis().getAccountService().getSuccessful().add(object);
 					}
 				});
 			}
