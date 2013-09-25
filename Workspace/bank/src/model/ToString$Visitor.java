@@ -114,12 +114,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAccount(PersistentAccount account)
 			throws PersistenceException {
-<<<<<<< HEAD
-		this.result = serverConstants.ToStringConstants.AccountPrefix + new Long(account.getAccountNumber()).toString() + serverConstants.ToStringConstants.AccountBankDivisor + new Long(account.getBank().getBankNumber()).toString();
-=======
 		this.result = String.format(serverConstants.ToStringConstants.AccountPrefix, 
 				new Long(account.getAccountNumber()).toString(),new Long(account.getBank().getBankNumber()).toString());
->>>>>>> refs/heads/kralle
 	}
 	@Override
 	public void handleBankCreator(PersistentBankCreator bankCreator)
@@ -180,7 +176,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.DebitPrefix + Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
-				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().toString(true) + 
+				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().getAccountNumber() + 
 				serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override

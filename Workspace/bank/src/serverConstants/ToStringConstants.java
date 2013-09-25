@@ -19,9 +19,7 @@ public class ToStringConstants {
 	public static final String PfundCurrencyToString = "Pfund";
 	public static final String FrankenCurrencyToString = "Franken";
 	public static final String YenCurrencyToString = "Yen";
-
 	public static final String AccountPrefix = "%s@%s";
-
 	public static final String FixTransactionFeePrefix = "Fixe Überweisungskosten= ";
 	public static final String Space = " ";
 	public static final String ProcentualFeePrefix = "Prozentuale Überweisungskosten= ";
@@ -68,12 +66,8 @@ public class ToStringConstants {
 	public static final String WaitingState = "Warten";
 	public static final String DeclinedState = "Abgelehnt";
 	public static final String ExchangeWrapper = "Wechselkurs für %s: %s";
-
-	public static final String AccountBankDivisor = "@";
-
 	public static final String CompensatedState = "Kompensiert";
 	public static final String CompensationRequestedState = "Kompensation in Arbeit";
-
 
 
 	

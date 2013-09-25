@@ -1,12 +1,9 @@
 package model;
 
-import model.visitor.CompensationRequestStateReturnVisitor;
-import model.visitor.CompensationRequestStateVisitor;
 import model.visitor.DebitTransferStateVisitor;
 import model.visitor.TriggerStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
-import persistence.PersistentAcceptedState;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountAllCompensation;
 import persistence.PersistentAccountGrantedDebitGrant;
@@ -30,7 +27,6 @@ import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDebitTransferTransaction;
-import persistence.PersistentDeclinedState;
 import persistence.PersistentDisabledState;
 import persistence.PersistentEnabledState;
 import persistence.PersistentExecutedState;
@@ -51,32 +47,10 @@ import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
-import persistence.PersistentWaitingState;
 
 public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 
 	int result = 0;
-	
-	@Override
-	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
-		compensationRequest.getState().accept(new CompensationRequestStateVisitor() {
-
-			@Override
-			public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException{
-				result = common.IconInfoConstants.AngenommenIconNumber;
-			}
-
-			@Override
-			public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
-				result = common.IconInfoConstants.WartenIconNumber;
-			}
-
-			@Override
-			public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
-				result = common.IconInfoConstants.AbgelehntIconNumber;
-			}
-		});
-	}
 	
 	@Override
 	public void handleTrigger(PersistentTrigger trigger) throws PersistenceException {

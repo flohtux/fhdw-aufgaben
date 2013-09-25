@@ -34,9 +34,6 @@ public class Resources {
 	private static final String KompensationIcon = Resources + "/mailSendReceive.png";
 	private static final String KompensationOutIcon = Resources + "/mailSend.png";
 	private static final String KompensationInIcon = Resources + "/mailGet.png";
-	private static final String AbgelehntIcon = Resources + "/abgelehnt.png";
-	private static final String AngenommenIcon = Resources + "/angenommen.png";
-	private static final String WartenIcon = Resources + "/warten.png";
 
 	private static ImageIcon bankIcon;
 	private static ImageIcon historieIcon;
@@ -63,29 +60,8 @@ public class Resources {
 	private static ImageIcon kompensationIcon;
 	private static ImageIcon kompensationOutIcon;
 	private static ImageIcon kompensationInIcon;
-	private static ImageIcon abgelehntIcon;
-	private static ImageIcon angenommenIcon;
-	private static ImageIcon wartenIcon;
 
 	//TODO PREREQUISITES: Icon: how to provide icons
-	public static Icon getWartenIcon() {
-		if (wartenIcon == null)
-			wartenIcon = new ImageIcon(getURL(WartenIcon));
-		return wartenIcon;
-	}
-	
-	public static Icon getAngenommenIcon() {
-		if (angenommenIcon == null)
-			angenommenIcon = new ImageIcon(getURL(AngenommenIcon));
-		return angenommenIcon;
-	}
-	
-	public static Icon getAbgelehntIcon() {
-		if (abgelehntIcon == null)
-			abgelehntIcon = new ImageIcon(getURL(AbgelehntIcon));
-		return abgelehntIcon;
-	}
-	
 	public static Icon getAccountIcon() {
 		if (accountIcon == null)
 			accountIcon = new ImageIcon(getURL(AccountIcon));

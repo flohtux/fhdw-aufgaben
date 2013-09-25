@@ -27,9 +27,6 @@ public class IconInfoConstants {
 	public static final int KompensationIconNumber = 23;
 	public static final int KompensationInIconNumber = 24;
 	public static final int KompensationOutIconNumber = 25;
-	public static final int AngenommenIconNumber = 26;
-	public static final int AbgelehntIconNumber = 27;
-	public static final int WartenIconNumber = 28;
 
 	private IconInfoConstants(){}
 }

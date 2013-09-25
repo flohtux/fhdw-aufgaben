@@ -9,15 +9,6 @@ public class IconManager {
 	//TODO PREREQUISITES: Icon: how to exploit icon information
 	public static Icon getIcon(int iconInfo) {
 		switch (iconInfo) {
-		case common.IconInfoConstants.AngenommenIconNumber:
-			return viewConstants.Resources.getAngenommenIcon();
-			
-		case common.IconInfoConstants.AbgelehntIconNumber:
-			return viewConstants.Resources.getAbgelehntIcon();
-			
-		case common.IconInfoConstants.WartenIconNumber:
-			return viewConstants.Resources.getWartenIcon();
-			
 		case common.IconInfoConstants.AccountIconNumber:
 			return viewConstants.Resources.getAccountIcon();
 			

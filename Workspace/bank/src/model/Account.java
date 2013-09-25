@@ -12,7 +12,7 @@ import model.meta.DebitTransferChangeReceiverAccountIntegerMssg;
 import model.meta.DebitTransferChangeReceiverBankIntegerMssg;
 import model.meta.DebitTransferSwitchPARAMETER;
 import model.meta.DebitTransferTransactionChangeStateDebitTransferStateMssg;
-import model.meta.DebitTransferTransactionExecuteMssg;
+import model.meta.DebitTransferTransactionExecuteAccountMssg;
 import model.meta.DebitTransferTransactionMssgs;
 import model.meta.DebitTransferTransactionMssgsVisitor;
 import model.meta.DebitTransferTransactionSwitchPARAMETER;
@@ -25,6 +25,7 @@ import model.visitor.DebitTransferStateReturnVisitor;
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
+import model.visitor.DebitTransferVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -53,9 +54,11 @@ import persistence.PersistentChangeMoneyCommand;
 import persistence.PersistentChangeReceiverAccountCommand;
 import persistence.PersistentChangeReceiverBankCommand;
 import persistence.PersistentChangeSubjectCommand;
+import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationDeclinedCommand;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
@@ -78,6 +81,7 @@ import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
 import persistence.Predcate;
+import persistence.Procdure;
 import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
@@ -456,6 +460,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public int getLeafInfo() throws PersistenceException{
         if (this.getMoney() != null) return 1;
         if (this.getLimit() != null) return 1;
+        if (this.getDebitTransferTransactions().getObservee().getLength() > 0) return 1;
         if (this.getGrantedDebitGrant() != null) return 1;
         if (this.getReceivedDebitGrant() != null) return 1;
         if (this.getTriggerListe() != null) return 1;
@@ -742,13 +747,35 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-    	a.changeState(AcceptedState.getTheAcceptedState());
-    	// TODO Trigger accept
-        
+    	a.getDebitTransfer().accept(new DebitTransferVisitor() {
+			@Override
+			public void handleTransfer(final PersistentTransfer transfer)
+					throws PersistenceException {
+				System.out.println(transfer.getNextDebitTransferTransactionstriggers().getLength());
+				transfer.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+					@Override
+					public void doItTo(PersistentDebitTransferTransaction argument)
+							throws PersistenceException {
+						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(argument);
+					}
+				});
+			}
+			@Override
+			public void handleDebit(final PersistentDebit debit) throws PersistenceException {
+				debit.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+					@Override
+					public void doItTo(PersistentDebitTransferTransaction argument)
+							throws PersistenceException {
+						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(argument);
+					}
+				});
+			}
+		});
+        getThis().answerAccept(a);
     }
     public void answerAccept(final PersistentCompensationRequest a) 
 				throws PersistenceException{
-        PersistentTransaction t = getThis().findContainingTransaction(a.getDebitTransferTransaction());
+        PersistentTransaction t = getThis().findContainingTransaction(a.getDebitTransfer());
         
         if (t != null) {
         	a.getMasterCompensation().requestCompensationForDebitTransfers(t.getDebitTransfer().getDebitTransfers().getList());
@@ -888,9 +915,9 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void executeTransfer(final PersistentDebitTransferTransaction debitTransfer) 
 				throws model.NoPermissionToExecuteDebitTransferException, model.ExecuteException, PersistenceException{
-    	debitTransfer.execute(getThis().getAccountService());
+    	debitTransfer.execute(getThis(), getThis().getAccountService());
     }
-    public PersistentTransaction findContainingTransaction(final PersistentDebitTransferTransaction dt) 
+    public PersistentTransaction findContainingTransaction(final PersistentDebitTransfer dt) 
 				throws PersistenceException{
     	return (PersistentTransaction) getThis().getDebitTransferTransactions().findFirst(new Predcate<PersistentDebitTransferTransaction>() {
 			public boolean test(PersistentDebitTransferTransaction argument) throws PersistenceException {
@@ -961,6 +988,18 @@ public class Account extends PersistentObject implements PersistentAccount{
 			}
 		});
 }
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+    	 transaction.removeFromTransaction(debitTransfer);
+    	 debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				argument.changeState(NotExecutedState.createNotExecutedState());
+				getThis().getDebitTransferTransactions().add(argument);
+			}
+		});
+    }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         list.remove(acc);
@@ -1003,39 +1042,51 @@ public class Account extends PersistentObject implements PersistentAccount{
 //				});
 			}
 			
-			public void handleDebitTransferTransactionExecuteMssg(DebitTransferTransactionExecuteMssg event) throws PersistenceException {
+			public void handleDebitTransferTransactionExecuteAccountMssg(DebitTransferTransactionExecuteAccountMssg event) throws PersistenceException {
 				try {
 					final PersistentDebitTransferTransaction t = event.getResult();
-					final Boolean successful = t.getState().accept(new DebitTransferStateReturnVisitor<Boolean>(){
-						public Boolean handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
-							return true;
-						}
-						public Boolean handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
-							return false;
-						}
-						public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
-							return false;
-						}});
-					
-					if (successful) {
-						t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
-							public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
-								getThis().checkAllTriggers(transfer);
+					if (!t.getSender().equals(getThis())) {
+						final Boolean successful = t.getState().accept(new DebitTransferStateReturnVisitor<Boolean>(){
+							public Boolean handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
+								return false;
 							}
-							public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
-								getThis().checkAllTriggers(debit);
+							public Boolean handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
+								return false;
 							}
-							public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
-						});
+							public Boolean handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException {
+								return true;
+							}
+							public Boolean handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
+								return false;
+							}
+							public Boolean handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
+								return false;
+							}
+							public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
+								return false;
+							}
+							@Override
+							public Boolean handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+								return false; // compensation does not release trigger!
+							}
+							@Override
+							public Boolean handleCompensationRequestedState(
+									PersistentCompensationRequestedState compensationRequestedState)
+									throws PersistenceException {
+								return false; // compensation does not release trigger!
+							}});
+						
+						if (successful) {
+							t.accept(new DebitTransferTransactionExceptionVisitor<ExecuteException>() {
+								public void handleTransfer(PersistentTransfer transfer) throws PersistenceException,ExecuteException {
+									getThis().checkAllTriggers(transfer);
+								}
+								public void handleDebit(PersistentDebit debit) throws PersistenceException,ExecuteException {
+									getThis().checkAllTriggers(debit);
+								}
+								public void handleTransaction(PersistentTransaction transaction) throws PersistenceException,ExecuteException {}
+							});
+						}
 					}
 					
 				} catch (ExecuteException e) {
