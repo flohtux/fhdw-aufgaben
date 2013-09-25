@@ -544,22 +544,33 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			}
 		});
     	if(result == null) {
-	    	PersistentCompensationRequest newRequest = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
-		    newRequest.setDebitTransfer(debitTransfer);
-		    debitTransfer.getSender().getAllCompensation().getPendingCompensationRequests().add(newRequest);
-		    getThis().getPendingRequests().add(newRequest);
-		
+	    	PersistentCompensationRequest request1 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
+		    request1.setDebitTransfer(debitTransfer);
+		    PersistentAccount request1Receiver = debitTransfer.getSender();
+		    request1Receiver.getAllCompensation().getPendingCompensationRequests().add(request1);
+		    getThis().getPendingRequests().add(request1);
+
+		    
 		    try {
 			     PersistentBank b = getThis().getRequestingAccount().getBank().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
-			     PersistentAccount acc = b.searchAccountByAccNumber(debitTransfer.getReceiverAccountNumber());
-			     PersistentCompensationRequest newRequest2 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
-			     newRequest2.setDebitTransfer(debitTransfer);
+			     PersistentAccount request2Receiver = b.searchAccountByAccNumber(debitTransfer.getReceiverAccountNumber());
+			     PersistentCompensationRequest request2 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
+			     request2.setDebitTransfer(debitTransfer);
 			
-			     acc.getAllCompensation().getPendingCompensationRequests().add(newRequest2);
-			     getThis().getPendingRequests().add(newRequest2);
+			     request2Receiver.getAllCompensation().getPendingCompensationRequests().add(request2);
+			     getThis().getPendingRequests().add(request2);
+			     
+				// Auto-accept own requests
+				if (request2Receiver.equals(getThis().getRequestingAccount())) {
+					request2Receiver.answerAccept(request2);
+				}
 		   } catch (ExecuteException e) {
 		      getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
-		   } 
+		   }
+			// Auto-accept own requests
+			if (request1Receiver.equals(getThis().getRequestingAccount())) {
+				request1Receiver.answerAccept(request1);
+			}
     	}
     }
     
