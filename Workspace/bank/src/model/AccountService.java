@@ -53,6 +53,7 @@ import persistence.PersistentAccountServiceTemplate;
 import persistence.PersistentBank;
 import persistence.PersistentBankFees;
 import persistence.PersistentBooleanValue;
+import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -870,6 +871,9 @@ public class AccountService extends model.Service implements PersistentAccountSe
 			public void handleExecutedState(PersistentExecutedState executedState)
 					throws PersistenceException {
 				
+			}
+			@Override
+			public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
 			}
 		});
     	getThis().getNotExecuted().getNotExecuteds().add(debitTransferTransactionCopy);

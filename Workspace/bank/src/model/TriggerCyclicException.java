@@ -10,6 +10,7 @@ import model.visitor.UserExceptionReturnExceptionVisitor;
 import model.visitor.UserExceptionReturnVisitor;
 import model.visitor.UserExceptionVisitor;
 import persistence.PersistenceException;
+import persistence.PersistentDebitTransfer;
 import persistence.TDObserver;
 
 
@@ -80,9 +81,11 @@ public class TriggerCyclicException extends model.ExecuteException{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    public TriggerCyclicException() throws PersistenceException {
-		this(serverConstants.ExceptionMessages.TriggerCyclicExceptionMessage);
+	public TriggerCyclicException(PersistentDebitTransfer transfer) throws PersistenceException {
+		this(String.format(serverConstants.ExceptionMessages.TriggerCyclicExceptionMessage, transfer.toString()));
 	}
     /* End of protected part that is not overridden by persistence generator */
+
+
     
 }

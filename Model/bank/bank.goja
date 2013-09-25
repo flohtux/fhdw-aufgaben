@@ -120,7 +120,7 @@ void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction tran
 	no-view void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 
 	//Kompensation
-	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls});
+	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls} checked);
 	void answerAccept@@annehmen(CompensationRequest a);
 	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
 	void answerDecline@@ablehnen(CompensationRequest a);
@@ -440,6 +440,7 @@ class DebitTransferDoubleState##DebTraStaDo {
 abstract class DebitTransferState##DebiTraStat{
 	BooleanValue isExecutable();
 	BooleanValue isTransaction();
+	BooleanValue isCompensated();
 	void changeState(DebitTransferState newState);
 	void removeDebitTransferFromList();
 	void addDebitTransferFromList(DebitTransferState state);
@@ -452,6 +453,7 @@ class TemplateState extends DebitTransferState {}
 class ExecutedState extends DebitTransferState {}
 class NotExecutedState extends DebitTransferState {}
 class NotExecutableState extends DebitTransferState {}
+class CompensatedState extends DebitTransferState {}
 
 abstract class CompensationState(SuccessfulCompensationState##SuccComSta,WaitingCompensationState##WaitComSta,DeclinedCompensationState##DecComSta){}
 

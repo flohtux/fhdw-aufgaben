@@ -354,46 +354,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
     @Override
     public PersistentDebitTransferTransaction executeImplementation(PersistentAccount hasToPayFees) 
 			throws model.ExecuteException, PersistenceException{
-		if(getThis().getPreviousDebitTransfer() != null) {
-			if (getThis().getInvokerTrigger() != null) {
-		    	getThis().getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
-					@Override
-					public void handleNoTrigger(PersistentNoTrigger noTrigger)
-							throws PersistenceException, TriggerCyclicException {
-					}
-					@Override
-					public void handleTrigger(final PersistentTrigger myInvokerTrigger)
-							throws PersistenceException, TriggerCyclicException {
-						getThis().getPreviousDebitTransfer().accept(new DebitTransferNoValueExceptionVisitor<TriggerCyclicException>() {
-							@Override
-							public void handleNoDebitTransfer(
-									PersistentNoDebitTransfer noDebitTransfer)
-									throws PersistenceException,
-									TriggerCyclicException {
-								
-							}
-							@Override
-							public void handleTransfer(
-									PersistentTransfer transfer)
-									throws PersistenceException,
-									TriggerCyclicException {
-								if(transfer.contains(myInvokerTrigger).isTrue()) {
-									throw new TriggerCyclicException();
-								}
-							}
-							@Override
-							public void handleDebit(PersistentDebit debit)
-									throws PersistenceException,
-									TriggerCyclicException {
-								if(debit.contains(myInvokerTrigger).isTrue()) {
-									throw new TriggerCyclicException();
-								}
-							}
-						});
-					}
-				});
-			}
-		}
 		if (!getThis().getState().isExecutable().isTrue()) {
 			throw new NoPermissionToExecuteDebitTransferException();
 		}

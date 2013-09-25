@@ -108,6 +108,10 @@ public class TemplateStateProxi extends DebitTransferStateProxi implements Persi
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBooleanValue isCompensated() 
+				throws PersistenceException{
+        return ((PersistentTemplateState)this.getTheObject()).isCompensated();
+    }
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentTemplateState)this.getTheObject()).isExecutable();

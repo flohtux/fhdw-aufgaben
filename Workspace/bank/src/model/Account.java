@@ -54,6 +54,7 @@ import persistence.PersistentChangeMoneyCommand;
 import persistence.PersistentChangeReceiverAccountCommand;
 import persistence.PersistentChangeReceiverBankCommand;
 import persistence.PersistentChangeSubjectCommand;
+import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationDeclinedCommand;
 import persistence.PersistentCompensationRequest;
@@ -749,11 +750,12 @@ public class Account extends PersistentObject implements PersistentAccount{
 			@Override
 			public void handleTransfer(final PersistentTransfer transfer)
 					throws PersistenceException {
+				System.out.println(transfer.getNextDebitTransferTransactionstriggers().getLength());
 				transfer.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
 					@Override
 					public void doItTo(PersistentDebitTransferTransaction argument)
 							throws PersistenceException {
-						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(transfer);
+						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(argument);
 					}
 				});
 			}
@@ -763,7 +765,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 					@Override
 					public void doItTo(PersistentDebitTransferTransaction argument)
 							throws PersistenceException {
-						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(debit);
+						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(argument);
 					}
 				});
 			}
@@ -1049,6 +1051,10 @@ public class Account extends PersistentObject implements PersistentAccount{
 							}
 							public Boolean handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
 								return false;
+							}
+							@Override
+							public Boolean handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+								return false; // compensation does not release trigger!
 							}});
 						
 						if (successful) {

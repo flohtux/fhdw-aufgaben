@@ -11,6 +11,9 @@ public abstract class DebitTransferStateStandardVisitor implements DebitTransfer
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.standardHandling(notExecutableState);
     }
+    public void handleCompensatedState(CompensatedStateView compensatedState) throws ModelException{
+        this.standardHandling(compensatedState);
+    }
     public void handleNotSuccessfulState(NotSuccessfulStateView notSuccessfulState) throws ModelException{
         this.standardHandling(notSuccessfulState);
     }

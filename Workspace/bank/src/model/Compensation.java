@@ -421,8 +421,22 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 						return result;
 					}
 				});
+		transactionToBeExecuted.changeState(CompensatedState.createCompensatedState());
+		transactionToBeExecuted.getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
+			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException {
+				argument.changeState(CompensatedState.createCompensatedState());
+			}
+		});
+		
 		try {
-			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount(), getThis().getRequestingAccount().getAccountService());
+			System.out.println("trans state" + transactionToBeExecuted.getState());
+			PersistentTransaction t = transactionToBeExecuted.mirror();
+			System.out.println("transfer state" + t.getDebitTransfer().getDebitTransfers().findFirst(new Predcate<PersistentDebitTransfer>() {
+				public boolean test(PersistentDebitTransfer argument) throws PersistenceException {
+					return true;
+				}
+			}).getState());
+			t.execute(getThis().getRequestingAccount(), getThis().getRequestingAccount().getAccountService());
 		} catch (AccountSearchException e) {
 			getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
 		}
@@ -498,6 +512,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 	}
     public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
 				throws PersistenceException{
+    	debitTransferTransaction.changeState(CompensatedState.createCompensatedState());
         debitTransferTransaction.accept(new DebitTransferTransactionVisitor() {
 			@Override
 			public void handleTransfer(PersistentTransfer transfer)
@@ -530,6 +545,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 	}
     public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
 				throws PersistenceException{
+    	debitTransfer.changeState(CompensatedState.createCompensatedState());
     	PersistentCompensationRequest result = getThis().getPendingRequests().findFirst(new Predcate<PersistentCompensationRequest>() {
 			@Override
 			public boolean test(PersistentCompensationRequest argument)

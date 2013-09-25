@@ -11,6 +11,9 @@ public abstract class DebitTransferStateStandardVisitor implements DebitTransfer
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.standardHandling(notExecutableState);
     }
+    public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException{
+        this.standardHandling(compensatedState);
+    }
     public void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException{
         this.standardHandling(notSuccessfulState);
     }

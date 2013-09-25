@@ -314,12 +314,12 @@ public class CurrencyManager extends PersistentObject implements PersistentCurre
     }
     public PersistentAmount translateMoneyToReferenceWithoutChanging(final PersistentMoney money) 
 				throws PersistenceException{
-    	return Amount.createAmount(money.getAmount().getBalance().divide(getThis().fetchExchangeRate(money.getCurrency()).getBalance()));
+    	return Amount.createAmount(money.getAmount().getBalance().multiply(getThis().fetchExchangeRate(money.getCurrency()).getBalance()));
     }
     public PersistentMoney translateMoneyWithoutChanging(final PersistentMoney money, final PersistentCurrency target) 
 				throws PersistenceException{
-    	Fraction amountInReferenceCurrency = money.getAmount().getBalance().divide(getThis().fetchExchangeRate(money.getCurrency()).getBalance());
-    	return Money.createMoney(Amount.createAmount(amountInReferenceCurrency.multiply(getThis().fetchExchangeRate(target).getBalance())), target);
+    	Fraction amountInReferenceCurrency = money.getAmount().getBalance().multiply(getThis().fetchExchangeRate(money.getCurrency()).getBalance());
+    	return Money.createMoney(Amount.createAmount(amountInReferenceCurrency.divide(getThis().fetchExchangeRate(target).getBalance())), target);
     }
     public PersistentMoney translateMoney(final PersistentMoney money, final PersistentCurrency target) 
 				throws PersistenceException{

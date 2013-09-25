@@ -23,11 +23,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handlePercent(PercentView percent) throws ModelException{
         this.standardHandling(percent);
     }
-    public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
-        this.standardHandling(successfulState);
-    }
     public void handleExchangeRateWrapper(ExchangeRateWrapperView exchangeRateWrapper) throws ModelException{
         this.standardHandling(exchangeRateWrapper);
+    }
+    public void handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException{
+        this.standardHandling(successfulState);
     }
     public void handleNoTrigger(NoTriggerView noTrigger) throws ModelException{
         this.standardHandling(noTrigger);
@@ -58,6 +58,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDisabledState(DisabledStateView disabledState) throws ModelException{
         this.standardHandling(disabledState);
+    }
+    public void handleCompensatedState(CompensatedStateView compensatedState) throws ModelException{
+        this.standardHandling(compensatedState);
     }
     public void handleSuccessfulCompensationState(SuccessfulCompensationStateView successfulCompensationState) throws ModelException{
         this.standardHandling(successfulCompensationState);

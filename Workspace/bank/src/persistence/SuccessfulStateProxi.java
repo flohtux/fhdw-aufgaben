@@ -108,6 +108,10 @@ public class SuccessfulStateProxi extends DebitTransferStateProxi implements Per
 				throws PersistenceException{
         ((PersistentSuccessfulState)this.getTheObject()).initializeOnInstantiation();
     }
+    public PersistentBooleanValue isCompensated() 
+				throws PersistenceException{
+        return ((PersistentSuccessfulState)this.getTheObject()).isCompensated();
+    }
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
         return ((PersistentSuccessfulState)this.getTheObject()).isExecutable();

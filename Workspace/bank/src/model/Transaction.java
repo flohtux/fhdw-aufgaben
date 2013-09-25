@@ -301,7 +301,10 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 		return getThis().getDebitTransfer().getDebitTransfers()
 				.aggregateException(new AggregtionException<PersistentDebitTransfer, PersistentTransaction, AccountSearchException>() {
 					public PersistentTransaction neutral() throws PersistenceException {
-						return Transaction.createTransaction();
+						PersistentTransaction result = Transaction.createTransaction();
+						result.changeState(CompensatedState.createCompensatedState());
+						return result;
+						
 					}
 
 					public PersistentTransaction compose(PersistentTransaction result, PersistentDebitTransfer argument) throws PersistenceException,

@@ -39,6 +39,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException{
         this.handleDebitTransferState(notExecutableState);
     }
+    public void handleCompensatedState(CompensatedStateView compensatedState) throws ModelException{
+        this.handleDebitTransferState(compensatedState);
+    }
     public void handleNotSuccessfulState(NotSuccessfulStateView notSuccessfulState) throws ModelException{
         this.handleDebitTransferState(notSuccessfulState);
     }
@@ -51,9 +54,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(TemplateStateView templateState) throws ModelException{
         this.handleDebitTransferState(templateState);
     }
-    public abstract void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
-    
     public abstract void handleCurrencyManager(CurrencyManagerView currencyManager) throws ModelException;
+    
+    public abstract void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
     
     public abstract void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     

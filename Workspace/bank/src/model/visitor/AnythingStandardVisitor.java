@@ -32,11 +32,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handlePercent(PersistentPercent percent) throws PersistenceException{
         this.standardHandling(percent);
     }
-    public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
-        this.standardHandling(successfulState);
-    }
     public void handleExchangeRateWrapper(PersistentExchangeRateWrapper exchangeRateWrapper) throws PersistenceException{
         this.standardHandling(exchangeRateWrapper);
+    }
+    public void handleSuccessfulState(PersistentSuccessfulState successfulState) throws PersistenceException{
+        this.standardHandling(successfulState);
     }
     public void handleExecuteCompensationCommand(PersistentExecuteCompensationCommand executeCompensationCommand) throws PersistenceException{
         this.standardHandling(executeCompensationCommand);
@@ -80,6 +80,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleExecuteCommand(PersistentExecuteCommand executeCommand) throws PersistenceException{
         this.standardHandling(executeCommand);
     }
+    public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException{
+        this.standardHandling(compensatedState);
+    }
     public void handleSuccessfulCompensationState(PersistentSuccessfulCompensationState successfulCompensationState) throws PersistenceException{
         this.standardHandling(successfulCompensationState);
     }
@@ -101,11 +104,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException{
         this.standardHandling(compensationRequest);
     }
-    public void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException{
-        this.standardHandling(accountAllCompensation);
-    }
     public void handleAccountPx(PersistentAccountPx accountPx) throws PersistenceException{
         this.standardHandling(accountPx);
+    }
+    public void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException{
+        this.standardHandling(accountAllCompensation);
     }
     public void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException{
         this.standardHandling(administratorCurrencyManager);

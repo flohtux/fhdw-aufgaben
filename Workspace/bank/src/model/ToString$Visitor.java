@@ -20,6 +20,7 @@ import persistence.PersistentBankFees;
 import persistence.PersistentBankOwnAccountPx;
 import persistence.PersistentBankPx;
 import persistence.PersistentBankService;
+import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationRequest;
@@ -74,7 +75,6 @@ import persistence.PersistentTrueValue;
 import persistence.PersistentWaitingCompensationState;
 import persistence.PersistentWaitingState;
 import persistence.PersistentYen;
-
 import common.Fraction;
 
 public class ToString$Visitor extends model.visitor.ToString$Visitor {
@@ -458,6 +458,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 			PersistentDeclinedCompensationState declinedCompensationState)
 			throws PersistenceException {
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.CompensatedState;
 		
 	}
 	

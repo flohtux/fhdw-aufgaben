@@ -222,6 +222,12 @@ public class NotSuccessfulState extends model.DebitTransferState implements Pers
 				throws PersistenceException{
 		return TrueValue.getTheTrueValue();
 	}
+    
+	@Override
+	public PersistentBooleanValue isCompensated() throws PersistenceException {
+		return FalseValue.getTheFalseValue();
+	}
+
 
     /* Start of protected part that is not overridden by persistence generator */
     

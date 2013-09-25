@@ -1,10 +1,14 @@
 
 package model;
 
+import javax.print.attribute.standard.PresentationDirection;
+
 import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferNoValueExceptionVisitor;
+import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
@@ -27,6 +31,8 @@ import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentDisabledState;
 import persistence.PersistentEnabledState;
+import persistence.PersistentNoDebitTransfer;
+import persistence.PersistentNoTrigger;
 import persistence.PersistentProxi;
 import persistence.PersistentRule;
 import persistence.PersistentTransaction;
@@ -380,6 +386,7 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
 			}
 		});
 		incomingDebitTransfer.getNextDebitTransferTransactionstriggers().add(copy);
+		this.checkCycle(copy);
 		copy.execute(copy.getSender(), accService);
 //		copy.execute();
     }
@@ -408,6 +415,71 @@ public class Trigger extends model.TriggerValue implements PersistentTrigger{
     
 
     /* Start of protected part that is not overridden by persistence generator */
+    
+    private void checkCycleDebitTransfer(final PersistentDebitTransfer debitTransfer) throws TriggerCyclicException, PersistenceException {
+    	if(debitTransfer.getPreviousDebitTransfer() != null) {
+			if (debitTransfer.getInvokerTrigger() != null) {
+		    	debitTransfer.getInvokerTrigger().accept(new TriggerValueExceptionVisitor<TriggerCyclicException>() {
+					@Override
+					public void handleNoTrigger(PersistentNoTrigger noTrigger)
+							throws PersistenceException, TriggerCyclicException {
+					}
+					@Override
+					public void handleTrigger(final PersistentTrigger myInvokerTrigger)
+							throws PersistenceException, TriggerCyclicException {
+						debitTransfer.getPreviousDebitTransfer().accept(new DebitTransferNoValueExceptionVisitor<TriggerCyclicException>() {
+							@Override
+							public void handleNoDebitTransfer(
+									PersistentNoDebitTransfer noDebitTransfer)
+									throws PersistenceException,
+									TriggerCyclicException {
+								
+							}
+							@Override
+							public void handleTransfer(
+									PersistentTransfer transfer)
+									throws PersistenceException,
+									TriggerCyclicException {
+								if(transfer.contains(myInvokerTrigger).isTrue()) {
+									throw new TriggerCyclicException(transfer);
+								}
+							}
+							@Override
+							public void handleDebit(PersistentDebit debit)
+									throws PersistenceException,
+									TriggerCyclicException {
+								if(debit.contains(myInvokerTrigger).isTrue()) {
+									throw new TriggerCyclicException(debit);
+								}
+							}
+						});
+					}
+				});
+			}
+		}
+    }
+    
+    private void checkCycle(PersistentDebitTransferTransaction dtr) throws TriggerCyclicException, PersistenceException {
+    	dtr.accept(new DebitTransferTransactionExceptionVisitor<TriggerCyclicException>() {
+			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, TriggerCyclicException {
+				Trigger.this.checkCycleDebitTransfer(transfer);
+			}
+
+			@Override
+			public void handleDebit(PersistentDebit debit) throws PersistenceException, TriggerCyclicException {
+				Trigger.this.checkCycleDebitTransfer(debit);				
+			}
+
+			@Override
+			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException, TriggerCyclicException {
+				transaction.getDebitTransfer().getDebitTransfers().applyToAllException(new ProcdureException<PersistentDebitTransfer, TriggerCyclicException>() {
+					public void doItTo(PersistentDebitTransfer argument) throws PersistenceException, TriggerCyclicException {
+						Trigger.this.checkCycleDebitTransfer(argument);
+					}
+				});
+				
+			}});
+    }
     
     /* End of protected part that is not overridden by persistence generator */
     

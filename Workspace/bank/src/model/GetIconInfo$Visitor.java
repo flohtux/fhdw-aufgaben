@@ -13,6 +13,7 @@ import persistence.PersistentAllCompensationListe;
 import persistence.PersistentBankFees;
 import persistence.PersistentBankOwnAccountPx;
 import persistence.PersistentBankPx;
+import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationDeclinedCommand;
 import persistence.PersistentCompensationListe;
@@ -181,8 +182,7 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			
 			@Override
 			public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException {
-				//result = 
-				// TODO Torben				
+				result = common.IconInfoConstants.VorlagenIconNumber;
 			}
 			
 			@Override
@@ -210,6 +210,12 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			@Override
 			public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
 				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+				result = common.IconInfoConstants.PositiveIconNumber;
 				
 			}
 		});

@@ -45,6 +45,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException{
         this.handleDebitTransferState(notExecutableState);
     }
+    public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException{
+        this.handleDebitTransferState(compensatedState);
+    }
     public void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException{
         this.handleDebitTransferState(notSuccessfulState);
     }
@@ -57,9 +60,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleTemplateState(PersistentTemplateState templateState) throws PersistenceException{
         this.handleDebitTransferState(templateState);
     }
-    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
-    
     public abstract void handleCurrencyManager(PersistentCurrencyManager currencyManager) throws PersistenceException;
+    
+    public abstract void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
     
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     

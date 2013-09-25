@@ -543,7 +543,9 @@ public class Bank extends PersistentObject implements PersistentBank{
 			}
 		});
     	acc.getLimit().checkLimit(debitTransfer.fetchRealMoney());
-    	debitTransfer.changeState(SuccessfulState.createSuccessfulState());
+    	if (! debitTransfer.getState().isCompensated().isTrue()) {
+    		debitTransfer.changeState(SuccessfulState.createSuccessfulState());
+    	}
     	acc.setMoney(acc.getMoney().add(debitTransfer.fetchRealMoney()));
     	debitTransfer.setReceiver(acc);
     	acc.addDebitTransferTransaction(debitTransfer);

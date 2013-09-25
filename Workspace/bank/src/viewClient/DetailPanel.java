@@ -748,6 +748,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleDisabledState(view.DisabledStateView object){
         result = new DisabledStateDefaultDetailPanel(handler, object);
     }
+    public void handleCompensatedState(view.CompensatedStateView object){
+        result = new CompensatedStateDefaultDetailPanel(handler, object);
+    }
     public void handleSuccessfulCompensationState(view.SuccessfulCompensationStateView object){
         result = new SuccessfulCompensationStateDefaultDetailPanel(handler, object);
     }
@@ -1194,6 +1197,20 @@ class DisabledStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DisabledStateView getAnything(){
         return (view.DisabledStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class CompensatedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CompensatedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CompensatedStateView getAnything(){
+        return (view.CompensatedStateView)this.anything;
     }
 }
 

@@ -224,6 +224,11 @@ public class ExecutedState extends model.DebitTransferState implements Persisten
 		return FalseValue.getTheFalseValue();
 	}
 
+	@Override
+	public PersistentBooleanValue isCompensated() throws PersistenceException {
+		return FalseValue.getTheFalseValue();
+	}
+
     /* Start of protected part that is not overridden by persistence generator */
     
     /* End of protected part that is not overridden by persistence generator */

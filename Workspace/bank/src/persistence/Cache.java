@@ -295,6 +295,7 @@ public class Cache {
 		this.number2NameMap.put(-139, "CommandCoordinator");
 		this.number2NameMap.put(-145, "CommandExecuter");
 		this.number2NameMap.put(111, "CommonDate");
+		this.number2NameMap.put(282, "CompensatedState");
 		this.number2NameMap.put(254, "Compensation");
 		this.number2NameMap.put(268, "CompensationDeclinedCommand");
 		this.number2NameMap.put(259, "CompensationListe");

@@ -16,6 +16,7 @@ import persistence.PersistenceException;
 import rGType.CharacterValue;
 import view.AccountServiceView;
 import view.Anything;
+import view.CompensatedStateView;
 import view.CompensationRequestView;
 import view.DebitGrantListeView;
 import view.DebitGrantView;
@@ -53,11 +54,10 @@ import view.UserException;
 import view.objects.ViewRoot;
 import view.visitor.BooleanValueReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
+import view.visitor.DebitTransferTransactionReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
 import view.visitor.TriggerValueReturnVisitor;
-
 import common.Fraction;
-
 import expressions.RegularExpressionHandler;
 
 
@@ -900,22 +900,24 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 }
             }
             if (selected instanceof DebitTransferTransactionView){
-                item = new javax.swing.JMenuItem();
-                item.setText("Rückbuchung anfordern");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Rückbuchung anfordern" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().requestCompensation((DebitTransferTransactionView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
+                if (this.filterRequestCompensation((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Rückbuchung anfordern");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Rückbuchung anfordern" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().requestCompensation((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }
                             }
                         }
-                    }
-                    
-                });
-                result.add(item);
+                        
+                    });
+                    result.add(item);
+                }
                 if (this.filterUseTemplate((DebitTransferTransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Vorlage verwenden");
@@ -1716,6 +1718,11 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 						throws ModelException {
 					return false;
 				}
+
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -1759,6 +1766,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleNotExecutableState(
 						NotExecutableStateView notExecutableState)
 						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
 					return false;
 				}
 			});
@@ -1811,6 +1822,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 						throws ModelException {
 					return false;
 				}
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -1860,6 +1875,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 						throws ModelException {
 					return false;
 				}
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -1904,6 +1923,10 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleNotExecutableState(
 						NotExecutableStateView notExecutableState)
 						throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
 					return false;
 				}
 			});
@@ -1998,13 +2021,62 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 						throws ModelException {
 					return true;
 				}
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
 		}
 		return result;
 	}
-	
+    
+	private boolean filterRequestCompensation(DebitTransferTransactionView selected) {
+		try {
+			return selected.getState().accept(new DebitTransferStateReturnVisitor<Boolean>() {
+
+				@Override
+				public Boolean handleExecutedState(ExecutedStateView executedState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotSuccessfulState(NotSuccessfulStateView notSuccessfulState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleSuccessfulState(SuccessfulStateView successfulState) throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutedState(NotExecutedStateView notExecutedState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleTemplateState(TemplateStateView templateState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException {
+					return false;
+				}
+
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			return false;
+		}
+	}
 
 
 }

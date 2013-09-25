@@ -134,6 +134,7 @@ public class ConnectionHandler {
     public WaitingCompensationStateFacade theWaitingCompensationStateFacade;
     public DisabledStateFacade theDisabledStateFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
+    public CompensatedStateFacade theCompensatedStateFacade;
     public SuccessfulCompensationStateFacade theSuccessfulCompensationStateFacade;
     public DollarFacade theDollarFacade;
     public AccountServiceSuccessfulFacade theAccountServiceSuccessfulFacade;
@@ -141,8 +142,8 @@ public class ConnectionHandler {
     public ChangeReceiverAccountCommandFacade theChangeReceiverAccountCommandFacade;
     public MixedFeeFacade theMixedFeeFacade;
     public CompensationRequestFacade theCompensationRequestFacade;
-    public AccountPxFacade theAccountPxFacade;
     public AccountAllCompensationFacade theAccountAllCompensationFacade;
+    public AccountPxFacade theAccountPxFacade;
     public TransactionFeeFacade theTransactionFeeFacade;
     public NoDebitTransferFacade theNoDebitTransferFacade;
     public AdministratorCurrencyManagerFacade theAdministratorCurrencyManagerFacade;
@@ -267,6 +268,7 @@ public class ConnectionHandler {
             this.theWaitingCompensationStateFacade= new WaitingCompensationStateFacade(this.schemaName, this.con);
             this.theDisabledStateFacade= new DisabledStateFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
+            this.theCompensatedStateFacade= new CompensatedStateFacade(this.schemaName, this.con);
             this.theSuccessfulCompensationStateFacade= new SuccessfulCompensationStateFacade(this.schemaName, this.con);
             this.theDollarFacade= new DollarFacade(this.schemaName, this.con);
             this.theAccountServiceSuccessfulFacade= new AccountServiceSuccessfulFacade(this.schemaName, this.con);
@@ -274,8 +276,8 @@ public class ConnectionHandler {
             this.theChangeReceiverAccountCommandFacade= new ChangeReceiverAccountCommandFacade(this.schemaName, this.con);
             this.theMixedFeeFacade= new MixedFeeFacade(this.schemaName, this.con);
             this.theCompensationRequestFacade= new CompensationRequestFacade(this.schemaName, this.con);
-            this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
             this.theAccountAllCompensationFacade= new AccountAllCompensationFacade(this.schemaName, this.con);
+            this.theAccountPxFacade= new AccountPxFacade(this.schemaName, this.con);
             this.theTransactionFeeFacade= new TransactionFeeFacade(this.schemaName, this.con);
             this.theNoDebitTransferFacade= new NoDebitTransferFacade(this.schemaName, this.con);
             this.theAdministratorCurrencyManagerFacade= new AdministratorCurrencyManagerFacade(this.schemaName, this.con);
