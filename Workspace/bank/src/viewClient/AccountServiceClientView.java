@@ -18,6 +18,7 @@ import view.AccountServiceView;
 import view.Anything;
 import view.CompensatedStateView;
 import view.CompensationRequestView;
+import view.CompensationRequestedStateView;
 import view.DebitGrantListeView;
 import view.DebitGrantView;
 import view.DebitTransferStateView;
@@ -1723,6 +1724,13 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
 					return false;
 				}
+
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -1770,6 +1778,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				}
 				@Override
 				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
 					return false;
 				}
 			});
@@ -1826,6 +1840,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
 					return false;
 				}
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -1879,6 +1899,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
 					return false;
 				}
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -1927,6 +1953,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				}
 				@Override
 				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
+					return false;
+				}
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
 					return false;
 				}
 			});
@@ -2025,6 +2057,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleCompensatedState(CompensatedStateView compensatedState) throws ModelException {
 					return false;
 				}
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
+					return false;
+				}
 			});
 		} catch (ModelException e) {
 			this.handleException(e);
@@ -2068,6 +2106,13 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 
 				@Override
 				public Boolean handleNotExecutableState(NotExecutableStateView notExecutableState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleCompensationRequestedState(
+						CompensationRequestedStateView compensationRequestedState)
+						throws ModelException {
 					return false;
 				}
 
