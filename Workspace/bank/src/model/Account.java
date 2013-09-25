@@ -781,10 +781,20 @@ public class Account extends PersistentObject implements PersistentAccount{
         }
         
         a.changeState(AcceptedState.getTheAcceptedState());
+        getThis().getAllCompensation().getPendingCompensationRequests().getCompensationrequests().filter(new Predcate<PersistentCompensationRequest>() {
+			public boolean test(PersistentCompensationRequest argument) throws PersistenceException {
+				return !argument.equals(a);
+			}
+		});
     }
     public void answerDecline(final PersistentCompensationRequest a) 
 				throws PersistenceException{
         a.changeState(DeclinedState.getTheDeclinedState());
+        getThis().getAllCompensation().getPendingCompensationRequests().getCompensationrequests().filter(new Predcate<PersistentCompensationRequest>() {
+ 			public boolean test(PersistentCompensationRequest argument) throws PersistenceException {
+ 				return !argument.equals(a);
+ 			}
+ 		});
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException{
