@@ -68,6 +68,7 @@ public class ToStringConstants {
 	public static final String ExchangeWrapper = "Wechselkurs für %s: %s";
 	public static final String CompensatedState = "Kompensiert";
 	public static final String CompensationRequestedState = "Kompensation in Arbeit";
+	public static final String SendToSymbol = " -> ";
 
 
 	

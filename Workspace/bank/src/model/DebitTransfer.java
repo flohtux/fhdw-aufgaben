@@ -4,10 +4,8 @@ package model;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import model.visitor.DebitTransferNoValueExceptionVisitor;
 import model.visitor.DebitTransferNoValueReturnVisitor;
 import model.visitor.DebitTransferReturnExceptionVisitor;
-import model.visitor.TriggerValueExceptionVisitor;
 import model.visitor.TriggerValueReturnVisitor;
 import persistence.AbstractPersistentRoot;
 import persistence.Anything;

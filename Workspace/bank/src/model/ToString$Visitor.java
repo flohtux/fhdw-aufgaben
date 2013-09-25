@@ -175,9 +175,9 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.DebitPrefix + Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
-				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().getAccountNumber() + 
-				serverConstants.ToStringConstants.BracketClose;
+		this.result = serverConstants.ToStringConstants.DebitPrefix +Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
+				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().toString(true)+ serverConstants.ToStringConstants.SendToSymbol +
+				String.format(serverConstants.ToStringConstants.AccountPrefix, Debit.getReceiverAccountNumber(), Debit.getReceiverBankNumber()) + serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleTemplateState(PersistentTemplateState templateState)
@@ -238,8 +238,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.TransferPrefix +transfer.getSubject()+serverConstants.ToStringConstants.BracketOpen+
-				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().toString(true)+
-				serverConstants.ToStringConstants.BracketClose;
+				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().toString(true)+ serverConstants.ToStringConstants.SendToSymbol +
+				String.format(serverConstants.ToStringConstants.AccountPrefix, transfer.getReceiverAccountNumber(), transfer.getReceiverBankNumber()) + serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
