@@ -108,9 +108,9 @@ public class TemplateStateICProxi extends DebitTransferStateICProxi implements P
 				throws PersistenceException{
         ((PersistentTemplateState)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentBooleanValue isCompensated() 
+    public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
-        return ((PersistentTemplateState)this.getTheObject()).isCompensated();
+        return ((PersistentTemplateState)this.getTheObject()).isCompensationRequest();
     }
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{

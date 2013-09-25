@@ -25,6 +25,7 @@ import persistence.PersistentCompensation;
 import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCompensationRequestListe;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -113,7 +114,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleAccount(PersistentAccount account)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.AccountPrefix + new Long(account.getAccountNumber()).toString();
+		this.result = String.format(serverConstants.ToStringConstants.AccountPrefix, 
+				new Long(account.getAccountNumber()).toString(),new Long(account.getBank().getBankNumber()).toString());
 	}
 	@Override
 	public void handleBankCreator(PersistentBankCreator bankCreator)
@@ -236,7 +238,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.TransferPrefix +transfer.getSubject()+serverConstants.ToStringConstants.BracketOpen+
-				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().getAccountNumber()+
+				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().toString(true)+
 				serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
@@ -463,6 +465,13 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.CompensatedState;
+		
+	}
+	@Override
+	public void handleCompensationRequestedState(
+			PersistentCompensationRequestedState compensationRequestedState)
+			throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.CompensationRequestedState;
 		
 	}
 	

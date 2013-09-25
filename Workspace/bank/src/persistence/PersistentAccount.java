@@ -125,6 +125,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
 				throws PersistenceException;
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException;
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 

@@ -219,13 +219,12 @@ public class TemplateState extends model.DebitTransferState implements Persisten
 				throws PersistenceException{
 		return TemplateState.createTemplateState();
 	}
-    public PersistentBooleanValue isExecutable() 
+    public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
 	}
-
-	@Override
-	public PersistentBooleanValue isCompensated() throws PersistenceException {
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
 	}
 

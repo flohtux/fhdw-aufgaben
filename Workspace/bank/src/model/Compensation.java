@@ -421,22 +421,14 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 						return result;
 					}
 				});
-		transactionToBeExecuted.changeState(CompensatedState.createCompensatedState());
+		transactionToBeExecuted.changeState(CompensationRequestedState.createCompensationRequestedState());
 		transactionToBeExecuted.getDebitTransfer().getDebitTransfers().applyToAll(new Procdure<PersistentDebitTransfer>() {
 			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException {
-				argument.changeState(CompensatedState.createCompensatedState());
+				argument.changeState(CompensationRequestedState.createCompensationRequestedState());
 			}
 		});
-		
 		try {
-			System.out.println("trans state" + transactionToBeExecuted.getState());
-			PersistentTransaction t = transactionToBeExecuted.mirror();
-			System.out.println("transfer state" + t.getDebitTransfer().getDebitTransfers().findFirst(new Predcate<PersistentDebitTransfer>() {
-				public boolean test(PersistentDebitTransfer argument) throws PersistenceException {
-					return true;
-				}
-			}).getState());
-			t.execute(getThis().getRequestingAccount(), getThis().getRequestingAccount().getAccountService());
+			transactionToBeExecuted.mirror().execute(getThis().getRequestingAccount(), getThis().getRequestingAccount().getAccountService());
 		} catch (AccountSearchException e) {
 			getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
 		}

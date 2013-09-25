@@ -21,6 +21,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException;
     public abstract void handleSubjectRule(PersistentSubjectRule subjectRule) throws PersistenceException;
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
+    public abstract void handleCompensationRequestedState(PersistentCompensationRequestedState compensationRequestedState) throws PersistenceException;
     public abstract void handleWaitingCompensationState(PersistentWaitingCompensationState waitingCompensationState) throws PersistenceException;
     public abstract void handleDisabledState(PersistentDisabledState disabledState) throws PersistenceException;
     public abstract void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException;

@@ -1,48 +1,28 @@
 
 package model;
 
-import model.visitor.AnythingExceptionVisitor;
-import model.visitor.AnythingReturnExceptionVisitor;
-import model.visitor.AnythingReturnVisitor;
-import model.visitor.AnythingVisitor;
-import model.visitor.DebitTransferStateExceptionVisitor;
-import model.visitor.DebitTransferStateReturnExceptionVisitor;
-import model.visitor.DebitTransferStateReturnVisitor;
-import model.visitor.DebitTransferStateVisitor;
-import model.visitor.SubjInterfaceExceptionVisitor;
-import model.visitor.SubjInterfaceReturnExceptionVisitor;
-import model.visitor.SubjInterfaceReturnVisitor;
-import model.visitor.SubjInterfaceVisitor;
-import persistence.Anything;
-import persistence.CompensatedStateProxi;
-import persistence.ConnectionHandler;
-import persistence.ObsInterface;
-import persistence.PersistenceException;
-import persistence.PersistentBooleanValue;
-import persistence.PersistentCompensatedState;
-import persistence.PersistentDebitTransferState;
-import persistence.SubjInterface;
-import persistence.TDObserver;
+import persistence.*;
+import model.visitor.*;
 
 
 /* Additional import section end */
 
-public class CompensatedState extends model.DebitTransferState implements PersistentCompensatedState{
+public class CompensationRequestedState extends model.DebitTransferState implements PersistentCompensationRequestedState{
     
     
-    public static PersistentCompensatedState createCompensatedState() throws PersistenceException{
-        return createCompensatedState(false);
+    public static PersistentCompensationRequestedState createCompensationRequestedState() throws PersistenceException{
+        return createCompensationRequestedState(false);
     }
     
-    public static PersistentCompensatedState createCompensatedState(boolean delayed$Persistence) throws PersistenceException {
-        PersistentCompensatedState result = null;
+    public static PersistentCompensationRequestedState createCompensationRequestedState(boolean delayed$Persistence) throws PersistenceException {
+        PersistentCompensationRequestedState result = null;
         if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theCompensatedStateFacade
-                .newDelayedCompensatedState();
+            result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestedStateFacade
+                .newDelayedCompensationRequestedState();
             result.setDelayed$Persistence(true);
         }else{
-            result = ConnectionHandler.getTheConnectionHandler().theCompensatedStateFacade
-                .newCompensatedState(-1);
+            result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestedStateFacade
+                .newCompensationRequestedState(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -50,15 +30,15 @@ public class CompensatedState extends model.DebitTransferState implements Persis
         return result;
     }
     
-    public static PersistentCompensatedState createCompensatedState(boolean delayed$Persistence,PersistentCompensatedState This) throws PersistenceException {
-        PersistentCompensatedState result = null;
+    public static PersistentCompensationRequestedState createCompensationRequestedState(boolean delayed$Persistence,PersistentCompensationRequestedState This) throws PersistenceException {
+        PersistentCompensationRequestedState result = null;
         if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theCompensatedStateFacade
-                .newDelayedCompensatedState();
+            result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestedStateFacade
+                .newDelayedCompensationRequestedState();
             result.setDelayed$Persistence(true);
         }else{
-            result = ConnectionHandler.getTheConnectionHandler().theCompensatedStateFacade
-                .newCompensatedState(-1);
+            result = ConnectionHandler.getTheConnectionHandler().theCompensationRequestedStateFacade
+                .newCompensationRequestedState(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -76,11 +56,11 @@ public class CompensatedState extends model.DebitTransferState implements Persis
         return result;
     }
     
-    public CompensatedState provideCopy() throws PersistenceException{
-        CompensatedState result = this;
-        result = new CompensatedState(this.subService, 
-                                      this.This, 
-                                      this.getId());
+    public CompensationRequestedState provideCopy() throws PersistenceException{
+        CompensationRequestedState result = this;
+        result = new CompensationRequestedState(this.subService, 
+                                                this.This, 
+                                                this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -89,13 +69,13 @@ public class CompensatedState extends model.DebitTransferState implements Persis
         return false;
     }
     
-    public CompensatedState(SubjInterface subService,PersistentDebitTransferState This,long id) throws persistence.PersistenceException {
+    public CompensationRequestedState(SubjInterface subService,PersistentDebitTransferState This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentDebitTransferState)This,id);        
     }
     
     static public long getTypeId() {
-        return 282;
+        return 283;
     }
     
     public long getClassId() {
@@ -104,55 +84,55 @@ public class CompensatedState extends model.DebitTransferState implements Persis
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 282) ConnectionHandler.getTheConnectionHandler().theCompensatedStateFacade
-            .newCompensatedState(this.getId());
+        if (this.getClassId() == 283) ConnectionHandler.getTheConnectionHandler().theCompensationRequestedStateFacade
+            .newCompensationRequestedState(this.getId());
         super.store();
         
     }
     
-    public PersistentCompensatedState getThis() throws PersistenceException {
+    public PersistentCompensationRequestedState getThis() throws PersistenceException {
         if(this.This == null){
-            PersistentCompensatedState result = new CompensatedStateProxi(this.getId());
+            PersistentCompensationRequestedState result = new CompensationRequestedStateProxi(this.getId());
             result.getTheObject();
             return result;
-        }return (PersistentCompensatedState)this.This;
+        }return (PersistentCompensationRequestedState)this.This;
     }
     
     public void accept(DebitTransferStateVisitor visitor) throws PersistenceException {
-        visitor.handleCompensatedState(this);
+        visitor.handleCompensationRequestedState(this);
     }
     public <R> R accept(DebitTransferStateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCompensatedState(this);
+         return visitor.handleCompensationRequestedState(this);
     }
     public <E extends UserException>  void accept(DebitTransferStateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCompensatedState(this);
+         visitor.handleCompensationRequestedState(this);
     }
     public <R, E extends UserException> R accept(DebitTransferStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCompensatedState(this);
+         return visitor.handleCompensationRequestedState(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleCompensatedState(this);
+        visitor.handleCompensationRequestedState(this);
     }
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCompensatedState(this);
+         return visitor.handleCompensationRequestedState(this);
     }
     public <E extends UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCompensatedState(this);
+         visitor.handleCompensationRequestedState(this);
     }
     public <R, E extends UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCompensatedState(this);
+         return visitor.handleCompensationRequestedState(this);
     }
     public void accept(AnythingVisitor visitor) throws PersistenceException {
-        visitor.handleCompensatedState(this);
+        visitor.handleCompensationRequestedState(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCompensatedState(this);
+         return visitor.handleCompensationRequestedState(this);
     }
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCompensatedState(this);
+         visitor.handleCompensationRequestedState(this);
     }
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCompensatedState(this);
+         return visitor.handleCompensationRequestedState(this);
     }
     public int getLeafInfo() throws PersistenceException{
         return 0;
@@ -170,7 +150,7 @@ public class CompensatedState extends model.DebitTransferState implements Persis
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
-        this.setThis((PersistentCompensatedState)This);
+        this.setThis((PersistentCompensationRequestedState)This);
 		if(this.equals(This)){
 		}
     }
@@ -211,19 +191,19 @@ public class CompensatedState extends model.DebitTransferState implements Persis
     
     public void changeState(final PersistentDebitTransferState newState) 
 				throws PersistenceException{
-    	getThis().getDebitTransfer().setState(newState);	
+		getThis().getDebitTransfer().setState(newState);
 	}
     public PersistentDebitTransferState copy() 
 				throws PersistenceException{
-		return CompensatedState.createCompensatedState();
+		return CompensationRequestedState.createCompensationRequestedState();
 	}
     public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
-		return FalseValue.getTheFalseValue();
+		return TrueValue.getTheTrueValue();
 	}
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{
-		return FalseValue.getTheFalseValue();
+		return TrueValue.getTheTrueValue();
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

@@ -95,6 +95,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleWaitingCompensationState(PersistentWaitingCompensationState waitingCompensationState) throws PersistenceException{
         this.standardHandling(waitingCompensationState);
     }
+    public void handleCompensationRequestedState(PersistentCompensationRequestedState compensationRequestedState) throws PersistenceException{
+        this.standardHandling(compensationRequestedState);
+    }
     public void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException{
         this.standardHandling(triggerListe);
     }

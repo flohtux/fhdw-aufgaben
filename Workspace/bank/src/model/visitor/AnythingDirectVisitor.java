@@ -39,6 +39,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
+    public void handleCompensationRequestedState(PersistentCompensationRequestedState compensationRequestedState) throws PersistenceException{
+        this.handleDebitTransferState(compensationRequestedState);
+    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.handleDebitTransferState(executedState);
     }
@@ -171,9 +174,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     
-    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
-    
     public abstract void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException;
+    
+    public abstract void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     
     public abstract void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException;
     

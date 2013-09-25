@@ -54,8 +54,8 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public R handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException, E;
-    public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public R handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException, E;
+    public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public R handleAccount(PersistentAccount account) throws PersistenceException, E;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public R handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException, E;

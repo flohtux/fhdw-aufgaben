@@ -54,8 +54,8 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException, E;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException, E;
     public void handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException, E;
-    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException, E;
+    public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException, E;
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
     public void handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException, E;
     public void handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException, E;

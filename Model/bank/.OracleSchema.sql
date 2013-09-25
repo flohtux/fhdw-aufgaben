@@ -1024,19 +1024,6 @@ create table CmpDeclndCMD(
     constraint FCmpDeclndCMDMyCmmnDt foreign key (CmpDeclndCMDMyCmmnDtCls) references Cls (id)    
 );
 
-create sequence SDbtGrntLst nocache;
-
-create table DbtGrntLst(
-    id number primary key,
-    Cls number not null,
-    DbtGrntLstSbSrvc number,
-    DbtGrntLstSbSrvcCls number,
-    constraint FDbtGrntLstSbSrvc foreign key (DbtGrntLstSbSrvcCls) references Cls (id),
-    DbtGrntLstThis number,
-    DbtGrntLstThisCls number,
-    constraint FDbtGrntLstThis foreign key (DbtGrntLstThisCls) references Cls (id)    
-);
-
 create sequence SAccntTrggrLst nocache;
 
 create table AccntTrggrLst(
@@ -1051,6 +1038,19 @@ create table AccntTrggrLst(
     AccntTrggrLstThis number,
     AccntTrggrLstThisCls number,
     constraint FAccntTrggrLstThis foreign key (AccntTrggrLstThisCls) references Cls (id)    
+);
+
+create sequence SDbtGrntLst nocache;
+
+create table DbtGrntLst(
+    id number primary key,
+    Cls number not null,
+    DbtGrntLstSbSrvc number,
+    DbtGrntLstSbSrvcCls number,
+    constraint FDbtGrntLstSbSrvc foreign key (DbtGrntLstSbSrvcCls) references Cls (id),
+    DbtGrntLstThis number,
+    DbtGrntLstThisCls number,
+    constraint FDbtGrntLstThis foreign key (DbtGrntLstThisCls) references Cls (id)    
 );
 
 create sequence SAccnt nocache;

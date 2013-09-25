@@ -302,6 +302,7 @@ public class Cache {
 		this.number2NameMap.put(257, "CompensationPendingRequests");
 		this.number2NameMap.put(256, "CompensationRequest");
 		this.number2NameMap.put(260, "CompensationRequestListe");
+		this.number2NameMap.put(283, "CompensationRequestedState");
 		this.number2NameMap.put(107, "CreateAccountCommand");
 		this.number2NameMap.put(118, "CreateBankCommand");
 		this.number2NameMap.put(198, "CreateDebitGrantCommand");

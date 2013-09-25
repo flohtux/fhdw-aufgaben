@@ -56,6 +56,9 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
+    public void handleCompensationRequestedState(PersistentCompensationRequestedState compensationRequestedState) throws PersistenceException{
+        this.handleDebitTransferState(compensationRequestedState);
+    }
     public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException{
         this.handleDebitTransferState(executedState);
     }

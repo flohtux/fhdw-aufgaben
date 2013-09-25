@@ -220,13 +220,12 @@ public class NotExecutableState extends model.DebitTransferState implements Pers
 				throws PersistenceException{
 		return NotExecutableState.createNotExecutableState();
 	}
-    public PersistentBooleanValue isExecutable() 
+    public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
 	}
-
-	@Override
-	public PersistentBooleanValue isCompensated() throws PersistenceException {
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
 	}
 

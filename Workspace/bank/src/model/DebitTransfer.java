@@ -344,8 +344,6 @@ public abstract class DebitTransfer extends model.DebitTransferTransaction imple
 				return transfer;
 			}
 			public PersistentTransfer handleDebit(PersistentDebit debit) throws PersistenceException {
-				System.out.println("before "+debit);
-				System.out.println("after"+debit.copyToTransfer());
 				return debit.copyToTransfer();
 			}
 		});

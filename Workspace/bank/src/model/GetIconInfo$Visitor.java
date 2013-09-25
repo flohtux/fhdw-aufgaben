@@ -20,6 +20,7 @@ import persistence.PersistentCompensationListe;
 import persistence.PersistentCompensationPendingRequests;
 import persistence.PersistentCompensationRequest;
 import persistence.PersistentCompensationRequestListe;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitTransferNotExecuted;
@@ -217,6 +218,13 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
 				result = common.IconInfoConstants.PositiveIconNumber;
 				
+			}
+
+			@Override
+			public void handleCompensationRequestedState(
+					PersistentCompensationRequestedState compensationRequestedState)
+					throws PersistenceException {
+				result = common.IconInfoConstants.PositiveIconNumber;
 			}
 		});
 	}

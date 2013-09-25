@@ -54,8 +54,8 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleAdministratorBanks(PersistentAdministratorBanks administratorBanks) throws PersistenceException;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public R handleCompensationDeclinedCommand(PersistentCompensationDeclinedCommand compensationDeclinedCommand) throws PersistenceException;
-    public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public R handleAccountTriggerListe(PersistentAccountTriggerListe accountTriggerListe) throws PersistenceException;
+    public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;
     public R handleAccount(PersistentAccount account) throws PersistenceException;
     public R handleDebitTransferNotExecuted(PersistentDebitTransferNotExecuted debitTransferNotExecuted) throws PersistenceException;
     public R handleChangeCurrencyCommand(PersistentChangeCurrencyCommand changeCurrencyCommand) throws PersistenceException;

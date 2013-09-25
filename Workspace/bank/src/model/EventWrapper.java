@@ -24,6 +24,7 @@ import persistence.ObsInterface;
 import persistence.PersistenceException;
 import persistence.PersistentAccountService;
 import persistence.PersistentCompensatedState;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentEventWrapper;
 import persistence.PersistentExecutedState;
@@ -314,6 +315,11 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 					@Override
 					public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
 					}
+					@Override
+					public void handleCompensationRequestedState(
+							PersistentCompensationRequestedState compensationRequestedState)
+							throws PersistenceException {
+					}
 				});
 				event.getResult().getDebitTransferStateNew().accept(new DebitTransferStateVisitor() {
 					@Override
@@ -341,6 +347,12 @@ public class EventWrapper extends PersistentObject implements PersistentEventWra
 					public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
 						getThis().getAccountService().getSuccessful().add(object);
 						
+					}
+					@Override
+					public void handleCompensationRequestedState(
+							PersistentCompensationRequestedState compensationRequestedState)
+							throws PersistenceException {
+						getThis().getAccountService().getSuccessful().add(object);
 					}
 				});
 			}

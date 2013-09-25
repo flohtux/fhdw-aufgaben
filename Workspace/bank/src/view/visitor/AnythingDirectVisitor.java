@@ -33,6 +33,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferState(DebitTransferStateView debitTransferState) throws ModelException;
     
+    public void handleCompensationRequestedState(CompensationRequestedStateView compensationRequestedState) throws ModelException{
+        this.handleDebitTransferState(compensationRequestedState);
+    }
     public void handleExecutedState(ExecutedStateView executedState) throws ModelException{
         this.handleDebitTransferState(executedState);
     }

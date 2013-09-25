@@ -131,6 +131,7 @@ public class ConnectionHandler {
     public WaitingStateFacade theWaitingStateFacade;
     public SubjectRuleFacade theSubjectRuleFacade;
     public TriggerListeFacade theTriggerListeFacade;
+    public CompensationRequestedStateFacade theCompensationRequestedStateFacade;
     public WaitingCompensationStateFacade theWaitingCompensationStateFacade;
     public DisabledStateFacade theDisabledStateFacade;
     public ExecuteCommandFacade theExecuteCommandFacade;
@@ -191,8 +192,8 @@ public class ConnectionHandler {
     public EnabledStateFacade theEnabledStateFacade;
     public DebitFacade theDebitFacade;
     public CompensationDeclinedCommandFacade theCompensationDeclinedCommandFacade;
-    public DebitGrantListeFacade theDebitGrantListeFacade;
     public AccountTriggerListeFacade theAccountTriggerListeFacade;
+    public DebitGrantListeFacade theDebitGrantListeFacade;
     public AccountServiceFacade theAccountServiceFacade;
     public AccountFacade theAccountFacade;
     public NotExecutedStateFacade theNotExecutedStateFacade;
@@ -265,6 +266,7 @@ public class ConnectionHandler {
             this.theWaitingStateFacade= new WaitingStateFacade(this.schemaName, this.con);
             this.theSubjectRuleFacade= new SubjectRuleFacade(this.schemaName, this.con);
             this.theTriggerListeFacade= new TriggerListeFacade(this.schemaName, this.con);
+            this.theCompensationRequestedStateFacade= new CompensationRequestedStateFacade(this.schemaName, this.con);
             this.theWaitingCompensationStateFacade= new WaitingCompensationStateFacade(this.schemaName, this.con);
             this.theDisabledStateFacade= new DisabledStateFacade(this.schemaName, this.con);
             this.theExecuteCommandFacade= new ExecuteCommandFacade(this.schemaName, this.con);
@@ -325,8 +327,8 @@ public class ConnectionHandler {
             this.theEnabledStateFacade= new EnabledStateFacade(this.schemaName, this.con);
             this.theDebitFacade= new DebitFacade(this.schemaName, this.con);
             this.theCompensationDeclinedCommandFacade= new CompensationDeclinedCommandFacade(this.schemaName, this.con);
-            this.theDebitGrantListeFacade= new DebitGrantListeFacade(this.schemaName, this.con);
             this.theAccountTriggerListeFacade= new AccountTriggerListeFacade(this.schemaName, this.con);
+            this.theDebitGrantListeFacade= new DebitGrantListeFacade(this.schemaName, this.con);
             this.theAccountServiceFacade= new AccountServiceFacade(this.schemaName, this.con);
             this.theAccountFacade= new AccountFacade(this.schemaName, this.con);
             this.theNotExecutedStateFacade= new NotExecutedStateFacade(this.schemaName, this.con);

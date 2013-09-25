@@ -66,9 +66,9 @@ public abstract class DebitTransferStateICProxi extends PersistentInCacheProxiOp
 				throws PersistenceException{
         ((PersistentDebitTransferState)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentBooleanValue isCompensated() 
+    public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
-        return ((PersistentDebitTransferState)this.getTheObject()).isCompensated();
+        return ((PersistentDebitTransferState)this.getTheObject()).isCompensationRequest();
     }
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{

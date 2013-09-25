@@ -108,9 +108,9 @@ public class NotExecutedStateProxi extends DebitTransferStateProxi implements Pe
 				throws PersistenceException{
         ((PersistentNotExecutedState)this.getTheObject()).initializeOnInstantiation();
     }
-    public PersistentBooleanValue isCompensated() 
+    public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
-        return ((PersistentNotExecutedState)this.getTheObject()).isCompensated();
+        return ((PersistentNotExecutedState)this.getTheObject()).isCompensationRequest();
     }
     public PersistentBooleanValue isExecutable() 
 				throws PersistenceException{

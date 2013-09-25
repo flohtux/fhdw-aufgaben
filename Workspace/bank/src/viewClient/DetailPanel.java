@@ -742,6 +742,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleTriggerListe(view.TriggerListeView object){
         result = new TriggerListeDefaultDetailPanel(handler, object);
     }
+    public void handleCompensationRequestedState(view.CompensationRequestedStateView object){
+        result = new CompensationRequestedStateDefaultDetailPanel(handler, object);
+    }
     public void handleWaitingCompensationState(view.WaitingCompensationStateView object){
         result = new WaitingCompensationStateDefaultDetailPanel(handler, object);
     }
@@ -1169,6 +1172,20 @@ class TriggerListeDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.TriggerListeView getAnything(){
         return (view.TriggerListeView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class CompensationRequestedStateDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CompensationRequestedStateDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CompensationRequestedStateView getAnything(){
+        return (view.CompensationRequestedStateView)this.anything;
     }
 }
 

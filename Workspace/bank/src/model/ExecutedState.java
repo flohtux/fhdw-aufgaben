@@ -219,13 +219,12 @@ public class ExecutedState extends model.DebitTransferState implements Persisten
 				throws PersistenceException{
 		return ExecutedState.createExecutedState();
 	}
-    public PersistentBooleanValue isExecutable() 
+    public PersistentBooleanValue isCompensationRequest() 
 				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
 	}
-
-	@Override
-	public PersistentBooleanValue isCompensated() throws PersistenceException {
+    public PersistentBooleanValue isExecutable() 
+				throws PersistenceException{
 		return FalseValue.getTheFalseValue();
 	}
 

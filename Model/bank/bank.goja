@@ -180,6 +180,7 @@ class Account {
 
 	DebitTransferTransaction createTemplate(DebitTransferTransactionSUBTYPEName type);
 	Transaction createTransaction();
+	void removeFromTransaction(Transaction transaction, DebitTransfer ** debitTransfer);
 
 	void addToTransaction(Transaction transaction,DebitTransfer ** debitTransfer);
 	void addToTransactionTemplate(Transaction transaction,DebitTransfer ** debitTransfer);
@@ -440,7 +441,7 @@ class DebitTransferDoubleState##DebTraStaDo {
 abstract class DebitTransferState##DebiTraStat{
 	BooleanValue isExecutable();
 	BooleanValue isTransaction();
-	BooleanValue isCompensated();
+	BooleanValue isCompensationRequest();
 	void changeState(DebitTransferState newState);
 	void removeDebitTransferFromList();
 	void addDebitTransferFromList(DebitTransferState state);
@@ -454,6 +455,7 @@ class ExecutedState extends DebitTransferState {}
 class NotExecutedState extends DebitTransferState {}
 class NotExecutableState extends DebitTransferState {}
 class CompensatedState extends DebitTransferState {}
+class CompensationRequestedState##CompReqSta extends DebitTransferState {}
 
 abstract class CompensationState(SuccessfulCompensationState##SuccComSta,WaitingCompensationState##WaitComSta,DeclinedCompensationState##DecComSta){}
 

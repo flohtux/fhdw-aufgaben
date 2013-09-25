@@ -288,6 +288,10 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).receivedDebitGrant_update(event);
     }
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
+    }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);

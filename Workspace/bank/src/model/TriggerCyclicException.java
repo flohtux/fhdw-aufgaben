@@ -85,7 +85,5 @@ public class TriggerCyclicException extends model.ExecuteException{
 		this(String.format(serverConstants.ExceptionMessages.TriggerCyclicExceptionMessage, transfer.toString()));
 	}
     /* End of protected part that is not overridden by persistence generator */
-
-
     
 }

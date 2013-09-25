@@ -55,6 +55,7 @@ import persistence.PersistentBankFees;
 import persistence.PersistentBooleanValue;
 import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
@@ -784,7 +785,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
-        transaction.removeFromTransaction(debitTransfer);
+    	getThis().getAccount().removeFromTransaction(transaction, debitTransfer);
         getThis().signalChanged(true);
     }
     public void remove(final PersistentDebitGrant grant) 
@@ -874,6 +875,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 			}
 			@Override
 			public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+			}
+			@Override
+			public void handleCompensationRequestedState(
+					PersistentCompensationRequestedState compensationRequestedState)
+					throws PersistenceException {
 			}
 		});
     	getThis().getNotExecuted().getNotExecuteds().add(debitTransferTransactionCopy);

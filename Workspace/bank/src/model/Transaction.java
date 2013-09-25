@@ -35,6 +35,7 @@ import persistence.PersistentProxi;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
+import persistence.PersistentTransfer;
 import persistence.Predcate;
 import persistence.Procdure;
 import persistence.ProcdureException;
@@ -298,7 +299,7 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 	}
     public PersistentTransaction mirror() 
 				throws model.AccountSearchException, PersistenceException{
-		return getThis().getDebitTransfer().getDebitTransfers()
+		PersistentTransaction result =  getThis().getDebitTransfer().getDebitTransfers()
 				.aggregateException(new AggregtionException<PersistentDebitTransfer, PersistentTransaction, AccountSearchException>() {
 					public PersistentTransaction neutral() throws PersistenceException {
 						PersistentTransaction result = Transaction.createTransaction();
@@ -311,10 +312,11 @@ public class Transaction extends model.DebitTransferTransaction implements Persi
 							AccountSearchException {
 						DebitTransferSearchList a = new DebitTransferSearchList();
 						a.add(argument.mirror());
-						result.addToTransaction(a);
+						result.addToTransactionWithoutStateChange(a);
 						return result;
 					}
 				});
+		return result;
 	}
     public void removeFromTransaction(final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{

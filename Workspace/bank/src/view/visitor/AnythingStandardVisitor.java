@@ -53,6 +53,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleTriggerListe(TriggerListeView triggerListe) throws ModelException{
         this.standardHandling(triggerListe);
     }
+    public void handleCompensationRequestedState(CompensationRequestedStateView compensationRequestedState) throws ModelException{
+        this.standardHandling(compensationRequestedState);
+    }
     public void handleWaitingCompensationState(WaitingCompensationStateView waitingCompensationState) throws ModelException{
         this.standardHandling(waitingCompensationState);
     }

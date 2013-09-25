@@ -58,6 +58,7 @@ import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensation;
 import persistence.PersistentCompensationDeclinedCommand;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
@@ -987,6 +988,18 @@ public class Account extends PersistentObject implements PersistentAccount{
 			}
 		});
 }
+    public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
+				throws PersistenceException{
+    	 transaction.removeFromTransaction(debitTransfer);
+    	 debitTransfer.applyToAll(new Procdure<PersistentDebitTransfer>() {
+			@Override
+			public void doItTo(PersistentDebitTransfer argument)
+					throws PersistenceException {
+				argument.changeState(NotExecutedState.createNotExecutedState());
+				getThis().getDebitTransferTransactions().add(argument);
+			}
+		});
+    }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws PersistenceException{
         list.remove(acc);
@@ -1054,6 +1067,12 @@ public class Account extends PersistentObject implements PersistentAccount{
 							}
 							@Override
 							public Boolean handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
+								return false; // compensation does not release trigger!
+							}
+							@Override
+							public Boolean handleCompensationRequestedState(
+									PersistentCompensationRequestedState compensationRequestedState)
+									throws PersistenceException {
 								return false; // compensation does not release trigger!
 							}});
 						
