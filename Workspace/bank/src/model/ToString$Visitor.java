@@ -115,7 +115,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleAccount(PersistentAccount account)
 			throws PersistenceException {
 		this.result = String.format(serverConstants.ToStringConstants.AccountPrefix, 
-				new Long(account.getAccountNumber()).toString(),new Long(account.getBank().getBankNumber()).toString());
+				new Long(account.getAccountNumber()).toString(),account.getBank() == null ? "?" : new Long(account.getBank().getBankNumber()).toString());
 	}
 	@Override
 	public void handleBankCreator(PersistentBankCreator bankCreator)
