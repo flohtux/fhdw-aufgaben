@@ -25,7 +25,7 @@ public interface PersistentDebitGrantListe extends SubjInterface, Anything, Abst
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void remove(final PersistentAccountPx acc) 
-				throws PersistenceException;
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
     public void checkGrantGiven(final PersistentAccountPx acc) 
 				throws model.GrantAlreadyGivenException, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -37,7 +37,7 @@ public interface PersistentDebitGrantListe extends SubjInterface, Anything, Abst
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc) 
-				throws PersistenceException;
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
 
 }
 

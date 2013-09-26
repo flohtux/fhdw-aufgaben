@@ -49,6 +49,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public PersistentDebitTransferTemplate getTemplate() 
 				throws PersistenceException;
+    public PersistentDebitGrantListe grant_Path_In_Remove() 
+				throws model.UserException, PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void setBankFees(final PersistentBankFees bankFees) 
@@ -130,7 +132,7 @@ public interface PersistentAccountService extends PersistentService {
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void remove(final PersistentDebitGrant grant) 
-				throws PersistenceException;
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException;
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 

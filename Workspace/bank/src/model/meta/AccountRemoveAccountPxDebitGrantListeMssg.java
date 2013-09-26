@@ -30,8 +30,9 @@ public class AccountRemoveAccountPxDebitGrantListeMssg implements AccountDOWNMss
             }
         }
     }
-    public synchronized void getResult() throws PersistenceException {
+    public synchronized void getResult() throws model.NoPermissionToRemoveDebitGrantException, PersistenceException {
         if(this.excptn != null) {
+            if(this.excptn instanceof model.NoPermissionToRemoveDebitGrantException) throw (model.NoPermissionToRemoveDebitGrantException) this.excptn;
             if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
             if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;
             throw new Error(this.excptn);

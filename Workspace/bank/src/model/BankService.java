@@ -32,6 +32,7 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
+import persistence.PersistentCompensationRequest;
 import persistence.PersistentInternalFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentProxi;
@@ -39,9 +40,9 @@ import persistence.PersistentService;
 import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
+import persistence.Procdure;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
 import common.Fraction;
 
 
@@ -319,6 +320,13 @@ public class BankService extends model.Service implements PersistentBankService{
         if(!acc.getMoney().getAmount().getBalance().equals(Fraction.Null)) {
         	throw new CloseAccountNoPossibleException();
         }else {
+        	acc.getAllCompensation().getPendingCompensationRequests().getCompensationrequests().applyToAll(new Procdure<PersistentCompensationRequest>() {
+				@Override
+				public void doItTo(PersistentCompensationRequest argument) throws PersistenceException {
+					acc.answerDecline(argument);
+					
+				}
+			});
         	acc.getAccountService().delete$Me();
             acc.delete$Me();
             getThis().getBank().getAccounts().remove(acc.getAccountNumber());
@@ -338,6 +346,7 @@ public class BankService extends model.Service implements PersistentBankService{
         transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
+        transfer.changeState(CompensationRequestedState.createCompensationRequestedState());
         transfer.execute(getThis().getBank().getOwnAccount().getAccount(), getThis());
     }
     public void connected(final String user) 

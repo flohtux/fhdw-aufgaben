@@ -11,6 +11,7 @@ import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
+import view.NoPermissionToRemoveDebitGrantException;
 import model.meta.StringFACTORY;
 import persistence.PersistenceException;
 import rGType.CharacterValue;
@@ -19,7 +20,6 @@ import view.Anything;
 import view.CompensatedStateView;
 import view.CompensationRequestView;
 import view.CompensationRequestedStateView;
-import view.DebitGrantListeView;
 import view.DebitGrantView;
 import view.DebitTransferStateView;
 import view.DebitTransferTransactionView;
@@ -55,10 +55,11 @@ import view.UserException;
 import view.objects.ViewRoot;
 import view.visitor.BooleanValueReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
-import view.visitor.DebitTransferTransactionReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
 import view.visitor.TriggerValueReturnVisitor;
+
 import common.Fraction;
+
 import expressions.RegularExpressionHandler;
 
 
@@ -901,6 +902,36 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 }
             }
             if (selected instanceof DebitTransferTransactionView){
+                if (this.filterExecuteTransfer((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Buchung abschicken");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Buchung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().executeTransfer((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }catch (NoPermissionToExecuteDebitTransferException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }catch (ExecuteException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
                 if (this.filterRequestCompensation((DebitTransferTransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Rückbuchung anfordern");
@@ -930,36 +961,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
-                                }
-                            }
-                        }
-                        
-                    });
-                    result.add(item);
-                }
-                if (this.filterExecuteTransfer((DebitTransferTransactionView) selected)) {
-                    item = new javax.swing.JMenuItem();
-                    item.setText("Überweisung abschicken");
-                    item.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                                try {
-                                    getConnection().executeTransfer((DebitTransferTransactionView)selected);
-                                    getConnection().setEagerRefresh();
-                                }catch(ModelException me){
-                                    handleException(me);
-                                }catch (NoPermissionToExecuteDebitTransferException userException){
-                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                    view.setLocationRelativeTo(getNavigationPanel());
-                                    view.setVisible(true);
-                                    view.repaint();
-                                    getConnection().setEagerRefresh();
-                                }catch (ExecuteException userException){
-                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
-                                    view.setLocationRelativeTo(getNavigationPanel());
-                                    view.setVisible(true);
-                                    view.repaint();
-                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }
@@ -1019,24 +1020,28 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 result.add(item);
             }
             if (selected instanceof DebitGrantView){
-                if (this.filterRemove((DebitGrantView) selected)) {
-                    item = new javax.swing.JMenuItem();
-                    item.setText("Erlaubnis entziehen");
-                    item.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Erlaubnis entziehen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                                try {
-                                    getConnection().remove((DebitGrantView)selected);
-                                    getConnection().setEagerRefresh();
-                                }catch(ModelException me){
-                                    handleException(me);
-                                }
+                item = new javax.swing.JMenuItem();
+                item.setText("Erlaubnis entziehen");
+                item.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Erlaubnis entziehen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            try {
+                                getConnection().remove((DebitGrantView)selected);
+                                getConnection().setEagerRefresh();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }catch (NoPermissionToRemoveDebitGrantException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
                             }
                         }
-                        
-                    });
-                    result.add(item);
-                }
+                    }
+                    
+                });
+                result.add(item);
             }
             if (selected instanceof TriggerView){
                 if (this.filterEnable((TriggerView) selected)) {
@@ -2125,10 +2130,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 		}
 	}
 	
-	private boolean filterRemove(DebitGrantView selected) {
-		//TODO machen
-		return true;
-	}
 
 
 

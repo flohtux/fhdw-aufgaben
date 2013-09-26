@@ -613,7 +613,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 		subService.register(observee);
     }
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         model.meta.AccountRemoveAccountPxDebitGrantListeMssg event = new model.meta.AccountRemoveAccountPxDebitGrantListeMssg(acc, list, getThis());
 		event.execute();
 		getThis().updateObservers(event);
@@ -1010,7 +1010,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 		});
     }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         list.remove(acc);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 

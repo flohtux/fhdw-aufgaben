@@ -96,7 +96,7 @@ server AccountService extends Service {
 	void enable@@Aktivieren(Trigger t checked) throws NoRuleDefinitionException;
 	void disable@@Deaktivieren(Trigger t checked);
 	void createNewRule@@Neue_Regel_erstellen(Trigger t checked, RuleSUBTYPEName type@@Typ) throws DoubleRuleDefinitionException;
-	void executeTransfer@@Überweisung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
+	void executeTransfer@@Buchung_abschicken(DebitTransferTransaction debitTransfer checked) throws ExecuteException, NoPermissionToExecuteDebitTransferException;
 	active void useTemplate@@Vorlage_verwenden(DebitTransferTransaction debitTransferTransaction##dbtTrafTran checked);
 	no-view void changeReceiverBank(DebitTransfer trans checked, Integer receiverBankNumber);
 	no-view void changeReceiverAccount(DebitTransfer trans checked, Integer receiverAccNumber);
@@ -108,7 +108,7 @@ server AccountService extends Service {
 	void addToTransactionTemplate@@Vorlagebuchung_zu_Transaktion_hinzufügen(Transaction transaction checked,DebitTransfer ** debitTransfer {template;templates});
 void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction transaction checked, DebitTransferSUBTYPEName type@@Buchung);
 	void removeFromTransaction@@Buchung_aus_Transaktion_entfernen(Transaction transaction checked, DebitTransfer ** debitTransfer{;transaction;debitTransfer;debitTransfers});
-	void remove@@Erlaubnis_entziehen(DebitGrant grant checked);
+	void remove@@Erlaubnis_entziehen(DebitGrant grant {account;grantedDebitGrant}) throws NoPermissionToRemoveDebitGrantException;
 
 	//Rules
 	no-view void changeIncomingAccountRuleAccountNumber(IncomingAccountRule rule, Integer newAccNum);
@@ -164,7 +164,7 @@ class Account {
 	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
 	observe AllCompensationListe allCompensation;
-	event void remove(AccountPx acc, DebitGrantListe list);
+	event void remove(AccountPx acc, DebitGrantListe list) throws NoPermissionToRemoveDebitGrantException;
 
 	Transfer createTransfer();
 	Trigger createTrigger(String name, DebitTransferTransaction dtt);
@@ -236,7 +236,7 @@ class DebitGrantListe {
 	DebitGrant ** debitGrants;
 	event void createDebitGrant(AccountPx receiver, LimitType limit) throws GrantAlreadyGivenException;
 	void checkGrantGiven(AccountPx acc) throws GrantAlreadyGivenException;
-	event void remove(AccountPx acc);
+	event void remove(AccountPx acc) throws NoPermissionToRemoveDebitGrantException;
 }
 
 class Money {
@@ -474,6 +474,7 @@ exception MinLimitHigherMaxLimitException{}
 exception MaxLimitLowerThenMinLimitException{}
 exception NoValidPercentValueException{}
 exception NoValidFeeValueException{}
+exception NoPermissionToRemoveDebitGrantException{}
 
 exception TriggerCyclicException extends ExecuteException{}
 abstract exception DebitException extends ExecuteException{}

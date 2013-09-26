@@ -9,8 +9,8 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public long getAccountNumber() throws PersistenceException ;
     public void setAccountNumber(long newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;
-    public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setMoney(PersistentMoney newValue) throws PersistenceException ;
+    public PersistentLimitAccount getLimit() throws PersistenceException ;
     public void setLimit(PersistentLimitAccount newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
@@ -58,7 +58,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException;
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
     public void setAllCompensation(final PersistentAllCompensationListe allCompensation) 
 				throws PersistenceException;
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
@@ -128,7 +128,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException;
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
 				throws PersistenceException;
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 

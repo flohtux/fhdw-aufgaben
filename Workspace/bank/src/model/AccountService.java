@@ -479,6 +479,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
         if (this.template== null) return null;
 		return this.template.getObservee();
     }
+    public PersistentDebitGrantListe grant_Path_In_Remove() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getGrantedDebitGrant();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentAccountService)This);
@@ -789,7 +794,7 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().signalChanged(true);
     }
     public void remove(final PersistentDebitGrant grant) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
     	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
     	grant.getPermittedAccount().getAccount().getGrantedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
     	getThis().signalChanged(true);

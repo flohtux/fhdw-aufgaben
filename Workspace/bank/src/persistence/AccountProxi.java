@@ -149,7 +149,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
         ((PersistentAccount)this.getTheObject()).register(observee);
     }
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).remove(acc, list);
     }
     public void setAllCompensation(final PersistentAllCompensationListe allCompensation) 
@@ -293,7 +293,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
         ((PersistentAccount)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
     }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 

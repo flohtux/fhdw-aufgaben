@@ -59,6 +59,18 @@ public  class RemoteAccountService extends RemoteService {
         }
     }
     
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> grant_Path_In_Remove(){
+        try {
+            PersistentDebitGrantListe result = ((PersistentAccountService)this.server).grant_Path_In_Remove();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> addToTransactionTemplate(String transactionProxiString, java.util.Vector<String> debitTransferTrnsprt){
         try {
             PersistentTransaction transaction = (PersistentTransaction)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(transactionProxiString));
@@ -407,6 +419,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToRemoveDebitGrantException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

@@ -10,19 +10,17 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException;
     
-    public abstract void handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException;
-    
     public abstract void handlePasswordException(model.PasswordException passwordException) throws PersistenceException;
+    
+    public abstract void handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException;
     
     public abstract void handleNoValidPercentValueException(model.NoValidPercentValueException noValidPercentValueException) throws PersistenceException;
     
-    public abstract void handleMinLimitHigherMaxLimitException(model.MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws PersistenceException;
-    
     public abstract void handleNoRuleDefinitionException(model.NoRuleDefinitionException noRuleDefinitionException) throws PersistenceException;
     
-    public abstract void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;
+    public abstract void handleMinLimitHigherMaxLimitException(model.MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws PersistenceException;
     
-    public abstract void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException;
+    public abstract void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException;
     
     public abstract void handleExecuteException(model.ExecuteException executeException) throws PersistenceException;
     
@@ -35,18 +33,22 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     public void handleLimitViolatedException(model.LimitViolatedException limitViolatedException) throws PersistenceException{
         this.handleExecuteException(limitViolatedException);
     }
-    public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
-        this.handleExecuteException(invalidAccountNumberException);
-    }
     public void handleTriggerCyclicException(model.TriggerCyclicException triggerCyclicException) throws PersistenceException{
         this.handleExecuteException(triggerCyclicException);
     }
     public void handleDebitNotGrantedException(model.DebitNotGrantedException debitNotGrantedException) throws PersistenceException{
         this.handleExecuteException(debitNotGrantedException);
     }
+    public void handleInvalidAccountNumberException(model.InvalidAccountNumberException invalidAccountNumberException) throws PersistenceException{
+        this.handleExecuteException(invalidAccountNumberException);
+    }
+    public abstract void handleRuleNotMatchedException(model.RuleNotMatchedException ruleNotMatchedException) throws PersistenceException;
+    
     public abstract void handleCycleException(model.CycleException cycleException) throws PersistenceException;
     
     public abstract void handleCloseAccountNoPossibleException(model.CloseAccountNoPossibleException closeAccountNoPossibleException) throws PersistenceException;
+    
+    public abstract void handleNoPermissionToRemoveDebitGrantException(model.NoPermissionToRemoveDebitGrantException noPermissionToRemoveDebitGrantException) throws PersistenceException;
     
     public abstract void handleMaxLimitLowerThenMinLimitException(model.MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws PersistenceException;
     

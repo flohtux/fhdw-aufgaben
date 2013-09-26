@@ -140,6 +140,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getTemplate();
     }
+    public PersistentDebitGrantListe grant_Path_In_Remove() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).grant_Path_In_Remove();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initialize(This, final$$Fields);
@@ -337,7 +341,7 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
         ((PersistentAccountService)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
     }
     public void remove(final PersistentDebitGrant grant) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).remove(grant);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
