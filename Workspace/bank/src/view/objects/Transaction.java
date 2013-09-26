@@ -89,8 +89,6 @@ public class Transaction extends view.objects.DebitTransferTransaction implement
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getState() != null) return new StateDebitTransferTransactionWrapper(this, originalIndex, (ViewRoot)this.getState());
-        if(this.getState() != null) index = index - 1;
         if(this.getDebitTransfer() != null && index < this.getDebitTransfer().getTheObject().getChildCount())
             return this.getDebitTransfer().getTheObject().getChild(index);
         if(this.getDebitTransfer() != null) index = index - this.getDebitTransfer().getTheObject().getChildCount();
@@ -98,18 +96,14 @@ public class Transaction extends view.objects.DebitTransferTransaction implement
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getState() == null ? 0 : 1)
             + (this.getDebitTransfer() == null ? 0 : this.getDebitTransfer().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getState() == null ? true : false)
             && (this.getDebitTransfer() == null ? true : this.getDebitTransfer().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getState() != null && this.getState().equals(child)) return result;
-        if(this.getState() != null) result = result + 1;
         if(this.getDebitTransfer() != null && this.getDebitTransfer().equals(child)) return result;
         if(this.getDebitTransfer() != null) result = result + 1;
         return -1;

@@ -530,7 +530,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
 			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {}
 			public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
-				PersistentDebitGrant grant = acc.getReceivedDebitGrant().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
+				PersistentDebitGrant grant = acc.getReceivedDebitGrant().getD1().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
 					public boolean test(PersistentDebitGrant argument) throws PersistenceException {
 						return argument.getPermittedAccount().getAccount().equals(debitTransfer.getSender());
 					}
@@ -571,9 +571,14 @@ public class Bank extends PersistentObject implements PersistentBank{
     	try {
         	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney(), getThis(), debitTransfer.getReceiverBankNumber());
-    		final PersistentMoney newAccountMoney = hasToPayFees.getMoney().subtract(fee.add(debitTransfer.fetchRealMoney())); 
+    		final PersistentMoney newAccountMoney = hasToPayFees.getMoney().subtract(fee);
     		hasToPayFees.getLimit().checkLimit(newAccountMoney);
     		hasToPayFees.setMoney(newAccountMoney);
+    		
+    		final PersistentMoney newMoney = debitTransfer.getSender().getMoney().subtract(debitTransfer.fetchRealMoney());
+    		debitTransfer.getSender().getLimit().checkLimit(newMoney);
+    		debitTransfer.getSender().setMoney(newMoney);
+    		
     		getThis().getOwnAccount().getAccount().setMoney(getThis().getOwnAccount().getAccount().getMoney().add(fee));
 			result.receiveTransfer(debitTransfer);
     	} catch (ExecuteException e) {

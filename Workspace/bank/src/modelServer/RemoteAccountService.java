@@ -14,6 +14,42 @@ public  class RemoteAccountService extends RemoteService {
 
 	 
 
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> a_Path_In_AnswerAcceptWithTrigger(){
+        try {
+            PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerAcceptWithTrigger();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> a_Path_In_AnswerAccept(){
+        try {
+            PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerAccept();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> a_Path_In_AnswerDecline(){
+        try {
+            PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerDecline();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_AddToTransactionTemplate(){
         try {
             DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_AddToTransactionTemplate();
@@ -52,6 +88,18 @@ public  class RemoteAccountService extends RemoteService {
         try {
             DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).dtr_Path_In_RequestCompensation();
             return createOKResult(result.getVector(1, 0, false, this, false, true));
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> grant_Path_In_Remove(){
+        try {
+            PersistentDebitGrantListe result = ((PersistentAccountService)this.server).grant_Path_In_Remove();
+            return createOKResult(result, 1, this);
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
         }catch(model.UserException e0){
@@ -108,6 +156,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -118,6 +168,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -128,6 +180,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -407,6 +461,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToRemoveDebitGrantException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -417,6 +473,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

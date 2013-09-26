@@ -310,6 +310,7 @@ public class Cache {
 		this.number2NameMap.put(177, "Debit");
 		this.number2NameMap.put(191, "DebitGrant");
 		this.number2NameMap.put(202, "DebitGrantListe");
+		this.number2NameMap.put(286, "DebitGrantListePx");
 		this.number2NameMap.put(228, "DebitTransferDoubleState");
 		this.number2NameMap.put(211, "DebitTransferListe");
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");

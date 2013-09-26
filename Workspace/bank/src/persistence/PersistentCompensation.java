@@ -46,7 +46,7 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
     public void executeCompensation() 
 				throws PersistenceException;
     public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
@@ -54,17 +54,17 @@ public interface PersistentCompensation extends SubjInterface, Anything, Abstrac
     public void pendingRequests_update(final model.meta.CompensationRequestMssgs event) 
 				throws PersistenceException;
     public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     /**
      * Sends compensation requests to all participants in all debits and transfers.
      */
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     /**
      * Sends compensation requests to all participants in the debit or transfer.
      */
     public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
 
 }
 

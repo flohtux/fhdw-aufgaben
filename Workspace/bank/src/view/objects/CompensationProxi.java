@@ -39,38 +39,26 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getRequestingAccount() != null) return new RequestingAccountCompensationWrapper(this, originalIndex, (ViewRoot)this.getRequestingAccount());
-        if(this.getRequestingAccount() != null) index = index - 1;
         if(index < this.getPendingRequests().size()) return new PendingRequestsCompensationWrapper(this, originalIndex, (ViewRoot)this.getPendingRequests().get(index));
         index = index - this.getPendingRequests().size();
-        if(index == 0 && this.getState() != null) return new StateCompensationWrapper(this, originalIndex, (ViewRoot)this.getState());
-        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getRequestingAccount() == null ? 0 : 1)
-            + (this.getPendingRequests().size())
-            + (this.getState() == null ? 0 : 1);
+            + (this.getPendingRequests().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getRequestingAccount() == null ? true : false)
-            && (this.getPendingRequests().size() == 0)
-            && (this.getState() == null ? true : false);
+            && (this.getPendingRequests().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getRequestingAccount() != null && this.getRequestingAccount().equals(child)) return result;
-        if(this.getRequestingAccount() != null) result = result + 1;
         java.util.Iterator<?> getPendingRequestsIterator = this.getPendingRequests().iterator();
         while(getPendingRequestsIterator.hasNext()){
             if(getPendingRequestsIterator.next().equals(child)) return result;
             result = result + 1;
         }
-        if(this.getState() != null && this.getState().equals(child)) return result;
-        if(this.getState() != null) result = result + 1;
         return -1;
     }
     

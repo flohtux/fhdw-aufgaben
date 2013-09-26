@@ -30,6 +30,7 @@ import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitGrantListePx;
 import persistence.PersistentDebitTransferDoubleState;
 import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
@@ -115,7 +116,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleAccount(PersistentAccount account)
 			throws PersistenceException {
 		this.result = String.format(serverConstants.ToStringConstants.AccountPrefix, 
-				new Long(account.getAccountNumber()).toString(),new Long(account.getBank().getBankNumber()).toString());
+				new Long(account.getAccountNumber()).toString(),account.getBank() == null ? "?" : new Long(account.getBank().getBankNumber()).toString());
 	}
 	@Override
 	public void handleBankCreator(PersistentBankCreator bankCreator)
@@ -175,9 +176,9 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebit(PersistentDebit Debit)
 			throws PersistenceException {
-		this.result = serverConstants.ToStringConstants.DebitPrefix + Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
-				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().getAccountNumber() + 
-				serverConstants.ToStringConstants.BracketClose;
+		this.result = serverConstants.ToStringConstants.DebitPrefix +Debit.getSubject()+serverConstants.ToStringConstants.BracketOpen+
+				Debit.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + Debit.getSender().toString(true)+ serverConstants.ToStringConstants.SendToSymbol +
+				String.format(serverConstants.ToStringConstants.AccountPrefix, Debit.getReceiverAccountNumber(), Debit.getReceiverBankNumber()) + serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleTemplateState(PersistentTemplateState templateState)
@@ -238,8 +239,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleTransfer(PersistentTransfer transfer)
 			throws PersistenceException {
 		this.result = serverConstants.ToStringConstants.TransferPrefix +transfer.getSubject()+serverConstants.ToStringConstants.BracketOpen+
-				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().toString(true)+
-				serverConstants.ToStringConstants.BracketClose;
+				transfer.getMoney().toString(true) + serverConstants.ToStringConstants.SenderPrefix + transfer.getSender().toString(true)+ serverConstants.ToStringConstants.SendToSymbol +
+				String.format(serverConstants.ToStringConstants.AccountPrefix, transfer.getReceiverAccountNumber(), transfer.getReceiverBankNumber()) + serverConstants.ToStringConstants.BracketClose;
 	}
 	@Override
 	public void handleLimitAccount(PersistentLimitAccount limitAccount)
@@ -475,7 +476,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	
-	
+	@Override
+	public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException {
+		this.result = debitGrantListePx.getD1().toString(true);
+	}
 
 
 }

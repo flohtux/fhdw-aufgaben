@@ -7,8 +7,8 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
-    public void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
+    public void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public void handleSubj(PersistentSubj subj) throws PersistenceException;
     public void handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException;
     public void handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
@@ -65,6 +65,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
+    public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;
     public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException;
     public void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     

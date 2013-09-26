@@ -19,6 +19,8 @@ public class ExceptionMessages {
 	public static final String NoValidPercentValueMessage = "Kein gültiger Wert für Prozent.";
 	public static final String NoValidFeeValueMessage = "Kein gültiger Wert für die Gebühren";
 	public static final String CompensationAbortOneDecline = "Ein Kontoinhaber hat die Kompensation verweigert.";
+	public static final String NoPermissionToRemoveDebitGrantMessage = "Eine Erlaubnis kann nur vom Ersteller zurückgezogen werden.";
+	public static final String NoPermissionToAnswerRequestOfForeignAccountMessage = "Es können nur eigene Anfragen beantwortet werden!";
 	
 
 	private ExceptionMessages(){}

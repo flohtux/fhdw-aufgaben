@@ -78,7 +78,7 @@ public class DebitGrantListeICProxi extends PersistentInCacheProxiOptimistic imp
         ((PersistentDebitGrantListe)this.getTheObject()).register(observee);
     }
     public void remove(final PersistentAccountPx acc) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).remove(acc);
     }
     public void updateObservers(final model.meta.Mssgs event) 
@@ -106,7 +106,7 @@ public class DebitGrantListeICProxi extends PersistentInCacheProxiOptimistic imp
         ((PersistentDebitGrantListe)this.getTheObject()).initializeOnInstantiation();
     }
     public void removeImplementation(final PersistentAccountPx acc) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentDebitGrantListe)this.getTheObject()).removeImplementation(acc);
     }
 

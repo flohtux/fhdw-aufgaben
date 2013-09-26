@@ -132,7 +132,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getGrantedDebitGrant();
     }
-    public PersistentDebitGrantListe getReceivedDebitGrant() 
+    public PersistentDebitGrantListePx getReceivedDebitGrant() 
 				throws PersistenceException{
         return ((PersistentAccount)this.getTheObject()).getReceivedDebitGrant();
     }
@@ -149,7 +149,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).register(observee);
     }
     public void remove(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).remove(acc, list);
     }
     public void setAllCompensation(final PersistentAllCompensationListe allCompensation) 
@@ -160,7 +160,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).setGrantedDebitGrant(grantedDebitGrant);
     }
-    public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
+    public void setReceivedDebitGrant(final PersistentDebitGrantListePx receivedDebitGrant) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).setReceivedDebitGrant(receivedDebitGrant);
     }
@@ -193,15 +193,15 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).allCompensation_update(event);
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).answerAcceptWithTrigger(a);
     }
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).answerAccept(a);
     }
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).answerDecline(a);
     }
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
@@ -284,7 +284,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).initializeOnInstantiation();
     }
-    public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
+    public void receivedDebitGrant_update(final model.meta.DebitGrantListePxMssgs event) 
 				throws PersistenceException{
         ((PersistentAccount)this.getTheObject()).receivedDebitGrant_update(event);
     }
@@ -293,11 +293,11 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
     }
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).removeImplementation(acc, list);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccount)this.getTheObject()).requestCompensation(dtr);
     }
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 

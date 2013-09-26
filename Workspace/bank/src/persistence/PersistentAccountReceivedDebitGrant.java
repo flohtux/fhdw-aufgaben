@@ -8,8 +8,8 @@ public interface PersistentAccountReceivedDebitGrant extends Anything, ObsInterf
     
     public PersistentAccount getObserver() throws PersistenceException ;
     public void setObserver(PersistentAccount newValue) throws PersistenceException ;
-    public PersistentDebitGrantListe getObservee() throws PersistenceException ;
-    public void setObservee(PersistentDebitGrantListe newValue) throws PersistenceException ;
+    public PersistentDebitGrantListePx getObservee() throws PersistenceException ;
+    public void setObservee(PersistentDebitGrantListePx newValue) throws PersistenceException ;
     public PersistentAccountReceivedDebitGrant getThis() throws PersistenceException ;
     
     public void accept(AnythingVisitor visitor) throws PersistenceException;

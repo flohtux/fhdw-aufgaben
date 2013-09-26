@@ -32,6 +32,8 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
+import persistence.PersistentCompensationRequest;
+import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentInternalFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentProxi;
@@ -39,9 +41,10 @@ import persistence.PersistentService;
 import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
+import persistence.Procdure;
+import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
 import common.Fraction;
 
 
@@ -319,6 +322,23 @@ public class BankService extends model.Service implements PersistentBankService{
         if(!acc.getMoney().getAmount().getBalance().equals(Fraction.Null)) {
         	throw new CloseAccountNoPossibleException();
         }else {
+        	try {
+				acc.getAllCompensation().getPendingCompensationRequests().getCompensationrequests().applyToAllException(new ProcdureException<PersistentCompensationRequest, NoPermissionToAnswerRequestOfForeignAccountException>() {
+					@Override
+					public void doItTo(PersistentCompensationRequest argument) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
+						acc.answerDecline(argument);
+						
+					}
+				});
+			} catch (NoPermissionToAnswerRequestOfForeignAccountException e) {
+				throw new CloseAccountNoPossibleException(e.getMessage());
+			}
+        	acc.getDebitTransferTransactions().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+				public void doItTo(PersistentDebitTransferTransaction argument) throws PersistenceException {
+					argument.changeState(CompensatedState.createCompensatedState());
+				}
+			});
+        	
         	acc.getAccountService().delete$Me();
             acc.delete$Me();
             getThis().getBank().getAccounts().remove(acc.getAccountNumber());
@@ -338,6 +358,7 @@ public class BankService extends model.Service implements PersistentBankService{
         transfer.setReceiverBankNumber(transAcc.getBank().getBankNumber());
         transfer.setMoney(acc.getMoney());
         transfer.setSubject(viewConstants.BankServiceConstants.CloseAccountTransferSubject);
+        transfer.changeState(CompensationRequestedState.createCompensationRequestedState());
         transfer.execute(getThis().getBank().getOwnAccount().getAccount(), getThis());
     }
     public void connected(final String user) 

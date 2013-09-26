@@ -107,7 +107,7 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
         ((PersistentCompensation)this.getTheObject()).executeCompensation();
     }
     public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentCompensation)this.getTheObject()).initializeDebitTransferTransaction(dtt);
     }
     public void initializeOnCreation() 
@@ -123,15 +123,15 @@ public class CompensationProxi extends PersistentProxi implements PersistentComp
         ((PersistentCompensation)this.getTheObject()).pendingRequests_update(event);
     }
     public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransferTransaction(debitTransferTransaction);
     }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfers(debitTransfers);
     }
     public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentCompensation)this.getTheObject()).requestCompensationForDebitTransfer(debitTransfer);
     }
 

@@ -9,6 +9,7 @@ import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
 import model.visitor.SubjInterfaceVisitor;
+import persistence.Aggregtion;
 import persistence.Anything;
 import persistence.ConnectionHandler;
 import persistence.DebitGrantListeProxi;
@@ -24,6 +25,7 @@ import persistence.PersistentProxi;
 import persistence.Predcate;
 import persistence.SubjInterface;
 import persistence.TDObserver;
+import model.NoPermissionToRemoveDebitGrantException;
 
 
 /* Additional import section end */
@@ -234,7 +236,7 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
 		subService.register(observee);
     }
     public void remove(final PersistentAccountPx acc) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         model.meta.DebitGrantListeRemoveAccountPxMssg event = new model.meta.DebitGrantListeRemoveAccountPxMssg(acc, getThis());
 		event.execute();
 		getThis().updateObservers(event);
@@ -283,7 +285,20 @@ public class DebitGrantListe extends PersistentObject implements PersistentDebit
 				throws PersistenceException{
     }
     public void removeImplementation(final PersistentAccountPx acc) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
+    	boolean containsAcc = getThis().getDebitGrants().aggregate(new Aggregtion<PersistentDebitGrant, Boolean>() {
+			public Boolean neutral() throws PersistenceException {
+				return false;
+			}
+			public Boolean compose(Boolean result, PersistentDebitGrant argument) throws PersistenceException {
+				return result || argument.getPermittedAccount().getAccount().equals(acc.getAccount());
+			}
+		});
+    	
+    	if (!containsAcc) {
+    		throw new NoPermissionToRemoveDebitGrantException();
+    	}
+    	
         getThis().getDebitGrants().removeFirstSuccess(new Predcate<PersistentDebitGrant>() {
 			@Override
 			public boolean test(PersistentDebitGrant argument)

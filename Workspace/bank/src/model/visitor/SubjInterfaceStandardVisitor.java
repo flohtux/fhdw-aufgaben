@@ -209,6 +209,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
         this.standardHandling(declinedState);
     }
+    public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException{
+        this.standardHandling(debitGrantListePx);
+    }
     public void handleDebitGrant(PersistentDebitGrant debitGrant) throws PersistenceException{
         this.standardHandling(debitGrant);
     }

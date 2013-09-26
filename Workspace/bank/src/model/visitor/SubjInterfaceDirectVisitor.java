@@ -189,6 +189,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     
+    public abstract void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;
+    
     public abstract void handleCompensationState(PersistentCompensationState compensationState) throws PersistenceException;
     
     public void handleWaitingCompensationState(PersistentWaitingCompensationState waitingCompensationState) throws PersistenceException{

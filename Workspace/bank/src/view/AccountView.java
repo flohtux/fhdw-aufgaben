@@ -16,8 +16,8 @@ public interface AccountView extends Anything, AbstractViewRoot {
     public void setDebitTransferTransactions(java.util.Vector<DebitTransferTransactionView> newValue) throws ModelException ;
     public DebitGrantListeView getGrantedDebitGrant()throws ModelException;
     public void setGrantedDebitGrant(DebitGrantListeView newValue) throws ModelException ;
-    public DebitGrantListeView getReceivedDebitGrant()throws ModelException;
-    public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException ;
+    public DebitGrantListePxView getReceivedDebitGrant()throws ModelException;
+    public void setReceivedDebitGrant(DebitGrantListePxView newValue) throws ModelException ;
     public TriggerListeView getTriggerListe()throws ModelException;
     public void setTriggerListe(TriggerListeView newValue) throws ModelException ;
     public AllCompensationListeView getAllCompensation()throws ModelException;

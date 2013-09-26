@@ -901,6 +901,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleDeclinedState(view.DeclinedStateView object){
         result = new DeclinedStateDefaultDetailPanel(handler, object);
     }
+    public void handleDebitGrantListePx(view.DebitGrantListePxView object){
+        result = new DebitGrantListePxDefaultDetailPanel(handler, object);
+    }
     public void handleCompensationRequestListe(view.CompensationRequestListeView object){
         result = new CompensationRequestListeDefaultDetailPanel(handler, object);
     }
@@ -912,9 +915,7 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
 @SuppressWarnings("serial")
 class CompensationDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String Compensation$$requestingAccount = "Compensation$$requestingAccount";
     protected static final String Compensation$$pendingRequests = "Compensation$$pendingRequests";
-    protected static final String Compensation$$state = "Compensation$$state";
     
     protected CompensationDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1297,8 +1298,6 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 class CompensationRequestDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CompensationRequest$$debitTransfer = "CompensationRequest$$debitTransfer";
-    protected static final String CompensationRequest$$masterCompensation = "CompensationRequest$$masterCompensation";
-    protected static final String CompensationRequest$$state = "CompensationRequest$$state";
     
     protected CompensationRequestDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1667,12 +1666,8 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
     protected static final String DebitTransferTransaction$$subject = "DebitTransferTransaction$$subject";
-    protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
-    protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
-    protected static final String DebitTransfer$$nextDebitTransferTransactionstriggers = "DebitTransfer$$nextDebitTransferTransactionstriggers";
-    protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1774,12 +1769,8 @@ class DebitDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
     protected static final String DebitTransferTransaction$$subject = "DebitTransferTransaction$$subject";
-    protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
-    protected static final String DebitTransfer$$invokerTrigger = "DebitTransfer$$invokerTrigger";
-    protected static final String DebitTransfer$$nextDebitTransferTransactionstriggers = "DebitTransfer$$nextDebitTransferTransactionstriggers";
-    protected static final String DebitTransfer$$previousDebitTransfer = "DebitTransfer$$previousDebitTransfer";
     
     protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1862,7 +1853,6 @@ class AccountDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Account$$accountNumber = "Account$$accountNumber";
     protected static final String Account$$money = "Account$$money";
     protected static final String Account$$limit = "Account$$limit";
-    protected static final String Account$$debitTransferTransactions = "Account$$debitTransferTransactions";
     protected static final String Account$$grantedDebitGrant = "Account$$grantedDebitGrant";
     protected static final String Account$$receivedDebitGrant = "Account$$receivedDebitGrant";
     protected static final String Account$$triggerListe = "Account$$triggerListe";
@@ -2005,7 +1995,6 @@ class TransactionDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String DebitTransferTransaction$$timestamp = "DebitTransferTransaction$$timestamp";
     protected static final String DebitTransferTransaction$$subject = "DebitTransferTransaction$$subject";
-    protected static final String DebitTransferTransaction$$state = "DebitTransferTransaction$$state";
     protected static final String Transaction$$debitTransfer = "Transaction$$debitTransfer";
     
     protected TransactionDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -2139,6 +2128,22 @@ class DeclinedStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DeclinedStateView getAnything(){
         return (view.DeclinedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitGrantListePxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitGrantListePx$$d1 = "DebitGrantListePx$$d1";
+    
+    protected DebitGrantListePxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitGrantListePxView getAnything(){
+        return (view.DebitGrantListePxView)this.anything;
     }
 }
 

@@ -100,6 +100,18 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     }
     
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAcceptWithTrigger() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).a_Path_In_AnswerAcceptWithTrigger();
+    }
+    public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).a_Path_In_AnswerAccept();
+    }
+    public PersistentCompensationRequestListe a_Path_In_AnswerDecline() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).a_Path_In_AnswerDecline();
+    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
 				throws model.UserException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransactionTemplate();
@@ -139,6 +151,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     public PersistentDebitTransferTemplate getTemplate() 
 				throws PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).getTemplate();
+    }
+    public PersistentDebitGrantListe grant_Path_In_Remove() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).grant_Path_In_Remove();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -189,15 +205,15 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
         ((PersistentAccountService)this.getTheObject()).addToTransaction(transaction, debitTransfer);
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).answerAcceptWithTrigger(a);
     }
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).answerAccept(a);
     }
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).answerDecline(a);
     }
     public void bankFees_update(final model.meta.BankFeesMssgs event) 
@@ -337,11 +353,11 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
         ((PersistentAccountService)this.getTheObject()).removeFromTransaction(transaction, debitTransfer);
     }
     public void remove(final PersistentDebitGrant grant) 
-				throws PersistenceException{
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).remove(grant);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).requestCompensation(dtr);
     }
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 

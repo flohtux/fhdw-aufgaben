@@ -35,6 +35,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException, E;
     public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException, E;
     public void handleBankFees(BankFeesView bankFees) throws ModelException, E;
+    public void handleDebitGrantListePx(DebitGrantListePxView debitGrantListePx) throws ModelException, E;
     public void handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException, E;
     
 }

@@ -203,10 +203,6 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
          return visitor.handleDebit(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getState() != null) return 1;
-        if (this.getInvokerTrigger() != null) return 1;
-        if (this.getPreviousDebitTransfer() != null) return 1;
-        if (this.getNextDebitTransferTransactionstriggers().getLength() > 0) return 1;
         return 0;
     }
     

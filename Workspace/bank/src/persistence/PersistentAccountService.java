@@ -33,6 +33,12 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAcceptWithTrigger() 
+				throws model.UserException, PersistenceException;
+    public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException;
+    public PersistentCompensationRequestListe a_Path_In_AnswerDecline() 
+				throws model.UserException, PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
 				throws model.UserException, PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 
@@ -49,6 +55,8 @@ public interface PersistentAccountService extends PersistentService {
 				throws PersistenceException;
     public PersistentDebitTransferTemplate getTemplate() 
 				throws PersistenceException;
+    public PersistentDebitGrantListe grant_Path_In_Remove() 
+				throws model.UserException, PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void setBankFees(final PersistentBankFees bankFees) 
@@ -68,11 +76,11 @@ public interface PersistentAccountService extends PersistentService {
     public void addToTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void bankFees_update(final model.meta.BankFeesMssgs event) 
 				throws PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final String currency) 
@@ -130,9 +138,9 @@ public interface PersistentAccountService extends PersistentService {
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void remove(final PersistentDebitGrant grant) 
-				throws PersistenceException;
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void successful_update(final model.meta.DebitTransferSuccessfulMssgs event) 
 				throws PersistenceException;
     public void template_update(final model.meta.DebitTransferTemplateMssgs event) 

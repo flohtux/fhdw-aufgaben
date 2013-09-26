@@ -16,9 +16,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleBankService(PersistentBankService bankService) throws PersistenceException{
         this.handleService(bankService);
     }
-    public abstract void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
-    
     public abstract void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
+    
+    public abstract void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
     
     public abstract void handleDebitTransferTransaction(PersistentDebitTransferTransaction debitTransferTransaction) throws PersistenceException;
     
@@ -274,6 +274,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleAccountServiceNotExecuted(PersistentAccountServiceNotExecuted accountServiceNotExecuted) throws PersistenceException;
     
     public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
+    
+    public abstract void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;
     
     public abstract void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException;
     

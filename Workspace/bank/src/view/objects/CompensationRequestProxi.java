@@ -19,6 +19,13 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
+        ViewProxi hasToAnswer = null;
+        String hasToAnswer$String = (String)resultTable.get("hasToAnswer");
+        if (hasToAnswer$String != null) {
+            common.ProxiInformation hasToAnswer$Info = common.RPCConstantsAndServices.createProxiInformation(hasToAnswer$String);
+            hasToAnswer = view.objects.ViewProxi.createProxi(hasToAnswer$Info,connectionKey);
+            hasToAnswer.setToString(hasToAnswer$Info.getToString());
+        }
         ViewProxi masterCompensation = null;
         String masterCompensation$String = (String)resultTable.get("masterCompensation");
         if (masterCompensation$String != null) {
@@ -33,7 +40,7 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
             state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
             state.setToString(state$Info.getToString());
         }
-        CompensationRequestView result$$ = new CompensationRequest((DebitTransferView)debitTransfer,(CompensationView)masterCompensation,(CompensationRequestStateView)state, this.getId(), this.getClassId());
+        CompensationRequestView result$$ = new CompensationRequest((DebitTransferView)debitTransfer,(AccountView)hasToAnswer,(CompensationView)masterCompensation,(CompensationRequestStateView)state, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -45,33 +52,21 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
         int index = originalIndex;
         if(index == 0 && this.getDebitTransfer() != null) return new DebitTransferCompensationRequestWrapper(this, originalIndex, (ViewRoot)this.getDebitTransfer());
         if(this.getDebitTransfer() != null) index = index - 1;
-        if(index == 0 && this.getMasterCompensation() != null) return new MasterCompensationCompensationRequestWrapper(this, originalIndex, (ViewRoot)this.getMasterCompensation());
-        if(this.getMasterCompensation() != null) index = index - 1;
-        if(index == 0 && this.getState() != null) return new StateCompensationRequestWrapper(this, originalIndex, (ViewRoot)this.getState());
-        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getDebitTransfer() == null ? 0 : 1)
-            + (this.getMasterCompensation() == null ? 0 : 1)
-            + (this.getState() == null ? 0 : 1);
+            + (this.getDebitTransfer() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getDebitTransfer() == null ? true : false)
-            && (this.getMasterCompensation() == null ? true : false)
-            && (this.getState() == null ? true : false);
+            && (this.getDebitTransfer() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getDebitTransfer() != null && this.getDebitTransfer().equals(child)) return result;
         if(this.getDebitTransfer() != null) result = result + 1;
-        if(this.getMasterCompensation() != null && this.getMasterCompensation().equals(child)) return result;
-        if(this.getMasterCompensation() != null) result = result + 1;
-        if(this.getState() != null && this.getState().equals(child)) return result;
-        if(this.getState() != null) result = result + 1;
         return -1;
     }
     
@@ -80,6 +75,12 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
     }
     public void setDebitTransfer(DebitTransferView newValue) throws ModelException {
         ((CompensationRequest)this.getTheObject()).setDebitTransfer(newValue);
+    }
+    public AccountView getHasToAnswer()throws ModelException{
+        return ((CompensationRequest)this.getTheObject()).getHasToAnswer();
+    }
+    public void setHasToAnswer(AccountView newValue) throws ModelException {
+        ((CompensationRequest)this.getTheObject()).setHasToAnswer(newValue);
     }
     public CompensationView getMasterCompensation()throws ModelException{
         return ((CompensationRequest)this.getTheObject()).getMasterCompensation();

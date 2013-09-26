@@ -14,17 +14,18 @@ import javax.swing.tree.TreeSelectionModel;
 import model.meta.StringFACTORY;
 import persistence.PersistenceException;
 import rGType.CharacterValue;
+import view.AcceptedStateView;
 import view.AccountServiceView;
 import view.Anything;
 import view.CompensatedStateView;
 import view.CompensationRequestView;
 import view.CompensationRequestedStateView;
-import view.DebitGrantListeView;
 import view.DebitGrantView;
 import view.DebitTransferStateView;
 import view.DebitTransferTransactionView;
 import view.DebitTransferView;
 import view.DebitView;
+import view.DeclinedStateView;
 import view.DisabledStateView;
 import view.DoubleRuleDefinitionException;
 import view.EnabledStateView;
@@ -37,7 +38,9 @@ import view.InvalidAccountNumberException;
 import view.InvalidBankNumberException;
 import view.ModelException;
 import view.MoneyRuleView;
+import view.NoPermissionToAnswerRequestOfForeignAccountException;
 import view.NoPermissionToExecuteDebitTransferException;
+import view.NoPermissionToRemoveDebitGrantException;
 import view.NoRuleDefinitionException;
 import view.NoTriggerView;
 import view.NotExecutableStateView;
@@ -52,13 +55,16 @@ import view.TransferView;
 import view.TriggerView;
 import view.TrueValueView;
 import view.UserException;
+import view.WaitingStateView;
 import view.objects.ViewRoot;
 import view.visitor.BooleanValueReturnVisitor;
+import view.visitor.CompensationRequestStateReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
-import view.visitor.DebitTransferTransactionReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
 import view.visitor.TriggerValueReturnVisitor;
+
 import common.Fraction;
+
 import expressions.RegularExpressionHandler;
 
 
@@ -901,6 +907,36 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                 }
             }
             if (selected instanceof DebitTransferTransactionView){
+                if (this.filterExecuteTransfer((DebitTransferTransactionView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("Buchung abschicken");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Buchung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().executeTransfer((DebitTransferTransactionView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }catch (NoPermissionToExecuteDebitTransferException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }catch (ExecuteException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
                 if (this.filterRequestCompensation((DebitTransferTransactionView) selected)) {
                     item = new javax.swing.JMenuItem();
                     item.setText("Rückbuchung anfordern");
@@ -912,6 +948,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }
@@ -937,24 +979,68 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     });
                     result.add(item);
                 }
-                if (this.filterExecuteTransfer((DebitTransferTransactionView) selected)) {
+            }
+            if (selected instanceof CompensationRequestView){
+                if (this.filterAnswerDecline((CompensationRequestView) selected)) {
                     item = new javax.swing.JMenuItem();
-                    item.setText("Überweisung abschicken");
+                    item.setText("ablehnen");
                     item.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
-                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "Überweisung abschicken" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "ablehnen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
                                 try {
-                                    getConnection().executeTransfer((DebitTransferTransactionView)selected);
+                                    getConnection().answerDecline((CompensationRequestView)selected);
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
-                                }catch (NoPermissionToExecuteDebitTransferException userException){
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
                                     ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
                                     view.setLocationRelativeTo(getNavigationPanel());
                                     view.setVisible(true);
                                     view.repaint();
                                     getConnection().setEagerRefresh();
-                                }catch (ExecuteException userException){
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterAnswerAcceptWithTrigger((CompensationRequestView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("annehmen wenn auch Folgebuchungen kompensiert werden können");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "annehmen wenn auch Folgebuchungen kompensiert werden können" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().answerAcceptWithTrigger((CompensationRequestView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
+                                }
+                            }
+                        }
+                        
+                    });
+                    result.add(item);
+                }
+                if (this.filterAnswerAccept((CompensationRequestView) selected)) {
+                    item = new javax.swing.JMenuItem();
+                    item.setText("annehmen");
+                    item.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent e) {
+                            if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "annehmen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
+                                try {
+                                    getConnection().answerAccept((CompensationRequestView)selected);
+                                    getConnection().setEagerRefresh();
+                                }catch(ModelException me){
+                                    handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
                                     ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
                                     view.setLocationRelativeTo(getNavigationPanel());
                                     view.setVisible(true);
@@ -968,56 +1054,6 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                     result.add(item);
                 }
             }
-            if (selected instanceof CompensationRequestView){
-                item = new javax.swing.JMenuItem();
-                item.setText("ablehnen");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "ablehnen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().answerDecline((CompensationRequestView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("annehmen wenn auch Folgebuchungen kompensiert werden können");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "annehmen wenn auch Folgebuchungen kompensiert werden können" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().answerAcceptWithTrigger((CompensationRequestView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
-                    }
-                    
-                });
-                result.add(item);
-                item = new javax.swing.JMenuItem();
-                item.setText("annehmen");
-                item.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent e) {
-                        if (javax.swing.JOptionPane.showConfirmDialog(getNavigationPanel(), "annehmen" + Wizard.ConfirmQuestionMark, "Bestätigen", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE, null) == javax.swing.JOptionPane.YES_OPTION){
-                            try {
-                                getConnection().answerAccept((CompensationRequestView)selected);
-                                getConnection().setEagerRefresh();
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
-                    }
-                    
-                });
-                result.add(item);
-            }
             if (selected instanceof DebitGrantView){
                 item = new javax.swing.JMenuItem();
                 item.setText("Erlaubnis entziehen");
@@ -1029,6 +1065,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                 getConnection().setEagerRefresh();
                             }catch(ModelException me){
                                 handleException(me);
+                            }catch (NoPermissionToRemoveDebitGrantException userException){
+                                ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                view.setLocationRelativeTo(getNavigationPanel());
+                                view.setVisible(true);
+                                view.repaint();
+                                getConnection().setEagerRefresh();
                             }
                         }
                     }
@@ -2122,6 +2164,39 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 			return false;
 		}
 	}
+	
+	private boolean filterAnswerDecline(CompensationRequestView selected) {
+		try {
+			return selected.getState().accept(new CompensationRequestStateReturnVisitor<Boolean>() {
+
+				@Override
+				public Boolean handleAcceptedState(AcceptedStateView acceptedState) throws ModelException {
+					return false;
+				}
+
+				@Override
+				public Boolean handleWaitingState(WaitingStateView waitingState) throws ModelException {
+					return true;
+				}
+
+				@Override
+				public Boolean handleDeclinedState(DeclinedStateView declinedState) throws ModelException {
+					return false;
+				}
+			});
+		} catch (ModelException e) {
+			this.handleException(e);
+			return false;
+		}
+	}
+	
+	private boolean filterAnswerAcceptWithTrigger(CompensationRequestView selected) {
+		return this.filterAnswerDecline(selected);
+	}
+	private boolean filterAnswerAccept(CompensationRequestView selected) {
+		return this.filterAnswerDecline(selected);
+	}
+
 
 
 }

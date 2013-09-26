@@ -35,6 +35,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends UserException>
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
     public R handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException, E;
     public R handleBankFees(PersistentBankFees bankFees) throws PersistenceException, E;
+    public R handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException, E;
     public R handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException, E;
     
 }

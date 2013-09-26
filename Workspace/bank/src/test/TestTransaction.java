@@ -70,7 +70,7 @@ public class TestTransaction{
 		trans.add(newTrans1);
 		trans.add(newTrans2);
 		newTrans.addToTransaction(trans);
-		newTrans.execute();
+		newTrans.execute(acc1);
 
 		assertEquals(new Fraction(20, 1), acc2.getMoney().getAmount().getBalance());
 		assertEquals(new Fraction(-20, 1), acc1.getMoney().getAmount().getBalance());
@@ -102,7 +102,7 @@ public class TestTransaction{
 		transList.add(newTrans2);
 		newTrans.addToTransaction(transList);
 		try {
-		newTrans.execute();
+		newTrans.execute(acc1);
 		}catch(InvalidBankNumberException e) {
 			assertTrue(true);
 		}

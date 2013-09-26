@@ -5,11 +5,11 @@ import persistence.*;
 
 public abstract class AnythingStandardVisitor implements AnythingVisitor {
     
-    public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException{
-        this.standardHandling(accountReceivedDebitGrant);
-    }
     public void handleCompensation(PersistentCompensation compensation) throws PersistenceException{
         this.standardHandling(compensation);
+    }
+    public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException{
+        this.standardHandling(accountReceivedDebitGrant);
     }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
@@ -301,6 +301,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException{
         this.standardHandling(declinedState);
+    }
+    public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException{
+        this.standardHandling(debitGrantListePx);
     }
     public void handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException{
         this.standardHandling(accountServiceBankFees);

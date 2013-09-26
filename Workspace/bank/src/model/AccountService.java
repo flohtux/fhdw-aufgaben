@@ -55,6 +55,7 @@ import persistence.PersistentBankFees;
 import persistence.PersistentBooleanValue;
 import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestListe;
 import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -429,6 +430,24 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAcceptWithTrigger() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getAllCompensation().
+                getPendingCompensationRequests();
+    }
+    public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getAllCompensation().
+                getPendingCompensationRequests();
+    }
+    public PersistentCompensationRequestListe a_Path_In_AnswerDecline() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getAllCompensation().
+                getPendingCompensationRequests();
+    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
 				throws model.UserException, PersistenceException{
         	return new DebitTransferTransactionSearchList(getThis().getTemplate().
@@ -478,6 +497,11 @@ public class AccountService extends model.Service implements PersistentAccountSe
 				throws PersistenceException{
         if (this.template== null) return null;
 		return this.template.getObservee();
+    }
+    public PersistentDebitGrantListe grant_Path_In_Remove() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getGrantedDebitGrant();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -568,18 +592,18 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().signalChanged(true);
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().answerAcceptWithTrigger(a);
         getThis().signalChanged(true);        
     }
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().answerAccept(a);
         getThis().signalChanged(true);
         
     }
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().answerDecline(a);
         getThis().signalChanged(true);
         
@@ -789,13 +813,13 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().signalChanged(true);
     }
     public void remove(final PersistentDebitGrant grant) 
-				throws PersistenceException{
-    	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
+				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
+    	getThis().getAccount().getReceivedDebitGrant().getD1().remove(grant.getPermittedAccount());
     	grant.getPermittedAccount().getAccount().getGrantedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
     	getThis().signalChanged(true);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().requestCompensation(dtr);
         getThis().signalChanged(true);
         

@@ -7,8 +7,8 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     
     public R handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
-    public R handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public R handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException;
+    public R handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public R handleSubj(PersistentSubj subj) throws PersistenceException;
     public R handleChangeNameCommand(PersistentChangeNameCommand changeNameCommand) throws PersistenceException;
     public R handleDebitTransferListe(PersistentDebitTransferListe debitTransferListe) throws PersistenceException;
@@ -65,6 +65,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public R handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public R handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
+    public R handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;
     public R handleAccountServiceBankFees(PersistentAccountServiceBankFees accountServiceBankFees) throws PersistenceException;
     public R handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     

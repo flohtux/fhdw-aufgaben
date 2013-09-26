@@ -202,6 +202,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleBankFees(BankFeesView bankFees) throws ModelException;
     
+    public abstract void handleDebitGrantListePx(DebitGrantListePxView debitGrantListePx) throws ModelException;
+    
     public abstract void handleDebitGrant(DebitGrantView debitGrant) throws ModelException;
     
     public abstract void handleBankCreator(BankCreatorView bankCreator) throws ModelException;
