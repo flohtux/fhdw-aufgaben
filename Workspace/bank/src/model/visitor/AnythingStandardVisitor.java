@@ -164,17 +164,20 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException{
         this.standardHandling(falseValue);
     }
-    public void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException{
-        this.standardHandling(allCompensationListe);
-    }
     public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException{
         this.standardHandling(accountGrantedDebitGrant);
+    }
+    public void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException{
+        this.standardHandling(allCompensationListe);
     }
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
     }
     public void handleCreateAccountCommand(PersistentCreateAccountCommand createAccountCommand) throws PersistenceException{
         this.standardHandling(createAccountCommand);
+    }
+    public void handleNoPayedFees(PersistentNoPayedFees noPayedFees) throws PersistenceException{
+        this.standardHandling(noPayedFees);
     }
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
@@ -214,6 +217,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleTransfer(PersistentTransfer transfer) throws PersistenceException{
         this.standardHandling(transfer);
+    }
+    public void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException{
+        this.standardHandling(debitTransferPayedFees);
     }
     public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException{
         this.standardHandling(bankPx);

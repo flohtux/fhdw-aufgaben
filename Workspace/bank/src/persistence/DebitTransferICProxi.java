@@ -24,6 +24,12 @@ public abstract class DebitTransferICProxi extends DebitTransferTransactionICPro
     public void setReceiverBankNumber(long newValue) throws PersistenceException {
         ((PersistentDebitTransfer)this.getTheObject()).setReceiverBankNumber(newValue);
     }
+    public PersistentDebitTransferPayedFees getPayedFees() throws PersistenceException {
+        return ((PersistentDebitTransfer)this.getTheObject()).getPayedFees();
+    }
+    public void setPayedFees(PersistentDebitTransferPayedFees newValue) throws PersistenceException {
+        ((PersistentDebitTransfer)this.getTheObject()).setPayedFees(newValue);
+    }
     public PersistentAccount getReceiver() throws PersistenceException {
         return ((PersistentDebitTransfer)this.getTheObject()).getReceiver();
     }

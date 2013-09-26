@@ -165,10 +165,11 @@ public class ConnectionHandler {
     public BankCreatorFacade theBankCreatorFacade;
     public AcceptedStateFacade theAcceptedStateFacade;
     public FalseValueFacade theFalseValueFacade;
-    public AllCompensationListeFacade theAllCompensationListeFacade;
     public AccountGrantedDebitGrantFacade theAccountGrantedDebitGrantFacade;
+    public AllCompensationListeFacade theAllCompensationListeFacade;
     public CreateAccountCommandFacade theCreateAccountCommandFacade;
     public FixTransactionFeeFacade theFixTransactionFeeFacade;
+    public NoPayedFeesFacade theNoPayedFeesFacade;
     public InternalFeeFacade theInternalFeeFacade;
     public DebitTransferDoubleStateFacade theDebitTransferDoubleStateFacade;
     public CommonDateFacade theCommonDateFacade;
@@ -183,6 +184,7 @@ public class ConnectionHandler {
     public DebitTransferFacade theDebitTransferFacade;
     public BankServiceFacade theBankServiceFacade;
     public TransferFacade theTransferFacade;
+    public DebitTransferPayedFeesFacade theDebitTransferPayedFeesFacade;
     public CompensationStateFacade theCompensationStateFacade;
     public BankPxFacade theBankPxFacade;
     public CompensationPendingRequestsFacade theCompensationPendingRequestsFacade;
@@ -301,10 +303,11 @@ public class ConnectionHandler {
             this.theBankCreatorFacade= new BankCreatorFacade(this.schemaName, this.con);
             this.theAcceptedStateFacade= new AcceptedStateFacade(this.schemaName, this.con);
             this.theFalseValueFacade= new FalseValueFacade(this.schemaName, this.con);
-            this.theAllCompensationListeFacade= new AllCompensationListeFacade(this.schemaName, this.con);
             this.theAccountGrantedDebitGrantFacade= new AccountGrantedDebitGrantFacade(this.schemaName, this.con);
+            this.theAllCompensationListeFacade= new AllCompensationListeFacade(this.schemaName, this.con);
             this.theCreateAccountCommandFacade= new CreateAccountCommandFacade(this.schemaName, this.con);
             this.theFixTransactionFeeFacade= new FixTransactionFeeFacade(this.schemaName, this.con);
+            this.theNoPayedFeesFacade= new NoPayedFeesFacade(this.schemaName, this.con);
             this.theInternalFeeFacade= new InternalFeeFacade(this.schemaName, this.con);
             this.theDebitTransferDoubleStateFacade= new DebitTransferDoubleStateFacade(this.schemaName, this.con);
             this.theCommonDateFacade= new CommonDateFacade(this.schemaName, this.con);
@@ -319,6 +322,7 @@ public class ConnectionHandler {
             this.theDebitTransferFacade= new DebitTransferFacade(this.schemaName, this.con);
             this.theBankServiceFacade= new BankServiceFacade(this.schemaName, this.con);
             this.theTransferFacade= new TransferFacade(this.schemaName, this.con);
+            this.theDebitTransferPayedFeesFacade= new DebitTransferPayedFeesFacade(this.schemaName, this.con);
             this.theCompensationStateFacade= new CompensationStateFacade(this.schemaName, this.con);
             this.theBankPxFacade= new BankPxFacade(this.schemaName, this.con);
             this.theCompensationPendingRequestsFacade= new CompensationPendingRequestsFacade(this.schemaName, this.con);

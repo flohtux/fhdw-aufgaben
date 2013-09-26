@@ -102,6 +102,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferTemplate(DebitTransferTemplateView debitTransferTemplate) throws ModelException;
     
+    public abstract void handleDebitTransferPayedFees(DebitTransferPayedFeesView debitTransferPayedFees) throws ModelException;
+    
+    public void handleNoPayedFees(NoPayedFeesView noPayedFees) throws ModelException{
+        this.handleDebitTransferPayedFees(noPayedFees);
+    }
     public abstract void handleTriggerListe(TriggerListeView triggerListe) throws ModelException;
     
     public abstract void handleCompensationState(CompensationStateView compensationState) throws ModelException;
@@ -125,6 +130,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountPx(AccountPxView accountPx) throws ModelException;
     
+    public abstract void handleAccount(AccountView account) throws ModelException;
+    
     public abstract void handleTransactionFee(TransactionFeeView transactionFee) throws ModelException;
     
     public void handleMixedFee(MixedFeeView mixedFee) throws ModelException{
@@ -136,8 +143,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(ProcentualFeeView procentualFee) throws ModelException{
         this.handleTransactionFee(procentualFee);
     }
-    public abstract void handleAccount(AccountView account) throws ModelException;
-    
     public abstract void handleNoDebitTransfer(NoDebitTransferView noDebitTransfer) throws ModelException;
     
     public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;

@@ -314,6 +314,7 @@ public class Cache {
 		this.number2NameMap.put(228, "DebitTransferDoubleState");
 		this.number2NameMap.put(211, "DebitTransferListe");
 		this.number2NameMap.put(200, "DebitTransferNotExecuted");
+		this.number2NameMap.put(288, "DebitTransferPayedFees");
 		this.number2NameMap.put(197, "DebitTransferSuccessful");
 		this.number2NameMap.put(208, "DebitTransferTemplate");
 		this.number2NameMap.put(281, "DeclinedCompensationState");
@@ -340,6 +341,7 @@ public class Cache {
 		this.number2NameMap.put(232, "MoneyRule");
 		this.number2NameMap.put(276, "NoDebitTransfer");
 		this.number2NameMap.put(116, "NoLimit");
+		this.number2NameMap.put(287, "NoPayedFees");
 		this.number2NameMap.put(246, "NoTrigger");
 		this.number2NameMap.put(144, "NotExecutableState");
 		this.number2NameMap.put(210, "NotExecutedState");

@@ -3,7 +3,7 @@ package view.visitor;
 
 import view.*;
 
-public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,CompensationStateReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,RuleReturnVisitor<R> {
+public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,DebitTransferPayedFeesReturnVisitor<R> ,CompensationStateReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,RuleReturnVisitor<R> {
     
     public R handleCompensation(CompensationView compensation) throws ModelException;
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
@@ -25,6 +25,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleInternalFee(InternalFeeView internalFee) throws ModelException;
     public R handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     public R handleAmount(AmountView amount) throws ModelException;
+    public R handleDebitTransferPayedFees(DebitTransferPayedFeesView debitTransferPayedFees) throws ModelException;
     public R handleBankPx(BankPxView bankPx) throws ModelException;
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
     public R handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;

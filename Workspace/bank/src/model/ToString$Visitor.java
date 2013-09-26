@@ -34,6 +34,7 @@ import persistence.PersistentDebitGrantListePx;
 import persistence.PersistentDebitTransferDoubleState;
 import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
+import persistence.PersistentDebitTransferPayedFees;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDeclinedCompensationState;
@@ -57,6 +58,7 @@ import persistence.PersistentMoney;
 import persistence.PersistentMoneyRule;
 import persistence.PersistentNoDebitTransfer;
 import persistence.PersistentNoLimit;
+import persistence.PersistentNoPayedFees;
 import persistence.PersistentNoTrigger;
 import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
@@ -479,6 +481,16 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException {
 		this.result = debitGrantListePx.getD1().toString(true);
+	}
+	@Override
+	public void handleNoPayedFees(PersistentNoPayedFees noPayedFees) throws PersistenceException {
+		this.result = serverConstants.ToStringConstants.NoPayedFees;
+		
+	}
+	@Override
+	public void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException {
+		this.result = String.format(serverConstants.ToStringConstants.PayedFees, debitTransferPayedFees.getPayingAccount().toString(true), debitTransferPayedFees.getPayedFees().toString(true));
+		
 	}
 
 

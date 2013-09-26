@@ -3,6 +3,7 @@ package view.objects;
 
 import view.AccountView;
 import view.DebitTransferNoValue;
+import view.DebitTransferPayedFeesView;
 import view.DebitTransferStateView;
 import view.DebitTransferTransactionView;
 import view.DebitTransferView;
@@ -17,17 +18,19 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     
     protected long receiverAccountNumber;
     protected long receiverBankNumber;
+    protected DebitTransferPayedFeesView payedFees;
     protected AccountView receiver;
     protected MoneyView money;
     protected TriggerValueView invokerTrigger;
     protected java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers;
     protected DebitTransferNoValue previousDebitTransfer;
     
-    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferNoValue previousDebitTransfer,long id, long classId) {
+    public DebitTransfer(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,DebitTransferPayedFeesView payedFees,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferNoValue previousDebitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,id, classId);
         this.receiverAccountNumber = receiverAccountNumber;
         this.receiverBankNumber = receiverBankNumber;
+        this.payedFees = payedFees;
         this.receiver = receiver;
         this.money = money;
         this.invokerTrigger = invokerTrigger;
@@ -46,6 +49,12 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
     }
     public void setReceiverBankNumber(long newValue) throws ModelException {
         this.receiverBankNumber = newValue;
+    }
+    public DebitTransferPayedFeesView getPayedFees()throws ModelException{
+        return this.payedFees;
+    }
+    public void setPayedFees(DebitTransferPayedFeesView newValue) throws ModelException {
+        this.payedFees = newValue;
     }
     public AccountView getReceiver()throws ModelException{
         return this.receiver;
@@ -88,6 +97,10 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
         }
+        DebitTransferPayedFeesView payedFees = this.getPayedFees();
+        if (payedFees != null) {
+            ((ViewProxi)payedFees).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(payedFees.getClassId(), payedFees.getId())));
+        }
         AccountView receiver = this.getReceiver();
         if (receiver != null) {
             ((ViewProxi)receiver).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(receiver.getClassId(), receiver.getId())));
@@ -114,17 +127,23 @@ public abstract class DebitTransfer extends view.objects.DebitTransferTransactio
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getPayedFees() != null) return new PayedFeesDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPayedFees());
+        if(this.getPayedFees() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getPayedFees() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getPayedFees() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getPayedFees() != null && this.getPayedFees().equals(child)) return result;
+        if(this.getPayedFees() != null) result = result + 1;
         return -1;
     }
     public int getTimestampIndex() throws ModelException {

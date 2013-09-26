@@ -69,6 +69,8 @@ public class ToStringConstants {
 	public static final String CompensatedState = "Kompensiert";
 	public static final String CompensationRequestedState = "Kompensation in Arbeit";
 	public static final String SendToSymbol = " -> ";
+	public static final String NoPayedFees = "keine gezahlten Gebühren";
+	public static final String PayedFees = "von %s gezahlte Gebühren: %s";
 
 
 	

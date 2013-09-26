@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,CompensationStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
+public interface AnythingReturnExceptionVisitor<R, E extends UserException> extends ServiceReturnExceptionVisitor<R, E> ,DebitTransferTransactionReturnExceptionVisitor<R, E> ,DebitTransferStateReturnExceptionVisitor<R, E> ,BooleanValueReturnExceptionVisitor<R, E> ,CurrencyReturnExceptionVisitor<R, E> ,TransactionFeeReturnExceptionVisitor<R, E> ,CompensationRequestStateReturnExceptionVisitor<R, E> ,TriggerValueReturnExceptionVisitor<R, E> ,DebitTransferPayedFeesReturnExceptionVisitor<R, E> ,CompensationStateReturnExceptionVisitor<R, E> ,LimitTypeReturnExceptionVisitor<R, E> ,TriggerStateReturnExceptionVisitor<R, E> ,RuleReturnExceptionVisitor<R, E> {
     
     public R handleCompensation(CompensationView compensation) throws ModelException, E;
     public R handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;
@@ -25,6 +25,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleInternalFee(InternalFeeView internalFee) throws ModelException, E;
     public R handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException, E;
     public R handleAmount(AmountView amount) throws ModelException, E;
+    public R handleDebitTransferPayedFees(DebitTransferPayedFeesView debitTransferPayedFees) throws ModelException, E;
     public R handleBankPx(BankPxView bankPx) throws ModelException, E;
     public R handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public R handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException, E;

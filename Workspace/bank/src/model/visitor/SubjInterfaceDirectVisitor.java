@@ -187,6 +187,11 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
     
+    public abstract void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException;
+    
+    public void handleNoPayedFees(PersistentNoPayedFees noPayedFees) throws PersistenceException{
+        this.handleDebitTransferPayedFees(noPayedFees);
+    }
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     
     public abstract void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;

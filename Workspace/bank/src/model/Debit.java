@@ -29,6 +29,7 @@ import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitTransfer;
+import persistence.PersistentDebitTransferPayedFees;
 import persistence.PersistentDebitTransferState;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentMoney;
@@ -100,6 +101,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
                            this.This, 
                            this.receiverAccountNumber, 
                            this.receiverBankNumber, 
+                           this.payedFees, 
                            this.receiver, 
                            this.money, 
                            this.invokerTrigger, 
@@ -113,9 +115,9 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
         return false;
     }
     
-    public Debit(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,DebitTransferNoValue previousDebitTransfer,long id) throws persistence.PersistenceException {
+    public Debit(java.sql.Timestamp timestamp,String subject,PersistentAccount sender,PersistentDebitTransferState state,SubjInterface subService,PersistentDebitTransferTransaction This,long receiverAccountNumber,long receiverBankNumber,PersistentDebitTransferPayedFees payedFees,PersistentAccount receiver,PersistentMoney money,PersistentTriggerValue invokerTrigger,DebitTransferNoValue previousDebitTransfer,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentAccount)receiver,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(DebitTransferNoValue)previousDebitTransfer,id);        
+        super((java.sql.Timestamp)timestamp,(String)subject,(PersistentAccount)sender,(PersistentDebitTransferState)state,(SubjInterface)subService,(PersistentDebitTransferTransaction)This,(long)receiverAccountNumber,(long)receiverBankNumber,(PersistentDebitTransferPayedFees)payedFees,(PersistentAccount)receiver,(PersistentMoney)money,(PersistentTriggerValue)invokerTrigger,(DebitTransferNoValue)previousDebitTransfer,id);        
     }
     
     static public long getTypeId() {
@@ -203,6 +205,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
          return visitor.handleDebit(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getPayedFees() != null) return 1;
         return 0;
     }
     
@@ -275,6 +278,7 @@ public class Debit extends model.DebitTransfer implements PersistentDebit{
 		getThis().setState(NotExecutedState.createNotExecutedState());
 		getThis().setInvokerTrigger(NoTrigger.createNoTrigger());
 		getThis().setPreviousDebitTransfer(NoDebitTransfer.createNoDebitTransfer());
+		getThis().setPayedFees(NoPayedFees.getTheNoPayedFees());
 	}
     public void initializeOnInstantiation() 
 				throws PersistenceException{

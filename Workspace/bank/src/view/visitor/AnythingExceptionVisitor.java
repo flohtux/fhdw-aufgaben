@@ -3,7 +3,7 @@ package view.visitor;
 import view.UserException;
 import view.*;
 
-public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,CompensationStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
+public interface AnythingExceptionVisitor<E extends UserException> extends ServiceExceptionVisitor<E>,DebitTransferTransactionExceptionVisitor<E>,DebitTransferStateExceptionVisitor<E>,BooleanValueExceptionVisitor<E>,CurrencyExceptionVisitor<E>,TransactionFeeExceptionVisitor<E>,CompensationRequestStateExceptionVisitor<E>,TriggerValueExceptionVisitor<E>,DebitTransferPayedFeesExceptionVisitor<E>,CompensationStateExceptionVisitor<E>,LimitTypeExceptionVisitor<E>,TriggerStateExceptionVisitor<E>,RuleExceptionVisitor<E>{
     
     public void handleCompensation(CompensationView compensation) throws ModelException, E;
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException, E;
@@ -25,6 +25,7 @@ public interface AnythingExceptionVisitor<E extends UserException> extends Servi
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException, E;
     public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException, E;
     public void handleAmount(AmountView amount) throws ModelException, E;
+    public void handleDebitTransferPayedFees(DebitTransferPayedFeesView debitTransferPayedFees) throws ModelException, E;
     public void handleBankPx(BankPxView bankPx) throws ModelException, E;
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException, E;
     public void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException, E;

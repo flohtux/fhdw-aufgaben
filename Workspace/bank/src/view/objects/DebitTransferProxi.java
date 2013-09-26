@@ -22,6 +22,12 @@ public abstract class DebitTransferProxi extends DebitTransferTransactionProxi i
     public void setReceiverBankNumber(long newValue) throws ModelException {
         ((DebitTransfer)this.getTheObject()).setReceiverBankNumber(newValue);
     }
+    public DebitTransferPayedFeesView getPayedFees()throws ModelException{
+        return ((DebitTransfer)this.getTheObject()).getPayedFees();
+    }
+    public void setPayedFees(DebitTransferPayedFeesView newValue) throws ModelException {
+        ((DebitTransfer)this.getTheObject()).setPayedFees(newValue);
+    }
     public AccountView getReceiver()throws ModelException{
         return ((DebitTransfer)this.getTheObject()).getReceiver();
     }

@@ -10,6 +10,8 @@ public interface PersistentDebitTransfer extends DebitTransferNoValue, Persisten
     public void setReceiverAccountNumber(long newValue) throws PersistenceException ;
     public long getReceiverBankNumber() throws PersistenceException ;
     public void setReceiverBankNumber(long newValue) throws PersistenceException ;
+    public PersistentDebitTransferPayedFees getPayedFees() throws PersistenceException ;
+    public void setPayedFees(PersistentDebitTransferPayedFees newValue) throws PersistenceException ;
     public PersistentAccount getReceiver() throws PersistenceException ;
     public void setReceiver(PersistentAccount newValue) throws PersistenceException ;
     public PersistentMoney getMoney() throws PersistenceException ;

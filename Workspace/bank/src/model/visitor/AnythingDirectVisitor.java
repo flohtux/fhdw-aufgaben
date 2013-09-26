@@ -33,9 +33,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
-    public abstract void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException;
-    
     public abstract void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException;
+    
+    public abstract void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException;
     
     public abstract void handleDebitTransferState(PersistentDebitTransferState debitTransferState) throws PersistenceException;
     
@@ -151,6 +151,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException;
     
+    public abstract void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException;
+    
+    public void handleNoPayedFees(PersistentNoPayedFees noPayedFees) throws PersistenceException{
+        this.handleDebitTransferPayedFees(noPayedFees);
+    }
     public abstract void handleTriggerListe(PersistentTriggerListe triggerListe) throws PersistenceException;
     
     public abstract void handleCompensationState(PersistentCompensationState compensationState) throws PersistenceException;
@@ -184,6 +189,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleAccountAllCompensation(PersistentAccountAllCompensation accountAllCompensation) throws PersistenceException;
     
+    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    
     public abstract void handleTransactionFee(PersistentTransactionFee transactionFee) throws PersistenceException;
     
     public void handleMixedFee(PersistentMixedFee mixedFee) throws PersistenceException{
@@ -195,8 +202,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleProcentualFee(PersistentProcentualFee procentualFee) throws PersistenceException{
         this.handleTransactionFee(procentualFee);
     }
-    public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
-    
     public abstract void handleAdministratorCurrencyManager(PersistentAdministratorCurrencyManager administratorCurrencyManager) throws PersistenceException;
     
     public abstract void handleNoDebitTransfer(PersistentNoDebitTransfer noDebitTransfer) throws PersistenceException;

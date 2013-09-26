@@ -42,6 +42,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleFalseValue(PersistentFalseValue falseValue) throws PersistenceException;
     public abstract void handleAllCompensationListe(PersistentAllCompensationListe allCompensationListe) throws PersistenceException;
     public abstract void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException;
+    public abstract void handleNoPayedFees(PersistentNoPayedFees noPayedFees) throws PersistenceException;
     public abstract void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public abstract void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public abstract void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException;
@@ -51,6 +52,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleAdministrator(PersistentAdministrator administrator) throws PersistenceException;
     public abstract void handleBankService(PersistentBankService bankService) throws PersistenceException;
     public abstract void handleTransfer(PersistentTransfer transfer) throws PersistenceException;
+    public abstract void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException;
     public abstract void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public abstract void handleFranken(PersistentFranken franken) throws PersistenceException;
     public abstract void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;

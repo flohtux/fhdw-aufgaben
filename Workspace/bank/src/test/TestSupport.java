@@ -45,6 +45,7 @@ public class TestSupport {
         model.BankCreator.reset$For$Test = true;
         model.AcceptedState.reset$For$Test = true;
         model.FalseValue.reset$For$Test = true;
+        model.NoPayedFees.reset$For$Test = true;
         model.NoLimit.reset$For$Test = true;
         model.Franken.reset$For$Test = true;
         model.EnabledState.reset$For$Test = true;

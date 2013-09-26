@@ -3,6 +3,7 @@ package view.objects;
 
 import view.AccountView;
 import view.DebitTransferNoValue;
+import view.DebitTransferPayedFeesView;
 import view.DebitTransferStateView;
 import view.DebitTransferTransactionView;
 import view.DebitView;
@@ -33,9 +34,9 @@ import view.visitor.DebitTransferVisitor;
 public class Debit extends view.objects.DebitTransfer implements DebitView{
     
     
-    public Debit(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferNoValue previousDebitTransfer,long id, long classId) {
+    public Debit(java.util.Date timestamp,String subject,AccountView sender,DebitTransferStateView state,long receiverAccountNumber,long receiverBankNumber,DebitTransferPayedFeesView payedFees,AccountView receiver,MoneyView money,TriggerValueView invokerTrigger,java.util.Vector<DebitTransferTransactionView> nextDebitTransferTransactionstriggers,DebitTransferNoValue previousDebitTransfer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferNoValue)previousDebitTransfer,id, classId);        
+        super((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(DebitTransferPayedFeesView)payedFees,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferNoValue)previousDebitTransfer,id, classId);        
     }
     
     static public long getTypeId() {
@@ -105,6 +106,10 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
         }
+        DebitTransferPayedFeesView payedFees = this.getPayedFees();
+        if (payedFees != null) {
+            ((ViewProxi)payedFees).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(payedFees.getClassId(), payedFees.getId())));
+        }
         AccountView receiver = this.getReceiver();
         if (receiver != null) {
             ((ViewProxi)receiver).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(receiver.getClassId(), receiver.getId())));
@@ -131,17 +136,23 @@ public class Debit extends view.objects.DebitTransfer implements DebitView{
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getPayedFees() != null) return new PayedFeesDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPayedFees());
+        if(this.getPayedFees() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getPayedFees() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getPayedFees() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getPayedFees() != null && this.getPayedFees().equals(child)) return result;
+        if(this.getPayedFees() != null) result = result + 1;
         return -1;
     }
     public int getTimestampIndex() throws ModelException {

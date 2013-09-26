@@ -12,7 +12,7 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
 		
 	  private static ICProxiFactory [] getTheICProxiFactories(){
 		if (iCProxiFactories == null){
-			iCProxiFactories = new ICProxiFactory[186];
+			iCProxiFactories = new ICProxiFactory[188];
         iCProxiFactories[104] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountReceivedDebitGrantICProxi(objectId);
@@ -278,14 +278,14 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new FalseValueICProxi(objectId);
             }
         };
-        iCProxiFactories[160] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new AllCompensationListeICProxi(objectId);
-            }
-        };
         iCProxiFactories[105] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountGrantedDebitGrantICProxi(objectId);
+            }
+        };
+        iCProxiFactories[160] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new AllCompensationListeICProxi(objectId);
             }
         };
         iCProxiFactories[6] = new ICProxiFactory(){
@@ -296,6 +296,11 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[7] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new FixTransactionFeeICProxi(objectId);
+            }
+        };
+        iCProxiFactories[186] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new NoPayedFeesICProxi(objectId);
             }
         };
         iCProxiFactories[8] = new ICProxiFactory(){
@@ -361,6 +366,11 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[21] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new TransferICProxi(objectId);
+            }
+        };
+        iCProxiFactories[187] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new DebitTransferPayedFeesICProxi(objectId);
             }
         };
         iCProxiFactories[140] = new ICProxiFactory(){

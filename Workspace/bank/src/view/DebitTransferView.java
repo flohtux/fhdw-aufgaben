@@ -8,6 +8,8 @@ public interface DebitTransferView extends DebitTransferNoValue, DebitTransferTr
     public void setReceiverAccountNumber(long newValue) throws ModelException ;
     public long getReceiverBankNumber()throws ModelException;
     public void setReceiverBankNumber(long newValue) throws ModelException ;
+    public DebitTransferPayedFeesView getPayedFees()throws ModelException;
+    public void setPayedFees(DebitTransferPayedFeesView newValue) throws ModelException ;
     public AccountView getReceiver()throws ModelException;
     public void setReceiver(AccountView newValue) throws ModelException ;
     public MoneyView getMoney()throws ModelException;

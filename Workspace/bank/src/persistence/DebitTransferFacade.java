@@ -39,6 +39,19 @@ public class DebitTransferFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
+    public void payedFeesSet(long DebitTransferId, PersistentDebitTransferPayedFees payedFeesVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".DbtTrnsfrFacade.pdFsSet(?, ?, ?); end;");
+            callable.setLong(1, DebitTransferId);
+            callable.setLong(2, payedFeesVal.getId());
+            callable.setLong(3, payedFeesVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
     public void receiverSet(long DebitTransferId, PersistentAccount receiverVal) throws PersistenceException {
         try{
             CallableStatement callable;

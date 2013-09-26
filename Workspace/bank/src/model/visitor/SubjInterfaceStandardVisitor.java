@@ -29,6 +29,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleFixTransactionFee(PersistentFixTransactionFee fixTransactionFee) throws PersistenceException{
         this.standardHandling(fixTransactionFee);
     }
+    public void handleNoPayedFees(PersistentNoPayedFees noPayedFees) throws PersistenceException{
+        this.standardHandling(noPayedFees);
+    }
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException{
         this.standardHandling(internalFee);
     }
@@ -85,6 +88,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleDebitTransferTemplate(PersistentDebitTransferTemplate debitTransferTemplate) throws PersistenceException{
         this.standardHandling(debitTransferTemplate);
+    }
+    public void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException{
+        this.standardHandling(debitTransferPayedFees);
     }
     public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException{
         this.standardHandling(waitingState);

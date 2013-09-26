@@ -3,7 +3,7 @@ package view.visitor;
 
 import view.*;
 
-public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,CompensationStateVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
+public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,DebitTransferPayedFeesVisitor,CompensationStateVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
     
     public void handleCompensation(CompensationView compensation) throws ModelException;
     public void handleDebitTransferListe(DebitTransferListeView debitTransferListe) throws ModelException;
@@ -25,6 +25,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException;
     public void handleDebitTransferDoubleState(DebitTransferDoubleStateView debitTransferDoubleState) throws ModelException;
     public void handleAmount(AmountView amount) throws ModelException;
+    public void handleDebitTransferPayedFees(DebitTransferPayedFeesView debitTransferPayedFees) throws ModelException;
     public void handleBankPx(BankPxView bankPx) throws ModelException;
     public void handleLimitAccount(LimitAccountView limitAccount) throws ModelException;
     public void handleDebitGrantListe(DebitGrantListeView debitGrantListe) throws ModelException;

@@ -49,7 +49,7 @@ import persistence.PersistentTransfer;
 import persistence.Predcate;
 import persistence.SubjInterface;
 import persistence.TDObserver;
-
+import view.objects.PayedFeesDebitTransferWrapper;
 import common.Fraction;
 
 
@@ -572,6 +572,7 @@ public class Bank extends PersistentObject implements PersistentBank{
         	PersistentBank result = getThis().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
     		final PersistentMoney fee = this.calculateFee(debitTransfer.getMoney(), getThis(), debitTransfer.getReceiverBankNumber());
     		final PersistentMoney newAccountMoney = hasToPayFees.getMoney().subtract(fee);
+    		debitTransfer.setPayedFees(DebitTransferPayedFees.createDebitTransferPayedFees(fee, hasToPayFees));
     		hasToPayFees.getLimit().checkLimit(newAccountMoney);
     		hasToPayFees.setMoney(newAccountMoney);
     		

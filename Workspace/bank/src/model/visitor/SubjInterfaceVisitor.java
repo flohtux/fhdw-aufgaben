@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceVisitor extends DebitTransferNoValueVisitor,ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,CompensationStateVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
+public interface SubjInterfaceVisitor extends DebitTransferNoValueVisitor,ServiceVisitor,DebitTransferTransactionVisitor,DebitTransferStateVisitor,BooleanValueVisitor,CurrencyVisitor,TransactionFeeVisitor,CompensationRequestStateVisitor,TriggerValueVisitor,DebitTransferPayedFeesVisitor,CompensationStateVisitor,LimitTypeVisitor,TriggerStateVisitor,RuleVisitor{
     
     public void handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public void handleSubj(PersistentSubj subj) throws PersistenceException;
@@ -25,6 +25,7 @@ public interface SubjInterfaceVisitor extends DebitTransferNoValueVisitor,Servic
     public void handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public void handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public void handleAmount(PersistentAmount amount) throws PersistenceException;
+    public void handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException;
     public void handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public void handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;

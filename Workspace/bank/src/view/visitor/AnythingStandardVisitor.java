@@ -119,6 +119,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleFixTransactionFee(FixTransactionFeeView fixTransactionFee) throws ModelException{
         this.standardHandling(fixTransactionFee);
     }
+    public void handleNoPayedFees(NoPayedFeesView noPayedFees) throws ModelException{
+        this.standardHandling(noPayedFees);
+    }
     public void handleInternalFee(InternalFeeView internalFee) throws ModelException{
         this.standardHandling(internalFee);
     }
@@ -145,6 +148,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleTransfer(TransferView transfer) throws ModelException{
         this.standardHandling(transfer);
+    }
+    public void handleDebitTransferPayedFees(DebitTransferPayedFeesView debitTransferPayedFees) throws ModelException{
+        this.standardHandling(debitTransferPayedFees);
     }
     public void handleBankPx(BankPxView bankPx) throws ModelException{
         this.standardHandling(bankPx);

@@ -31,6 +31,13 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
         }
         long receiverAccountNumber = new Long((String)resultTable.get("receiverAccountNumber")).longValue();
         long receiverBankNumber = new Long((String)resultTable.get("receiverBankNumber")).longValue();
+        ViewProxi payedFees = null;
+        String payedFees$String = (String)resultTable.get("payedFees");
+        if (payedFees$String != null) {
+            common.ProxiInformation payedFees$Info = common.RPCConstantsAndServices.createProxiInformation(payedFees$String);
+            payedFees = view.objects.ViewProxi.createProxi(payedFees$Info,connectionKey);
+            payedFees.setToString(payedFees$Info.getToString());
+        }
         ViewProxi receiver = null;
         String receiver$String = (String)resultTable.get("receiver");
         if (receiver$String != null) {
@@ -61,7 +68,7 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
             previousDebitTransfer = view.objects.ViewProxi.createProxi(previousDebitTransfer$Info,connectionKey);
             previousDebitTransfer.setToString(previousDebitTransfer$Info.getToString());
         }
-        TransferView result$$ = new Transfer((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferNoValue)previousDebitTransfer, this.getId(), this.getClassId());
+        TransferView result$$ = new Transfer((java.util.Date)timestamp,(String)subject,(AccountView)sender,(DebitTransferStateView)state,(long)receiverAccountNumber,(long)receiverBankNumber,(DebitTransferPayedFeesView)payedFees,(AccountView)receiver,(MoneyView)money,(TriggerValueView)invokerTrigger,nextDebitTransferTransactionstriggers,(DebitTransferNoValue)previousDebitTransfer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -70,17 +77,24 @@ public class TransferProxi extends DebitTransferProxi implements TransferView{
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(index == 0 && this.getPayedFees() != null) return new PayedFeesDebitTransferWrapper(this, originalIndex, (ViewRoot)this.getPayedFees());
+        if(this.getPayedFees() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getPayedFees() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        if (this.object == null) return this.getLeafInfo() == 0;
+        return true 
+            && (this.getPayedFees() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getPayedFees() != null && this.getPayedFees().equals(child)) return result;
+        if(this.getPayedFees() != null) result = result + 1;
         return -1;
     }
     

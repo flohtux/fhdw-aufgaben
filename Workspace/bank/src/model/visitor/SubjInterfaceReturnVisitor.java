@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceReturnVisitor<R> extends DebitTransferNoValueReturnVisitor<R> ,ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,CompensationStateReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,RuleReturnVisitor<R> {
+public interface SubjInterfaceReturnVisitor<R> extends DebitTransferNoValueReturnVisitor<R> ,ServiceReturnVisitor<R> ,DebitTransferTransactionReturnVisitor<R> ,DebitTransferStateReturnVisitor<R> ,BooleanValueReturnVisitor<R> ,CurrencyReturnVisitor<R> ,TransactionFeeReturnVisitor<R> ,CompensationRequestStateReturnVisitor<R> ,TriggerValueReturnVisitor<R> ,DebitTransferPayedFeesReturnVisitor<R> ,CompensationStateReturnVisitor<R> ,LimitTypeReturnVisitor<R> ,TriggerStateReturnVisitor<R> ,RuleReturnVisitor<R> {
     
     public R handleCompensation(PersistentCompensation compensation) throws PersistenceException;
     public R handleSubj(PersistentSubj subj) throws PersistenceException;
@@ -25,6 +25,7 @@ public interface SubjInterfaceReturnVisitor<R> extends DebitTransferNoValueRetur
     public R handleInternalFee(PersistentInternalFee internalFee) throws PersistenceException;
     public R handleDebitTransferDoubleState(PersistentDebitTransferDoubleState debitTransferDoubleState) throws PersistenceException;
     public R handleAmount(PersistentAmount amount) throws PersistenceException;
+    public R handleDebitTransferPayedFees(PersistentDebitTransferPayedFees debitTransferPayedFees) throws PersistenceException;
     public R handleBankPx(PersistentBankPx bankPx) throws PersistenceException;
     public R handleLimitAccount(PersistentLimitAccount limitAccount) throws PersistenceException;
     public R handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException;

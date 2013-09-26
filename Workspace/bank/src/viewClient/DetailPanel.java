@@ -808,6 +808,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleFixTransactionFee(view.FixTransactionFeeView object){
         result = new FixTransactionFeeDefaultDetailPanel(handler, object);
     }
+    public void handleNoPayedFees(view.NoPayedFeesView object){
+        result = new NoPayedFeesDefaultDetailPanel(handler, object);
+    }
     public void handleInternalFee(view.InternalFeeView object){
         result = new InternalFeeDefaultDetailPanel(handler, object);
     }
@@ -834,6 +837,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     }
     public void handleTransfer(view.TransferView object){
         result = new TransferDefaultDetailPanel(handler, object);
+    }
+    public void handleDebitTransferPayedFees(view.DebitTransferPayedFeesView object){
+        result = new DebitTransferPayedFeesDefaultDetailPanel(handler, object);
     }
     public void handleBankPx(view.BankPxView object){
         result = new BankPxDefaultDetailPanel(handler, object);
@@ -1515,6 +1521,20 @@ class FixTransactionFeeDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 @SuppressWarnings("serial")
+class NoPayedFeesDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected NoPayedFeesDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.NoPayedFeesView getAnything(){
+        return (view.NoPayedFeesView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
 class InternalFeeDefaultDetailPanel extends DefaultDetailPanel{
     
     protected InternalFeeDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1668,6 +1688,7 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransferTransaction$$subject = "DebitTransferTransaction$$subject";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$payedFees = "DebitTransfer$$payedFees";
     
     protected TransferDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1705,6 +1726,20 @@ class TransferDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.TransferView getAnything(){
         return (view.TransferView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitTransferPayedFeesDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected DebitTransferPayedFeesDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitTransferPayedFeesView getAnything(){
+        return (view.DebitTransferPayedFeesView)this.anything;
     }
 }
 
@@ -1771,6 +1806,7 @@ class DebitDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String DebitTransferTransaction$$subject = "DebitTransferTransaction$$subject";
     protected static final String DebitTransfer$$receiverAccountNumber = "DebitTransfer$$receiverAccountNumber";
     protected static final String DebitTransfer$$receiverBankNumber = "DebitTransfer$$receiverBankNumber";
+    protected static final String DebitTransfer$$payedFees = "DebitTransfer$$payedFees";
     
     protected DebitDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
