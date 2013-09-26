@@ -1732,7 +1732,7 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
 				public Boolean handleNotSuccessfulState(
 						NotSuccessfulStateView notSuccessfulState)
 						throws ModelException {
-					return true;
+					return false;
 				}
 
 				@Override
