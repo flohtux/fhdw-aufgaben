@@ -35,6 +35,7 @@ public interface SubjInterfaceVisitor extends DebitTransferNoValueVisitor,Servic
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException;
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
+    public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;
     public void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     
 }

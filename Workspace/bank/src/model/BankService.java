@@ -33,6 +33,7 @@ import persistence.PersistentAccount;
 import persistence.PersistentBank;
 import persistence.PersistentBankService;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentInternalFee;
 import persistence.PersistentLimitAccount;
 import persistence.PersistentProxi;
@@ -41,6 +42,7 @@ import persistence.PersistentTransactionFee;
 import persistence.PersistentTransfer;
 import persistence.Predcate;
 import persistence.Procdure;
+import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 import common.Fraction;
@@ -320,13 +322,23 @@ public class BankService extends model.Service implements PersistentBankService{
         if(!acc.getMoney().getAmount().getBalance().equals(Fraction.Null)) {
         	throw new CloseAccountNoPossibleException();
         }else {
-        	acc.getAllCompensation().getPendingCompensationRequests().getCompensationrequests().applyToAll(new Procdure<PersistentCompensationRequest>() {
-				@Override
-				public void doItTo(PersistentCompensationRequest argument) throws PersistenceException {
-					acc.answerDecline(argument);
-					
+        	try {
+				acc.getAllCompensation().getPendingCompensationRequests().getCompensationrequests().applyToAllException(new ProcdureException<PersistentCompensationRequest, NoPermissionToAnswerRequestOfForeignAccountException>() {
+					@Override
+					public void doItTo(PersistentCompensationRequest argument) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
+						acc.answerDecline(argument);
+						
+					}
+				});
+			} catch (NoPermissionToAnswerRequestOfForeignAccountException e) {
+				throw new CloseAccountNoPossibleException(e.getMessage());
+			}
+        	acc.getDebitTransferTransactions().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+				public void doItTo(PersistentDebitTransferTransaction argument) throws PersistenceException {
+					argument.changeState(CompensatedState.createCompensatedState());
 				}
 			});
+        	
         	acc.getAccountService().delete$Me();
             acc.delete$Me();
             getThis().getBank().getAccounts().remove(acc.getAccountNumber());

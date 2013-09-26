@@ -1,6 +1,7 @@
 
 package view.objects;
 
+import view.AccountView;
 import view.CompensationRequestStateView;
 import view.CompensationRequestView;
 import view.CompensationView;
@@ -18,13 +19,15 @@ import view.visitor.AnythingVisitor;
 public class CompensationRequest extends ViewObject implements CompensationRequestView{
     
     protected DebitTransferView debitTransfer;
+    protected AccountView hasToAnswer;
     protected CompensationView masterCompensation;
     protected CompensationRequestStateView state;
     
-    public CompensationRequest(DebitTransferView debitTransfer,CompensationView masterCompensation,CompensationRequestStateView state,long id, long classId) {
+    public CompensationRequest(DebitTransferView debitTransfer,AccountView hasToAnswer,CompensationView masterCompensation,CompensationRequestStateView state,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.debitTransfer = debitTransfer;
+        this.hasToAnswer = hasToAnswer;
         this.masterCompensation = masterCompensation;
         this.state = state;        
     }
@@ -42,6 +45,12 @@ public class CompensationRequest extends ViewObject implements CompensationReque
     }
     public void setDebitTransfer(DebitTransferView newValue) throws ModelException {
         this.debitTransfer = newValue;
+    }
+    public AccountView getHasToAnswer()throws ModelException{
+        return this.hasToAnswer;
+    }
+    public void setHasToAnswer(AccountView newValue) throws ModelException {
+        this.hasToAnswer = newValue;
     }
     public CompensationView getMasterCompensation()throws ModelException{
         return this.masterCompensation;
@@ -73,6 +82,10 @@ public class CompensationRequest extends ViewObject implements CompensationReque
         DebitTransferView debitTransfer = this.getDebitTransfer();
         if (debitTransfer != null) {
             ((ViewProxi)debitTransfer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(debitTransfer.getClassId(), debitTransfer.getId())));
+        }
+        AccountView hasToAnswer = this.getHasToAnswer();
+        if (hasToAnswer != null) {
+            ((ViewProxi)hasToAnswer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(hasToAnswer.getClassId(), hasToAnswer.getId())));
         }
         CompensationView masterCompensation = this.getMasterCompensation();
         if (masterCompensation != null) {

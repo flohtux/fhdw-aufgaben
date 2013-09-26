@@ -12,15 +12,15 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
 		
 	  private static ICProxiFactory [] getTheICProxiFactories(){
 		if (iCProxiFactories == null){
-			iCProxiFactories = new ICProxiFactory[184];
-        iCProxiFactories[153] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new CompensationICProxi(objectId);
-            }
-        };
+			iCProxiFactories = new ICProxiFactory[186];
         iCProxiFactories[104] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountReceivedDebitGrantICProxi(objectId);
+            }
+        };
+        iCProxiFactories[153] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new CompensationICProxi(objectId);
             }
         };
         iCProxiFactories[1] = new ICProxiFactory(){
@@ -506,6 +506,11 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
         iCProxiFactories[165] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new DeclinedStateICProxi(objectId);
+            }
+        };
+        iCProxiFactories[185] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new DebitGrantListePxICProxi(objectId);
             }
         };
         iCProxiFactories[144] = new ICProxiFactory(){

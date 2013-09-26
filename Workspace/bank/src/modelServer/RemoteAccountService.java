@@ -15,9 +15,33 @@ public  class RemoteAccountService extends RemoteService {
 	 
 
     @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> a_Path_In_AnswerAcceptWithTrigger(){
+        try {
+            PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerAcceptWithTrigger();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
     public synchronized java.util.HashMap<?,?> a_Path_In_AnswerAccept(){
         try {
             PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerAccept();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> a_Path_In_AnswerDecline(){
+        try {
+            PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerDecline();
             return createOKResult(result, 1, this);
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
@@ -132,6 +156,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -142,6 +168,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -152,6 +180,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     
@@ -443,6 +473,8 @@ public  class RemoteAccountService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.NoPermissionToAnswerRequestOfForeignAccountException e0){
+            return createExceptionResult(e0, this);
         }
     }
     

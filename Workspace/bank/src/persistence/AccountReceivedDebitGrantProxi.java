@@ -28,10 +28,10 @@ public class AccountReceivedDebitGrantProxi extends PersistentProxi implements P
     public void setObserver(PersistentAccount newValue) throws PersistenceException {
         ((PersistentAccountReceivedDebitGrant)this.getTheObject()).setObserver(newValue);
     }
-    public PersistentDebitGrantListe getObservee() throws PersistenceException {
+    public PersistentDebitGrantListePx getObservee() throws PersistenceException {
         return ((PersistentAccountReceivedDebitGrant)this.getTheObject()).getObservee();
     }
-    public void setObservee(PersistentDebitGrantListe newValue) throws PersistenceException {
+    public void setObservee(PersistentDebitGrantListePx newValue) throws PersistenceException {
         ((PersistentAccountReceivedDebitGrant)this.getTheObject()).setObservee(newValue);
     }
     public PersistentAccountReceivedDebitGrant getThis() throws PersistenceException {

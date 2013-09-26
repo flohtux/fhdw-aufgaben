@@ -64,9 +64,9 @@ public class AccountReceivedDebitGrantFacade{
             PersistentAccount observer = null;
             if (obj.getLong(2) != 0)
                 observer = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            PersistentDebitGrantListe observee = null;
+            PersistentDebitGrantListePx observee = null;
             if (obj.getLong(4) != 0)
-                observee = (PersistentDebitGrantListe)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+                observee = (PersistentDebitGrantListePx)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
             PersistentAccountReceivedDebitGrant This = null;
             if (obj.getLong(6) != 0)
                 This = (PersistentAccountReceivedDebitGrant)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
@@ -110,7 +110,7 @@ public class AccountReceivedDebitGrantFacade{
             throw new PersistenceException(se.getMessage(), se.getErrorCode());
         }
     }
-    public void observeeSet(long AccountReceivedDebitGrantId, PersistentDebitGrantListe observeeVal) throws PersistenceException {
+    public void observeeSet(long AccountReceivedDebitGrantId, PersistentDebitGrantListePx observeeVal) throws PersistenceException {
         try{
             CallableStatement callable;
             callable = this.con.prepareCall("Begin " + this.schemaName + ".AccntRcvdGrntFacade.obsSet(?, ?, ?); end;");

@@ -6,6 +6,7 @@ import persistence.*;
 public interface UserExceptionExceptionVisitor<E extends UserException> extends ExecuteExceptionExceptionVisitor<E>{
     
     public void handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException, E;
+    public void handleNoPermissionToAnswerRequestOfForeignAccountException(model.NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws PersistenceException, E;
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException, E;
     public void handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException, E;
     public void handleNoValidPercentValueException(model.NoValidPercentValueException noValidPercentValueException) throws PersistenceException, E;

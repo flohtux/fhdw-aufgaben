@@ -6,6 +6,7 @@ import persistence.*;
 public interface UserExceptionReturnExceptionVisitor<R, E extends UserException> extends ExecuteExceptionReturnExceptionVisitor<R, E> {
     
     public R handleDoubleRuleDefinitionException(model.DoubleRuleDefinitionException doubleRuleDefinitionException) throws PersistenceException, E;
+    public R handleNoPermissionToAnswerRequestOfForeignAccountException(model.NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws PersistenceException, E;
     public R handlePasswordException(model.PasswordException passwordException) throws PersistenceException, E;
     public R handleNoValidFeeValueException(model.NoValidFeeValueException noValidFeeValueException) throws PersistenceException, E;
     public R handleNoValidPercentValueException(model.NoValidPercentValueException noValidPercentValueException) throws PersistenceException, E;

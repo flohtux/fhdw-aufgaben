@@ -430,7 +430,19 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAcceptWithTrigger() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getAllCompensation().
+                getPendingCompensationRequests();
+    }
     public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getAllCompensation().
+                getPendingCompensationRequests();
+    }
+    public PersistentCompensationRequestListe a_Path_In_AnswerDecline() 
 				throws model.UserException, PersistenceException{
         	return getThis().getAccount().
                 getAllCompensation().
@@ -580,18 +592,18 @@ public class AccountService extends model.Service implements PersistentAccountSe
         getThis().signalChanged(true);
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().answerAcceptWithTrigger(a);
         getThis().signalChanged(true);        
     }
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().answerAccept(a);
         getThis().signalChanged(true);
         
     }
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().answerDecline(a);
         getThis().signalChanged(true);
         
@@ -802,12 +814,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     public void remove(final PersistentDebitGrant grant) 
 				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException{
-    	getThis().getAccount().getReceivedDebitGrant().remove(grant.getPermittedAccount());
+    	getThis().getAccount().getReceivedDebitGrant().getD1().remove(grant.getPermittedAccount());
     	grant.getPermittedAccount().getAccount().getGrantedDebitGrant().remove(AccountPx.createAccountPx(getThis().getAccount()));
     	getThis().signalChanged(true);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
         getThis().getAccount().requestCompensation(dtr);
         getThis().signalChanged(true);
         

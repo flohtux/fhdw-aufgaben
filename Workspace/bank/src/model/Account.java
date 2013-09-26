@@ -21,11 +21,11 @@ import model.visitor.AnythingExceptionVisitor;
 import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
+import model.visitor.DebitTransferExceptionVisitor;
 import model.visitor.DebitTransferStateReturnVisitor;
 import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
 import model.visitor.DebitTransferTransactionVisitor;
-import model.visitor.DebitTransferVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -63,6 +63,7 @@ import persistence.PersistentCreateDebitGrantCommand;
 import persistence.PersistentCurrency;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitGrantListePx;
 import persistence.PersistentDebitTransfer;
 import persistence.PersistentDebitTransferTransaction;
 import persistence.PersistentExecutedState;
@@ -585,7 +586,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         if (this.grantedDebitGrant== null) return null;
 		return this.grantedDebitGrant.getObservee();
     }
-    public PersistentDebitGrantListe getReceivedDebitGrant() 
+    public PersistentDebitGrantListePx getReceivedDebitGrant() 
 				throws PersistenceException{
         if (this.receivedDebitGrant== null) return null;
 		return this.receivedDebitGrant.getObservee();
@@ -635,7 +636,7 @@ public class Account extends PersistentObject implements PersistentAccount{
 		}
 		this.grantedDebitGrant.setObservee(grantedDebitGrant);
     }
-    public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
+    public void setReceivedDebitGrant(final PersistentDebitGrantListePx receivedDebitGrant) 
 				throws PersistenceException{
         if (this.receivedDebitGrant == null) {
 			this.setReceivedDebitGrant(model.AccountReceivedDebitGrant.createAccountReceivedDebitGrant(this.isDelayed$Persistence()));
@@ -745,26 +746,29 @@ public class Account extends PersistentObject implements PersistentAccount{
         
     }
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException{
-    	a.getDebitTransfer().accept(new DebitTransferVisitor() {
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
+    	if (!a.getHasToAnswer().equals(getThis())) {
+    		throw new NoPermissionToAnswerRequestOfForeignAccountException();
+    	}
+    	a.getDebitTransfer().accept(new DebitTransferExceptionVisitor<NoPermissionToAnswerRequestOfForeignAccountException>() {
 			@Override
 			public void handleTransfer(final PersistentTransfer transfer)
-					throws PersistenceException {
+					throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				System.out.println(transfer.getNextDebitTransferTransactionstriggers().getLength());
-				transfer.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+				transfer.getNextDebitTransferTransactionstriggers().applyToAllException(new ProcdureException<PersistentDebitTransferTransaction,NoPermissionToAnswerRequestOfForeignAccountException>() {
 					@Override
 					public void doItTo(PersistentDebitTransferTransaction argument)
-							throws PersistenceException {
+							throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(argument);
 					}
 				});
 			}
 			@Override
-			public void handleDebit(final PersistentDebit debit) throws PersistenceException {
-				debit.getNextDebitTransferTransactionstriggers().applyToAll(new Procdure<PersistentDebitTransferTransaction>() {
+			public void handleDebit(final PersistentDebit debit) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
+				debit.getNextDebitTransferTransactionstriggers().applyToAllException(new ProcdureException<PersistentDebitTransferTransaction, NoPermissionToAnswerRequestOfForeignAccountException>() {
 					@Override
 					public void doItTo(PersistentDebitTransferTransaction argument)
-							throws PersistenceException {
+							throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 						a.getMasterCompensation().requestCompensationForDebitTransferTransaction(argument);
 					}
 				});
@@ -773,7 +777,10 @@ public class Account extends PersistentObject implements PersistentAccount{
         getThis().answerAccept(a);
     }
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
+    	if (!a.getHasToAnswer().equals(getThis())) {
+    		throw new NoPermissionToAnswerRequestOfForeignAccountException();
+    	}
         PersistentTransaction t = getThis().findContainingTransaction(a.getDebitTransfer());
         
         if (t != null) {
@@ -788,7 +795,10 @@ public class Account extends PersistentObject implements PersistentAccount{
 		});
     }
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
+    	if (!a.getHasToAnswer().equals(getThis())) {
+    		throw new NoPermissionToAnswerRequestOfForeignAccountException();
+    	}
         a.changeState(DeclinedState.getTheDeclinedState());
         getThis().getAllCompensation().getPendingCompensationRequests().getCompensationrequests().filter(new Predcate<PersistentCompensationRequest>() {
  			public boolean test(PersistentCompensationRequest argument) throws PersistenceException {
@@ -841,7 +851,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void createDebitGrantImplementation(final PersistentAccount receiver, final PersistentLimitType limit) 
 				throws model.GrantAlreadyGivenException, PersistenceException{
     	PersistentAccountPx receiverAccPx = AccountPx.createAccountPx(receiver);
-        getThis().getReceivedDebitGrant().createDebitGrant(receiverAccPx, limit);
+        getThis().getReceivedDebitGrant().getD1().createDebitGrant(receiverAccPx, limit);
         
         PersistentAccountPx thisAccPx = AccountPx.createAccountPx(getThis());
         receiver.getGrantedDebitGrant().createDebitGrant(thisAccPx, limit);
@@ -971,7 +981,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     	limits.setMaxLimit(NoLimit.getTheNoLimit());
     	getThis().setLimit(limits);
     	getThis().setGrantedDebitGrant(DebitGrantListe.createDebitGrantListe());
-    	getThis().setReceivedDebitGrant(DebitGrantListe.createDebitGrantListe());
+    	getThis().setReceivedDebitGrant(DebitGrantListePx.createDebitGrantListePx(DebitGrantListe.createDebitGrantListe()));
     	getThis().setAllCompensation(AllCompensationListe.createAllCompensationListe());
     	getThis().getAllCompensation().setOutgoingCompensations(CompensationListe.createCompensationListe());
     	getThis().getAllCompensation().setPendingCompensationRequests(CompensationRequestListe.createCompensationRequestListe());
@@ -979,24 +989,11 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
+    public void receivedDebitGrant_update(final model.meta.DebitGrantListePxMssgs event) 
 				throws PersistenceException{
-    	event.accept(new DebitGrantListeMssgsVisitor() {
-			@Override
-			public void handleDebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg(
-					DebitGrantListeCreateDebitGrantAccountPxLimitTypeMssg event)
-					throws PersistenceException {
-					getThis().getAccountService().signalChanged(true);
-			}
-
-			@Override
-			public void handleDebitGrantListeRemoveAccountPxMssg(
-					DebitGrantListeRemoveAccountPxMssg event)
-					throws PersistenceException {
-				getThis().getAccountService().signalChanged(true);
-			}
-		});
-}
+        //TODO: implement method: receivedDebitGrant_update
+        
+    }
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException{
     	 transaction.removeFromTransaction(debitTransfer);
@@ -1014,7 +1011,7 @@ public class Account extends PersistentObject implements PersistentAccount{
         list.remove(acc);
     }
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
     	final PersistentCompensation comp = Compensation.createCompensation(getThis());
     	comp.initializeDebitTransferTransaction(dtr);
     	getThis().getAllCompensation().getOutgoingCompensations().add(comp);

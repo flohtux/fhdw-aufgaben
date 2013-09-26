@@ -212,6 +212,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleDeclinedState(DeclinedStateView declinedState) throws ModelException{
         this.standardHandling(declinedState);
     }
+    public void handleDebitGrantListePx(DebitGrantListePxView debitGrantListePx) throws ModelException{
+        this.standardHandling(debitGrantListePx);
+    }
     public void handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException{
         this.standardHandling(compensationRequestListe);
     }

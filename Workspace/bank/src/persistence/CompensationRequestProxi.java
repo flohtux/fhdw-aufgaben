@@ -28,6 +28,12 @@ public class CompensationRequestProxi extends PersistentProxi implements Persist
     public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException {
         ((PersistentCompensationRequest)this.getTheObject()).setDebitTransfer(newValue);
     }
+    public PersistentAccount getHasToAnswer() throws PersistenceException {
+        return ((PersistentCompensationRequest)this.getTheObject()).getHasToAnswer();
+    }
+    public void setHasToAnswer(PersistentAccount newValue) throws PersistenceException {
+        ((PersistentCompensationRequest)this.getTheObject()).setHasToAnswer(newValue);
+    }
     public PersistentCompensation getMasterCompensation() throws PersistenceException {
         return ((PersistentCompensationRequest)this.getTheObject()).getMasterCompensation();
     }

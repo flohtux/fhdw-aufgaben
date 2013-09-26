@@ -530,7 +530,7 @@ public class Bank extends PersistentObject implements PersistentBank{
     	debitTransfer.accept(new DebitTransferExceptionVisitor<DebitException>() {
 			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, DebitException {}
 			public void handleDebit(final PersistentDebit debit) throws PersistenceException, DebitException {
-				PersistentDebitGrant grant = acc.getReceivedDebitGrant().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
+				PersistentDebitGrant grant = acc.getReceivedDebitGrant().getD1().getDebitGrants().findFirst(new Predcate<PersistentDebitGrant>() {
 					public boolean test(PersistentDebitGrant argument) throws PersistenceException {
 						return argument.getPermittedAccount().getAccount().equals(debitTransfer.getSender());
 					}

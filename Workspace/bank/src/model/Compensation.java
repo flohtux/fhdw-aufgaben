@@ -7,8 +7,8 @@ import model.visitor.AnythingReturnExceptionVisitor;
 import model.visitor.AnythingReturnVisitor;
 import model.visitor.AnythingVisitor;
 import model.visitor.CompensationRequestStateReturnExceptionVisitor;
+import model.visitor.DebitTransferTransactionExceptionVisitor;
 import model.visitor.DebitTransferTransactionReturnVisitor;
-import model.visitor.DebitTransferTransactionVisitor;
 import model.visitor.SubjInterfaceExceptionVisitor;
 import model.visitor.SubjInterfaceReturnExceptionVisitor;
 import model.visitor.SubjInterfaceReturnVisitor;
@@ -43,6 +43,7 @@ import persistence.PersistentTransfer;
 import persistence.PersistentWaitingState;
 import persistence.Predcate;
 import persistence.Procdure;
+import persistence.ProcdureException;
 import persistence.SubjInterface;
 import persistence.TDObserver;
 
@@ -292,7 +293,6 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getPendingRequests().getObservee().getLength() > 0) return 1;
-        if (this.getState() != null) return 1;
         return 0;
     }
     
@@ -353,7 +353,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     
     public PersistentBooleanValue allAnswered() 
 				throws model.CompensationAbortedException, PersistenceException{
-		return getThis().getPendingRequests().aggregateException(
+		PersistentBooleanValue result = getThis().getPendingRequests().aggregateException(
 				new AggregtionException<PersistentCompensationRequest, PersistentBooleanValue, CompensationAbortedException>() {
 					public PersistentBooleanValue neutral() throws PersistenceException {
 						return TrueValue.getTheTrueValue();
@@ -379,13 +379,14 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 										throw new CompensationAbortedException(getThis(), serverConstants.ExceptionMessages.CompensationAbortOneDecline);
 									}
 								}));
-						if(booleanResult.isTrue()) {
-							System.out.println("kann nicht");
-							getThis().setState(SuccessfulCompensationState.getTheSuccessfulCompensationState());
-						}
 						return booleanResult;
 					}
 				});
+		if(result.isTrue()) {
+			System.out.println("kann nicht");
+			getThis().setState(SuccessfulCompensationState.getTheSuccessfulCompensationState());
+		}
+		return result;
 	}
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -435,20 +436,20 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 
 	}
     public void initializeDebitTransferTransaction(final PersistentDebitTransferTransaction dtt) 
-				throws PersistenceException{
-		dtt.accept(new DebitTransferTransactionVisitor() {
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
+		dtt.accept(new DebitTransferTransactionExceptionVisitor<NoPermissionToAnswerRequestOfForeignAccountException>() {
 			@Override
-			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException {
+			public void handleTransfer(PersistentTransfer transfer) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfer(transfer);
 			}
 
 			@Override
-			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+			public void handleDebit(PersistentDebit debit) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfer(debit);
 			}
 
 			@Override
-			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException {
+			public void handleTransaction(PersistentTransaction transaction) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfers(transaction.getDebitTransfer().getDebitTransfers().getList());
 			}
 		});
@@ -503,40 +504,40 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 		});
 	}
     public void requestCompensationForDebitTransferTransaction(final PersistentDebitTransferTransaction debitTransferTransaction) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
     	debitTransferTransaction.changeState(CompensatedState.createCompensatedState());
-        debitTransferTransaction.accept(new DebitTransferTransactionVisitor() {
+        debitTransferTransaction.accept(new DebitTransferTransactionExceptionVisitor<NoPermissionToAnswerRequestOfForeignAccountException>() {
 			@Override
 			public void handleTransfer(PersistentTransfer transfer)
-					throws PersistenceException {
+					throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfer(transfer);
 			}
 			
 			@Override
-			public void handleDebit(PersistentDebit debit) throws PersistenceException {
+			public void handleDebit(PersistentDebit debit) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfer(debit);
 			}
 			
 			@Override
 			public void handleTransaction(PersistentTransaction transaction)
-					throws PersistenceException {
+					throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfers(transaction.getDebitTransfer().getDebitTransfers().getList());
 				
 			}
 		});        
     }
     public void requestCompensationForDebitTransfers(final DebitTransferSearchList debitTransfers) 
-				throws PersistenceException{
-		debitTransfers.applyToAll(new Procdure<PersistentDebitTransfer>() {
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
+		debitTransfers.applyToAllException(new ProcdureException<PersistentDebitTransfer,NoPermissionToAnswerRequestOfForeignAccountException>() {
 			@Override
-			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException {
+			public void doItTo(PersistentDebitTransfer argument) throws PersistenceException, NoPermissionToAnswerRequestOfForeignAccountException {
 				getThis().requestCompensationForDebitTransfer(argument);
 			}
 		});
 
 	}
     public void requestCompensationForDebitTransfer(final PersistentDebitTransfer debitTransfer) 
-				throws PersistenceException{
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException{
     	debitTransfer.changeState(CompensatedState.createCompensatedState());
     	PersistentCompensationRequest result = getThis().getPendingRequests().findFirst(new Predcate<PersistentCompensationRequest>() {
 			@Override
@@ -546,9 +547,9 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 			}
 		});
     	if(result == null) {
-	    	PersistentCompensationRequest request1 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
+    		PersistentAccount request1Receiver = debitTransfer.getSender();
+	    	PersistentCompensationRequest request1 = CompensationRequest.createCompensationRequest(debitTransfer, request1Receiver,  getThis());
 		    request1.setDebitTransfer(debitTransfer);
-		    PersistentAccount request1Receiver = debitTransfer.getSender();
 		    request1Receiver.getAllCompensation().getPendingCompensationRequests().add(request1);
 		    getThis().getPendingRequests().add(request1);
 		    getThis().setState(WaitingCompensationState.getTheWaitingCompensationState());
@@ -557,7 +558,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 		    try {
 			     PersistentBank b = getThis().getRequestingAccount().getBank().getAdministrator().searchBankByBankNumber(debitTransfer.getReceiverBankNumber());
 			     PersistentAccount request2Receiver = b.searchAccountByAccNumber(debitTransfer.getReceiverAccountNumber());
-			     PersistentCompensationRequest request2 = CompensationRequest.createCompensationRequest(debitTransfer, getThis());
+			     PersistentCompensationRequest request2 = CompensationRequest.createCompensationRequest(debitTransfer,request2Receiver,  getThis());
 			     request2.setDebitTransfer(debitTransfer);
 			
 			     request2Receiver.getAllCompensation().getPendingCompensationRequests().add(request2);
@@ -569,6 +570,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 				}
 		   } catch (ExecuteException e) {
 		      getThis().getRequestingAccount().compensationDeclined(getThis(), e.getMessage(), getThis().getRequestingAccount().getAccountService());
+		      return;
 		   }
 			// Auto-accept own requests
 			if (request1Receiver.equals(getThis().getRequestingAccount())) {

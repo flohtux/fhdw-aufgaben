@@ -51,7 +51,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public PersistentDebitGrantListe getGrantedDebitGrant() 
 				throws PersistenceException;
-    public PersistentDebitGrantListe getReceivedDebitGrant() 
+    public PersistentDebitGrantListePx getReceivedDebitGrant() 
 				throws PersistenceException;
     public PersistentTriggerListe getTriggerListe() 
 				throws PersistenceException;
@@ -63,7 +63,7 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void setGrantedDebitGrant(final PersistentDebitGrantListe grantedDebitGrant) 
 				throws PersistenceException;
-    public void setReceivedDebitGrant(final PersistentDebitGrantListe receivedDebitGrant) 
+    public void setReceivedDebitGrant(final PersistentDebitGrantListePx receivedDebitGrant) 
 				throws PersistenceException;
     public void setTriggerListe(final PersistentTriggerListe triggerListe) 
 				throws PersistenceException;
@@ -78,11 +78,11 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
     public void allCompensation_update(final model.meta.AllCompensationListeMssgs event) 
 				throws PersistenceException;
     public void answerAcceptWithTrigger(final PersistentCompensationRequest a) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void answerAccept(final PersistentCompensationRequest a) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void answerDecline(final PersistentCompensationRequest a) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void changeCurrency(final PersistentDebitTransfer trans, final PersistentCurrency currency) 
 				throws PersistenceException;
     public void changeMoney(final PersistentDebitTransfer trans, final common.Fraction newAmount) 
@@ -123,14 +123,14 @@ public interface PersistentAccount extends SubjInterface, Anything, AbstractPers
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void receivedDebitGrant_update(final model.meta.DebitGrantListeMssgs event) 
+    public void receivedDebitGrant_update(final model.meta.DebitGrantListePxMssgs event) 
 				throws PersistenceException;
     public void removeFromTransaction(final PersistentTransaction transaction, final DebitTransferSearchList debitTransfer) 
 				throws PersistenceException;
     public void removeImplementation(final PersistentAccountPx acc, final PersistentDebitGrantListe list) 
 				throws model.NoPermissionToRemoveDebitGrantException, PersistenceException;
     public void requestCompensation(final PersistentDebitTransferTransaction dtr) 
-				throws PersistenceException;
+				throws model.NoPermissionToAnswerRequestOfForeignAccountException, PersistenceException;
     public void triggerListe_update(final model.meta.TriggerListeMssgs event) 
 				throws PersistenceException;
 

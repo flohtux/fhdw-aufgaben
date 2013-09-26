@@ -35,6 +35,7 @@ public interface AnythingReturnVisitor<R> extends ServiceReturnVisitor<R> ,Debit
     public R handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     public R handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     public R handleBankFees(BankFeesView bankFees) throws ModelException;
+    public R handleDebitGrantListePx(DebitGrantListePxView debitGrantListePx) throws ModelException;
     public R handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException;
     
 }

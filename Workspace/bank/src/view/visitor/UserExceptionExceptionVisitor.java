@@ -6,6 +6,7 @@ import view.*;
 public interface UserExceptionExceptionVisitor<E extends UserException> extends ExecuteExceptionExceptionVisitor<E>{
     
     public void handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException, E;
+    public void handleNoPermissionToAnswerRequestOfForeignAccountException(NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws ModelException, E;
     public void handlePasswordException(PasswordException passwordException) throws ModelException, E;
     public void handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException, E;
     public void handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException, E;

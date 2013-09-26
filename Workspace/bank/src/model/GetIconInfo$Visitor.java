@@ -26,6 +26,8 @@ import persistence.PersistentCompensationRequestListe;
 import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
+import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitGrantListePx;
 import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
@@ -88,15 +90,13 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	//TODO PREREQUISITES: Icon: how to assign icon information
 	
 	@Override
-	public void handleAccountGrantedDebitGrant(PersistentAccountGrantedDebitGrant accountGrantedDebitGrant) throws PersistenceException {
-		result = common.IconInfoConstants.EinzugOutIconNumber;
-		//TODO ausgehende Grants, Icon wird in der Oberfläche nicht angezeigt
+	public void handleDebitGrantListe(PersistentDebitGrantListe debitGrantListe) throws PersistenceException {
+		result = common.IconInfoConstants.EinzugInIconNumber;
 	}
 	
 	@Override
-	public void handleAccountReceivedDebitGrant(PersistentAccountReceivedDebitGrant accountReceivedDebitGrant) throws PersistenceException {
-		result = common.IconInfoConstants.EinzugInIconNumber;
-		// TODO eingehender Grant, Icon wird in der Oberfläche nicht angezeigt
+	public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException {
+		result = common.IconInfoConstants.EinzugOutIconNumber;
 	}
 	
 	@Override

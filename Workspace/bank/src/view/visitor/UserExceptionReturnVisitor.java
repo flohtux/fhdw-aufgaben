@@ -6,6 +6,7 @@ import view.*;
 public interface UserExceptionReturnVisitor<R> extends ExecuteExceptionReturnVisitor<R> {
     
     public R handleDoubleRuleDefinitionException(DoubleRuleDefinitionException doubleRuleDefinitionException) throws ModelException;
+    public R handleNoPermissionToAnswerRequestOfForeignAccountException(NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws ModelException;
     public R handlePasswordException(PasswordException passwordException) throws ModelException;
     public R handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException;
     public R handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException;

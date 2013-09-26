@@ -35,6 +35,7 @@ public interface AnythingVisitor extends ServiceVisitor,DebitTransferTransaction
     public void handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException;
     public void handleEventWrapper(EventWrapperView eventWrapper) throws ModelException;
     public void handleBankFees(BankFeesView bankFees) throws ModelException;
+    public void handleDebitGrantListePx(DebitGrantListePxView debitGrantListePx) throws ModelException;
     public void handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException;
     
 }

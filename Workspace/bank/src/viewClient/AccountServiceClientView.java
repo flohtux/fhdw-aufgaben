@@ -11,7 +11,6 @@ import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import view.NoPermissionToRemoveDebitGrantException;
 import model.meta.StringFACTORY;
 import persistence.PersistenceException;
 import rGType.CharacterValue;
@@ -39,7 +38,9 @@ import view.InvalidAccountNumberException;
 import view.InvalidBankNumberException;
 import view.ModelException;
 import view.MoneyRuleView;
+import view.NoPermissionToAnswerRequestOfForeignAccountException;
 import view.NoPermissionToExecuteDebitTransferException;
+import view.NoPermissionToRemoveDebitGrantException;
 import view.NoRuleDefinitionException;
 import view.NoTriggerView;
 import view.NotExecutableStateView;
@@ -61,7 +62,9 @@ import view.visitor.CompensationRequestStateReturnVisitor;
 import view.visitor.DebitTransferStateReturnVisitor;
 import view.visitor.TriggerStateReturnVisitor;
 import view.visitor.TriggerValueReturnVisitor;
+
 import common.Fraction;
+
 import expressions.RegularExpressionHandler;
 
 
@@ -945,6 +948,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }
@@ -983,6 +992,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }
@@ -1001,6 +1016,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }
@@ -1019,6 +1040,12 @@ public class AccountServiceClientView extends JPanel implements ExceptionAndEven
                                     getConnection().setEagerRefresh();
                                 }catch(ModelException me){
                                     handleException(me);
+                                }catch (NoPermissionToAnswerRequestOfForeignAccountException userException){
+                                    ReturnValueView view = new ReturnValueView(userException.getMessage(), new java.awt.Dimension(getNavigationScrollPane().getWidth()*8/9,getNavigationScrollPane().getHeight()*8/9));
+                                    view.setLocationRelativeTo(getNavigationPanel());
+                                    view.setVisible(true);
+                                    view.repaint();
+                                    getConnection().setEagerRefresh();
                                 }
                             }
                         }

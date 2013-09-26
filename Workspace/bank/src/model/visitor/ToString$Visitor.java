@@ -73,6 +73,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException;
     public abstract void handleBankFees(PersistentBankFees bankFees) throws PersistenceException;
     public abstract void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException;
+    public abstract void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException;
     public abstract void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException;
     
 }

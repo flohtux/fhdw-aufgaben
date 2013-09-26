@@ -24,7 +24,7 @@ public class CompensationRequestFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            CompensationRequest result = new CompensationRequest(null,null,null,null,null,id);
+            CompensationRequest result = new CompensationRequest(null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (CompensationRequestProxi)PersistentProxi.createProxi(id, 256);
         }catch(SQLException se) {
@@ -40,7 +40,7 @@ public class CompensationRequestFacade{
             callable.execute();
             long id = callable.getLong(1);
             callable.close();
-            CompensationRequest result = new CompensationRequest(null,null,null,null,null,id);
+            CompensationRequest result = new CompensationRequest(null,null,null,null,null,null,id);
             Cache.getTheCache().put(result);
             return (CompensationRequestProxi)PersistentProxi.createProxi(id, 256);
         }catch(SQLException se) {
@@ -64,19 +64,23 @@ public class CompensationRequestFacade{
             PersistentDebitTransfer debitTransfer = null;
             if (obj.getLong(2) != 0)
                 debitTransfer = (PersistentDebitTransfer)PersistentProxi.createProxi(obj.getLong(2), obj.getLong(3));
-            PersistentCompensation masterCompensation = null;
+            PersistentAccount hasToAnswer = null;
             if (obj.getLong(4) != 0)
-                masterCompensation = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
-            PersistentCompensationRequestState state = null;
+                hasToAnswer = (PersistentAccount)PersistentProxi.createProxi(obj.getLong(4), obj.getLong(5));
+            PersistentCompensation masterCompensation = null;
             if (obj.getLong(6) != 0)
-                state = (PersistentCompensationRequestState)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
-            SubjInterface subService = null;
+                masterCompensation = (PersistentCompensation)PersistentProxi.createProxi(obj.getLong(6), obj.getLong(7));
+            PersistentCompensationRequestState state = null;
             if (obj.getLong(8) != 0)
-                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
-            PersistentCompensationRequest This = null;
+                state = (PersistentCompensationRequestState)PersistentProxi.createProxi(obj.getLong(8), obj.getLong(9));
+            SubjInterface subService = null;
             if (obj.getLong(10) != 0)
-                This = (PersistentCompensationRequest)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+                subService = (SubjInterface)PersistentProxi.createProxi(obj.getLong(10), obj.getLong(11));
+            PersistentCompensationRequest This = null;
+            if (obj.getLong(12) != 0)
+                This = (PersistentCompensationRequest)PersistentProxi.createProxi(obj.getLong(12), obj.getLong(13));
             CompensationRequest result = new CompensationRequest(debitTransfer,
+                                                                 hasToAnswer,
                                                                  masterCompensation,
                                                                  state,
                                                                  subService,
@@ -113,6 +117,19 @@ public class CompensationRequestFacade{
             callable.setLong(1, CompensationRequestId);
             callable.setLong(2, debitTransferVal.getId());
             callable.setLong(3, debitTransferVal.getClassId());
+            callable.execute();
+            callable.close();
+        }catch(SQLException se) {
+            throw new PersistenceException(se.getMessage(), se.getErrorCode());
+        }
+    }
+    public void hasToAnswerSet(long CompensationRequestId, PersistentAccount hasToAnswerVal) throws PersistenceException {
+        try{
+            CallableStatement callable;
+            callable = this.con.prepareCall("Begin " + this.schemaName + ".CmpnstnRqstFacade.hsTAnswrSet(?, ?, ?); end;");
+            callable.setLong(1, CompensationRequestId);
+            callable.setLong(2, hasToAnswerVal.getId());
+            callable.setLong(3, hasToAnswerVal.getClassId());
             callable.execute();
             callable.close();
         }catch(SQLException se) {

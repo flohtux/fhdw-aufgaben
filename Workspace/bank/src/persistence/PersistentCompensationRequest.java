@@ -8,6 +8,8 @@ public interface PersistentCompensationRequest extends SubjInterface, Anything, 
     
     public PersistentDebitTransfer getDebitTransfer() throws PersistenceException ;
     public void setDebitTransfer(PersistentDebitTransfer newValue) throws PersistenceException ;
+    public PersistentAccount getHasToAnswer() throws PersistenceException ;
+    public void setHasToAnswer(PersistentAccount newValue) throws PersistenceException ;
     public PersistentCompensation getMasterCompensation() throws PersistenceException ;
     public void setMasterCompensation(PersistentCompensation newValue) throws PersistenceException ;
     public PersistentCompensationRequestState getState() throws PersistenceException ;

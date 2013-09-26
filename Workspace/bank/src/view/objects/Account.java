@@ -3,6 +3,7 @@ package view.objects;
 
 import view.AccountView;
 import view.AllCompensationListeView;
+import view.DebitGrantListePxView;
 import view.DebitGrantListeView;
 import view.DebitTransferTransactionView;
 import view.LimitAccountView;
@@ -25,11 +26,11 @@ public class Account extends ViewObject implements AccountView{
     protected LimitAccountView limit;
     protected java.util.Vector<DebitTransferTransactionView> debitTransferTransactions;
     protected DebitGrantListeView grantedDebitGrant;
-    protected DebitGrantListeView receivedDebitGrant;
+    protected DebitGrantListePxView receivedDebitGrant;
     protected TriggerListeView triggerListe;
     protected AllCompensationListeView allCompensation;
     
-    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListeView receivedDebitGrant,TriggerListeView triggerListe,AllCompensationListeView allCompensation,long id, long classId) {
+    public Account(long accountNumber,MoneyView money,LimitAccountView limit,java.util.Vector<DebitTransferTransactionView> debitTransferTransactions,DebitGrantListeView grantedDebitGrant,DebitGrantListePxView receivedDebitGrant,TriggerListeView triggerListe,AllCompensationListeView allCompensation,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.accountNumber = accountNumber;
@@ -80,10 +81,10 @@ public class Account extends ViewObject implements AccountView{
     public void setGrantedDebitGrant(DebitGrantListeView newValue) throws ModelException {
         this.grantedDebitGrant = newValue;
     }
-    public DebitGrantListeView getReceivedDebitGrant()throws ModelException{
+    public DebitGrantListePxView getReceivedDebitGrant()throws ModelException{
         return this.receivedDebitGrant;
     }
-    public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException {
+    public void setReceivedDebitGrant(DebitGrantListePxView newValue) throws ModelException {
         this.receivedDebitGrant = newValue;
     }
     public TriggerListeView getTriggerListe()throws ModelException{
@@ -129,7 +130,7 @@ public class Account extends ViewObject implements AccountView{
         if (grantedDebitGrant != null) {
             ((ViewProxi)grantedDebitGrant).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(grantedDebitGrant.getClassId(), grantedDebitGrant.getId())));
         }
-        DebitGrantListeView receivedDebitGrant = this.getReceivedDebitGrant();
+        DebitGrantListePxView receivedDebitGrant = this.getReceivedDebitGrant();
         if (receivedDebitGrant != null) {
             ((ViewProxi)receivedDebitGrant).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(receivedDebitGrant.getClassId(), receivedDebitGrant.getId())));
         }

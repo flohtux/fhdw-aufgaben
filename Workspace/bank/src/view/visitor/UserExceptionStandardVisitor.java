@@ -11,6 +11,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException{
         this.standardHandling(noAccountsFound);
     }
+    public void handleNoPermissionToAnswerRequestOfForeignAccountException(NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws ModelException{
+        this.standardHandling(noPermissionToAnswerRequestOfForeignAccountException);
+    }
     public void handlePasswordException(PasswordException passwordException) throws ModelException{
         this.standardHandling(passwordException);
     }
@@ -26,11 +29,11 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleLimitViolatedException(LimitViolatedException limitViolatedException) throws ModelException{
         this.standardHandling(limitViolatedException);
     }
-    public void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException{
-        this.standardHandling(noRuleDefinitionException);
-    }
     public void handleMinLimitHigherMaxLimitException(MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws ModelException{
         this.standardHandling(minLimitHigherMaxLimitException);
+    }
+    public void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException{
+        this.standardHandling(noRuleDefinitionException);
     }
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException{
         this.standardHandling(restrictionException);

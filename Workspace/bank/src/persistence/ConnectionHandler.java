@@ -105,8 +105,8 @@ public class ConnectionHandler {
 	private String name;
 
     public ServiceFacade theServiceFacade;
-    public CompensationFacade theCompensationFacade;
     public AccountReceivedDebitGrantFacade theAccountReceivedDebitGrantFacade;
+    public CompensationFacade theCompensationFacade;
     public DebitTransferTransactionFacade theDebitTransferTransactionFacade;
     public SubjFacade theSubjFacade;
     public ChangeNameCommandFacade theChangeNameCommandFacade;
@@ -216,6 +216,7 @@ public class ConnectionHandler {
     public EventWrapperFacade theEventWrapperFacade;
     public BankFeesFacade theBankFeesFacade;
     public DeclinedStateFacade theDeclinedStateFacade;
+    public DebitGrantListePxFacade theDebitGrantListePxFacade;
     public AccountServiceBankFeesFacade theAccountServiceBankFeesFacade;
     public CompensationRequestListeFacade theCompensationRequestListeFacade;
 
@@ -240,8 +241,8 @@ public class ConnectionHandler {
 			callable.execute();
 			callable.close();
             this.theServiceFacade= new ServiceFacade(this.schemaName, this.con);
-            this.theCompensationFacade= new CompensationFacade(this.schemaName, this.con);
             this.theAccountReceivedDebitGrantFacade= new AccountReceivedDebitGrantFacade(this.schemaName, this.con);
+            this.theCompensationFacade= new CompensationFacade(this.schemaName, this.con);
             this.theDebitTransferTransactionFacade= new DebitTransferTransactionFacade(this.schemaName, this.con);
             this.theSubjFacade= new SubjFacade(this.schemaName, this.con);
             this.theChangeNameCommandFacade= new ChangeNameCommandFacade(this.schemaName, this.con);
@@ -351,6 +352,7 @@ public class ConnectionHandler {
             this.theEventWrapperFacade= new EventWrapperFacade(this.schemaName, this.con);
             this.theBankFeesFacade= new BankFeesFacade(this.schemaName, this.con);
             this.theDeclinedStateFacade= new DeclinedStateFacade(this.schemaName, this.con);
+            this.theDebitGrantListePxFacade= new DebitGrantListePxFacade(this.schemaName, this.con);
             this.theAccountServiceBankFeesFacade= new AccountServiceBankFeesFacade(this.schemaName, this.con);
             this.theCompensationRequestListeFacade= new CompensationRequestListeFacade(this.schemaName, this.con);
 		} catch (SQLException sqlExc) {

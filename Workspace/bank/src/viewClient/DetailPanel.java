@@ -901,6 +901,9 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
     public void handleDeclinedState(view.DeclinedStateView object){
         result = new DeclinedStateDefaultDetailPanel(handler, object);
     }
+    public void handleDebitGrantListePx(view.DebitGrantListePxView object){
+        result = new DebitGrantListePxDefaultDetailPanel(handler, object);
+    }
     public void handleCompensationRequestListe(view.CompensationRequestListeView object){
         result = new CompensationRequestListeDefaultDetailPanel(handler, object);
     }
@@ -913,7 +916,6 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
 class CompensationDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Compensation$$pendingRequests = "Compensation$$pendingRequests";
-    protected static final String Compensation$$state = "Compensation$$state";
     
     protected CompensationDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -2126,6 +2128,22 @@ class DeclinedStateDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.DeclinedStateView getAnything(){
         return (view.DeclinedStateView)this.anything;
+    }
+}
+
+@SuppressWarnings("serial")
+class DebitGrantListePxDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String DebitGrantListePx$$d1 = "DebitGrantListePx$$d1";
+    
+    protected DebitGrantListePxDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.DebitGrantListePxView getAnything(){
+        return (view.DebitGrantListePxView)this.anything;
     }
 }
 

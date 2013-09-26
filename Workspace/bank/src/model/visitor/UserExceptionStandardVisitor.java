@@ -11,6 +11,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleNoAccountsFound(model.NoAccountsFound noAccountsFound) throws PersistenceException{
         this.standardHandling(noAccountsFound);
     }
+    public void handleNoPermissionToAnswerRequestOfForeignAccountException(model.NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws PersistenceException{
+        this.standardHandling(noPermissionToAnswerRequestOfForeignAccountException);
+    }
     public void handlePasswordException(model.PasswordException passwordException) throws PersistenceException{
         this.standardHandling(passwordException);
     }
@@ -26,11 +29,11 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleLimitViolatedException(model.LimitViolatedException limitViolatedException) throws PersistenceException{
         this.standardHandling(limitViolatedException);
     }
-    public void handleNoRuleDefinitionException(model.NoRuleDefinitionException noRuleDefinitionException) throws PersistenceException{
-        this.standardHandling(noRuleDefinitionException);
-    }
     public void handleMinLimitHigherMaxLimitException(model.MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws PersistenceException{
         this.standardHandling(minLimitHigherMaxLimitException);
+    }
+    public void handleNoRuleDefinitionException(model.NoRuleDefinitionException noRuleDefinitionException) throws PersistenceException{
+        this.standardHandling(noRuleDefinitionException);
     }
     public void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException{
         this.standardHandling(restrictionException);

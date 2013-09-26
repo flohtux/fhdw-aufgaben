@@ -14,7 +14,7 @@ import persistence.ConnectionHandler;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountReceivedDebitGrant;
-import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitGrantListePx;
 import persistence.PersistentObject;
 import persistence.PersistentProxi;
 
@@ -62,10 +62,10 @@ public class AccountReceivedDebitGrant extends PersistentObject implements Persi
         return false;
     }
     protected PersistentAccount observer;
-    protected PersistentDebitGrantListe observee;
+    protected PersistentDebitGrantListePx observee;
     protected PersistentAccountReceivedDebitGrant This;
     
-    public AccountReceivedDebitGrant(PersistentAccount observer,PersistentDebitGrantListe observee,PersistentAccountReceivedDebitGrant This,long id) throws persistence.PersistenceException {
+    public AccountReceivedDebitGrant(PersistentAccount observer,PersistentDebitGrantListePx observee,PersistentAccountReceivedDebitGrant This,long id) throws persistence.PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.observer = observer;
@@ -115,17 +115,17 @@ public class AccountReceivedDebitGrant extends PersistentObject implements Persi
             ConnectionHandler.getTheConnectionHandler().theAccountReceivedDebitGrantFacade.observerSet(this.getId(), newValue);
         }
     }
-    public PersistentDebitGrantListe getObservee() throws PersistenceException {
+    public PersistentDebitGrantListePx getObservee() throws PersistenceException {
         return this.observee;
     }
-    public void setObservee(PersistentDebitGrantListe newValue) throws PersistenceException {
+    public void setObservee(PersistentDebitGrantListePx newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.equals(this.observee)) return;
-        PersistentDebitGrantListe oldValue =  this.getObservee();
+        PersistentDebitGrantListePx oldValue =  this.getObservee();
         if (oldValue != null) oldValue.deregister(this);
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.observee = (PersistentDebitGrantListe)PersistentProxi.createProxi(objectId, classId);
+        this.observee = (PersistentDebitGrantListePx)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAccountReceivedDebitGrantFacade.observeeSet(this.getId(), newValue);
@@ -188,7 +188,7 @@ public class AccountReceivedDebitGrant extends PersistentObject implements Persi
     
     public void update(final model.meta.Mssgs event) 
 				throws PersistenceException{
-        this.observer.getThis().receivedDebitGrant_update((model.meta.DebitGrantListeMssgs)event);
+        this.observer.getThis().receivedDebitGrant_update((model.meta.DebitGrantListePxMssgs)event);
     }
     
     

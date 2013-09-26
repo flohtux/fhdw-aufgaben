@@ -9,15 +9,17 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleNoAccountsFound(NoAccountsFound noAccountsFound) throws ModelException;
     
-    public abstract void handlePasswordException(PasswordException passwordException) throws ModelException;
+    public abstract void handleNoPermissionToAnswerRequestOfForeignAccountException(NoPermissionToAnswerRequestOfForeignAccountException noPermissionToAnswerRequestOfForeignAccountException) throws ModelException;
     
     public abstract void handleNoValidFeeValueException(NoValidFeeValueException noValidFeeValueException) throws ModelException;
     
+    public abstract void handlePasswordException(PasswordException passwordException) throws ModelException;
+    
     public abstract void handleNoValidPercentValueException(NoValidPercentValueException noValidPercentValueException) throws ModelException;
     
-    public abstract void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException;
-    
     public abstract void handleMinLimitHigherMaxLimitException(MinLimitHigherMaxLimitException minLimitHigherMaxLimitException) throws ModelException;
+    
+    public abstract void handleNoRuleDefinitionException(NoRuleDefinitionException noRuleDefinitionException) throws ModelException;
     
     public abstract void handleRestrictionException(RestrictionException restrictionException) throws ModelException;
     
@@ -51,9 +53,9 @@ public abstract class UserExceptionDirectVisitor implements UserExceptionVisitor
     
     public abstract void handleMaxLimitLowerThenMinLimitException(MaxLimitLowerThenMinLimitException maxLimitLowerThenMinLimitException) throws ModelException;
     
-    public abstract void handleCompensationAbortedException(CompensationAbortedException compensationAbortedException) throws ModelException;
-    
     public abstract void handleGrantAlreadyGivenException(GrantAlreadyGivenException grantAlreadyGivenException) throws ModelException;
+    
+    public abstract void handleCompensationAbortedException(CompensationAbortedException compensationAbortedException) throws ModelException;
     
     
 }

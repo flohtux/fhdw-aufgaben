@@ -19,6 +19,13 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
             debitTransfer = view.objects.ViewProxi.createProxi(debitTransfer$Info,connectionKey);
             debitTransfer.setToString(debitTransfer$Info.getToString());
         }
+        ViewProxi hasToAnswer = null;
+        String hasToAnswer$String = (String)resultTable.get("hasToAnswer");
+        if (hasToAnswer$String != null) {
+            common.ProxiInformation hasToAnswer$Info = common.RPCConstantsAndServices.createProxiInformation(hasToAnswer$String);
+            hasToAnswer = view.objects.ViewProxi.createProxi(hasToAnswer$Info,connectionKey);
+            hasToAnswer.setToString(hasToAnswer$Info.getToString());
+        }
         ViewProxi masterCompensation = null;
         String masterCompensation$String = (String)resultTable.get("masterCompensation");
         if (masterCompensation$String != null) {
@@ -33,7 +40,7 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
             state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
             state.setToString(state$Info.getToString());
         }
-        CompensationRequestView result$$ = new CompensationRequest((DebitTransferView)debitTransfer,(CompensationView)masterCompensation,(CompensationRequestStateView)state, this.getId(), this.getClassId());
+        CompensationRequestView result$$ = new CompensationRequest((DebitTransferView)debitTransfer,(AccountView)hasToAnswer,(CompensationView)masterCompensation,(CompensationRequestStateView)state, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -68,6 +75,12 @@ public class CompensationRequestProxi extends ViewProxi implements CompensationR
     }
     public void setDebitTransfer(DebitTransferView newValue) throws ModelException {
         ((CompensationRequest)this.getTheObject()).setDebitTransfer(newValue);
+    }
+    public AccountView getHasToAnswer()throws ModelException{
+        return ((CompensationRequest)this.getTheObject()).getHasToAnswer();
+    }
+    public void setHasToAnswer(AccountView newValue) throws ModelException {
+        ((CompensationRequest)this.getTheObject()).setHasToAnswer(newValue);
     }
     public CompensationView getMasterCompensation()throws ModelException{
         return ((CompensationRequest)this.getTheObject()).getMasterCompensation();

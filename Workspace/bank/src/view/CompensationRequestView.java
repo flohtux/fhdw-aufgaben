@@ -8,6 +8,8 @@ public interface CompensationRequestView extends Anything, AbstractViewRoot {
     
     public DebitTransferView getDebitTransfer()throws ModelException;
     public void setDebitTransfer(DebitTransferView newValue) throws ModelException ;
+    public AccountView getHasToAnswer()throws ModelException;
+    public void setHasToAnswer(AccountView newValue) throws ModelException ;
     public CompensationView getMasterCompensation()throws ModelException;
     public void setMasterCompensation(CompensationView newValue) throws ModelException ;
     public CompensationRequestStateView getState()throws ModelException;

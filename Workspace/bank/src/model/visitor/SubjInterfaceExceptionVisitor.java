@@ -35,6 +35,7 @@ public interface SubjInterfaceExceptionVisitor<E extends UserException> extends 
     public void handleDebitTransferSuccessful(PersistentDebitTransferSuccessful debitTransferSuccessful) throws PersistenceException, E;
     public void handleEventWrapper(PersistentEventWrapper eventWrapper) throws PersistenceException, E;
     public void handleBankFees(PersistentBankFees bankFees) throws PersistenceException, E;
+    public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException, E;
     public void handleCompensationRequestListe(PersistentCompensationRequestListe compensationRequestListe) throws PersistenceException, E;
     
 }

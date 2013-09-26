@@ -58,7 +58,7 @@ public class AccountProxi extends ViewProxi implements AccountView{
             allCompensation = view.objects.ViewProxi.createProxi(allCompensation$Info,connectionKey);
             allCompensation.setToString(allCompensation$Info.getToString());
         }
-        AccountView result$$ = new Account((long)accountNumber,(MoneyView)money,(LimitAccountView)limit,debitTransferTransactions,(DebitGrantListeView)grantedDebitGrant,(DebitGrantListeView)receivedDebitGrant,(TriggerListeView)triggerListe,(AllCompensationListeView)allCompensation, this.getId(), this.getClassId());
+        AccountView result$$ = new Account((long)accountNumber,(MoneyView)money,(LimitAccountView)limit,debitTransferTransactions,(DebitGrantListeView)grantedDebitGrant,(DebitGrantListePxView)receivedDebitGrant,(TriggerListeView)triggerListe,(AllCompensationListeView)allCompensation, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -148,10 +148,10 @@ public class AccountProxi extends ViewProxi implements AccountView{
     public void setGrantedDebitGrant(DebitGrantListeView newValue) throws ModelException {
         ((Account)this.getTheObject()).setGrantedDebitGrant(newValue);
     }
-    public DebitGrantListeView getReceivedDebitGrant()throws ModelException{
+    public DebitGrantListePxView getReceivedDebitGrant()throws ModelException{
         return ((Account)this.getTheObject()).getReceivedDebitGrant();
     }
-    public void setReceivedDebitGrant(DebitGrantListeView newValue) throws ModelException {
+    public void setReceivedDebitGrant(DebitGrantListePxView newValue) throws ModelException {
         ((Account)this.getTheObject()).setReceivedDebitGrant(newValue);
     }
     public TriggerListeView getTriggerListe()throws ModelException{

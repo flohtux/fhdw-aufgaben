@@ -35,6 +35,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends UserException> exte
     public R handleDebitTransferSuccessful(DebitTransferSuccessfulView debitTransferSuccessful) throws ModelException, E;
     public R handleEventWrapper(EventWrapperView eventWrapper) throws ModelException, E;
     public R handleBankFees(BankFeesView bankFees) throws ModelException, E;
+    public R handleDebitGrantListePx(DebitGrantListePxView debitGrantListePx) throws ModelException, E;
     public R handleCompensationRequestListe(CompensationRequestListeView compensationRequestListe) throws ModelException, E;
     
 }

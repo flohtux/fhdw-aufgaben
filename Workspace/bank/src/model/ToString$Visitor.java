@@ -30,6 +30,7 @@ import persistence.PersistentCurrencyManager;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
 import persistence.PersistentDebitGrantListe;
+import persistence.PersistentDebitGrantListePx;
 import persistence.PersistentDebitTransferDoubleState;
 import persistence.PersistentDebitTransferListe;
 import persistence.PersistentDebitTransferNotExecuted;
@@ -475,7 +476,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	
-	
+	@Override
+	public void handleDebitGrantListePx(PersistentDebitGrantListePx debitGrantListePx) throws PersistenceException {
+		this.result = debitGrantListePx.getD1().toString(true);
+	}
 
 
 }

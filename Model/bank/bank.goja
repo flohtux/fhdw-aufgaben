@@ -120,10 +120,10 @@ void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction tran
 	no-view void changeMoneyRuleMax(MoneyRule rule, Fraction maxValue);
 
 	//Kompensation
-	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls} checked);
-	void answerAccept@@annehmen(CompensationRequest a {account;allCompensation;pendingCompensationRequests} checked);
-	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a checked);
-	void answerDecline@@ablehnen(CompensationRequest a checked);
+	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls} checked) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void answerAccept@@annehmen(CompensationRequest a {account;allCompensation;pendingCompensationRequests} checked) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a {account;allCompensation;pendingCompensationRequests} checked) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void answerDecline@@ablehnen(CompensationRequest a {account;allCompensation;pendingCompensationRequests} checked) throws NoPermissionToAnswerRequestOfForeignAccountException;
 }
 
 class BankFees {
@@ -161,7 +161,7 @@ class Account {
 	one-to-one (no-view account) LimitAccount limit;
 	observe no-view DebitTransferTransaction ** debitTransferTransactions##DebTrfTrans;
 	observe DebitGrantListe grantedDebitGrant##GrntdGrnt;
-	observe DebitGrantListe receivedDebitGrant##RcvdGrnt;
+	observe DebitGrantListePx receivedDebitGrant##RcvdGrnt;
 	observe TriggerListe triggerListe;
 	observe AllCompensationListe allCompensation;
 	event void remove(AccountPx acc, DebitGrantListe list) throws NoPermissionToRemoveDebitGrantException;
@@ -189,10 +189,10 @@ class Account {
 	void checkAllTriggers(DebitTransfer incomingDebitTransfer) throws ExecuteException;
 
 	// Kompensation
-	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr);
-	void answerAccept@@annehmen(CompensationRequest a);
-	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
-	void answerDecline@@ablehnen(CompensationRequest a);
+	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void answerAccept@@annehmen(CompensationRequest a) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void answerDecline@@ablehnen(CompensationRequest a) throws NoPermissionToAnswerRequestOfForeignAccountException;
 	Transaction findContainingTransaction(DebitTransfer dt);
 	active void compensationDeclined##cmpDeclnd(Compensation compensation, String reason) throws CompensationAbortedException;
 	void addDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
@@ -237,6 +237,9 @@ class DebitGrantListe {
 	event void createDebitGrant(AccountPx receiver, LimitType limit) throws GrantAlreadyGivenException;
 	void checkGrantGiven(AccountPx acc) throws GrantAlreadyGivenException;
 	event void remove(AccountPx acc) throws NoPermissionToRemoveDebitGrantException;
+}
+class DebitGrantListePx##DGrantPx {
+	prior skip-view DebitGrantListe d1;
 }
 
 class Money {
@@ -410,12 +413,12 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 class Compensation {
 	prior no-view Account requestingAccount;
 	observe CompensationRequest ** pendingRequests;
-	one-to-one (no-view compensation) CompensationState state;
+	one-to-one (no-view compensation) no-view CompensationState state;
 
-	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
-	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
-	void requestCompensationForDebitTransfer(DebitTransfer debitTransfer);
-	void requestCompensationForDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction);
+	void initializeDebitTransferTransaction(DebitTransferTransaction dtt) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void requestCompensationForDebitTransfer(DebitTransfer debitTransfer) throws NoPermissionToAnswerRequestOfForeignAccountException;
+	void requestCompensationForDebitTransferTransaction(DebitTransferTransaction debitTransferTransaction) throws NoPermissionToAnswerRequestOfForeignAccountException;
 
 	active void executeCompensation();
 	BooleanValue allAnswered() throws CompensationAbortedException;
@@ -423,6 +426,7 @@ class Compensation {
 
 class CompensationRequest {
 	prior DebitTransfer debitTransfer;
+	prior no-view Account hasToAnswer;
 	no-view prior Compensation masterCompensation;
 	no-view CompensationRequestState state;
 	event void changeState(CompensationRequestState a);
@@ -475,6 +479,7 @@ exception MaxLimitLowerThenMinLimitException{}
 exception NoValidPercentValueException{}
 exception NoValidFeeValueException{}
 exception NoPermissionToRemoveDebitGrantException{}
+exception NoPermissionToAnswerRequestOfForeignAccountException {}
 
 exception TriggerCyclicException extends ExecuteException{}
 abstract exception DebitException extends ExecuteException{}
