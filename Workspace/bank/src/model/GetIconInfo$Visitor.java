@@ -201,24 +201,20 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 			
 			@Override
 			public void handleNotSuccessfulState(PersistentNotSuccessfulState notSuccessfulState) throws PersistenceException {
-				// TODO Auto-generated method stub
 				result = common.IconInfoConstants.WarningIconNumber;
 			}
 			
 			@Override
 			public void handleNotExecutedState(PersistentNotExecutedState notExecutedState) throws PersistenceException {
 				result = common.IconInfoConstants.NeutralIconNumber;
-				// TODO "Noch nicht ausgeführt", Icon wird nicht angezeigt.
 			}
 			
 			@Override
 			public void handleNotExecutableState(PersistentNotExecutableState notExecutableState) throws PersistenceException {
-				// TODO Auto-generated method stub
 			}
 			
 			@Override
 			public void handleExecutedState(PersistentExecutedState executedState) throws PersistenceException {
-				// TODO Auto-generated method stub
 				
 			}
 

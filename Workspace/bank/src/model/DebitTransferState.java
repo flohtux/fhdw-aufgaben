@@ -194,15 +194,11 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 						throws PersistenceException {}
 				@Override
 				public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
-					// TODO Auto-generated method stub Janik :)
-					
 				}
 				@Override
 				public void handleCompensationRequestedState(
 						PersistentCompensationRequestedState compensationRequestedState)
 						throws PersistenceException {
-					// TODO Auto-generated method stub
-					
 				}
 			});
     	}
@@ -262,15 +258,11 @@ public abstract class DebitTransferState extends PersistentObject implements Per
 	    				throws PersistenceException {}
 				@Override
 				public void handleCompensatedState(PersistentCompensatedState compensatedState) throws PersistenceException {
-					// TODO Auto-generated method stub Janik
-					
 				}
 				@Override
 				public void handleCompensationRequestedState(
 						PersistentCompensationRequestedState compensationRequestedState)
 						throws PersistenceException {
-					// TODO Auto-generated method stub
-					
 				}
 	    	});
     }
