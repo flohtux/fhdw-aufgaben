@@ -41,16 +41,20 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
         int index = originalIndex;
         if(index < this.getPendingRequests().size()) return new PendingRequestsCompensationWrapper(this, originalIndex, (ViewRoot)this.getPendingRequests().get(index));
         index = index - this.getPendingRequests().size();
+        if(index == 0 && this.getState() != null) return new StateCompensationWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getPendingRequests().size());
+            + (this.getPendingRequests().size())
+            + (this.getState() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getPendingRequests().size() == 0);
+            && (this.getPendingRequests().size() == 0)
+            && (this.getState() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -59,6 +63,8 @@ public class CompensationProxi extends ViewProxi implements CompensationView{
             if(getPendingRequestsIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
     

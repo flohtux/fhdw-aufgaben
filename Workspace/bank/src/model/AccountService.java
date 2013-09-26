@@ -55,6 +55,7 @@ import persistence.PersistentBankFees;
 import persistence.PersistentBooleanValue;
 import persistence.PersistentCompensatedState;
 import persistence.PersistentCompensationRequest;
+import persistence.PersistentCompensationRequestListe;
 import persistence.PersistentCompensationRequestedState;
 import persistence.PersistentDebit;
 import persistence.PersistentDebitGrant;
@@ -429,6 +430,12 @@ public class AccountService extends model.Service implements PersistentAccountSe
     }
     
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException{
+        	return getThis().getAccount().
+                getAllCompensation().
+                getPendingCompensationRequests();
+    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
 				throws model.UserException, PersistenceException{
         	return new DebitTransferTransactionSearchList(getThis().getTemplate().

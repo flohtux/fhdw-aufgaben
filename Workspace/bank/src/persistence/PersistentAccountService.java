@@ -33,6 +33,8 @@ public interface PersistentAccountService extends PersistentService {
     public <E extends UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
 				throws model.UserException, PersistenceException;
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransaction() 

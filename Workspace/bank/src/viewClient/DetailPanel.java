@@ -913,6 +913,7 @@ class DetailPanelFactory implements view.visitor.AnythingVisitor {
 class CompensationDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Compensation$$pendingRequests = "Compensation$$pendingRequests";
+    protected static final String Compensation$$state = "Compensation$$state";
     
     protected CompensationDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1295,8 +1296,6 @@ class MixedFeeDefaultDetailPanel extends DefaultDetailPanel{
 class CompensationRequestDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CompensationRequest$$debitTransfer = "CompensationRequest$$debitTransfer";
-    protected static final String CompensationRequest$$masterCompensation = "CompensationRequest$$masterCompensation";
-    protected static final String CompensationRequest$$state = "CompensationRequest$$state";
     
     protected CompensationRequestDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

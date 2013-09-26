@@ -1,9 +1,12 @@
 package model;
 
+import model.visitor.CompensationRequestStateVisitor;
+import model.visitor.CompensationStateVisitor;
 import model.visitor.DebitTransferStateVisitor;
 import model.visitor.TriggerStateVisitor;
 import persistence.Anything;
 import persistence.PersistenceException;
+import persistence.PersistentAcceptedState;
 import persistence.PersistentAccount;
 import persistence.PersistentAccountAllCompensation;
 import persistence.PersistentAccountGrantedDebitGrant;
@@ -27,6 +30,8 @@ import persistence.PersistentDebitTransferNotExecuted;
 import persistence.PersistentDebitTransferSuccessful;
 import persistence.PersistentDebitTransferTemplate;
 import persistence.PersistentDebitTransferTransaction;
+import persistence.PersistentDeclinedCompensationState;
+import persistence.PersistentDeclinedState;
 import persistence.PersistentDisabledState;
 import persistence.PersistentEnabledState;
 import persistence.PersistentExecutedState;
@@ -41,12 +46,15 @@ import persistence.PersistentNotExecutableState;
 import persistence.PersistentNotExecutedState;
 import persistence.PersistentNotSuccessfulState;
 import persistence.PersistentProcentualFee;
+import persistence.PersistentSuccessfulCompensationState;
 import persistence.PersistentSuccessfulState;
 import persistence.PersistentTemplateState;
 import persistence.PersistentTransaction;
 import persistence.PersistentTransfer;
 import persistence.PersistentTrigger;
 import persistence.PersistentTriggerListe;
+import persistence.PersistentWaitingCompensationState;
+import persistence.PersistentWaitingState;
 
 public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 
@@ -258,5 +266,41 @@ public class GetIconInfo$Visitor extends model.visitor.AnythingStandardVisitor {
 	@Override
 	public void handleBankOwnAccountPx(PersistentBankOwnAccountPx bankOwnAccountPx)	throws PersistenceException {
 		result = common.IconInfoConstants.BankIconNumber;
+	}
+	
+	@Override
+	public void handleCompensation(PersistentCompensation compensation) throws PersistenceException {
+		compensation.getState().accept(new CompensationStateVisitor() {
+			
+			@Override
+			public void handleWaitingCompensationState(PersistentWaitingCompensationState waitingCompensationState) throws PersistenceException {
+				result = common.IconInfoConstants.NeutralIconNumber;
+			}
+			@Override
+			public void handleSuccessfulCompensationState(PersistentSuccessfulCompensationState successfulCompensationState) throws PersistenceException {
+				result = common.IconInfoConstants.PositiveIconNumber;
+			}
+			@Override
+			public void handleDeclinedCompensationState(PersistentDeclinedCompensationState declinedCompensationState) throws PersistenceException {
+				result = common.IconInfoConstants.NegativeIconNumber;
+			}
+		});
+	}
+	@Override
+	public void handleCompensationRequest(PersistentCompensationRequest compensationRequest) throws PersistenceException {
+		compensationRequest.getState().accept(new CompensationRequestStateVisitor() {
+			
+			public void handleWaitingState(PersistentWaitingState waitingState) throws PersistenceException {
+				result = common.IconInfoConstants.NeutralIconNumber;
+			}
+			
+			public void handleDeclinedState(PersistentDeclinedState declinedState) throws PersistenceException {
+				result = common.IconInfoConstants.NegativeIconNumber;
+			}
+			
+			public void handleAcceptedState(PersistentAcceptedState acceptedState) throws PersistenceException {
+				result = common.IconInfoConstants.PositiveIconNumber;
+			}
+		});
 	}
 }

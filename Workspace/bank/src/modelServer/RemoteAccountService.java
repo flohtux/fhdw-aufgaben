@@ -14,6 +14,18 @@ public  class RemoteAccountService extends RemoteService {
 
 	 
 
+    @SuppressWarnings("unchecked")
+    public synchronized java.util.HashMap<?,?> a_Path_In_AnswerAccept(){
+        try {
+            PersistentCompensationRequestListe result = ((PersistentAccountService)this.server).a_Path_In_AnswerAccept();
+            return createOKResult(result, 1, this);
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }catch(model.UserException e0){
+            return createExceptionResult(e0, this);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> debitTransfer_Path_In_AddToTransactionTemplate(){
         try {
             DebitTransferTransactionSearchList result = ((PersistentAccountService)this.server).debitTransfer_Path_In_AddToTransactionTemplate();

@@ -292,6 +292,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getPendingRequests().getObservee().getLength() > 0) return 1;
+        if (this.getState() != null) return 1;
         return 0;
     }
     
@@ -379,6 +380,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 									}
 								}));
 						if(booleanResult.isTrue()) {
+							System.out.println("kann nicht");
 							getThis().setState(SuccessfulCompensationState.getTheSuccessfulCompensationState());
 						}
 						return booleanResult;
@@ -549,6 +551,7 @@ public class Compensation extends PersistentObject implements PersistentCompensa
 		    PersistentAccount request1Receiver = debitTransfer.getSender();
 		    request1Receiver.getAllCompensation().getPendingCompensationRequests().add(request1);
 		    getThis().getPendingRequests().add(request1);
+		    getThis().setState(WaitingCompensationState.getTheWaitingCompensationState());
 
 		    
 		    try {

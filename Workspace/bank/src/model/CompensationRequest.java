@@ -284,8 +284,6 @@ public class CompensationRequest extends PersistentObject implements PersistentC
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getDebitTransfer() != null) return 1;
-        if (this.getMasterCompensation() != null) return 1;
-        if (this.getState() != null) return 1;
         return 0;
     }
     

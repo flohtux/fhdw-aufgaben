@@ -121,9 +121,9 @@ void addToTransactionTrigger@@Buchung_zu_Transaktion_hinzufügen(Transaction tran
 
 	//Kompensation
 	void requestCompensation@@Rückbuchung_anfordern(DebitTransferTransaction dtr{successful;successfuls} checked);
-	void answerAccept@@annehmen(CompensationRequest a);
-	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a);
-	void answerDecline@@ablehnen(CompensationRequest a);
+	void answerAccept@@annehmen(CompensationRequest a {account;allCompensation;pendingCompensationRequests} checked);
+	void answerAcceptWithTrigger@@annehmen_wenn_auch_Folgebuchungen_kompensiert_werden_können(CompensationRequest a checked);
+	void answerDecline@@ablehnen(CompensationRequest a checked);
 }
 
 class BankFees {
@@ -410,7 +410,7 @@ class IncomingAccountRule##IncAccRule@@Absenderregel extends Rule{
 class Compensation {
 	prior no-view Account requestingAccount;
 	observe CompensationRequest ** pendingRequests;
-	one-to-one (no-view compensation) no-view CompensationState state;
+	one-to-one (no-view compensation) CompensationState state;
 
 	void initializeDebitTransferTransaction(DebitTransferTransaction dtt);
 	void requestCompensationForDebitTransfers(DebitTransfer ** debitTransfers);
@@ -423,8 +423,8 @@ class Compensation {
 
 class CompensationRequest {
 	prior DebitTransfer debitTransfer;
-	prior Compensation masterCompensation;
-	CompensationRequestState state;
+	no-view prior Compensation masterCompensation;
+	no-view CompensationRequestState state;
 	event void changeState(CompensationRequestState a);
 }
 

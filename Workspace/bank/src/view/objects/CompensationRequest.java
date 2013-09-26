@@ -91,32 +91,20 @@ public class CompensationRequest extends ViewObject implements CompensationReque
         int index = originalIndex;
         if(index == 0 && this.getDebitTransfer() != null) return new DebitTransferCompensationRequestWrapper(this, originalIndex, (ViewRoot)this.getDebitTransfer());
         if(this.getDebitTransfer() != null) index = index - 1;
-        if(index == 0 && this.getMasterCompensation() != null) return new MasterCompensationCompensationRequestWrapper(this, originalIndex, (ViewRoot)this.getMasterCompensation());
-        if(this.getMasterCompensation() != null) index = index - 1;
-        if(index == 0 && this.getState() != null) return new StateCompensationRequestWrapper(this, originalIndex, (ViewRoot)this.getState());
-        if(this.getState() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getDebitTransfer() == null ? 0 : 1)
-            + (this.getMasterCompensation() == null ? 0 : 1)
-            + (this.getState() == null ? 0 : 1);
+            + (this.getDebitTransfer() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getDebitTransfer() == null ? true : false)
-            && (this.getMasterCompensation() == null ? true : false)
-            && (this.getState() == null ? true : false);
+            && (this.getDebitTransfer() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getDebitTransfer() != null && this.getDebitTransfer().equals(child)) return result;
         if(this.getDebitTransfer() != null) result = result + 1;
-        if(this.getMasterCompensation() != null && this.getMasterCompensation().equals(child)) return result;
-        if(this.getMasterCompensation() != null) result = result + 1;
-        if(this.getState() != null && this.getState().equals(child)) return result;
-        if(this.getState() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

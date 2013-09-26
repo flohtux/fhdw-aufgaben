@@ -100,6 +100,10 @@ public class AccountServiceProxi extends ServiceProxi implements PersistentAccou
     }
     
     
+    public PersistentCompensationRequestListe a_Path_In_AnswerAccept() 
+				throws model.UserException, PersistenceException{
+        return ((PersistentAccountService)this.getTheObject()).a_Path_In_AnswerAccept();
+    }
     public DebitTransferTransactionSearchList debitTransfer_Path_In_AddToTransactionTemplate() 
 				throws model.UserException, PersistenceException{
         return ((PersistentAccountService)this.getTheObject()).debitTransfer_Path_In_AddToTransactionTemplate();

@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class StateCompensationRequestWrapper extends AssociationInTreeWrapper {
+public class StateCompensationWrapper extends AssociationInTreeWrapper {
 
-	public StateCompensationRequestWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public StateCompensationWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class StateCompensationRequestWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association state in class CompensationRequest
+    	//TODO: Implement toString in wrapper class for association state in class Compensation
     	return this.getWrappedObject().toString();
     }
 
